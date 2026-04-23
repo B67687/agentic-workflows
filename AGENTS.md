@@ -121,25 +121,29 @@ When in agentic mode, the Orchestrator follows these rules:
 
 ### 3. Automatic Routing
 
-**Default behavior: Handle directly.** The Orchestrator should handle tasks itself using available tools. Only spawn a subagent when the task clearly exceeds direct-handling thresholds (see threshold table in `opencode.json`).
+**Default behavior: Handle directly.** The Orchestrator handles tasks itself using available tools. Only spawn a subagent when the task clearly exceeds direct-handling thresholds.
 
-| Situation | Handler | Model | Provider |
-|-----------|---------|-------|----------|
-| Simple, clear, under 10 seconds | Orchestrator (direct) | K2.6 | Go |
-| Complex, specialized, multi-step | Subagent (routed) | See below | See below |
+**When to handle directly:**
+- < 10 files search, simple patterns
+- 1-3 line edits, single file
+- File ops on < 10 files
+- Doc updates, typos, short answers
+- Simple Q&A, clarification
+- Quick sanity checks
+- Simple plans (< 5 steps)
 
-**Subagent routing (only when direct handling isn't enough):**
+**When to route to subagents:**
 
-| Subtask Type | Route To | Model | Provider | Cost |
-|-------------|----------|-------|----------|------|
-| Search / discovery (3+ files, complex patterns) | Explorer | M2.5 Free | Zen | **Free** |
-| Plan / design / analyze | Planner | M2.7 | Go | Flat rate |
-| Document / write docs | Scribe | M2.5 Free | Zen | **Free** |
-| Write / create / implement | Drafter | M2.7 | Go | Flat rate |
-| File ops / organize (10+ files, bulk) | Gardener | M2.5 Free | Zen | **Free** |
-| Debug / fix / investigate | Debugger | Claude Sonnet 4.6 | Zen | Pay-as-you-go |
-| Review / verify / audit | Reviewer | Claude Sonnet 4.6 | Zen | Pay-as-you-go |
-| Complex coding (manual only) | Codex | GPT-5.3 | Zen / Copilot | Pay-as-you-go |
+| Subtask Type | Threshold | Route To | Model | Provider | Cost |
+|-------------|-----------|----------|-------|----------|------|
+| Search / discovery | 10+ files, complex patterns | Explorer | M2.5 Free | Zen | **Free** |
+| Plan / design / analyze | Complex architecture, design decisions | Planner | M2.7 | Go | Flat rate |
+| Document / write docs | Full guide, README, changelog | Scribe | M2.5 Free | Zen | **Free** |
+| Write / create / implement | New file, module, multi-file refactor | Drafter | M2.7 | Go | Flat rate |
+| File ops / organize | 10+ files, bulk, archive, cleanup | Gardener | M2.5 Free | Zen | **Free** |
+| Debug / fix / investigate | Deep analysis, root cause | Debugger | Claude Sonnet 4.6 | Zen | Pay-as-you-go |
+| Review / verify / audit | Full code review, quality check | Reviewer | Claude Sonnet 4.6 | Zen | Pay-as-you-go |
+| Complex coding | Manual only | Codex | GPT-5.3 | Zen / Copilot | Pay-as-you-go |
 
 **Manual override:** `@explorer find auth_token` or "use K2.6 for this" bypasses routing.
 

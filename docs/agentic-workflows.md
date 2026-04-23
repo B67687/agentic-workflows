@@ -122,21 +122,30 @@ Agents are configured natively in OpenCode's agent system:
 
 The Orchestrator handles tasks directly by default. Only when a task clearly exceeds direct-handling thresholds does it read subagent `description` fields and use the `Task` tool to spawn the best match.
 
+**Updated thresholds (hybrid model):**
+- **Direct:** < 10 files search, 1-3 line edits, < 10 file ops, doc updates/typos, simple Q&A, quick checks, simple plans
+- **Route:** 10+ files search, new modules/multi-file refactors, bulk ops 10+ files, full doc writes, deep analysis, full reviews, complex architecture
+
 **Examples of tasks that SHOULD be handled directly:**
 ```
 You: "What files are in docs/?"
 Orchestrator: Simple listing → handled directly with `glob` (no spawn)
+
+You: "Delete these 3 files"
+Orchestrator: Simple file ops → handled directly with `bash` (no spawn)
 ```
 
 **Examples of tasks that SHOULD spawn a subagent:**
 ```
-You: "Find all uses of auth_token across the codebase"
-Orchestrator: Complex cross-file search → exceeds direct threshold
-              → spawns @explorer with compressed context
+You: "Find all uses of auth_token across 50 files"
+Orchestrator: Large search → exceeds direct threshold
+              → spawns @explorer (free model, fresh context)
+
+You: "Audit all 25 topic folders for quality issues"
+Orchestrator: Bulk analysis → spawns @reviewer for systematic audit
 
 You: "Plan a new authentication system"
-Orchestrator: Deep design work → exceeds direct threshold
-              → spawns @planner to create a plan
+Orchestrator: Complex design → spawns @planner
               → presents plan to user
               → after approval, spawns @drafter to implement
 ```
