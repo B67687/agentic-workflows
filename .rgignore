@@ -1,0 +1,6 @@
+archive/raw/
+archive/session-raw*.txt
+workflow/harvested-topic-insights.md
+workflow/cross-domain-candidates.md
+workflow/sync-state.json
+personal-voice/samples/

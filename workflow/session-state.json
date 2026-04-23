@@ -1,0 +1,152 @@
+# SESSION STATE - READ THIS FILE BEFORE ANYTHING ELSE
+
+## COMPACTION RECOVERY (CRITICAL)
+
+If you are resuming after a context compaction:
+1. DO NOT re-verify previous work
+2. DO NOT continue from any previous summary
+3. Read this file and execute `next_action` only
+
+---
+
+## CURRENT STATE
+
+- **Session:** session-42 (2026-04-22)
+- **Status:** in_progress
+- **Interrupted count:** 0
+
+## CURRENT TASK
+
+- **Name:** Session 42 - Agentic Token-Efficiency System
+- **Phase:** native-config-implementation
+- **What was just done:** Configured native OpenCode agent system. Created `.opencode/agents/` with 7 subagent definitions (explorer, planner, scribe, drafter, gardener, debugger, reviewer) mapped to Go models (M2.5, M2.7, K2.6, GLM-5.1). Updated `opencode.json` with Orchestrator primary agent (K2.6) including task permissions for all subagents and `default_agent: orchestrator`. Disabled built-in `build` agent (kept as fallback). Updated `docs/agentic-workflows.md` and `AGENTS.md` to reflect actual native configuration. Post-audit fixes applied: added Orchestrator edit/bash/webfetch permissions, removed dead grep* from Explorer bash allowlist, removed "fix" overlap from Debugger description, added AGENTS.md behavioral rules reference to Orchestrator prompt, documented fallback chains as manual-only, added agent disclosure footer rule, added direct-handling thresholds to fix speed issues. Created `workflow/agentic-savings-log.md` for tracking token savings. Planner workflow validated with end-to-end test. Created `docs/codex-agent-workflows.md` for Codex Desktop agentic workflows. Created `propagate-templates/opencode.template.json`. Updated propagation script to support `.template.json` files. Created `propagate-templates/sync-from-hub.template.ps1` for self-service propagation. Added "Sync from Hub" section to AGENTS.md template. Propagated all templates including new sync script to all 25 topic folders (including newly added ImageMagick). **Applied recursive-default fix:** Reordered Orchestrator prompt to put "Handle Directly" first with explicit self-check question, inverted AGENTS.md routing table to make direct the default (subagent routing as exception), reframed agentic-workflows.md to emphasize smart routing over orchestration. **Full repo alignment scan:** Fixed propagate-templates/opencode.template.json and AGENTS.template.md to match new direct-handling-default stance. Added agent disclosure footer rule to AGENTS.md (root) and docs/agentic-workflows.md. Updated README.md and propagate-templates/README.md with new template references. Fixed propagation counts from 24→25 in session-state.json. Propagated all updated templates to all 25 topic folders (75 file operations). **Updated agent disclosure to include model info:** Format now shows `Agents used: @explorer (M2.5)` and `Orchestrator (direct, K2.6)`. Updated in opencode.json, opencode.template.json, AGENTS.md, AGENTS.template.md, agentic-workflows.md. Re-propagated to all 25 topic folders.
+- **What comes next:** Restart OpenCode Desktop to pick up skills directory. Test skill loading with `/propagate`, `/audit-quality`, or `/session-handoff`. Then test a simple task to confirm direct handling is the default behavior.
+
+## NEXT ACTION
+
+Restart OpenCode Desktop to pick up latest config changes (agent disclosure rule + direct-handling thresholds):
+1. Restart OpenCode or reload the project
+2. Confirm Orchestrator loads as default
+3. Test a simple task like "what files are in the root?" — should be handled directly (no subagent)
+4. Test a complex task like "find all TODO comments in docs/" — should spawn @explorer
+5. Verify every response now includes the agent disclosure footer
+6. Report back if any issues
+
+## KEY CONTEXT
+
+### Files Created
+- docs/repo-tooling.md
+- docs/research-methodology.md
+- docs/model-testing-system.md
+- scripts/ws.sh
+- model-tests/README.md
+- model-tests/run-model-tests.ps1
+- model-tests/tasks/TEMPLATE.md
+- model-tests/archive/README.md
+- model-tests/results/.gitkeep
+- archive/early-history.md
+- .opencode/agents/explorer.md
+- .opencode/agents/planner.md
+- .opencode/agents/scribe.md
+- .opencode/agents/drafter.md
+- .opencode/agents/gardener.md
+- .opencode/agents/debugger.md
+- .opencode/agents/reviewer.md
+- workflow/agentic-savings-log.md
+- docs/codex-agent-workflows.md
+- propagate-templates/opencode-agent-system.template.md
+- propagate-templates/opencode.template.json
+- .opencode/skills/propagate/SKILL.md
+- .opencode/skills/audit-quality/SKILL.md
+- .opencode/skills/session-handoff/SKILL.md
+- .opencode/skills/research-deep/SKILL.md
+- .opencode/skills/cross-domain-harvest/SKILL.md
+- propagate-templates/skills-template/README.md
+
+### Files Modified
+- AGENTS.md
+- README.md
+- docs/cross-project-memory-loop.md
+- docs/workspace-system-overview.md
+- docs/windows-repo-tooling.md
+- scripts/audit-folder-quality.ps1
+- scripts/ws.ps1
+- HISTORY.md
+- workflow/session-state.json
+- opencode.json
+- docs/agentic-workflows.md
+- docs/codex-agent-workflows.md
+- propagate-templates/AGENTS.template.md
+- propagate-templates/opencode-agent-system.template.md
+- propagate-templates/opencode.template.json
+- scripts/propagate-to-all.ps1
+
+### Files Removed
+- docs/wsl-tooling.md
+
+### Decisions Made
+- Keep PowerShell as the source of truth for propagation and other mutating hub automation.
+- Use native WSL/Linux commands for WSL read-only inspection instead of requiring PowerShell inside WSL.
+- Keep `docs/windows-repo-tooling.md` as a redirect; use `docs/repo-tooling.md` as the current tooling guide.
+- Remaining manual cleanup decisions from Session 28 still stand:
+  - `Fluent Search Manifest/temp_extras`: active git clone, not duplicate of canonical Extras.
+  - `OpenCode/opencode-content`: active git repo; canonical `open-code-content` is empty.
+
+### Propagated
+- AGENTS.md (with agentic behavior rules) → 25 topic folders
+- opencode-agent-system.md → 25 topic folders
+- opencode.json → 25 topic folders
+- sync-from-hub.ps1 → 25 topic folders
+- git-github-best-practices.md → 25 topic folders
+- audit-folder-quality.ps1 → 25 topic folders
+- .cleanup-protect → 25 topic folders
+- topic-insights.md → 25 topic folders
+
+## TODO STATE
+
+### Completed
+- Read current session state first
+- Added shared repo tooling guidance
+- Added native WSL read-only wrapper
+- Updated terminal strategy references
+- Validated PowerShell and WSL wrapper paths
+- Created `.opencode/agents/` with 7 subagent definitions
+- Updated `opencode.json` with Orchestrator primary agent
+- Updated `docs/agentic-workflows.md` and `AGENTS.md` with actual native config
+- Tested all 5 original subagents successfully (Explorer auto-route, manual @drafter, @debugger, @reviewer)
+- Applied Reviewer audit fixes: Orchestrator permissions, Explorer grep* cleanup, Debugger description fix, fallback documentation, AGENTS.md reference
+- Validated Planner workflow with end-to-end test
+- Added Scribe and Gardener agents
+- Created `workflow/agentic-savings-log.md` for tracking savings
+- Created `docs/codex-agent-workflows.md` for Codex Desktop agentic workflows
+- Propagated agent workflow templates to all 24 topic folders
+
+### In Progress
+(none)
+
+### Pending
+- Restarted OpenCode Desktop to pick up latest config changes
+- Applied recursive-default fix across opencode.json, AGENTS.md, agentic-workflows.md
+- Added agent disclosure footer rule to AGENTS.md, agentic-workflows.md, and all templates
+- Fixed propagate-templates/opencode.template.json to use new direct-handling-default prompt
+- Fixed propagate-templates/AGENTS.template.md inverted routing table
+- Updated README.md and propagate-templates/README.md with new template references
+- Propagate updated templates to all 25 topic folders (COMPLETED 2026-04-23)
+- Implemented Agent Skills system: 5 skills (propagate, audit-quality, session-handoff, research-deep, cross-domain-harvest) in `.opencode/skills/`
+- Updated `opencode.json` with `skill: allow` permission
+- Added Agent Skills documentation to `docs/agentic-workflows.md`
+- Created `propagate-templates/skills-template/` for topic folder adoption
+- Manual decision for `Fluent Search Manifest/temp_extras`
+- Manual decision for `OpenCode/opencode-content`
+
+## WORKSPACE STATE
+
+- **Last full scan:** 2026-04-22
+- **Context pressure:** low
+- **Context used estimate:** ~20%
+
+## RESUMPTION RULES
+
+1. Read workflow/session-state.json FIRST on every resume (especially after compaction)
+2. Write workflow/session-state.json BEFORE heavy operations
+3. If resuming after interrupt: update status + interrupted_count in session-state.json, then continue

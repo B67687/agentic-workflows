@@ -1,0 +1,23 @@
+# Generated / Large
+.opencode/node_modules/
+opencode/package-lock.json
+opencode/package.json
+
+# Generated workflow state
+workflow/sync-state.json
+workflow/cross-domain-review-state.json
+
+# Temporary files
+*.tmp
+*.log
+*.bak
+
+# Editor / OS
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Archives (optional — uncomment if too large)
+# archive/
+# research/

@@ -1,0 +1,64 @@
+# SESSION STATE — READ THIS FILE BEFORE ANYTHING ELSE
+
+## COMPACTION RECOVERY (CRITICAL)
+
+If you are resuming after a context compaction:
+1. DO NOT re-verify previous work
+2. DO NOT continue from any previous summary
+3. Read this file and execute `next_action` only
+
+---
+
+## CURRENT STATE
+
+- **Session:** [session-id] ([date])
+- **Status:** [in_progress/complete/interrupted]
+- **Interrupted count:** [number]
+
+## CURRENT TASK
+
+- **Name:** [what you're working on]
+- **Phase:** [starting/in_progress/complete]
+- **What was just done:** [recent completed work]
+- **What comes next:** [immediate next step]
+
+## NEXT ACTION
+
+[Specific action to take next]
+
+## KEY CONTEXT
+
+### Files Created
+- [list]
+
+### Files Modified
+- [list]
+
+### Decisions Made
+- [list]
+
+### Sources Fetched
+- [list]
+
+## TODO STATE
+
+### Completed
+- [list]
+
+### In Progress
+- [list]
+
+### Pending
+- [list]
+
+## WORKSPACE STATE
+
+- **Last full scan:** [date]
+- **Context pressure:** [low/medium/high/critical]
+- **Context used estimate:** [percentage]
+
+## RESUMPTION RULES
+
+1. Read workflow/session-state.json FIRST on every resume (especially after compaction)
+2. Write workflow/session-state.json BEFORE heavy operations
+3. If resuming after interrupt: update status + interrupted_count in session-state.json, then continue
