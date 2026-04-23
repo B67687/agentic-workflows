@@ -17,14 +17,14 @@ If you are resuming after a context compaction:
 
 ## CURRENT TASK
 
-- **Name:** Late history handover
+- **Name:** Cognitive identity and learning thread
 - **Phase:** completed
-- **What was just done:** Created `LATE-HISTORY-WITH-CODEX.md`, a detailed late-thread handover with timestamp provenance, a master timeline, and decision threads in the user's requested shape: user intent -> assistant structure -> user correction -> final agreement -> implemented files. It covers access-aware model routing, GPT-5 nano placement, NoFaceScanApp propagation, mandatory content folders, optional meta, workflow-vs-scripts correction, quality-standards placement, session-state startup rules, root-drift cleanup, OpenCode model routing, agentic routing, skills, git initialization, and final hub optimization.
-- **What comes next:** Continue normal work. Use `LATE-HISTORY-WITH-CODEX.md` for the late redesign handoff and `MIDDLE-HISTORY-WITH-CODEX.md` for the preceding bridge.
+- **What was just done:** Deep conversation about AI coding tools, learning, and cognitive identity. Created `44-HISTORY-WITH-CODEX.md` documenting 7 decision threads: (1) AI coding visibility, (2) MCP/n8n/RAG education, (3) learning-efficiency paradox, (4) research integration, (5) AI acceleration anxiety, (6) "slow learner" core belief, (7) session history documentation. Updated `research/research-log.md` with AI autonomy and learning research. Updated `HISTORY.md` with session entry.
+- **What comes next:** Continue normal work. Potential follow-ups: concrete MCP setup for VS Code, "solo coding hour" routine, or recovery plan from OOP project pattern.
 
 ## NEXT ACTION
 
-No required next action. Optional: restart OpenCode Desktop if it has not yet picked up the latest agent config changes.
+No required next action.
 
 ## KEY CONTEXT
 
@@ -53,6 +53,7 @@ No required next action. Optional: restart OpenCode Desktop if it has not yet pi
 - .opencode/skills/cross-domain-harvest/SKILL.md
 - propagate-templates/skills-template/README.md
 - MIDDLE-HISTORY-WITH-CODEX.md
+- 44-HISTORY-WITH-CODEX.md
 
 ### Files Modified
 - AGENTS.md
@@ -71,6 +72,7 @@ No required next action. Optional: restart OpenCode Desktop if it has not yet pi
 - propagate-templates/opencode-agent-system.template.md
 - propagate-templates/opencode.template.json
 - scripts/propagate-to-all.ps1
+- research/research-log.md
 
 ### Files Removed
 - docs/wsl-tooling.md
@@ -141,6 +143,19 @@ No required next action. Optional: restart OpenCode Desktop if it has not yet pi
 - **Last full scan:** 2026-04-22
 - **Context pressure:** low
 - **Context used estimate:** ~20%
+
+## KNOWN QUIRKS
+
+### Stale Subagent Todos in UI (Recurring)
+**Symptom:** Todo items from previous subagent sessions (e.g., "Reflect on why user's git idea...") persist in the OpenCode Desktop todo panel and may remain until a new todo overrides them.
+**Cause:** OpenCode Desktop does not always auto-clear child-session todos when the subagent closes. This is a UI rendering quirk, not a workspace bug.
+**Fix:**
+1. Hover the stuck todo → click **×** (delete) manually
+2. If that fails: **Start a new chat tab** (fresh parent session, no inherited child state)
+3. Nuclear option: Restart OpenCode Desktop completely
+**Note:** Todos are fine to use in subagents. Just manually clear stale ones when they appear.
+
+---
 
 ## RESUMPTION RULES
 
