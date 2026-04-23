@@ -92,6 +92,8 @@ function Write-DryRun {
     Write-Host "[DRY-RUN] $Message" -ForegroundColor Yellow
 }
 
+try {
+
 $actionTaken = $false
 if (-not $Apply -and -not $DryRun) {
     Write-Step "No -Apply or -DryRun specified. Running in preview mode." "Yellow"
@@ -386,4 +388,9 @@ if ($DryRun) {
         Write-Host ""
         Write-Host "Note: Some steps were skipped or had no content to process." "Yellow"
     }
+}
+
+catch {
+    Write-Error "Retirement failed: $_"
+    exit 1
 }

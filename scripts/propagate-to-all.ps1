@@ -115,7 +115,7 @@ Write-Host "Discovered $($Templates.Count) template(s): $($Templates.Values -joi
 $AgentsTemplatePath = $Templates.Keys | Where-Object { $_ -match "AGENTS\.template\.md" } | Select-Object -First 1
 $LessonsTemplatePath = $Templates.Keys | Where-Object { $_ -match "topic-insights\.template\.md" } | Select-Object -First 1
 
-# Version and managed marker
+# Version and managed marker (HTML comments only; JSON files use schema matching)
 $ManagedMarker = "Managed-By: AI-Prompting-Library"
 $TemplateVersionPattern = "<!-- Template: (\w+) -->"
 $CustomSectionMarker = "<!-- Custom-Section: "
@@ -255,7 +255,7 @@ function Ensure-GitRepo {
 
     $gitPath = Join-Path $FolderPath '.git'
     $gitignorePath = Join-Path $FolderPath '.gitignore'
-    $gitignoreTemplate = Join-Path $PSScriptRoot '..' 'propagate-templates' 'gitignore.template'
+    $gitignoreTemplate = Join-Path (Join-Path (Join-Path $PSScriptRoot '..') 'propagate-templates') 'gitignore.template'
 
     if (Test-Path $gitPath) {
         return [PSCustomObject]@{
@@ -532,14 +532,36 @@ foreach ($templatePath in $additionalTemplates) {
         
         if (Test-Path $targetPath) {
             $existing = Get-Content $targetPath -Raw -ErrorAction SilentlyContinue
-            if ($existing -match $ManagedMarker) {
-                # Managed file → use merge to preserve custom sections
-                $merged = Merge-AGENTS -TemplateContent $templateContent -ExistingContent $existing
-                if ($merged -eq $existing) {
-                    Write-Host "  UNCHANGED (already managed): $folder" -ForegroundColor Gray
+            $isManaged = $false
+            if ($targetFile -match "\.json$") {
+                # JSON files: check schema match since they can't have HTML comments
+                $templateSchema = if ($templateContent -match '"\$schema"\s*:\s*"([^"]+)"') { $Matches[1] } else { $null }
+                $existingSchema = if ($existing -match '"\$schema"\s*:\s*"([^"]+)"') { $Matches[1] } else { $null }
+                $isManaged = $templateSchema -and $existingSchema -and ($templateSchema -eq $existingSchema)
+            }
+            else {
+                $isManaged = $existing -match $ManagedMarker
+            }
+            if ($isManaged) {
+                # Managed file → merge for markdown, overwrite for JSON
+                if ($targetFile -match "\.json$") {
+                    if ($templateContent -eq $existing) {
+                        Write-Host "  UNCHANGED (already managed): $folder" -ForegroundColor Gray
+                    }
+                    elseif ($IsPreview) {
+                        Write-Host "  OVERWRITE preview: $folder" -ForegroundColor Cyan
+                    }
+                    else {
+                        $templateContent | Set-Content $targetPath -Encoding UTF8
+                        Write-Host "  OVERWRITTEN: $folder" -ForegroundColor Green
+                    }
                 }
                 else {
-                    if ($IsPreview) {
+                    $merged = Merge-AGENTS -TemplateContent $templateContent -ExistingContent $existing
+                    if ($merged -eq $existing) {
+                        Write-Host "  UNCHANGED (already managed): $folder" -ForegroundColor Gray
+                    }
+                    elseif ($IsPreview) {
                         Write-Host "  MERGE preview: $folder" -ForegroundColor Cyan
                     }
                     else {

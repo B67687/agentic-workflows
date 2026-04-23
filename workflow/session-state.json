@@ -39,10 +39,33 @@ Folders with nested repos (excluded from parent):
 
 ## CURRENT TASK
 
-- **Name:** Cognitive identity and learning thread
+- **Name:** Enhanced history system + chat export archival + opencode.json crash fix + agent cost fix
 - **Phase:** completed
-- **What was just done:** Deep conversation about AI coding tools, learning, and cognitive identity. Created `44-HISTORY-WITH-CODEX.md` documenting 7 decision threads: (1) AI coding visibility, (2) MCP/n8n/RAG education, (3) learning-efficiency paradox, (4) research integration, (5) AI acceleration anxiety, (6) "slow learner" core belief, (7) session history documentation. Updated `research/research-log.md` with AI autonomy and learning research. Updated `HISTORY.md` with session entry.
-- **What comes next:** Continue normal work. Potential follow-ups: concrete MCP setup for VS Code, "solo coding hour" routine, or recovery plan from OOP project pattern.
+- **What was just done:**
+  - Redesigned `propagate-templates/HISTORY.template.md` to include `External Work` section for tracking out-of-repo work.
+  - Added monthly-split guidance for high-activity projects (`[folder]-content/history/history-YYYY-MM.md`).
+  - Updated `AGENTS.md` Session Documentation rules to require topic-folder `HISTORY.md` updates.
+  - Propagated enhanced template to all 25 topic folders (all merged successfully).
+  - Processed third chat export (`CHAT-EXPORT-LATE-HISTORY-HANDOVER.txt`):
+    - Moved to `archive/raw/CHAT-EXPORT-LATE-HISTORY-HANDOVER.txt`
+    - Cross-referenced against `archive/history-2026-04.md` and identified major gaps
+    - Patched archive with Sessions 31-42 (repository optimization, command wrappers, terminal strategy)
+    - Patched archive with Session 43 (middle history handover document)
+  - **CRITICAL FIX:** Fixed OpenCode Desktop crash caused by `_managed_by` field in `opencode.json`:
+    - Removed `_managed_by` from `propagate-templates/opencode.template.json`
+    - Updated propagation script: JSON files now use `$schema` matching instead of `_managed_by` marker
+    - Force-overwritten all 25 topic folder `opencode.json` files
+  - **PROVIDER FIX:** Added missing `provider` section and explicit `"model": "opencode-go/kimi-k2.6"` to `propagate-templates/opencode.template.json`. Topic folder configs were missing these fields, causing OpenCode to fall back to Zen defaults. All 25 folders re-propagated.
+  - **COST FIX:** Implemented three-tier fallback for Debugger and Reviewer to stop Sonnet 4.6 pay-as-you-go bleed ($3/session):
+    - **Tier 1 (default):** Orchestrator handles debug/review directly with K2.6 — $0 extra cost
+    - **Tier 2 (fallback):** Spawn @debugger/@reviewer with M2.7 (Go, flat rate) — only when fresh context needed
+    - **Tier 3 (escalation):** Claude Sonnet 4.6 — only for security or when Tiers 1+2 both failed (2+ attempts)
+    - Updated `.opencode/agents/debugger.md` and `.opencode/agents/reviewer.md` model fields: M2.7
+    - Updated `AGENTS.md`, `docs/agentic-workflows.md`, `propagate-templates/AGENTS.template.md` routing tables
+    - Updated `propagate-templates/opencode.template.json` and hub `opencode.json` Orchestrator prompts
+    - Batch-updated all 25 topic folders with new configs
+    - Audit passes: 74/74 files, 0 warnings, 0 errors.
+- **What comes next:** Continue normal work.
 
 ## NEXT ACTION
 
@@ -85,7 +108,6 @@ No required next action.
 - docs/windows-repo-tooling.md
 - scripts/audit-folder-quality.ps1
 - scripts/ws.ps1
-- HISTORY.md
 - workflow/session-state.json
 - opencode.json
 - docs/agentic-workflows.md
@@ -95,6 +117,8 @@ No required next action.
 - propagate-templates/opencode.template.json
 - scripts/propagate-to-all.ps1
 - research/research-log.md
+- archive/raw/chat-export-raw-019dafd2-53b8-7bd3-bd7b-1663bad68d31-2026-04-23-172109.jsonl
+- CHAT-EXPORT-RESEARCH-TRENDING-REPOS.txt
 
 ### Files Removed
 - docs/wsl-tooling.md

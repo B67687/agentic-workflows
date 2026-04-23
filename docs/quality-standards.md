@@ -36,7 +36,6 @@ This file documents the quality standards for this knowledge base. These standar
 / (root)
 |- AGENTS.md               # Operating contract
 |- README.md               # Human navigation
-|- HISTORY.md              # Session history
 |- docs/                   # Core documentation
 |- scripts/                # Executable automation scripts
 |- workflow/               # Generated workflow files, logs, registries, state
@@ -254,7 +253,6 @@ These are warning thresholds, not hard failures. Exceeding one means the file sh
 | `AGENTS.md` | 220 lines |
 | `README.md` | 150 lines |
 | `docs/workspace-system-overview.md` | 240 lines |
-| `HISTORY.md` | 350 lines |
 | `research/research-log.md` | 500 lines |
 | `docs/prompt-templates.md` | 350 lines |
 

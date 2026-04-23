@@ -38,7 +38,6 @@ $contextBudgets = @{
     'AGENTS.md' = 220
     'README.md' = 150
     'docs/workspace-system-overview.md' = 240
-    'HISTORY.md' = 350
     'research/research-log.md' = 500
     'docs/prompt-templates.md' = 350
 }
@@ -51,7 +50,14 @@ $generatedRelative = @(
 
 function Convert-ToRelativePath {
     param([string]$Path)
-    $relative = [System.IO.Path]::GetRelativePath($ScriptDir, $Path)
+    $fullPath = [System.IO.Path]::GetFullPath($Path)
+    $fullBase = [System.IO.Path]::GetFullPath($ScriptDir)
+    if ($fullPath -eq $fullBase) { return '' }
+    if ($fullPath.StartsWith($fullBase + [System.IO.Path]::DirectorySeparatorChar)) {
+        $relative = $fullPath.Substring($fullBase.Length + 1)
+    } else {
+        $relative = $Path
+    }
     return ($relative -replace '\\', '/')
 }
 
@@ -134,7 +140,8 @@ function Test-FileNaming {
         'EARLY-HISTORY-WITH-CODEX.md',
         'MIDDLE-HISTORY-WITH-CODEX.md',
         'LATE-HISTORY-WITH-CODEX.md',
-        'AGENTS.template.md'
+        'AGENTS.template.md',
+        'HISTORY.template.md'
     )
 
     if ($filename -match '\s') {
@@ -242,7 +249,14 @@ function Test-MarkdownQuality {
     }
 
     $lastLevel = 0
+    $inCodeBlock = $false
     foreach ($line in $lines) {
+        if ($line -match '^\s*```') {
+            $inCodeBlock = -not $inCodeBlock
+            continue
+        }
+        if ($inCodeBlock) { continue }
+
         if ($line -match '^(#{1,6})\s+(.+)$') {
             $level = $matches[1].Length
             if (($level -gt ($lastLevel + 1)) -and ($lastLevel -ne 0)) {

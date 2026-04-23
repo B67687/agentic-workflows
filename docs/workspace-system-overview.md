@@ -79,7 +79,6 @@ Expected topic-folder root:
 |---|---|
 | `docs/` | Main knowledge base. |
 | `research/` | Active research intake and distilled findings. |
-| `model-tests/` | Standardized model testing system with task library and self-documenting results. |
 | `propagate-templates/` | Source templates copied into topic folders. |
 | `scripts/` | Automation for propagation, sync checks, harvesting, review queues, cleanup, and audits. |
 | `workflow/` | Stateful files: session state, sync state, registries, harvested lessons, review queues. |
@@ -92,7 +91,6 @@ Root files:
 |---|---|
 | `AGENTS.md` | Operating contract. Read after `workflow/session-state.json`. |
 | `README.md` | Navigation index. |
-| `HISTORY.md` | Active session ledger and archive index. |
 | `opencode.json` | Local tool configuration. |
 
 ## Terminal Strategy
@@ -165,14 +163,13 @@ For topic-folder structure work, also run that folder's:
 At the end of meaningful work:
 
 - update `workflow/session-state.json`
-- add a compact entry to `HISTORY.md`
 - link any archived detail instead of bloating hot-path files
 
 ## Source vs Generated Files
 
 Usually edit directly:
 
-- `AGENTS.md`, `README.md`, `HISTORY.md`
+- `AGENTS.md`, `README.md`
 - `docs/*.md`
 - `research/*.md`
 - `propagate-templates/*`
