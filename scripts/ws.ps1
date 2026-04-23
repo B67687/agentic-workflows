@@ -56,7 +56,6 @@ $script:RepoRoot = Split-Path -Parent $PSScriptRoot
 $script:HotPathBudgets = [ordered]@{
     'AGENTS.md' = 220
     'README.md' = 150
-    'docs/CONTEXT.md' = 120
     'docs/workspace-system-overview.md' = 240
     'HISTORY.md' = 350
     'research/research-log.md' = 500

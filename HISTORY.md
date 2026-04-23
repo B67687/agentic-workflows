@@ -8,6 +8,42 @@ Newest entries stay here. Older full entries should move to archive files, with 
 
 ---
 
+## 2026-04-23
+
+### Session 44 - Cognitive Identity & Learning Thread
+
+**Intent:** User wanted a full session history documenting the decision threads from a deep conversation about AI coding tools, learning, and cognitive identity. The requested format: user intent → assistant improvement → user improvement → final agreement → implementation, with detailed timestamps.
+
+**What Happened:** Created `44-HISTORY-WITH-CODEX.md` with 7 decision threads covering: (1) AI coding tools feeling like spectator sport, (2) understanding MCP/n8n/RAG, (3) the learning-efficiency paradox, (4) research integration for AI autonomy practices, (5) fear of AI acceleration and being left behind, (6) the "slow learner" core belief, and (7) the session history documentation itself. Research findings integrated into `research/research-log.md`. No major repo restructuring occurred, but durable conceptual decisions about AI usage, learning strategy, and cognitive identity were made.
+
+**Finalised:** `44-HISTORY-WITH-CODEX.md` now documents the full decision chain for this session. `research/research-log.md` updated with AI autonomy and learning research.
+
+**Learnt:** The user's core concern is not tool selection but identity preservation: not becoming a spectator to their own work. The "slow learner" belief is protective armor that prevents the struggle necessary for growth. The most useful framing is "ownership > efficiency" and "don't quit" rather than "learn faster."
+
+---
+
+### Session 44 - Late History Handover
+
+**Intent:** Create a detailed late-thread handover history so another agent can understand the user's intent, assistant proposals, user corrections, final agreements, and implemented repo state.
+
+**What Happened:** Created `LATE-HISTORY-WITH-CODEX.md` with timestamp provenance, a master timeline, decision threads in the user's requested intent/improvement/correction/agreement/implementation shape, final operating assumptions, implementation map, and next-agent advice. The file covers the chain from access-aware model routing and GPT-5 nano placement through NoFaceScanApp propagation, content-folder rules, workflow-vs-scripts separation, session-state startup rules, root-drift cleanup, model-routing refinement, OpenCode agent routing, skills, git initialization, and final hub optimization. While verifying, fixed stale research references from `research/archived-findings.md` to `docs/research-findings.md`.
+
+**Finalised:** `LATE-HISTORY-WITH-CODEX.md` now sits beside the earlier handover files as the detailed narrative handoff for the late redesign thread.
+
+**Learnt:** Dense redesign work needs a decision-thread record, not just per-file changes. The most useful unit is: user intent -> assistant structure -> user correction -> final agreement -> implemented files.
+
+---
+
+### Session 43 - Middle History Handover
+
+**Intent:** Create a detailed handover history for the middle Codex phase so another agent can understand the intent, refinements, agreements, and implementations in order.
+
+**What Happened:** Created `MIDDLE-HISTORY-WITH-CODEX.md` with a chronological narrative from the interrupted GitHub trending handoff through structure cleanup, system overview, repository optimization, command wrappers, WSL strategy, research methodology, model routing, PR communication patterns, and the native OpenCode agentic system. Added timestamp caveats because exact wall-clock times were not preserved for every session.
+
+**Finalised:** Root handover file plus README link and audit exemption for the requested uppercase filename.
+
+**Learnt:** The most useful history format for this repo is not a raw changelog. It is the chain: user intent -> Codex structure -> user correction -> final agreement -> implementation.
+
 ## 2026-04-22
 
 ### Session 38 - OpenCode Go Model Comparison
@@ -211,3 +247,11 @@ Notes:
 - If more detail is needed for a complex session, link to an archive file
 - "Learnt" is the most valuable part — it enables compound growth
 - Entries older than 2 weeks should be summarised and moved to archive if they exceed ~15 lines
+
+---
+
+## Session Archives
+
+| Session | File | Description |
+|---------|------|-------------|
+| session-44 | `SESSION-44-HISTORY-WITH-CODEX.md` | Full decision chain record — intent → proposal → correction → agreement → implementation. Complete record of workspace standardization across 21 folders. |

@@ -1,7 +1,7 @@
 ---
 description: Fast read-only agent for searching and discovering code. Use for find, search, locate, grep, explore, and file discovery tasks.
 mode: subagent
-model: opencode-go/minimax-m2.5
+model: opencode/minimax-m2.5-free
 permission:
   edit: deny
   bash:

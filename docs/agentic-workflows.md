@@ -33,29 +33,29 @@ Receives result, synthesizes, presents to you
 
 ## Agent Roles
 
-| Agent | Model | Role | How Invoked |
-|-------|-------|------|-------------|
-| **Orchestrator** | **Kimi K2.6** | Planning, routing, synthesis | Primary agent — loads by default |
-| **Explorer** | **MiniMax M2.5** | Search, discovery, grep, file finding | Auto-routed for search tasks, or `@explorer` |
-| **Planner** | **MiniMax M2.7** | Create plans, analyze, design | Auto-routed for complex tasks, or `@planner` |
-| **Scribe** | **MiniMax M2.5** | Write docs, READMEs, guides, changelogs | Auto-routed for doc tasks, or `@scribe` |
-| **Drafter** | **MiniMax M2.7** | Implementation, scaffolding, code generation | Auto-routed for write tasks, or `@drafter` |
-| **Gardener** | **MiniMax M2.5** | File operations, organization, cleanup | Auto-routed for file ops, or `@gardener` |
-| **Debugger** | **Kimi K2.6** | Hard bugs, root cause analysis, reasoning | Auto-routed for debug tasks, or `@debugger` |
-| **Reviewer** | **GLM-5.1** | Code review, verification, quality checks | Auto-routed for review tasks, or `@reviewer` |
+| Agent | Model | Provider | Role | How Invoked |
+|-------|-------|----------|------|-------------|
+| **Orchestrator** | **Kimi K2.6** | Go | Planning, routing, synthesis | Primary agent — loads by default |
+| **Explorer** | **MiniMax M2.5 Free** | Zen | Search, discovery, grep, file finding | Auto-routed for search tasks, or `@explorer` |
+| **Planner** | **MiniMax M2.7** | Go | Create plans, analyze, design | Auto-routed for complex tasks, or `@planner` |
+| **Scribe** | **MiniMax M2.5 Free** | Zen | Write docs, READMEs, guides, changelogs | Auto-routed for doc tasks, or `@scribe` |
+| **Drafter** | **MiniMax M2.7** | Go | Implementation, scaffolding, code generation | Auto-routed for write tasks, or `@drafter` |
+| **Gardener** | **MiniMax M2.5 Free** | Zen | File operations, organization, cleanup | Auto-routed for file ops, or `@gardener` |
+| **Debugger** | **Claude Sonnet 4.6** | Zen | Hard bugs, root cause analysis, reasoning | Auto-routed for debug tasks, or `@debugger` |
+| **Reviewer** | **Claude Sonnet 4.6** | Zen | Code review, verification, quality checks | Auto-routed for review tasks, or `@reviewer` |
 
 ### Why These Models?
 
-| Agent | Model Choice | Rationale |
-|-------|-------------|-----------|
-| Orchestrator | K2.6 | Routing decisions require reasoning; cost is negligible (1 decision per task) |
-| Explorer | M2.5 | 100 TPS, 6,300 req/5hr, 80.2% SWE-V — fastest and cheapest for search |
-| Planner | M2.7 | Cheap planning without code changes; 3,400 req/5hr |
-| Scribe | M2.5 | Docs don't need heavy reasoning; M2.5 is fast and cheap for prose |
-| Drafter | M2.7 | 56.2% SWE-Pro, good for harness engineering and bulk implementation |
-| Gardener | M2.5 | File ops are mechanical; M2.5 handles bash output cheaply |
-| Debugger | K2.6 | Hard bugs need best model; quality > cost |
-| Reviewer | GLM-5.1 | Top benchmarks (58.4% SWE-Pro, 95.3% AIME) — use sparingly |
+| Agent | Model Choice | Provider | Rationale |
+|-------|-------------|----------|-----------|
+| Orchestrator | K2.6 | Go | Routing decisions require reasoning; cost is negligible (1 decision per task) |
+| Explorer | M2.5 Free | Zen | **FREE** — 100 TPS, fastest for search, zero cost |
+| Planner | M2.7 | Go | Cheap planning without code changes; 3,400 req/5hr |
+| Scribe | M2.5 Free | Zen | **FREE** — docs don't need heavy reasoning; fast and cheap for prose |
+| Drafter | M2.7 | Go | 56.2% SWE-Pro, good for harness engineering and bulk implementation |
+| Gardener | M2.5 Free | Zen | **FREE** — file ops are mechanical; handles bash output at zero cost |
+| Debugger | Claude Sonnet 4.6 | Zen | **Pay-as-you-go** — best-in-class debugging; quality > cost for hard bugs |
+| Reviewer | Claude Sonnet 4.6 | Zen | **Pay-as-you-go** — top benchmarks; use for final reviews and audits |
 
 ---
 

@@ -77,6 +77,8 @@ For understanding how this hub and its ecosystem work.
 | Quality standards | [docs/quality-standards.md](docs/quality-standards.md) |
 | Git/GitHub best practices | [docs/git-github-best-practices.md](docs/git-github-best-practices.md) |
 | Repo tooling (Windows/WSL) | [docs/repo-tooling.md](docs/repo-tooling.md) |
+| Late handover history | [LATE-HISTORY-WITH-CODEX.md](LATE-HISTORY-WITH-CODEX.md) |
+| Middle handover history | [MIDDLE-HISTORY-WITH-CODEX.md](MIDDLE-HISTORY-WITH-CODEX.md) |
 | Token-efficient prompting | [docs/token-efficient-prompting.md](docs/token-efficient-prompting.md) |
 | Cognitive identity | [docs/cognitive-identity.md](docs/cognitive-identity.md) |
 | Codex reasoning guide | [docs/codex-reasoning-guide.md](docs/codex-reasoning-guide.md) |

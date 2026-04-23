@@ -38,7 +38,6 @@ $contextBudgets = @{
     'AGENTS.md' = 220
     'README.md' = 150
     'docs/workspace-system-overview.md' = 240
-    'docs/CONTEXT.md' = 120
     'HISTORY.md' = 350
     'research/research-log.md' = 500
     'docs/prompt-templates.md' = 350
@@ -132,6 +131,9 @@ function Test-FileNaming {
         'STYLE-INJECT.md',
         'CORRECTIONS.log.md',
         'CONTEXT.md',
+        'EARLY-HISTORY-WITH-CODEX.md',
+        'MIDDLE-HISTORY-WITH-CODEX.md',
+        'LATE-HISTORY-WITH-CODEX.md',
         'AGENTS.template.md'
     )
 

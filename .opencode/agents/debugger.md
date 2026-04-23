@@ -1,7 +1,7 @@
 ---
 description: Debug complex issues and investigate root causes. Use for debug, investigate, root cause, why does, and error analysis. For simple fixes, prefer @drafter.
 mode: subagent
-model: opencode-go/kimi-k2.6
+model: opencode/claude-sonnet-4-6
 permission:
   edit: ask
   bash: allow

@@ -253,7 +253,6 @@ These are warning thresholds, not hard failures. Exceeding one means the file sh
 |------|----------------|
 | `AGENTS.md` | 220 lines |
 | `README.md` | 150 lines |
-| `docs/CONTEXT.md` | 120 lines |
 | `docs/workspace-system-overview.md` | 240 lines |
 | `HISTORY.md` | 350 lines |
 | `research/research-log.md` | 500 lines |

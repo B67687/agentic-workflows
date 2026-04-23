@@ -1,7 +1,7 @@
 ---
 description: Write and maintain project documentation. Use for document, write docs, update README, create guide, write changelog, and documentation tasks.
 mode: subagent
-model: opencode-go/minimax-m2.5
+model: opencode/minimax-m2.5-free
 permission:
   edit: allow
   bash: deny

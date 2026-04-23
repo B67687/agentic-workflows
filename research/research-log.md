@@ -4,7 +4,7 @@ Active research intake and index.
 
 Full pre-optimization April research log is preserved at [../archive/research-log-2026-04.md](../archive/research-log-2026-04.md).
 
-Durable distilled findings belong in [archived-findings.md](archived-findings.md). Completed long campaigns should move to `archive/` and leave a compact index entry here.
+Durable distilled findings belong in [../docs/research-findings.md](../docs/research-findings.md). Completed long campaigns should move to `archive/` and leave a compact index entry here.
 
 ## Current Active Research
 
@@ -52,5 +52,5 @@ No active long-form research entry is open.
 
 - Keep only active or very recent research here.
 - Move completed detailed campaigns to `archive/`.
-- Add durable, reusable conclusions to `research/archived-findings.md`.
+- Add durable, reusable conclusions to `docs/research-findings.md`.
 - Link archives from this file instead of pasting long completed research inline.

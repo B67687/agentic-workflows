@@ -1,7 +1,7 @@
 ---
 description: Organize files and folders. Use for move, rename, delete, organize, archive, clean up, copy, and file operations tasks.
 mode: subagent
-model: opencode-go/minimax-m2.5
+model: opencode/minimax-m2.5-free
 permission:
   edit: allow
   bash:

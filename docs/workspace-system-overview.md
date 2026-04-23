@@ -109,7 +109,7 @@ Active research goes in `research/research-log.md`.
 
 Completed long campaigns move to `archive/`.
 
-Durable distilled findings go in `research/archived-findings.md`.
+Durable distilled findings go in `docs/research-findings.md`.
 
 ### 2. Integrate
 
