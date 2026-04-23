@@ -2,6 +2,23 @@
 
 How to build products fast using AI agents — grounded in this workspace's best practices and validated patterns from 2026.
 
+## Executive Summary
+
+**What this is:** A playbook for building AI-first products in 3 days to 8 weeks using agentic workflows.
+**Who should read:** Anyone building a product, feature, or MVP with AI assistance.
+**Key takeaways:**
+- Modern MVPs are **learning machines** with instrumentation and monetization from day one
+- A **one-page spec (300-500 words)** constrains the AI and speeds delivery
+- Use **agent specialization** (research, scaffold, build, refactor) like a small team
+- Timeline: simple feature (3-5 days), standard SaaS (1-2 weeks), full product (6-8 weeks)
+
+**Read the full doc below, or jump to a section:**
+- [AI-First MVP Definition](#ai-first-mvp-definition)
+- [Timeline Benchmarks](#timeline-benchmarks)
+- [One-Page Spec Method](#one-page-spec-method)
+- [Agent Setup Patterns](#agent-setup-patterns)
+- [Build Sequence](#build-sequence)
+
 ## AI-First MVP Definition
 
 A modern MVP is not a thin feature slice. It's a **learning machine** built around your core user action.

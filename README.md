@@ -1,108 +1,128 @@
-# Prompting Notes
+# AI Prompting Hub — How to Use AI Best
 
-This folder is a living knowledge base for prompt design, agent workflows, repo rollout, and reusable lessons.
+A living knowledge base for prompt design, agent workflows, repo rollout, and reusable lessons.
+
+## Start Here: Pick Your Goal
+
+| I Want To... | Start With |
+|--------------|------------|
+| **Write better prompts** | [Daily Prompts](docs/daily-prompts.md) → [Prompt Library](docs/prompt-templates.md) |
+| **Set up AI agents in my project** | [Agentic Workflows](docs/agentic-workflows.md) → [Core Doctrine](docs/core-agent-doctrine.md) → [AGENTS.md](AGENTS.md) |
+| **Build an AI product** | [AI Product Building](docs/ai-product-building.md) → [TDD with Agents](docs/tdd-with-agents.md) |
+| **Research a new AI topic** | [Research Methodology](docs/research-methodology.md) → [Authoritative Best Practices](docs/authoritative-agent-best-practices.md) |
+| **Maintain my cognitive skills** | [Cognitive Identity](docs/cognitive-identity.md) |
+| **Understand this whole system** | [System Overview](docs/workspace-system-overview.md) → [Cross-Project Memory](docs/cross-project-memory-loop.md) |
+| **Resume interrupted work** | [Session State](workflow/session-state.json) → [AGENTS.md](AGENTS.md) |
 
 ## Structure
 
 ```
 / (root)
-|- AGENTS.md              # Operating contract
-|- README.md              # High-level map
-|- docs/                  # Source knowledge base
-|- research/              # Research logs and integration notes
+|- AGENTS.md              # Operating contract — rules for working in this repo
+|- README.md              # This file — navigation and learning paths
+|- docs/                  # Core knowledge base
+|- research/              # Active research campaigns
 |- scripts/               # Automation scripts
-|- workflow/              # Generated workflow files, state, logs, registries
-|- propagate-templates/   # Templates that auto-propagate to topic folders
-|- archive/               # Preserved absorbed material
+|- workflow/              # Session state, sync logs, registries
+|- propagate-templates/   # Templates synced to 25 topic folders
+|- archive/               # Preserved historical material
 `- personal-voice/        # User voice profile and samples
 ```
 
-## Start Here 
+## Learning Paths
 
-- [workflow/session-state.json](workflow/session-state.json): Active session state. Read this first when resuming work.
-- [AGENTS.md](AGENTS.md): Operating contract and current rules for this hub.
-- [docs/workspace-system-overview.md](docs/workspace-system-overview.md): The fastest plain-language map of what this whole workspace system does.
-- [docs/core-agent-doctrine.md](docs/core-agent-doctrine.md): The compact shared backbone for scope, evidence, execution lanes, verification, and compounding memory.
-- [docs/daily-prompts.md](docs/daily-prompts.md): The shortest set of prompts worth reusing often.
-- [propagate-templates/README.md](propagate-templates/README.md): Two-git architecture and propagation guide.
-- [docs/prompt-templates.md](docs/prompt-templates.md): Copy-paste prompt templates for serious work.
-- [docs/session-checkpoint.md](docs/session-checkpoint.md): Full rules for the session state + checkpoint system.
+### Prompting Path
+For anyone who wants to write better prompts immediately.
 
-## Core References
+1. **[docs/daily-prompts.md](docs/daily-prompts.md)** — 5 reusable prompt shapes for common tasks
+2. **[docs/prompt-templates.md](docs/prompt-templates.md)** — Full copy-paste library index
+3. **[docs/token-efficient-prompting.md](docs/token-efficient-prompting.md)** — Reduce token burn without losing quality
 
-- [docs/token-efficient-prompting.md](docs/token-efficient-prompting.md): Workflow-cost reduction and context hygiene.
-- [docs/tdd-with-agents.md](docs/tdd-with-agents.md): Tests-first and red/green TDD patterns.
-- [docs/learning-while-building-with-agents.md](docs/learning-while-building-with-agents.md): How to keep learning speed closer to build speed when working with agents.
-- [docs/authoritative-agent-best-practices.md](docs/authoritative-agent-best-practices.md): Cross-tool guidance.
-- [docs/research-methodology.md](docs/research-methodology.md): Authoritative source hierarchy, evaluation checklist, and AI-specific source pitfalls.
-- [docs/cognitive-identity.md](docs/cognitive-identity.md): Human-AI cognitive partnership.
-- [docs/codex-reasoning-guide.md](docs/codex-reasoning-guide.md): Practical reasoning-effort guidance.
-- [docs/repo-tooling.md](docs/repo-tooling.md): Preferred Windows and WSL/Linux CLI tooling.
-- [docs/git-github-best-practices.md](docs/git-github-best-practices.md): Git and GitHub best practices, including state awareness for AI agents.
-- [docs/quality-standards.md](docs/quality-standards.md): Quality criteria for this knowledge base.
-- [docs/workspace-system-overview.md](docs/workspace-system-overview.md): System map for the hub, topic folders, research loop, propagation loop, and session state.
-- [docs/session-recovery-guide.md](docs/session-recovery-guide.md): OpenCode session visibility and restore troubleshooting.
-- [docs/prompt-library/](docs/prompt-library/): Full grouped prompt library.
+### Agent Setup Path
+For setting up agentic workflows in your projects.
+
+1. **[docs/agentic-workflows.md](docs/agentic-workflows.md)** — Architecture: 7 subagents, skills, routing
+2. **[docs/core-agent-doctrine.md](docs/core-agent-doctrine.md)** — 10 principles that underpin the system
+3. **[AGENTS.md](AGENTS.md)** — Operating contract: rules, thresholds, disclosure
+4. **[opencode.json](opencode.json)** + **[.opencode/](.opencode/)** — Configuration and definitions
+
+### Product Building Path
+For building products fast with AI agents.
+
+1. **[docs/ai-product-building.md](docs/ai-product-building.md)** — One-page spec, 6-week timeline, agent patterns
+2. **[docs/tdd-with-agents.md](docs/tdd-with-agents.md)** — Tests-first and red/green patterns
+3. **[docs/learning-while-building-with-agents.md](docs/learning-while-building-with-agents.md)** — Keep learning speed close to build speed
+
+### Research Path
+For investigating AI topics authoritatively.
+
+1. **[docs/research-methodology.md](docs/research-methodology.md)** — Source hierarchy, verification, confidence levels
+2. **[docs/authoritative-agent-best-practices.md](docs/authoritative-agent-best-practices.md)** — Cross-tool guidance
+3. **[docs/research-findings.md](docs/research-findings.md)** — Durable discoveries from past research
+4. **[research/research-log.md](research/research-log.md)** — Active research campaigns
+
+### System Path
+For understanding how this hub and its ecosystem work.
+
+1. **[docs/workspace-system-overview.md](docs/workspace-system-overview.md)** — Whole-system map
+2. **[docs/cross-project-memory-loop.md](docs/cross-project-memory-loop.md)** — How knowledge flows: topic folders ↔ hub
+3. **[propagate-templates/README.md](propagate-templates/README.md)** — How templates propagate to 25 topic folders
+
+## Quick Reference
+
+| Need | Doc |
+|------|-----|
+| Session checkpoint rules | [docs/session-checkpoint.md](docs/session-checkpoint.md) |
+| Model selection guide | [docs/model-selection-guide.md](docs/model-selection-guide.md) |
+| Quality standards | [docs/quality-standards.md](docs/quality-standards.md) |
+| Git/GitHub best practices | [docs/git-github-best-practices.md](docs/git-github-best-practices.md) |
+| Repo tooling (Windows/WSL) | [docs/repo-tooling.md](docs/repo-tooling.md) |
+| Token-efficient prompting | [docs/token-efficient-prompting.md](docs/token-efficient-prompting.md) |
+| Cognitive identity | [docs/cognitive-identity.md](docs/cognitive-identity.md) |
+| Codex reasoning guide | [docs/codex-reasoning-guide.md](docs/codex-reasoning-guide.md) |
 
 ## Research
 
-- [research/README.md](research/README.md): Quick start and workflow
-- [research/research-prompt.md](research/research-prompt.md): Reusable research prompt with analysis framework
-- [research/research-log.md](research/research-log.md): Active research intake and campaign index
-- [research/archived-findings.md](research/archived-findings.md): Durable discoveries
-- [research/integration-log.md](research/integration-log.md): Research-to-knowledge-base integration tracker
-- [archive/research-log-2026-04.md](archive/research-log-2026-04.md): Full April 2026 pre-optimization research log.
+- **[research/research-log.md](research/research-log.md)** — Active research intake and campaign index
+- **[research/research-prompt.md](research/research-prompt.md)** — Reusable research prompt with analysis framework
+- **[research/integration-log.md](research/integration-log.md)** — Research-to-knowledge-base integration tracker
+- **[docs/research-findings.md](docs/research-findings.md)** — Durable validated discoveries
+- **[archive/research-log-2026-04.md](archive/research-log-2026-04.md)** — Full April 2026 pre-optimization research log.
 
-## Model Testing
+## Scripts
 
-- [model-tests/README.md](model-tests/README.md): Model testing system — standardized tasks, self-documenting results, comparison archive.
-- [model-tests/tasks/](model-tests/tasks/): Standardized test tasks (coding, reasoning, context, tool-use, style, speed)
-- [model-tests/run-model-tests.ps1](model-tests/run-model-tests.ps1): Run tests against current model, record results.
+Use [scripts/ws.ps1](scripts/ws.ps1) for common workspace operations:
 
-## AI Product Building
+```pwsh
+.\scripts\ws.ps1 status      # Check workspace state
+.\scripts\ws.ps1 validate    # Run quality audit
+.\scripts\ws.ps1 hotspots    # Find recent changes
+.\scripts\ws.ps1 search -Query "session-state"
+.\scripts\ws.ps1 research    # Preview research findings
+.\scripts\ws.ps1 propagate   # Preview propagation (add -Apply to execute)
+```
 
-- [docs/ai-product-building.md](docs/ai-product-building.md): Build products fast with AI agents — spec method, agent patterns, 6-week timeline, reliability thresholds.
+## Propagation
 
-## Human-AI Cognitive Partnership
+Templates in `propagate-templates/` sync to 25 topic folders in `M-Namikaz-Others/`.
 
-- [docs/cognitive-identity.md](docs/cognitive-identity.md): Maintain your cognitive identity as AI advances — judgment, verification, skill ownership, and growth intentionality.
+```pwsh
+.\scripts\propagate-to-all.ps1 -Apply   # Sync templates outward
+```
 
-## Rollout And Templates
-
-- [docs/project-rollout-template.md](docs/project-rollout-template.md): How to propagate these practices across repos.
-- [docs/cross-project-memory-loop.md](docs/cross-project-memory-loop.md): How local repo lessons should flow back into this central library and back out again.
-- [scripts/bootstrap-project-instructions.ps1](scripts/bootstrap-project-instructions.ps1): Seed one repo with local instruction files.
-- [scripts/set-promotion-review-status.ps1](scripts/set-promotion-review-status.ps1): Persist review decisions for promotion candidates.
-- [scripts/sync-project-instructions.ps1](scripts/sync-project-instructions.ps1): Sync a chosen set of repos.
-- [scripts/sync-all-project-instructions.ps1](scripts/sync-all-project-instructions.ps1): Sync all repos in the cross-domain registry.
-- [scripts/propagate-to-all.ps1](scripts/propagate-to-all.ps1): Hub-to-all propagation (run from AI Prompting folder).
-- [propagate-templates/AGENTS.template.md](propagate-templates/AGENTS.template.md): Canonical repo `AGENTS.md` template.
-- [propagate-templates/topic-insights.template.md](propagate-templates/topic-insights.template.md): Canonical repo lessons template.
-- [propagate-templates/git-github-best-practices.template.md](propagate-templates/git-github-best-practices.template.md): Git/GitHub best practices template.
-- [propagate-templates/opencode-agent-system.template.md](propagate-templates/opencode-agent-system.template.md): OpenCode agentic workflow guide template.
-- [propagate-templates/opencode.template.json](propagate-templates/opencode.template.json): OpenCode native agent config template.
-- [propagate-templates/sync-from-hub.template.ps1](propagate-templates/sync-from-hub.template.ps1): Self-service sync script for topic folders.
-
-## Workflow Files
-
-- [workflow/cross-domain-registry.md](workflow/cross-domain-registry.md): Participating folder registry.
-- [workflow/cross-domain-candidates.md](workflow/cross-domain-candidates.md): Current cross-domain review queue.
-- [workflow/cross-domain-review-state.json](workflow/cross-domain-review-state.json): Persistent candidate review decisions.
-- [workflow/harvested-topic-insights.md](workflow/harvested-topic-insights.md): Latest harvested topic insights.
-- [workflow/merge-log.md](workflow/merge-log.md): Cross-domain merge history.
-- [workflow/sync-state.json](workflow/sync-state.json): Last propagation sync state.
-- [workflow/session-state.json](workflow/session-state.json): **Active session state - read first on every resume.**
-- [workflow/session-state.template.json](workflow/session-state.template.json): Blank session state template.
+- `AGENTS.md`, `topic-insights.md`, `.cleanup-protect`, and other templates are propagated
+- Topic folders create `[folder-name]-content/` for normal project work
+- Root-level files are protected from cleanup
 
 ## Archive
 
-- [archive/README.md](archive/README.md): Archive conventions and raw snapshot policy.
-- [archive/history-2026-04.md](archive/history-2026-04.md): Full April 2026 pre-optimization session history.
-- [archive/prompt-templates-2026-04-pre-split.md](archive/prompt-templates-2026-04-pre-split.md): Exact prompt-template file before the prompt-library split.
+- **[archive/README.md](archive/README.md)** — Archive conventions
+- **[archive/history-2026-04.md](archive/history-2026-04.md)** — April 2026 session history
+- **[archive/early-history.md](archive/early-history.md)** — Sessions 1–11 (awaiting user input)
 
 ## Maintenance Rule
 
-If you want to keep improving this folder, the simplest loop is:
+If you want to keep improving this folder:
 
 1. Save the prompt shape that worked.
 2. Save the lesson that should change future behavior.
@@ -110,27 +130,4 @@ If you want to keep improving this folder, the simplest loop is:
 
 ## Common Commands
 
-Use [scripts/ws.ps1](scripts/ws.ps1) for the repeated workspace checks:
-
-```pwsh
-.\scripts\ws.ps1 status
-.\scripts\ws.ps1 validate
-.\scripts\ws.ps1 hotspots
-.\scripts\ws.ps1 search -Query "session-state"
-.\scripts\ws.ps1 research
-.\scripts\ws.ps1 propagate
-```
-
-The wrapper is read-only by default. Use `.\scripts\ws.ps1 propagate -Apply` only when intentionally syncing template changes outward.
-
 PowerShell is the default terminal for mutating workspace automation. For WSL read-only inspection, use `bash scripts/ws.sh validate` after installing the Linux tool baseline in [docs/repo-tooling.md](docs/repo-tooling.md).
-
-## Propagation
-
-- `.cleanup-protect` and `AGENTS.md` are propagated to repos and protected from cleanup.
-- Propagation creates a mandatory `[folder-name]-content/` folder; agents should do normal project work there.
-- `meta/` is optional; create it only when a project needs durable local context.
-- Keep propagated folder roots sparse. Normal notes, source, assets, downloads, logs, archives, datasets, drafts, and project docs belong in `[folder-name]-content/`.
-- If old root content exists, classify it before moving. Do not move `.git`, active project roots, caches, or tool-specific folders without explicit approval.
-- For public repos, add propagated files to the repo's `.gitignore` before pushing.
-- Use `scripts/propagate-to-all.ps1` to propagate templates and `scripts/cleanup-folders.ps1` to clean up.

@@ -2,6 +2,23 @@
 
 How to maintain and develop your cognitive capabilities alongside rapidly advancing AI tools.
 
+## Executive Summary
+
+**What this is:** A guide to maintaining your judgment, skills, and cognitive independence as AI handles more execution.
+**Who should read:** Anyone who uses AI regularly and wants to avoid skill atrophy or dependency.
+**Key takeaways:**
+- AI capabilities double every 8-12 months; human cognition develops in years — this asymmetry creates risks
+- **Desirable difficulty** (the struggle of learning) is essential — AI that removes all struggle removes learning itself
+- **Cognitive offloading** becomes habitual: using AI for one question increases tendency to use it for easier ones
+- The antidote: treat research as **cognitive practice** (evaluate, decide, connect, explain)
+- **Vibe coding** (shipping code you don't understand) is the coding-specific form of learned helplessness
+
+**Read the full doc below, or jump to a section:**
+- [The Core Problem](#the-core-problem)
+- [Research System as Cognitive Practice](#the-research-system-as-cognitive-practice)
+- [Research-Backed Risks](#research-backed-risks)
+- [Mitigation Strategies](#mitigation-strategies)
+
 ## The Core Problem
 
 AI capabilities are doubling every 8-12 months. Human cognitive development is measured in years, not months. This creates an asymmetry that, if unaddressed, leads to:

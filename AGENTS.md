@@ -44,6 +44,7 @@ For topic-folder work, read that folder's `meta/HANDOVER.md` first if it exists 
 - **Verify aggressively**; verification is the quality engine.
 - **Summarize work** with root cause, fix, verification, and residual risk.
 - **Update the knowledge base** when a durable pattern appears.
+- **Integrate research findings into docs/** within 3 days — do not leave durable insights in research/ or archive/
 - **Use relative links** inside repo docs.
 - **Read personal voice before writing for the user**: `personal-voice/VOICE-PROFILE.md`.
 - **Session state on every resume**: read `workflow/session-state.json` before any other file.
