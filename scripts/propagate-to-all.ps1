@@ -247,6 +247,54 @@ function Ensure-ContentFolder {
     }
 }
 
+function Ensure-GitRepo {
+    param(
+        [string]$FolderPath,
+        [switch]$Preview
+    )
+
+    $gitPath = Join-Path $FolderPath '.git'
+    $gitignorePath = Join-Path $FolderPath '.gitignore'
+    $gitignoreTemplate = Join-Path $PSScriptRoot '..' 'propagate-templates' 'gitignore.template'
+
+    if (Test-Path $gitPath) {
+        return [PSCustomObject]@{
+            File = '.git'
+            Status = "UNCHANGED (repo exists)"
+            Path = $gitPath
+        }
+    }
+
+    if ($Preview) {
+        return [PSCustomObject]@{
+            File = '.git'
+            Status = "INIT preview (would create git repo)"
+            Path = $gitPath
+        }
+    }
+
+    # Init git repo
+    git -C $FolderPath init --quiet 2>$null
+    git -C $FolderPath config core.autocrlf false 2>$null
+    git -C $FolderPath config user.email "workspace@ai-prompting.hub" 2>$null
+    git -C $FolderPath config user.name "AI Prompting Hub" 2>$null
+
+    # Copy .gitignore if template exists and target doesn't
+    if ((Test-Path $gitignoreTemplate) -and -not (Test-Path $gitignorePath)) {
+        Copy-Item $gitignoreTemplate $gitignorePath -Force
+    }
+
+    # Stage and commit
+    git -C $FolderPath add -A 2>$null
+    git -C $FolderPath commit -m "Initial commit`n`n- Auto-initialized by AI Prompting hub propagation`n- Standard .gitignore applied`n- Baseline files committed" --quiet 2>$null
+
+    return [PSCustomObject]@{
+        File = '.git'
+        Status = "INIT (repo created + initial commit)"
+        Path = $gitPath
+    }
+}
+
 function Sync-Folder {
     param(
         [string]$FolderPath,
@@ -258,6 +306,7 @@ function Sync-Folder {
     $lessonsTarget = Join-Path $FolderPath "topic-insights.md"
 
     $results += Ensure-ContentFolder -FolderPath $FolderPath -Preview:$Preview
+    $results += Ensure-GitRepo -FolderPath $FolderPath -Preview:$Preview
     
     # Read templates
     $agentsTemplate = Get-Content $AgentsTemplatePath -Raw

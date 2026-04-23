@@ -15,6 +15,28 @@ If you are resuming after a context compaction:
 - **Status:** complete
 - **Interrupted count:** 0
 
+## GIT STANDARDIZATION (2026-04-23)
+
+All 25 topic folders in M-Namikaz-Others now have initialized git repos:
+- Standard `.gitignore` propagated from `propagate-templates/gitignore.template`
+- Auto-committed baseline with existing files
+- `core.autocrlf=false` to prevent Windows line-ending issues
+- `scripts/propagate-to-all.ps1` updated to auto-init git for new folders
+- Nested git repos detected and excluded from parent (added to .gitignore)
+
+Folders with nested repos (excluded from parent):
+- Bus App: bus-app-content
+- Claw Code: claw-code-content/claw-code
+- Comfer: comfer-content/checkout
+- Fluent Search Manifest: fluent-search-manifest-content/Extras, Java, Main, Versions
+- Hugo: hugo-content/Hugo-Half-Failed-Implementation/computing-notes-hugo
+- Image Glass: image-glass-content
+- ImageMagick: image-magick-content
+- MathLearningNotes: math-learning-notes-content
+- OOP Project: oop-project-content
+- OpenCode: opencode-content
+- Wall You: wall-you-content/ScenicFetch
+
 ## CURRENT TASK
 
 - **Name:** Cognitive identity and learning thread
