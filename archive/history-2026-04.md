@@ -4,6 +4,157 @@ This file tracks all significant changes to the AI Prompting Library. Newest ent
 
 ---
 
+## 2026-04-23
+
+### Session 44 - Enhanced Topic-Folder History System + OpenCode Crash Fix
+
+**Purpose:** Give every topic folder a history system that can capture external work; fix OpenCode Desktop crash on topic folders.
+
+**What Changed:**
+
+1. **History system enhancement:**
+   - Redesigned `propagate-templates/HISTORY.template.md`:
+     - Added `External Work` section for tracking out-of-repo work (research, prototyping, conversations, other repos).
+     - Added monthly-split guidance for high-activity projects (`[folder]-content/history/history-YYYY-MM.md`).
+   - Updated `AGENTS.md` Session Documentation rules to require topic-folder `HISTORY.md` updates.
+   - Propagated enhanced `HISTORY.md` to all 25 topic folders (all merged successfully).
+
+2. **Chat export archival:**
+   - Processed `CHAT-EXPORT-LATE-HISTORY-HANDOVER.txt` (April 21–23 Codex session).
+   - Moved to `archive/raw/CHAT-EXPORT-LATE-HISTORY-HANDOVER.txt`.
+   - Patched `archive/history-2026-04.md` with missing Sessions 31–42 and Session 43.
+
+3. **CRITICAL FIX — OpenCode Desktop crash:**
+   - Root cause: `_managed_by` field in `opencode.json` is not a valid OpenCode config schema property; strict validation rejected it, causing crashes.
+   - Removed `_managed_by` from `propagate-templates/opencode.template.json`.
+   - Updated `scripts/propagate-to-all.ps1`:
+     - JSON files now use `$schema` matching to detect managed status instead of `_managed_by`.
+     - JSON files get clean overwrite (not markdown merge) to prevent broken JSON.
+   - Force-overwritten all 25 topic folder `opencode.json` files.
+
+4. **COST FIX — Three-tier fallback for Debugger/Reviewer:**
+   - **Problem:** One Debugger + one Reviewer subsession on ImageMagick burned $3 using Claude Sonnet 4.6.
+   - **Solution:** Replaced binary free/paid escalation with three-tier fallback:
+     - **Tier 1 (default):** Orchestrator handles debug/review directly with K2.6 — $0 extra cost
+     - **Tier 2 (fallback):** Spawn @debugger/@reviewer with M2.7 (Go, flat rate) — only when fresh context needed
+     - **Tier 3 (escalation):** Claude Sonnet 4.6 — only for security or when Tiers 1+2 both failed (2+ attempts)
+   - **Agent model changes:**
+     - `.opencode/agents/debugger.md`: `opencode/claude-sonnet-4-6` → `opencode-go/minimax-m2.7`
+     - `.opencode/agents/reviewer.md`: `opencode/claude-sonnet-4-6` → `opencode-go/minimax-m2.7`
+     - Updated `AGENTS.md`, `docs/agentic-workflows.md`, `propagate-templates/AGENTS.template.md` routing tables
+     - Updated `propagate-templates/opencode.template.json` and hub `opencode.json` Orchestrator prompts
+     - Batch-updated all 25 topic folder agent configs and `opencode.json`
+   - **Escalation rules:** Sonnet 4.6 only for:
+     1. Security vulnerability suspected or confirmed
+     2. K2.6 and M2.7 both failed after 2+ attempts each
+     3. User explicitly requests premium analysis
+    - **Cost control:** K2.6 direct handling costs $0 extra. M2.7 subagent is flat rate. Sonnet 4.6 is pay-as-you-go — keep it rare.
+
+5. **PROVIDER FIX — Missing `provider` and `model` fields:**
+   - **Problem:** Topic folder `opencode.json` files were missing the `provider` section and explicit `model` field, causing OpenCode Desktop to fall back to its internal default (Zen for K2.6).
+   - **Solution:** Added full `provider` section and `"model": "opencode-go/kimi-k2.6"` to `propagate-templates/opencode.template.json`:
+     - `opencode-go` provider: K2.6, K2.5, M2.7, M2.5, GLM-5.1
+     - `opencode` (Zen) provider: M2.5 Free, Sonnet 4.6, GPT-5.4 Nano
+   - Re-propagated all 25 topic folders with explicit model assignment.
+   - Verified: `ImageMagick/opencode.json` now shows `"model": "opencode-go/kimi-k2.6"`.
+
+**Decisions:**
+- Topic folders keep a single `HISTORY.md` at root by default; high-activity projects can migrate to monthly files in `[folder]-content/history/`.
+- External work gets the same treatment as in-repo work — log it or lose it.
+- Never use non-standard fields in `opencode.json`; stick to the documented schema only.
+- **Cost control:** Debugger/Reviewer default to Orchestrator direct (K2.6, $0 extra). M2.7 for specialist fallback. Sonnet 4.6 only for security or failed attempts. $3/session is unsustainable.
+- **Provider discipline:** Always include explicit `provider` section and `model` field in `opencode.json`. Never rely on OpenCode Desktop defaults — they can silently switch to Zen.
+
+**Verification:**
+- Sampled `MathLearningNotes/opencode.json` and `OpenCode/opencode.json` — both clean, no `_managed_by`.
+- `scripts/propagate-to-all.ps1 -Apply` reported 25 overwrites with no errors.
+- Audit: 74/74 files, 0 warnings, 0 errors.
+
+### Session 43 - Middle History Handover Document
+
+**Purpose:** Create a detailed chronological handover documenting the intent → improvement → refinement → agreement → implementation cycle from the Codex middle sessions.
+
+**What Changed:**
+- Created `MIDDLE-HISTORY-WITH-CODEX.md` (466 lines) covering the arc from:
+  - Interrupted GitHub trending handoff (April 21)
+  - Folder-structure cleanup and workspace overview (April 22)
+  - Repository optimization, command wrappers, WSL tooling (April 22)
+  - Research methodology, model-routing research, PR sequence diagrams
+  - OpenCode agentic token-efficiency system
+- Structure followed user's requested format: intent → Codex improvement → user refinement → final agreement → implementation.
+- Linked from `README.md`.
+- Added Session 43 entry to active `HISTORY.md` (now archived in `archive/history-2026-04.md`).
+
+**Note:** `MIDDLE-HISTORY-WITH-CODEX.md` was later removed during cleanup (noted in Session 44 decisions). The chat export preserving this session's full content lives in `archive/raw/CHAT-EXPORT-LATE-HISTORY-HANDOVER.txt`.
+
+**Verification:**
+- `scripts/ws.ps1 validate`: passed
+- `scripts/test-ws.ps1`: passed
+- Audit: 76 files scanned, 0 errors, 5 pre-existing unrelated warnings
+
+---
+
+## 2026-04-22 (Late)
+
+### Sessions 31-42 - Repository Optimization, Command Wrappers, and Terminal Strategy
+
+**Purpose:** Optimize the repo for faster cold starts and lower context cost; create unified command wrappers; decide on terminal strategy.
+
+**What Changed:**
+
+1. **Hot-path file compression:**
+   - `AGENTS.md`: 359 → ~116 lines (moved deep content to dedicated docs, kept operating contract + index)
+   - `HISTORY.md`: 965 → ~119 lines (moved full history to `archive/history-2026-04.md`)
+   - `research/research-log.md`: 1,734 → ~54 lines (moved full log to `archive/research-log-2026-04.md`)
+   - `docs/prompt-templates.md`: 1,189 → ~89 lines (moved templates to `docs/prompt-library/`)
+   - `docs/workspace-system-overview.md`: 396 → ~190 lines (tighter cold-start protocol)
+
+2. **Prompt library split:**
+   - Created `docs/prompt-library/` with grouped template files:
+     - `debugging-and-verification.md`
+     - `learning-and-onboarding.md`
+     - `repo-workflows.md`
+     - `voice-and-humanization.md`
+     - `visualization.md`
+   - Preserved exact pre-split copy: `archive/prompt-templates-2026-04-pre-split.md`
+
+3. **Command wrappers:**
+   - `scripts/ws.ps1` — PowerShell hub for `status`, `hotspots`, `validate`, `search`, `research`, `propagate`
+   - `scripts/test-ws.ps1` — plain PowerShell self-tests (no Pester dependency)
+   - `scripts/ws.sh` — WSL/Linux read-only wrapper for `help`, `status`, `search`, `validate`
+
+4. **Audit guardrails:**
+   - `scripts/audit-folder-quality.ps1` now recursively scans active authored files (was only 4 root files)
+   - Added context-budget warnings for hot-path files
+   - Added `-IncludeArchive` and `-IncludeGenerated` switches
+   - Fixed `param()` detection for help-block scripts
+   - Fixed template audit false positives
+
+5. **Terminal strategy:**
+   - PowerShell declared as default terminal for mutating hub automation
+   - WSL documented as optional read-only inspection lane
+   - Created `docs/repo-tooling.md` with shared Windows/WSL guidance
+   - Kept `docs/windows-repo-tooling.md` as redirect
+
+6. **Quality standards update:**
+   - `docs/quality-standards.md` updated with hot-path size budgets and active/archive/generated boundaries
+   - Added `.rgignore` to keep raw archives and generated snapshots out of normal search
+
+**Preserved archives:**
+- `archive/history-2026-04.md` — full pre-compression history
+- `archive/research-log-2026-04.md` — full pre-compression research log
+- `archive/prompt-templates-2026-04-pre-split.md` — exact pre-split templates
+- `archive/raw/session-raw-opencode-share-KP4etwvL.html.txt` — moved raw snapshot
+
+**Verification:**
+- Audit: 60+ active files scanned, 0 warnings, 0 errors
+- `scripts/check-sync-status.ps1`: OK
+- `scripts/test-ws.ps1`: passed
+- `scripts/ws.ps1 validate`: passed
+- `bash scripts/ws.sh validate`: passed
+
+---
+
 ## 2026-04-22
 
 ### Session 30 - Overview Second Pass
@@ -922,14 +1073,31 @@ English/Chinese ESL is flagged because school teaches structured patterns → sa
 ### ~2026-04-10 - Repository Genesis
 
 **What Changed:**
-- Created docs/core-agent-doctrine.md, docs/daily-prompts.md, docs/prompt-templates.md
-- Created AGENTS.md, README.md, quality-standards.md
-- Created scripts/sync-project-instructions.ps1, bootstrap-project-instructions.ps1
-- Created propagate-templates/ with AGENTS.template.md, topic-insights.template.md
+- Created README.md, prompt-strategies.md, prompt-templates.md, daily-prompts.md
+- Created authoritative-agent-best-practices.md (source-backed from OpenAI, Anthropic, GitHub Copilot docs)
+- Created codex-reasoning-guide.md (reasoning effort: low/medium/high/xhigh)
+- Created project-rollout-template.md, bootstrap-project-instructions.ps1, sync-project-instructions.ps1
+- Created sync-all-project-instructions.ps1, repos.example.txt
+- Created templates/ with AGENTS.template.md, repo-lessons.template.md, copilot-instructions.template.md
+- Created AGENTS.md (local workspace instructions)
+- Created lessons-scoop-prs.md (Scoop manifest + PR lessons)
 
 **Notes:**
 - Creation timestamps cluster around 3:47 PM – 6:36 PM
 - No .git directory — repository has never had version control
+- OpenCode global config discussed but not created (Codex has no equivalent)
+
+### ~2026-04-11 - Claude Code Integration
+
+**What Changed:**
+- Created learn-claude-code-lessons.md (from shareAI-lab/learn-claude-code repo analysis)
+- Created token-efficient-prompting.md (total session token cost optimization)
+- Updated prompt-strategies.md, prompt-templates.md, daily-prompts.md, AGENTS.md, README.md
+- Integrated mechanism-dependency teaching, smallest-correct-version first, state ownership patterns
+
+**Notes:**
+- Repo analyzed from live GitHub sources (clone failed due to Windows permissions)
+- Failed clone left stub at learn-claude-code/ (user cleaned it up)
 
 ---
 
@@ -957,7 +1125,7 @@ English/Chinese ESL is flagged because school teaches structured patterns → sa
 
 ```yaml
 ---
-last_updated: 2026-04-21
+last_updated: 2026-04-23
 version: 2.0
 central_hub: AI Prompting
 ---
