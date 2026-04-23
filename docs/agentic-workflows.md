@@ -33,29 +33,42 @@ Receives result, synthesizes, presents to you
 
 ## Agent Roles
 
-| Agent | Model | Provider | Role | How Invoked |
-|-------|-------|----------|------|-------------|
-| **Orchestrator** | **Kimi K2.6** | Go | Planning, routing, synthesis | Primary agent — loads by default |
-| **Explorer** | **MiniMax M2.5 Free** | Zen | Search, discovery, grep, file finding | Auto-routed for search tasks, or `@explorer` |
-| **Planner** | **MiniMax M2.7** | Go | Create plans, analyze, design | Auto-routed for complex tasks, or `@planner` |
-| **Scribe** | **MiniMax M2.5 Free** | Zen | Write docs, READMEs, guides, changelogs | Auto-routed for doc tasks, or `@scribe` |
-| **Drafter** | **MiniMax M2.7** | Go | Implementation, scaffolding, code generation | Auto-routed for write tasks, or `@drafter` |
-| **Gardener** | **MiniMax M2.5 Free** | Zen | File operations, organization, cleanup | Auto-routed for file ops, or `@gardener` |
-| **Debugger** | **Claude Sonnet 4.6** | Zen | Hard bugs, root cause analysis, reasoning | Auto-routed for debug tasks, or `@debugger` |
-| **Reviewer** | **Claude Sonnet 4.6** | Zen | Code review, verification, quality checks | Auto-routed for review tasks, or `@reviewer` |
+| Agent | Default Model | Fallback Model | Escalation Model | Provider | Role | How Invoked |
+|-------|---------------|----------------|------------------|----------|------|-------------|
+| **Orchestrator** | **Kimi K2.6** | — | — | Go | Planning, routing, synthesis | Primary agent — loads by default |
+| **Explorer** | **MiniMax M2.5 Free** | — | — | Zen | Search, discovery, grep, file finding | Auto-routed for search tasks, or `@explorer` |
+| **Planner** | **MiniMax M2.7** | — | — | Go | Create plans, analyze, design | Auto-routed for complex tasks, or `@planner` |
+| **Scribe** | **MiniMax M2.5 Free** | — | — | Zen | Write docs, READMEs, guides, changelogs | Auto-routed for doc tasks, or `@scribe` |
+| **Drafter** | **MiniMax M2.7** | — | — | Go | Implementation, scaffolding, code generation | Auto-routed for write tasks, or `@drafter` |
+| **Gardener** | **MiniMax M2.5 Free** | — | — | Zen | File operations, organization, cleanup | Auto-routed for file ops, or `@gardener` |
+| **Debugger** | **Orchestrator direct (K2.6)** | **M2.7** | **Claude Sonnet 4.6** | Go | Hard bugs, root cause analysis, reasoning | Auto-routed for debug tasks, or `@debugger` |
+| **Reviewer** | **Orchestrator direct (K2.6)** | **M2.7** | **Claude Sonnet 4.6** | Go | Code review, verification, quality checks | Auto-routed for review tasks, or `@reviewer` |
 
 ### Why These Models?
 
-| Agent | Model Choice | Provider | Rationale |
-|-------|-------------|----------|-----------|
+| Agent | Default Model | Provider | Rationale |
+|-------|--------------|----------|-----------|
 | Orchestrator | K2.6 | Go | Routing decisions require reasoning; cost is negligible (1 decision per task) |
 | Explorer | M2.5 Free | Zen | **FREE** — 100 TPS, fastest for search, zero cost |
 | Planner | M2.7 | Go | Cheap planning without code changes; 3,400 req/5hr |
 | Scribe | M2.5 Free | Zen | **FREE** — docs don't need heavy reasoning; fast and cheap for prose |
 | Drafter | M2.7 | Go | 56.2% SWE-Pro, good for harness engineering and bulk implementation |
 | Gardener | M2.5 Free | Zen | **FREE** — file ops are mechanical; handles bash output at zero cost |
-| Debugger | Claude Sonnet 4.6 | Zen | **Pay-as-you-go** — best-in-class debugging; quality > cost for hard bugs |
-| Reviewer | Claude Sonnet 4.6 | Zen | **Pay-as-you-go** — top benchmarks; use for final reviews and audits |
+| Debugger | **K2.6 direct** | Go | **$0 extra** — already paid; handles most debug/review directly |
+| Reviewer | **K2.6 direct** | Go | **$0 extra** — already paid; handles most debug/review directly |
+
+**Three-tier fallback for Debug / Review:**
+
+| Tier | Model | Cost | When |
+|------|-------|------|------|
+| **1. Default** | Orchestrator direct (K2.6) | **$0 extra** | Most debug/review tasks — just handle directly |
+| **2. Fallback** | @debugger/@reviewer (M2.7) | **Flat rate** (Go) | Needs fresh context or very large task |
+| **3. Escalation** | Claude Sonnet 4.6 | **Pay-as-you-go** | Security suspected, or Tiers 1+2 both failed |
+
+**Escalation rules:**
+- Security vulnerability suspected or confirmed
+- K2.6 and M2.7 both failed (2+ attempts each)
+- User explicitly requests premium analysis
 
 ---
 
@@ -106,13 +119,13 @@ Agents are configured natively in OpenCode's agent system:
 
 | File | Agent | Model | Permissions |
 |------|-------|-------|-------------|
-| `explorer.md` | Explorer | `opencode-go/minimax-m2.5` | Read-only |
+| `explorer.md` | Explorer | `opencode/minimax-m2.5-free` | Read-only |
 | `planner.md` | Planner | `opencode-go/minimax-m2.7` | Read-only |
-| `scribe.md` | Scribe | `opencode-go/minimax-m2.5` | Write (docs only), webfetch |
+| `scribe.md` | Scribe | `opencode/minimax-m2.5-free` | Write (docs only), webfetch |
 | `drafter.md` | Drafter | `opencode-go/minimax-m2.7` | Write + edit + bash |
-| `gardener.md` | Gardener | `opencode-go/minimax-m2.5` | Edit + bash (scoped) |
-| `debugger.md` | Debugger | `opencode-go/kimi-k2.6` | Full tools (edit: ask) |
-| `reviewer.md` | Reviewer | `opencode-go/glm-5.1` | Read-only |
+| `gardener.md` | Gardener | `opencode/minimax-m2.5-free` | Edit + bash (scoped) |
+| `debugger.md` | Debugger | `opencode-go/minimax-m2.7` | Full tools (edit: ask) |
+| `reviewer.md` | Reviewer | `opencode-go/minimax-m2.7` | Read-only |
 
 ---
 
@@ -176,13 +189,20 @@ Force the Orchestrator to handle directly or use a specific model:
 ## Agent Disclosure
 
 **After EVERY response, the Orchestrator must disclose agent usage:**
-Add a footer showing which agents were used, what model each ran on, and why. Format:
+Add a footer showing which agents were used, what model each ran on, how many tasks they handled, and why. Format:
 ```
 ---
-Agents used: [agent name(s) with model, e.g., @explorer (M2.5)]
-Reason: [one-line explanation of why this routing was chosen]
+Agents used: @explorer x3 (MiniMax M2.5 Free), @reviewer x1 (Claude Sonnet 4.6)
+Reason: large search then quality audit
 ```
-If no subagents were spawned, state: "Agents used: Orchestrator (direct, K2.6) — no specialist needed."
+```
+---
+Agents used: Orchestrator (direct, Kimi K2.6) — no specialist needed.
+```
+Rules:
+- Use the **full model name** (Kimi K2.6, MiniMax M2.5 Free, Claude Sonnet 4.6, etc.)
+- For subagents, prefix with task count: `@explorer x3`
+- For direct handling, state the orchestrator model explicitly
 
 ---
 

@@ -284,28 +284,40 @@ When this project uses an agentic workflow system (e.g., OpenCode with `.opencod
 
 **Subagent routing (only when direct handling isn't enough):**
 
-| Subtask Type | Route To |
-|-------------|----------|
-| Search / discovery (3+ files, complex patterns) | Explorer |
-| Plan / design / analyze | Planner |
-| Document / write docs | Scribe |
-| Write / create / implement | Drafter |
-| File ops / organize (10+ files, bulk) | Gardener |
-| Debug / fix / investigate | Debugger |
-| Review / verify / audit | Reviewer |
+| Subtask Type | Route To | Default Model | Fallback Model | Escalation Model |
+|-------------|----------|---------------|----------------|------------------|
+| Search / discovery (3+ files, complex patterns) | Explorer | M2.5 Free | — | — |
+| Plan / design / analyze | Planner | M2.7 | — | — |
+| Document / write docs | Scribe | M2.5 Free | — | — |
+| Write / create / implement | Drafter | M2.7 | — | — |
+| File ops / organize (10+ files, bulk) | Gardener | M2.5 Free | — | — |
+| Debug / fix / investigate | **Orchestrator direct** | K2.6 | M2.7 (@debugger) | Claude Sonnet 4.6 |
+| Review / verify / audit | **Orchestrator direct** | K2.6 | M2.7 (@reviewer) | Claude Sonnet 4.6 |
+
+**Three-tier fallback for Debug / Review:**
+1. **Tier 1 — Orchestrator direct (K2.6):** Handle debug/review directly by default. Zero extra cost — already paid.
+2. **Tier 2 — Specialist subagent (M2.7):** Spawn @debugger/@reviewer only when fresh context is genuinely needed (very large tasks, second opinion). Flat rate on Go.
+3. **Tier 3 — Escalation (Sonnet 4.6):** Only when security is suspected or Tiers 1+2 both failed (2+ attempts each).
 
 **Manual override:** `@explorer find X` or "use [model] for this" bypasses routing.
 
 ### 4. Agent Disclosure
 
 **After EVERY response, disclose agent usage:**
-Add a footer showing which agents were used, what model each ran on, and why. Format:
+Add a footer showing which agents were used, what model each ran on, how many tasks they handled, and why. Format:
 ```
 ---
-Agents used: [agent name(s) with model, e.g., @explorer (M2.5)]
-Reason: [one-line explanation of why this routing was chosen]
+Agents used: @explorer x3 (MiniMax M2.5 Free), @debugger x1 (MiniMax M2.5 Free)
+Reason: large search then routine debug
 ```
-If no subagents were spawned, state: "Agents used: Orchestrator (direct, [model]) — no specialist needed."
+```
+---
+Agents used: Orchestrator (direct, Kimi K2.6) — no specialist needed.
+```
+Rules:
+- Use the **full model name** (Kimi K2.6, MiniMax M2.5 Free, Claude Sonnet 4.6, etc.)
+- For subagents, prefix with task count: `@explorer x3`
+- For direct handling, state the orchestrator model explicitly
 
 ### 5. Context Compression
 When spawning subsessions, pass only:

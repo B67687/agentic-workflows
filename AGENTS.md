@@ -64,8 +64,13 @@ For topic-folder work, read that folder's `meta/HANDOVER.md` first if it exists 
 At the end of meaningful work:
 
 1. Update `workflow/session-state.json`.
-2. Add an entry to `HISTORY.md`.
-3. Include what changed, files created/moved/deleted, scripts updated, verification, and decisions future sessions need.
+2. Update `archive/history-2026-04.md` (or current month's history file) with a compact entry.
+   - One entry per session or per major task phase.
+   - Include: date, what changed, files created/moved/deleted, verification results.
+3. For topic-folder work, update that folder's `HISTORY.md` with the session summary and any external work done outside the repo.
+4. Include decisions future sessions need.
+
+**Rule:** Session state = every meaningful task. History archive = every session or major phase. Topic folder HISTORY.md = local sessions + external work. Don't let history drift more than one session behind.
 
 ## Compression And Cleanup
 
@@ -134,16 +139,26 @@ When in agentic mode, the Orchestrator follows these rules:
 
 **When to route to subagents:**
 
-| Subtask Type | Threshold | Route To | Model | Provider | Cost |
-|-------------|-----------|----------|-------|----------|------|
-| Search / discovery | 10+ files, complex patterns | Explorer | M2.5 Free | Zen | **Free** |
-| Plan / design / analyze | Complex architecture, design decisions | Planner | M2.7 | Go | Flat rate |
-| Document / write docs | Full guide, README, changelog | Scribe | M2.5 Free | Zen | **Free** |
-| Write / create / implement | New file, module, multi-file refactor | Drafter | M2.7 | Go | Flat rate |
-| File ops / organize | 10+ files, bulk, archive, cleanup | Gardener | M2.5 Free | Zen | **Free** |
-| Debug / fix / investigate | Deep analysis, root cause | Debugger | Claude Sonnet 4.6 | Zen | Pay-as-you-go |
-| Review / verify / audit | Full code review, quality check | Reviewer | Claude Sonnet 4.6 | Zen | Pay-as-you-go |
-| Complex coding | Manual only | Codex | GPT-5.3 | Zen / Copilot | Pay-as-you-go |
+| Subtask Type | Threshold | Route To | Default Model | Fallback Model | Escalation Model | Cost |
+|-------------|-----------|----------|---------------|----------------|------------------|------|
+| Search / discovery | 10+ files, complex patterns | Explorer | M2.5 Free | — | — | **Free** |
+| Plan / design / analyze | Complex architecture, design decisions | Planner | M2.7 | — | — | Flat rate |
+| Document / write docs | Full guide, README, changelog | Scribe | M2.5 Free | — | — | **Free** |
+| Write / create / implement | New file, module, multi-file refactor | Drafter | M2.7 | — | — | Flat rate |
+| File ops / organize | 10+ files, bulk, archive, cleanup | Gardener | M2.5 Free | — | — | **Free** |
+| Debug / fix / investigate | Deep analysis, root cause | **Orchestrator direct** | K2.6 | M2.7 (fresh context) | Claude Sonnet 4.6 | Flat rate / escalation |
+| Review / verify / audit | Full code review, quality check | **Orchestrator direct** | K2.6 | M2.7 (fresh context) | Claude Sonnet 4.6 | Flat rate / escalation |
+| Complex coding | Manual only | Codex | GPT-5.3 | — | — | Pay-as-you-go |
+
+**Three-tier fallback for Debug / Review:**
+1. **Tier 1 — Orchestrator direct (K2.6):** Handle debug/review directly by default. Zero extra cost — you're already paying for K2.6.
+2. **Tier 2 — Specialist subagent (M2.7):** Spawn @debugger/@reviewer only when fresh context is genuinely needed (very large tasks, second opinion). Flat rate on Go.
+3. **Tier 3 — Escalation (Sonnet 4.6):** Only when:
+   - Security vulnerability is suspected or confirmed
+   - K2.6 and M2.7 both failed (2+ attempts each)
+   - User explicitly requests premium analysis
+
+**Cost rule:** K2.6 direct handling costs $0 extra. M2.7 subagent is flat rate. Sonnet 4.6 is pay-as-you-go — keep it rare.
 
 **Manual override:** `@explorer find auth_token` or "use K2.6 for this" bypasses routing.
 
@@ -161,13 +176,20 @@ When spawning subsessions, pass only:
 ### 5. Agent Disclosure
 
 **After EVERY response, disclose agent usage:**
-Add a footer showing which agents were used, what model each ran on, and why. Format:
+Add a footer showing which agents were used, what model each ran on, how many tasks they handled, and why. Format:
 ```
 ---
-Agents used: [agent name(s) with model, e.g., @explorer (M2.5)]
-Reason: [one-line explanation of why this routing was chosen]
+Agents used: @explorer x3 (MiniMax M2.5 Free), @reviewer x1 (Claude Sonnet 4.6)
+Reason: large search then quality audit
 ```
-If no subagents were spawned, state: "Agents used: Orchestrator (direct, K2.6) — no specialist needed."
+```
+---
+Agents used: Orchestrator (direct, Kimi K2.6) — no specialist needed.
+```
+Rules:
+- Use the **full model name** (Kimi K2.6, MiniMax M2.5 Free, Claude Sonnet 4.6, etc.)
+- For subagents, prefix with task count: `@explorer x3`
+- For direct handling, state the orchestrator model explicitly
 
 ### 6. Quality Guardrails
 
@@ -181,8 +203,8 @@ If no subagents were spawned, state: "Agents used: Orchestrator (direct, K2.6) �
 If primary model unavailable:
 - Explorer (M2.5) → Qwen3.5 Plus → M2.7
 - Drafter (M2.7) → Qwen 3.6 Plus → K2.6
-- Debugger (K2.6) → K2.5 → M2.7
-- Reviewer (GLM-5.1) → K2.6 → M2.7
+- Debugger (K2.6 direct) → M2.7 (fresh context) → Claude Sonnet 4.6 (escalation)
+- Reviewer (K2.6 direct) → M2.7 (fresh context) → Claude Sonnet 4.6 (escalation)
 - Codex (GPT-5.3) → K2.6 → M2.7 (when premium quota exhausted)
 
 ---

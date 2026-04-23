@@ -1,7 +1,7 @@
 ---
 description: Review code for quality and correctness. Use for review, check, verify, audit, validate, and quality assurance.
 mode: subagent
-model: opencode/claude-sonnet-4-6
+model: opencode-go/minimax-m2.7
 permission:
   edit: deny
   bash:
