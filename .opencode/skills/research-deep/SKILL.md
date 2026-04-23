@@ -1,9 +1,13 @@
 ---
 name: research-deep
 description: Perform authoritative deep research with source triangulation and confidence levels. Use when the user asks to research, investigate, find out about, or look into any topic. Also use for "what does X do?", "how does Y work?", or "compare Z".
+when_to_use: "User asks a question that requires external knowledge, verification, or exploration beyond the current workspace."
+allowed-tools: webfetch Read
 ---
 
 # Deep Research with Authoritative Sources
+
+Research topic: `$ARGUMENTS`
 
 Follow this methodology for every research request. Do not skip steps.
 
@@ -14,38 +18,16 @@ Before researching, clarify:
 - What would constitute a satisfactory answer?
 - How deep should the research go? (hierarchical analysis)
 
-## Step 2: Source Hierarchy (Strict Priority)
+## Step 2: Source Hierarchy
 
-Search and evaluate sources in this order. Never use a lower tier when a higher tier is available.
-
-### Tier 1: Primary Official Sources
-- **Vendor official docs**: API docs, model cards, specification pages
-- **Academic papers**: Peer-reviewed, particularly arXiv/cs.AI/cs.CL
-- **Official benchmarks**: SWE-bench, LiveCodeBench, HumanEval on official sites
-- **Specification documents**: RFCs, standard body publications
-
-### Tier 2: Recognized Expert Practitioners
-- **Core maintainers of major repos**: Proven track records
-- **Named expert blogs**: Simon Willison, Andrej Karpathy, etc.
-- **Official tool documentation**: GitHub, Docker, etc.
-- **Industry standards bodies**: OWASP, W3C, IETF
-
-### Tier 3: High-Reputation Secondary Sources
-- **GitHub repos with strong evidence**: High stars, active maintenance
-- **Established newsletters**: Known authors, technical depth
-- **Company engineering blogs**: Vercel, Stripe, etc.
-
-### Tier 4: Community Aggregated Knowledge
-- **Reddit/HN discussions**: Treat as leads, not facts
-- **Medium posts**: Variable quality, verify against Tier 1
+Search and evaluate sources using the tier system in [references/source-hierarchy.md](references/source-hierarchy.md). Never use a lower tier when a higher tier is available.
 
 ## Step 3: Verification Framework
 
-For every significant claim:
-1. **Triangulate**: Find 2+ independent sources confirming the same fact
-2. **Check provenance**: Who said this? What's their expertise?
-3. **Check recency**: Is this information still current?
-4. **Flag uncertainty**: If only one source exists, mark as tentative
+Apply the triangulation rules from [references/verification-framework.md](references/verification-framework.md):
+1. Find 2+ independent sources for significant claims
+2. Check provenance and recency
+3. Flag uncertainty when only one source exists
 
 ## Step 4: Confidence Levels
 

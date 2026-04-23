@@ -1,6 +1,8 @@
 ---
 name: cross-domain-harvest
 description: Harvest topic insights from all 25 topic folders, build cross-domain promotion queue, and propagate approved lessons back to the hub. Use when the user asks to harvest insights, cross-domain review, promote lessons, or merge candidates.
+when_to_use: "Run periodically (weekly or after significant work in topic folders) to collect lessons worth sharing across projects."
+allowed-tools: Bash(powershell)
 ---
 
 # Cross-Domain Knowledge Flow

@@ -1,6 +1,8 @@
 ---
 name: session-handoff
-description: Create a session checkpoint with compressed context for resuming later. Use when the conversation reaches 10+ turns, the user indicates they are leaving, a major topic shift occurs, or context compaction is needed.
+description: Create a session checkpoint with compressed context for resuming later. Use when the user indicates they are leaving, a major topic shift occurs, or context compaction is needed.
+when_to_use: "User says 'I'm done', 'I need to go', 'wrap this up', or when switching to a different task."
+allowed-tools: Read Edit
 ---
 
 # Session Handoff / Checkpoint

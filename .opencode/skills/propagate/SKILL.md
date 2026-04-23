@@ -1,9 +1,15 @@
 ---
 name: propagate
 description: Propagate templates from the AI Prompting hub to all topic folders in M-Namikaz-Others. Use when the user asks to sync, propagate, update templates, push changes to topic folders, or refresh managed files across repos.
+when_to_use: "Run after editing templates in propagate-templates/, AGENTS.md, or other managed files. Always preview first unless user explicitly says apply."
+allowed-tools: Bash(powershell)
 ---
 
 # Propagate Templates to Topic Folders
+
+Run the propagation script from the AI Prompting hub root to sync templates to all registered topic folders.
+
+**Optional filter:** Pass a template name to propagate only that template: `$ARGUMENTS`
 
 Run the propagation script from the AI Prompting hub root to sync templates to all registered topic folders.
 

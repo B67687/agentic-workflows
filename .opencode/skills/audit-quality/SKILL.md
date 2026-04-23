@@ -1,6 +1,8 @@
 ---
 name: audit-quality
 description: Run a quality audit on the current workspace folder using the audit-folder-quality script. Use when the user asks to check quality, audit files, validate folder structure, or review folder health.
+when_to_use: "Run after significant changes, before commits, or when the folder feels disorganized."
+allowed-tools: Bash(powershell)
 ---
 
 # Audit Folder Quality
