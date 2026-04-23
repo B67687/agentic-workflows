@@ -13,6 +13,105 @@ These problems compound when multiple agents or humans work together.
 
 ---
 
+## Agentic Git Workflow
+
+When AI agents (like Codex Desktop, OpenCode, or Claude Code) make changes, they should follow a commit discipline that keeps the working tree clean and history meaningful.
+
+### Commit Early, Commit Often
+
+**Rule:** Agents should commit changes after every meaningful phase of work, not just at the end.
+
+**Why:**
+- If the session crashes or context resets, work is not lost
+- Each commit represents a checkpoint the user can revert to
+- Smaller commits are easier to review and understand
+
+**When to commit:**
+- After completing a feature or fix
+- Before starting a risky or experimental change
+- After refactoring (before mixing with new features)
+- Before running destructive operations (propagation, bulk updates)
+
+### Group Related Changes
+
+**Rule:** Stage and commit related changes together. Don't mix unrelated work in one commit.
+
+**Example of good grouping:**
+```
+Commit 1: Fix audit script false positives for template files
+Commit 2: Update HISTORY.template.md with External Work section
+Commit 3: Propagate enhanced template to all 25 topic folders
+```
+
+**Example of bad grouping:**
+```
+Commit: Various changes (audit fix + history template + propagation + docs update)
+```
+
+### Use Descriptive Multi-Line Commit Messages
+
+**Rule:** Write commit messages that explain *what* changed and *why*.
+
+**Format:**
+```
+Short summary (50 chars or less)
+
+- What changed (bullet points)
+- Why it changed
+- Any breaking changes or decisions
+```
+
+**Example:**
+```
+Implement three-tier fallback for Debugger/Reviewer
+
+- Change default models from Claude Sonnet 4.6 to M2.7
+- Tier 1: Orchestrator direct (K2.6, $0 extra)
+- Tier 2: Specialist subagent (M2.7, flat rate)
+- Tier 3: Escalation to Sonnet 4.6 (security only)
+
+Burned $3/session with Sonnet 4.6 default. This keeps
+routine debug/review work at zero marginal cost.
+```
+
+### Never Leave Uncommitted Changes
+
+**Rule:** Before ending a session or switching tasks, either:
+1. Commit all changes with a descriptive message
+2. Explicitly tell the user what is uncommitted and why
+
+**Anti-pattern:** Making 50 file changes and leaving them all unstaged.
+
+### Check Status Before and After
+
+**Rule:** Agents should:
+1. Check `git status` before starting work
+2. Check `git status` after making changes
+3. Review what they're about to commit before committing
+
+This prevents accidentally committing:
+- Secrets or credentials
+- Generated artifacts that should be gitignored
+- Temporary files or debug output
+
+### Prefer Atomic Commits
+
+**Rule:** Each commit should represent one logical, complete change.
+
+**Good:**
+```
+Fix opencode.json crash by removing _managed_by field
+```
+
+**Bad:**
+```
+Fix crash and update templates and add history section
+```
+
+If you must make multiple changes, commit them separately.
+
+---
+
 ## State Awareness
 
 ### Always Fetch Before Starting Work
