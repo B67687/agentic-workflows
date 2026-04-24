@@ -41,24 +41,20 @@ Folders with nested repos (excluded from parent):
 
 - **Name:** Workspace rescan + deprecated script integration + subagent/MCP evaluation
 - **Phase:** completed
-- **What was just done:
-  - Created `docs/workspace-summary.md` — comprehensive living catalog of all hub files organized by activity tier (hot path, active reference, deep reference, generated, scripts, templates, config, archive).
-  - Integrated salvageable functionality from 3 deprecated scripts into current workflows:
-    - `scripts/cleanup-folders.ps1` → added `Invoke-Cleanup` to `scripts/ws.ps1` as new `cleanup` command (empty dirs, stale folders, structural issues)
-    - `scripts/analyze-folder-customizations.ps1` → added `Invoke-Customizations` to `scripts/ws.ps1` as new `customizations` command (detects custom sections in propagated AGENTS.md)
-    - `scripts/bootstrap-project-instructions.ps1` → functionality already covered by `propagate-to-all.ps1 -Folders`; documented in workspace-summary
-    - Marked `sync-project-instructions.ps1` and `sync-all-project-instructions.ps1` as truly deprecated (no salvageable value)
-  - Updated `scripts/ws.ps1` ValidateSet and help text to include `cleanup` and `customizations` commands
-  - Wrote `docs/agent-system-evaluation.md` with honest assessment:
-    - **Subagent verdict:** 7-agent taxonomy is over-engineered. Real value is fresh context, not specialized capability. Recommend simplifying to 3 roles (Explorer, Drafter, Analyst) or making Orchestrator more aggressive about direct handling.
-    - **MCP verdict:** Worth adopting gradually. Phase 1 (consumer: filesystem + git servers) is low-effort, immediate value. Phase 2 (provider: expose hub as MCP server) is high-value for multi-client usage. Phase 3 (full integration) is long-term optimization.
-  - Verified all changes with git status. Working tree clean except for intended modifications.
+- **What was just done:**
+  - Created `docs/workspace-summary.md` — comprehensive living catalog of all hub files organized by activity tier.
+  - Integrated salvageable deprecated script functionality into `scripts/ws.ps1`:
+    - `cleanup` command (from `cleanup-folders.ps1`)
+    - `customizations` command (from `analyze-folder-customizations.ps1`)
+  - Wrote `docs/agent-system-evaluation.md` — honest assessment of subagent system and MCP adoption.
+  - **Implemented MCP Phase 1:** Added `@modelcontextprotocol/server-filesystem` MCP server to `opencode.json` and propagation template. Verified server is installable and runs correctly on stdio. No official git MCP server exists yet; deferred to Phase 2.
+  - **Removed truly deprecated scripts:** `sync-project-instructions.ps1` and `sync-all-project-instructions.ps1`.
+  - Updated `docs/workspace-summary.md` to reflect removals and integrations.
+  - Committed all changes.
 - **What comes next:**
-  - Consider implementing MCP Phase 1 (consumer) by adding MCP server config to opencode.json
-  - Consider simplifying subagent taxonomy per evaluation recommendations
-  - Remove truly deprecated scripts after one session of verification
-  - Propagate updated ws.ps1 to topic folders if command wrapper changes are relevant
-  - Update archive/history-2026-04.md with this session's work
+  - **Subagent simplification (7→3):** Dedicated session. Requires updating 7 agent files, 4 docs, 4 templates, and propagating to 25 folders.
+  - **MCP Phase 2:** Build hub MCP server exposing propagation/audit/harvest tools. Deferred until multi-client need is real.
+  - **Update archive/history-2026-04.md** with this session's work.
 
 ## NEXT ACTION
 
@@ -72,13 +68,20 @@ No required next action.
 
 ### Files Modified
 - scripts/ws.ps1 (added cleanup and customizations commands)
+- opencode.json (added MCP filesystem server)
+- propagate-templates/opencode.template.json (added MCP filesystem server)
+- docs/workspace-summary.md (updated deprecated scripts status)
 - workflow/session-state.json
 
+### Files Removed
+- scripts/sync-project-instructions.ps1
+- scripts/sync-all-project-instructions.ps1
+
 ### Decisions Made
-- Deprecated scripts analysis: 2 truly deprecated (sync-project-instructions, sync-all-project-instructions), 3 salvageable (cleanup-folders, analyze-folder-customizations, bootstrap-project-instructions)
-- Integrated salvageable functionality into ws.ps1 rather than keeping separate scripts
+- Deprecated scripts: 2 removed (sync-project-instructions, sync-all-project-instructions), 2 integrated into ws.ps1 (cleanup-folders, analyze-folder-customizations), 1 documented as covered (bootstrap-project-instructions)
 - Subagent system: 7-agent taxonomy over-engineered; recommend 3-role simplification or aggressive direct handling
-- MCP adoption: Phase 1 (consumer) recommended immediately; Phase 2 (provider) deferred until multi-client need is real
+- MCP Phase 1 implemented: filesystem server added to opencode.json; git server not officially available yet
+- MCP Phase 2 deferred until multi-client need is real
 
 ## KEY CONTEXT
 

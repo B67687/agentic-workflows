@@ -99,15 +99,15 @@
 | `scripts/check-opencode-agents.ps1` | Validate OpenCode agent definitions | **Active** |
 | `scripts/test-ws.ps1` | Test workspace wrapper | **Active** |
 
-### Scripts — Deprecated (Pending Removal)
+### Scripts — Deprecated (Removed or Integrated)
 
-| Script | Reason | Salvageable Value |
-|--------|--------|-------------------|
-| `scripts/sync-project-instructions.ps1` | Superseded by `propagate-to-all.ps1` auto-discovery | None — truly deprecated |
-| `scripts/sync-all-project-instructions.ps1` | Superseded by `propagate-to-all.ps1` auto-discovery | None — truly deprecated |
-| `scripts/bootstrap-project-instructions.ps1` | Single-folder bootstrap; `propagate-to-all.ps1 -Folders` covers this | **Integrate explicit bootstrap mode into `propagate-to-all.ps1`** |
-| `scripts/cleanup-folders.ps1` | Empty/stale detection, structure validation, `.cleanup-ignore` | **Integrate into `ws.ps1` as `cleanup` command** |
-| `scripts/analyze-folder-customizations.ps1` | Detects custom sections in propagated AGENTS.md | **Integrate into `check-sync-status.ps1` or `ws.ps1 status`** |
+| Script | Reason | Action Taken |
+|--------|--------|--------------|
+| `scripts/sync-project-instructions.ps1` | Superseded by `propagate-to-all.ps1` auto-discovery | **Removed** |
+| `scripts/sync-all-project-instructions.ps1` | Superseded by `propagate-to-all.ps1` auto-discovery | **Removed** |
+| `scripts/bootstrap-project-instructions.ps1` | Single-folder bootstrap; `propagate-to-all.ps1 -Folders` covers this | Documented as covered; kept for reference |
+| `scripts/cleanup-folders.ps1` | Empty/stale detection, structure validation, `.cleanup-ignore` | **Integrated into `ws.ps1` as `cleanup` command** |
+| `scripts/analyze-folder-customizations.ps1` | Detects custom sections in propagated AGENTS.md | **Integrated into `ws.ps1` as `customizations` command** |
 
 ---
 
@@ -198,12 +198,12 @@
 
 ## 11. Known Drift & Cleanup Targets
 
-### Deprecated Scripts to Remove
-- [ ] `scripts/sync-project-instructions.ps1` — no unique value
-- [ ] `scripts/sync-all-project-instructions.ps1` — no unique value
-- [ ] `scripts/bootstrap-project-instructions.ps1` — integrate functionality first
-- [ ] `scripts/cleanup-folders.ps1` — integrate functionality first
-- [ ] `scripts/analyze-folder-customizations.ps1` — integrate functionality first
+### Cleanup Completed
+- [x] `scripts/sync-project-instructions.ps1` — removed
+- [x] `scripts/sync-all-project-instructions.ps1` — removed
+- [x] `scripts/cleanup-folders.ps1` — integrated into `ws.ps1`
+- [x] `scripts/analyze-folder-customizations.ps1` — integrated into `ws.ps1`
+- [ ] `scripts/bootstrap-project-instructions.ps1` — functionality covered by `propagate-to-all.ps1 -Folders`
 
 ### Potential Consolidation
 - `docs/windows-repo-tooling.md` is a redirect to `docs/repo-tooling.md`. Keep as redirect or merge.

@@ -19,6 +19,14 @@
       }
     }
   },
+  "mcpServers": {
+    "filesystem": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "M:/M-Namikaz-Others"],
+      "description": "Secure filesystem access restricted to M:/M-Namikaz-Others"
+    }
+  },
   "agent": {
     "orchestrator": {
       "mode": "primary",
