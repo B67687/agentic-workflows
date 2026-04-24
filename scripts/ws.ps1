@@ -37,7 +37,7 @@
 [CmdletBinding()]
 param(
     [Parameter(Position = 0)]
-    [ValidateSet('help', 'status', 'hotspots', 'validate', 'search', 'research', 'propagate')]
+    [ValidateSet('help', 'status', 'hotspots', 'validate', 'search', 'research', 'propagate', 'cleanup', 'customizations')]
     [string]$Command = 'help',
 
     [string]$Query,
@@ -228,6 +228,8 @@ function Show-Help {
     Write-Output '  research                     Preview harvest + cross-domain candidate generation.'
     Write-Output '  propagate                    Preview propagation changes.'
     Write-Output '  propagate -Apply             Apply propagation changes.'
+    Write-Output '  cleanup                      Find empty dirs, stale folders, structural issues.'
+    Write-Output '  customizations               Report topic folders with custom managed sections.'
     Write-Output ''
     Write-Output 'Options:'
     Write-Output '  -IncludeArchive              Include curated archive files in search/scans.'
@@ -565,6 +567,168 @@ function Invoke-Validate {
     }
 }
 
+function Invoke-Cleanup {
+    param(
+        [switch]$RemoveEmpty,
+        [switch]$DetectStale,
+        [switch]$CheckStructure,
+        [int]$Days = 30
+    )
+
+    Write-Section 'Folder Cleanup Report'
+    $workspaceRoot = Split-Path (Split-Path $script:RepoRoot)
+
+    function Test-IsIgnored {
+        param([string]$Path)
+        $ignoreFile = Join-Path $Path '.cleanup-ignore'
+        if (Test-Path $ignoreFile) { return $true }
+        return $false
+    }
+
+    function Get-LastActivity {
+        param([string]$Path)
+        $items = Get-ChildItem -Path $Path -Recurse -File -ErrorAction SilentlyContinue
+        if ($items.Count -eq 0) { return $null }
+        $latest = $items | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+        return $latest.LastWriteTime
+    }
+
+    function Test-IsRepoFolder {
+        param([string]$Path)
+        $gitDir = Join-Path $Path '.git'
+        if (Test-Path $gitDir) { return $true }
+        $agentsFile = Join-Path $Path 'AGENTS.md'
+        if (Test-Path $agentsFile) { return $true }
+        return $false
+    }
+
+    $allDirs = Get-ChildItem -Path $workspaceRoot -Directory -ErrorAction SilentlyContinue |
+        Where-Object { $_.Name -ne 'AI Prompting' -and $_.Name -notlike '.*' }
+
+    $emptyDirs = @()
+    $staleFolders = @()
+    $structuralIssues = @()
+
+    foreach ($dir in $allDirs) {
+        if (Test-IsIgnored -Path $dir.FullName) { continue }
+
+        # Empty check
+        $hasFiles = Get-ChildItem -Path $dir.FullName -Recurse -File -ErrorAction SilentlyContinue
+        $hasSubdirs = Get-ChildItem -Path $dir.FullName -Directory -ErrorAction SilentlyContinue |
+            Where-Object { -not (Test-IsIgnored -Path $_.FullName) }
+        if ($hasFiles.Count -eq 0 -and $hasSubdirs.Count -eq 0) {
+            $emptyDirs += $dir.FullName
+        }
+
+        # Stale check
+        $lastWrite = Get-LastActivity -Path $dir.FullName
+        $cutoffDate = (Get-Date).AddDays(-$Days)
+        if ($lastWrite -and $lastWrite -lt $cutoffDate) {
+            $age = ((Get-Date) - $lastWrite).Days
+            $isRepo = Test-IsRepoFolder -Path $dir.FullName
+            $staleFolders += [pscustomobject]@{
+                Path = $dir.FullName
+                Name = $dir.Name
+                DaysOld = $age
+                IsRepo = $isRepo
+            }
+        }
+
+        # Structure check
+        $issues = @()
+        $requiredFiles = @('AGENTS.md', 'README.md')
+        foreach ($file in $requiredFiles) {
+            $filePath = Join-Path $dir.FullName $file
+            if (-not (Test-Path $filePath)) {
+                $issues += "Missing: $file"
+            }
+        }
+        $contentFolderPattern = "$(($dir.Name).ToLower().Replace(' ', '-').Replace('_', '-'))-content"
+        $contentFolders = Get-ChildItem -Path $dir.FullName -Directory -ErrorAction SilentlyContinue |
+            Where-Object { $_.Name -like '*-content' }
+        if (-not $contentFolders) {
+            $issues += 'Missing: [folder-name]-content/ directory'
+        }
+        if ($issues.Count -gt 0) {
+            $structuralIssues += [pscustomobject]@{
+                Path = $dir.FullName
+                Name = $dir.Name
+                Issues = $issues
+            }
+        }
+    }
+
+    if ($emptyDirs.Count -gt 0) {
+        Write-Output 'Empty directories:'
+        foreach ($d in $emptyDirs) {
+            Write-Output "  - $d"
+        }
+        Write-Output ""
+    }
+
+    if ($staleFolders.Count -gt 0) {
+        Write-Output "Stale folders (>$Days days):"
+        foreach ($f in $staleFolders | Sort-Object DaysOld -Descending) {
+            $flag = if ($f.IsRepo) { ' [REPO]' } else { '' }
+            Write-Output "  - $($f.Name) ($($f.DaysOld) days)$flag"
+        }
+        Write-Output ""
+    }
+
+    if ($structuralIssues.Count -gt 0) {
+        Write-Output 'Structural issues:'
+        foreach ($s in $structuralIssues) {
+            Write-Output "  - $($s.Name):"
+            foreach ($issue in $s.Issues) {
+                Write-Output "      $issue"
+            }
+        }
+        Write-Output ""
+    }
+
+    Write-Output "Summary: $($emptyDirs.Count) empty, $($staleFolders.Count) stale, $($structuralIssues.Count) structural issues in $($allDirs.Count) folders."
+}
+
+function Invoke-Customizations {
+    Write-Section 'Customization Analysis'
+    $workspaceRoot = Split-Path (Split-Path $script:RepoRoot)
+    $marker = 'Managed-By: AI-Prompting-Library'
+    $customMarker = '<!-- Custom-Section:'
+
+    $folders = Get-ChildItem -Path $workspaceRoot -Directory |
+        Where-Object { $_.Name -ne 'AI Prompting' -and $_.Name -notlike '.*' }
+    $customized = @()
+    $totalManaged = 0
+
+    foreach ($folder in $folders) {
+        $agentsPath = Join-Path $folder.FullName 'AGENTS.md'
+        if (-not (Test-Path -LiteralPath $agentsPath)) { continue }
+
+        $content = Get-Content -LiteralPath $agentsPath -Raw
+        if ($content -match $marker) {
+            $totalManaged++
+            if ($content -match $customMarker) {
+                $customized += $folder.Name
+            }
+        }
+    }
+
+    Write-Output "Folders scanned: $($folders.Count)"
+    Write-Output "Managed by hub: $totalManaged"
+    Write-Output "With custom sections: $($customized.Count)"
+    Write-Output ""
+
+    if ($customized.Count -gt 0) {
+        Write-Output 'Folders with custom sections:'
+        foreach ($name in $customized | Sort-Object) {
+            Write-Output "  - $name"
+        }
+    }
+    else {
+        Write-Output 'No folders with custom sections detected.'
+    }
+}
+
 function Invoke-Status {
     Write-Section 'Workspace Status'
     Show-SessionStateSummary
@@ -588,6 +752,9 @@ function Invoke-Status {
     if ($audit.ExitCode -ne 0) {
         Write-Warning "Audit returned exit code $($audit.ExitCode)."
     }
+
+    Write-Section 'Customizations'
+    Invoke-Customizations
 }
 
 try {
@@ -599,6 +766,8 @@ try {
         'search' { Invoke-Search }
         'research' { Invoke-ResearchPreview }
         'propagate' { Invoke-Propagation }
+        'cleanup' { Invoke-Cleanup }
+        'customizations' { Invoke-Customizations }
     }
 }
 catch {

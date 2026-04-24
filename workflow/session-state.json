@@ -11,8 +11,8 @@ If you are resuming after a context compaction:
 
 ## CURRENT STATE
 
-- **Session:** session-44 (2026-04-23)
-- **Status:** complete
+- **Session:** session-45 (2026-04-24)
+- **Status:** in_progress
 - **Interrupted count:** 0
 
 ## GIT STANDARDIZATION (2026-04-23)
@@ -39,37 +39,46 @@ Folders with nested repos (excluded from parent):
 
 ## CURRENT TASK
 
-- **Name:** Enhanced history system + chat export archival + opencode.json crash fix + agent cost fix
+- **Name:** Workspace rescan + deprecated script integration + subagent/MCP evaluation
 - **Phase:** completed
-- **What was just done:**
-  - Redesigned `propagate-templates/HISTORY.template.md` to include `External Work` section for tracking out-of-repo work.
-  - Added monthly-split guidance for high-activity projects (`[folder]-content/history/history-YYYY-MM.md`).
-  - Updated `AGENTS.md` Session Documentation rules to require topic-folder `HISTORY.md` updates.
-  - Propagated enhanced template to all 25 topic folders (all merged successfully).
-  - Processed third chat export (`CHAT-EXPORT-LATE-HISTORY-HANDOVER.txt`):
-    - Moved to `archive/raw/CHAT-EXPORT-LATE-HISTORY-HANDOVER.txt`
-    - Cross-referenced against `archive/history-2026-04.md` and identified major gaps
-    - Patched archive with Sessions 31-42 (repository optimization, command wrappers, terminal strategy)
-    - Patched archive with Session 43 (middle history handover document)
-  - **CRITICAL FIX:** Fixed OpenCode Desktop crash caused by `_managed_by` field in `opencode.json`:
-    - Removed `_managed_by` from `propagate-templates/opencode.template.json`
-    - Updated propagation script: JSON files now use `$schema` matching instead of `_managed_by` marker
-    - Force-overwritten all 25 topic folder `opencode.json` files
-  - **PROVIDER FIX:** Added missing `provider` section and explicit `"model": "opencode-go/kimi-k2.6"` to `propagate-templates/opencode.template.json`. Topic folder configs were missing these fields, causing OpenCode to fall back to Zen defaults. All 25 folders re-propagated.
-  - **COST FIX:** Implemented three-tier fallback for Debugger and Reviewer to stop Sonnet 4.6 pay-as-you-go bleed ($3/session):
-    - **Tier 1 (default):** Orchestrator handles debug/review directly with K2.6 — $0 extra cost
-    - **Tier 2 (fallback):** Spawn @debugger/@reviewer with M2.7 (Go, flat rate) — only when fresh context needed
-    - **Tier 3 (escalation):** Claude Sonnet 4.6 — only for security or when Tiers 1+2 both failed (2+ attempts)
-    - Updated `.opencode/agents/debugger.md` and `.opencode/agents/reviewer.md` model fields: M2.7
-    - Updated `AGENTS.md`, `docs/agentic-workflows.md`, `propagate-templates/AGENTS.template.md` routing tables
-    - Updated `propagate-templates/opencode.template.json` and hub `opencode.json` Orchestrator prompts
-    - Batch-updated all 25 topic folders with new configs
-    - Audit passes: 74/74 files, 0 warnings, 0 errors.
-- **What comes next:** Continue normal work.
+- **What was just done:
+  - Created `docs/workspace-summary.md` — comprehensive living catalog of all hub files organized by activity tier (hot path, active reference, deep reference, generated, scripts, templates, config, archive).
+  - Integrated salvageable functionality from 3 deprecated scripts into current workflows:
+    - `scripts/cleanup-folders.ps1` → added `Invoke-Cleanup` to `scripts/ws.ps1` as new `cleanup` command (empty dirs, stale folders, structural issues)
+    - `scripts/analyze-folder-customizations.ps1` → added `Invoke-Customizations` to `scripts/ws.ps1` as new `customizations` command (detects custom sections in propagated AGENTS.md)
+    - `scripts/bootstrap-project-instructions.ps1` → functionality already covered by `propagate-to-all.ps1 -Folders`; documented in workspace-summary
+    - Marked `sync-project-instructions.ps1` and `sync-all-project-instructions.ps1` as truly deprecated (no salvageable value)
+  - Updated `scripts/ws.ps1` ValidateSet and help text to include `cleanup` and `customizations` commands
+  - Wrote `docs/agent-system-evaluation.md` with honest assessment:
+    - **Subagent verdict:** 7-agent taxonomy is over-engineered. Real value is fresh context, not specialized capability. Recommend simplifying to 3 roles (Explorer, Drafter, Analyst) or making Orchestrator more aggressive about direct handling.
+    - **MCP verdict:** Worth adopting gradually. Phase 1 (consumer: filesystem + git servers) is low-effort, immediate value. Phase 2 (provider: expose hub as MCP server) is high-value for multi-client usage. Phase 3 (full integration) is long-term optimization.
+  - Verified all changes with git status. Working tree clean except for intended modifications.
+- **What comes next:**
+  - Consider implementing MCP Phase 1 (consumer) by adding MCP server config to opencode.json
+  - Consider simplifying subagent taxonomy per evaluation recommendations
+  - Remove truly deprecated scripts after one session of verification
+  - Propagate updated ws.ps1 to topic folders if command wrapper changes are relevant
+  - Update archive/history-2026-04.md with this session's work
 
 ## NEXT ACTION
 
 No required next action.
+
+## KEY CONTEXT
+
+### Files Created
+- docs/workspace-summary.md
+- docs/agent-system-evaluation.md
+
+### Files Modified
+- scripts/ws.ps1 (added cleanup and customizations commands)
+- workflow/session-state.json
+
+### Decisions Made
+- Deprecated scripts analysis: 2 truly deprecated (sync-project-instructions, sync-all-project-instructions), 3 salvageable (cleanup-folders, analyze-folder-customizations, bootstrap-project-instructions)
+- Integrated salvageable functionality into ws.ps1 rather than keeping separate scripts
+- Subagent system: 7-agent taxonomy over-engineered; recommend 3-role simplification or aggressive direct handling
+- MCP adoption: Phase 1 (consumer) recommended immediately; Phase 2 (provider) deferred until multi-client need is real
 
 ## KEY CONTEXT
 
