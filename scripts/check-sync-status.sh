@@ -44,7 +44,7 @@ templates=(
     "AGENTS.md"
     "topic-insights.md"
     "git-github-best-practices.md"
-    "workspace-system-overview.md"
+    "docs/workspace-system-overview.md"
     "quality-standards.md"
     "audit-folder-quality.ps1"
     "check-sync-status.ps1"

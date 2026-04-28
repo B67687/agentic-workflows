@@ -21,13 +21,14 @@ Expected root structure:
 ```text
 [Topic-Folder]/
 |- AGENTS.md                    (operating contract - how AI should work)
-|- workspace-system-overview.md (this file - quick orientation)
+|- session-state.json           (current work state - read on resume)
+|- .cleanup-protect             (protected files list)
+|- workspace-system-overview.md (propagated quick reference)
 |- topic-insights.md            (your lessons - update when you learn something)
 |- git-github-best-practices.md (git guidance)
 |- quality-standards.md         (quality bar)
-|- session-state.json           (current work state - read on resume)
-|- .cleanup-protect             (protected files list)
 |- [folder-name]-content/       (YOUR WORK GOES HERE)
+|- docs/                       (propagated knowledge files)
 |- archive/                    (session history)
 |- meta/                       (optional - YOUR custom content)
 |- audit-folder-quality.sh      (validation script)
