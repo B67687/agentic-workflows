@@ -85,9 +85,10 @@ TEMPLATES=(
     ["check-sync-status.template.sh"]="check-sync-status.sh"
     ["sync-from-hub.template.sh"]="sync-from-hub.sh"
     ["opencode.template.json"]="opencode.json"
-    ["opencode-agent-system.template.md"]="opencode-agent-system.md"
+    # opencode-agent-system merged into AGENTS.template.md
     [".cleanup-protect.template.md"]=".cleanup-protect"
     ["session-state.template.json"]="session-state.json"
+    ["history.template.md"]="archive/history.md"
     ["README.md"]="README.md"
 )
 

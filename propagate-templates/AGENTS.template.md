@@ -427,6 +427,42 @@ For project-specific instructions (tech stack, conventions, special rules), see 
 
 ---
 
+## Agent System
+
+This folder uses OpenCode's native agent system. Agent definitions are configured in `opencode.json` and optionally in `.opencode/agents/`.
+
+### The 2 Subagents
+
+| Agent | Role | When to Spawn |
+|-------|------|---------------|
+| **Orchestrator** | Handles 90% of tasks directly | Default - your main working agent |
+| **Explorer** | Search, discovery | 10+ files, complex patterns |
+| **Worker** | Fresh context for complex work | 15+ turns, topic shift, quality degradation |
+
+**Why only 2 subagents?**
+- The primary benefit is **context hygiene**, not cost savings
+- Drafter + Analyst merged into Worker — both meant "do work with fresh context"
+- Spawn only when: fresh context needed, parallel work possible, or different capabilities required
+
+### Key Principles
+
+1. **Direct-handling default** — Handle tasks directly unless clearly justified
+2. **Compress before spawning** — Never pass full thread history to subagents
+3. **Health-probe after resume** — Check read-only state before risky edits
+4. **Synthesize on return** — Distill specialist output before presenting
+5. **Right model for job** — Don't use premium models for simple tasks
+
+### Session State
+
+Every session MUST update `session-state.json` before:
+- Heavy analysis or bulk operations
+- Resuming after a break
+- Spawning a subagent
+
+The file tracks: current task, files touched, verification results, and next steps.
+
+---
+
 ## Deep References
 
 For detailed guidance on specific topics:

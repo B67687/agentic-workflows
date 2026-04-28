@@ -27,9 +27,9 @@ Expected root structure:
 |- quality-standards.md         (from hub)
 |- session-state.json           (from hub - current work state)
 |- .cleanup-protect             (from hub)
-|- audit-folder-quality.ps1     (from hub - validation)
-|- check-sync-status.ps1        (from hub - sync checker)
-|- sync-from-hub.ps1            (from hub - sync script)
+|- audit-folder-quality.sh     (from hub - validation)
+|- check-sync-status.sh        (from hub - sync checker)
+|- sync-from-hub.sh            (from hub - sync script)
 |- opencode.json                (from hub - tool config)
 |- opencode-agent-system.md     (from hub - agent instructions)
 |- [topic-name]-content/        (YOUR WORK GOES HERE)
@@ -67,20 +67,20 @@ From `docs/core-agent-doctrine.md`:
 
 To sync the latest templates from the hub:
 
-```powershell
-.\sync-from-hub.ps1
+```bash
+./sync-from-hub.sh
 ```
 
 To check if you're up to date:
 
-```powershell
-.\check-sync-status.ps1
+```bash
+./check-sync-status.sh
 ```
 
 For folder quality validation:
 
-```powershell
-.\audit-folder-quality.ps1
+```bash
+./audit-folder-quality.sh
 ```
 
 ## Hub Reference
