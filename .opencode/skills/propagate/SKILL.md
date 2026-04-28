@@ -20,19 +20,20 @@ Run the propagation script from the AI Prompting hub root to sync templates to a
 ## Steps
 
 1. **Navigate to hub root** (if not already there):
-   ```powershell
-   Set-Location "M:\M-Namikaz-Others\AI Prompting"
+   ```bash
+   cd /home/namikaz/projects/dev/AI\ Prompting
+   # or if in WSL: cd ~/projects/dev/AI\ Prompting
    ```
 
 2. **Preview mode first** (recommended before applying):
-   ```powershell
-   .\scripts\propagate-to-all.ps1
+   ```bash
+   ./scripts/propagate-to-all.sh
    ```
    Review the output to see what would change.
 
 3. **Apply propagation**:
-   ```powershell
-   .\scripts\propagate-to-all.ps1 -Apply
+   ```bash
+   ./scripts/propagate-to-all.sh --apply
    ```
 
 4. **Verify results**:

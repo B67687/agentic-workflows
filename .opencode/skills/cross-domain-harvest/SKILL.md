@@ -13,9 +13,9 @@ This skill orchestrates the full knowledge flow: topic folders → hub → all t
 
 Collect lessons from all participating topic folders.
 
-```powershell
-Set-Location "M:\M-Namikaz-Others\AI Prompting"
-.\scripts\harvest-topic-insights.ps1
+```bash
+cd /home/namikaz/projects/dev/AI\ Prompting
+./scripts/harvest-topic-insights.sh
 ```
 
 **What it does:**

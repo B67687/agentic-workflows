@@ -75,9 +75,28 @@ For folder quality validation:
 ./audit-folder-quality.sh
 ```
 
+## Two-Git Architecture (Optional)
+
+This workspace supports keeping public code separate from propagated files:
+
+1. **Root git** (at workspace root): Tracks propagated files
+2. **Project git** (inside subfolder): Only tracks your code for GitHub
+
+To keep GitHub repos clean, add to `.gitignore`:
+```
+# AI-Prompting-Library propagated files
+AGENTS.md
+topic-insights.md
+.cleanup-protect
+workspace-system-overview.md
+```
+
+## Root Discipline
+
+The folder root is for propagated files and control files. Put normal work in `[folder-name]-content/`.
+
+Root should NOT collect: source folders, notes, docs, assets, downloads, archives, logs, temp folders, datasets, or duplicate legacy content. Move such content to content/ folder.
+
 ## Hub Reference
 
 For deeper guidance, see hub's docs/ folder (sync to get latest):
-- Core doctrine → docs/core-agent-doctrine.md
-- Model selection → docs/model-selection-guide.md
-- Agent workflows → docs/agentic-workflows.md

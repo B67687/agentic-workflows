@@ -89,7 +89,6 @@ TEMPLATES=(
     [".cleanup-protect.template.md"]=".cleanup-protect"
     ["session-state.template.json"]="session-state.json"
     ["history.template.md"]="archive/history.md"
-    ["README.md"]="README.md"
 )
 
 MANAGED_MARKER="Managed-By: AI-Prompting-Library"
