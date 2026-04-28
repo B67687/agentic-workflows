@@ -7,7 +7,7 @@ A living knowledge base for prompt design, agent workflows, repo rollout, and re
 | I Want To... | Start With |
 |--------------|------------|
 | **Write better prompts** | [Daily Prompts](docs/daily-prompts.md) → [Prompt Library](docs/prompt-templates.md) |
-| **Set up AI agents in my project** | [Agentic Workflows](docs/agentic-workflows.md) → [Core Doctrine](docs/core-agent-doctrine.md) → [AGENTS.md](AGENTS.md) |
+| **Set up AI agents in my project** | [Hub Quickstart](docs/hub-quickstart.md) → [Agentic Workflows](docs/agentic-workflows.md) → [AGENTS.md](AGENTS.md) |
 | **Build an AI product** | [AI Product Building](docs/ai-product-building.md) → [TDD with Agents](docs/tdd-with-agents.md) |
 | **Research a new AI topic** | [Research Methodology](docs/research-methodology.md) → [Authoritative Best Practices](docs/authoritative-agent-best-practices.md) |
 | **Maintain my cognitive skills** | [Cognitive Identity](docs/cognitive-identity.md) |
@@ -41,9 +41,10 @@ For anyone who wants to write better prompts immediately.
 ### Agent Setup Path
 For setting up agentic workflows in your projects.
 
-1. **[docs/agentic-workflows.md](docs/agentic-workflows.md)** — Architecture: 7 subagents, skills, routing
+1. **[docs/hub-quickstart.md](docs/hub-quickstart.md)** - Fast orientation for the current system
+2. **[docs/agentic-workflows.md](docs/agentic-workflows.md)** — Architecture: 2 subagents (Explorer + Worker), routing
 2. **[docs/core-agent-doctrine.md](docs/core-agent-doctrine.md)** — 10 principles that underpin the system
-3. **[AGENTS.md](AGENTS.md)** — Operating contract: rules, thresholds, disclosure
+3. **[AGENTS.md](AGENTS.md)** - Operating contract: rules, thresholds, coordination notes
 4. **[opencode.json](opencode.json)** + **[.opencode/](.opencode/)** — Configuration and definitions
 
 ### Product Building Path

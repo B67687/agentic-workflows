@@ -859,6 +859,77 @@ From `mnfst/manifest`:
 - Add evaluation before moving a lane to a cheaper model.
 - Keep a manual override for high-risk work.
 
+### Multi-Provider Routing Patterns
+
+From `Claw Code` (Rust CLI for multi-provider LLM access):
+
+The core lesson: **provider selection should be data-driven, not hardcoded**. When your app can use Anthropic, xAI, OpenAI, DashScope, Ollama, or OpenRouter, the routing logic matters as much as the model logic.
+
+#### 1. Model-Name Prefix Routing
+
+```
+If model starts with "claude" → Anthropic
+If model starts with "grok" → xAI
+If model starts with "openai/" or "gpt-" → OpenAI-compatible
+If model starts with "qwen/" or "qwen-" → DashScope (Alibaba)
+Otherwise → fallback to ambient credential detection
+```
+
+This prevents accidental misrouting when multiple credentials exist in the environment.
+
+#### 2. Credential Shape Detection
+
+Different auth shapes map to different HTTP headers:
+
+| Credential shape | Env var | HTTP header | Typical source |
+|---|---|---|---|
+| `sk-ant-*` API key | `ANTHROPIC_API_KEY` | `x-api-key: sk-ant-...` | Anthropic console |
+| OAuth bearer token | `ANTHROPIC_AUTH_TOKEN` | `Authorization: Bearer ...` | Proxy or OAuth flow |
+| OpenAI key | `OPENAI_API_KEY` | `Authorization: Bearer ...` | OpenAI/OpenRouter/Ollama |
+| xAI key | `XAI_API_KEY` | `Authorization: Bearer ...` | xAI console |
+
+**Common pitfall**: Putting an `sk-ant-*` key in the `ANTHROPIC_AUTH_TOKEN` slot returns 401 because Anthropic rejects `sk-ant-*` over the Bearer header. The fix is a one-line env var swap.
+
+#### 3. Provider Fallback Chain
+
+When a provider fails:
+```
+Primary: Anthropic (claude-* models)
+  → 401 (wrong credential shape) → suggest correct env var
+  → 429 (rate limit) → try next provider in chain
+  → 5xx → fallback to backup model
+Fallback: OpenAI-compatible (OpenRouter, Ollama, local)
+  → use ambient credentials if present
+  → fallback to hardcoded defaults
+```
+
+#### 4. Config Resolution Order
+
+Cascade from global to local so per-project settings override user defaults:
+
+```
+1. ~/.claw/settings.json        (global user)
+2. ~/.config/claw/settings.json (XDG-compliant global)
+3. .claw/settings.json          (repo-level)
+4. .claw/settings.local.json    (repo-local, highest priority)
+```
+
+#### 5. Local Model Support
+
+OpenAI-compatible endpoints serve Ollama, local servers, and custom gateways:
+
+```
+ANTHROPIC_BASE_URL + ANTHROPIC_AUTH_TOKEN → Anthropic-compatible (e.g., LiteLLM)
+OPENAI_BASE_URL + OPENAI_API_KEY → OpenAI-compatible (Ollama, LM Studio, custom)
+```
+
+**Pattern to adopt**:
+- Detect provider from model name first, then from ambient credentials
+- Map credential shape to correct HTTP header explicitly
+- Provide actionable error messages (e.g., "detected sk-ant-* in Bearer slot, move to x-api-key header")
+- Support config cascade so users can override at project level
+- Treat OpenAI-compatible as universal gateway (Ollama, LM Studio, LiteLLM, local servers)
+
 ### Stable Local URLs For Agent Work
 
 From `vercel-labs/portless`:

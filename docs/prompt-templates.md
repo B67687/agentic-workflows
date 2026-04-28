@@ -11,6 +11,7 @@ The full library is split into focused files under `docs/prompt-library/` so thi
 | Debug CI or behavior safely | [prompt-library/debugging-and-verification.md](prompt-library/debugging-and-verification.md) |
 | Learn a repo or topic efficiently | [prompt-library/learning-and-onboarding.md](prompt-library/learning-and-onboarding.md) |
 | Resume, audit, or analyze repo work | [prompt-library/repo-workflows.md](prompt-library/repo-workflows.md) |
+| Compare an original codebase with a rewrite | [prompt-library/repo-workflows.md](prompt-library/repo-workflows.md#14b-source-rewrite-and-agent-runtime-parity-prompt) |
 | Match user voice or reduce AI fingerprints | [prompt-library/voice-and-humanization.md](prompt-library/voice-and-humanization.md) |
 | Generate editable diagrams | [prompt-library/visualization.md](prompt-library/visualization.md) |
 
@@ -71,13 +72,21 @@ Avoid generic AI phrasing.
 
 Full versions: [voice-and-humanization.md](prompt-library/voice-and-humanization.md)
 
+### Source Rewrite Parity
+
+```text
+Compare this original implementation and rewrite. Map architecture, tool contracts, permission boundaries, context/session state, compaction, routing, and verification. Separate spec parity from behavioral parity, update existing knowledge-base docs with transferable lessons, and end with what the human operator must change.
+```
+
+Full version: [repo-workflows.md](prompt-library/repo-workflows.md#14b-source-rewrite-and-agent-runtime-parity-prompt)
+
 ## Library Files
 
 | File | Contents |
 |---|---|
 | [debugging-and-verification.md](prompt-library/debugging-and-verification.md) | CI, evidence-driven debugging, TDD, cross-model review, first-run-tests prompts |
 | [learning-and-onboarding.md](prompt-library/learning-and-onboarding.md) | Teach-me, repo onboarding, repo DNA, work-then-teach prompts |
-| [repo-workflows.md](prompt-library/repo-workflows.md) | Resume campaigns, repo culture, drift protection, repo analysis, compact serious-work prompts |
+| [repo-workflows.md](prompt-library/repo-workflows.md) | Resume campaigns, repo culture, drift protection, repo analysis, compact serious-work prompts, PR code overview with diagrams |
 | [voice-and-humanization.md](prompt-library/voice-and-humanization.md) | Beginner/amateur reasoning, humanization, AI detection references, language-specific writing patterns |
 | [visualization.md](prompt-library/visualization.md) | Excalidraw/diagram generation prompt |
 

@@ -216,3 +216,102 @@ Focus on:
 Keep the explanation compact and high-signal.
 ```
 
+## 14B. Source Rewrite And Agent Runtime Parity Prompt
+
+```text
+Compare these two codebases as original implementation vs rewrite:
+
+Original:
+[path]
+
+Rewrite:
+[path]
+
+Goal:
+Extract durable workflow lessons and integrate them into the existing knowledge base, not just this answer.
+
+Process:
+1. Map the main runtime architecture in each codebase
+2. Identify tool contracts, permission boundaries, context/session state, compaction, subtask routing, and verification harnesses
+3. Separate spec parity from behavioral parity
+4. List what the rewrite makes faster or safer, and what remains incomplete or risky
+5. Convert transferable lessons into updates to existing docs/templates
+6. Call out behavior changes the human operator must make because docs cannot enforce them
+
+Constraints:
+- do not create new files if an existing doc covers the lesson
+- do read-only discovery before mutation
+- checkpoint before large analysis or multi-file edits
+- verify the docs after editing
+
+End with:
+- files changed
+- strongest source-backed lesson
+- verification performed
+- remaining user/operator changes
+```
+
+---
+
+## 15. Code Overview With Diagram (MergeMonkey Style)
+
+Use when summarizing a PR, a batch of changes, or any review where showing the behavioral flow makes the code easier to understand.
+
+### Why This Works
+
+- **Walkthrough** gives reviewers immediate context without reading files
+- **Changes table** makes the surface area explicit
+- **Sequence diagram** turns static code into a concrete runtime story
+- **Dig Deeper** invites interaction instead of dumping information
+
+### When To Include A Diagram
+
+| Situation | Include diagram? |
+|---|---|
+| New feature with user-facing flow | Yes |
+| Bug fix with clear before/after interaction | Yes |
+| API or service call sequence changed | Yes |
+| Refactor with no external behavior change | No |
+| Config or metadata-only change | No |
+| Pure structural/code-quality change | No |
+
+### Output Structure
+
+**Walkthrough**  
+1-2 sentences plain-language summary of what changed and why it matters.
+
+**Changes**
+| File | What Changed |
+|---|---|
+| `path/to/file` | Brief description |
+
+**Sequence Diagram** (Mermaid — only when a behavioral/user/runtime flow exists)
+```mermaid
+sequenceDiagram
+    participant User
+    participant System
+    participant External
+    User->>System: action
+    System->>External: request
+    External-->>System: response
+    System-->>User: result
+```
+
+**Dig Deeper**
+- `/review <file-path>` — review a specific file
+- `/chat <file-path> "<question>"` — ask about a decision
+- `/test <scenario>` — suggest a verification scenario
+
+### Prompt
+
+```text
+Summarize these changes in the MergeMonkey style:
+
+1. Walkthrough: 1-2 plain-language sentences on what changed and why it matters
+2. Changes: a compact table of files changed with one-line descriptions
+3. Sequence Diagram: a Mermaid sequenceDiagram showing the runtime/user flow that results from these changes. Include only if there is a meaningful behavioral flow.
+4. Dig Deeper: 2-3 concrete next actions for further review or interrogation
+
+Keep it high-signal. The goal is clarity, not exhaustiveness.
+```
+

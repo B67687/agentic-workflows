@@ -33,6 +33,7 @@ From `docs/core-agent-doctrine.md`:
 8. **Optimize quality, not volume** — Verification > generation
 9. **Promote repeated work** — Turn recurring workflows into assets
 10. **Update memory after lessons** — Compound, don't repeat
+11. **Prefer simple code** — Add complexity only when concrete system demand requires it
 
 ---
 
@@ -67,17 +68,34 @@ This workspace follows a standardized structure:
 
 ```
 [Topic-Folder]/
-├── AGENTS.md                          (propagated - this file)
-├── topic-insights.md                   (propagated - cross-domain insights)
+├── AGENTS.md                          (propagated - operating contract)
+├── workspace-system-overview.md       (propagated - what this project is)
+├── session-state.json                 (propagated - current state, read first on resume)
+├── topic-insights.md                   (propagated - your lessons)
 ├── git-github-best-practices.md        (propagated - git conventions)
+├── quality-standards.md               (propagated - quality rules)
 ├── .cleanup-protect                   (propagated - cleanup protection)
 ├── audit-folder-quality.ps1            (propagated - quality audit)
+├── check-sync-status.ps1              (propagated - sync checker)
+├── sync-from-hub.ps1                  (propagated - sync from hub)
+├── opencode.json                      (propagated - tool config)
+├── opencode-agent-system.md           (propagated - agent instructions)
 ├── [topic-name]-content/              (mandatory primary operating area)
-└── meta/                              (optional topic-specific context, create when needed)
-    ├── HANDOVER.md                   (topic-specific handover notes)
-    ├── quality-standards.md           (topic-specific quality criteria)
-    └── ...                           (other topic-specific files)
+├── meta/                              (optional - YOUR content, never touched by hub)
+│   ├── README.md                      (folder purpose)
+│   ├── quality-standards.md           (topic-specific rules)
+│   └── ...                            (other topic-specific files)
+└── archive/                           (historical records)
 ```
+
+### Quick Reference
+
+| File | When to Read |
+|------|--------------|
+| `session-state.json` | First on every resume - where you left off |
+| `workspace-system-overview.md` | When you need to understand project structure |
+| `AGENTS.md` | When working with AI or need operating rules |
+| `topic-insights.md` | When you need your lessons/learnings |
 
 ### Operating Area
 
@@ -85,7 +103,21 @@ Do normal project work inside `[topic-name]-content/`.
 
 Use the folder root only for propagated instruction files and truly root-scoped project files. If you need to add source code, notes, assets, datasets, drafts, or project-specific docs, put them under `[topic-name]-content/` unless there is a concrete tool reason they must live at the root.
 
-Create `meta/` only when durable project context is needed, such as handover notes, local quality rules, or project-specific operating notes.
+Create `meta/` only when durable project context is needed. This folder is NEVER touched by hub propagation — your content stays safe.
+
+### What Goes in meta/
+
+The `meta/` folder is for **your project-specific content** that the hub should never touch:
+
+| File | Purpose |
+|------|---------|
+| `meta/README.md` | Explains this folder's purpose and structure |
+| `meta/quality-standards.md` | Topic-specific quality rules (custom to this topic) |
+| `meta/PROJECT.md` | Tech stack, conventions, special rules |
+| `meta/HANDOVER.md` | (deprecated - use session-state.json instead) |
+| Other files | Any project-specific notes, configs, or docs |
+
+**Key rule**: Hub propagation only touches root files. The `meta/` folder is yours — completely protected from overwrites.
 
 ### Root Discipline
 
@@ -169,35 +201,74 @@ Or preview changes first:
 3. Use the smallest maintainable change
 4. Verify with closest local equivalent
 5. Summarize root cause, fix, verification, residual risk
-6. **Session state on every resume** — Read `meta/HANDOVER.md` first. It contains what was being worked on and what comes next.
-7. **Checkpoint before heavy operations** — Update `meta/HANDOVER.md` BEFORE multi-phase work or bulk operations (see `docs/session-checkpoint.md` on the hub for the full system)
+6. **Session state on every resume** — Read `session-state.json` first. It contains what was being worked on and what comes next.
+7. **Checkpoint before heavy operations** — Update `session-state.json` BEFORE multi-phase work or bulk operations (see `docs/session-checkpoint.md` on the hub for the full system)
 
 ---
 
-## Topic-Specific Procedures
+## Session State (Shared Memory)
 
-Before working in this topic, read files in `meta/` if that folder exists:
-- `HANDOVER.md` — **Session state: what was being worked on, what comes next, context pressure**
-- `quality-standards.md` — Topic-specific quality criteria
-- Other topic-specific files as needed
+This project uses `session-state.json` as the shared memory place — same system as the AI Prompting hub.
 
-If `meta/` does not exist yet, do not create it unless the project needs durable topic-specific context.
+### The Two Rules
 
-### Session State (Multi-Phase Work)
-
-For any task that spans more than one session:
-
-**On resume:** Read `meta/HANDOVER.md` first — not AGENTS.md, not other docs. Cost: ~200 tokens vs reading everything.
-
-**Before heavy operations:** Update `meta/HANDOVER.md` with current progress. Write BEFORE exhaustion, not after.
-
-**The two rules:**
 ```
-Rule 1: Read meta/HANDOVER.md FIRST on every resume
-Rule 2: Write meta/HANDOVER.md BEFORE heavy operations
+Rule 1: Read session-state.json FIRST on every resume
+Rule 2: Write session-state.json BEFORE heavy operations
 ```
+
+### How to Use session-state.json
+
+**On resume:**
+1. Read `session-state.json` first — not AGENTS.md, not other docs
+2. Check: What's the current task? What's the status? What changed last? What's the context pressure?
+
+**Before heavy operations:**
+1. Update `session-state.json` with current progress
+2. Write BEFORE exhaustion, not after
+3. Include: what changed, files touched, verification, residual risk
+
+**Session state structure:**
+```markdown
+## CURRENT STATE
+- Session: session-N
+- Status: active/in_progress/complete
+- Context pressure: low/medium/high
+
+## CURRENT TASK
+- Name: what you're working on
+- Status: in_progress/complete/blocked
+
+## WHAT CHANGED
+- Add bullets about what changed this session
+
+## FILES TOUCHED THIS SESSION
+- List files modified
+
+## VERIFICATION
+- How did you verify the work?
+
+## RESIDUAL RISK
+- What's still uncertain? What could go wrong?
+
+## NEXT ACTION
+- What's the next step?
+```
+
+### When to Update session-state.json
+
+- At the start of a new session (after reading)
+- Before heavy operations (bulk edits, multi-phase work)
+- When task status changes (started, completed, blocked)
+- When context pressure increases (you're getting tired or context is getting stale)
 
 See the hub's `docs/session-checkpoint.md` for full trigger conditions, context pressure signs, and workflow.
+
+### Session History
+
+At the end of meaningful work, add a compact entry to `archive/history-YYYY-MM.md` (create `archive/` if needed). Include: date, what changed, files touched, decisions made.
+
+**History is NOT read by default.** It's for long-break resumes and understanding past decisions. The startup path is: `session-state.json` → `AGENTS.md` → task files.
 
 ---
 
@@ -284,40 +355,37 @@ When this project uses an agentic workflow system (e.g., OpenCode with `.opencod
 
 **Subagent routing (only when direct handling isn't enough):**
 
-| Subtask Type | Route To | Default Model | Fallback Model | Escalation Model |
-|-------------|----------|---------------|----------------|------------------|
-| Search / discovery (3+ files, complex patterns) | Explorer | M2.5 Free | — | — |
-| Plan / design / analyze | Planner | M2.7 | — | — |
-| Document / write docs | Scribe | M2.5 Free | — | — |
-| Write / create / implement | Drafter | M2.7 | — | — |
-| File ops / organize (10+ files, bulk) | Gardener | M2.5 Free | — | — |
-| Debug / fix / investigate | **Orchestrator direct** | K2.6 | M2.7 (@debugger) | Claude Sonnet 4.6 |
-| Review / verify / audit | **Orchestrator direct** | K2.6 | M2.7 (@reviewer) | Claude Sonnet 4.6 |
+| Subtask Type | Threshold | Route To | Default Model | When |
+|-------------|-----------|----------|---------------|------|
+| Search / discovery | 10+ files, complex patterns | Explorer | M2.5 Free | Bulk search only |
+| Fresh context needed | 15+ turns, topic shift, quality degradation | Worker | Same as Orchestrator (K2.6) or M2.7 | Long sessions |
+| Different capabilities | 1M context, multimodal, math | Specialized model | Gemini, DeepSeek, etc. | Capability gap |
 
-**Three-tier fallback for Debug / Review:**
-1. **Tier 1 — Orchestrator direct (K2.6):** Handle debug/review directly by default. Zero extra cost — already paid.
-2. **Tier 2 — Specialist subagent (M2.7):** Spawn @debugger/@reviewer only when fresh context is genuinely needed (very large tasks, second opinion). Flat rate on Go.
-3. **Tier 3 — Escalation (Sonnet 4.6):** Only when security is suspected or Tiers 1+2 both failed (2+ attempts each).
+**Why only 2 subagents?**
+- Drafter + Analyst merged into Worker — both just meant "do work with fresh context"
+- Per-request cost difference is often zero now (free Sonnet 4.6, Gemini free tier, K2.6 promo)
+- The real win is **fresh context**, not cheaper models
 
-**Manual override:** `@explorer find X` or "use [model] for this" bypasses routing.
+**All other tasks** — planning, docs, file ops, simple debug/review, Q&A, normal coding — should be handled directly by the Orchestrator. Only spawn when the benefit clearly exceeds the 4–8 second overhead.
 
-### 4. Agent Disclosure
+**Three-tier fallback:**
+1. **Tier 1 — Orchestrator direct:** Handle everything directly by default. Zero extra cost.
+2. **Tier 2 — Fresh context (Worker):** Spawn @worker when context is degraded (15+ turns, topic shift). Same model, clean slate.
+3. **Tier 3 — Escalation (Sonnet 4.6 / Opus 4.7):** Only when security is suspected, main AI failed twice, or user explicitly requests premium analysis.
 
-**After EVERY response, disclose agent usage:**
-Add a footer showing which agents were used, what model each ran on, how many tasks they handled, and why. Format:
-```
----
-Agents used: @explorer x3 (MiniMax M2.5 Free), @debugger x1 (MiniMax M2.5 Free)
-Reason: large search then routine debug
-```
-```
----
-Agents used: Orchestrator (direct, Kimi K2.6) — no specialist needed.
-```
-Rules:
-- Use the **full model name** (Kimi K2.6, MiniMax M2.5 Free, Claude Sonnet 4.6, etc.)
-- For subagents, prefix with task count: `@explorer x3`
-- For direct handling, state the orchestrator model explicitly
+**Cost rule:** Direct handling costs $0 extra. Worker subagent costs the same as direct (same model). Escalation to premium uses Copilot quota — keep it rare.
+
+**Manual override:** `@explorer find X` or "use K2.6 for this" bypasses routing.
+
+### 4. Internal Coordination Notes
+
+Do not add public-facing footers that disclose routing, model use, or internal execution mechanics unless the target repo or platform explicitly requires it.
+
+Keep accountability in the right place:
+- `session-state.json` records lanes, progress, files touched, verification, and residual risk.
+- User-facing summaries focus on root cause, fix, verification, and remaining uncertainty.
+- PRs and public comments stay project-native: no routing notes, model names, or generic automation tells.
+- If a repo requires disclosure, follow that repo's rule and keep it concise.
 
 ### 5. Context Compression
 When spawning subsessions, pass only:
@@ -333,6 +401,29 @@ When spawning subsessions, pass only:
 - Verify specialist output before presenting
 - If an agent misroutes 3× in a session, revert to monolithic
 - User can override: "use [best model] for this" bypasses routing
+- If the same fix path fails twice, checkpoint, re-plan, or switch to fresh context before more edits
+
+---
+
+## Project Context
+
+For project-specific instructions (tech stack, conventions, special rules), see `meta/PROJECT.md`. Create this file if it does not exist — it is never overwritten by hub propagation.
+
+**Example `meta/PROJECT.md`:**
+```markdown
+# Project Context
+
+## Tech Stack
+- Language/framework:
+- Package manager:
+
+## Conventions
+- Code style:
+- Naming patterns:
+
+## Special Rules
+- Any project-specific behaviors or gotchas
+```
 
 ---
 
@@ -346,4 +437,4 @@ For detailed guidance on specific topics:
 - **Token efficiency** → `docs/token-efficient-prompting.md`
 - **Model selection** → `docs/model-selection-guide.md`
 - **Agentic workflows** → `docs/agentic-workflows.md`
-- **Session checkpoint** → `docs/session-checkpoint.md` (hub only — topic folders: use topic-specific `meta/HANDOVER.md`)
+- **Session checkpoint** → `docs/session-checkpoint.md` (topic folders: use `session-state.json`)

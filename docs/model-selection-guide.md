@@ -46,7 +46,7 @@ The practical answer:
 | **Agentic repo editing** | GPT-5.3-Codex / GPT-5.4 through Copilot or Zen | Best fit when the task is patch-heavy, terminal-heavy, or needs tool discipline. |
 | **Long-context free API** | Gemini 3.1 Pro / Gemini 2.5 Pro through Google AI Studio | Best free/API lane for big docs, synthesis, multimodal input, and research. Free tier limits are account/project-specific, so check AI Studio before a long run. |
 | **High-volume cheap coding** | OpenCode Go: **Kimi K2.6**, MiniMax M2.7, Qwen3.6 Plus | Kimi K2.6 beats GPT-5.4 on agentic benchmarks (SWE-bench Pro +0.9, DeepSearchQA +13.9). ~1,150 requests per 5 hours. Go is $5 first month, then $10/month. MiniMax M2.7 gives ~3,400 req/5hr for higher volume at lower quality. |
-| **Free coding fallback** | OpenCode Zen free models: MiniMax M2.5 Free, **Ling 2.6 Flash** (limited time), Nemotron 3 Super Free, Big Pickle | Ling 2.6 Flash is fast (340 tokens/s) but has low coding benchmarks (23.2% artificial-analysis-coding). Use for exploration only, not production coding. |
+| **Free coding fallback** | OpenCode Zen free models: **Hy3 Preview Free**, **Trinity Large Preview Free**, MiniMax M2.5 Free, **Ling 2.6 Flash** (limited time), Nemotron 3 Super Free, Big Pickle | **Hy3 Preview Free** is the standout: 74.4% SWE-bench Verified, 295B MoE (21B active), elite coding performance for a free model. **Trinity Large Preview Free** offers 512k context and strong agentic benchmarks (63.2% SWE-bench Verified for the Thinking variant). Ling 2.6 Flash is fast (340 tokens/s) but has low coding benchmarks (23.2%). Use Ling for exploration only. |
 | **Free worker fallback** | GPT-5 nano through OpenCode Zen | Better for summarization, classification, extraction, ranking, and small structured transforms than full coding-agent work. |
 | **Editor alternative** | Cursor Student if eligible | One free year of Cursor Pro with $20/month included usage. Worth claiming if you have a matching `.edu` email, but not necessary if OpenCode is your main workflow. |
 
@@ -96,13 +96,15 @@ K2.6 beats M2.7 on every major benchmark:
 | **Hardest coding / agentic workflows** | Claude Opus 4.7 | Stronger on difficult long-running work, better self-checking |
 | **Codex-style coding harness** | GPT-5.3-Codex | Built specifically for agentic coding and patch workflows |
 | **Open-source agentic coding** | **Kimi K2.6** | 80.2% SWE-bench Verified, 58.6% SWE-bench Pro (beats GPT-5.4 +0.9), 300-agent swarm. $0.60/$3.00 per 1M tokens. Best open-source all-rounder. |
+| **Free elite coding (NEW)** | **Hy3 Preview Free** | 295B MoE (21B active), 74.4% SWE-bench Verified, 256K context. Tencent Hunyuan's strongest model. Free preview on OpenCode Zen (data may be collected). Best free coding model currently available. |
+| **Free long-context agent (NEW)** | **Trinity Large Preview Free** | 398B MoE (13B active), 512k context, Apache 2.0. Strong agentic benchmarks (63.2% SWE-bench Verified on Thinking variant). Free preview on OpenCode Zen (data may be collected). Best free option for long-context agent work. |
 | **Free fast agentic model** | Ling 2.6 Flash | 340 tokens/s, 256K context, but 23.2% coding benchmark. Agentic efficiency focus, not coding powerhouse. Free for limited time via OpenCode Zen. |
 | **High-volume cheap coding** | **MiniMax M2.7** | 56.2% SWE-bench Pro, 89.8% AIME 2026. ~3x more requests per dollar than K2.6 on OpenCode Go. Best when volume matters more than absolute quality. |
 | **Cheap reasoning/coding balance** | **Qwen 3.6 Plus** | 78.8% SWE-bench Verified, $0.325/$1.95 per 1M. Similar request volume to MiniMax on OpenCode Go. Good cost-performance middle ground. |
-| **OpenAI tool ecosystem** | GPT-5.4 | Best OpenAI default for complex reasoning, coding, tools, and long context |
+| **OpenAI tool ecosystem** | GPT-5.4 or GPT-5.5 | Best OpenAI default for complex reasoning, coding, tools, and long context. GPT-5.5 (82.7% Terminal-Bench 2.0, 58.6% SWE-bench Pro, 1.05M context) is the new OpenAI flagship rolling out to ChatGPT/Codex now. API coming soon. |
 | **Long-context synthesis** | Gemini 3.1 Pro | Strong for huge docs, codebases, multimodal inputs, and complex synthesis |
-| **Open-weight coding** | GLM-5.1 | MIT-licensed 754B model, 58.4 SWE-bench Pro self-reported on model card |
-| **Local / smaller open-weight coding** | Qwen3.6-35B-A3B | Apache-2.0, 35B total / 3B active, practical compared with GLM-5.1 |
+| **Open-weight coding leader (NEW)** | **DeepSeek V4 Pro** | 1.6T MoE (49B active), 80.6% SWE-bench Verified, 93.5% LiveCodeBench, 1M context, **MIT license**. Ties Opus 4.6 on SWE-V, leads on competitive coding. Available on OpenCode Go (~1,300 req/5hr). |
+| **Open-weight volume king (NEW)** | **DeepSeek V4 Flash** | 284B MoE (13B active), 79% SWE-bench Verified, 1M context, MIT license. ~7,450 req/5hr on OpenCode Go — highest volume in Go. |
 | **Free or cheap bulk coding** | MiniMax M2.5 Free / MiniMax M2.7 / Qwen3.6 Plus / Gemini 3 Flash | Good enough for high-volume drafts, search, and non-critical coding |
 | **Free small worker tasks** | GPT-5 nano | Best free OpenAI-style worker lane for summaries, classification, extraction, ranking, and simple subagents |
 | **Math-heavy cheap work** | DeepSeek V3.2 Speciale | Strong reasoning/math lane, MIT model card, low-cost providers |
@@ -221,8 +223,12 @@ For sensitive work, avoid the free OpenCode Zen endpoints where possible. OpenCo
 
 | Model | Current Read | Best Use |
 |-------|--------------|----------|
+| **Hy3 Preview Free** | Tencent Hy Community License, 295B MoE (21B active), 74.4% SWE-bench Verified, 256K context | Best free coding model on OpenCode Zen. Data may be collected during preview. |
+| **Trinity Large Preview Free** | Apache 2.0, 398B MoE (13B active), 512k context, strong agentic benchmarks | Best free long-context agent model on OpenCode Zen. Data may be collected during preview. |
+| **DeepSeek V4 Pro (NEW)** | MIT license, 1.6T MoE (49B active), 80.6% SWE-bench Verified, 1M context, 93.5% LiveCodeBench | Best open-weight coding model. Ties Opus 4.6 on SWE-bench Verified. OpenCode Go: ~1,300 req/5hr. |
+| **DeepSeek V4 Flash (NEW)** | MIT license, 284B MoE (13B active), 79% SWE-bench Verified, 1M context | Highest volume MIT-licensed model on OpenCode Go (~7,450 req/5hr). |
 | **GLM-5.1** | MIT license, 754B params, strong model-card benchmarks, very large | Top open-weight coding if hosted/enterprise |
-| **Qwen3.6-35B-A3B** | Apache-2.0, 35B total / 3B active, 262k native context, extensible to 1M | Local-ish coding and agentic work |
+| **Qwen3.6-35B-A3B** | Apache-2.0, 35B total / 3B active, 262K native context, extensible to 1M | Local-ish coding and agentic work |
 | **MiniMax M2.7** | 56.2% SWE-Bench Pro, 66.6% MLE Bench Lite, open weights, built for agentic workflows | Highest volume/cost ratio on OpenCode Go (3,400 req/5hr). Best for drafts and exploration. |
 | **MiniMax M2.5 Free** | Free OpenCode Zen coding-agent fallback for a limited time | Prefer over GPT-5 nano for coding drafts and OpenCode agent loops |
 | **Qwen 3.6 Plus** | 78.8% SWE-Bench Verified, $0.325/$1.95 per 1M on OpenRouter | Best volume-to-quality ratio on OpenCode Go (3,300 req/5hr) |
@@ -237,18 +243,22 @@ For sensitive work, avoid the free OpenCode Zen endpoints where possible. OpenCo
 
 Your $10/month Go subscription includes **$12/5hr, $30/week, $60/month**. All models below are included. The key decision is which model to use for which task, given the tradeoffs between **quality**, **speed**, and **token efficiency**.
 
-### The 10 Models at a Glance
+### The 12 Models at a Glance
 
 | Model | Req / 5 hr | Req / week | Req / month | Context | Speed | Best For |
 |-------|-----------|-----------|------------|---------|-------|----------|
+| **DeepSeek V4 Flash (NEW)** | 7,450 | 18,600 | 37,300 | 1M | Medium | MIT license, highest volume, 79% SWE-bench Verified |
 | **Qwen3.5 Plus** | 10,200 | 25,200 | 50,500 | 1M | Fast | Maximum volume, simple tasks |
 | **MiniMax M2.5** | 6,300 | 15,900 | 31,800 | 1M | 100 TPS (Lightning) | High-volume coding, fast agent loops |
 | **MiniMax M2.7** | 3,400 | 8,500 | 17,000 | 1M | Fast | Volume + agentic capability |
 | **Qwen 3.6 Plus** | 3,300 | 8,200 | 16,300 | 1M | Fast | Best volume-to-quality ratio |
 | **MiMo-V2-Omni** | 2,150 | 5,450 | 10,900 | 262K | Medium | Multimodal (image/video/audio) |
+| **MiMo-V2.5 (NEW)** | 2,150 | 5,450 | 10,900 | 262K | Medium | Newer MiMo variant on Go |
 | **Kimi K2.5** | 1,850 | 4,630 | 9,250 | 256K | Medium | Quality coding, cheaper than K2.6 |
 | **MiMo-V2-Pro** | 1,290 | 3,225 | 6,450 | 1M | Medium | 1M context agent orchestration |
+| **DeepSeek V4 Pro (NEW)** | 1,300 | 3,250 | 6,500 | 1M | Medium | MIT license, 80.6% SWE-bench Verified, best open-weight |
 | **Kimi K2.6** | 1,150 | 2,880 | 5,750 | 256K | Medium | Best quality in Go |
+| **MiMo-V2.5-Pro (NEW)** | 1,290 | 3,225 | 6,450 | 262K | Medium | Newer MiMo Pro variant on Go |
 | **GLM-5** | 1,150 | 2,880 | 5,750 | 200K | Slow | Strong open-weight coding |
 | **GLM-5.1** | 880 | 2,150 | 4,300 | 200K | Slow | Top open-weight coding benchmarks |
 
@@ -258,17 +268,19 @@ Your $10/month Go subscription includes **$12/5hr, $30/week, $60/month**. All mo
 
 ### Benchmark Comparison (Coding & Reasoning)
 
-| Model | SWE-V | SWE-Pro | Term-B2 | AIME | HLE w/Tools | BrowseComp |
-|-------|-------|---------|---------|------|-------------|------------|
-| **GLM-5.1** | — | **58.4** | **63.5** | **95.3** | 52.3 | 68.0 |
-| **Kimi K2.6** | **80.2** | **58.6** | **66.7** | 96.4 | **54.0** | 83.2 |
-| **MiniMax M2.5** | **80.2** | — | 54.0* | ~90* | 76.3* | 76.3 |
-| **MiniMax M2.7** | ~76* | 56.2 | 57.0 | 89.8 | — | — |
-| **Qwen 3.6 Plus** | **78.8** | — | — | — | — | — |
-| **Kimi K2.5** | 76.8 | 50.7 | 50.8 | 96.1 | 50.2 | 60.6 |
-| **GLM-5** | 77.8 | — | 56.2 | — | — | 62.0* |
+| Model | SWE-V | SWE-Pro | Term-B2 | AIME | HLE w/Tools | BrowseComp | Notes |
+|-------|-------|---------|---------|------|-------------|------------|-------|
+| **GLM-5.1** | — | **58.4** | **63.5** | **95.3** | 52.3 | 68.0 | Top SWE-Pro in Go |
+| **Kimi K2.6** | **80.2** | **58.6** | **66.7** | 96.4 | **54.0** | 83.2 | Best agentic benchmarks |
+| **DeepSeek V4 Pro (NEW)** | **80.6** | 55.4 | 67.9 | 95.2 | 48.2 | 83.4 | Ties Opus 4.6 on SWE-V, MIT license, 1M context |
+| **DeepSeek V4 Flash (NEW)** | **79.0** | 52.6 | 56.9 | 94.8 | 45.1 | 73.2 | MIT license, highest Go volume (7,450/5hr) |
+| **MiniMax M2.5** | **80.2** | — | 54.0* | ~90* | 76.3* | 76.3 | 100 TPS, fastest in Go |
+| **MiniMax M2.7** | ~76* | 56.2 | 57.0 | 89.8 | — | — | Good agentic volume |
+| **Qwen 3.6 Plus** | **78.8** | — | — | — | — | — | Balanced volume/quality |
+| **Kimi K2.5** | 76.8 | 50.7 | 50.8 | 96.1 | 50.2 | 60.6 | Budget Kimi |
+| **GLM-5** | 77.8 | — | 56.2 | — | — | 62.0* | Strong open-weight coding |
 
-*SWE-V = SWE-Bench Verified, Term-B2 = Terminal-Bench 2.0. Asterisk (*) denotes estimated or context-managed scores. Dash = not reported.
+*SWE-V = SWE-Bench Verified, Term-B2 = Terminal-Bench 2.0. Asterisk (*) denotes estimated or context-managed scores. Dash = not reported. DeepSeek V4 Pro/Flash scores from Hugging Face model card, OpenAI announcement, and DeepSeek technical report.*
 
 ---
 
@@ -376,13 +388,16 @@ OpenCode Go gives you **$12 per 5 hours**. Here's how far that stretches:
 | Scenario | Pick | Why |
 |----------|------|-----|
 | **Default (during 3x promo)** | **Kimi K2.6** | ~3,450 effective req/5hr + best quality = unbeatable combo |
-| **Default (post-promo)** | **Kimi K2.6** for quality, **MiniMax M2.5** for speed/volume | K2.6 still best quality; M2.5 gives 5.5x more requests |
+| **Default (post-promo)** | **DeepSeek V4 Pro** or **Kimi K2.6** | V4 Pro: MIT license, 80.6% SWE-V, 1M context. K2.6: best HLE w/tools (54.0). |
 | **Fast interactive coding** | **MiniMax M2.5 Lightning** | 100 TPS, 80.2% SWE-V, fastest feedback loop |
-| **Bulk drafts/exploration** | **Qwen3.5 Plus** or **MiniMax M2.5** | 10,200 or 6,300 req/5hr — maximize queries per dollar |
-| **Volume + decent quality** | **Qwen 3.6 Plus** or **MiniMax M2.7** | 3,300/3,400 req/5hr with solid benchmarks |
+| **Bulk MIT-licensed (NEW)** | **DeepSeek V4 Flash** | 7,450 req/5hr, MIT license, 79% SWE-V. Highest volume for open-weight. |
+| **Volume + decent quality** | **DeepSeek V4 Flash** or **MiniMax M2.7** | V4 Flash: MIT, 7,450/5hr. M2.7: 3,400/5hr, agentic workflows. |
+| **MIT license coding** | **DeepSeek V4 Pro** | 1.6T MoE, 80.6% SWE-V, MIT license, 1M context, ~1,300 req/5hr. |
 | **Multimodal tasks** | **MiMo-V2-Omni** | Only Go model with native image/video/audio |
 | **1M context needed** | **MiMo-V2-Pro** | Cheapest 1M context in Go |
-| **Best open-weight coding** | **GLM-5.1** | 58.4% SWE-Pro, but monitor credits closely |
+| **Best open-weight coding** | **DeepSeek V4 Pro** | 1.6T MoE, 80.6% SWE-V, MIT license, 1M context. Ties Opus 4.6 on SWE-bench Verified. |
+| **Maximum MIT-licensed volume** | **DeepSeek V4 Flash** | 7,450 req/5hr, 79% SWE-V, MIT license, 1M context. Highest volume MIT model on Go. |
+| **Best open-weight coding** | **DeepSeek V4 Pro** | 80.6% SWE-V, MIT license, 1M context — now the top MIT-licensed coding model. |
 | **Budget Kimi** | **Kimi K2.5** | 61% more requests than K2.6 with 76.8% SWE-V |
 
 ---
@@ -391,12 +406,13 @@ OpenCode Go gives you **$12 per 5 hours**. Here's how far that stretches:
 
 When K2.6 drops from ~3,450 back to 1,150 req/5hr:
 
-1. **Quality-first tasks** → K2.6 (hardest bugs, final reviews, reasoning)
+1. **Quality-first tasks** → DeepSeek V4 Pro (MIT license, 80.6% SWE-V, 1M context) or K2.6 (best HLE w/tools at 54.0)
 2. **Speed-first tasks** → MiniMax M2.5 Lightning (interactive coding, fast loops)
-3. **Volume-first tasks** → MiniMax M2.5 or Qwen3.5 Plus (drafts, exploration, bulk)
-4. **Balanced tasks** → Qwen 3.6 Plus or MiniMax M2.7 (good enough quality, 3x K2.6 volume)
-5. **Multimodal** → MiMo-V2-Omni (no alternative in Go)
-6. **Long context** → MiMo-V2-Pro (1M tokens cheaply)
+3. **Volume-first tasks** → DeepSeek V4 Flash (7,450 req/5hr, MIT license) or MiniMax M2.5 (6,300 req/5hr)
+4. **MIT license priority** → DeepSeek V4 Pro (quality) or V4 Flash (volume)
+5. **Balanced tasks** → Qwen 3.6 Plus or MiniMax M2.7
+6. **Multimodal** → MiMo-V2-Omni
+7. **Long context** → DeepSeek V4 Pro or Flash (1M, MIT) — now the best combination of context + license
 
 **Your stated keepers (GLM-5.1, K2.6, M2.7) make sense:**
 - GLM-5.1: When you need top open-weight benchmarks, cost be damned
@@ -407,46 +423,65 @@ Consider adding **M2.5** to your rotation for speed-critical work, and **Qwen 3.
 
 ---
 
-## Agentic Routing (Session 42)
+## Agentic Routing (Updated April 2026)
 
-For agentic workflows, subtasks are routed to specialist agents instead of using one model for everything.
+For agentic workflows, subtasks are routed to specialist agents only when the benefit clearly exceeds the overhead.
 
-### Agent-to-Model Mapping
+### The New Cost Reality
 
-| Agent | Model | Handles | Cost vs Monolithic K2.6 |
-|-------|-------|---------|------------------------|
-| **Orchestrator** | **Kimi K2.6** | Planning, routing, synthesis | Same (negligible volume) |
-| **Explorer** | **MiniMax M2.5** | Search, grep, file discovery | **5× cheaper** |
-| **Drafter** | **MiniMax M2.7** | Implementation, scaffolding | **3× cheaper** |
-| **Debugger** | **Kimi K2.6** | Hard bugs, root cause analysis | Same |
-| **Reviewer** | **GLM-5.1** | Code review, verification | Same (sparingly) |
+Since Session 42, the model landscape has changed dramatically. Copilot Student gives free Sonnet 4.6, Gemini AI Studio gives 14,400 free requests/day, and K2.6 runs at ~3,450 req/5hr during promotion. The per-request cost difference between "cheap" and "premium" is often **zero**.
 
-### Routing Triggers
+**The real tradeoff is now complexity vs freshness:**
 
-| User Request Contains | Route To | Model |
-|----------------------|----------|-------|
-| "find," "search," "where is," "locate," "grep" | Explorer | M2.5 |
-| "write," "create," "add," "implement," "draft" | Drafter | M2.7 |
-| "debug," "fix," "investigate," "root cause" | Debugger | K2.6 |
-| "review," "check," "verify," "audit" | Reviewer | GLM-5.1 |
-| (everything else) | Orchestrator | K2.6 |
+| Factor | Multi-AI Routing | Single-AI Direct |
+|--------|-----------------|------------------|
+| Spawn overhead | 4–8 seconds per subagent | Zero |
+| Context loss | Compressed to 3–5 bullets | Full thread retained |
+| Cognitive load | Manage agent boundaries | One conversation |
+| When it wins | Fresh context, parallel work, different capabilities | Everything else |
 
-### Cost Impact
+### Simplified Agent-to-Model Mapping
 
-| Task Type | Monolithic K2.6 | Agentic | Savings |
-|-----------|----------------|---------|---------|
-| Search-heavy session | 100% K2.6 | 80% M2.5 | **5× on search** |
-| Implementation + review | 100% K2.6 | 70% M2.7 + GLM-5.1 | **3× on draft** |
-| Long mixed session (20 turns) | Quadratic degradation | Linear via subsessions | **40–60% overall** |
+| Agent | Model | Handles | Spawn When |
+|-------|-------|---------|------------|
+| **Orchestrator** | **Your main AI** (K2.6, Sonnet 4.6, or Gemini) | 90% of work directly | Default — never spawn |
+| **Explorer** | **MiniMax M2.5 Free** | Bulk search, grep, discovery | 10+ files or complex search |
+| **Worker** | **Same as Orchestrator** (or M2.7 for volume) | Fresh context for long sessions | 15+ turns, topic shift, quality drop |
+
+**Removed (merged into Worker):**
+- ~~Drafter~~ — "Implementation" is just work with fresh context
+- ~~Analyst~~ — "Deep investigation" is just work with fresh context
+
+### Routing Decision Tree
+
+```
+Is the session under 15 turns and straightforward?
+├── YES → Handle directly with your main AI (fastest, best context)
+└── NO → Is the task bulk search across many files?
+    ├── YES → Spawn Explorer (M2.5 Free, fast, zero cost)
+    └── NO → Is context degraded or topic shifted?
+        ├── YES → Spawn Worker (fresh context, same or cheaper model)
+        └── NO → Handle directly (save spawn overhead)
+```
+
+### Cost Impact (Updated)
+
+| Task Type | Single-AI Direct | Agentic | When Agentic Wins |
+|-----------|-----------------|---------|-------------------|
+| Normal coding (< 15 turns) | Best | Worse (overhead) | Never |
+| Long session (20+ turns) | Degraded | **Fresh context maintained** | Always |
+| Bulk search (50+ files) | Medium cost | **$0 with M2.5 Free** | Always |
+| Parallel independent tasks | Sequential | **Concurrent** | Always |
+| Needs different capability (1M context, multimodal) | Can't | **Gemini, DeepSeek, etc.** | Always |
 
 ### Fallback Chain
 
-| Primary | Fallback 1 | Fallback 2 |
-|---------|-----------|------------|
-| K2.6 (Orchestrator) | K2.5 (61% more requests) | M2.7 |
-| M2.5 (Explorer) | Qwen3.5 Plus | M2.7 |
-| M2.7 (Drafter) | Qwen 3.6 Plus | K2.6 |
-| GLM-5.1 (Reviewer) | K2.6 | M2.7 |
+| Primary | Fallback 1 | Fallback 2 | Fallback 3 |
+|---------|-----------|------------|------------|
+| K2.6 (Orchestrator) | K2.5 (61% more requests) | M2.7 (volume) | Sonnet 4.6 (Copilot) |
+| Sonnet 4.6 (Copilot) | K2.6 (Go) | Gemini 3.1 Pro (AI Studio) | — |
+| M2.5 Free (Explorer) | Qwen3.5 Plus (10,200 req/5hr) | M2.7 | — |
+| Worker (K2.6 or M2.7) | Same model, retry | Other Go model | Sonnet 4.6 (Copilot) |
 
 See `docs/agentic-workflows.md` for full architecture, context passing format, and warm handoff protocol.
 
@@ -680,21 +715,26 @@ Treat benchmark numbers as directional. They depend on harness, scaffolding, too
 |-------|-----------------------|-------|
 | Claude Opus 4.7 | Anthropic reports major gains over Opus 4.6 in advanced software engineering and long-running tasks | Best premium lane right now |
 | Claude Sonnet 4.6 | Best daily driver. 1M context in API beta, strong coding and reasoning | Best quality-to-quota balance |
+| **GPT-5.5 (NEW)** | 82.7% Terminal-Bench 2.0, 58.6% SWE-bench Pro, 1.05M context, agentic by default | New OpenAI flagship (Apr 23). API coming soon. |
 | GPT-5.3-Codex | OpenAI calls it the most capable agentic coding model to date | Best inside OpenAI coding workflows |
 | GPT-5.4 | OpenAI flagship for complex reasoning and coding | Broadest OpenAI default |
 | Gemini 3.1 Pro | Google says it is for complex tasks and improved reasoning; official model docs list it as current preview | Best long-context / multimodal lane |
-| GLM-5.1 | Model card reports 58.4 SWE-bench Pro and 63.5 Terminal-Bench 2.0 | Best open-weight coding claim, verify on your workload |
+| **DeepSeek V4 Pro (NEW)** | 1.6T MoE, 80.6% SWE-bench Verified, 93.5% LiveCodeBench, 1M context, MIT license | Best open-weight coding model. Ties Opus 4.6 on SWE-bench Verified. |
+| **DeepSeek V4 Flash (NEW)** | 284B MoE, 79% SWE-bench Verified, 1M context, MIT license, 7,450 req/5hr on Go | Highest MIT-licensed volume on Go. |
+| GLM-5.1 | Model card reports 58.4 SWE-bench Pro and 63.5 Terminal-Bench 2.0 | Top open-weight coding — now challenged by V4 Pro on SWE-Pro |
 | Qwen3.6-35B-A3B | Model card reports 73.4 SWE-bench Verified, 49.5 SWE-bench Pro, 51.5 Terminal-Bench 2.0 | Strong practical open-weight alternative |
 | MiniMax M2.5 | 80.2% SWE-Bench Verified, 100 TPS, 6,300 req/5hr on Go | Best speed+coding combo in Go |
 | MiniMax M2.7 | 56.2% SWE-bench Pro, 66.6% MLE Bench Lite, strong agentic workflows | Best volume/cost ratio on OpenCode Go |
 | DeepSeek V3.2 | Gold medal IMO/IOI 2025, $0.252/$0.378 per 1M | Cheapest frontier-class reasoning |
-| Kimi K2.6 | 80.2% SWE-V, 58.6% SWE-Pro, 96.4% AIME | Best quality in Go |
+| Hy3 Preview Free | 74.4% SWE-bench Verified, 54.4% TerminalBench 2.0 | Best free coding model. 295B MoE from Tencent Hunyuan. |
+| Trinity Large-Thinking | 63.2% SWE-bench Verified, 94.7% τ²-Bench, 91.9% PinchBench | Strong free agentic model. 398B MoE from Arcee AI. 512k context. |
+| Kimi K2.6 | 80.2% SWE-V, 58.6% SWE-Pro, 96.4% AIME | Best quality in Go. Still leads on HLE w/tools (54.0) and SWE-Pro (58.6). |
 
 ## Cost Tiers
 
 | Tier | Models | Typical Use |
 |------|--------|-------------|
-| **Free / near-free** | Gemini 3.1 Pro (AI Studio), DeepSeek Chat, Claude Sonnet 4.6 (Copilot Student), GPT-5 mini (Copilot), MiniMax M2.5 Free | Drafts, bulk research, low-risk coding, simple workers |
+| **Free / near-free** | Gemini 3.1 Pro (AI Studio), DeepSeek Chat, Claude Sonnet 4.6 (Copilot Student), GPT-5 mini (Copilot), **Hy3 Preview Free**, **Trinity Large Preview Free**, MiniMax M2.5 Free | Drafts, bulk research, low-risk coding, simple workers, elite free coding (Hy3), long-context agents (Trinity) |
 | **Budget** | MiMo-V2-Pro, DeepSeek V3.2 API, GPT-5.4 nano, MiniMax M2.5 (Go) | Workers, extraction, simple agents, high-volume coding |
 | **Mid** | Claude Sonnet 4.6, Gemini 3.1 Pro API, GPT-5.4 mini, Qwen 3.6 Plus | Daily serious work |
 | **Premium** | Claude Opus 4.7, GPT-5.4, GPT-5.3-Codex, Kimi K2.6 | Hard work, tool-heavy work, deep coding |
@@ -794,13 +834,22 @@ If a claim affects cost, hardware, licensing, or model availability, verify it f
 | [DeepSeek V3.2 OpenRouter](https://openrouter.ai/deepseek/deepseek-v3.2) | DeepSeek V3.2 pricing on OpenRouter ($0.252/$0.378) |
 | [DeepSeek V3.2-Speciale Hugging Face](https://huggingface.co/deepseek-ai/DeepSeek-V3.2-Speciale) | MIT license, gold medal IMO/IOI 2025, reasoning benchmarks |
 | [Qwen3.6-35B-A3B Hugging Face](https://huggingface.co/Qwen/Qwen3.6-35B-A3B) | Apache-2.0, 35B/3B active, SWE-Bench Verified 73.4% |
+| [Tencent Hy3-preview Hugging Face](https://huggingface.co/tencent/Hy3-preview) | 295B MoE, 21B active, SWE-bench Verified 74.4%, TerminalBench 2.0 54.4%, 256K context, Tencent Hy Community License |
+| [Tencent Hy3-preview-Base Hugging Face](https://huggingface.co/tencent/Hy3-preview-Base) | Base model specs, pre-trained benchmarks vs Kimi-K2, DeepSeek-V3, GLM-4.5 |
+| [Arcee Trinity-Large-Preview Hugging Face](https://huggingface.co/arcee-ai/Trinity-Large-Preview) | 398B MoE, 13B active, 512k context, Apache 2.0, MMLU 87.2 |
+| [Arcee Trinity-Large-Thinking Hugging Face](https://huggingface.co/arcee-ai/Trinity-Large-Thinking) | Reasoning-optimized variant, 63.2% SWE-bench Verified, 94.7% τ²-Bench, 91.9% PinchBench |
+| [OpenCode Zen models API](https://opencode.ai/zen/v1/models) | Real-time model list including hy3-preview-free, trinity-large-preview-free, gpt-5.5, deepseek-v4-pro, deepseek-v4-flash |
+| [OpenAI Introducing GPT-5.5](https://openai.com/index/introducing-gpt-5-5/) | 82.7% Terminal-Bench 2.0, 58.6% SWE-bench Pro, 1.05M context, $5/$30 per 1M tokens, released Apr 23 2026 |
+| [DeepSeek-V4-Pro Hugging Face](https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro) | 1.6T MoE, 49B active, MIT license, SWE-bench Verified 80.6%, LiveCodeBench 93.5%, 1M context, released Apr 22 2026 |
+| [DeepSeek-V4-Flash Hugging Face](https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash) | 284B MoE, 13B active, MIT license, SWE-bench Verified 79%, 1M context |
+| [OpenCode Go docs (updated Apr 24, 2026)](https://opencode.ai/docs/go/) | DeepSeek V4 Pro/Flash added to Go model list, MiMo-V2.5/2.5-Pro also added, V4 Pro 1,300 req/5hr, V4 Flash 7,450 req/5hr |
 
 ## Metadata
 
 ```yaml
 ---
-last_verified: 2026-04-22
-next_review: 2026-05-22
+last_verified: 2026-04-25
+next_review: 2026-05-25
 review_type: unified_multi_provider_model_analysis
 corrections_made:
   - Added Kimi K2.6 as strongest open-source agentic model, beats GPT-5.4 on SWE-bench Pro (+0.9), DeepSearchQA (+13.9).
@@ -825,7 +874,17 @@ corrections_made:
   - Added unified master comparison table across ALL providers (Copilot, Gemini, Go, DeepSeek, OpenRouter).
   - Added cost-per-quality ranking for 1,000 prompts/month across all providers.
   - Added task-based routing: "Which model across ALL providers" for 11 common scenarios.
+  - Added Hy3 Preview Free (Tencent Hunyuan): 295B MoE, 74.4% SWE-bench Verified, best free coding model on OpenCode Zen.
+  - Added Trinity Large Preview Free (Arcee AI): 398B MoE, 512k context, Apache 2.0, strong agentic benchmarks (63.2% SWE-bench Verified on Thinking variant).
+  - Updated free coding fallback row to prioritize Hy3 and Trinity over older free models.
+  - Added Hy3 and Trinity sources to verification table.
+  - Added GPT-5.5 (OpenAI, released Apr 23): 82.7% Terminal-Bench 2.0, 58.6% SWE-bench Pro, 1.05M context. New OpenAI default flagship.
+  - Added DeepSeek V4 Pro (released Apr 22): 1.6T MoE (49B active), 80.6% SWE-bench Verified, 93.5% LiveCodeBench, 1M context, MIT license. Best open-weight coding model.
+  - Added DeepSeek V4 Flash (released Apr 22): 284B MoE (13B active), 79% SWE-bench Verified, 1M context, MIT license, 7,450 req/5hr on Go.
+  - Added MiMo-V2.5 and MiMo-V2.5-Pro to Go model list.
+  - Updated routing cheat sheet and post-promotion strategy to include DeepSeek V4 Pro/Flash.
+  - Updated benchmark snapshot table with all new models and corrected Kimi K2.6 note (still leads on SWE-Pro and HLE w/tools).
 ---
 ```
 
-Last updated: 2026-04-22
+Last updated: 2026-04-25

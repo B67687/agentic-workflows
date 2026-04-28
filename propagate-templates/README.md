@@ -70,8 +70,18 @@ For repos that will be pushed to GitHub:
 ## Propagation
 
 Run from AI Prompting folder:
-```powershell
-.\scripts\propagate-to-all.ps1 -Apply
+```bash
+./scripts/propagate-to-all.sh --apply
 ```
 
 This syncs templates to all subfolders in M-Namikaz-Others.
+
+**Behavior:** CREATE ONLY mode
+- Files are only created if they don't exist
+- Existing files are NEVER overwritten or merged
+- This preserves all custom content in topic folders
+
+**For standards changes (migration):** If you change the template format and need to propagate the new format to all folders while converting existing content, use:
+```bash
+./scripts/migrate-templates.sh --template NAME --apply
+```

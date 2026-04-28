@@ -22,5 +22,5 @@ Rules:
 - You are READ-ONLY. Never modify files.
 - Be concise. Return file paths and line numbers.
 - Use glob and grep tools aggressively.
-- If a search is large, summarize top results.
+- If a search is large, summarize top results instead of dumping raw output.
 - Always report how many matches you found.

@@ -18,10 +18,11 @@ Only ask questions when the gap has real consequences for safety, scope, or corr
 ## Startup Order
 
 1. `workflow/session-state.json` - active session state; read first on every resume
-2. `AGENTS.md` - this operating contract
-3. `docs/workspace-system-overview.md` - whole-system map
-4. `README.md` - navigation index
-5. Task-specific files only after the above
+2. `docs/hub-quickstart.md` - fast orientation (replaces multi-file startup)
+3. `AGENTS.md` - this operating contract
+4. Task-specific files only when needed
+
+For topic-folder work, read that folder's `meta/HANDOVER.md` first if it exists and you are resuming local work.
 
 For topic-folder work, read that folder's `meta/HANDOVER.md` first if it exists and you are resuming local work.
 
@@ -67,10 +68,12 @@ At the end of meaningful work:
 2. Update `archive/history-2026-04.md` (or current month's history file) with a compact entry.
    - One entry per session or per major task phase.
    - Include: date, what changed, files created/moved/deleted, verification results.
-3. For topic-folder work, update that folder's `HISTORY.md` with the session summary and any external work done outside the repo.
+3. For topic-folder work, update that folder's `archive/history-2026-04.md` (create `archive/` if needed) with the session summary and any external work.
 4. Include decisions future sessions need.
 
-**Rule:** Session state = every meaningful task. History archive = every session or major phase. Topic folder HISTORY.md = local sessions + external work. Don't let history drift more than one session behind.
+**Rule:** Session state = every meaningful task. History archive = every session or major phase. Don't let history drift more than one session behind.
+
+**History is NOT read by default.** It's for long-break resumes and understanding past decisions. The startup path is: session-state -> hub-quickstart -> task files. History is only read when explicitly needed.
 
 ## Compression And Cleanup
 
@@ -139,26 +142,28 @@ When in agentic mode, the Orchestrator follows these rules:
 
 **When to route to subagents:**
 
-| Subtask Type | Threshold | Route To | Default Model | Fallback Model | Escalation Model | Cost |
-|-------------|-----------|----------|---------------|----------------|------------------|------|
-| Search / discovery | 10+ files, complex patterns | Explorer | M2.5 Free | — | — | **Free** |
-| Plan / design / analyze | Complex architecture, design decisions | Planner | M2.7 | — | — | Flat rate |
-| Document / write docs | Full guide, README, changelog | Scribe | M2.5 Free | — | — | **Free** |
-| Write / create / implement | New file, module, multi-file refactor | Drafter | M2.7 | — | — | Flat rate |
-| File ops / organize | 10+ files, bulk, archive, cleanup | Gardener | M2.5 Free | — | — | **Free** |
-| Debug / fix / investigate | Deep analysis, root cause | **Orchestrator direct** | K2.6 | M2.7 (fresh context) | Claude Sonnet 4.6 | Flat rate / escalation |
-| Review / verify / audit | Full code review, quality check | **Orchestrator direct** | K2.6 | M2.7 (fresh context) | Claude Sonnet 4.6 | Flat rate / escalation |
-| Complex coding | Manual only | Codex | GPT-5.3 | — | — | Pay-as-you-go |
+| Subtask Type | Threshold | Route To | Default Model | When |
+|-------------|-----------|----------|---------------|------|
+| Search / discovery | 10+ files, complex patterns | Explorer | M2.5 Free | Bulk search only |
+| Fresh context needed | 15+ turns, topic shift, quality degradation | Worker | Same as Orchestrator (K2.6) or M2.7 | Long sessions |
+| Different capabilities | 1M context, multimodal, math | Specialized model | Gemini, DeepSeek, etc. | Capability gap |
 
-**Three-tier fallback for Debug / Review:**
-1. **Tier 1 — Orchestrator direct (K2.6):** Handle debug/review directly by default. Zero extra cost — you're already paying for K2.6.
-2. **Tier 2 — Specialist subagent (M2.7):** Spawn @debugger/@reviewer only when fresh context is genuinely needed (very large tasks, second opinion). Flat rate on Go.
-3. **Tier 3 — Escalation (Sonnet 4.6):** Only when:
+**Why only 2 subagents?**
+- Drafter + Analyst merged into Worker — both just meant "do work with fresh context"
+- Per-request cost difference is often zero now (free Sonnet 4.6, Gemini free tier, K2.6 promo)
+- The real win is **fresh context**, not cheaper models
+
+**All other tasks** — planning, docs, file ops, simple debug/review, Q&A, normal coding — should be handled directly by the Orchestrator. Only spawn when the benefit clearly exceeds the 4–8 second overhead.
+
+**Three-tier fallback:**
+1. **Tier 1 — Orchestrator direct:** Handle everything directly by default. Zero extra cost.
+2. **Tier 2 — Fresh context (Worker):** Spawn @worker when context is degraded (15+ turns, topic shift). Same model, clean slate.
+3. **Tier 3 — Escalation (Sonnet 4.6 / Opus 4.7):** Only when:
    - Security vulnerability is suspected or confirmed
-   - K2.6 and M2.7 both failed (2+ attempts each)
+   - Main AI failed twice on the same task
    - User explicitly requests premium analysis
 
-**Cost rule:** K2.6 direct handling costs $0 extra. M2.7 subagent is flat rate. Sonnet 4.6 is pay-as-you-go — keep it rare.
+**Cost rule:** Direct handling costs $0 extra. Worker subagent costs the same as direct (same model). Escalation to premium uses Copilot quota — keep it rare.
 
 **Manual override:** `@explorer find auth_token` or "use K2.6 for this" bypasses routing.
 
@@ -173,23 +178,15 @@ When spawning subsessions, pass only:
 
 **Never pass:** full thread history, previous reasoning chains, teaching material.
 
-### 5. Agent Disclosure
+### 5. Internal Coordination Notes
 
-**After EVERY response, disclose agent usage:**
-Add a footer showing which agents were used, what model each ran on, how many tasks they handled, and why. Format:
-```
----
-Agents used: @explorer x3 (MiniMax M2.5 Free), @reviewer x1 (Claude Sonnet 4.6)
-Reason: large search then quality audit
-```
-```
----
-Agents used: Orchestrator (direct, Kimi K2.6) — no specialist needed.
-```
-Rules:
-- Use the **full model name** (Kimi K2.6, MiniMax M2.5 Free, Claude Sonnet 4.6, etc.)
-- For subagents, prefix with task count: `@explorer x3`
-- For direct handling, state the orchestrator model explicitly
+Do not add public-facing footers that disclose routing, model use, or internal execution mechanics unless the target repo or platform explicitly requires it.
+
+Keep accountability in the right place:
+- `workflow/session-state.json` records lanes, progress, files touched, verification, and residual risk.
+- User-facing summaries focus on root cause, fix, verification, and remaining uncertainty.
+- PRs and public comments stay project-native: no routing notes, model names, or generic automation tells.
+- If a repo requires disclosure, follow that repo's rule and keep it concise.
 
 ### 6. Quality Guardrails
 
@@ -197,15 +194,15 @@ Rules:
 - Verify specialist output before presenting
 - If an agent misroutes 3× in a session, revert to monolithic
 - User can override: "use K2.6 for this" bypasses routing
+- If the same fix path fails twice, checkpoint, re-plan, or switch to fresh context before more edits
 
 ### 7. Fallback Chain
 
 If primary model unavailable:
-- Explorer (M2.5) → Qwen3.5 Plus → M2.7
-- Drafter (M2.7) → Qwen 3.6 Plus → K2.6
-- Debugger (K2.6 direct) → M2.7 (fresh context) → Claude Sonnet 4.6 (escalation)
-- Reviewer (K2.6 direct) → M2.7 (fresh context) → Claude Sonnet 4.6 (escalation)
-- Codex (GPT-5.3) → K2.6 → M2.7 (when premium quota exhausted)
+- Explorer (M2.5 Free) → Qwen3.5 Plus → M2.7
+- Worker (K2.6) → K2.5 (61% more requests) → M2.7 → Sonnet 4.6 (Copilot)
+- Worker (M2.7) → Qwen 3.6 Plus → K2.6 → Sonnet 4.6 (Copilot)
+- Main AI (K2.6 or Sonnet 4.6) → Other provider's best model → Opus 4.7 (escalation)
 
 ---
 

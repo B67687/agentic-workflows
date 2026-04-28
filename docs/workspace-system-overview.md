@@ -2,7 +2,9 @@
 
 This workspace is the control hub for `M:\M-Namikaz-Others`.
 
-It is not a normal app repo. It is a working system for:
+**Current environment:** Debian/WSL2 (2026-04-28). Primary terminal is WSL. All scripts use bash/Linux tooling.
+
+It is not a normal app repo. It is a living knowledge base for:
 
 - storing durable prompting and workflow knowledge
 - capturing research findings
@@ -10,17 +12,20 @@ It is not a normal app repo. It is a working system for:
 - propagating shared instruction files
 - recovering context after long sessions
 - keeping topic-folder roots clean
+- preserving user content in meta/ folders
+
+**What this system is NOT:** A code project with build outputs. It's a personal AI productivity system that learns from your work and distributes useful patterns to topic folders.
 
 Shortest version:
 
-> This hub learns useful working patterns, stores them in central docs, and pushes reusable parts out to topic folders.
+> This hub learns useful patterns, stores them in central docs, and pushes reusable parts out to topic folders while protecting your custom content.
 
 ## 30-Second Read
 
 | Subsystem | What it does | Main locations |
 |---|---|---|
 | Central knowledge | Stable guidance and research synthesis | `docs/`, `research/`, `archive/` |
-| Distribution | Copies reusable rules outward | `propagate-templates/`, `scripts/propagate-to-all.ps1` |
+| Distribution | Copies reusable rules outward | `propagate-templates/`, `scripts/propagate-to-all.sh` |
 | Live workflow state | Tracks current work, sync state, harvested lessons, review queues | `workflow/` |
 
 Most work follows:
@@ -29,19 +34,18 @@ Most work follows:
 research -> integrate -> propagate -> verify -> document
 ```
 
-Most important practical rule:
+Most important practical rules:
 
 > On every resume, read `workflow/session-state.json` first.
+> Then read `AGENTS.md` - it's the operating contract for this workspace.
 
 ## Fast Startup Protocol
 
 | Step | Read | Why |
 |---|---|---|
-| 1 | `workflow/session-state.json` | Current task, last work, next action, risks, files touched. |
-| 2 | `AGENTS.md` | Operating rules. |
-| 3 | `docs/workspace-system-overview.md` | System map without scanning the whole workspace. |
-| 4 | `README.md` | Navigation to the right docs/scripts. |
-| 5 | Task-specific files | Deep docs, topic folders, scripts, or research logs. |
+| 1 | `workflow/session-state.json` | Current task, last work, next action. |
+| 2 | `docs/hub-quickstart.md` | Fast orientation (replaces multi-file startup). |
+| 3 | Task-specific files | Deep docs, topic folders, scripts, or research logs. |
 
 Do not start with a full repository scan unless the task actually needs it.
 
@@ -58,20 +62,33 @@ For topic-folder work:
 | `AI Prompting` hub | Central knowledge and propagation system | `docs/`, `research/`, `scripts/`, `workflow/`, `propagate-templates/`, `archive/`, `personal-voice/` |
 | Sibling topic folders | Individual project/topic workspaces | `[topic-name]-content/` |
 
+Current topic folders (15):
+`Bus App`, `Fengshui`, `Fluent PRs`, `Hackerthon`, `Hugo`, `Image Glass`, `ImageMagick`, `Keyboard`, `MathLearningNotes`, `NoFaceScanApp`, `OpenCodex`, `Random`, `Reality`, `RSS Reader`, `Wall You`
+
 Do not create `ai-prompting-content/` in this hub unless the whole hub is intentionally redesigned.
+
+**Content folder naming:** Uses simple kebab-case: lowercase + spaces to dashes. Example: "Fluent PRs" → `fluent-prs-content`
 
 Expected topic-folder root:
 
 ```text
 [Topic-Folder]/
-|- AGENTS.md
-|- topic-insights.md
-|- git-github-best-practices.md
-|- .cleanup-protect
-|- audit-folder-quality.ps1
-|- [topic-name]-content/
-`- meta/                  optional
+|- AGENTS.md                    (propagated from hub)
+|- topic-insights.md            (propagated from hub)
+|- git-github-best-practices.md (propagated from hub)
+|- quality-standards.md         (propagated from hub)
+|- session-state.json           (propagated from hub)
+|- .cleanup-protect             (propagated from hub)
+|- audit-folder-quality.ps1     (propagated from hub)
+|- check-sync-status.ps1        (propagated from hub)
+|- sync-from-hub.ps1            (propagated from hub)
+|- opencode.json                (propagated from hub)
+|- opencode-agent-system.md     (propagated from hub)
+|- [topic-name]-content/        (created by propagation - YOUR WORK GOES HERE)
+`- meta/                       (optional - NEVER touched by hub propagation)
 ```
+
+**Critical: meta/ is protected.** Hub propagation only touches root files. Your custom content in `meta/` is never overwritten or deleted.
 
 ## Top-Level Folder Map
 
@@ -95,9 +112,12 @@ Root files:
 
 ## Terminal Strategy
 
-Use PowerShell for mutating hub automation. This workspace is Windows-filesystem and most write workflows are PowerShell-script based.
+**Current (2026-04-28):** Primary terminal is Debian/WSL2. Windows filesystem accessible via `/mnt/M/`.
 
-WSL can be used for native Linux read-only inspection through `scripts/ws.sh`. See `docs/repo-tooling.md` for the shared Windows/WSL tool baseline.
+- Use native Linux commands and `scripts/ws.sh` for read-only inspection
+- Use `scripts/propagate-to-all.sh` (bash) for propagation and mutating operations
+- All hub scripts have been converted to bash for Linux-native execution
+- See `docs/repo-tooling.md` for the Linux tool baseline
 
 ## Main Operating Loop
 
@@ -124,38 +144,50 @@ Track integration in `research/integration-log.md`.
 
 ### 3. Propagate
 
-Propagate only when shared topic-folder defaults changed.
+Propagate only when new topic folders need templates. **Does NOT overwrite existing files** (CREATE ONLY mode).
 
-Main sources:
+Current templates (13):
 
-- `propagate-templates/AGENTS.template.md`
-- `propagate-templates/topic-insights.template.md`
-- `propagate-templates/git-github-best-practices.template.md`
-- `propagate-templates/audit-folder-quality.template.ps1`
-- `propagate-templates/.cleanup-protect.template.md`
+- `propagate-templates/AGENTS.template.md` - Operating contract (includes 11 principles)
+- `propagate-templates/topic-insights.template.md` - Topic lessons
+- `propagate-templates/git-github-best-practices.template.md` - Git workflow
+- `propagate-templates/workspace-system-overview.template.md` - System overview reference
+- `propagate-templates/audit-folder-quality.template.ps1` - Quality validation
+- `propagate-templates/check-sync-status.template.ps1` - Sync status checker
+- `propagate-templates/sync-from-hub.template.ps1` - Sync from hub script
+- `propagate-templates/quality-standards.template.md` - Quality standards
+- `propagate-templates/session-state.template.md` - Session state template
+- `propagate-templates/opencode.template.json` - OpenCode config
+- `propagate-templates/opencode-agent-system.template.md` - Agent system prompt
+- `propagate-templates/.cleanup-protect.template.md` - Cleanup protection
+- `propagate-templates/README.md` - Template index
 
 Run:
 
-```powershell
-.\scripts\propagate-to-all.ps1 -Apply
+```bash
+# Currently requires Windows PowerShell or pwsh
+# Bash version coming soon
+pwsh ./scripts/propagate-to-all.ps1 -Apply
 ```
+
+Content folder creation: The script creates `[topic-name]-content/` automatically with kebab-case naming.
 
 ### 4. Verify
 
 For hub work:
 
-```powershell
-.\scripts\ws.ps1 validate
-.\scripts\audit-folder-quality.ps1
-.\scripts\check-sync-status.ps1
+```bash
+bash scripts/ws.sh validate
+bash scripts/ws.sh status
+bash scripts/ws.sh hotspots
 ```
 
-Use `.\scripts\ws.ps1 status`, `hotspots`, and `search -Query "text"` for the common orientation and inspection loop.
+Use `bash scripts/ws.sh status`, `hotspots`, and `search -q "text"` for the common orientation and inspection loop.
 
 For topic-folder structure work, also run that folder's:
 
-```powershell
-.\audit-folder-quality.ps1
+```bash
+./audit-folder-quality.sh
 ```
 
 ### 5. Document
@@ -194,4 +226,32 @@ This system tries to make work compound:
 - push it to other folders when appropriate
 - reduce future rework
 
+**Core principle:**
+
+> **Prefer simple code, add complexity only when concrete system demand requires it.**
+>
+> - Prefer simple code. It reads faster, debugs easier, and ages better.
+> - Add complexity only when a concrete system interaction or real-world use case demands it.
+> - Premature abstraction is as harmful as premature optimization.
+> - If you can't explain why a pattern is needed, it probably isn't.
+
+This principle (in `docs/core-agent-doctrine.md` section 2C) reflects a key lesson from fixing the kebab-case bug: complex regex over-engineering caused a simple problem. Simpler is usually better.
+
 Better work now should make the next work easier.
+
+## Main Hub Scripts
+
+**Linux/WSL Scripts:**
+
+| Script | Purpose |
+|---|---|
+| `scripts/ws.sh` | Read-only: status, hotspots, validate, search |
+| `scripts/propagate-to-all.sh` | Sync templates to topic folders (CREATE ONLY) |
+| `scripts/migrate-templates.sh` | Migrate existing files to new template format |
+| `scripts/audit-folder-quality.sh` | Validate active authored files |
+| `scripts/check-sync-status.sh` | Check propagation freshness |
+| `scripts/harvest-topic-insights.sh` | Collect topic lessons from all folders |
+| `scripts/build-cross-domain-candidates.sh` | Build promotion queue for cross-domain lessons |
+| `scripts/merge-and-propagate.sh` | Merge reviewed lessons and propagate |
+
+Run `bash scripts/ws.sh` without arguments for quick help.

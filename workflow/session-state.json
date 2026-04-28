@@ -1,222 +1,54 @@
-# SESSION STATE - READ THIS FILE BEFORE ANYTHING ELSE
-
-## COMPACTION RECOVERY (CRITICAL)
-
-If you are resuming after a context compaction:
-1. DO NOT re-verify previous work
-2. DO NOT continue from any previous summary
-3. Read this file and execute `next_action` only
-
----
-
-## CURRENT STATE
-
-- **Session:** session-45 (2026-04-24)
-- **Status:** in_progress
-- **Interrupted count:** 0
-
-## GIT STANDARDIZATION (2026-04-23)
-
-All 25 topic folders in M-Namikaz-Others now have initialized git repos:
-- Standard `.gitignore` propagated from `propagate-templates/gitignore.template`
-- Auto-committed baseline with existing files
-- `core.autocrlf=false` to prevent Windows line-ending issues
-- `scripts/propagate-to-all.ps1` updated to auto-init git for new folders
-- Nested git repos detected and excluded from parent (added to .gitignore)
-
-Folders with nested repos (excluded from parent):
-- Bus App: bus-app-content
-- Claw Code: claw-code-content/claw-code
-- Comfer: comfer-content/checkout
-- Fluent Search Manifest: fluent-search-manifest-content/Extras, Java, Main, Versions
-- Hugo: hugo-content/Hugo-Half-Failed-Implementation/computing-notes-hugo
-- Image Glass: image-glass-content
-- ImageMagick: image-magick-content
-- MathLearningNotes: math-learning-notes-content
-- OOP Project: oop-project-content
-- OpenCode: opencode-content
-- Wall You: wall-you-content/ScenicFetch
-
-## CURRENT TASK
-
-- **Name:** Workspace rescan + deprecated script integration + subagent/MCP evaluation
-- **Phase:** completed
-- **What was just done:**
-  - Created `docs/workspace-summary.md` — comprehensive living catalog of all hub files organized by activity tier.
-  - Integrated salvageable deprecated script functionality into `scripts/ws.ps1`:
-    - `cleanup` command (from `cleanup-folders.ps1`)
-    - `customizations` command (from `analyze-folder-customizations.ps1`)
-  - Wrote `docs/agent-system-evaluation.md` — honest assessment of subagent system and MCP adoption.
-  - **Implemented MCP Phase 1:** Added `@modelcontextprotocol/server-filesystem` MCP server to `opencode.json` and propagation template. Verified server is installable and runs correctly on stdio. No official git MCP server exists yet; deferred to Phase 2.
-  - **Removed truly deprecated scripts:** `sync-project-instructions.ps1` and `sync-all-project-instructions.ps1`.
-  - Updated `docs/workspace-summary.md` to reflect removals and integrations.
-  - Committed all changes.
-- **What comes next:**
-  - **Subagent simplification (7→3):** Dedicated session. Requires updating 7 agent files, 4 docs, 4 templates, and propagating to 25 folders.
-  - **MCP Phase 2:** Build hub MCP server exposing propagation/audit/harvest tools. Deferred until multi-client need is real.
-  - **Update archive/history-2026-04.md** with this session's work.
-
-## NEXT ACTION
-
-No required next action.
-
-## KEY CONTEXT
-
-### Files Created
-- docs/workspace-summary.md
-- docs/agent-system-evaluation.md
-
-### Files Modified
-- scripts/ws.ps1 (added cleanup and customizations commands)
-- opencode.json (added MCP filesystem server)
-- propagate-templates/opencode.template.json (added MCP filesystem server)
-- docs/workspace-summary.md (updated deprecated scripts status)
-- workflow/session-state.json
-
-### Files Removed
-- scripts/sync-project-instructions.ps1
-- scripts/sync-all-project-instructions.ps1
-
-### Decisions Made
-- Deprecated scripts: 2 removed (sync-project-instructions, sync-all-project-instructions), 2 integrated into ws.ps1 (cleanup-folders, analyze-folder-customizations), 1 documented as covered (bootstrap-project-instructions)
-- Subagent system: 7-agent taxonomy over-engineered; recommend 3-role simplification or aggressive direct handling
-- MCP Phase 1 implemented: filesystem server added to opencode.json; git server not officially available yet
-- MCP Phase 2 deferred until multi-client need is real
-
-## KEY CONTEXT
-
-### Files Created
-- docs/repo-tooling.md
-- docs/research-methodology.md
-- docs/model-testing-system.md
-- scripts/ws.sh
-- archive/early-history.md
-- archive/model-tests/
-- .opencode/agents/explorer.md
-- .opencode/agents/planner.md
-- .opencode/agents/scribe.md
-- .opencode/agents/drafter.md
-- .opencode/agents/gardener.md
-- .opencode/agents/debugger.md
-- .opencode/agents/reviewer.md
-- workflow/agentic-savings-log.md
-- docs/codex-agent-workflows.md
-- propagate-templates/opencode-agent-system.template.md
-- propagate-templates/opencode.template.json
-- .opencode/skills/propagate/SKILL.md
-- .opencode/skills/audit-quality/SKILL.md
-- .opencode/skills/session-handoff/SKILL.md
-- .opencode/skills/research-deep/SKILL.md
-- .opencode/skills/cross-domain-harvest/SKILL.md
-- propagate-templates/skills-template/README.md
-- MIDDLE-HISTORY-WITH-CODEX.md
-- 44-HISTORY-WITH-CODEX.md
-
-### Files Modified
-- AGENTS.md
-- README.md
-- docs/cross-project-memory-loop.md
-- docs/workspace-system-overview.md
-- docs/windows-repo-tooling.md
-- scripts/audit-folder-quality.ps1
-- scripts/ws.ps1
-- workflow/session-state.json
-- opencode.json
-- docs/agentic-workflows.md
-- docs/codex-agent-workflows.md
-- propagate-templates/AGENTS.template.md
-- propagate-templates/opencode-agent-system.template.md
-- propagate-templates/opencode.template.json
-- scripts/propagate-to-all.ps1
-- research/research-log.md
-- archive/raw/chat-export-raw-019dafd2-53b8-7bd3-bd7b-1663bad68d31-2026-04-23-172109.jsonl
-- CHAT-EXPORT-RESEARCH-TRENDING-REPOS.txt
-
-### Files Removed
-- docs/wsl-tooling.md
-- docs/CONTEXT.md
-- research/archived-findings.md (moved to docs/research-findings.md)
-- model-tests/ (moved to archive/model-tests/)
-
-### Decisions Made
-- Keep PowerShell as the source of truth for propagation and other mutating hub automation.
-- Use native WSL/Linux commands for WSL read-only inspection instead of requiring PowerShell inside WSL.
-- Keep `docs/windows-repo-tooling.md` as a redirect; use `docs/repo-tooling.md` as the current tooling guide.
-- Middle history should preserve the decision chain, not only the final file list.
-- Remaining manual cleanup decisions from Session 28 still stand:
-  - `Fluent Search Manifest/temp_extras`: active git clone, not duplicate of canonical Extras.
-  - `OpenCode/opencode-content`: active git repo; canonical `open-code-content` is empty.
-
-### Propagated
-- AGENTS.md (with agentic behavior rules) → 25 topic folders
-- opencode-agent-system.md → 25 topic folders
-- opencode.json → 25 topic folders
-- sync-from-hub.ps1 → 25 topic folders
-- git-github-best-practices.md → 25 topic folders
-- audit-folder-quality.ps1 → 25 topic folders
-- .cleanup-protect → 25 topic folders
-- topic-insights.md → 25 topic folders
-
-## TODO STATE
-
-### Completed
-- Read current session state first
-- Added shared repo tooling guidance
-- Added native WSL read-only wrapper
-- Updated terminal strategy references
-- Validated PowerShell and WSL wrapper paths
-- Created `MIDDLE-HISTORY-WITH-CODEX.md`
-- Linked middle history from `README.md`
-- Created `.opencode/agents/` with 7 subagent definitions
-- Updated `opencode.json` with Orchestrator primary agent
-- Updated `docs/agentic-workflows.md` and `AGENTS.md` with actual native config
-- Tested all 5 original subagents successfully (Explorer auto-route, manual @drafter, @debugger, @reviewer)
-- Applied Reviewer audit fixes: Orchestrator permissions, Explorer grep* cleanup, Debugger description fix, fallback documentation, AGENTS.md reference
-- Validated Planner workflow with end-to-end test
-- Added Scribe and Gardener agents
-- Created `workflow/agentic-savings-log.md` for tracking savings
-- Created `docs/codex-agent-workflows.md` for Codex Desktop agentic workflows
-- Propagated agent workflow templates to all 24 topic folders
-
-### In Progress
-(none)
-
-### Pending
-- Restarted OpenCode Desktop to pick up latest config changes
-- Applied recursive-default fix across opencode.json, AGENTS.md, agentic-workflows.md
-- Added agent disclosure footer rule to AGENTS.md, agentic-workflows.md, and all templates
-- Fixed propagate-templates/opencode.template.json to use new direct-handling-default prompt
-- Fixed propagate-templates/AGENTS.template.md inverted routing table
-- Updated README.md and propagate-templates/README.md with new template references
-- Propagate updated templates to all 25 topic folders (COMPLETED 2026-04-23)
-- Implemented Agent Skills system: 5 skills (propagate, audit-quality, session-handoff, research-deep, cross-domain-harvest) in `.opencode/skills/`
-- Updated `opencode.json` with `skill: allow` permission
-- Added Agent Skills documentation to `docs/agentic-workflows.md`
-- Created `propagate-templates/skills-template/` for topic folder adoption
-- Manual decision for `Fluent Search Manifest/temp_extras`
-- Manual decision for `OpenCode/opencode-content`
-
-## WORKSPACE STATE
-
-- **Last full scan:** 2026-04-22
-- **Context pressure:** low
-- **Context used estimate:** ~20%
-
-## KNOWN QUIRKS
-
-### Stale Subagent Todos in UI (Recurring)
-**Symptom:** Todo items from previous subagent sessions (e.g., "Reflect on why user's git idea...") persist in the OpenCode Desktop todo panel and may remain until a new todo overrides them.
-**Cause:** OpenCode Desktop does not always auto-clear child-session todos when the subagent closes. This is a UI rendering quirk, not a workspace bug.
-**Fix:**
-1. Hover the stuck todo → click **×** (delete) manually
-2. If that fails: **Start a new chat tab** (fresh parent session, no inherited child state)
-3. Nuclear option: Restart OpenCode Desktop completely
-**Note:** Todos are fine to use in subagents. Just manually clear stale ones when they appear.
-
----
-
-## RESUMPTION RULES
-
-1. Read workflow/session-state.json FIRST on every resume (especially after compaction)
-2. Write workflow/session-state.json BEFORE heavy operations
-3. If resuming after interrupt: update status + interrupted_count in session-state.json, then continue
+{
+  "session": 53,
+  "status": "ready-for-handoff",
+  "interruptedCount": 0,
+  "contextPressure": "low",
+  "currentTask": {
+    "name": "Full repo reorganization + PowerShell removal complete",
+    "status": "complete"
+  },
+  "environment": {
+    "note": "This workspace runs entirely on Debian/WSL2. No PowerShell needed.",
+    "primaryTerminal": "WSL Debian with native Linux tools",
+    "workspacePath": "/home/namikaz/projects/dev/AI Prompting",
+    "topicFoldersPath": "/home/namikaz/projects/dev/"
+  },
+  "whatChanged": [
+    "Converted 42 .ps1 scripts in 14 topic folders to .sh",
+    "Deleted test-folder.ps1 from hub root",
+    "Deleted all 8 retired hub .ps1 scripts",
+    "Deleted model-tests/ folder from archive",
+    "Moved 4 lesson files from archive/ to docs/",
+    "Deleted __pycache__/ and context-retrieval.py from scripts/",
+    "Created history-index.md",
+    "Consolidated history to 2 files: history-index.md + history-full-detailed.md",
+    "Created bash equivalents for cleanup-folders, extract-voice-profile, test-ws"
+  ],
+  "filesTouched": [
+    "All 14 topic folders (converted .ps1 → .sh)",
+    "scripts/cleanup-folders.sh (NEW)",
+    "scripts/extract-voice-profile.sh (NEW)",
+    "scripts/test-ws.sh (NEW)",
+    "archive/history-index.md (created)"
+  ],
+  "verification": [
+    "Zero .ps1 files remaining in entire workspace",
+    "Hub scripts/ now has 11 .sh files",
+    "History now 2 files: history-index.md (2KB) + history-full-detailed.md (195KB)",
+    "All bash equivalents created before PS1 deletion"
+  ],
+  "historyFiles": {
+    "index": "archive/history-index.md - quick phase reference",
+    "detail": "archive/history-full-detailed.md - full narrative"
+  },
+  "residualRisk": "None",
+  "immediateNextSteps": [
+    "Test script execution",
+    "Run quality audit"
+  ],
+  "resumeRules": [
+    "Read workflow/session-state.json FIRST on every resume",
+    "Write workflow/session-state.json BEFORE heavy operations",
+    "Use /home/namikaz/projects/dev/ as workspace path"
+  ]
+}

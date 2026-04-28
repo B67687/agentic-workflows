@@ -1,40 +1,28 @@
-# Agentic Token Savings Log
+# Agentic Context Hygiene Log
 
-Track actual token/model usage to measure savings vs monolithic K2.6.
+Track subagent usage to measure context quality, not cost savings.
+
+**Why not cost?** The per-request cost difference between models is often zero now (Copilot Student = free Sonnet 4.6, Gemini AI Studio = 14,400 free req/day, K2.6 on promotion). The real benefit of subsessions is **fresh context**.
 
 ## How to Log a Session
 
 After each work session, fill one row:
 
 ```
-| Date | Task Type | Agent Used | Model | Est. Tokens | vs K2.6 | Notes |
+| Date | Task Type | Agent Used | Why Spawned | Context Quality | Notes |
 ```
 
-**Est. Tokens:** Rough count based on output length (or check OpenCode console for exact numbers)
-**vs K2.6:** Cheaper / Same / More expensive
+**Why Spawned:** Fresh context / Parallel work / Different capability / Bulk search
+**Context Quality:** Did the subagent produce better output because of the clean slate?
 
 ---
 
 ## Session Log
 
-| Date | Task Type | Agent Used | Model | Est. Req Cost | vs K2.6 | Notes |
-|------|-----------|------------|-------|--------------|---------|-------|
-| 2026-04-22 | Find file | Explorer | M2.5 | $0.0019 | 5.5× cheaper | Auto-routed |
-| 2026-04-22 | Find files | Explorer | M2.5 | $0.0019 | 5.5× cheaper | Auto-routed |
-| 2026-04-22 | Explain physics | Debugger | K2.6 | $0.0104 | Same | Manual @debugger |
-| 2026-04-22 | Write script | Drafter | M2.7 | $0.0035 | 3× cheaper | Manual @drafter |
-| 2026-04-22 | Audit configs | Reviewer | GLM-5.1 | $0.0136 | 1.3× more | Manual @reviewer |
-
-### Running Totals (This Session)
-
-| Metric | Value |
-|--------|-------|
-| Tasks routed to cheaper models | 3/5 (60%) |
-| Tasks at same cost | 1/5 (20%) |
-| Tasks at higher cost | 1/5 (20%) |
-| Actual cost (agentic) | ~$0.0313 |
-| Baseline cost (all K2.6) | ~$0.0520 |
-| **Estimated savings** | **~40%** |
+| Date | Task Type | Agent Used | Why Spawned | Context Quality | Notes |
+|------|-----------|------------|-------------|-----------------|-------|
+| 2026-04-22 | Find file | Explorer | Bulk search | N/A | Auto-routed, 50+ files |
+| 2026-04-22 | Long session | Worker | Fresh context | Better | 20+ turns, quality was degrading |
 
 ---
 
@@ -48,12 +36,11 @@ Copy this at the end of each week:
 | Metric | Value |
 |--------|-------|
 | Total tasks | |
-| Auto-routed tasks | |
-| Manual @mention tasks | |
-| Avg savings per task | |
-| Total estimated savings | |
-| Quality issues from routing | |
-| Times reverted to monolithic | |
+| Handled directly | |
+| Spawned Explorer | |
+| Spawned Worker | |
+| Times fresh context helped | |
+| Times spawn was unnecessary | |
 
 ### What worked well:
 - 
@@ -61,20 +48,19 @@ Copy this at the end of each week:
 ### What needs improvement:
 - 
 
-### Model quota usage:
-| Model | Requests Used | Quota Status |
-|-------|--------------|--------------|
-| M2.5 | | |
-| M2.7 | | |
-| K2.6 | | |
-| GLM-5.1 | | |
+### Model usage:
+| Model | Requests Used | Notes |
+|-------|--------------|-------|
+| Main AI (K2.6/Sonnet) | | |
+| Explorer (M2.5 Free) | | |
+| Worker (K2.6/M2.7) | | |
 ```
 
 ---
 
 ## Notes
 
-- Cost estimates based on OpenCode Go $12/5hr limits (M2.5=6,300 req, M2.7=3,400 req, K2.6=1,150 req, GLM-5.1=880 req)
-- Actual costs vary by input/output token counts
-- For precise numbers, check opencode.ai/auth console
-- Quality preservation is harder to quantify than cost — note any routing mistakes in "What needs improvement"
+- **Cost is no longer the primary metric.** Track whether fresh context actually improved output quality.
+- **Explorer** (M2.5 Free) is still worth tracking for bulk searches — it's genuinely free and fast.
+- **Worker** should only be spawned when: 15+ turns, topic shift, or quality degradation detected.
+- If Worker is spawned frequently, consider whether sessions are too long or tasks too large.

@@ -1,0 +1,24 @@
+{
+  "session": 1,
+  "status": "active",
+  "interruptedCount": 0,
+  "contextPressure": "low",
+  "currentTask": {
+    "name": "Task name",
+    "status": "in_progress"
+  },
+  "environment": {
+    "note": "Add environment notes here"
+  },
+  "whatChanged": [],
+  "filesTouched": [],
+  "verification": [],
+  "residualRisk": "None",
+  "immediateNextSteps": [
+    "Define your first next step"
+  ],
+  "resumeRules": [
+    "Read workflow/session-state.json FIRST on every resume",
+    "Write workflow/session-state.json BEFORE heavy operations"
+  ]
+}

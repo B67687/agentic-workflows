@@ -10,6 +10,17 @@ These principles are grounded in cognitive science — see AGENTS.md for the res
 
 Build the smallest correct context, choose the right execution lane, define what done means, verify the result, and capture any lesson that should change future behavior.
 
+## Runtime-Backed Addendum (2026-04-24)
+
+Agentic source-code reading reinforced one operating lesson: strong work depends on contracts around tools, state, permissions, and verification.
+
+Apply that as four habits:
+
+- Treat context as a budget. Keep global instructions lean, pass only the evidence needed for the decision, and reset or hand off before quality degrades.
+- Treat tools as contracts. Know whether a step is read-only, write-scoped, destructive, concurrent, or likely to emit huge output.
+- Treat rewrites as parity problems. A faster implementation is not equivalent until scripted scenarios, captured requests, or tests prove behavior.
+- Treat recovery as a first-class workflow. After compaction, resume, or a failed loop, run a small read-only health probe before more edits.
+
 ## 1. Scope The Task Tightly
 
 Do not ask for "everything."
@@ -47,6 +58,15 @@ When the request is clear enough and the risk is low, the agent should proactive
 - a tests-first or TDD approach when behavior is changing
 
 Only escalate or ask for clarification when the missing piece has real consequences for safety, scope, or correctness.
+
+## 2C. Prefer Simple Code, Add Complexity Only When Demanded
+
+Code as simple as possible, but no simpler.
+
+- Prefer simple code. It reads faster, debugs easier, and ages better.
+- Add complexity only when a concrete system interaction or real-world use case demands it.
+- Premature abstraction is as harmful as premature optimization.
+- If you can't explain why a pattern is needed, it probably isn't.
 
 ## 3. Define Done And Verification Early
 

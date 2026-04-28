@@ -272,9 +272,15 @@ Add repo-specific guidance in `.github/copilot-instructions.md` for code review 
 4. **Resolve conflicts fully** - never push broken state
 5. **For AI agents** - confirm state, show diffs, defer to humans
 
-## Custom Section
+## Project-Specific Git Rules
 
-<!-- Custom-Section: Git-GitHub -->
-Add repo-specific Git/GitHub rules here.
+For repo-specific Git/GitHub conventions, add them to `meta/PROJECT.md` under a Git section. This file is project-owned and never overwritten by hub propagation.
 
-<!-- End-Custom-Section -->
+Example:
+```markdown
+## Git Conventions
+
+- Use conventional commits: `feat:`, `fix:`, `docs:`, `refactor:`
+- Branch naming: `feature/description` or `fix/issue-number`
+- Squash merge for feature branches
+```

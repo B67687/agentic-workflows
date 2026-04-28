@@ -12,7 +12,7 @@ Central index of folders participating in the cross-domain knowledge flow.
 | Bus App | M:\M-Namikaz-Others\Bus App | Active | 2026-04-19 |
 | Claude Code Source | M:\M-Namikaz-Others\Claude Code Source | Active | 2026-04-19 |
 | Claw Code | M:\M-Namikaz-Others\Claw Code | Active | 2026-04-19 |
-| Codex Replacement | M:\M-Namikaz-Others\Codex Replacement | Active | 2026-04-19 |
+| Codex Replacement | M:\M-Namikaz-Others\Codex Replacement | Archived | 2026-04-19 |
 | Comfer | M:\M-Namikaz-Others\Comfer | Active | 2026-04-19 |
 | Computer Organisation and Architecture | M:\M-Namikaz-Others\Computer Organisation and Architecture | Archived | 2026-04-22 |
 | Fengshui | M:\M-Namikaz-Others\Fengshui | Active | 2026-04-19 |

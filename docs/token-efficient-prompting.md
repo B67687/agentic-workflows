@@ -153,19 +153,18 @@ Source-backed pattern:
 
 ---
 
-## Agentic Routing (Session 42)
+## Agentic Routing And Cache Hygiene (Session 42+)
 
-When working in agentic mode, the Orchestrator routes subtasks to specialist agents. This section covers how to minimize tokens across the multi-agent workflow.
+When working in agentic mode, the main token win is not a large role taxonomy. It is context hygiene: direct handling for most work, fresh context when the thread degrades, and bulk read-only discovery in a cheap lane.
 
 ### Routing Rules
 
-| Subtask Type | Agent | Model | Cost vs K2.6 |
-|-------------|-------|-------|-------------|
-| Search, grep, discovery | Explorer | M2.5 | **5× cheaper** |
-| Draft implementation | Drafter | M2.7 | **3× cheaper** |
-| Hard bugs, reasoning | Debugger | K2.6 | Same |
-| Review, verification | Reviewer | GLM-5.1 | Same |
-| Planning, synthesis | Orchestrator | K2.6 | Same |
+| Situation | Handler | Token reason |
+|---|---|---|
+| Simple or medium task under 15 turns | Main agent direct | No spawn overhead and full local context |
+| Bulk search or discovery across 10+ files | Explorer | Small, read-only packet with no implementation context |
+| Long session, topic shift, or quality degradation | Worker | Fresh context with compressed state |
+| Different capability needed | Specialized model | Use only when capability gap beats routing overhead |
 
 ### Context Passing
 
@@ -191,13 +190,26 @@ Done when: [success criteria]
 6. Orchestrator synthesizes and presents
 7. Subsession context discarded
 
+### Prompt Cache Hygiene
+
+Prompt caches are sensitive to stable inputs. Changing system instructions, tool definitions, model choices, or message scaffolding can erase the benefit of cached context.
+
+Good defaults:
+
+- Keep global instructions lean and stable.
+- Avoid changing tool surfaces mid-session unless required.
+- Fork or hand off with the same essential tool contract when cache stability matters.
+- Put large durable rules in docs and state files instead of repeatedly pasting them.
+- Prefer small state updates over full transcript replay.
+
 ### Cost Impact
 
-| Scenario | Monolithic K2.6 | Agentic | Savings |
-|----------|----------------|---------|---------|
-| Mixed session (20 turns) | Quadratic degradation | Linear (fresh each) | **40–60%** |
-| Search-heavy task | 100% K2.6 | 80% M2.5 | **5× on search** |
-| Draft + review | 100% K2.6 | 70% M2.7 + GLM-5.1 | **3× on draft** |
+| Scenario | Waste pattern | Better pattern |
+|---|---|---|
+| Mixed 20+ turn session | Monolithic context keeps growing | Checkpoint and hand off with 5-line state |
+| Search-heavy task | Repeated broad reads in main context | Explorer gets a bounded read-only packet |
+| Rewrite/parity audit | Huge source dump pasted into chat | Read architecture first, then inspect specific runtime lanes |
+| Post-compaction work | First action is a risky mutation | Run a read-only health probe first |
 
 ---
 
@@ -449,6 +461,37 @@ Bad fit:
 
 Source:
 - [Manifest docs](https://manifest.build/docs/introduction)
+
+---
+
+## Reasoning Effort Selection
+
+For models that support configurable reasoning effort (`low`, `medium`, `high`, `xhigh`), choosing the right level is a token efficiency lever — higher effort costs more tokens but catches harder problems early.
+
+### The Ladder
+
+| Effort | Use When | Token Cost |
+|--------|---------|-----------|
+| `low` | Obvious, local, easy-to-verify changes | Lowest |
+| `medium` | Normal engineering tasks | Medium |
+| `high` | Important, ambiguous, or multi-step work | Higher |
+| `xhigh` | Hard, broad, or expensive-to-get-wrong | Highest |
+
+### Quick Rule
+
+If unsure, use `medium`. It's the safest default for day-to-day repo work.
+
+Escalate to `high` when:
+- Ambiguity increases
+- Scope widens
+- Unfamiliarity increases
+- Hidden-regression risk goes up
+
+Escalate to `xhigh` only when the task is broad, ambiguous, or the cost of a wrong answer is high.
+
+### Source
+
+This ladder is adapted from the detailed analysis in `codex-reasoning-guide.md`, which synthesizes OpenAI Codex documentation and practical agent usage patterns.
 
 ---
 

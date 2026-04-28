@@ -1,16 +1,64 @@
 # Repo Tooling
 
-This file captures the compact tool baseline for repo work on Windows PowerShell and WSL/Linux.
+This file captures the compact tool baseline for repo work on WSL/Linux.
 
 The goal is not to install everything. It is to install the small set of tools that prevents slow searches, fragile JSON parsing, awkward Git inspection, and repeated shell fallbacks.
 
 ## Default For This Workspace
 
-Use PowerShell for mutating `AI Prompting` hub automation because the existing write workflows are PowerShell-first.
+**Current (2026-04-28):** Linux-native tools are the primary workflow. Use `scripts/ws.sh` for read-only operations.
 
-Use WSL when a task benefits from Linux tooling. In WSL, prefer native Linux commands and `scripts/ws.sh`; do not install PowerShell inside WSL just to run this repo unless you specifically want that compatibility.
+- Read-only: `bash scripts/ws.sh status`, `hotspots`, `validate`, `search -q "text"`
+- Mutating: Use the scripts directly or Windows PowerShell when needed
+- No PowerShell required inside WSL
+
+## Safe Mutation Rules
+
+For mutating file operations in this workspace:
+
+- Use one shell end to end. Do not enumerate paths in one shell and delete/move them through another.
+- Prefer native Linux commands: `rm`, `mv`, `cp`, `mv -i` with explicit paths.
+- Before recursive delete or move, resolve the absolute target and confirm it stays inside the intended workspace or explicitly named target directory.
+- Treat compound shell commands as unsafe when they are too long or too nested to review quickly. Split into smaller commands with visible boundaries.
+- Do not turn shell wrappers, env manipulation, redirects, or path-changing commands into broad allow rules.
+- For bulk edits, run read-only discovery first, checkpoint state, then mutate the smallest safe batch.
+- For large outputs, write summaries and artifact paths instead of dumping the full output into the conversation.
+
+These rules come from the same lesson as robust agent runtimes: permission and path safety must be explicit data, not vibes inferred from a command string.
 
 ## Core Toolset
+
+**Always use the fastest tool:**
+
+| Use This | Not This | Why |
+|----------|----------|-----|
+| `fd` | `glob` | 10x faster for file finding |
+| `rg` | `grep` | Faster + regex support |
+| `bash jq` | `read` for JSON | Parses + validates |
+| `bash` | MCP for scripts | Only way to run scripts |
+
+## MCP vs Native Tools
+
+**Rule:** Native CLI tools are faster. Use MCP tools only when native tools don't work.
+
+| Task | Use | Don't Use |
+|------|-----|-----------|
+| Find files | `fd` or `bash find` | `glob` |
+| Search text | `rg` | `grep` |
+| Read JSON | `bash jq` | `read` |
+| Run scripts | `bash` | MCP exec |
+| List dir | `bash ls` | `filesystem_list_directory` |
+
+**When MCP is fine:**
+- Reading single small files (< 100 lines)
+- Simple directory listings
+- When native tool not available
+
+**When native is required:**
+- Anything involving scripts/execution
+- JSON parsing/validation
+- Large repo operations
+- Complex patterns
 
 Essential:
 
@@ -161,12 +209,27 @@ bash scripts/ws.sh hotspots
 bash scripts/ws.sh search -q "session-state"
 ```
 
-Use PowerShell for propagation or other mutating workspace automation.
+For mutating operations, use Windows PowerShell or create bash versions of the scripts.
+
+## Local Context Retrieval
+
+Use local retrieval when a session needs fast workspace context without repeating broad discovery:
+
+```bash
+bash scripts/ws.sh context-index
+bash scripts/ws.sh context-search -q "session-state"
+```
+
+The default index is local SQLite FTS under `workflow/retrieval-index/` and covers curated hub docs, scripts, templates, workflow state, topic control files, and topic meta folders. It excludes archives, generated workflow outputs, binaries, dependency trees, build output, and topic content/source trees by default.
+
+Use `-IncludeSource` only when the curated index misses source-level context and the slower scan is worth it. Keep MCP as a wrapper around these commands later, not a second retrieval implementation.
 
 ## What Each Tool Replaces
 
-- `rg` over slower recursive text search
-- `fd` over slower recursive file discovery
+**Always use the faster native tool over MCP:**
+
+- `rg` over slower MCP grep
+- `fd` over slower MCP glob
 - `jq` over fragile JSON string parsing
 - `fzf` over manual long-list selection
 - `delta` over raw Git diff output
@@ -174,6 +237,8 @@ Use PowerShell for propagation or other mutating workspace automation.
 - `uv` over heavier Python setup
 - `sd` over fragile `sed` escaping for common replacements
 - `eza` over basic `ls`
+
+**Why:** Native tools are 10-100x faster for large repos.
 
 ## Minimal Install
 

@@ -6,6 +6,7 @@ opencode/package.json
 # Generated workflow state
 workflow/sync-state.json
 workflow/cross-domain-review-state.json
+workflow/retrieval-index/
 
 # Temporary files
 *.tmp

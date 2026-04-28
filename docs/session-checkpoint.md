@@ -87,7 +87,7 @@ Continue with: [specific next step]
 When the Orchestrator detects a subtask:
 
 1. **Compress** current context to 5-line summary
-2. **Identify** specialist agent (Explorer/Drafter/Debugger/Reviewer)
+2. **Identify** the lane (direct, Explorer, Worker, or specialized model)
 3. **Spawn** subsession with compressed context + specific task
 4. **Receive** result from specialist
 5. **Synthesize** and present to user
@@ -98,8 +98,51 @@ When the Orchestrator detects a subtask:
 ### Why This Works
 
 - **Prevents degradation** — Fresh context each subtask
-- **Saves tokens** — Specialist models are cheaper for their domain
+- **Saves tokens** - Fresh packets avoid replaying stale context
 - **Maintains momentum** — Compressed summary preserves continuity
+
+---
+
+## Runtime-Style Health Probe
+
+After resume, compaction, or a fresh-context handoff, do a small read-only probe before risky work.
+
+Good probes:
+
+- `git status --short` to confirm the worktree shape
+- `rg --files` or `rg "known-pattern"` to confirm expected files are visible
+- a targeted test discovery command, not a full expensive suite
+- reading the exact state or handover file that should govern the next action
+
+Stop and re-plan if the probe shows:
+
+- expected files are missing or moved
+- the worktree has unexpected conflicting edits
+- the shell/tool environment is broken
+- the next action no longer matches the recorded state
+
+The point is simple: never make the first post-compaction action a delete, bulk move, broad rewrite, or permission expansion.
+
+---
+
+## Checkpoint Payload Standard
+
+A useful checkpoint preserves the runtime facts needed to continue without re-reading the world:
+
+- task name and current phase
+- files changed or intentionally left untouched
+- commands/tests already run and their result
+- active assumptions and decisions
+- allowed write scope or destructive boundary
+- next concrete action
+- residual risk and what would prove it wrong
+
+For long or automated work, also record:
+
+- whether the last phase was discovery, implementation, verification, or cleanup
+- any deferred artifacts or large-output paths
+- any permission/tooling constraint that affected the result
+- whether a fresh-context handoff is recommended
 
 ---
 
@@ -125,6 +168,15 @@ When the Orchestrator detects a subtask:
 1. Update `session-state.json` with final status
 2. Add any durable learnings to key_context
 3. Leave status as "complete" — next session sees it and starts fresh
+
+### After Two Failed Attempts
+
+If the same fix path or investigation loop fails twice:
+
+1. Stop making edits
+2. Update session state with what failed
+3. Rebuild the hypothesis list from evidence
+4. Either narrow the task, switch to fresh context, or ask for a higher-quality review lane
 
 ---
 

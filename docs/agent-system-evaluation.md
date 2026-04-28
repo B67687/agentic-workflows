@@ -1,15 +1,17 @@
 # Agent System Evaluation & MCP Research
 
 **Date:** 2026-04-24
-**Purpose:** Honest assessment of the current 7-subagent system and MCP adoption feasibility.
+**Status:** SUPERCEDED — The system has been simplified from 7 agents to 2 (Explorer + Worker). See `docs/agentic-workflows.md` for the current architecture.
+
+**Purpose:** Honest assessment of the original 7-subagent system and MCP adoption feasibility. Kept for decision history.
 
 ---
 
-## Part 1: Subagent Cost/Benefit Analysis
+## Part 1: Subagent Cost/Benefit Analysis (Historical)
 
-### Current State
+### Original State (7 Agents)
 
-The hub defines 7 subagents:
+The hub originally defined 7 subagents:
 
 | Subagent | Model | Role | Cost |
 |----------|-------|------|------|
@@ -21,71 +23,38 @@ The hub defines 7 subagents:
 | Debugger | M2.7 | Debug / fix / investigate | Flat rate |
 | Reviewer | M2.7 | Review / verify / audit | Flat rate |
 
-Orchestrator handles tasks directly with K2.6 by default, escalating to M2.7 or Sonnet 4.6 only when needed.
-
 ### The Honest Problem
 
-**The specialization is fake.**
+**The specialization was fake.**
 
-- Planner, Drafter, Debugger, and Reviewer all use **the same model** (M2.7).
-- The only differences are their system prompts and the task framing.
-- A single M2.7 instance can plan, draft, debug, and review. The "role" is just a prompt wrapper.
+- Planner, Drafter, Debugger, and Reviewer all used **the same model** (M2.7).
+- The only differences were their system prompts and task framing.
+- A single M2.7 instance can plan, draft, debug, and review. The "role" was just a prompt wrapper.
 
-**The real value is fresh context.**
+**The real value was fresh context.**
 
-When a subagent is spawned, it gets a clean conversation with no accumulated degradation. This IS valuable for long sessions. But we don't need 7 different agents to get fresh context — we just need the ability to spawn a fresh context when needed.
+When a subagent was spawned, it got a clean conversation with no accumulated degradation. This IS valuable for long sessions. But we didn't need 7 different agents to get fresh context — we just needed the ability to spawn a fresh context when needed.
 
-### Cost Reality
+### What Changed (April 2026)
 
-| Tier | Model | Cost | When Used |
-|------|-------|------|-----------|
-| Direct | K2.6 | $0 extra | Default for everything |
-| Fresh context | M2.7 | Flat rate (Go) | When context is degraded |
-| Escalation | Sonnet 4.6 | Pay-as-you-go ($3+/session) | Security or repeated failure |
+The cost landscape collapsed:
+- Copilot Student = free Sonnet 4.6
+- Gemini AI Studio = 14,400 free req/day
+- K2.6 = ~3,450 req/5hr during 3× promotion
 
-The current three-tier fallback (direct → M2.7 → Sonnet) is **financially sound**. The problem is the overhead of choosing among 7 agents when 90% of tasks should be handled directly anyway.
+**The per-request cost difference between "cheap" and "premium" became zero.**
 
-### Usage Patterns (Inferred)
+### Final Simplification: 2 Agents
 
-Based on the routing table and thresholds:
+| Agent | Model | When to Spawn |
+|-------|-------|---------------|
+| **Explorer** | M2.5 Free | Large searches (>10 files), complex grep |
+| **Worker** | Same as Orchestrator (K2.6) | Fresh context for long sessions, parallel work |
 
-- **90%+ of tasks** should be handled directly by K2.6 (the Orchestrator)
-- **5-8%** might benefit from fresh context (large searches, complex drafts)
-- **<2%** need true escalation (security, repeated failures)
+**Eliminated:** Planner, Scribe, Gardener, Drafter, Analyst, Debugger, Reviewer.
 
-With this distribution, maintaining 7 distinct agents is overhead without proportional benefit.
-
-### Recommendation: Simplify to 3 Roles
-
-| Role | Model | When to Spawn | Why Keep |
-|------|-------|---------------|----------|
-| **Explorer** | M2.5 Free | Large searches (>10 files), complex grep patterns | Search is genuinely different from synthesis. M2.5 Free is actually free. |
-| **Drafter** | M2.7 | New file/module creation, multi-file refactors | Fresh context helps for large writes. Same model as direct, but clean slate. |
-| **Analyst** | M2.7 | Second opinion on debug/review, security concerns | Merged Debugger+Reviewer. Fresh context for verification. |
-
-**Eliminate:** Planner, Scribe, Gardener.
-
-- **Planner** → Direct handling by K2.6 is sufficient. Complex plans can be broken into steps and executed directly.
-- **Scribe** → Direct writing by K2.6 is sufficient. The "specialization" added no model capability.
-- **Gardener** → File operations under 10 files should be direct. Bulk operations are rare enough to warrant a fresh-context spawn of Drafter or direct execution.
-
-### Alternative: Keep Definitions, Change Behavior
-
-If removing agent definitions is disruptive (requires propagating to 25 topic folders), keep all 7 definitions but make the Orchestrator **much more aggressive** about direct handling:
-
-- Only spawn Explorer for searches that genuinely exceed 10+ files
-- Only spawn Drafter for new files/modules
-- Never spawn Planner/Scribe/Gardener unless explicitly requested
-- Merge Debugger+Reviewer behavior into a single "spawn fresh context" pattern
-
-This preserves the taxonomy for rare cases without paying the cognitive overhead on every task.
-
-### Migration Path
-
-1. **Immediate:** Update AGENTS.md and docs/agentic-workflows.md to recommend direct handling for Planner/Scribe/Gardener tasks
-2. **Short-term:** Merge Debugger and Reviewer definitions into a single Analyst definition
-3. **Medium-term:** Remove Planner, Scribe, Gardener agent files; update propagation templates
-4. **Long-term:** Evaluate whether even Explorer and Drafter are worth the spawn overhead vs. direct handling with periodic context compression
+- **Planner/Scribe/Gardener** → Direct handling by Orchestrator is sufficient
+- **Drafter/Analyst/Debugger/Reviewer** → Merged into Worker. All were just "do work with fresh context"
 
 ---
 
@@ -189,86 +158,40 @@ The propagation, audit, and cross-domain harvesting systems could be exposed as 
 | Build hub MCP server (Python) | Medium (1-2 days) | High |
 | Both consume + provide | Medium-High (2-3 days) | Very High |
 
-### Recommendation: Phased Adoption
+### MCP Adoption Status
 
-**Phase 1: Consumer (Immediate, Low Effort)**
+**Phase 1 (Consumer) — ATTEMPTED AND ROLLED BACK**
 
-Add MCP server configuration to `opencode.json` or a separate `mcp.json`:
-
+Added `mcpServers` configuration to `opencode.json`:
 ```json
-{
-  "mcpServers": {
-    "filesystem": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-filesystem", "M:/M-Namikaz-Others"]
-    },
-    "git": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-git"]
-    }
+"mcpServers": {
+  "filesystem": {
+    "command": "npx",
+    "args": ["-y", "@modelcontextprotocol/server-filesystem", "M:/M-Namikaz-Others"]
   }
 }
 ```
 
-This gives immediate benefit: safer file ops, standardized git commands.
+**Result:** OpenCode Desktop does **not** recognize the `mcpServers` key. Config had no effect. Commented out pending native MCP support.
 
-**Phase 2: Provider (Short-term, Medium Effort)**
+**Phase 2 (Provider) — DEFERRED**
 
-Build a lightweight MCP server in Python or Node.js that wraps the hub scripts:
+Building an MCP server to expose hub scripts (propagate, audit, harvest) remains a good idea, but only when:
+- OpenCode Desktop supports MCP, OR
+- Multi-client usage becomes real (Claude Desktop, Cursor, etc.)
 
-```python
-# Pseudo-code for hub MCP server
-@mcp.tool()
-def propagate_templates(apply: bool = False) -> str:
-    """Propagate templates to all topic folders."""
-    result = subprocess.run(
-        ["pwsh", "-File", "scripts/propagate-to-all.ps1"]
-        + (["-Apply"] if apply else []),
-        capture_output=True, text=True
-    )
-    return result.stdout
-
-@mcp.tool()
-def audit_quality(folder: str = ".") -> dict:
-    """Run quality audit on specified folder."""
-    # ... implementation
-```
-
-**Phase 3: Integration (Medium-term)**
-
-- Replace direct script invocations in `ws.ps1` with MCP tool calls where appropriate
-- Use memory server for cross-session persistence
-- Document MCP setup in `docs/repo-tooling.md`
-
-### Risks & Mitigations
-
-| Risk | Mitigation |
-|------|-----------|
-| MCP spec is still evolving | Stick to stable tools (filesystem, git). Avoid experimental servers. |
-| Adds dependency on Node.js/npm | Both are already available in the user's environment. |
-| Over-engineering for a single user | Start with Phase 1 (consumer only). Phase 2 only if multi-client usage is desired. |
-| Security of filesystem server | Restrict to `M:/M-Namikaz-Others` only. Never allow root access. |
-
-### Verdict
-
-**MCP is worth adopting, but gradually.**
-
-- **Phase 1 (consumer)** is low-risk, immediate value. Do it.
-- **Phase 2 (provider)** is high-value if the user wants to use multiple AI clients (Claude Desktop, Cursor, etc.) with the same hub workflows. Defer until that need is real.
-- **Phase 3 (full integration)** is long-term optimization. Only after Phases 1-2 are stable.
-
-The hub's current PowerShell-based automation is not obsolete — MCP complements it by providing a standardized interface layer. Keep the scripts; add MCP as an optional frontend.
+**Verdict:** MCP is promising but not yet usable in this workflow. Revisit when OpenCode adds native MCP support.
 
 ---
 
 ## Summary
 
-| System | Verdict | Action |
-|--------|---------|--------|
-| 7-subagent taxonomy | **Over-engineered** | Simplify to 3 roles (Explorer, Drafter, Analyst) or make Orchestrator more aggressive about direct handling |
-| MCP adoption | **Worth it, gradually** | Phase 1 (consumer) immediately; Phase 2 (provider) when multi-client need arises |
-| Current scripts | **Keep** | Add MCP as interface layer, don't replace |
+| System | Original Verdict | Final Action |
+|--------|-----------------|--------------|
+| 7-subagent taxonomy | Over-engineered | **Simplified to 2 agents** (Explorer + Worker) |
+| MCP adoption | Worth it gradually | **Rolled back** — OpenCode Desktop doesn't support MCP yet |
+| Current scripts | Keep | **Kept** — PowerShell automation remains the source of truth |
 
 ---
 
-*This evaluation should be revisited in 3 months or after 10+ sessions with any new configuration.*
+*This evaluation is kept for decision history. The current system is documented in `docs/agentic-workflows.md`.*
