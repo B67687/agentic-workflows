@@ -103,23 +103,66 @@ log_success() { echo -e "${GREEN}[OK]${NC} $1"; }
 log_warn() { echo -e "${YELLOW}[WARN]${NC} $1"; }
 log_skip() { echo -e "${YELLOW}[SKIP]${NC} $1"; }
 log_create() { echo -e "${CYAN}[CREATE]${NC} $1"; }
+log_artifact() { echo -e "${RED}[ARTIFACT]${NC} $1"; }
+
+# Detect old artifacts in a topic folder
+detect_artifacts() {
+    local folder="$1"
+    local folder_name="$(basename "$folder")"
+    
+    echo ""
+    echo -e "${YELLOW}Checking for old artifacts in: $folder_name${NC}"
+    
+    local artifact_count=0
+    
+    # Check for .ps1 files (old PowerShell scripts)
+    while IFS= read -r -d '' ps1file; do
+        local filename="$(basename "$ps1file")"
+        log_artifact "Old PowerShell file: $filename"
+        ((artifact_count++))
+    done < <(find "$folder" -maxdepth 1 -name "*.ps1" -print0 2>/dev/null)
+    
+    # Check for old templates that are no longer propagated (have Managed-By marker)
+    while IFS= read -r -d '' oldfile; do
+        local filename="$(basename "$oldfile")"
+        # Check if this file is in current templates
+        local is_current=false
+        for target in "${TEMPLATES[@]}"; do
+            if [[ "$filename" == "$target" ]]; then
+                is_current=true
+                break
+            fi
+        done
+        if [[ "$is_current" == "false" ]]; then
+            # Check if it has the Managed-By marker (it's a propagated file)
+            if grep -q "Managed-By: AI-Prompting-Library" "$oldfile" 2>/dev/null; then
+                log_artifact "Old propagated file (no longer in template list): $filename"
+                ((artifact_count++))
+            fi
+        fi
+    done < <(find "$folder" -maxdepth 1 -name "*.md" -print0 2>/dev/null)
+    
+    if [[ $artifact_count -eq 0 ]]; then
+        echo "  No old artifacts detected"
+    else
+        echo ""
+        echo -e "${RED}Found $artifact_count old artifact(s) in $folder_name${NC}"
+        echo "  These files are no longer propagated but may exist in the folder."
+        echo "  To clean up: manually delete or run cleanup in that folder."
+    fi
+}
 
 # Convert folder name to kebab-case for content folder
 to_kebab_case() {
     local name="$1"
-    # Replace spaces with dashes first
+    # Replace spaces with dashes, lowercase
     local result="${name// /-}"
-    # Handle acronyms (PR, API, URL) - don't split them
-    result="${result//([A-Z]{2,})([A-Z])/$1-$2}"
-    result="${result//([a-z0-9])([A-Z]{2,})/$1-$2}"
-    # Handle normal CamelCase
-    result="${result//([A-Z]+)([A-Z][a-z])/$1-$2}"
-    result="${result//([a-z0-9])([A-Z])/$1-$2}"
-    # Clean up
+    result="${result,,}"
+    # Clean up multiple dashes
     result="${result//-+/-}"
     result="${result/#-/}"
     result="${result/-$/}"
-    echo "${result,,}"
+    echo "$result"
 }
 
 # Ensure content folder exists
@@ -210,7 +253,20 @@ fi
 # Process each folder
 for folder in "${TOPIC_FOLDERS[@]}"; do
     propagate_to_folder "$folder"
+    detect_artifacts "$folder"
 done
 
 echo ""
 echo "Done."
+echo ""
+echo "============================================="
+echo "ARTIFACT SUMMARY"
+echo "============================================="
+echo "If any [ARTIFACT] warnings appeared above,"
+echo "those files exist in topic folders but are"
+echo "no longer in the propagation list."
+echo ""
+echo "To clean up old artifacts:"
+echo "1. Review the detected files"
+echo "2. Delete them manually or add cleanup logic"
+echo "============================================="
