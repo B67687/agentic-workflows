@@ -465,12 +465,9 @@ The file tracks: current task, files touched, verification results, and next ste
 
 ## Deep References
 
-For detailed guidance on specific topics:
+For detailed guidance (hub docs), sync from hub or refer to:
 
-- **Teaching Order** → `docs/core-agent-doctrine.md` (Teaching section)
-- **Prompt templates** → `docs/prompt-templates.md`
-- **Research workflow** → `docs/core-agent-doctrine.md` (Research section)
-- **Token efficiency** → `docs/token-efficient-prompting.md`
-- **Model selection** → `docs/model-selection-guide.md`
-- **Agentic workflows** → `docs/agentic-workflows.md`
-- **Session checkpoint** → `docs/session-checkpoint.md` (topic folders: use `session-state.json`)
+- **Core doctrine** → AGENTS.md (this file has the 10 principles)
+- **Session state** → session-state.json
+- **Topic insights** → topic-insights.md (update when you learn something)
+- **Quality standards** → quality-standards.md

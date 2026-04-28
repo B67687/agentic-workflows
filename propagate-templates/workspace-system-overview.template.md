@@ -3,16 +3,16 @@
 
 This file explains the structure and conventions for this topic folder.
 
-For the hub's central knowledge base, see `M:\M-Namikaz-Others\AI Prompting\docs\workspace-system-overview.md`.
+For the hub's central knowledge base, see hub's docs/workspace-system-overview.md.
 
 ## What This Folder Is
 
-This is a topic folder within the `M:\M-Namikaz-Others` workspace.
+This is a topic folder within the M-Namikaz-Others workspace.
 
 | Area | What it is | Where normal work goes |
 |---|---|---|
-| `AI Prompting` hub | Central knowledge and propagation system | `docs/`, `research/`, `scripts/`, `workflow/` |
-| This topic folder | Your project/topic workspace | `[topic-name]-content/` |
+| `AI Prompting` hub | Central knowledge and propagation system | (in parent folder) |
+| This topic folder | Your project/topic workspace | `[folder-name]-content/` |
 
 ## Folder Structure
 
@@ -20,20 +20,20 @@ Expected root structure:
 
 ```text
 [Topic-Folder]/
-|- AGENTS.md                    (from hub - operating contract)
-|- workspace-system-overview.md  (from hub - this file)
-|- topic-insights.md            (from hub - your lessons)
-|- git-github-best-practices.md (from hub)
-|- quality-standards.md         (from hub)
-|- session-state.json           (from hub - current work state)
-|- .cleanup-protect             (from hub)
-|- audit-folder-quality.sh     (from hub - validation)
-|- check-sync-status.sh        (from hub - sync checker)
-|- sync-from-hub.sh            (from hub - sync script)
-|- opencode.json                (from hub - tool config)
-|- opencode-agent-system.md     (from hub - agent instructions)
-|- [topic-name]-content/        (YOUR WORK GOES HERE)
-`- meta/                       (optional - YOUR custom content, never touched by hub)
+|- AGENTS.md                    (operating contract - how AI should work)
+|- workspace-system-overview.md (this file - quick orientation)
+|- topic-insights.md            (your lessons - update when you learn something)
+|- git-github-best-practices.md (git guidance)
+|- quality-standards.md         (quality bar)
+|- session-state.json           (current work state - read on resume)
+|- .cleanup-protect             (protected files list)
+|- [folder-name]-content/       (YOUR WORK GOES HERE)
+|- archive/                    (session history)
+|- meta/                       (optional - YOUR custom content)
+|- audit-folder-quality.sh      (validation script)
+|- check-sync-status.sh       (sync checker)
+|- sync-from-hub.sh            (sync from hub)
+`- opencode.json               (tool config)
 ```
 
 ## Key Rules
@@ -49,19 +49,11 @@ Expected root structure:
 
 ## Core Principles
 
-From `docs/core-agent-doctrine.md`:
+See AGENTS.md for the full 10 principles. Key ones:
 
-- **Scope tightly** — Don't ask for "everything"
-- **Give rich evidence** — Logs, files, configs, then stop micromanaging
-- **Supply missing structure** — Fill in what the user misses
-- **Define done and verification early** — Success criteria matter
-- **Verification is learning** — Testing effect strengthens reasoning
-- **Choose the lightest lane** — Inline, reusable, isolated, review
-- **Plan when ambiguous** — Re-plan when execution wobbles
-- **Optimize quality, not volume** — Verification > generation
-- **Promote repeated work** — Turn recurring workflows into assets
-- **Update memory after lessons** — Compound, don't repeat
-- **Prefer simple code** — Add complexity only when concrete system demand requires it
+- **Supply missing structure** when safe
+- **Verify before presenting**
+- **Handle directly** unless clearly justified to spawn subagent
 
 ## Sync from Hub
 
@@ -85,6 +77,7 @@ For folder quality validation:
 
 ## Hub Reference
 
-- Hub location: `M:\M-Namikaz-Others\AI Prompting`
-- Hub docs: `M:\M-Namikaz-Others\AI Prompting\docs\`
-- Session state template: `M:\M-Namikaz-Others\AI Prompting\propagate-templates\`
+For deeper guidance, see hub's docs/ folder (sync to get latest):
+- Core doctrine → docs/core-agent-doctrine.md
+- Model selection → docs/model-selection-guide.md
+- Agent workflows → docs/agentic-workflows.md
