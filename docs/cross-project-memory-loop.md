@@ -58,8 +58,8 @@ Instead:
 - [token-efficient-prompting.md](token-efficient-prompting.md) for context-efficiency lessons
 - [tdd-with-agents.md](tdd-with-agents.md) for test-driven execution patterns
 - [repo-tooling.md](repo-tooling.md) for tooling guidance
-- [propagate-templates\AGENTS.template.md](../propagate-templates/AGENTS.template.md) for repo-level instruction defaults
-- [propagate-templates\topic-insights.template.md](../propagate-templates/topic-insights.template.md) for local memory structure
+- [propagation\AGENTS.template.md](../propagation/AGENTS.template.md) for repo-level instruction defaults
+- [propagation\topic-insights.template.md](../propagation/topic-insights.template.md) for local memory structure
 
 ## Recommended Cadence
 

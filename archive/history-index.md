@@ -40,7 +40,7 @@
 
 ## Phase 1: Repository Genesis (2026-04-10)
 - Hub as living knowledge base
-- `propagate-templates/` for shared templates
+- `propagation/` for shared templates
 - `AGENTS.md` as operating contract
 
 ---

@@ -20,7 +20,7 @@ set -uo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
-TEMPLATES_DIR="$REPO_ROOT/propagate-templates"
+TEMPLATES_DIR="$REPO_ROOT/propagation"
 
 # Parent is M-Namikaz-Others - check both possible locations
 if [[ -d "/mnt/m/M-Namikaz-Others" ]]; then

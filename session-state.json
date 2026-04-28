@@ -1,0 +1,54 @@
+{
+  "session": 53,
+  "status": "ready-for-handoff",
+  "interruptedCount": 0,
+  "contextPressure": "low",
+  "currentTask": {
+    "name": "Full repo reorganization + PowerShell removal complete",
+    "status": "complete"
+  },
+  "environment": {
+    "note": "This workspace runs entirely on Debian/WSL2. No PowerShell needed.",
+    "primaryTerminal": "WSL Debian with native Linux tools",
+    "workspacePath": "/home/namikaz/projects/dev/AI Prompting",
+    "topicFoldersPath": "/home/namikaz/projects/dev/"
+  },
+  "whatChanged": [
+    "Converted 42 .ps1 scripts in 14 topic folders to .sh",
+    "Deleted test-folder.ps1 from hub root",
+    "Deleted all 8 retired hub .ps1 scripts",
+    "Deleted model-tests/ folder from archive",
+    "Moved 4 lesson files from archive/ to docs/",
+    "Deleted __pycache__/ and context-retrieval.py from scripts/",
+    "Created history-index.md",
+    "Consolidated history to 2 files: history-index.md + history-full-detailed.md",
+    "Created bash equivalents for cleanup-folders, extract-voice-profile, test-ws"
+  ],
+  "filesTouched": [
+    "All 14 topic folders (converted .ps1 → .sh)",
+    "scripts/cleanup-folders.sh (NEW)",
+    "scripts/extract-voice-profile.sh (NEW)",
+    "scripts/test-ws.sh (NEW)",
+    "archive/history-index.md (created)"
+  ],
+  "verification": [
+    "Zero .ps1 files remaining in entire workspace",
+    "Hub scripts/ now has 11 .sh files",
+    "History now 2 files: history-index.md (2KB) + history-full-detailed.md (195KB)",
+    "All bash equivalents created before PS1 deletion"
+  ],
+  "historyFiles": {
+    "index": "archive/history-index.md - quick phase reference",
+    "detail": "archive/history-full-detailed.md - full narrative"
+  },
+  "residualRisk": "None",
+  "immediateNextSteps": [
+    "Test script execution",
+    "Run quality audit"
+  ],
+  "resumeRules": [
+    "Read workflow/session-state.json FIRST on every resume",
+    "Write workflow/session-state.json BEFORE heavy operations",
+    "Use /home/namikaz/projects/dev/ as workspace path"
+  ]
+}

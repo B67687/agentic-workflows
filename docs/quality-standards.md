@@ -41,7 +41,7 @@ This file documents the quality standards for this knowledge base. These standar
 |- workflow/               # Generated workflow files, logs, registries, state
 |- research/               # Research logs and integration notes
 |- archive/                # Preserved reference material
-|- propagate-templates/    # Reusable propagation templates
+|- propagation/    # Reusable propagation templates
 `- personal-voice/         # User voice profile and samples
 ```
 
@@ -213,7 +213,7 @@ Default audit scope:
 - `docs/`
 - `research/`
 - `scripts/`
-- `propagate-templates/`
+- `propagation/`
 - personal-voice root files
 
 Default exclusions:

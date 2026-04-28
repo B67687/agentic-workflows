@@ -24,7 +24,7 @@ A living knowledge base for prompt design, agent workflows, repo rollout, and re
 |- research/              # Active research campaigns
 |- scripts/               # Automation scripts
 |- workflow/              # Session state, sync logs, registries
-|- propagate-templates/   # Templates synced to 25 topic folders
+|- propagation/   # Templates synced to 25 topic folders
 |- archive/               # Preserved historical material
 `- personal-voice/        # User voice profile and samples
 ```
@@ -67,7 +67,7 @@ For understanding how this hub and its ecosystem work.
 
 1. **[docs/workspace-system-overview.md](docs/workspace-system-overview.md)** — Whole-system map
 2. **[docs/cross-project-memory-loop.md](docs/cross-project-memory-loop.md)** — How knowledge flows: topic folders ↔ hub
-3. **[propagate-templates/README.md](propagate-templates/README.md)** — How templates propagate to 25 topic folders
+3. **[propagation/README.md](propagation/README.md)** — How templates propagate to 25 topic folders
 
 ## Quick Reference
 
@@ -105,7 +105,7 @@ Use [scripts/ws.ps1](scripts/ws.ps1) for common workspace operations:
 
 ## Propagation
 
-Templates in `propagate-templates/` sync to 25 topic folders in `M-Namikaz-Others/`.
+Templates in `propagation/` sync to 25 topic folders in `M-Namikaz-Others/`.
 
 ```pwsh
 .\scripts\propagate-to-all.ps1 -Apply   # Sync templates outward

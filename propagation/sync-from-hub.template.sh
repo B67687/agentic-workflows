@@ -31,7 +31,7 @@ echo ""
 # Find hub - look in parent directories
 HUB_DIR=""
 for d in "$CURRENT_DIR"/.. "$CURRENT_DIR"/../.. "$CURRENT_DIR"/../../..; do
-    if [[ -d "$d/AI Prompting" ]] && [[ -f "$d/AI Prompting/propagate-templates/AGENTS.template.md" ]]; then
+    if [[ -d "$d/AI Prompting" ]] && [[ -f "$d/AI Prompting/propagation/AGENTS.template.md" ]]; then
         HUB_DIR="$d/AI Prompting"
         break
     fi
@@ -44,7 +44,7 @@ fi
 
 log_ok "Found hub: $HUB_DIR"
 
-TEMPLATES_DIR="$HUB_DIR/propagate-templates"
+TEMPLATES_DIR="$HUB_DIR/propagation"
 
 # Files to sync
 declare -a FILES=(

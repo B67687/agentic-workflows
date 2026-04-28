@@ -54,7 +54,7 @@ For topic-folder work, read that folder's `meta/HANDOVER.md` first if it exists 
 
 ## Structure Rules
 
-- This hub's working areas are `docs/`, `research/`, `scripts/`, `workflow/`, `propagate-templates/`, `archive/`, and `personal-voice/`.
+- This hub's working areas are `docs/`, `research/`, `scripts/`, `workflow/`, `propagation/`, `archive/`, and `personal-voice/`.
 - Do not move hub content into `ai-prompting-content/` unless the whole hub is intentionally redesigned.
 - In propagated project folders, normal work belongs in `[folder-name]-content/`.
 - Keep propagated folder roots for `AGENTS.md`, `topic-insights.md`, `.cleanup-protect`, `git-github-best-practices.md`, `audit-folder-quality.ps1`, and truly root-scoped project files.

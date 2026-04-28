@@ -94,7 +94,7 @@ is_excluded_file() {
 }
 
 list_active_files() {
-  local roots=(docs research scripts propagate-templates personal-voice)
+  local roots=(docs research scripts propagation personal-voice)
   [[ "$include_archive" -eq 1 || "$include_generated" -eq 1 ]] && roots+=(archive)
   [[ "$include_generated" -eq 1 ]] && roots+=(workflow)
 

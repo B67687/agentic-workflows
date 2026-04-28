@@ -13,7 +13,7 @@ set -uo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
-TEMPLATES_DIR="$REPO_ROOT/propagate-templates"
+TEMPLATES_DIR="$REPO_ROOT/propagation"
 
 # Colors
 RED='\033[0;31m'

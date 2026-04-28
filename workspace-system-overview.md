@@ -83,6 +83,7 @@ Expected topic-folder root:
 |- check-sync-status.ps1        (propagated from hub)
 |- sync-from-hub.ps1            (propagated from hub)
 |- opencode.json                (propagated from hub)
+|- opencode-agent-system.md     (propagated from hub)
 |- [topic-name]-content/        (created by propagation - YOUR WORK GOES HERE)
 `- meta/                       (optional - NEVER touched by hub propagation)
 ```
@@ -151,12 +152,13 @@ Current templates (13):
 - `propagation/topic-insights.template.md` - Topic lessons
 - `propagation/git-github-best-practices.template.md` - Git workflow
 - `propagation/workspace-system-overview.template.md` - System overview reference
-- `propagation/audit-folder-quality.template.sh` - Quality validation
-- `propagation/check-sync-status.template.sh` - Sync status checker
-- `propagation/sync-from-hub.template.sh` - Sync from hub script
+- `propagation/audit-folder-quality.template.ps1` - Quality validation
+- `propagation/check-sync-status.template.ps1` - Sync status checker
+- `propagation/sync-from-hub.template.ps1` - Sync from hub script
 - `propagation/quality-standards.template.md` - Quality standards
 - `propagation/session-state.template.md` - Session state template
 - `propagation/opencode.template.json` - OpenCode config
+- `propagation/opencode-agent-system.template.md` - Agent system prompt
 - `propagation/.cleanup-protect.template.md` - Cleanup protection
 - `propagation/README.md` - Template index
 
