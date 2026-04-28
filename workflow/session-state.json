@@ -4,7 +4,7 @@
   "interruptedCount": 0,
   "contextPressure": "low",
   "currentTask": {
-    "name": "Full repo reorganization + PowerShell removal complete",
+    "name": "Added docs/ folder structure to propagation",
     "status": "complete"
   },
   "environment": {
@@ -22,20 +22,28 @@
     "Deleted __pycache__/ and context-retrieval.py from scripts/",
     "Created history-index.md",
     "Consolidated history to 2 files: history-index.md + history-full-detailed.md",
-    "Created bash equivalents for cleanup-folders, extract-voice-profile, test-ws"
+    "Created bash equivalents for cleanup-folders, extract-voice-profile, test-ws",
+    "Added docs/ folder to all 14 topic folders",
+    "Moved workspace-overview.md to docs/ in topic folders",
+    "Updated propagation to map workspace-overview to docs/"
   ],
   "filesTouched": [
-    "All 14 topic folders (converted .ps1 → .sh)",
+    "All 14 topic folders (added docs/ and moved workspace-overview)",
     "scripts/cleanup-folders.sh (NEW)",
     "scripts/extract-voice-profile.sh (NEW)",
     "scripts/test-ws.sh (NEW)",
-    "archive/history-index.md (created)"
+    "archive/history-index.md (created)",
+    "propagation/workspace-system-overview.template.md (updated)",
+    "scripts/propagate-to-all.sh (updated mapping)",
+    "scripts/check-sync-status.sh (updated path)"
   ],
   "verification": [
     "Zero .ps1 files remaining in entire workspace",
     "Hub scripts/ now has 11 .sh files",
     "History now 2 files: history-index.md (2KB) + history-full-detailed.md (195KB)",
-    "All bash equivalents created before PS1 deletion"
+    "All bash equivalents created before PS1 deletion",
+    "Propagation now maps workspace-overview to docs/",
+    "All 14 topic folders have docs/workspace-system-overview.md"
   ],
   "historyFiles": {
     "index": "archive/history-index.md - quick phase reference",
@@ -43,7 +51,7 @@
   },
   "residualRisk": "None",
   "immediateNextSteps": [
-    "Test script execution",
+    "Ready for propagation to topic folders",
     "Run quality audit"
   ],
   "resumeRules": [
