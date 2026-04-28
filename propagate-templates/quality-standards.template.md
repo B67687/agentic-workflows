@@ -93,8 +93,8 @@ These standards are enforced by `audit-folder-quality.ps1`.
 
 Run the audit:
 
-```powershell
-.\audit-folder-quality.ps1
+```bash
+./audit-folder-quality.sh
 ```
 
 ---
