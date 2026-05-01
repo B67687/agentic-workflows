@@ -35,6 +35,14 @@ Every session MUST update `session-state.json` before heavy operations or resume
 
 The file tracks: current task, what changed, files touched, verification, next steps.
 
+Default resume order:
+1. `session-state.json`
+2. `AGENTS.md`
+3. `docs/workspace-system-overview.md`
+
+Do not create repo-local OpenCode runtime config or workspace-level `.opencode/` directories.
+Treat `session-state.json`, `topic-insights.md`, `.cleanup-protect`, and archive history files as repo-owned after bootstrap.
+
 ---
 
 ## Folder Structure

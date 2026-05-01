@@ -5,6 +5,19 @@
 > Parts: OpenCode sessions → Late Codex → Middle Codex → Early Codex.
 > Created by merging: dated session histories, LATE-HISTORY-WITH-CODEX.md, MIDDLE-HISTORY-WITH-CODEX.md, and EARLY-HISTORY-WITH-CODEX.md.
 
+## Current Architecture Snapshot (2026-05-01)
+
+The current live system is simpler than much of the history below:
+
+- one runtime authority: `/home/namikaz/.config/opencode/opencode.jsonc`
+- one repo resume order: `session-state.json` → `AGENTS.md` → `docs/workspace-system-overview.md`
+- propagation is one-way outward with a managed-core vs repo-owned split
+- harvest is read-only intake from topic repos
+- promotion is explicit and manual before hub docs change
+- bash is the supported forward-looking automation path
+
+The older sections below remain useful as decision history, but they preserve superseded phases such as PowerShell-first automation, repo-local OpenCode runtime layers, and earlier agent/skill experiments.
+
 
 ---
 

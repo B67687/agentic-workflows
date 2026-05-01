@@ -250,61 +250,60 @@ This is the best balance for most people.
 
 ### Option C: Script the bootstrap
 
-Create a small script that drops these files into a repo root and opens the files you still need to customize.
+Use the hub's bash automation to bootstrap missing files and refresh only the managed core.
 
 Use this if you initialize lots of repos.
 
 Scripts available in `scripts/`:
-- `bootstrap-project-instructions.ps1` - create starter files in one repo
-- `sync-project-instructions.ps1` - sync managed templates across chosen repos
-- `sync-all-project-instructions.ps1` - sync all repos from cross-domain registry
-- `set-promotion-review-status.ps1` - persist review decisions on promotion candidates
+- `propagate-to-all.sh` - bootstrap missing repo files and refresh the managed core
+- `check-sync-status.sh` - report managed-core drift versus repo-owned-by-design files
+- `harvest-topic-insights.sh` - collect repo-owned lessons into a central snapshot
+- `build-cross-domain-candidates.sh` - build explicit promotion candidates from the harvested snapshot
+- `merge-and-propagate.sh` - merge one approved candidate into the hub and optionally re-propagate the managed core
 
 ### Safe sync rule
 
-The sync script only overwrites files that already contain the managed marker by default.
+The propagation workflow uses two ownership classes:
+
+- **Hub-owned managed core** can be refreshed
+- **Repo-owned files** are bootstrapped once and then left alone
 
 That means:
 
-- files created from this template system can be updated safely
-- heavily hand-edited unmanaged files are skipped unless you explicitly pass `-UpdateUnmanaged`
+- `AGENTS.md`, `docs/workspace-system-overview.md`, `git-github-best-practices.md`, `quality-standards.md`, `audit-folder-quality.sh`, `check-sync-status.sh`, and `sync-from-hub.sh` can be updated from the hub
+- `session-state.json`, `archive/history-index.md`, `archive/history-full-detailed.md`, `topic-insights.md`, and `.cleanup-protect` are repo-owned after bootstrap and are never overwritten by propagation
 
 ### Example sync usage
 
-```powershell
+```bash
 cd scripts
-.\sync-project-instructions.ps1 `
-  -RepoPaths "M:\repo-one","M:\repo-two" `
-  -IncludeCopilotInstructions `
-  -CreateMissing `
-  -Preview
+bash ./propagate-to-all.sh --folder repo-one --preview
+bash ./propagate-to-all.sh --folder repo-two --preview
 ```
 
-To sync all repos from the cross-domain registry:
+To refresh the managed core across all repos:
 
-```powershell
+```bash
 cd scripts
-.\sync-all-project-instructions.ps1 `
-  -IncludeCopilotInstructions `
-  -CreateMissing
+bash ./propagate-to-all.sh --preview
 ```
 
-Runs in preview mode by default. Use `-Apply` to write changes.
+Runs in preview mode by default. Use `--apply` to write changes.
 
-Then rerun without `-Preview` when the target set looks correct.
+Then rerun with `--apply` when the target set looks correct.
 
 ### Cross-domain registry workflow
 
-Sync all repos from the cross-domain registry:
+Refresh the managed core, then harvest lessons, then build candidates:
 
-```powershell
+```bash
 cd scripts
-.\sync-all-project-instructions.ps1 `
-  -IncludeCopilotInstructions `
-  -CreateMissing
+bash ./propagate-to-all.sh --apply
+bash ./harvest-topic-insights.sh
+bash ./build-cross-domain-candidates.sh
 ```
 
-Runs in preview mode by default. Use `-Apply` to write changes.
+Promotion stays manual. After reviewing a candidate, use `merge-and-propagate.sh` to merge it into the hub and optionally run another managed-core refresh.
 
 ## Current Source-Backed Guidance
 

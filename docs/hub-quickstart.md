@@ -4,7 +4,7 @@ Read this first on every resume. Everything else is linked.
 
 ## Current State
 
-- **Session:** Check `workflow/session-state.json` for active task
+- **Session:** Check root `session-state.json` for the active task
 - **System:** 1 main agent plus 2 optional subsession roles (Explorer + Worker)
 - **Main AI:** Kimi K2.6 (OpenCode Go) or Claude Sonnet 4.6 (Copilot)
 - **Goal:** One main AI for 90% of work. Spawn subagents only for fresh context or bulk search.
@@ -15,16 +15,19 @@ Read this first on every resume. Everything else is linked.
 2. **Spawn Explorer** - Bulk search (10+ files), complex grep
 3. **Spawn Worker** - Fresh context (15+ turns, topic shift, quality drop)
 4. **Plan when ambiguous** - But plan directly, don't spawn a planner
-5. **Write session state** - Before heavy ops, update `workflow/session-state.json`
+5. **Write session state** - Before heavy ops, update root `session-state.json`
 6. **Health-probe after resume** - Read-only sanity check before risky mutations
 7. **Keep public output native** - No routing/model footers unless a platform requires disclosure
+8. **Checkpoint verified phases** - Prefer small commits after verified milestones instead of carrying giant dirty diffs
 
 ## Project Context
 
-- This hub manages 25+ topic folders in `M:\M-Namikaz-Others`
+- This hub manages topic folders in `/home/namikaz/projects/dev`
 - Hub work: docs, research, scripts, templates, workflow state
-- Topic work: inside `[topic-name]-content/`, read `meta/HANDOVER.md` on resume
-- Propagate templates: `scripts/propagate-to-all.ps1 -Apply`
+- Topic work: inside `[topic-name]-content/`, resume from root `session-state.json`
+- Propagate shared defaults: `bash scripts/propagate-to-all.sh --apply`
+- After changing propagation or sync scripts, run: `bash scripts/test-propagation-contract.sh`
+- After a verified phase, use: `bash scripts/checkpoint-commit.sh -m "checkpoint summary"`
 
 ## Deep References (read only when needed)
 
@@ -43,13 +46,14 @@ Read this first on every resume. Everything else is linked.
 
 ```
 [Topic]/
-|- AGENTS.md              (propagated)
-|- topic-insights.md      (propagated)
-|- git-github-best-practices.md (propagated)
-|- .cleanup-protect       (propagated)
-|- audit-folder-quality.ps1 (propagated)
-|- [topic]-content/       (actual work)
-`- meta/                  (optional project context)
-   |- PROJECT.md          (project-specific rules)
-   `- HANDOVER.md         (session state)
+|- AGENTS.md                         (hub-owned managed core)
+|- docs/workspace-system-overview.md (hub-owned managed core)
+|- git-github-best-practices.md      (hub-owned managed core)
+|- quality-standards.md              (hub-owned managed core)
+|- checkpoint-commit.sh              (hub-owned managed core)
+|- session-state.json                (repo-owned after bootstrap)
+|- topic-insights.md                 (repo-owned after bootstrap)
+|- archive/                          (repo-owned after bootstrap)
+|- [topic]-content/                  (actual work)
+`- meta/                             (optional project context)
 ```

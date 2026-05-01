@@ -6,11 +6,11 @@ The goal is not to install everything. It is to install the small set of tools t
 
 ## Default For This Workspace
 
-**Current (2026-04-28):** Linux-native tools are the primary workflow. Use `scripts/ws.sh` for read-only operations.
+**Current (2026-04-30):** Linux-native tools are the primary workflow. Use bash for both read-only inspection and supported workspace automation.
 
 - Read-only: `bash scripts/ws.sh status`, `hotspots`, `validate`, `search -q "text"`
-- Mutating: Use the scripts directly or Windows PowerShell when needed
-- No PowerShell required inside WSL
+- Mutating: Use the bash scripts directly
+- PowerShell is not part of the forward-looking automation contract
 
 ## Safe Mutation Rules
 
@@ -197,7 +197,7 @@ Files under `/mnt/c` or `/mnt/m` are Windows-mounted files, not native Linux fil
 For this workspace:
 
 ```bash
-cd "/mnt/m/M-Namikaz-Others/AI Prompting"
+cd "/mnt/m/M-Namikaz-Others/ai-prompting"
 bash scripts/ws.sh validate
 ```
 
@@ -209,7 +209,7 @@ bash scripts/ws.sh hotspots
 bash scripts/ws.sh search -q "session-state"
 ```
 
-For mutating operations, use Windows PowerShell or create bash versions of the scripts.
+For mutating operations in this repo, use the bash scripts directly.
 
 ## Local Context Retrieval
 

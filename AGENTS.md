@@ -17,20 +17,18 @@ Only ask questions when the gap has real consequences for safety, scope, or corr
 
 ## Startup Order
 
-1. `workflow/session-state.json` - active session state; read first on every resume
+1. `session-state.json` - active session state; read first on every resume
 2. `docs/hub-quickstart.md` - fast orientation (replaces multi-file startup)
 3. `AGENTS.md` - this operating contract
 4. Task-specific files only when needed
 
-For topic-folder work, read that folder's `meta/HANDOVER.md` first if it exists and you are resuming local work.
-
-For topic-folder work, read that folder's `meta/HANDOVER.md` first if it exists and you are resuming local work.
+For topic-folder work, start with that folder's root `session-state.json`, then `AGENTS.md`, then `docs/workspace-system-overview.md`, and only then read `meta/` files when you need deeper local context.
 
 ## High-Signal Files
 
 | File | Purpose |
 |------|---------|
-| `workflow/session-state.json` | Active session; read first on resume |
+| `session-state.json` | Active session; read first on resume |
 | `docs/workspace-system-overview.md` | Plain-language system map |
 | `docs/core-agent-doctrine.md` | 10-principle backbone |
 | `docs/session-checkpoint.md` | Checkpoint and recovery rules |
@@ -48,30 +46,43 @@ For topic-folder work, read that folder's `meta/HANDOVER.md` first if it exists 
 - **Integrate research findings into docs/** within 3 days — do not leave durable insights in research/ or archive/
 - **Use relative links** inside repo docs.
 - **Read personal voice before writing for the user**: `personal-voice/VOICE-PROFILE.md`.
-- **Session state on every resume**: read `workflow/session-state.json` before any other file.
-- **Checkpoint before heavy operations**: update `workflow/session-state.json` before multi-phase work, bulk fetches, or large analysis.
-- **Use PowerShell for mutating hub automation**. WSL read-only inspection can use `scripts/ws.sh`; see `docs/repo-tooling.md`.
+- **Session state on every resume**: read `session-state.json` before any other file.
+- **Checkpoint before heavy operations**: update `session-state.json` before multi-phase work, bulk fetches, or large analysis.
+- **Checkpoint commits after verified phases**: when a logical phase is complete and verified, prefer a small commit instead of carrying the whole session as uncommitted dirt. If you intentionally leave work uncommitted, record why in `session-state.json`.
+- **Use repo-native shell tooling**. Prefer bash in WSL unless a repo explicitly requires PowerShell; see `docs/repo-tooling.md`.
 
 ## Structure Rules
 
 - This hub's working areas are `docs/`, `research/`, `scripts/`, `workflow/`, `propagation/`, `archive/`, and `personal-voice/`.
 - Do not move hub content into `ai-prompting-content/` unless the whole hub is intentionally redesigned.
 - In propagated project folders, normal work belongs in `[folder-name]-content/`.
-- Keep propagated folder roots for `AGENTS.md`, `topic-insights.md`, `.cleanup-protect`, `git-github-best-practices.md`, `audit-folder-quality.ps1`, and truly root-scoped project files.
+- Keep propagated folder roots for `AGENTS.md`, `topic-insights.md`, `.cleanup-protect`, `git-github-best-practices.md`, `audit-folder-quality.sh`, and truly root-scoped project files.
 - If root drift exists, classify it first. Move only safe content; report active `.git` repos, caches, tool homes, build roots, or ambiguous folders.
+
+## Governance Rules
+
+- Runtime authority: use the global OpenCode config at `/home/namikaz/.config/opencode/opencode.jsonc`.
+- Repo authority: use root `session-state.json`, then `AGENTS.md`, then `docs/workspace-system-overview.md`.
+- Do not create repo-local `opencode.json` or workspace-level `.opencode/` directories.
+- Only preserve embedded `.opencode/` content when it is part of upstream source or test fixtures inside another repo's code tree.
+- After any tool, model, OS, or app-variant change, do a repo-wide scan, update `session-state.json`, and remove stale runtime assumptions before resuming normal work.
+- Propagation ownership split:
+  - Hub-owned managed core: `AGENTS.md`, `docs/workspace-system-overview.md`, `git-github-best-practices.md`, `quality-standards.md`, `audit-folder-quality.sh`, `check-sync-status.sh`, `sync-from-hub.sh`
+  - Repo-owned after bootstrap: `session-state.json`, `topic-insights.md`, `.cleanup-protect`, `archive/history-index.md`, `archive/history-full-detailed.md`
 
 ## Session Documentation
 
 At the end of meaningful work:
 
-1. Update `workflow/session-state.json`.
-2. Update `archive/history-2026-04.md` (or current month's history file) with a compact entry.
-   - One entry per session or per major task phase.
-   - Include: date, what changed, files created/moved/deleted, verification results.
-3. For topic-folder work, update that folder's `archive/history-2026-04.md` (create `archive/` if needed) with the session summary and any external work.
+1. Update `session-state.json`.
+2. Update `archive/history-index.md` with a compact phase or session reference when needed.
+3. Update `archive/history-full-detailed.md` with the full session narrative when the work adds durable context.
+4. For topic-folder work, keep the same split:
+   - `archive/history-index.md` for compact lookup
+   - `archive/history-full-detailed.md` for the full narrative
 4. Include decisions future sessions need.
 
-**Rule:** Session state = every meaningful task. History archive = every session or major phase. Don't let history drift more than one session behind.
+**Rule:** Session state = every meaningful task. History index = compact lookup. History full detailed = durable narrative. Don't let history drift more than one session behind.
 
 **History is NOT read by default.** It's for long-break resumes and understanding past decisions. The startup path is: session-state -> hub-quickstart -> task files. History is only read when explicitly needed.
 
@@ -88,14 +99,13 @@ Rules:
 
 ## Scripts
 
-- `scripts/audit-folder-quality.ps1` - validate active authored files
-- `scripts/ws.ps1` - common status, search, hotspot, validation, research-preview, and propagation wrapper
+- `scripts/audit-folder-quality.sh` - validate active authored files
 - `scripts/ws.sh` - WSL/Linux read-only status, search, hotspot, and validation wrapper
-- `scripts/check-sync-status.ps1` - check propagation freshness
-- `scripts/propagate-to-all.ps1 -Apply` - sync templates to topic folders
-- `scripts/harvest-topic-insights.ps1` - collect topic lessons
-- `scripts/build-cross-domain-candidates.ps1` - build promotion queue
-- `scripts/merge-and-propagate.ps1` - merge reviewed lessons and propagate
+- `scripts/check-sync-status.sh` - check propagation freshness
+- `scripts/propagate-to-all.sh` - sync templates to topic folders
+- `scripts/harvest-topic-insights.sh` - collect topic lessons
+- `scripts/build-cross-domain-candidates.sh` - build promotion queue
+- `scripts/merge-and-propagate.sh` - merge reviewed lessons and propagate
 
 ## Cross-Domain Knowledge Flow
 
@@ -105,8 +115,8 @@ The hub can then:
 
 1. harvest them into `workflow/harvested-topic-insights.md`
 2. build `workflow/cross-domain-candidates.md`
-3. merge transferable lessons into the smallest correct central doc
-4. propagate changed templates only when shared folder defaults changed
+3. review candidates manually and merge transferable lessons into the smallest correct central doc
+4. propagate changed managed templates only when shared folder defaults changed
 
 Participating folders live in `workflow/cross-domain-registry.md`.
 
@@ -183,7 +193,7 @@ When spawning subsessions, pass only:
 Do not add public-facing footers that disclose routing, model use, or internal execution mechanics unless the target repo or platform explicitly requires it.
 
 Keep accountability in the right place:
-- `workflow/session-state.json` records lanes, progress, files touched, verification, and residual risk.
+- `session-state.json` records lanes, progress, files touched, verification, and residual risk.
 - User-facing summaries focus on root cause, fix, verification, and remaining uncertainty.
 - PRs and public comments stay project-native: no routing notes, model names, or generic automation tells.
 - If a repo requires disclosure, follow that repo's rule and keep it concise.

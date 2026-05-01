@@ -161,25 +161,37 @@ Your main AI should be whichever model you have best access to:
 
 ## Configuration
 
-Agents are configured natively in OpenCode's agent system:
+Agents are configured natively in OpenCode's global OpenCode config:
 
-### Primary Agent (JSON)
+### Runtime Authority
 
-`opencode.json` defines the Orchestrator:
+Use the global config at `/home/namikaz/.config/opencode/opencode.jsonc`.
+
+Do not create repo-local `opencode.json` files or workspace-level `.opencode/` directories for this workflow. The current setup keeps one runtime authority and lets repos differ only through normal repo files such as `session-state.json`, `AGENTS.md`, and `docs/workspace-system-overview.md`.
+
+### Current Pattern (JSON excerpt)
+
+The current system uses a primary orchestrator plus optional subsessions:
 
 ```json
 {
+  "instructions": ["session-state.json"],
+  "shell": "bash",
+  "model": "opencode/minimax-m2.5-free",
+  "small_model": "opencode/minimax-m2.5-free",
   "default_agent": "orchestrator",
   "agent": {
     "orchestrator": {
       "mode": "primary",
-      "model": "opencode-go/kimi-k2.6",
-      "description": "Main orchestrator agent. Handles tasks directly by default, only routing to specialist subagents (explorer, worker) when the task clearly benefits from it. Handles planning, synthesis, and direct conversation.",
-      "prompt": "You are the Orchestrator. Your job is to understand the user's request and handle it directly by default, only routing to specialist agents when the task clearly benefits from it.\n\nIMPORTANT: Customize the model IDs below to match your OpenCode subscription (Go, Zen, Copilot, etc.). Use cheap models for simple tasks and expensive models for hard tasks.\n\n### DEFAULT STANCE: Handle Directly\nYour default behavior is to handle tasks yourself using available tools (read, glob, grep, bash, edit, webfetch). Only spawn a subagent when ALL of these are true:\n1. The task clearly matches a specialist's core domain\n2. The task would genuinely benefit from that specialist's specific model/capabilities\n3. The overhead (4-8 seconds + extra tokens) is justified by complexity\n\nBefore spawning ANY subagent, ask yourself: \"Could I complete this in under 10 seconds with a simple tool call?\" If yes, handle it directly.\n\n### Direct-Handling Thresholds\n| Task Type | Threshold | Action |\n|-----------|-----------|--------|\n| Search | 1-2 files, obvious pattern | Handle directly with read/glob |\n| Search | 3+ files, complex patterns, grep across codebase | Spawn @explorer |\n| File edits | 1-3 line changes, single file | Handle directly |\n| File edits | New file, module, or multi-file change | Spawn @worker |\n| File ops | Move/rename < 10 files | Handle directly |\n| File ops | Bulk reorganize 10+ files, archive, cleanup | Handle directly or spawn @worker if complex |\n| Docs | Update 1 section, fix typo | Handle directly |\n| Docs | Write new guide, full README, changelog | Handle directly |\n| Explanation | Simple Q&A, clarification | Handle directly |\n| Explanation | Deep analysis, root cause | Handle directly (K2.6) by default; spawn @worker (M2.7) only if fresh context needed |\n| Review | Quick sanity check | Handle directly |\n| Review | Full code review, audit | Handle directly (K2.6) by default; spawn @worker (M2.7) only if fresh context needed |\n\n**Three-tier fallback... (line truncated to 2000 chars)
+      "model": "opencode/minimax-m2.5-free",
+      "small_model": "opencode/minimax-m2.5-free",
+      "steps": 20,
       "permission": {
         "edit": "allow",
         "bash": "allow",
         "webfetch": "allow",
+        "skill": "allow",
+        "sequential-thinking_*": "allow",
         "task": {
           "*": "deny",
           "explorer": "allow",
@@ -187,27 +199,56 @@ Agents are configured natively in OpenCode's agent system:
         }
       }
     },
+    "explore": {
+      "model": "opencode/minimax-m2.5-free",
+      "steps": 6
+    },
+    "review": {
+      "mode": "subagent",
+      "model": "opencode/minimax-m2.5-free",
+      "temperature": 0.1,
+      "steps": 6,
+      "permission": {
+        "edit": "deny"
+      }
+    },
     "build": {
-      "disable": true
+      "mode": "primary",
+      "steps": 24
+    },
+    "plan": {
+      "mode": "primary",
+      "model": "opencode/minimax-m2.5-free",
+      "temperature": 0.1,
+      "steps": 8,
+      "permission": {
+        "edit": "deny",
+        "bash": "deny"
+      }
+    }
+  },
+  "mcp": {
+    "sequential-thinking": {
+      "type": "local",
+      "command": ["npx", "-y", "@modelcontextprotocol/server-sequential-thinking"],
+      "enabled": true
     }
   }
 }
 ```
 
-**Note:** The built-in `build` agent is disabled to avoid redundancy (Orchestrator replaces it). It remains in config as a fallback — set `"disable": false` to re-enable.
+### Current Agent Roles
 
-### Subagents (Markdown)
+| Agent | Role |
+|------|------|
+| `orchestrator` | Default lane. Handles work directly and routes only when a fresh context or specialized lane is genuinely helpful. |
+| `explorer` | Read-only bulk discovery for large search or repo mapping tasks. |
+| `worker` | Fresh-context implementation or verification lane when the main thread is too saturated or the task needs a clean slice. |
+| `review` | Read-only review lane for diff audits and bug/risk finding. |
+| `plan` | Read-only planning lane for concise decision-complete plans. |
+| `build` | Straight implementation lane when you want less routing logic than the orchestrator. |
 
-`.opencode/agents/*.md` files define subagents. OpenCode auto-discovers them.
-
-| File | Agent | Model | Permissions | When Spawned |
-|------|-------|-------|-------------|--------------|
-| `explorer.md` | Explorer | `opencode/minimax-m2.5-free` | Read-only | Bulk search (10+ files), complex grep |
-| `worker.md` | Worker | `opencode-go/kimi-k2.6` (or M2.7) | Write + edit + bash | Fresh context for long sessions, parallel work |
-
-**Removed (merged into Worker):**
-- ~~`drafter.md`~~ — "Implementation" is just work with fresh context
-- ~~`analyst.md`~~ — "Deep investigation" is just work with fresh context
+There are no repo-local `.opencode/agents/*.md` files in the supported workspace design. Agent behavior lives in the global config and in the hub doctrine docs.
 
 ---
 
@@ -278,6 +319,85 @@ Instead, keep accountability inside the work artifacts:
 - Final user summaries focus on root cause, fix, verification, and residual risk.
 - PRs and public comments stay project-native: no model names, no routing notes, no generic automation tells.
 - If a platform requires disclosure, follow that platform's rule and keep it concise.
+
+---
+
+## Borrowed Workflow Patterns That Fit This Hub
+
+Several external skill repos have good ideas, but this workspace adopts them as compact workflow patterns instead of importing a second full meta-system.
+
+### 1. Grilling Before Big Changes
+
+Use before major feature work, wide refactors, repo reorganization, or ambiguous requests.
+
+Goal:
+- force alignment before implementation
+- surface hidden assumptions
+- clarify scope, constraints, and success criteria
+
+In this hub, the output should update:
+- `session-state.json`
+- the current plan in conversation
+- repo docs only if a durable rule or shared language changed
+
+### 2. Disciplined Diagnosis
+
+Use for hard bugs, regressions, and performance issues.
+
+Loop:
+1. reproduce
+2. narrow
+3. hypothesize
+4. instrument
+5. fix
+6. regression-test
+
+Do not skip straight from "symptom seen" to "patch applied".
+
+### 3. Red-Green-Refactor
+
+This hub already uses TDD as a first-class lane. The key reminder is that agents should prefer one small verified slice over a broad speculative implementation.
+
+See `docs/tdd-with-agents.md`.
+
+### 4. Zoom-Out Pass
+
+Use when local edits are outrunning system understanding.
+
+Ask for:
+- architecture map
+- module responsibilities
+- dependency edges
+- why this area exists
+- where the actual boundary of change should be
+
+This is especially useful before:
+- refactors
+- architecture changes
+- multi-file edits in unfamiliar repos
+
+### 5. Architecture Improvement Routine
+
+Do not wait for a codebase to become a full ball of mud.
+
+Run a periodic architecture pass on active repos:
+- identify complexity that no longer pays rent
+- tighten boundaries
+- promote shared language
+- simplify interfaces
+
+This should happen as a bounded review lane, not as constant opportunistic rewriting.
+
+### The Rule
+
+Adopt small workflow ideas that reinforce the current system:
+- one runtime authority
+- one repo resume path
+- one-way propagation
+- read-only harvest
+- explicit manual promotion
+
+Do not import a second skill/config runtime that competes with the hub.
 
 ---
 
@@ -458,7 +578,7 @@ You can run the entire agentic system on free models. See `docs/free-tier-agenti
 
 ### Quick Toggle
 
-Switch the orchestrator model in `opencode.json` based on your budget:
+Switch the orchestrator model in `/home/namikaz/.config/opencode/opencode.jsonc` based on your budget:
 
 | Mode | Orchestrator | Worker | Cost |
 |------|-------------|--------|------|
@@ -491,71 +611,45 @@ The agentic framework is **model-agnostic**. Free models like M2.5 Free (80.2% S
 
 ---
 
-## Agent Skills
+## Reusable Workflows
 
-This workspace uses OpenCode's native **Agent Skills** support (agentskills.io standard) to package reusable workflows.
+This workspace now packages its reusable behavior as bash scripts plus normal hub docs, not repo-local `.opencode` skills.
 
-### Available Skills
+### Hub-side operators
 
-Skills live in `.opencode/skills/<name>/SKILL.md` and are loaded on-demand via the `skill` tool.
+| Workflow | Entry point | Purpose |
+|---------|-------------|---------|
+| Propagation | `scripts/propagate-to-all.sh` | Bootstrap missing repo files and refresh only the managed core |
+| Sync status | `scripts/check-sync-status.sh` | Report managed-clean, managed-drifted, managed-missing, and repo-owned file state |
+| Harvest | `scripts/harvest-topic-insights.sh` | Read topic insights from repos into a central snapshot |
+| Candidate build | `scripts/build-cross-domain-candidates.sh` | Turn harvested lessons into explicit promotion candidates |
+| Merge and optional re-propagation | `scripts/merge-and-propagate.sh` | Promote one approved candidate into hub docs and optionally refresh managed core |
 
-| Skill | Location | Description | Invoke With |
-|-------|----------|-------------|-------------|
-| **propagate** | `.opencode/skills/propagate/` | Propagate templates from hub to all 25 topic folders | "Propagate templates" or `/propagate` |
-| **audit-quality** | `.opencode/skills/audit-quality/` | Run quality audit on current folder | "Audit this folder" or `/audit-quality` |
-| **session-handoff** | `.opencode/skills/session-handoff/` | Create checkpoint with 5-line summary | "I'm leaving" or 10+ turns |
-| **research-deep** | `.opencode/skills/research-deep/` | Authoritative research with source triangulation | "Research X" or "Investigate Y" |
-| **cross-domain-harvest** | `.opencode/skills/cross-domain-harvest/` | Harvest insights and propagate approved lessons | "Harvest insights" or "Cross-domain review" |
+### Topic-repo wrappers
 
-### How Skills Work
+Every managed repo can carry two thin wrappers:
 
-1. **Discovery**: OpenCode loads skill `name` + `description` at startup (minimal context)
-2. **Activation**: When a task matches a skill's description, the agent loads the full `SKILL.md`
-3. **Execution**: The agent follows the instructions, optionally running bundled scripts
+| Wrapper | Purpose |
+|--------|---------|
+| `sync-from-hub.sh` | Delegates to the hub managed-refresh workflow for that repo only |
+| `check-sync-status.sh` | Delegates to the hub status checker for that repo only |
 
-### Skill Format
+The supported contract is:
 
-```yaml
----
-name: skill-name
-description: What this does and when to use it
----
-
-# Instructions
-Step-by-step guidance for the agent...
-```
-
-### Permissions
-
-Skills are enabled in `opencode.json`:
-```json
-"permission": {
-  "skill": "allow"
-}
-```
-
-Per-skill permissions can be configured with patterns:
-```json
-"permission": {
-  "skill": {
-    "*": "allow",
-    "internal-*": "deny"
-  }
-}
-```
+- managed core can be refreshed by the hub
+- repo-owned files are bootstrapped once and then belong to the repo
+- lesson promotion is explicit, manual, and read-only until approval
 
 ---
 
 ## Status
 
-- [x] Agent definitions created in `.opencode/agents/` (2 agents: explorer, worker)
-- [x] ~~Deprecated agents removed: drafter.md, analyst.md~~ (merged into worker)
-- [x] Orchestrator configured in `opencode.json`
+- [x] Orchestrator configured in the global OpenCode config
 - [x] `default_agent` set to orchestrator
-- [x] Built-in `build` agent disabled (kept as fallback)
 - [x] Task permissions configured for explorer + worker
-- [x] Agent Skills configured in `.opencode/skills/` (5 skills: propagate, audit-quality, session-handoff, research-deep, cross-domain-harvest)
-- [x] Orchestrator permissions added (edit, bash, webfetch)
+- [x] Orchestrator permissions added (edit, bash, webfetch, task, sequential-thinking)
+- [x] Repo-local `.opencode` runtime scaffolding removed from the supported design
+- [x] Bash-based propagation, harvest, and promotion workflows are the supported automation path
 - [x] Documentation updated with April 2026 cost analysis
 
 ### Changelog

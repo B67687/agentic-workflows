@@ -4,64 +4,49 @@ Central index of folders participating in the cross-domain knowledge flow.
 
 ## Registry
 
-| Folder | Path | Status | Joined |
-|--------|------|--------|--------|
-| AI Prompting | M:\M-Namikaz-Others\AI Prompting | Central Hub | 2026-04-19 |
-| AnotherNotes | M:\M-Namikaz-Others\AnotherNotes | Active | 2026-04-19 |
-| BulkCrapUninstaller | M:\M-Namikaz-Others\BulkCrapUninstaller | Active | 2026-04-19 |
-| Bus App | M:\M-Namikaz-Others\Bus App | Active | 2026-04-19 |
-| Claude Code Source | M:\M-Namikaz-Others\Claude Code Source | Active | 2026-04-19 |
-| Claw Code | M:\M-Namikaz-Others\Claw Code | Active | 2026-04-19 |
-| Codex Replacement | M:\M-Namikaz-Others\Codex Replacement | Archived | 2026-04-19 |
-| Comfer | M:\M-Namikaz-Others\Comfer | Active | 2026-04-19 |
-| Computer Organisation and Architecture | M:\M-Namikaz-Others\Computer Organisation and Architecture | Archived | 2026-04-22 |
-| Fengshui | M:\M-Namikaz-Others\Fengshui | Active | 2026-04-19 |
-| Fluent Search Manifest | M:\M-Namikaz-Others\Fluent Search Manifest | Active | 2026-04-19 |
-| Hackerthon | M:\M-Namikaz-Others\Hackerthon | Active | 2026-04-21 |
-| Handbrake | M:\M-Namikaz-Others\Handbrake | Active | 2026-04-19 |
-| Hugo | M:\M-Namikaz-Others\Hugo | Active | 2026-04-19 |
-| Image Glass | M:\M-Namikaz-Others\Image Glass | Active | 2026-04-19 |
-| ImageMagick | M:\M-Namikaz-Others\ImageMagick | Active | 2026-04-22 |
-| Keyboard | M:\M-Namikaz-Others\Keyboard | Active | 2026-04-19 |
-| LocalSend | M:\M-Namikaz-Others\LocalSend | Active | 2026-04-19 |
-| MathLearningNotes | M:\M-Namikaz-Others\MathLearningNotes | Active | 2026-04-19 |
-| NoFaceScanApp | M:\M-Namikaz-Others\NoFaceScanApp | Active | 2026-04-21 |
-| Noise Generator | M:\M-Namikaz-Others\Noise Generator | Active | 2026-04-19 |
-| OOP Project | M:\M-Namikaz-Others\OOP Project | Active | 2026-04-19 |
-| OpenCode | M:\M-Namikaz-Others\OpenCode | Active | 2026-04-19 |
-| Random | M:\M-Namikaz-Others\Random | Active | 2026-04-19 |
-| Reality | M:\M-Namikaz-Others\Reality | Active | 2026-04-19 |
-| UniGetUI | M:\M-Namikaz-Others\UniGetUI | Active | 2026-04-19 |
-| Wall You | M:\M-Namikaz-Others\Wall You | Active | 2026-04-19 |
+| Folder | Path | Status | Notes |
+|--------|------|--------|-------|
+| ai-prompting | `/home/namikaz/projects/dev/ai-prompting` | Central Hub | Central knowledge base and workflow owner |
+| bus-app | `/home/namikaz/projects/dev/bus-app` | Active | Topic folder with repo-owned insights |
+| fengshui | `/home/namikaz/projects/dev/fengshui` | Active | Topic folder with repo-owned insights |
+| fluent-prs | `/home/namikaz/projects/dev/fluent-prs` | Active | Topic folder with repo-owned insights |
+| hugo | `/home/namikaz/projects/dev/hugo` | Active | Topic folder with repo-owned insights |
+| image-glass | `/home/namikaz/projects/dev/image-glass` | Active | Topic folder with repo-owned insights |
+| image-magick | `/home/namikaz/projects/dev/image-magick` | Active | Topic folder with repo-owned insights |
+| keyboard | `/home/namikaz/projects/dev/keyboard` | Active | Topic folder with repo-owned insights |
+| math-learning-notes | `/home/namikaz/projects/dev/math-learning-notes` | Active | Topic folder with repo-owned insights |
+| no-face-scan-app | `/home/namikaz/projects/dev/no-face-scan-app` | Active | Topic folder with repo-owned insights |
+| open-codex | `/home/namikaz/projects/dev/open-codex` | Active | Topic folder with repo-owned insights |
+| random | `/home/namikaz/projects/dev/random` | Active | Topic folder with repo-owned insights |
+| reality | `/home/namikaz/projects/dev/reality` | Active | Topic folder with repo-owned insights |
+| rss-reader | `/home/namikaz/projects/dev/rss-reader` | Active | Topic folder with repo-owned insights |
+| wall-you | `/home/namikaz/projects/dev/wall-you` | Active | Topic folder with repo-owned insights |
 
 ## How to Add a New Folder
 
-1. Create the new folder.
-2. Run `scripts/propagate-to-all.ps1 -Folders [FolderName] -Apply`.
-3. Confirm the folder has `AGENTS.md`, `topic-insights.md`, `.cleanup-protect`, and `[folder-name]-content/`.
+1. Create the new folder under `/home/namikaz/projects/dev`.
+2. Run `bash ./scripts/propagate-to-all.sh --apply`.
+3. Confirm the folder has the managed core plus repo-owned bootstrap files.
 4. Use `[folder-name]-content/` as the primary operating area for normal project work.
-5. Add entry to this registry with status "Active" and current date.
-6. The folder will be picked up by `harvest-topic-insights.ps1` automatically.
+5. Add an entry to this registry with status `Active`.
+6. The folder will be picked up by `harvest-topic-insights.sh` when it has `topic-insights.md`.
 
 ## Status Definitions
 
 | Status | Meaning |
 |--------|---------|
-| Central Hub | AI Prompting - the central knowledge base |
-| Active | Participating in cross-domain flow |
-| Pending write access | Folder exists but propagation could not write required files |
-| Inactive | Has `topic-insights.md` but not participating |
-| Archived | No longer active |
+| Central Hub | The main hub that owns the shared doctrine and templates |
+| Active | Participating in the cross-domain lesson flow |
+| Archived | No longer active, kept only for history |
 
 ## Metadata
 
 ```yaml
 ---
-central_hub: AI Prompting
-version: 1.0
-created: 2026-04-19
-last_updated: 2026-04-22
-total_folders: 25
+central_hub: ai-prompting
+version: 2.0
+last_updated: 2026-04-30
+active_topic_folders: 14
+workflow_mode: manual-approval
 ---
 ```
-

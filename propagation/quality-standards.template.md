@@ -1,3 +1,5 @@
+<!-- Managed-By: AI-Prompting-Library -->
+<!-- Template: Quality-Standards -->
 # Quality Standards
 
 This file documents the quality standards for this knowledge base. These standards ensure the folder itself follows best practices — the meta-quality principle.
@@ -17,7 +19,7 @@ This file documents the quality standards for this knowledge base. These standar
 | Type | Convention | Example |
 |------|------------|---------|
 | Files | lowercase-kebab | `daily-prompts.md` |
-| Scripts | lowercase-kebab | `propagate-to-all.ps1` |
+| Scripts | lowercase-kebab | `propagate-to-all.sh` |
 | Templates | lowercase-kebab | `AGENTS.template.md` |
 | Subfolders | lowercase-kebab | `templates/` |
 
@@ -34,16 +36,16 @@ This file documents the quality standards for this knowledge base. These standar
 
 ### Required Elements
 
-Every `.ps1` script must have:
+Every `.sh` script must have:
 
-1. **Parameter block** — named parameters, not positional
-2. **Help comment** — synopsis, description, examples
-3. **Error handling** — try/catch for risky operations
+1. **Shebang** — `#!/usr/bin/env bash`
+2. **Usage/help block** — synopsis, options, examples
+3. **Safe shell flags** — `set -uo pipefail` at minimum
 4. **Idempotent** — safe to run multiple times
 
 ### Best Practices
 
-- No hardcoded paths: use `$PSScriptRoot` or parameters
+- No hardcoded paths: derive paths from the script directory or explicit parameters
 - Exit codes: 0 for success, 1+ for failure
 
 ---
@@ -89,7 +91,7 @@ This folder must follow its own advice. Specifically:
 
 ### Audit Integration
 
-These standards are enforced by `audit-folder-quality.ps1`.
+These standards are enforced by `audit-folder-quality.sh`.
 
 Run the audit:
 

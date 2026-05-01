@@ -1,87 +1,55 @@
 #!/usr/bin/env bash
+# Managed-By: AI-Prompting-Library
 # =============================================================================
-# sync-from-hub.sh - Pull latest templates from AI Prompting hub
+# sync-from-hub.sh - Refresh hub-owned managed-core files from ai-prompting
 # =============================================================================
-# Run this from any topic folder to sync with the hub.
-# This is a template - copy to your folder and run.
 
 set -uo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-CURRENT_DIR="$(pwd)"
+TARGET_DIR="$SCRIPT_DIR"
+MODE="apply"
 
-# Colors
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-CYAN='\033[0;36m'
-NC='\033[0m'
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --preview|-p)
+      MODE="preview"
+      ;;
+    --apply|-a)
+      MODE="apply"
+      ;;
+    --help|-h)
+      cat <<'EOF'
+Usage: ./sync-from-hub.sh [--preview|--apply]
 
-MANAGED_MARKER="Managed-By: AI-Prompting-Library"
+Refreshes only hub-owned managed-core files.
+Repo-owned files like session-state, topic-insights, and archive history are left untouched.
+EOF
+      exit 0
+      ;;
+    *)
+      echo "Unknown option: $1"
+      exit 1
+      ;;
+  esac
+  shift
+done
 
-log_info() { echo -e "${CYAN}[INFO]${NC} $1"; }
-log_ok() { echo -e "${GREEN}[OK]${NC} $1"; }
-log_warn() { echo -e "${YELLOW}[WARN]${NC} $1"; }
-
-echo "============================================="
-echo "Sync From Hub"
-echo "============================================="
-echo ""
-
-# Find hub - look in parent directories
 HUB_DIR=""
-for d in "$CURRENT_DIR"/.. "$CURRENT_DIR"/../.. "$CURRENT_DIR"/../../..; do
-    if [[ -d "$d/AI Prompting" ]] && [[ -f "$d/AI Prompting/propagation/AGENTS.template.md" ]]; then
-        HUB_DIR="$d/AI Prompting"
-        break
-    fi
+for d in "$TARGET_DIR"/.. "$TARGET_DIR"/../.. "$TARGET_DIR"/../../..; do
+  if [[ -d "$d/ai-prompting" ]] && [[ -f "$d/ai-prompting/scripts/propagation-contract.sh" ]]; then
+    HUB_DIR="$d/ai-prompting"
+    break
+  fi
 done
 
 if [[ -z "$HUB_DIR" ]]; then
-    log_warn "Could not find AI Prompting hub"
-    exit 1
+  echo "ERROR: Could not find ai-prompting hub"
+  exit 1
 fi
 
-log_ok "Found hub: $HUB_DIR"
-
-TEMPLATES_DIR="$HUB_DIR/propagation"
-
-# Files to sync
-declare -a FILES=(
-    "AGENTS.template.md:AGENTS.md"
-    "topic-insights.template.md:topic-insights.md"
-    "git-github-best-practices.template.md:git-github-best-practices.md"
-    "audit-folder-quality.template.sh:audit-folder-quality.sh"
-    "check-sync-status.template.sh:check-sync-status.sh"
-    "sync-from-hub.template.sh:sync-from-hub.sh"
-)
-
-echo ""
-for pair in "${FILES[@]}"; do
-    template="${pair%%:*}"
-    target="${pair##*:}"
-    template_path="$TEMPLATES_DIR/$template"
-    target_path="$CURRENT_DIR/$target"
-    
-    if [[ ! -f "$template_path" ]]; then
-        log_warn "Template missing: $template"
-        continue
-    fi
-    
-    if [[ -f "$target_path" ]]; then
-        # Check if managed
-        if grep -q "$MANAGED_MARKER" "$target_path" 2>/dev/null; then
-            cp "$template_path" "$target_path"
-            log_ok "Updated: $target"
-        else
-            log_warn "Skipped (not managed): $target"
-        fi
-    else
-        cp "$template_path" "$target_path"
-        chmod +x "$target_path"
-        log_ok "Created: $target"
-    fi
-done
-
-echo ""
-log_ok "Sync complete"
+if [[ "$MODE" == "apply" ]]; then
+  exec bash "$HUB_DIR/scripts/propagate-to-all.sh" --folder "$TARGET_DIR" --managed-only --apply
+else
+  exec bash "$HUB_DIR/scripts/propagate-to-all.sh" --folder "$TARGET_DIR" --managed-only --preview
+fi

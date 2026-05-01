@@ -7,11 +7,11 @@ For the hub's central knowledge base, see hub's docs/workspace-system-overview.m
 
 ## What This Folder Is
 
-This is a topic folder within the M-Namikaz-Others workspace.
+This is a topic folder within the shared workspace.
 
 | Area | What it is | Where normal work goes |
 |---|---|---|
-| `AI Prompting` hub | Central knowledge and propagation system | (in parent folder) |
+| `ai-prompting` hub | Central knowledge and propagation system | (sibling folder) |
 | This topic folder | Your project/topic workspace | `[folder-name]-content/` |
 
 ## Folder Structure
@@ -20,33 +20,35 @@ Expected root structure:
 
 ```text
 [Topic-Folder]/
-|- AGENTS.md                    (operating contract - how AI should work)
-|- session-state.json           (current work state - read on resume)
-|- .cleanup-protect             (protected files list)
-|- workspace-system-overview.md (propagated quick reference)
-|- topic-insights.md            (your lessons - update when you learn something)
-|- git-github-best-practices.md (git guidance)
-|- quality-standards.md         (quality bar)
-|- [folder-name]-content/       (YOUR WORK GOES HERE)
-|- docs/                       (propagated knowledge files)
-|- archive/                    (session history)
-|- meta/                       (optional - YOUR custom content)
-|- audit-folder-quality.sh      (validation script)
-|- check-sync-status.sh       (sync checker)
-|- sync-from-hub.sh            (sync from hub)
-`- opencode.json               (tool config)
+|- AGENTS.md                         (hub-owned managed core)
+|- docs/workspace-system-overview.md (hub-owned managed core)
+|- git-github-best-practices.md      (hub-owned managed core)
+|- quality-standards.md              (hub-owned managed core)
+|- audit-folder-quality.sh           (hub-owned managed core)
+|- check-sync-status.sh              (hub-owned managed core)
+|- sync-from-hub.sh                  (hub-owned managed core)
+|- checkpoint-commit.sh              (hub-owned managed core)
+|- session-state.json                (repo-owned after bootstrap)
+|- topic-insights.md                 (repo-owned after bootstrap)
+|- .cleanup-protect                  (repo-owned after bootstrap)
+|- archive/history-index.md          (repo-owned after bootstrap)
+|- archive/history-full-detailed.md  (repo-owned after bootstrap)
+|- [folder-name]-content/            (YOUR WORK GOES HERE)
+`- meta/                             (optional - YOUR custom content)
 ```
 
 ## Key Rules
 
 1. **Work goes in `[topic-name]-content/`** - This is your primary operating area. The hub never touches this folder.
 
-2. **meta/ is protected** - Any folder or file in `meta/` is YOURS. Hub propagation only touches root files.
+2. **meta/ is protected** - Any folder or file in `meta/` is YOURS. Hub propagation never touches it.
 
 3. **Content folder naming** - Uses simple kebab-case: lowercase + spaces → dashes.
    - Example: "Fluent PRs" → `fluent-prs-content`
 
 4. **Session state** - The file `session-state.json` tracks current work. Read it on every resume.
+5. **Ownership split** - The hub may refresh only the managed core. `session-state.json`, `topic-insights.md`, `.cleanup-protect`, and archive files are repo-owned after bootstrap.
+6. **Runtime config** - Do not create repo-local OpenCode runtime config. Use the global config and the root session-state file instead.
 
 ## Core Principles
 
@@ -100,4 +102,4 @@ Root should NOT collect: source folders, notes, docs, assets, downloads, archive
 
 ## Hub Reference
 
-For deeper guidance, see hub's docs/ folder (sync to get latest):
+For deeper guidance, see the hub docs folder (sync to get latest):

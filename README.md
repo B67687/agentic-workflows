@@ -1,4 +1,4 @@
-# AI Prompting Hub — How to Use AI Best
+# ai-prompting Hub — How to Use AI Best
 
 A living knowledge base for prompt design, agent workflows, repo rollout, and reusable lessons.
 
@@ -12,7 +12,7 @@ A living knowledge base for prompt design, agent workflows, repo rollout, and re
 | **Research a new AI topic** | [Research Methodology](docs/research-methodology.md) → [Authoritative Best Practices](docs/authoritative-agent-best-practices.md) |
 | **Maintain my cognitive skills** | [Cognitive Identity](docs/cognitive-identity.md) |
 | **Understand this whole system** | [System Overview](docs/workspace-system-overview.md) → [Cross-Project Memory](docs/cross-project-memory-loop.md) |
-| **Resume interrupted work** | [Session State](workflow/session-state.json) → [AGENTS.md](AGENTS.md) |
+| **Resume interrupted work** | [Session State](session-state.json) → [AGENTS.md](AGENTS.md) |
 
 ## Structure
 
@@ -43,9 +43,9 @@ For setting up agentic workflows in your projects.
 
 1. **[docs/hub-quickstart.md](docs/hub-quickstart.md)** - Fast orientation for the current system
 2. **[docs/agentic-workflows.md](docs/agentic-workflows.md)** — Architecture: 2 subagents (Explorer + Worker), routing
-2. **[docs/core-agent-doctrine.md](docs/core-agent-doctrine.md)** — 10 principles that underpin the system
-3. **[AGENTS.md](AGENTS.md)** - Operating contract: rules, thresholds, coordination notes
-4. **[opencode.json](opencode.json)** + **[.opencode/](.opencode/)** — Configuration and definitions
+3. **[docs/core-agent-doctrine.md](docs/core-agent-doctrine.md)** — 10 principles that underpin the system
+4. **[AGENTS.md](AGENTS.md)** - Operating contract: rules, thresholds, coordination notes
+5. **[AGENTS.md](AGENTS.md)** + **[session-state.json](session-state.json)** — Runtime contract and resume state
 
 ### Product Building Path
 For building products fast with AI agents.
@@ -67,7 +67,7 @@ For understanding how this hub and its ecosystem work.
 
 1. **[docs/workspace-system-overview.md](docs/workspace-system-overview.md)** — Whole-system map
 2. **[docs/cross-project-memory-loop.md](docs/cross-project-memory-loop.md)** — How knowledge flows: topic folders ↔ hub
-3. **[propagation/README.md](propagation/README.md)** — How templates propagate to 25 topic folders
+3. **[scripts/propagate-to-all.sh](scripts/propagate-to-all.sh)** + **[docs/workspace-system-overview.md](docs/workspace-system-overview.md)** — How shared defaults propagate to topic folders
 
 ## Quick Reference
 
@@ -77,6 +77,7 @@ For understanding how this hub and its ecosystem work.
 | Model selection guide | [docs/model-selection-guide.md](docs/model-selection-guide.md) |
 | Quality standards | [docs/quality-standards.md](docs/quality-standards.md) |
 | Git/GitHub best practices | [docs/git-github-best-practices.md](docs/git-github-best-practices.md) |
+| Borrowed workflow patterns that fit this hub | [docs/agentic-workflows.md](docs/agentic-workflows.md) |
 | Repo tooling (Windows/WSL) | [docs/repo-tooling.md](docs/repo-tooling.md) |
 | Token-efficient prompting | [docs/token-efficient-prompting.md](docs/token-efficient-prompting.md) |
 | Cognitive identity | [docs/cognitive-identity.md](docs/cognitive-identity.md) |
@@ -92,33 +93,39 @@ For understanding how this hub and its ecosystem work.
 
 ## Scripts
 
-Use [scripts/ws.ps1](scripts/ws.ps1) for common workspace operations:
+Use [scripts/ws.sh](scripts/ws.sh) for common workspace operations:
 
-```pwsh
-.\scripts\ws.ps1 status      # Check workspace state
-.\scripts\ws.ps1 validate    # Run quality audit
-.\scripts\ws.ps1 hotspots    # Find recent changes
-.\scripts\ws.ps1 search -Query "session-state"
-.\scripts\ws.ps1 research    # Preview research findings
-.\scripts\ws.ps1 propagate   # Preview propagation (add -Apply to execute)
+```bash
+bash ./scripts/ws.sh status      # Check workspace state
+bash ./scripts/ws.sh validate    # Run quality audit
+bash ./scripts/ws.sh hotspots    # Find recent changes
+bash ./scripts/ws.sh search -q "session-state"
 ```
 
 ## Propagation
 
-Templates in `propagation/` sync to 25 topic folders in `M-Namikaz-Others/`.
+Templates in `propagation/` drive two different actions:
 
-```pwsh
-.\scripts\propagate-to-all.ps1 -Apply   # Sync templates outward
+- bootstrap missing shared files into topic folders
+- refresh only the hub-owned managed core in topic folders
+
+```bash
+bash ./scripts/propagate-to-all.sh
+bash ./scripts/propagate-to-all.sh --apply
+bash ./scripts/test-propagation-contract.sh
+bash ./scripts/checkpoint-commit.sh -m "checkpoint summary"
 ```
 
-- `AGENTS.md`, `topic-insights.md`, `.cleanup-protect`, and other templates are propagated
+- Managed core: `AGENTS.md`, `docs/workspace-system-overview.md`, `git-github-best-practices.md`, `quality-standards.md`, `checkpoint-commit.sh`, and helper scripts
+- Repo-owned after bootstrap: `session-state.json`, `topic-insights.md`, `.cleanup-protect`, and archive history files
 - Topic folders create `[folder-name]-content/` for normal project work
-- Root-level files are protected from cleanup
+- Run the smoke test after changing `propagate-to-all.sh`, `check-sync-status.sh`, `sync-from-hub.template.sh`, or `propagation-contract.sh`
 
 ## Archive
 
 - **[archive/README.md](archive/README.md)** — Archive conventions
-- **[archive/history-2026-04.md](archive/history-2026-04.md)** — April 2026 session history
+- **[archive/history-index.md](archive/history-index.md)** — Quick archive index
+- **[archive/history-full-detailed.md](archive/history-full-detailed.md)** — Full historical narrative
 - **[archive/early-history.md](archive/early-history.md)** — Sessions 1–11 (awaiting user input)
 
 ## Maintenance Rule
@@ -131,4 +138,4 @@ If you want to keep improving this folder:
 
 ## Common Commands
 
-PowerShell is the default terminal for mutating workspace automation. For WSL read-only inspection, use `bash scripts/ws.sh validate` after installing the Linux tool baseline in [docs/repo-tooling.md](docs/repo-tooling.md).
+Use bash as the default terminal for workspace automation. Only fall back to PowerShell in repos that explicitly require it.

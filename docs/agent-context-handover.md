@@ -251,7 +251,7 @@ Using MiniMax M2.7 Free for research (latest model, unlimited tokens)
 - docs/CONTEXT.md: AI orientation
 
 ## Next Steps
-1. Read workflow/session-state.json first, then AGENTS.md
+1. Read session-state.json first, then AGENTS.md
 2. Research: model comparisons, handover prompts, memory sharing, agentic workflows
 3. Update knowledge base with findings
 ```

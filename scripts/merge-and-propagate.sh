@@ -3,11 +3,10 @@
 # merge-and-propagate.sh - Merge approved candidate and propagate
 # =============================================================================
 # After approving a cross-domain candidate:
-#   1. Reads the approved candidate
-#   2. Inserts it into the target doc in AI Prompting
-#   3. Creates back-link note in source folder's topic-insights.md
-#   4. Updates merge log
-#   5. Runs propagate-to-all.sh
+#   1. Reads the approved candidate from workflow/cross-domain-candidates.md
+#   2. Inserts the generalized lesson into the target doc in ai-prompting
+#   3. Updates merge-log.md
+#   4. Optionally runs propagate-to-all.sh
 #
 # Usage:
 #   ./merge-and-propagate.sh --id CANDIDATE_ID --target DOC --wording "Generalized wording"
@@ -28,6 +27,7 @@ CANDIDATE_ID=""
 TARGET_DOC=""
 WORDING=""
 PREVIEW=false
+RUN_PROPAGATION=false
 
 # Parse arguments
 while [[ $# -gt 0 ]]; do
@@ -47,6 +47,9 @@ while [[ $# -gt 0 ]]; do
         --preview|-p)
             PREVIEW=true
             ;;
+        --propagate)
+            RUN_PROPAGATION=true
+            ;;
         --help|-h)
             echo "Usage: $0 [options]"
             echo ""
@@ -55,6 +58,7 @@ while [[ $# -gt 0 ]]; do
             echo "  --target DOC           Target doc (e.g., core-agent-doctrine.md)"
             echo "  --wording TEXT         Generalized wording for the lesson"
             echo "  --preview, -p         Preview only"
+            echo "  --propagate           After merge, refresh managed core in topic repos"
             echo "  --help, -h             Show this help"
             echo ""
             echo "Example:"
@@ -97,6 +101,7 @@ echo ""
 log_info "Candidate ID: $CANDIDATE_ID"
 log_info "Target Doc: $TARGET_DOC"
 log_info "Wording: $WORDING"
+log_info "Propagate After Merge: $RUN_PROPAGATION"
 echo ""
 
 TARGET_PATH="$DOCS_DIR/$TARGET_DOC"
@@ -108,19 +113,59 @@ if [[ ! -f "$TARGET_PATH" ]]; then
     exit 1
 fi
 
+if [[ ! -f "$CANDIDATES_FILE" ]]; then
+    log_warn "Candidates file not found: $CANDIDATES_FILE"
+    log_info "Run ./scripts/harvest-topic-insights.sh and ./scripts/build-cross-domain-candidates.sh first"
+    exit 1
+fi
+
+extract_candidate_field() {
+    local field_name="$1"
+    awk -v cid="$CANDIDATE_ID" -v field="$field_name" '
+        $0 == "### Candidate: " cid { in_block=1; next }
+        in_block && /^### Candidate: / { exit }
+        in_block && index($0, "- " field ": ") == 1 {
+            sub("^- " field ": ", "", $0)
+            print
+            exit
+        }
+    ' "$CANDIDATES_FILE"
+}
+
+CANDIDATE_SOURCE_FOLDER="$(extract_candidate_field "Source folder")"
+CANDIDATE_SOURCE_FILE="$(extract_candidate_field "Source file")"
+CANDIDATE_CAPTURE_TYPE="$(extract_candidate_field "Capture type")"
+CANDIDATE_SUGGESTED_TARGET="$(extract_candidate_field "Suggested target")"
+CANDIDATE_TEXT="$(extract_candidate_field "Candidate text")"
+
+if [[ -z "$CANDIDATE_TEXT" ]]; then
+    log_warn "Candidate ID not found in $CANDIDATES_FILE: $CANDIDATE_ID"
+    exit 1
+fi
+
 if [[ "$PREVIEW" == "true" ]]; then
     log_info "Preview mode - would merge:"
     echo ""
-    echo "  Add to: $TARGET_DOC"
-    echo "  Content: $WORDING"
+    echo "  Candidate: $CANDIDATE_ID"
+    echo "  Source folder: $CANDIDATE_SOURCE_FOLDER"
+    echo "  Source file: $CANDIDATE_SOURCE_FILE"
+    echo "  Capture type: $CANDIDATE_CAPTURE_TYPE"
+    echo "  Suggested target: $CANDIDATE_SUGGESTED_TARGET"
+    echo "  Target doc: $TARGET_DOC"
+    echo "  Candidate text: $CANDIDATE_TEXT"
+    echo "  Generalized wording: $WORDING"
     echo ""
-    echo "  Then run: ./scripts/propagate-to-all.sh --apply"
+    if [[ "$RUN_PROPAGATION" == "true" ]]; then
+        echo "  Then run managed refresh automatically"
+    else
+        echo "  Managed refresh is not automatic unless --propagate is passed"
+    fi
 else
     # Add the lesson to the target doc
     echo "" >> "$TARGET_PATH"
     echo "## Cross-Domain Lesson (merged $(date '+%Y-%m-%d'))" >> "$TARGET_PATH"
     echo "" >> "$TARGET_PATH"
-    echo "- $WORDING (from cross-domain candidate: $CANDIDATE_ID)" >> "$TARGET_PATH"
+    echo "- $WORDING (from cross-domain candidate: $CANDIDATE_ID, source: $CANDIDATE_SOURCE_FOLDER)" >> "$TARGET_PATH"
     
     log_ok "Added to: $TARGET_DOC"
     
@@ -129,13 +174,22 @@ else
     echo "## $(date '+%Y-%m-%d %H:%M:%S')" >> "$MERGE_LOG"
     echo "" >> "$MERGE_LOG"
     echo "- Merged candidate: $CANDIDATE_ID" >> "$MERGE_LOG"
+    echo "- Source folder: $CANDIDATE_SOURCE_FOLDER" >> "$MERGE_LOG"
+    echo "- Source file: $CANDIDATE_SOURCE_FILE" >> "$MERGE_LOG"
+    echo "- Capture type: $CANDIDATE_CAPTURE_TYPE" >> "$MERGE_LOG"
+    echo "- Candidate text: $CANDIDATE_TEXT" >> "$MERGE_LOG"
     echo "- Target: $TARGET_DOC" >> "$MERGE_LOG"
     echo "- Wording: $WORDING" >> "$MERGE_LOG"
     
     log_ok "Updated merge log"
     
     echo ""
-    log_info "Now run: ./scripts/propagate-to-all.sh --apply"
+    if [[ "$RUN_PROPAGATION" == "true" ]]; then
+        bash "$SCRIPT_DIR/propagate-to-all.sh" --apply
+        log_ok "Managed refresh complete"
+    else
+        log_info "Now run: ./scripts/propagate-to-all.sh --apply"
+    fi
 fi
 
 echo ""

@@ -216,7 +216,7 @@ fi
 TOPIC_FOLDERS=()
 for item in "$PARENT_DIR"/*/; do
     item_name="$(basename "$item")"
-    if [[ "$item_name" != "AI Prompting" ]] && [[ ! "$item_name" == .* ]]; then
+    if [[ "$item_name" != "ai-prompting" ]] && [[ ! "$item_name" == .* ]]; then
         TOPIC_FOLDERS+=("$item")
     fi
 done

@@ -17,7 +17,7 @@ This file documents the quality standards for this knowledge base. These standar
 | Type | Convention | Example |
 |------|------------|---------|
 | Files | lowercase-kebab | `daily-prompts.md` |
-| Scripts | lowercase-kebab | `propagate-to-all.ps1` |
+| Scripts | lowercase-kebab | `propagate-to-all.sh` |
 | Templates | lowercase-kebab | `AGENTS.template.md` |
 | Subfolders | lowercase-kebab | `templates/` |
 
@@ -51,52 +51,27 @@ This file documents the quality standards for this knowledge base. These standar
 
 ### Required Elements
 
-Every `.ps1` script must have:
+Every `.sh` script must have:
 
-1. **Parameter block** — named parameters, not positional
-2. **Help comment** — synopsis, description, examples
-3. **Error handling** — try/catch for risky operations
-4. **WhatIf support** — `-WhatIf` parameter for dry runs
+1. **Shebang** — `#!/usr/bin/env bash`
+2. **Usage/help block** — synopsis, options, examples
+3. **Safe shell flags** — `set -uo pipefail` at minimum
+4. **Explicit exit behavior** — non-zero exit on failure
 
 ### Best Practices
 
-- No hardcoded paths: use `$PSScriptRoot` or parameters
-- Verbose output: use `-Verbose` for debugging
+- No hardcoded paths: derive paths from the script directory or explicit parameters
+- Clear stdout/stderr separation for normal output vs errors
 - Exit codes: 0 for success, 1+ for failure
-- Idempotent: safe to run multiple times
+- Idempotent when practical: safe to run multiple times
 
-### PowerShell Syntax Standards
+### Bash Script Standards
 
-- Use `param()` block at script start
-- Cmdlet naming: `Verb-Noun` (Get-, Set-, New-, Remove-)
-- Error handling: `try { } catch { Write-Error; exit 1 }`
-- Variables: `$camelCase` or `$PascalCase`
-- Strings: double quotes for interpolation, single for literals
-- Arrays: `@()` for explicit arrays
-- Pipeline: prefer pipeline over loops when appropriate
-
-### Help Comment Template
-
-```powershell
-<#
-.SYNOPSIS
-    Short one-liner description.
-
-.DESCRIPTION
-    Longer description of what the script does.
-
-.PARAMETER ParamName
-    Description of the parameter.
-
-.EXAMPLE
-    .\script.ps1 -ParamName Value
-    Example usage with output.
-
-.NOTES
-    Author: Name
-    Date: YYYY-MM-DD
-#>
-```
+- Use `case` blocks for option parsing in medium or large scripts
+- Use quoted variable expansions unless unquoted splitting is intentional
+- Use `$(...)` command substitution, not backticks
+- Prefer small helper functions over long nested shell pipelines
+- Create parent directories explicitly before writing nested targets
 
 ---
 
@@ -173,7 +148,7 @@ Every template must have:
 ### Template Naming
 
 - `*.template.md` for markdown templates
-- `*.template.ps1` for script templates
+- `*.template.sh` for script templates
 - Include `_example.md` with filled values
 
 ---
@@ -196,7 +171,7 @@ If these standards describe "good" for a category, the files documenting those s
 
 ## 7. Audit Integration
 
-These standards are enforced by `scripts/audit-folder-quality.ps1`.
+These standards are enforced by `scripts/audit-folder-quality.sh`.
 
 The checker validates:
 
@@ -227,8 +202,8 @@ Use `-IncludeArchive` or `-IncludeGenerated` for wider scans.
 
 Run the audit:
 
-```powershell
-.\scripts\audit-folder-quality.ps1
+```bash
+bash ./scripts/audit-folder-quality.sh
 ```
 
 ---
@@ -299,4 +274,4 @@ These are warning thresholds, not hard failures. Exceeding one means the file sh
 - When the full doc is needed for edge cases
 - When multiple related ideas need to stay together
 - When actionability matters more than compression
-- [../scripts/audit-folder-quality.ps1](../scripts/audit-folder-quality.ps1) — validates these standards
+- [../scripts/audit-folder-quality.sh](../scripts/audit-folder-quality.sh) — validates these standards

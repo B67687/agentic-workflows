@@ -1,6 +1,6 @@
-# AI Prompting Workspace System Overview
+# ai-prompting Workspace System Overview
 
-This workspace is the control hub for `M:\M-Namikaz-Others`.
+This workspace is the control hub for `/home/namikaz/projects/dev`.
 
 **Current environment:** Debian/WSL2 (2026-04-28). Primary terminal is WSL. All scripts use bash/Linux tooling.
 
@@ -36,14 +36,14 @@ research -> integrate -> propagate -> verify -> document
 
 Most important practical rules:
 
-> On every resume, read `workflow/session-state.json` first.
+> On every resume, read `session-state.json` first.
 > Then read `AGENTS.md` - it's the operating contract for this workspace.
 
 ## Fast Startup Protocol
 
 | Step | Read | Why |
 |---|---|---|
-| 1 | `workflow/session-state.json` | Current task, last work, next action. |
+| 1 | `session-state.json` | Current task, last work, next action. |
 | 2 | `docs/hub-quickstart.md` | Fast orientation (replaces multi-file startup). |
 | 3 | Task-specific files | Deep docs, topic folders, scripts, or research logs. |
 
@@ -51,19 +51,19 @@ Do not start with a full repository scan unless the task actually needs it.
 
 For topic-folder work:
 
-- If `[Topic]/meta/HANDOVER.md` exists and you are resuming topic work, read it first.
-- Otherwise read `[Topic]/AGENTS.md`, then `topic-insights.md`, then local `meta/` files if present.
+- Use `meta/HANDOVER.md` only as historical context when the root `session-state.json`, `AGENTS.md`, and overview docs are not enough.
+- Otherwise read `[Topic]/session-state.json`, then `[Topic]/AGENTS.md`, then `[Topic]/docs/workspace-system-overview.md`, and only then local `meta/` files if present.
 - Real project work belongs in `[Topic]/[topic-name]-content/`.
 
 ## Hub vs Topic Folders
 
 | Area | What it is | Where normal work goes |
 |---|---|---|
-| `AI Prompting` hub | Central knowledge and propagation system | `docs/`, `research/`, `scripts/`, `workflow/`, `propagation/`, `archive/`, `personal-voice/` |
+| ai-prompting hub | Central knowledge and propagation system | `docs/`, `research/`, `scripts/`, `workflow/`, `propagation/`, `archive/`, `personal-voice/` |
 | Sibling topic folders | Individual project/topic workspaces | `[topic-name]-content/` |
 
 Current topic folders (15):
-`Bus App`, `Fengshui`, `Fluent PRs`, `Hackerthon`, `Hugo`, `Image Glass`, `ImageMagick`, `Keyboard`, `MathLearningNotes`, `NoFaceScanApp`, `OpenCodex`, `Random`, `Reality`, `RSS Reader`, `Wall You`
+`bus-app`, `fengshui`, `fluent-prs`, `hackerthon`, `hugo`, `image-glass`, `imagemagick`, `keyboard`, `math-learning-notes`, `no-face-scan-app`, `opencodex`, `random`, `reality`, `rss-reader`, `wall-you`
 
 Do not create `ai-prompting-content/` in this hub unless the whole hub is intentionally redesigned.
 
@@ -73,18 +73,21 @@ Expected topic-folder root:
 
 ```text
 [Topic-Folder]/
-|- AGENTS.md                    (propagated from hub)
-|- topic-insights.md            (propagated from hub)
-|- git-github-best-practices.md (propagated from hub)
-|- quality-standards.md         (propagated from hub)
-|- session-state.json           (propagated from hub)
-|- .cleanup-protect             (propagated from hub)
-|- audit-folder-quality.ps1     (propagated from hub)
-|- check-sync-status.ps1        (propagated from hub)
-|- sync-from-hub.ps1            (propagated from hub)
-|- opencode.json                (propagated from hub)
-|- [topic-name]-content/        (created by propagation - YOUR WORK GOES HERE)
-`- meta/                       (optional - NEVER touched by hub propagation)
+|- AGENTS.md                         (hub-owned managed core)
+|- docs/workspace-system-overview.md (hub-owned managed core)
+|- git-github-best-practices.md      (hub-owned managed core)
+|- quality-standards.md              (hub-owned managed core)
+|- audit-folder-quality.sh           (hub-owned managed core)
+|- check-sync-status.sh              (hub-owned managed core)
+|- sync-from-hub.sh                  (hub-owned managed core)
+|- checkpoint-commit.sh              (hub-owned managed core)
+|- session-state.json                (repo-owned after bootstrap)
+|- topic-insights.md                 (repo-owned after bootstrap)
+|- .cleanup-protect                  (repo-owned after bootstrap)
+|- archive/history-index.md          (repo-owned after bootstrap)
+|- archive/history-full-detailed.md  (repo-owned after bootstrap)
+|- [topic-name]-content/             (created by propagation - YOUR WORK GOES HERE)
+`- meta/                             (optional - NEVER touched by hub propagation)
 ```
 
 **Critical: meta/ is protected.** Hub propagation only touches root files. Your custom content in `meta/` is never overwritten or deleted.
@@ -105,18 +108,26 @@ Root files:
 
 | File | Role |
 |---|---|
-| `AGENTS.md` | Operating contract. Read after `workflow/session-state.json`. |
+| `AGENTS.md` | Operating contract. Read after `session-state.json`. |
 | `README.md` | Navigation index. |
-| `opencode.json` | Local tool configuration. |
 
 ## Terminal Strategy
 
-**Current (2026-04-28):** Primary terminal is Debian/WSL2. Windows filesystem accessible via `/mnt/M/`.
+**Current (2026-04-30):** Primary terminal is Debian/WSL2. Use Linux paths and bash-first tooling by default.
 
 - Use native Linux commands and `scripts/ws.sh` for read-only inspection
 - Use `scripts/propagate-to-all.sh` (bash) for propagation and mutating operations
 - All hub scripts have been converted to bash for Linux-native execution
 - See `docs/repo-tooling.md` for the Linux tool baseline
+
+## Governance Model
+
+- Global runtime authority: `/home/namikaz/.config/opencode/opencode.jsonc`
+- Per-repo resume authority: root `session-state.json`
+- Per-repo context order: `session-state.json` -> `AGENTS.md` -> `docs/workspace-system-overview.md` -> repo content and `meta/`
+- Repo-local OpenCode runtime config is not part of the supported structure
+- Workspace-level `.opencode/` directories are not part of the supported structure
+- After model, tool, OS, or app-variant changes, run a repo-wide scan and remove stale runtime assumptions before continuing normal work
 
 ## Main Operating Loop
 
@@ -143,32 +154,37 @@ Track integration in `research/integration-log.md`.
 
 ### 3. Propagate
 
-Propagate only when new topic folders need templates. **Does NOT overwrite existing files** (CREATE ONLY mode).
+Propagation has two behaviors:
 
-Current templates (13):
+- bootstrap missing shared files into topic folders
+- refresh only the hub-owned managed core in existing topic folders
 
-- `propagation/AGENTS.template.md` - Operating contract (includes 11 principles)
-- `propagation/topic-insights.template.md` - Topic lessons
-- `propagation/git-github-best-practices.template.md` - Git workflow
-- `propagation/workspace-system-overview.template.md` - System overview reference
-- `propagation/audit-folder-quality.template.sh` - Quality validation
-- `propagation/check-sync-status.template.sh` - Sync status checker
-- `propagation/sync-from-hub.template.sh` - Sync from hub script
-- `propagation/quality-standards.template.md` - Quality standards
-- `propagation/session-state.template.md` - Session state template
-- `propagation/opencode.template.json` - OpenCode config
-- `propagation/.cleanup-protect.template.md` - Cleanup protection
-- `propagation/README.md` - Template index
+Current template ownership split:
+
+- Managed core:
+  - `propagation/AGENTS.template.md`
+  - `propagation/workspace-system-overview.template.md`
+  - `propagation/git-github-best-practices.template.md`
+  - `propagation/quality-standards.template.md`
+  - `propagation/audit-folder-quality.template.sh`
+  - `propagation/check-sync-status.template.sh`
+  - `propagation/sync-from-hub.template.sh`
+- Repo-owned after bootstrap:
+  - `propagation/topic-insights.template.md`
+  - `propagation/session-state.template.json`
+  - `propagation/.cleanup-protect.template.md`
+  - `propagation/history-index.template.md`
+  - `propagation/history-full-detailed.template.md`
 
 Run:
 
 ```bash
-# Currently requires Windows PowerShell or pwsh
-# Bash version coming soon
-pwsh ./scripts/propagate-to-all.ps1 -Apply
+bash ./scripts/propagate-to-all.sh
+bash ./scripts/propagate-to-all.sh --apply
 ```
 
-Content folder creation: The script creates `[topic-name]-content/` automatically with kebab-case naming.
+Content folder creation: the script creates `[topic-name]-content/` automatically with kebab-case naming.
+Managed refresh never overwrites repo-owned files like `session-state.json`, `topic-insights.md`, or archive history.
 
 ### 4. Verify
 
@@ -192,7 +208,7 @@ For topic-folder structure work, also run that folder's:
 
 At the end of meaningful work:
 
-- update `workflow/session-state.json`
+- update `session-state.json`
 - link any archived detail instead of bloating hot-path files
 
 ## Source vs Generated Files
@@ -203,7 +219,7 @@ Usually edit directly:
 - `docs/*.md`
 - `research/*.md`
 - `propagation/*`
-- `workflow/session-state.json`
+- `session-state.json`
 - `workflow/cross-domain-registry.md`
 
 Usually generated or refreshed by scripts:

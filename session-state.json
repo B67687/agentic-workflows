@@ -10,7 +10,7 @@
   "environment": {
     "note": "This workspace runs entirely on Debian/WSL2. No PowerShell needed.",
     "primaryTerminal": "WSL Debian with native Linux tools",
-    "workspacePath": "/home/namikaz/projects/dev/AI Prompting",
+    "workspacePath": "/home/namikaz/projects/dev/ai-prompting",
     "topicFoldersPath": "/home/namikaz/projects/dev/"
   },
   "whatChanged": [
@@ -47,8 +47,8 @@
     "Run quality audit"
   ],
   "resumeRules": [
-    "Read workflow/session-state.json FIRST on every resume",
-    "Write workflow/session-state.json BEFORE heavy operations",
+    "Read session-state.json first on every resume",
+    "Write session-state.json before heavy operations",
     "Use /home/namikaz/projects/dev/ as workspace path"
   ]
 }

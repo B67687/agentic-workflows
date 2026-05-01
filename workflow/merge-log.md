@@ -6,8 +6,8 @@ Cross-domain merge history. Records all insights that have been merged from topi
 
 When an insight is merged from any topic folder into the AI Prompting central knowledge base:
 1. The insight is added to the appropriate doc in AI Prompting/docs/
-2. A bidirectional back-link note is created in the source folder's topic-insights.md
-3. The merge is recorded here for traceability
+2. The merge is recorded here for traceability
+3. Propagation is optional and must be requested explicitly at merge time
 
 ## Merge Entry Format
 
@@ -15,13 +15,11 @@ When an insight is merged from any topic folder into the AI Prompting central kn
 - **Merge ID**: [unique-id]
   - **Source folder**: [folder-name]
   - **Source file**: [path/to/topic-insights.md]
-  - **Original text**: [what was originally captured]
+  - **Candidate text**: [what was harvested]
   - **Target doc**: AI Prompting/[target-doc].md
-  - **Confidence**: Level [1-4]
-  - **Tags**: [any detected tags]
   - **Generalized wording**: [how it was phrased in target doc]
   - **Merged at**: [timestamp]
-  - **Bidirectional link**: Created in source folder
+  - **Propagation**: yes/no
 ```
 
 ## Metadata
@@ -38,4 +36,4 @@ created: 2026-04-19
 
 ## Merge History
 
-*No merges recorded yet. Run merge-and-propagate.ps1 after reviewing cross-domain-candidates.md to execute a merge.*
+*No merges recorded yet. Run `bash ./scripts/merge-and-propagate.sh --id ... --target ... --wording ...` after reviewing cross-domain-candidates.md to execute a merge.*

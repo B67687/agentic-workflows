@@ -39,8 +39,8 @@ Options:
   --include-archive            Include curated archive files in search/scans.
   --include-generated          Include generated workflow files and raw archive snapshots.
 
-This is the native WSL/Linux read-only companion to scripts/ws.ps1.
-Use PowerShell for propagation or any other mutating workspace automation.
+This is the native WSL/Linux workspace helper. Prefer bash for both read-only inspection
+and workspace automation in this repo.
 EOF
 }
 
@@ -128,9 +128,9 @@ count_bytes() {
 }
 
 show_session_summary() {
-  local state="$repo_root/workflow/session-state.json"
+  local state="$repo_root/session-state.json"
   if [[ ! -f "$state" ]]; then
-    echo "workflow/session-state.json is missing."
+    echo "session-state.json is missing."
     return
   fi
   grep -E '^- \*\*(Session|Status|Name|Phase|What comes next):\*\* ' "$state" || true
@@ -246,7 +246,7 @@ validate() {
   done
 
   section "Read-Only Scope"
-  echo "WSL wrapper is read-only. Use PowerShell scripts/ws.ps1 for propagation and other mutating workspace automation."
+  echo "WSL/bash is the supported automation path for this workspace."
 
   return "$failed"
 }

@@ -5,6 +5,22 @@
 
 ---
 
+## Phase 11: Runtime Simplification & Drift Cleanup (2026-04-30 to 2026-05-01)
+- Replaced split local runtime assumptions with one global OpenCode runtime authority
+- Removed repo-local OpenCode config and workspace-level `.opencode/` drift across topic repos
+- Rebuilt propagation around managed-core vs repo-owned ownership rules
+- Simplified harvest/promotion into read-only intake plus explicit manual promotion
+- Added propagation smoke tests and operator guidance for future refactors
+
+## Phase 10: Kebab-Case Rename & Standardization (2026-04-30)
+- Renamed all 14 topic folders + hub to kebab-case
+- Updated all propagation scripts to reference new names
+- Fixed wall-you content folder (had literal backslash in name)
+- Removed duplicate empty content folders (image-magick, math-learning-notes, no-face-scan-app)
+- Removed duplicate subject folders in math-learning-notes (algebra, calculus, etc.)
+- Created missing archive/ folders in open-codex and wall-you
+- All 14 topic folders now standardized with proper structure
+
 ## Phase 9: History Consolidation (2026-04-23)
 - Merged all historical records into canonical ledger
 - Established archive discipline: narrative → archive, index → here

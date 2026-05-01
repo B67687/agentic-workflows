@@ -16,9 +16,9 @@ Session state file + proactive checkpointing breaks this cycle.
 
 ## The Solution: Two-Part System
 
-### Part A — Session State File (`workflow/session-state.json`)
+### Part A — Session State File (`session-state.json`)
 
-**On every resume**: Read `workflow/session-state.json` first. Always. Before touching any other file.
+**On every resume**: Read `session-state.json` first. Always. Before touching any other file.
 
 ```
 Cost: ~500 tokens
@@ -42,7 +42,7 @@ The state file tells you:
 
 ## Checkpoint Trigger Conditions
 
-Checkpoint (update `workflow/session-state.json`) when:
+Checkpoint (update `session-state.json`) when:
 
 | Condition | Why |
 |-----------|-----|
@@ -150,15 +150,15 @@ For long or automated work, also record:
 
 ### Starting a New Multi-Phase Task
 
-1. Read `workflow/session-state.json` (orient)
-2. Write updated `workflow/session-state.json` (checkpoint)
+1. Read `session-state.json` (orient)
+2. Write updated `session-state.json` (checkpoint)
 3. Start work
 4. Update `session-state.json` after each phase
 5. BEFORE any heavy operation → write state
 
 ### After an Interrupt
 
-1. Read `workflow/session-state.json` FIRST (not AGENTS.md, not docs)
+1. Read `session-state.json` FIRST (not AGENTS.md, not docs)
 2. Review state — understand where work stopped
 3. Update status + interrupted_count
 4. Continue from next_action
@@ -168,6 +168,28 @@ For long or automated work, also record:
 1. Update `session-state.json` with final status
 2. Add any durable learnings to key_context
 3. Leave status as "complete" — next session sees it and starts fresh
+
+### Verified-Phase Commit Cadence
+
+Checkpoint files are not enough when the worktree stays dirty for hours. After a meaningful phase is both implemented and verified:
+
+1. Review the diff
+2. Make one small logical commit
+3. Update `session-state.json` with the commit boundary and what comes next
+
+If you deliberately do **not** commit yet, record why:
+
+- waiting for one more verification pass
+- mixed unrelated changes still need to be split
+- user explicitly asked to avoid commits for now
+
+Best practice:
+
+- commit after a verified fix or completed phase
+- do not mix unrelated changes in one commit
+- do not leave a huge dirty worktree as the default operating mode
+- if a session ends with uncommitted work, the next session should immediately know why
+- use `bash ./scripts/checkpoint-commit.sh -m "checkpoint summary"` in the hub or `bash ./checkpoint-commit.sh -m "checkpoint summary"` in a managed topic repo when the phase is ready
 
 ### After Two Failed Attempts
 
@@ -242,5 +264,5 @@ Even without token counts, these signal rising pressure:
 
 ## Files
 
-- `workflow/session-state.json` — active session state (always exists during work)
+- `session-state.json` — active session state (always exists during work)
 - `workflow/session-state.template.json` — blank template for new sessions

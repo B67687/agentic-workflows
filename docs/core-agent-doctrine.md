@@ -129,6 +129,25 @@ Use it when:
 - the task is broad
 - the current execution path is drifting or wobbling
 
+### 6B. Use A Grilling Pass Before Major Changes
+
+Before a large change, do not assume the first interpretation is the right one.
+
+Run a short grilling pass to surface:
+
+- hidden assumptions
+- missing constraints
+- failure cases
+- edge conditions
+- the actual success criterion
+
+This is especially useful before:
+
+- features with unclear product intent
+- repo reorganizations
+- multi-file refactors
+- changes that will later be propagated or standardized
+
 ## 7. Optimize For Quality, Not Output Volume
 
 Generated code is cheap.
@@ -142,6 +161,19 @@ So use agents to improve:
 - naming
 - documentation
 - reviewability
+
+### 7B. Prefer Diagnosis Loops Over Guess-Patch Loops
+
+When behavior is broken, use a diagnosis loop:
+
+1. reproduce
+2. minimize
+3. hypothesize
+4. instrument
+5. fix
+6. regression-test
+
+Do not confuse "I can imagine a cause" with "I have identified the cause".
 
 ## 8. Promote Repeated Work Into Reusable Assets
 
@@ -175,6 +207,18 @@ That is how the system compounds instead of repeating the same errors.
 Current gap: No adaptive cross-level compression exists — systems choose one level and stick with it. Smart agents dynamically adjust compression based on context and retrieval needs.
 
 Also: Static memory defenses are insufficient against adversarial injection, noisy outputs, and biased feedback. Memory misevolution can cause safety degradation (MemEvoBench, arXiv:2604.15774). Validate memory before trusting it.
+
+## 9B. Checkpoint Work In Git, Not Only In Memory
+
+Session state is not enough when a verified phase is complete.
+
+Best practice:
+
+- make a small local checkpoint commit after a verified logical phase
+- keep unrelated work split into separate commits
+- do not leave large dirty worktrees as the default mode of operation
+
+If you intentionally leave changes uncommitted, record the reason in `session-state.json`.
 
 ## 10. Use Teaching Mode Deliberately
 

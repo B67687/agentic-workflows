@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 # =============================================================================
-# harvest-topic-insights.sh - Harvest insights from topic folders
+# harvest-topic-insights.sh - Harvest topic insights from topic folders
 # =============================================================================
-# Scans all topic folders in M-Namikaz-Others and collects their topic-insights.md
-# into a central file for cross-domain review.
+# Reads repo-owned topic-insights.md files from topic folders and writes
+# a central workflow snapshot without mutating the topic repos themselves.
 #
 # Usage:
 #   ./harvest-topic-insights.sh                  # Harvest all folders
@@ -18,13 +18,13 @@ REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 WORKFLOW_DIR="$REPO_ROOT/workflow"
 OUTPUT_FILE="$WORKFLOW_DIR/harvested-topic-insights.md"
 
-# Find parent directory
+# Find workspace root
 if [[ -d "/mnt/m/M-Namikaz-Others" ]]; then
     PARENT_DIR="/mnt/m/M-Namikaz-Others"
 elif [[ -d "/home/namikaz/projects/dev" ]]; then
     PARENT_DIR="/home/namikaz/projects/dev"
 else
-    echo "ERROR: Cannot find M-Namikaz-Others folder"
+    echo "ERROR: Cannot find workspace root folder"
     exit 1
 fi
 
@@ -72,9 +72,10 @@ echo ""
 # Find all folders with topic-insights.md
 folders_with_insights=()
 for folder in "$PARENT_DIR"/*/; do
+    folder="${folder%/}"
     folder_name="$(basename "$folder")"
-    # Skip the AI Prompting hub itself
-    [[ "$folder_name" == "AI Prompting" ]] && continue
+    # Skip the ai-prompting hub itself
+    [[ "$folder_name" == "ai-prompting" ]] && continue
     [[ "$folder_name" == .* ]] && continue
     
     insights_file="$folder/topic-insights.md"
@@ -83,7 +84,7 @@ for folder in "$PARENT_DIR"/*/; do
     fi
 done
 
-echo "Found ${#folders_with_insights[@]} folders with insights"
+echo "Found ${#folders_with_insights[@]} folders with topic-insights.md"
 echo ""
 
 if [[ ${#folders_with_insights[@]} -eq 0 ]]; then
@@ -98,8 +99,8 @@ Generated: $(date '+%Y-%m-%d %H:%M:%S %z')
 
 ## Summary
 
-- Folders scanned: ${#folders_with_insights[@]}
-- Folders with insights: ${#folders_with_insights[@]}
+- Harvest mode: read-only topic-insights snapshot
+- Topic folders included: ${#folders_with_insights[@]}
 
 ## Included
 
@@ -108,19 +109,29 @@ Generated: $(date '+%Y-%m-%d %H:%M:%S %z')
 for folder in "${folders_with_insights[@]}"; do
     folder_name="$(basename "$folder")"
     insights_file="$folder/topic-insights.md"
-    
-    output+="### $folder_name
+    output+="- $folder_name | $insights_file
+"
+done
 
-- Folder: $folder
-- Source: $insights_file
+output+="
+## Snapshots
 
 "
-    
-    # Add the content
-    output+=$(
-        cat "$insights_file" | sed 's/^/    /'
-    )
-    output+="
+
+for folder in "${folders_with_insights[@]}"; do
+    folder_name="$(basename "$folder")"
+    insights_file="$folder/topic-insights.md"
+
+    output+="## Folder: $folder_name
+
+- Path: $folder
+- Source: $insights_file
+
+### Begin Topic Insights
+"
+    output+="$(cat "$insights_file")
+"
+    output+="### End Topic Insights
 
 "
 done
@@ -132,6 +143,7 @@ if [[ "$PREVIEW" == "true" ]]; then
     echo "$output" | head -50
     echo "..."
 else
+    mkdir -p "$(dirname "$OUTPUT_FILE")"
     echo "$output" > "$OUTPUT_FILE"
     log_ok "Written to: $OUTPUT_FILE"
 fi

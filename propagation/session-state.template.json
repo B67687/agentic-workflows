@@ -18,7 +18,7 @@
     "Define your first next step"
   ],
   "resumeRules": [
-    "Read workflow/session-state.json FIRST on every resume",
-    "Write workflow/session-state.json BEFORE heavy operations"
+    "Read session-state.json first on every resume",
+    "Write session-state.json before heavy operations"
   ]
 }

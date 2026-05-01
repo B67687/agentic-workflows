@@ -32,6 +32,45 @@ When AI agents (like Codex Desktop, OpenCode, or Claude Code) make changes, they
 - After refactoring (before mixing with new features)
 - Before running destructive operations (propagation, bulk updates)
 
+### Automatic Commit Triggers For Agents
+
+In this workspace, agents should not wait indefinitely for a human to say "commit now." A local checkpoint commit is the default after a verified phase unless the user or repo rules say otherwise.
+
+**Auto-commit when all of these are true:**
+
+1. A logical phase is complete
+2. Verification for that phase has run
+3. The diff is coherent and not mixed with unrelated work
+4. The user has not asked to avoid commits
+5. The commit is a local checkpoint, not an implied push
+
+**Strong commit triggers:**
+
+- verified bug fix completed
+- one vertical TDD slice completed
+- cleanup/restructure phase completed
+- propagation script or template refactor completed and smoke-tested
+- before a risky follow-up phase that may muddy the diff
+- before a context handoff when the worktree already contains a clean logical change
+
+**Do not auto-commit yet when any of these are true:**
+
+- tests or required checks for the phase are still failing
+- the diff mixes unrelated concerns that still need to be split
+- the user is still actively steering one incomplete phase
+- the repo has an explicit policy against autonomous commits
+- the only available commit message would be vague or misleading
+
+**Default stance:**
+
+- local checkpoint commits are encouraged
+- pushes, PR creation, rebases, and history rewrites still deserve explicit intent or repo-policy support
+- if work remains intentionally uncommitted, record why in `session-state.json`
+
+**Helper script:**
+
+Use `bash ./scripts/checkpoint-commit.sh -m "checkpoint summary"` in the hub or `bash ./checkpoint-commit.sh -m "checkpoint summary"` in a managed topic repo after a verified phase. The helper verifies Git identity, stages the full coherent diff by default, blocks conflict commits, and creates a local checkpoint commit only.
+
 ### Group Related Changes
 
 **Rule:** Stage and commit related changes together. Don't mix unrelated work in one commit.

@@ -1,9 +1,9 @@
 # Agent System Evaluation & MCP Research
 
 **Date:** 2026-04-24
-**Status:** SUPERCEDED — The system has been simplified from 7 agents to 2 (Explorer + Worker). See `docs/agentic-workflows.md` for the current architecture.
+**Status:** SUPERSEDED — Historical decision record only. The current system is the bash-first, four-system architecture documented in `docs/agentic-workflows.md`, `docs/cross-project-memory-loop.md`, and `docs/workspace-system-overview.md`.
 
-**Purpose:** Honest assessment of the original 7-subagent system and MCP adoption feasibility. Kept for decision history.
+**Purpose:** Honest assessment of the original 7-subagent system and early MCP adoption ideas. Kept for decision history, not as current implementation guidance.
 
 ---
 
@@ -190,7 +190,7 @@ Building an MCP server to expose hub scripts (propagate, audit, harvest) remains
 |--------|-----------------|--------------|
 | 7-subagent taxonomy | Over-engineered | **Simplified to 2 agents** (Explorer + Worker) |
 | MCP adoption | Worth it gradually | **Rolled back** — OpenCode Desktop doesn't support MCP yet |
-| Current scripts | Keep | **Kept** — PowerShell automation remains the source of truth |
+| Current scripts | Keep | **Historical only** — the current source of truth is the bash automation under `scripts/*.sh` |
 
 ---
 

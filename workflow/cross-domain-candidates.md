@@ -1,51 +1,31 @@
 # Cross-Domain Candidates
 
-Generated: 2026-04-22 18:23:16 +08:00
+Generated: 2026-04-30 22:10:19 +0800
 
-## Summary
+## Candidates
 
-- Folders scanned: 1
-- Folders with candidates: 0
-- Folders without candidates: 1
-- Missing or invalid: 0
-- Total candidates: 0
-- State file: M:\M-Namikaz-Others\AI Prompting\workflow\cross-domain-review-state.json
-- Saved review entries loaded: 1
+### Candidate: facb3129223d
+- Source folder: image-magick
+- Source file: /home/namikaz/projects/dev/image-magick/topic-insights.md
+- Capture type: cross-domain-section
+- Suggested target: core-agent-doctrine.md
+- Status: pending
+- Candidate text: PR Review Request Protocol (Cross-Domain) (Level 3: Confirmed) When in doubt about repo culture, OBSERVE first: check recent merged PRs for pinging patterns "No explicit rule against X" != "X is acceptable" - silence != permission Better: let PR sit naturally than risk being told not to ping If you must do something, low-key reactions (hearts) are safer than comments
 
-### Status Breakdown
-- Auto-merge: 0 (Level 4 + #ai-relevant/#universal)
-- Pending review: 0 (Level 3)
-- In review: 0
-- Promoted: 0
-- Kept local: 0 (Level 1-2)
-- Discarded: 0
 
-## Merge Criteria
+## Review Status
 
-| Confidence | Tags | Action |
-|------------|------|--------|
-| Level 4 (ESTABLISHED) | + #ai-relevant or #universal | **Auto-merge** |
-| Level 3 (CONFIRMED) | Any | **Review queue** |
-| Level 1-2 (SPECULATIVE/PLAUSIBLE) | Any | **Local only** |
+| Status | Description |
+|--------|-------------|
+| pending | Not yet reviewed |
+| reviewing | Under review |
+| promoted | Approved and integrated |
+| rejected | Not suitable for cross-domain |
 
-## Review Rule
+## How to Review
 
-Do not merge candidates verbatim. For each candidate:
-
-1. decide whether it is transferable to another domain
-2. generalize it into reusable language
-3. merge it into the smallest correct central file
-4. keep the folder-specific detail local if that still helps there
-
-## Cross-Domain Tags
-
-| Tag | Meaning | Auto-action |
-|-----|---------|------------|
-| #ai-relevant | Directly applicable to AI prompting | Auto-merge if Level 4, review if Level 3 |
-| #cross-domain | May apply to other domains | Review queue |
-| #universal | Applies to all domains | Auto-merge to central |
-
-## Folders Without Candidates
-
-- Computer Organisation and Architecture
+1. Review the candidates above
+2. Check if the lesson applies to other domains
+3. Choose the smallest correct central doc
+4. Use `merge-and-propagate.sh --id ... --target ... --wording ...` to merge approved candidates
 

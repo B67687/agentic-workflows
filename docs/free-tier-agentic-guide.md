@@ -18,7 +18,7 @@ The agentic framework (tools, permissions, subagent spawning) is **model-agnosti
 
 ## Quick Toggle: Three Modes
 
-Switch your orchestrator model in `opencode.json` based on your current credit situation:
+Switch your orchestrator model in `/home/namikaz/.config/opencode/opencode.jsonc` based on your current credit situation:
 
 ### Mode 1: Full Go (Quality First)
 ```json
@@ -125,7 +125,7 @@ For most agentic coding, **M2.5 Free is the best free orchestrator.** Use Trinit
 
 ## Practical Workflow
 
-1. **Set orchestrator to M2.5 Free** in `opencode.json`
+1. **Set orchestrator to M2.5 Free** in `/home/namikaz/.config/opencode/opencode.jsonc`
 2. **Work normally.** The orchestrator handles most tasks directly.
 3. **When you hit a hard problem,** the orchestrator spawns @worker.
 4. **Worker uses K2.6** (hybrid mode) or Hy3 (full free mode).
@@ -138,14 +138,14 @@ You don't need to change your workflow. You just change the model assignments.
 ## Example: Switching to Full Free Mode
 
 ```bash
-# 1. Edit opencode.json
-# 2. Change orchestrator model to opencode/minimax-m2.5-free
-# 3. Change worker model to opencode/hy3-preview-free
-# 4. Save and restart OpenCode Desktop (or reload config)
+# 1. Edit /home/namikaz/.config/opencode/opencode.jsonc
+# 2. Change the top-level "model" and the orchestrator model to opencode/minimax-m2.5-free
+# 3. Change the worker model only if you want a different fallback lane
+# 4. Save and restart OpenCode (or reload config)
 # 5. Work normally — same tools, same permissions, same agentic behavior
 ```
 
-No other changes needed. The agent definitions in `.opencode/agents/` don't need modification — they inherit the model from `opencode.json`.
+No repo-local `.opencode/agents/` edits are needed. The supported setup keeps agent behavior in the global OpenCode config and lets topic repos stay focused on repo context files.
 
 ---
 

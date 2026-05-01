@@ -2,7 +2,8 @@
 # =============================================================================
 # build-cross-domain-candidates.sh - Build cross-domain review queue
 # =============================================================================
-# Scans harvested insights for cross-domain candidates and builds a review queue.
+# Scans the harvested topic-insights snapshot and extracts reusable lessons
+# into a candidate review queue with stable IDs.
 #
 # Usage:
 #   ./build-cross-domain-candidates.sh              # Build candidates
@@ -63,9 +64,8 @@ if [[ ! -f "$HARVESTED_FILE" ]]; then
 fi
 
 # Look for transferable lessons sections
-log_info "Scanning for cross-domain candidates..."
+log_info "Scanning harvested insights for cross-domain candidates..."
 
-# This is a simplified version - extracts sections that look transferable
 output="# Cross-Domain Candidates
 
 Generated: $(date '+%Y-%m-%d %H:%M:%S %z')
@@ -74,45 +74,149 @@ Generated: $(date '+%Y-%m-%d %H:%M:%S %z')
 
 "
 
-# Check for Transferable Lessons sections in harvested file
+declare -A SEEN=()
 candidates_found=0
-
-# Parse the harvested file and find transferable lessons
-in_section=false
-current_section=""
 current_folder=""
+current_source=""
+in_snapshot=false
+current_section=""
+pending_cross_heading=""
+pending_cross_body=""
+
+normalize_text() {
+    local text="$1"
+    printf '%s' "$text" | tr '\r\n' ' ' | sed 's/[[:space:]]\+/ /g; s/^ //; s/ $//'
+}
+
+is_placeholder_line() {
+    local text="$1"
+    [[ "$text" =~ ^Add\ insights ]] && return 0
+    [[ "$text" =~ ^Capture\ insights ]] && return 0
+    [[ "$text" =~ ^Use\ tags ]] && return 0
+    [[ "$text" =~ ^If\ a\ lesson\ applies ]] && return 0
+    [[ "$text" =~ ^When\ a\ new\ insight ]] && return 0
+    return 1
+}
+
+suggest_target() {
+    local text="$1"
+    local lower
+    lower="$(printf '%s' "$text" | tr '[:upper:]' '[:lower:]')"
+
+    if [[ "$lower" == *"test"* ]] || [[ "$lower" == *"verify"* ]] || [[ "$lower" == *"debug"* ]]; then
+        printf 'core-agent-doctrine.md\n'
+    elif [[ "$lower" == *"token"* ]] || [[ "$lower" == *"context"* ]]; then
+        printf 'token-efficient-prompting.md\n'
+    elif [[ "$lower" == *"tool"* ]] || [[ "$lower" == *"shell"* ]] || [[ "$lower" == *"wsl"* ]]; then
+        printf 'repo-tooling.md\n'
+    else
+        printf 'core-agent-doctrine.md\n'
+    fi
+}
+
+emit_candidate() {
+    local capture_type="$1"
+    local raw_text="$2"
+    local text candidate_id suggested
+
+    text="$(normalize_text "$raw_text")"
+    [[ -n "$text" ]] || return
+    is_placeholder_line "$text" && return
+
+    candidate_id="$(printf '%s' "$current_source|$capture_type|$text" | sha1sum | cut -c1-12)"
+    [[ -n "${SEEN[$candidate_id]:-}" ]] && return
+    SEEN["$candidate_id"]=1
+    suggested="$(suggest_target "$text")"
+
+    output+="### Candidate: $candidate_id
+- Source folder: $current_folder
+- Source file: $current_source
+- Capture type: $capture_type
+- Suggested target: $suggested
+- Status: pending
+- Candidate text: $text
+
+"
+    ((candidates_found++))
+}
+
+flush_pending_cross_heading() {
+    if [[ -n "$pending_cross_heading" ]]; then
+        emit_candidate "cross-domain-section" "$pending_cross_heading ${pending_cross_body:-}"
+    fi
+    pending_cross_heading=""
+    pending_cross_body=""
+}
 
 while IFS= read -r line; do
-    # Check for folder header
-    if [[ "$line" =~ ^\#\#\#\  ]]; then
-        current_folder="${line#### }"
-        in_section=false
+    line="${line%$'\r'}"
+
+    if [[ "$line" =~ ^##\ Folder:\  ]]; then
+        flush_pending_cross_heading
+        current_folder="${line#### Folder: }"
+        current_source=""
+        in_snapshot=false
+        current_section=""
+        continue
     fi
-    
-    # Check for Transferable Lessons section
+
+    if [[ "$line" =~ ^-\ Source:\  ]]; then
+        current_source="${line#- Source: }"
+        continue
+    fi
+
+    if [[ "$line" == "### Begin Topic Insights" ]]; then
+        in_snapshot=true
+        current_section=""
+        pending_cross_heading=""
+        pending_cross_body=""
+        continue
+    fi
+
+    if [[ "$line" == "### End Topic Insights" ]]; then
+        flush_pending_cross_heading
+        in_snapshot=false
+        current_section=""
+        continue
+    fi
+
+    [[ "$in_snapshot" == true ]] || continue
+
     if [[ "$line" =~ ^##\  ]]; then
-        section_name="${line#### }"
-        if [[ "$section_name" == "Transferable Lessons" ]]; then
-            in_section=true
-        else
-            in_section=false
-        fi
+        flush_pending_cross_heading
+        current_section="${line#### }"
+        continue
     fi
-    
-    # Skip template/boilerplate content
-    if [[ "$in_section" == true ]]; then
-        if [[ "$line" =~ ^-\ If\ a\ lesson ]] || [[ "$line" =~ ^-\ Add\ insights ]] || [[ "$line" =~ ^-\ Use\ tags ]]; then
-            continue
+
+    if [[ "$line" =~ ^###\  ]]; then
+        flush_pending_cross_heading
+        if [[ "$line" == *"Cross-Domain"* ]]; then
+            pending_cross_heading="${line#\#\#\# }"
+            pending_cross_body=""
         fi
-        
-        # This is actual content
-        if [[ -n "$line" ]] && [[ ! "$line" =~ ^\ \# ]]; then
-            ((candidates_found++))
-            output+="- **$current_folder**: $line
-"
+        continue
+    fi
+
+    if [[ "$current_section" == "Transferable Lessons" && "$line" =~ ^-\  ]]; then
+        emit_candidate "transferable-lesson" "${line#- }"
+        continue
+    fi
+
+    if [[ "$line" == *"#cross-domain"* ]]; then
+        emit_candidate "tagged-line" "${line#- }"
+        continue
+    fi
+
+    if [[ -n "$pending_cross_heading" && -n "$line" ]]; then
+        if [[ "$line" =~ ^-\  ]]; then
+            pending_cross_body+=" ${line#- }"
+        else
+            pending_cross_body+=" $line"
         fi
     fi
 done < "$HARVESTED_FILE"
+
+flush_pending_cross_heading
 
 output+="
 ## Review Status
@@ -128,13 +232,13 @@ output+="
 
 1. Review the candidates above
 2. Check if the lesson applies to other domains
-3. Use \`set-promotion-review-status.sh\` to update status
-4. Use \`merge-and-propagate.sh\` to merge approved candidates
+3. Choose the smallest correct central doc
+4. Use \`merge-and-propagate.sh --id ... --target ... --wording ...\` to merge approved candidates
 "
 
 if [[ "$candidates_found" -eq 0 ]]; then
     log_warn "No cross-domain candidates found"
-    log_info "Add transferable lessons to topic-insights.md in topic folders"
+    log_info "Add real transferable lessons or #cross-domain markers to topic-insights.md in topic folders"
 else
     log_ok "Found $candidates_found candidates"
     

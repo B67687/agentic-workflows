@@ -1,271 +1,241 @@
 #!/usr/bin/env bash
 # =============================================================================
-# propagate-to-all.sh - Propagate templates to all topic folders
+# propagate-to-all.sh - Bootstrap missing files and refresh managed core files
 # =============================================================================
-# Behavior: CREATE ONLY mode
-#   - Files are only created if they don't exist
-#   - Existing files are NEVER overwritten or merged
-#   - This preserves all custom content in topic folders
 #
 # Usage:
-#   ./propagate-to-all.sh          # Preview mode (default)
-#   ./propagate-to-all.sh --apply  # Actually apply changes
-#   ./propagate-to-all.sh --check  # Check status only
+#   ./propagate-to-all.sh                    # Preview mode (default)
+#   ./propagate-to-all.sh --apply           # Apply bootstrap + managed refresh
+#   ./propagate-to-all.sh --folder PATH     # Restrict to one topic folder
+#   ./propagate-to-all.sh --managed-only    # Refresh only hub-owned managed core
 # =============================================================================
 
 set -uo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
-TEMPLATES_DIR="$REPO_ROOT/propagation"
+source "$SCRIPT_DIR/propagation-contract.sh"
 
-# Parent is M-Namikaz-Others - check both possible locations
 if [[ -d "/mnt/m/M-Namikaz-Others" ]]; then
-    PARENT_DIR="/mnt/m/M-Namikaz-Others"
+  PARENT_DIR="/mnt/m/M-Namikaz-Others"
 elif [[ -d "/home/namikaz/projects/dev" ]]; then
-    PARENT_DIR="/home/namikaz/projects/dev"
+  PARENT_DIR="/home/namikaz/projects/dev"
 else
-    echo "ERROR: Cannot find M-Namikaz-Others folder"
-    exit 1
+  echo "ERROR: Cannot find workspace root folder"
+  exit 1
 fi
 
-# Colors
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 CYAN='\033[0;36m'
-NC='\033[0m' # No Color
+NC='\033[0m'
 
-# Mode flags
 MODE="preview"
-APPLY_MODE=false
+TARGET_FOLDER=""
+MANAGED_ONLY=false
 
-# Parse arguments
 while [[ $# -gt 0 ]]; do
-    case "$1" in
-        --apply|-a)
-            APPLY_MODE=true
-            MODE="apply"
-            ;;
-        --check|-c)
-            MODE="check"
-            ;;
-        --preview|-p)
-            MODE="preview"
-            ;;
-        --help|-h)
-            echo "Usage: $0 [options]"
-            echo ""
-            echo "Options:"
-            echo "  --apply, -a    Actually apply changes (default: preview)"
-            echo "  --check, -c    Check status only"
-            echo "  --preview, -p  Preview what would happen (default)"
-            echo "  --help, -h     Show this help"
-            exit 0
-            ;;
-        *)
-            echo "Unknown option: $1"
-            exit 1
-            ;;
-    esac
-    shift
+  case "$1" in
+    --apply|-a)
+      MODE="apply"
+      ;;
+    --check|-c|--preview|-p)
+      MODE="preview"
+      ;;
+    --folder)
+      TARGET_FOLDER="$2"
+      shift
+      ;;
+    --managed-only)
+      MANAGED_ONLY=true
+      ;;
+    --help|-h)
+      cat <<'EOF'
+Usage: ./scripts/propagate-to-all.sh [options]
+
+Options:
+  --apply, -a       Apply bootstrap + managed refresh
+  --preview, -p     Preview planned changes (default)
+  --folder PATH     Restrict to a single topic folder
+  --managed-only    Refresh only hub-owned managed core files
+  --help, -h        Show this help
+EOF
+      exit 0
+      ;;
+    *)
+      echo "Unknown option: $1"
+      exit 1
+      ;;
+  esac
+  shift
 done
-
-# =============================================================================
-# Template mapping (source file → target file)
-# =============================================================================
-declare -A TEMPLATES
-TEMPLATES=(
-    ["AGENTS.template.md"]="AGENTS.md"
-    ["topic-insights.template.md"]="topic-insights.md"
-    ["git-github-best-practices.template.md"]="git-github-best-practices.md"
-    ["workspace-system-overview.template.md"]="docs/workspace-system-overview.md"
-    ["quality-standards.template.md"]="quality-standards.md"
-    ["audit-folder-quality.template.sh"]="audit-folder-quality.sh"
-    ["check-sync-status.template.sh"]="check-sync-status.sh"
-    ["sync-from-hub.template.sh"]="sync-from-hub.sh"
-    ["opencode.template.json"]="opencode.json"
-    # opencode-agent-system merged into AGENTS.template.md
-    [".cleanup-protect.template.md"]=".cleanup-protect"
-    ["session-state.template.json"]="session-state.json"
-    ["history.template.md"]="archive/history.md"
-)
-
-MANAGED_MARKER="Managed-By: AI-Prompting-Library"
-
-# =============================================================================
-# Helper functions
-# =============================================================================
 
 log_info() { echo -e "${CYAN}[INFO]${NC} $1"; }
-log_success() { echo -e "${GREEN}[OK]${NC} $1"; }
+log_ok() { echo -e "${GREEN}[OK]${NC} $1"; }
 log_warn() { echo -e "${YELLOW}[WARN]${NC} $1"; }
-log_skip() { echo -e "${YELLOW}[SKIP]${NC} $1"; }
-log_create() { echo -e "${CYAN}[CREATE]${NC} $1"; }
+log_drift() { echo -e "${RED}[DRIFT]${NC} $1"; }
 log_artifact() { echo -e "${RED}[ARTIFACT]${NC} $1"; }
 
-# Detect old artifacts in a topic folder
-detect_artifacts() {
-    local folder="$1"
-    local folder_name="$(basename "$folder")"
-    
-    echo ""
-    echo -e "${YELLOW}Checking for old artifacts in: $folder_name${NC}"
-    
-    local artifact_count=0
-    
-    # Check for .ps1 files (old PowerShell scripts)
-    while IFS= read -r -d '' ps1file; do
-        local filename="$(basename "$ps1file")"
-        log_artifact "Old PowerShell file: $filename"
-        ((artifact_count++))
-    done < <(find "$folder" -maxdepth 1 -name "*.ps1" -print0 2>/dev/null)
-    
-    # Check for old templates that are no longer propagated (have Managed-By marker)
-    while IFS= read -r -d '' oldfile; do
-        local filename="$(basename "$oldfile")"
-        # Check if this file is in current templates
-        local is_current=false
-        for target in "${TEMPLATES[@]}"; do
-            if [[ "$filename" == "$target" ]]; then
-                is_current=true
-                break
-            fi
-        done
-        if [[ "$is_current" == "false" ]]; then
-            # Check if it has the Managed-By marker (it's a propagated file)
-            if grep -q "Managed-By: AI-Prompting-Library" "$oldfile" 2>/dev/null; then
-                log_artifact "Old propagated file (no longer in template list): $filename"
-                ((artifact_count++))
-            fi
-        fi
-    done < <(find "$folder" -maxdepth 1 -name "*.md" -print0 2>/dev/null)
-    
-    if [[ $artifact_count -eq 0 ]]; then
-        echo "  No old artifacts detected"
-    else
-        echo ""
-        echo -e "${RED}Found $artifact_count old artifact(s) in $folder_name${NC}"
-        echo "  These files are no longer propagated but may exist in the folder."
-        echo "  To clean up: manually delete or run cleanup in that folder."
-    fi
-}
-
-# Convert folder name to kebab-case for content folder
 to_kebab_case() {
-    local name="$1"
-    # Replace spaces with dashes, lowercase
-    local result="${name// /-}"
-    result="${result,,}"
-    # Clean up multiple dashes
-    result="${result//-+/-}"
-    result="${result/#-/}"
-    result="${result/-$/}"
-    echo "$result"
+  local name="$1"
+  local result="${name// /-}"
+  result="${result,,}"
+  echo "${result#-}" | sed 's/-\{2,\}/-/g; s/-$//'
 }
 
-# Ensure content folder exists
+ensure_parent_dir() {
+  local target_path="$1"
+  local parent_dir
+  parent_dir="$(dirname "$target_path")"
+  [[ "$parent_dir" == "." ]] || mkdir -p "$parent_dir"
+}
+
 ensure_content_folder() {
-    local folder="$1"
-    local folder_name="$(basename "$folder")"
-    local kebab_name="$(to_kebab_case "$folder_name")"
-    local content_folder="$folder/${kebab_name}-content"
-    
-    if [[ -d "$content_folder" ]]; then
-        echo "  content folder already exists"
-        return 1
-    fi
-    
-    if [[ "$MODE" == "preview" ]]; then
-        echo "  would create content folder: ${kebab_name}-content/"
-    elif [[ "$MODE" == "apply" ]]; then
-        mkdir -p "$content_folder"
-        echo "  created content folder: ${kebab_name}-content/"
-    fi
-    
-    return 0
+  local folder="$1"
+  local folder_name kebab_name content_folder
+
+  folder_name="$(basename "$folder")"
+  kebab_name="$(to_kebab_case "$folder_name")"
+  content_folder="$folder/${kebab_name}-content"
+
+  if [[ -d "$content_folder" ]]; then
+    echo "  ${kebab_name}-content/: OK"
+    return
+  fi
+
+  if [[ "$MODE" == "apply" ]]; then
+    mkdir -p "$content_folder"
+    echo "  ${kebab_name}-content/: CREATED"
+  else
+    echo "  ${kebab_name}-content/: WOULD CREATE"
+  fi
 }
 
-# =============================================================================
-# Main propagation logic
-# =============================================================================
+copy_template_file() {
+  local template_path="$1"
+  local target_path="$2"
 
-propagate_to_folder() {
-    local folder="$1"
-    local folder_name="$(basename "$folder")"
-    
-    echo ""
-    echo -e "${YELLOW}Processing: $folder_name${NC}"
-    
-    # Ensure content folder
-    ensure_content_folder "$folder"
-    
-    # Process each template
-    for template_file in "${!TEMPLATES[@]}"; do
-        local target_file="${TEMPLATES[$template_file]}"
-        local template_path="$TEMPLATES_DIR/$template_file"
-        local target_path="$folder/$target_file"
-        
-        # Skip if template doesn't exist
-        if [[ ! -f "$template_path" ]]; then
-            continue
-        fi
-        
-        # CREATE ONLY mode
-        if [[ -f "$target_path" ]]; then
-            echo "  $target_file: SKIP (exists)"
-        else
-            if [[ "$MODE" == "preview" ]]; then
-                echo "  $target_file: PREVIEW CREATE"
-            elif [[ "$MODE" == "apply" ]]; then
-                cp "$template_path" "$target_path"
-                echo "  $target_file: CREATED"
-            else
-                echo "  $target_file: would CREATE"
-            fi
-        fi
-    done
+  ensure_parent_dir "$target_path"
+  cp "$template_path" "$target_path"
+  [[ "$target_path" == *.sh ]] && chmod +x "$target_path"
 }
 
-# =============================================================================
-# Main execution
-# =============================================================================
+process_entry() {
+  local folder="$1"
+  local entry="$2"
+  local owner template_path target_rel target_path
 
-# Find all topic folders (exclude AI Prompting itself and hidden folders)
-echo "Scanning for topic folders in: $PARENT_DIR"
-TOPIC_FOLDERS=()
-for item in "$PARENT_DIR"/*/; do
+  owner="$(propagation_entry_owner "$entry")"
+  template_path="$(propagation_template_path "$entry")"
+  target_rel="$(propagation_entry_target "$entry")"
+  target_path="$folder/$target_rel"
+
+  if [[ ! -f "$template_path" ]]; then
+    log_warn "$target_rel: missing template source"
+    return
+  fi
+
+  if [[ ! -f "$target_path" ]]; then
+    if [[ "$MODE" == "apply" ]]; then
+      copy_template_file "$template_path" "$target_path"
+      echo "  $target_rel: CREATED ($owner)"
+    else
+      echo "  $target_rel: WOULD CREATE ($owner)"
+    fi
+    return
+  fi
+
+  if [[ "$owner" == "repo-owned" ]]; then
+    echo "  $target_rel: SKIP (repo-owned)"
+    return
+  fi
+
+  if cmp -s "$template_path" "$target_path"; then
+    echo "  $target_rel: OK (managed core)"
+    return
+  fi
+
+  if [[ "$MODE" == "apply" ]]; then
+    copy_template_file "$template_path" "$target_path"
+    echo "  $target_rel: REFRESHED (managed core)"
+  else
+    echo "  $target_rel: WOULD REFRESH (managed drift)"
+  fi
+}
+
+detect_artifacts() {
+  local folder="$1"
+  local folder_name artifact_count=0
+
+  folder_name="$(basename "$folder")"
+  echo ""
+  echo -e "${YELLOW}Checking for legacy artifacts in: $folder_name${NC}"
+
+  while IFS= read -r -d '' old_script; do
+    log_artifact "Legacy PowerShell file: $(basename "$old_script")"
+    ((artifact_count++))
+  done < <(find "$folder" -maxdepth 1 -name "*.ps1" -print0 2>/dev/null)
+
+  if [[ $artifact_count -eq 0 ]]; then
+    echo "  No root-level legacy artifacts detected"
+  fi
+}
+
+collect_folders() {
+  if [[ -n "$TARGET_FOLDER" ]]; then
+    printf '%s\n' "$TARGET_FOLDER"
+    return
+  fi
+
+  local item item_name
+  for item in "$PARENT_DIR"/*/; do
     item_name="$(basename "$item")"
-    if [[ "$item_name" != "AI Prompting" ]] && [[ ! "$item_name" == .* ]]; then
-        TOPIC_FOLDERS+=("$item")
+    if [[ "$item_name" == .* ]]; then
+      continue
     fi
-done
+    if propagation_folder_excluded "$item_name"; then
+      continue
+    fi
+    printf '%s\n' "${item%/}"
+  done
+}
+process_folder() {
+  local folder="$1"
+  local scope="all"
+  local entry
 
-echo "Found ${#TOPIC_FOLDERS[@]} folders to process"
-echo ""
-echo "Mode: $MODE"
+  echo ""
+  echo -e "${YELLOW}Processing: $(basename "$folder")${NC}"
+  ensure_content_folder "$folder"
 
-if [[ "$MODE" == "preview" ]]; then
-    echo -e "${YELLOW}Running in PREVIEW mode. Use --apply to actually apply changes.${NC}"
+  if [[ "$MANAGED_ONLY" == true ]]; then
+    scope="managed"
+  fi
+
+  while IFS= read -r entry; do
+    [[ -n "$entry" ]] || continue
+    process_entry "$folder" "$entry"
+  done < <(propagation_iter_entries "$scope")
+
+  detect_artifacts "$folder"
+}
+
+mapfile -t TOPIC_FOLDERS < <(collect_folders)
+
+log_info "Scanning topic folders in: $PARENT_DIR"
+log_info "Found ${#TOPIC_FOLDERS[@]} folder(s) to process"
+log_info "Mode: $MODE"
+
+if [[ "$MANAGED_ONLY" == true ]]; then
+  log_info "Scope: managed core only"
+else
+  log_info "Scope: managed core + repo-owned bootstrap"
 fi
 
-# Process each folder
 for folder in "${TOPIC_FOLDERS[@]}"; do
-    propagate_to_folder "$folder"
-    detect_artifacts "$folder"
+  process_folder "$folder"
 done
 
 echo ""
-echo "Done."
-echo ""
-echo "============================================="
-echo "ARTIFACT SUMMARY"
-echo "============================================="
-echo "If any [ARTIFACT] warnings appeared above,"
-echo "those files exist in topic folders but are"
-echo "no longer in the propagation list."
-echo ""
-echo "To clean up old artifacts:"
-echo "1. Review the detected files"
-echo "2. Delete them manually or add cleanup logic"
-echo "============================================="
+log_ok "Done."
