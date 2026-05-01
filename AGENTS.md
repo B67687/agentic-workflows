@@ -42,6 +42,7 @@ For topic-folder work, start with that folder's root `session-state.json`, then 
 - **Do not create new files** if an existing doc covers the need.
 - **Verify aggressively**; verification is the quality engine.
 - **Summarize work** with root cause, fix, verification, and residual risk.
+- **Read contribution rules before contributing**: before making a PR, editing contribution-targeted files, or preparing upstream-facing changes, read the repo's `CONTRIBUTING.md` first. If no `CONTRIBUTING.md` exists, read the closest equivalent contribution guidance such as a repo `README`, maintainer docs, or contribution notes in `meta/`.
 - **Update the knowledge base** when a durable pattern appears.
 - **Integrate research findings into docs/** within 3 days — do not leave durable insights in research/ or archive/
 - **Use relative links** inside repo docs.

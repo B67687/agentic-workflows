@@ -162,6 +162,15 @@ Before making any changes:
 
 For AI agents: confirm the repo state is current before editing.
 
+### Read Contribution Guidance Before Contributing
+
+Before opening a PR, editing contribution-targeted files, or preparing upstream-facing changes:
+1. Read `CONTRIBUTING.md` if the repo has one
+2. If not, read the closest equivalent contribution guidance such as the repo `README`, maintainer docs, or local `meta/` notes
+3. Treat those rules as binding for branch scope, tests, formatting, commit shape, PR structure, and required evidence
+
+Do not assume the repo follows generic GitHub norms. Many contribution mistakes happen because the agent starts editing before it reads the project's actual contribution contract.
+
 ### Understand Remote Before Committing
 
 Before committing:

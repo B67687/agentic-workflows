@@ -10,6 +10,7 @@ Principles for working effectively with Git and GitHub.
 1. **Fetch first** — Always `git fetch` to see what's changed
 2. **Check your branch** — Know where you are relative to remote
 3. **Never push with conflicts** — Resolve locally first
+4. **Read contribution guidance first** — Read `CONTRIBUTING.md` before preparing a PR or upstream-facing change. If it does not exist, read the closest equivalent guidance in the repo `README`, maintainer docs, or `meta/`.
 
 ### Commit Messages
 - **What** changed + **Why** (context)

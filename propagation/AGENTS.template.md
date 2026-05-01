@@ -24,6 +24,7 @@ When a request is clear enough and risk is low, you must proactively:
 3. **Handle directly** — Unless clearly justified to spawn subagent
 4. **Compress before spawning** — Pass only task, context (3-5 bullets), files, done-when
 5. **Update session-state.json** — Before heavy ops, resume, or spawning subagents
+6. **Read contribution guidance first** — Before preparing a PR or other upstream-facing change, read `CONTRIBUTING.md` if it exists. If it does not, read the closest equivalent contribution guidance such as the repo `README`, maintainer docs, or `meta/` notes.
 
 See hub's docs/core-agent-doctrine.md for full principles.
 
