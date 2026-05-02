@@ -53,7 +53,8 @@ For topic-folder work, start with that folder's root `session-state.json`, then 
 - **Use repo-native shell tooling**. Prefer bash in WSL unless a repo explicitly requires PowerShell; see `docs/repo-tooling.md`.
 - **Use phase-based work for non-trivial tasks**: research first, plan second, implement third. Do not jump straight to code when the system is still unclear.
 - **One task per session by default**: when the phase changes, the topic shifts, or the thread gets long, checkpoint and start a new session instead of dragging the old one forward.
-- **Use slash command shortcuts when available**: prefer `/start-task`, `/query`, `/session-boundary`, `/research`, `/plan`, `/implement`, and `/checkpoint` instead of retyping long helper commands.
+- **Use slash command shortcuts when available**: prefer `/grill`, `/start-task`, `/query`, `/session-boundary`, `/research`, `/plan`, `/implement`, and `/checkpoint` instead of retyping long helper commands.
+- **Grill ambiguous tasks early**: if the request is broad, underspecified, or expensive to get wrong, use `/grill` before planning or implementing.
 - **Gate implementation explicitly**: before editing non-trivial code, make sure the task has enough research, a clear plan, bounded scope, and a known verification path. If any of those are missing, stop and go back a phase.
 
 ## Structure Rules

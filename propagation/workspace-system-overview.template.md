@@ -102,6 +102,12 @@ To classify a task before starting:
 /start-task your task
 ```
 
+To challenge assumptions before deeper work:
+
+```text
+/grill your task
+```
+
 To decide whether to continue or restart:
 
 ```bash

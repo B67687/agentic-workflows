@@ -6,6 +6,7 @@ This workspace uses one default execution shape for non-trivial tasks:
 
 Default entrypoint:
 
+- start with `/grill your task` when the request is broad, underspecified, or high-cost to misunderstand
 - start with `/start-task your task`
 - use direct handling only when the task is truly small and obvious
 
@@ -84,6 +85,16 @@ Use direct handling only when all of these are true:
 - the task does not need a deeper system read first
 
 Otherwise, start in research.
+
+## Grill Rule
+
+Use `/grill` before research when:
+
+- the request has multiple possible interpretations
+- wrong assumptions would create a lot of wasted code
+- the task is expensive, architectural, or upstream-facing
+
+The goal is to sharpen scope, expose hidden assumptions, and reduce waste before deeper execution starts.
 
 ## Phase Gate Rule
 
