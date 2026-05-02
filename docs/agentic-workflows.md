@@ -92,6 +92,31 @@ Use this order for broad autonomous tasks:
 7. **Verify with evidence**: tests, scripted scenarios, diff review, or explicit residual risk.
 8. **Promote durable lessons**: update the smallest correct doc/template, not a new orphan file.
 
+## Deterministic Default Workflow
+
+The workspace now prefers one deterministic flow for non-trivial work:
+
+**Research -> Plan -> Implement**
+
+This is not just doctrine. The hub now includes two helpers:
+
+- `scripts/retrieve-context.sh` to pull only the local files relevant to the current step
+- `scripts/session-boundary.sh` to decide whether to continue, checkpoint, or restart in a new session
+
+Use them like this:
+
+```bash
+bash ./scripts/retrieve-context.sh "managed core vs repo-owned"
+bash ./scripts/session-boundary.sh --phase research --turns 9 --verified
+```
+
+The behavioral default is:
+
+- do research without editing
+- write the plan before implementation
+- checkpoint after verified phases
+- start a new session when the phase changes or context quality drops
+
 ---
 
 ## Architecture

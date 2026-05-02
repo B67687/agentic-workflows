@@ -51,6 +51,8 @@ For topic-folder work, start with that folder's root `session-state.json`, then 
 - **Checkpoint before heavy operations**: update `session-state.json` before multi-phase work, bulk fetches, or large analysis.
 - **Checkpoint commits after verified phases**: when a logical phase is complete and verified, prefer a small commit instead of carrying the whole session as uncommitted dirt. If you intentionally leave work uncommitted, record why in `session-state.json`.
 - **Use repo-native shell tooling**. Prefer bash in WSL unless a repo explicitly requires PowerShell; see `docs/repo-tooling.md`.
+- **Use phase-based work for non-trivial tasks**: research first, plan second, implement third. Do not jump straight to code when the system is still unclear.
+- **One task per session by default**: when the phase changes, the topic shifts, or the thread gets long, checkpoint and start a new session instead of dragging the old one forward.
 
 ## Structure Rules
 
@@ -104,6 +106,8 @@ Rules:
 - `scripts/ws.sh` - WSL/Linux read-only status, search, hotspot, and validation wrapper
 - `scripts/check-sync-status.sh` - check propagation freshness
 - `scripts/propagate-to-all.sh` - sync templates to topic folders
+- `scripts/retrieve-context.sh` - rank only the local context relevant to the current step
+- `scripts/session-boundary.sh` - decide whether to continue, checkpoint, or restart
 - `scripts/harvest-topic-insights.sh` - collect topic lessons
 - `scripts/build-cross-domain-candidates.sh` - build promotion queue
 - `scripts/merge-and-propagate.sh` - merge reviewed lessons and propagate

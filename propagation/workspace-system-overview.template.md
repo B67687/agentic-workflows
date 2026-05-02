@@ -28,6 +28,8 @@ Expected root structure:
 |- check-sync-status.sh              (hub-owned managed core)
 |- sync-from-hub.sh                  (hub-owned managed core)
 |- checkpoint-commit.sh              (hub-owned managed core)
+|- retrieve-context.sh               (hub-owned managed core)
+|- session-boundary.sh               (hub-owned managed core)
 |- session-state.json                (repo-owned after bootstrap)
 |- topic-insights.md                 (repo-owned after bootstrap)
 |- .cleanup-protect                  (repo-owned after bootstrap)
@@ -49,6 +51,8 @@ Expected root structure:
 4. **Session state** - The file `session-state.json` tracks current work. Read it on every resume.
 5. **Ownership split** - The hub may refresh only the managed core. `session-state.json`, `topic-insights.md`, `.cleanup-protect`, and archive files are repo-owned after bootstrap.
 6. **Runtime config** - Do not create repo-local OpenCode runtime config. Use the global config and the root session-state file instead.
+7. **Phase workflow** - For non-trivial work, do research first, plan second, implement third.
+8. **Session boundaries** - New phase, new session. Checkpoint when a phase is verified and restart when context quality drops.
 
 ## Core Principles
 
@@ -76,6 +80,18 @@ For folder quality validation:
 
 ```bash
 ./audit-folder-quality.sh
+```
+
+To pull only the context relevant to one step:
+
+```bash
+./retrieve-context.sh "your query"
+```
+
+To decide whether to continue or restart:
+
+```bash
+./session-boundary.sh --phase research --turns 8
 ```
 
 ## Two-Git Architecture (Optional)

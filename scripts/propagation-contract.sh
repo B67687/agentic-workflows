@@ -20,6 +20,8 @@ declare -a PROPAGATION_MANAGED_CORE=(
   "check-sync-status.template.sh:check-sync-status.sh"
   "sync-from-hub.template.sh:sync-from-hub.sh"
   "checkpoint-commit.template.sh:checkpoint-commit.sh"
+  "retrieve-context.template.sh:retrieve-context.sh"
+  "session-boundary.template.sh:session-boundary.sh"
 )
 
 declare -a PROPAGATION_REPO_OWNED_BOOTSTRAP=(
