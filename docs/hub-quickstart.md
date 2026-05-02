@@ -28,6 +28,7 @@ Read this first on every resume. Everything else is linked.
 - Hub work: docs, research, scripts, templates, workflow state
 - Topic work: inside `[topic-name]-content/`, resume from root `session-state.json`
 - Propagate shared defaults: `bash scripts/propagate-to-all.sh --apply`
+- Fast phase commands: `/research`, `/plan`, `/implement`, `/query`, `/session-boundary`
 - Retrieve only relevant local context: `bash scripts/retrieve-context.sh "query"`
 - Check whether to restart: `bash scripts/session-boundary.sh --phase research --turns 8`
 - After changing propagation or sync scripts, run: `bash scripts/test-propagation-contract.sh`
@@ -56,6 +57,7 @@ Read this first on every resume. Everything else is linked.
 |- docs/workspace-system-overview.md (hub-owned managed core)
 |- git-github-best-practices.md      (hub-owned managed core)
 |- quality-standards.md              (hub-owned managed core)
+|- command/                         (hub-owned managed core slash commands)
 |- checkpoint-commit.sh              (hub-owned managed core)
 |- retrieve-context.sh               (hub-owned managed core)
 |- session-boundary.sh               (hub-owned managed core)

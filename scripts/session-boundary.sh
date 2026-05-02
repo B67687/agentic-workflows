@@ -68,10 +68,54 @@ while [[ $# -gt 0 ]]; do
       usage
       exit 0
       ;;
-    *)
+    research|plan|implement|review)
+      if [[ -z "$PHASE" ]]; then
+        PHASE="$1"
+      else
+        echo "Unknown option: $1" >&2
+        usage >&2
+        exit 2
+      fi
+      shift
+      ;;
+    verified)
+      VERIFIED=true
+      shift
+      ;;
+    phase-change)
+      PHASE_CHANGE=true
+      shift
+      ;;
+    topic-shift)
+      TOPIC_SHIFT=true
+      shift
+      ;;
+    quality-drop)
+      QUALITY_DROP=true
+      shift
+      ;;
+    task-complete)
+      TASK_COMPLETE=true
+      shift
+      ;;
+    meter-over-50)
+      METER_OVER_50=true
+      shift
+      ;;
+    ''|*[!0-9]*)
       echo "Unknown option: $1" >&2
       usage >&2
       exit 2
+      ;;
+    *)
+      if [[ "$TURNS" -eq 0 ]]; then
+        TURNS="$1"
+        shift
+      else
+        echo "Unknown option: $1" >&2
+        usage >&2
+        exit 2
+      fi
       ;;
   esac
 done

@@ -11,6 +11,7 @@ Goal: understand the system before changing it.
 During research:
 
 - read the startup files first
+- prefer `/research your task` when command shortcuts are available
 - use `bash ./scripts/retrieve-context.sh "query"` to pull only relevant local context
 - identify exact files, dependencies, and edge cases
 - do not implement yet
@@ -28,6 +29,7 @@ Goal: turn research into explicit steps.
 
 During planning:
 
+- prefer `/plan your task` when command shortcuts are available
 - define the exact files that will change
 - define the tests or verification for each step
 - define what should not change
@@ -45,6 +47,7 @@ Goal: execute the plan in small verified slices.
 
 During implementation:
 
+- prefer `/implement your task` when command shortcuts are available
 - follow the plan instead of improvising broadly
 - keep the active context narrow
 - review each change before moving on
@@ -61,6 +64,8 @@ Expected behavior:
 One task per session is the default.
 
 Use `bash ./scripts/session-boundary.sh` to decide when to:
+
+- or use `/session-boundary` for the shortcut form
 
 - continue
 - checkpoint now

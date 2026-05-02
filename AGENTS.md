@@ -53,6 +53,7 @@ For topic-folder work, start with that folder's root `session-state.json`, then 
 - **Use repo-native shell tooling**. Prefer bash in WSL unless a repo explicitly requires PowerShell; see `docs/repo-tooling.md`.
 - **Use phase-based work for non-trivial tasks**: research first, plan second, implement third. Do not jump straight to code when the system is still unclear.
 - **One task per session by default**: when the phase changes, the topic shifts, or the thread gets long, checkpoint and start a new session instead of dragging the old one forward.
+- **Use slash command shortcuts when available**: prefer `/query`, `/session-boundary`, `/research`, `/plan`, and `/implement` instead of retyping long helper commands.
 
 ## Structure Rules
 
@@ -108,6 +109,7 @@ Rules:
 - `scripts/propagate-to-all.sh` - sync templates to topic folders
 - `scripts/retrieve-context.sh` - rank only the local context relevant to the current step
 - `scripts/session-boundary.sh` - decide whether to continue, checkpoint, or restart
+- `command/` - slash-command wrappers for the phase workflow and context helpers
 - `scripts/harvest-topic-insights.sh` - collect topic lessons
 - `scripts/build-cross-domain-candidates.sh` - build promotion queue
 - `scripts/merge-and-propagate.sh` - merge reviewed lessons and propagate

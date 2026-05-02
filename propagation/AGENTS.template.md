@@ -27,6 +27,7 @@ When a request is clear enough and risk is low, you must proactively:
 6. **Read contribution guidance first** — Before preparing a PR or other upstream-facing change, read `CONTRIBUTING.md` if it exists. If it does not, read the closest equivalent contribution guidance such as the repo `README`, maintainer docs, or `meta/` notes.
 7. **Use research -> plan -> implement for non-trivial work** — Understand first, plan second, then change files.
 8. **Restart on phase boundaries** — New phase, new session. Do not drag long degraded threads forward.
+9. **Prefer slash-command shortcuts when present** — Use `/query`, `/session-boundary`, `/research`, `/plan`, and `/implement` instead of retyping long helper commands.
 
 See hub's docs/core-agent-doctrine.md for full principles.
 

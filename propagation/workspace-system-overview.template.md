@@ -27,6 +27,7 @@ Expected root structure:
 |- audit-folder-quality.sh           (hub-owned managed core)
 |- check-sync-status.sh              (hub-owned managed core)
 |- sync-from-hub.sh                  (hub-owned managed core)
+|- command/                          (hub-owned managed core slash commands)
 |- checkpoint-commit.sh              (hub-owned managed core)
 |- retrieve-context.sh               (hub-owned managed core)
 |- session-boundary.sh               (hub-owned managed core)
@@ -88,10 +89,22 @@ To pull only the context relevant to one step:
 ./retrieve-context.sh "your query"
 ```
 
+If your client supports slash commands, prefer:
+
+```text
+/query your query
+```
+
 To decide whether to continue or restart:
 
 ```bash
 ./session-boundary.sh --phase research --turns 8
+```
+
+Shortcut form:
+
+```text
+/session-boundary research 8
 ```
 
 ## Two-Git Architecture (Optional)
