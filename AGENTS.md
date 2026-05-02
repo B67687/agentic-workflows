@@ -56,6 +56,8 @@ For topic-folder work, start with that folder's root `session-state.json`, then 
 - **Use slash command shortcuts when available**: prefer `/grill`, `/start-task`, `/query`, `/session-boundary`, `/research`, `/plan`, `/implement`, and `/checkpoint` instead of retyping long helper commands.
 - **Grill ambiguous tasks early**: if the request is broad, underspecified, or expensive to get wrong, use `/grill` before planning or implementing.
 - **Gate implementation explicitly**: before editing non-trivial code, make sure the task has enough research, a clear plan, bounded scope, and a known verification path. If any of those are missing, stop and go back a phase.
+- **Start Git work with a repo probe**: before meaningful edits, use the Git start check to confirm branch, divergence, dirt, and upstream state.
+- **Prefer worktrees for isolated parallel work**: if a task is risky, long-running, or should not share a dirty worktree, create a short-lived worktree branch instead of mixing concerns in one checkout.
 
 ## Structure Rules
 
@@ -109,6 +111,8 @@ Rules:
 - `scripts/ws.sh` - WSL/Linux read-only status, search, hotspot, and validation wrapper
 - `scripts/check-sync-status.sh` - check propagation freshness
 - `scripts/propagate-to-all.sh` - sync templates to topic folders
+- `scripts/git-session-start.sh` - probe repo status, upstream divergence, and worktree health before edits
+- `scripts/git-worktree-branch.sh` - create an isolated short-lived worktree branch
 - `scripts/phase-gate.sh` - decide whether the next phase is allowed to proceed
 - `scripts/retrieve-context.sh` - rank only the local context relevant to the current step
 - `scripts/session-boundary.sh` - decide whether to continue, checkpoint, or restart

@@ -28,8 +28,10 @@ Read this first on every resume. Everything else is linked.
 - Hub work: docs, research, scripts, templates, workflow state
 - Topic work: inside `[topic-name]-content/`, resume from root `session-state.json`
 - Propagate shared defaults: `bash scripts/propagate-to-all.sh --apply`
-- Fast phase commands: `/grill`, `/start-task`, `/research`, `/plan`, `/implement`, `/query`, `/session-boundary`, `/checkpoint`
+- Fast phase commands: `/grill`, `/start-task`, `/research`, `/plan`, `/implement`, `/query`, `/session-boundary`, `/checkpoint`, `/git-start`, `/git-worktree`
 - Phase gate: `bash scripts/phase-gate.sh implement --research-done --plan-done --scope-bounded --verification-known`
+- Git repo probe: `bash scripts/git-session-start.sh`
+- Isolated branch/worktree: `bash scripts/git-worktree-branch.sh branch-name`
 - Retrieve only relevant local context: `bash scripts/retrieve-context.sh "query"`
 - Check whether to restart: `bash scripts/session-boundary.sh --phase research --turns 8`
 - After changing propagation or sync scripts, run: `bash scripts/test-propagation-contract.sh`
@@ -61,6 +63,8 @@ Read this first on every resume. Everything else is linked.
 |- command/                         (hub-owned managed core slash commands)
 |- phase-gate.sh                    (hub-owned managed core)
 |- checkpoint-commit.sh              (hub-owned managed core)
+|- git-session-start.sh             (hub-owned managed core)
+|- git-worktree-branch.sh           (hub-owned managed core)
 |- retrieve-context.sh               (hub-owned managed core)
 |- session-boundary.sh               (hub-owned managed core)
 |- session-state.json                (repo-owned after bootstrap)

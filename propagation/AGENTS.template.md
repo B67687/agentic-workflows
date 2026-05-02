@@ -30,6 +30,8 @@ When a request is clear enough and risk is low, you must proactively:
 9. **Prefer slash-command shortcuts when present** — Use `/grill`, `/start-task`, `/query`, `/session-boundary`, `/research`, `/plan`, `/implement`, and `/checkpoint` instead of retyping long helper commands.
 10. **Refuse unclear implementation** — If the files, scope, or verification path are unclear, stop and go back to research or planning instead of improvising edits.
 11. **Grill costly ambiguity early** — If the request is broad, ambiguous, or expensive to misunderstand, challenge the assumptions before planning or implementing.
+12. **Probe Git state before serious edits** — Check branch, dirt, and upstream state first.
+13. **Use worktrees for isolated risky work** — Prefer a short-lived worktree branch when the work should not share the current checkout.
 
 See hub's docs/core-agent-doctrine.md for full principles.
 

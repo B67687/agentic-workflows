@@ -151,10 +151,11 @@ For long or automated work, also record:
 ### Starting a New Multi-Phase Task
 
 1. Read `session-state.json` (orient)
-2. Write updated `session-state.json` (checkpoint)
-3. Start work
-4. Update `session-state.json` after each phase
-5. BEFORE any heavy operation → write state
+2. Run the repo probe if this is a code repo: `bash ./scripts/git-session-start.sh`
+3. Write updated `session-state.json` (checkpoint)
+4. Start work
+5. Update `session-state.json` after each phase
+6. BEFORE any heavy operation → write state
 
 ### After an Interrupt
 
@@ -190,6 +191,7 @@ Best practice:
 - do not leave a huge dirty worktree as the default operating mode
 - if a session ends with uncommitted work, the next session should immediately know why
 - use `bash ./scripts/checkpoint-commit.sh -m "checkpoint summary"` in the hub or `bash ./checkpoint-commit.sh -m "checkpoint summary"` in a managed topic repo when the phase is ready
+- if the next phase is risky or separate, checkpoint first and then move it into a worktree branch
 
 ### After Two Failed Attempts
 

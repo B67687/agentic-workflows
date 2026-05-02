@@ -153,6 +153,25 @@ If you must make multiple changes, commit them separately.
 
 ## State Awareness
 
+### Start Every Serious Session With A Repo Probe
+
+Before meaningful edits, run a repo probe first.
+
+Use:
+
+```bash
+bash ./scripts/git-session-start.sh
+```
+
+The probe should tell you:
+- current branch
+- whether the worktree is dirty
+- whether upstream exists
+- whether you are ahead or behind
+- whether fetch changed your picture
+
+Do not start broad edits blindly on a stale or surprising branch state.
+
 ### Always Fetch Before Starting Work
 
 Before making any changes:
@@ -223,6 +242,26 @@ Work directly on the main branch or use short-lived feature branches:
 - Main branch stays deployable
 - Feature branches live for hours or days, never weeks
 
+### Prefer Worktrees For Isolated Parallel Work
+
+If the work is risky, long-running, or should stay isolated from the current checkout, use a git worktree instead of mixing everything into one dirty branch.
+
+Use:
+
+```bash
+bash ./scripts/git-worktree-branch.sh branch-name
+```
+
+This is best for:
+- exploratory refactors
+- PR fixes that should not disturb current work
+- parallel agent or fresh-session work
+- large tasks likely to require many checkpoint commits
+
+Default rule:
+- small coherent work can stay in the current checkout
+- risky or separate work deserves its own worktree
+
 ### Use Clear Branch Names
 
 Names should describe the work:
@@ -231,6 +270,19 @@ Names should describe the work:
 - `docs/readme-update`
 
 Avoid: `work`, `tmp`, `fix1`, `branch`
+
+### Suggested Branch Shape
+
+Use short-lived, purpose-first names:
+
+```text
+fix/login-redirect-loop
+feature/phase-gate-workflow
+docs/history-cleanup
+research/pi-mono-evaluation
+```
+
+Do not encode tool names or internal execution details in the branch name.
 
 ### Delete Branches After Merge
 

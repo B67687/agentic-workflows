@@ -30,6 +30,8 @@ Expected root structure:
 |- command/                          (hub-owned managed core slash commands)
 |- phase-gate.sh                     (hub-owned managed core)
 |- checkpoint-commit.sh              (hub-owned managed core)
+|- git-session-start.sh              (hub-owned managed core)
+|- git-worktree-branch.sh            (hub-owned managed core)
 |- retrieve-context.sh               (hub-owned managed core)
 |- session-boundary.sh               (hub-owned managed core)
 |- session-state.json                (repo-owned after bootstrap)
@@ -108,6 +110,12 @@ To challenge assumptions before deeper work:
 /grill your task
 ```
 
+To probe branch and upstream state before edits:
+
+```text
+/git-start
+```
+
 To decide whether to continue or restart:
 
 ```bash
@@ -124,6 +132,12 @@ To verify that implementation is actually allowed:
 
 ```bash
 ./phase-gate.sh implement --research-done --plan-done --scope-bounded --verification-known
+```
+
+To create an isolated short-lived worktree branch:
+
+```text
+/git-worktree branch-name
 ```
 
 ## Two-Git Architecture (Optional)
