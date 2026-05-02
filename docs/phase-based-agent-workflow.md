@@ -4,6 +4,11 @@ This workspace uses one default execution shape for non-trivial tasks:
 
 **Research -> Plan -> Implement**
 
+Default entrypoint:
+
+- start with `/start-task your task`
+- use direct handling only when the task is truly small and obvious
+
 ## Phase 1: Research
 
 Goal: understand the system before changing it.
@@ -48,6 +53,7 @@ Goal: execute the plan in small verified slices.
 During implementation:
 
 - prefer `/implement your task` when command shortcuts are available
+- run `bash ./scripts/phase-gate.sh implement ...` or let `/implement` enforce the same gate
 - follow the plan instead of improvising broadly
 - keep the active context narrow
 - review each change before moving on
@@ -58,6 +64,38 @@ Expected behavior:
 - small reversible edits
 - frequent checkpointing
 - new session when the phase changes or context quality drops
+
+## Task Intake Rule
+
+Use a compact intake before non-trivial work:
+
+- what is the goal
+- what is in scope
+- what kind of change is this
+- what proves success
+- what lane should this start in
+
+Use direct handling only when all of these are true:
+
+- the request is clear
+- the scope is small
+- the files are obvious
+- verification is simple
+- the task does not need a deeper system read first
+
+Otherwise, start in research.
+
+## Phase Gate Rule
+
+Implementation should stop and refuse to proceed when:
+
+- the key files are still unclear
+- verification is still unclear
+- the scope is still mixed or changing
+- the plan is still missing
+- contribution guidance has not been read for upstream-facing work
+
+When blocked, go back exactly one phase instead of improvising forward.
 
 ## Session Boundary Rule
 
@@ -80,3 +118,11 @@ Restart when:
 - context meter is clearly too full
 
 Do not keep trying to rescue a degraded thread if a fresh one would be cleaner.
+
+## Checkpoint Rule
+
+After a verified phase:
+
+- update `session-state.json`
+- use `/checkpoint` when you want a compact wrap-up
+- prefer a checkpoint commit before a risky next phase

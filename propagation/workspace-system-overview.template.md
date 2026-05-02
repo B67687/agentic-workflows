@@ -28,6 +28,7 @@ Expected root structure:
 |- check-sync-status.sh              (hub-owned managed core)
 |- sync-from-hub.sh                  (hub-owned managed core)
 |- command/                          (hub-owned managed core slash commands)
+|- phase-gate.sh                     (hub-owned managed core)
 |- checkpoint-commit.sh              (hub-owned managed core)
 |- retrieve-context.sh               (hub-owned managed core)
 |- session-boundary.sh               (hub-owned managed core)
@@ -95,6 +96,12 @@ If your client supports slash commands, prefer:
 /query your query
 ```
 
+To classify a task before starting:
+
+```text
+/start-task your task
+```
+
 To decide whether to continue or restart:
 
 ```bash
@@ -105,6 +112,12 @@ Shortcut form:
 
 ```text
 /session-boundary research 8
+```
+
+To verify that implementation is actually allowed:
+
+```bash
+./phase-gate.sh implement --research-done --plan-done --scope-bounded --verification-known
 ```
 
 ## Two-Git Architecture (Optional)
