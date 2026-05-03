@@ -71,7 +71,7 @@ For topic-folder work, start with that folder's root `session-state.json`, then 
 
 - Runtime authority: use the global OpenCode config at `/home/namikaz/.config/opencode/opencode.jsonc`.
 - Repo authority: use root `session-state.json`, then `AGENTS.md`, then `docs/workspace-system-overview.md`.
-- Do not create repo-local `opencode.json` or workspace-level `.opencode/` directories.
+- Do not create repo-local `opencode.json` or workspace-level `.opencode/` directories, except for intentional `.opencode/commands/` command files used by OpenCode slash commands.
 - Only preserve embedded `.opencode/` content when it is part of upstream source or test fixtures inside another repo's code tree.
 - After any tool, model, OS, or app-variant change, do a repo-wide scan, update `session-state.json`, and remove stale runtime assumptions before resuming normal work.
 - Propagation ownership split:
@@ -120,6 +120,7 @@ Rules:
 - `scripts/session-boundary.sh` - decide whether to continue, checkpoint, or restart
 - `scripts/checkpoint-review.sh` - deterministic end-of-phase review before committing or restarting
 - `command/` - slash-command wrappers for task intake, phase flow, and checkpointing
+- `.opencode/commands/` - OpenCode-native slash-command entrypoints mirroring the managed command set
 - `scripts/harvest-topic-insights.sh` - collect topic lessons
 - `scripts/build-cross-domain-candidates.sh` - build promotion queue
 - `scripts/merge-and-propagate.sh` - merge reviewed lessons and propagate
