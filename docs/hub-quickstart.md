@@ -31,8 +31,9 @@ Read this first on every resume. Everything else is linked.
 - Fast phase commands: `/grill`, `/start-task`, `/research`, `/plan`, `/implement`, `/query`, `/session-boundary`, `/checkpoint`, `/git-start`, `/git-worktree`
 - Phase gate: `bash scripts/phase-gate.sh implement --research-done --plan-done --scope-bounded --verification-known`
 - Git repo probe: `bash scripts/git-session-start.sh`
+- Deterministic task intake: `bash scripts/task-intake.sh "task"`
 - Isolated branch/worktree: `bash scripts/git-worktree-branch.sh branch-name`
-- `/start-task` now begins with the repo probe and should choose current checkout vs worktree by default
+- `/start-task` now begins with deterministic task intake and should choose current checkout vs worktree by default
 - `/implement` now begins with the repo probe and should refuse unclear or risky checkout state by default
 - `/checkpoint` now inspects the diff before recommending a commit
 - Retrieve only relevant local context: `bash scripts/retrieve-context.sh "query"`

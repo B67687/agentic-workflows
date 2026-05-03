@@ -31,6 +31,7 @@ declare -a PROPAGATION_MANAGED_CORE=(
   "sync-from-hub.template.sh:sync-from-hub.sh"
   "checkpoint-commit.template.sh:checkpoint-commit.sh"
   "git-session-start.template.sh:git-session-start.sh"
+  "task-intake.template.sh:task-intake.sh"
   "git-worktree-branch.template.sh:git-worktree-branch.sh"
   "phase-gate.template.sh:phase-gate.sh"
   "retrieve-context.template.sh:retrieve-context.sh"

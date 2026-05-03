@@ -112,6 +112,7 @@ Rules:
 - `scripts/check-sync-status.sh` - check propagation freshness
 - `scripts/propagate-to-all.sh` - sync templates to topic folders
 - `scripts/git-session-start.sh` - probe repo status, upstream divergence, and worktree health before edits
+- `scripts/task-intake.sh` - deterministic task intake with git-aware lane recommendation
 - `scripts/git-worktree-branch.sh` - create an isolated short-lived worktree branch
 - `scripts/phase-gate.sh` - decide whether the next phase is allowed to proceed
 - `scripts/retrieve-context.sh` - rank only the local context relevant to the current step
