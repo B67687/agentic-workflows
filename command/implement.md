@@ -6,16 +6,12 @@ This is implementation mode.
 
 Only proceed if the task already has enough research and a clear plan. If not, stop and say whether `/research` or `/plan` should happen first.
 
-Before implementation, run:
-`bash ./scripts/git-session-start.sh`
+Before implementation, run the deterministic preflight:
+`bash ./scripts/implement-preflight.sh "$ARGUMENTS"`
 
-Before implementing, enforce the gate:
-`bash ./scripts/phase-gate.sh implement --research-done --plan-done --scope-bounded --verification-known`
+If `Implement decision: block`, do not implement. Send the task back exactly one phase.
 
-If the work is upstream-facing, the gate must also include:
-`--upstream-facing --contribution-read`
-
-If the repo probe or the gate would fail, do not improvise forward. Stop and send the task back exactly one phase, or recommend a worktree if the current checkout should stay isolated.
+If `Implement decision: caution`, fix the checkout state first or move the work into a worktree before implementing.
 
 Keep the active context narrow. Execute in small verified slices. Review each change before moving to the next.
 

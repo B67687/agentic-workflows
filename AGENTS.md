@@ -115,8 +115,10 @@ Rules:
 - `scripts/task-intake.sh` - deterministic task intake with git-aware lane recommendation
 - `scripts/git-worktree-branch.sh` - create an isolated short-lived worktree branch
 - `scripts/phase-gate.sh` - decide whether the next phase is allowed to proceed
+- `scripts/implement-preflight.sh` - deterministic repo plus phase preflight before implementation
 - `scripts/retrieve-context.sh` - rank only the local context relevant to the current step
 - `scripts/session-boundary.sh` - decide whether to continue, checkpoint, or restart
+- `scripts/checkpoint-review.sh` - deterministic end-of-phase review before committing or restarting
 - `command/` - slash-command wrappers for task intake, phase flow, and checkpointing
 - `scripts/harvest-topic-insights.sh` - collect topic lessons
 - `scripts/build-cross-domain-candidates.sh` - build promotion queue

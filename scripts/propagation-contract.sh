@@ -34,8 +34,10 @@ declare -a PROPAGATION_MANAGED_CORE=(
   "task-intake.template.sh:task-intake.sh"
   "git-worktree-branch.template.sh:git-worktree-branch.sh"
   "phase-gate.template.sh:phase-gate.sh"
+  "implement-preflight.template.sh:implement-preflight.sh"
   "retrieve-context.template.sh:retrieve-context.sh"
   "session-boundary.template.sh:session-boundary.sh"
+  "checkpoint-review.template.sh:checkpoint-review.sh"
 )
 
 declare -a PROPAGATION_REPO_OWNED_BOOTSTRAP=(

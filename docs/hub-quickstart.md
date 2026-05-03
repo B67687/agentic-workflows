@@ -32,10 +32,11 @@ Read this first on every resume. Everything else is linked.
 - Phase gate: `bash scripts/phase-gate.sh implement --research-done --plan-done --scope-bounded --verification-known`
 - Git repo probe: `bash scripts/git-session-start.sh`
 - Deterministic task intake: `bash scripts/task-intake.sh "task"`
+- Deterministic implement preflight: `bash scripts/implement-preflight.sh "task" --research-done --plan-done --scope-bounded --verification-known`
 - Isolated branch/worktree: `bash scripts/git-worktree-branch.sh branch-name`
 - `/start-task` now begins with deterministic task intake and should choose current checkout vs worktree by default
-- `/implement` now begins with the repo probe and should refuse unclear or risky checkout state by default
-- `/checkpoint` now inspects the diff before recommending a commit
+- `/implement` now begins with deterministic repo plus phase preflight and should refuse unclear or risky checkout state by default
+- `/checkpoint` now begins with deterministic checkpoint review before recommending a commit
 - Retrieve only relevant local context: `bash scripts/retrieve-context.sh "query"`
 - Check whether to restart: `bash scripts/session-boundary.sh --phase research --turns 8`
 - After changing propagation or sync scripts, run: `bash scripts/test-propagation-contract.sh`

@@ -4,11 +4,8 @@ description: Wrap up a verified phase and decide whether to restart
 
 This command is for the end of a phase.
 
-First, decide whether the phase should continue or restart by using:
-`bash ./session-boundary.sh $ARGUMENTS`
-
-Then inspect the current diff with:
-`git status --short`
+First, run the deterministic checkpoint review:
+`bash ./checkpoint-review.sh $ARGUMENTS`
 
 Then respond compactly with:
 - what was completed
@@ -16,5 +13,5 @@ Then respond compactly with:
 - whether a checkpoint commit is appropriate now
 - whether the next step should start in a new session
 
-If the phase is verified and the diff is coherent, recommend or run:
+If the review says `Checkpoint commit ready: yes`, recommend or run:
 `bash ./checkpoint-commit.sh -m "checkpoint summary"`
