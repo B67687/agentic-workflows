@@ -9,3 +9,4 @@ Then respond compactly with:
 - current branch state
 - whether anything looks risky
 - whether the task should stay here or move to a worktree
+- whether it is safe to begin edits now

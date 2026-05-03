@@ -32,6 +32,9 @@ Read this first on every resume. Everything else is linked.
 - Phase gate: `bash scripts/phase-gate.sh implement --research-done --plan-done --scope-bounded --verification-known`
 - Git repo probe: `bash scripts/git-session-start.sh`
 - Isolated branch/worktree: `bash scripts/git-worktree-branch.sh branch-name`
+- `/start-task` now begins with the repo probe and should choose current checkout vs worktree by default
+- `/implement` now begins with the repo probe and should refuse unclear or risky checkout state by default
+- `/checkpoint` now inspects the diff before recommending a commit
 - Retrieve only relevant local context: `bash scripts/retrieve-context.sh "query"`
 - Check whether to restart: `bash scripts/session-boundary.sh --phase research --turns 8`
 - After changing propagation or sync scripts, run: `bash scripts/test-propagation-contract.sh`

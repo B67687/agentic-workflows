@@ -11,3 +11,4 @@ Then return:
 - created branch name
 - created path
 - what kind of work should happen there
+- that the current checkout should stay clean while the isolated work happens there
