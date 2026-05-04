@@ -4,6 +4,8 @@ description: Wrap up a verified phase and decide whether to restart
 
 This command is for the end of a phase.
 
+If the task is actually over, obsolete, or misframed, use `/close-task` first so the ending gets classified cleanly.
+
 First, run the deterministic checkpoint review:
 `bash ./checkpoint-review.sh $ARGUMENTS`
 

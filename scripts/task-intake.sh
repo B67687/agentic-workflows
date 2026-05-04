@@ -37,6 +37,16 @@ fi
 TASK="$1"
 shift
 
+normalize_task() {
+  local text="$1"
+  while [[ "$text" =~ ^/[a-z0-9-]+[[:space:]]+(.+)$ ]]; do
+    text="${BASH_REMATCH[1]}"
+  done
+  printf '%s\n' "$text"
+}
+
+TASK="$(normalize_task "$TASK")"
+
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --size)

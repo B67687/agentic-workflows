@@ -28,7 +28,7 @@ Read this first on every resume. Everything else is linked.
 - Hub work: docs, research, scripts, templates, workflow state
 - Topic work: inside `[topic-name]-content/`, resume from root `session-state.json`
 - Propagate shared defaults: `bash scripts/propagate-to-all.sh --apply`
-- Fast phase commands: `/grill`, `/start-task`, `/research`, `/plan`, `/implement`, `/query`, `/session-boundary`, `/checkpoint`, `/git-start`, `/git-worktree`
+- Fast phase commands: `/grill`, `/start-task`, `/research`, `/plan`, `/implement`, `/query`, `/session-boundary`, `/checkpoint`, `/close-task`, `/git-start`, `/git-worktree`
 - OpenCode command discovery should use `.opencode/commands/`; the repo also keeps `command/` as a readable mirrored command set
 - Phase gate: `bash scripts/phase-gate.sh implement --research-done --plan-done --scope-bounded --verification-known`
 - Git repo probe: `bash scripts/git-session-start.sh`

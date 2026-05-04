@@ -4,6 +4,11 @@ description: Challenge an ambiguous or expensive task before deeper execution
 
 Use this command when the request is broad, underspecified, architectural, or costly to misunderstand.
 
+Pass the plain task on the same line, like:
+`/grill fix the real problem framing for Tutanota aria2 support`
+
+When you recommend the next command, reuse only the plain task text. Do not include an existing slash-command prefix inside the next command.
+
 Do not implement yet.
 
 Return a compact grilling note with:

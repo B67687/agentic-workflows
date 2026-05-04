@@ -36,6 +36,8 @@ declare -a PROPAGATION_MANAGED_CORE=(
   "command/implement.template.md:.opencode/commands/implement.md"
   "command/checkpoint.template.md:command/checkpoint.md"
   "command/checkpoint.template.md:.opencode/commands/checkpoint.md"
+  "command/close-task.template.md:command/close-task.md"
+  "command/close-task.template.md:.opencode/commands/close-task.md"
   "audit-folder-quality.template.sh:audit-folder-quality.sh"
   "check-sync-status.template.sh:check-sync-status.sh"
   "sync-from-hub.template.sh:sync-from-hub.sh"
@@ -48,6 +50,7 @@ declare -a PROPAGATION_MANAGED_CORE=(
   "retrieve-context.template.sh:retrieve-context.sh"
   "session-boundary.template.sh:session-boundary.sh"
   "checkpoint-review.template.sh:checkpoint-review.sh"
+  "close-task.template.sh:close-task.sh"
 )
 
 declare -a PROPAGATION_REPO_OWNED_BOOTSTRAP=(

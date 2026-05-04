@@ -4,6 +4,8 @@ description: Classify a task before starting and choose the right lane
 
 Use this command before non-trivial work.
 
+If the arguments accidentally begin with a slash command, treat that prefix as wrapper noise and classify only the underlying task.
+
 First run:
 `bash ./scripts/task-intake.sh "$ARGUMENTS"`
 

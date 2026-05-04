@@ -153,7 +153,7 @@ To keep GitHub repos clean, add to `.gitignore`:
 AGENTS.md
 topic-insights.md
 .cleanup-protect
-workspace-system-overview.md
+docs/workspace-system-overview.md
 ```
 
 ## Root Discipline

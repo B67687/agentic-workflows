@@ -54,6 +54,7 @@ For topic-folder work, start with that folder's root `session-state.json`, then 
 - **Use phase-based work for non-trivial tasks**: research first, plan second, implement third. Do not jump straight to code when the system is still unclear.
 - **One task per session by default**: when the phase changes, the topic shifts, or the thread gets long, checkpoint and start a new session instead of dragging the old one forward.
 - **Use slash command shortcuts when available**: prefer `/grill`, `/start-task`, `/query`, `/session-boundary`, `/research`, `/plan`, `/implement`, and `/checkpoint` instead of retyping long helper commands.
+- **Close dead branches explicitly**: when a task is resolved, obsolete, not reproducible, wrongly framed, or intentionally parked, use `/close-task` before the final checkpoint.
 - **Grill ambiguous tasks early**: if the request is broad, underspecified, or expensive to get wrong, use `/grill` before planning or implementing.
 - **Gate implementation explicitly**: before editing non-trivial code, make sure the task has enough research, a clear plan, bounded scope, and a known verification path. If any of those are missing, stop and go back a phase.
 - **Start Git work with a repo probe**: before meaningful edits, use the Git start check to confirm branch, divergence, dirt, and upstream state.
@@ -119,6 +120,7 @@ Rules:
 - `scripts/retrieve-context.sh` - rank only the local context relevant to the current step
 - `scripts/session-boundary.sh` - decide whether to continue, checkpoint, or restart
 - `scripts/checkpoint-review.sh` - deterministic end-of-phase review before committing or restarting
+- `scripts/close-task.sh` - deterministic task closure classification for resolved or dead branches
 - `command/` - slash-command wrappers for task intake, phase flow, and checkpointing
 - `.opencode/commands/` - OpenCode-native slash-command entrypoints mirroring the managed command set
 - `scripts/harvest-topic-insights.sh` - collect topic lessons

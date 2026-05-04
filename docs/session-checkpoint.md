@@ -170,6 +170,25 @@ For long or automated work, also record:
 2. Add any durable learnings to key_context
 3. Leave status as "complete" — next session sees it and starts fresh
 
+### Closure Classification
+
+When a task ends, do not leave the outcome vague.
+
+Use `/close-task` to classify the result as one of:
+
+- `fixed`
+- `obsolete`
+- `not-reproducible`
+- `wrong-framing`
+- `parked`
+
+This should record:
+
+- what the real question turned out to be
+- what answer was reached
+- what prior branch or implementation path is now dead
+- whether the leftovers should be archived, deleted, or just left alone
+
 ### Verified-Phase Commit Cadence
 
 Checkpoint files are not enough when the worktree stays dirty for hours. After a meaningful phase is both implemented and verified:
