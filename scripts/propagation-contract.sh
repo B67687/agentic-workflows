@@ -26,6 +26,8 @@ declare -a PROPAGATION_MANAGED_CORE=(
   "command/query.template.md:.opencode/commands/query.md"
   "command/start-task.template.md:command/start-task.md"
   "command/start-task.template.md:.opencode/commands/start-task.md"
+  "command/shape-task.template.md:command/shape-task.md"
+  "command/shape-task.template.md:.opencode/commands/shape-task.md"
   "command/session-boundary.template.md:command/session-boundary.md"
   "command/session-boundary.template.md:.opencode/commands/session-boundary.md"
   "command/research.template.md:command/research.md"
@@ -38,6 +40,8 @@ declare -a PROPAGATION_MANAGED_CORE=(
   "command/checkpoint.template.md:.opencode/commands/checkpoint.md"
   "command/close-task.template.md:command/close-task.md"
   "command/close-task.template.md:.opencode/commands/close-task.md"
+  "command/finish-task.template.md:command/finish-task.md"
+  "command/finish-task.template.md:.opencode/commands/finish-task.md"
   "audit-folder-quality.template.sh:audit-folder-quality.sh"
   "check-sync-status.template.sh:check-sync-status.sh"
   "sync-from-hub.template.sh:sync-from-hub.sh"
@@ -51,6 +55,7 @@ declare -a PROPAGATION_MANAGED_CORE=(
   "session-boundary.template.sh:session-boundary.sh"
   "checkpoint-review.template.sh:checkpoint-review.sh"
   "close-task.template.sh:close-task.sh"
+  "finish-task.template.sh:finish-task.sh"
 )
 
 declare -a PROPAGATION_REPO_OWNED_BOOTSTRAP=(

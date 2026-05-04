@@ -189,6 +189,8 @@ This should record:
 - what prior branch or implementation path is now dead
 - whether the leftovers should be archived, deleted, or just left alone
 
+If the task is truly over, you can use `/finish-task` to run closure classification and checkpoint review together in one step.
+
 ### Verified-Phase Commit Cadence
 
 Checkpoint files are not enough when the worktree stays dirty for hours. After a meaningful phase is both implemented and verified:
