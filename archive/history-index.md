@@ -5,6 +5,12 @@
 
 ---
 
+## Phase 12: Fast Iteration Guardrails (2026-05-04)
+- Added deterministic oversized-task slicing with `/slice-task`
+- Added planning-loop guard so large work plans only the next executable slice
+- Updated workflow docs to prefer milestone ladder plus first slice over giant one-shot plans
+- Documented anti-paralysis rule: after two planning refinements, move back toward execution
+
 ## Phase 11: Runtime Simplification & Drift Cleanup (2026-04-30 to 2026-05-01)
 - Replaced split local runtime assumptions with one global OpenCode runtime authority
 - Removed repo-local OpenCode config and workspace-level `.opencode/` drift across topic repos

@@ -5,17 +5,17 @@ Read this first on every resume. Everything else is linked.
 ## Current State
 
 - **Session:** Check root `session-state.json` for the active task
-- **System:** 1 main agent plus 2 optional subsession roles (Explorer + Worker)
+- **System:** Phase-based direct workflow with deterministic intake, slicing, preflight, and checkpoint helpers
 - **Main AI:** Kimi K2.6 (OpenCode Go) or Claude Sonnet 4.6 (Copilot)
 - **Goal:** One main AI for 90% of work. Spawn subagents only for fresh context or bulk search.
 
 ## 10-Second Rules
 
 1. **Handle directly** - Simple tasks, < 15 turns, normal coding/writing
-2. **Spawn Explorer** - Bulk search (10+ files), complex grep
-3. **Spawn Worker** - Fresh context (15+ turns, topic shift, quality drop)
-4. **Research before coding** - For non-trivial tasks, understand first
-5. **Plan before implementing** - Make the file/test plan explicit
+2. **Slice oversized tasks first** - Big tasks should become milestone ladder plus first executable slice
+3. **Research before coding** - For non-trivial tasks, understand first
+4. **Plan before implementing** - Make the file/test plan explicit
+5. **Cap planning loops** - After two refinements, stop broadening and choose the next slice
 6. **Gate implementation** - If files, scope, or verification are unclear, stop and go back a phase
 7. **Write session state** - Before heavy ops, update root `session-state.json`
 8. **Health-probe after resume** - Read-only sanity check before risky mutations
@@ -28,7 +28,7 @@ Read this first on every resume. Everything else is linked.
 - Hub work: docs, research, scripts, templates, workflow state
 - Topic work: inside `[topic-name]-content/`, resume from root `session-state.json`
 - Propagate shared defaults: `bash scripts/propagate-to-all.sh --apply`
-- Fast phase commands: `/shape-task`, `/grill`, `/start-task`, `/research`, `/plan`, `/implement`, `/query`, `/session-boundary`, `/checkpoint`, `/close-task`, `/finish-task`, `/git-start`, `/git-worktree`
+- Fast phase commands: `/shape-task`, `/grill`, `/start-task`, `/slice-task`, `/research`, `/plan`, `/implement`, `/query`, `/session-boundary`, `/checkpoint`, `/close-task`, `/finish-task`, `/git-start`, `/git-worktree`
 - OpenCode command discovery should use `.opencode/commands/`; the repo also keeps `command/` as a readable mirrored command set
 - Phase gate: `bash scripts/phase-gate.sh implement --research-done --plan-done --scope-bounded --verification-known`
 - Git repo probe: `bash scripts/git-session-start.sh`
@@ -36,6 +36,8 @@ Read this first on every resume. Everything else is linked.
 - Deterministic implement preflight: `bash scripts/implement-preflight.sh "task" --research-done --plan-done --scope-bounded --verification-known`
 - Isolated branch/worktree: `bash scripts/git-worktree-branch.sh branch-name`
 - `/start-task` now begins with deterministic task intake and should choose current checkout vs worktree by default
+- `/slice-task` now forces oversized work into a milestone ladder plus first executable slice
+- `/plan` now begins with a planning guard and should stop planning loops before they become analysis paralysis
 - `/implement` now begins with deterministic repo plus phase preflight and should refuse unclear or risky checkout state by default
 - `/checkpoint` now begins with deterministic checkpoint review before recommending a commit
 - Retrieve only relevant local context: `bash scripts/retrieve-context.sh "query"`

@@ -69,6 +69,12 @@ Do not create `ai-prompting-content/` in this hub unless the whole hub is intent
 
 **Content folder naming:** Uses simple kebab-case: lowercase + spaces to dashes. Example: "Fluent PRs" → `fluent-prs-content`
 
+Fast iteration rules:
+
+- broad tasks should become milestone ladder plus first executable slice
+- after two planning refinements, stop broadening and choose the next slice
+- one verified slice beats one giant speculative plan
+
 Expected topic-folder root:
 
 ```text
@@ -80,6 +86,10 @@ Expected topic-folder root:
 |- audit-folder-quality.sh           (hub-owned managed core)
 |- check-sync-status.sh              (hub-owned managed core)
 |- sync-from-hub.sh                  (hub-owned managed core)
+|- task-intake.sh                    (hub-owned managed core)
+|- task-slice.sh                     (hub-owned managed core)
+|- phase-gate.sh                     (hub-owned managed core)
+|- plan-guard.sh                     (hub-owned managed core)
 |- checkpoint-commit.sh              (hub-owned managed core)
 |- session-state.json                (repo-owned after bootstrap)
 |- topic-insights.md                 (repo-owned after bootstrap)

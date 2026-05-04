@@ -28,7 +28,10 @@ Expected root structure:
 |- check-sync-status.sh              (hub-owned managed core)
 |- sync-from-hub.sh                  (hub-owned managed core)
 |- command/                          (hub-owned managed core slash commands)
+|- task-intake.sh                    (hub-owned managed core)
+|- task-slice.sh                     (hub-owned managed core)
 |- phase-gate.sh                     (hub-owned managed core)
+|- plan-guard.sh                     (hub-owned managed core)
 |- checkpoint-commit.sh              (hub-owned managed core)
 |- git-session-start.sh              (hub-owned managed core)
 |- git-worktree-branch.sh            (hub-owned managed core)
@@ -56,7 +59,9 @@ Expected root structure:
 5. **Ownership split** - The hub may refresh only the managed core. `session-state.json`, `topic-insights.md`, `.cleanup-protect`, and archive files are repo-owned after bootstrap.
 6. **Runtime config** - Do not create repo-local OpenCode runtime config. Use the global config and the root session-state file instead.
 7. **Phase workflow** - For non-trivial work, do research first, plan second, implement third.
-8. **Session boundaries** - New phase, new session. Checkpoint when a phase is verified and restart when context quality drops.
+8. **Fast iteration** - Big tasks should become milestone ladder plus first executable slice, not one giant plan.
+9. **Anti-paralysis** - After two planning refinements, pick the next slice instead of broadening the plan again.
+10. **Session boundaries** - New phase, new session. Checkpoint when a phase is verified and restart when context quality drops.
 
 ## Core Principles
 
@@ -101,7 +106,13 @@ If your client supports slash commands, prefer:
 To classify a task before starting:
 
 ```text
-/start-task your task
+/shape-task your task
+```
+
+To force a big task into fast milestones plus a first slice:
+
+```text
+/slice-task your task
 ```
 
 To challenge assumptions before deeper work:
@@ -132,6 +143,12 @@ To verify that implementation is actually allowed:
 
 ```bash
 ./phase-gate.sh implement --research-done --plan-done --scope-bounded --verification-known
+```
+
+To keep planning from growing too large:
+
+```bash
+./plan-guard.sh "your task"
 ```
 
 To create an isolated short-lived worktree branch:

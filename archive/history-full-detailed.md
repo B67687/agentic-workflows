@@ -4665,3 +4665,20 @@ When in doubt, preserve the decision and its rationale, but label the evidence l
 
 ---
 
+# 2026-05-04 — Fast Iteration Guardrails
+
+**User intent:** The user wanted the workflow to stop oversized one-shot tasks automatically, break them into fast slices, and avoid getting trapped in repeated planning refinements.
+
+**Assistant improvement:** Added a deterministic split between normal tasks and oversized tasks. `task-intake.sh` now marks heavy or broad work as `slice-first`. New helpers `task-slice.sh` and `plan-guard.sh` force milestone ladder plus first-slice planning and cap repeated planning rounds.
+
+**User improvement to the improvement:** The user also asked that the workflow updates be documented in the hub itself and reflected in the workspace history so future sessions can understand how the strategy evolved.
+
+**Final agreement:** Fast iteration is the default strategy. Big tasks should be broken into a coarse milestone ladder plus one executable slice. After two planning refinements, the workflow should stop broadening the plan and push toward the next slice.
+
+**Implemented:**
+- `scripts/task-slice.sh`
+- `scripts/plan-guard.sh`
+- `/slice-task` command and propagation templates
+- task-intake support for `slice-first` iteration routing
+- planning-command guardrails for oversized tasks and planning loops
+- workflow docs and overview updates across the hub

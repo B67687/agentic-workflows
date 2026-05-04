@@ -8,7 +8,22 @@ Default entrypoint:
 
 - start with `/grill your task` when the request is broad, underspecified, or high-cost to misunderstand
 - start with `/start-task your task`
+- start with `/slice-task your task` when the task is obviously too large for one fast cycle
 - use direct handling only when the task is truly small and obvious
+
+## Iteration Strategy
+
+The default strategy is fast iteration with feedback, not giant one-shot execution.
+
+For oversized tasks:
+
+- build a coarse milestone ladder
+- detail only the next executable slice
+- verify that slice
+- checkpoint
+- repeat
+
+Do not try to fully finish a broad system in one plan or one session by default.
 
 ## Phase 1: Research
 
@@ -36,6 +51,7 @@ Goal: turn research into explicit steps.
 During planning:
 
 - prefer `/plan your task` when command shortcuts are available
+- for large tasks, prefer milestone ladder plus first-slice planning instead of full end-to-end detail
 - define the exact files that will change
 - define the tests or verification for each step
 - define what should not change
@@ -46,6 +62,18 @@ Expected output:
 - a step-by-step plan
 - verification commands
 - clear scope boundaries
+
+## Anti-Paralysis Rule
+
+Planning should not loop forever.
+
+If the same task has already gone through two planning refinements:
+
+- stop broadening the plan
+- choose the next verified slice
+- move back toward `/research` for the missing fact or `/implement` for the ready slice
+
+The plan only needs to be good enough for the next fast cycle, not perfect for the whole project.
 
 ## Phase 3: Implement
 

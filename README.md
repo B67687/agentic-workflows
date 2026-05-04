@@ -42,7 +42,7 @@ For anyone who wants to write better prompts immediately.
 For setting up agentic workflows in your projects.
 
 1. **[docs/hub-quickstart.md](docs/hub-quickstart.md)** - Fast orientation for the current system
-2. **[docs/agentic-workflows.md](docs/agentic-workflows.md)** — Architecture: 2 subagents (Explorer + Worker), routing
+2. **[docs/agentic-workflows.md](docs/agentic-workflows.md)** — Routing ideas, fresh-context patterns, and execution lanes
 3. **[docs/core-agent-doctrine.md](docs/core-agent-doctrine.md)** — 10 principles that underpin the system
 4. **[AGENTS.md](AGENTS.md)** - Operating contract: rules, thresholds, coordination notes
 5. **[AGENTS.md](AGENTS.md)** + **[session-state.json](session-state.json)** — Runtime contract and resume state
@@ -139,3 +139,12 @@ If you want to keep improving this folder:
 ## Common Commands
 
 Use bash as the default terminal for workspace automation. Only fall back to PowerShell in repos that explicitly require it.
+
+Fast workflow:
+
+- `/shape-task your task`
+- `/slice-task your task` for oversized work
+- `/research your task`
+- `/plan your task`
+- `/implement your task`
+- `/checkpoint ...` or `/finish-task ...`

@@ -223,6 +223,17 @@ If the same fix path or investigation loop fails twice:
 3. Rebuild the hypothesis list from evidence
 4. Either narrow the task, switch to fresh context, or ask for a higher-quality review lane
 
+### After Two Planning Rounds
+
+If the same task has already gone through two planning refinements:
+
+1. Stop asking for a broader or more perfect plan
+2. Record the current slice boundary in `session-state.json`
+3. Choose one next executable slice
+4. Either research the one missing fact or implement the ready slice
+
+The point is to preserve fast iteration. Planning is there to unblock execution, not replace it.
+
 ---
 
 ## Quick Reference

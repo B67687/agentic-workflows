@@ -12,6 +12,7 @@ First run:
 
 Then:
 - if the recommended lane is `grill`, return a compact grilling note
+- if the recommended lane is `slice-first`, return a compact slice note
 - otherwise return the same compact routing output that `/start-task` would give
 
 When you recommend the next command, reuse only the plain task text.

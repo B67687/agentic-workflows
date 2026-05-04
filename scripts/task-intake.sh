@@ -13,6 +13,8 @@ SIZE="medium"
 CLARITY="mixed"
 RISK="medium"
 VERIFICATION="normal"
+ITERATION_STRATEGY="normal"
+ITERATION_REASON="task size looks compatible with one fast cycle"
 
 usage() {
   cat <<'EOF'
@@ -128,11 +130,22 @@ fi
 if [[ "$task_lower" =~ (not\ sure|maybe|i\ think|unclear|figure\ out) ]] && [[ "$CLARITY" == "mixed" ]]; then
   CLARITY="ambiguous"
 fi
+if [[ "$task_lower" =~ (1:1|one\ to\ one|entire|whole|full|complete|everything|all\ at\ once|from\ scratch|recreate|clone|platform|game|system|engine|app) ]]; then
+  ITERATION_STRATEGY="slice-first"
+  ITERATION_REASON="task likely spans too many moving parts for one safe fast cycle"
+fi
+if [[ "$SIZE" == "heavy" ]]; then
+  ITERATION_STRATEGY="slice-first"
+  ITERATION_REASON="heavy tasks should be broken into milestone slices before normal planning"
+fi
 
 lane="research"
 lane_reason="default safe lane for non-trivial work"
 
-if [[ "$CLARITY" == "ambiguous" || "$RISK" == "high" ]]; then
+if [[ "$ITERATION_STRATEGY" == "slice-first" && "$CLARITY" != "ambiguous" && "$RISK" != "high" ]]; then
+  lane="slice-first"
+  lane_reason="task should be split into the next executable slice before normal planning"
+elif [[ "$CLARITY" == "ambiguous" || "$RISK" == "high" ]]; then
   lane="grill"
   lane_reason="ambiguity or high risk should be challenged first"
 elif [[ "$SIZE" == "light" && "$CLARITY" == "clear" && "$RISK" == "low" && "$VERIFICATION" != "unclear" ]]; then
@@ -168,6 +181,8 @@ fi
 next_command="/research $TASK"
 if [[ "$lane" == "grill" ]]; then
   next_command="/grill $TASK"
+elif [[ "$lane" == "slice-first" ]]; then
+  next_command="/slice-task $TASK"
 elif [[ "$lane" == "direct" ]]; then
   next_command="direct handling allowed"
 fi
@@ -189,6 +204,8 @@ else
 fi
 echo "Recommended lane: $lane"
 echo "Lane reason: $lane_reason"
+echo "Iteration strategy: $ITERATION_STRATEGY"
+echo "Iteration reason: $ITERATION_REASON"
 echo "Git lane: $git_lane"
 echo "Git reason: $git_reason"
 echo "Safe to edit now: $safe_to_edit"

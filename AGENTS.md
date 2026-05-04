@@ -52,10 +52,12 @@ For topic-folder work, start with that folder's root `session-state.json`, then 
 - **Checkpoint commits after verified phases**: when a logical phase is complete and verified, prefer a small commit instead of carrying the whole session as uncommitted dirt. If you intentionally leave work uncommitted, record why in `session-state.json`.
 - **Use repo-native shell tooling**. Prefer bash in WSL unless a repo explicitly requires PowerShell; see `docs/repo-tooling.md`.
 - **Use phase-based work for non-trivial tasks**: research first, plan second, implement third. Do not jump straight to code when the system is still unclear.
+- **Force fast slices for oversized tasks**: if the task is broad, heavy, or likely to span many moving parts, break it into a milestone ladder and plan only the next executable slice.
 - **One task per session by default**: when the phase changes, the topic shifts, or the thread gets long, checkpoint and start a new session instead of dragging the old one forward.
-- **Use slash command shortcuts when available**: prefer `/shape-task`, `/grill`, `/start-task`, `/query`, `/session-boundary`, `/research`, `/plan`, `/implement`, `/close-task`, `/finish-task`, and `/checkpoint` instead of retyping long helper commands.
+- **Use slash command shortcuts when available**: prefer `/shape-task`, `/grill`, `/start-task`, `/slice-task`, `/query`, `/session-boundary`, `/research`, `/plan`, `/implement`, `/close-task`, `/finish-task`, and `/checkpoint` instead of retyping long helper commands.
 - **Close dead branches explicitly**: when a task is resolved, obsolete, not reproducible, wrongly framed, or intentionally parked, use `/close-task` before the final checkpoint.
 - **Grill ambiguous tasks early**: if the request is broad, underspecified, or expensive to get wrong, use `/grill` before planning or implementing.
+- **Stop planning loops early**: after two planning refinements, stop broadening the plan. Choose the next verified slice and move back toward research or implementation.
 - **Gate implementation explicitly**: before editing non-trivial code, make sure the task has enough research, a clear plan, bounded scope, and a known verification path. If any of those are missing, stop and go back a phase.
 - **Start Git work with a repo probe**: before meaningful edits, use the Git start check to confirm branch, divergence, dirt, and upstream state.
 - **Prefer worktrees for isolated parallel work**: if a task is risky, long-running, or should not share a dirty worktree, create a short-lived worktree branch instead of mixing concerns in one checkout.
@@ -114,8 +116,10 @@ Rules:
 - `scripts/propagate-to-all.sh` - sync templates to topic folders
 - `scripts/git-session-start.sh` - probe repo status, upstream divergence, and worktree health before edits
 - `scripts/task-intake.sh` - deterministic task intake with git-aware lane recommendation
+- `scripts/task-slice.sh` - deterministic oversized-task slicer for milestone ladder plus first slice
 - `scripts/git-worktree-branch.sh` - create an isolated short-lived worktree branch
 - `scripts/phase-gate.sh` - decide whether the next phase is allowed to proceed
+- `scripts/plan-guard.sh` - deterministic planning guard against oversized plans and planning loops
 - `scripts/implement-preflight.sh` - deterministic repo plus phase preflight before implementation
 - `scripts/retrieve-context.sh` - rank only the local context relevant to the current step
 - `scripts/session-boundary.sh` - decide whether to continue, checkpoint, or restart
