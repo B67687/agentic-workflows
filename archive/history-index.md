@@ -5,6 +5,13 @@
 
 ---
 
+## Phase 13: Big-Goal Execution Model (2026-05-05)
+- Added North Star shaping for long-horizon goals
+- Added milestone shaping so big goals become bounded bets before slice execution
+- Made `start-task` the default shaping entrypoint in docs and command behavior
+- Added optimization lane with evidence-based gating and bounded architecture review
+- Added glanceable workflow diagrams for big-goal execution, planning levels, and optimization
+
 ## Phase 12: Fast Iteration Guardrails (2026-05-04)
 - Added deterministic oversized-task slicing with `/slice-task`
 - Added planning-loop guard so large work plans only the next executable slice

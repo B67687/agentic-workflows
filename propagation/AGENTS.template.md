@@ -27,13 +27,15 @@ When a request is clear enough and risk is low, you must proactively:
 6. **Read contribution guidance first** — Before preparing a PR or other upstream-facing change, read `CONTRIBUTING.md` if it exists. If it does not, read the closest equivalent contribution guidance such as the repo `README`, maintainer docs, or `meta/` notes.
 7. **Use research -> plan -> implement for non-trivial work** — Understand first, plan second, then change files.
 8. **Slice oversized tasks early** — Big tasks should become milestone ladder plus first executable slice before normal planning.
-9. **Restart on phase boundaries** — New phase, new session. Do not drag long degraded threads forward.
-10. **Prefer slash-command shortcuts when present** — Use `/shape-task`, `/grill`, `/start-task`, `/slice-task`, `/query`, `/session-boundary`, `/research`, `/plan`, `/implement`, and `/checkpoint` instead of retyping long helper commands.
-11. **Refuse unclear implementation** — If the files, scope, or verification path are unclear, stop and go back to research or planning instead of improvising edits.
-12. **Grill costly ambiguity early** — If the request is broad, ambiguous, or expensive to misunderstand, challenge the assumptions before planning or implementing.
-13. **Stop planning loops early** — After two planning refinements, pick the next executable slice instead of broadening the plan again.
-14. **Probe Git state before serious edits** — Check branch, dirt, and upstream state first.
-15. **Use worktrees for isolated risky work** — Prefer a short-lived worktree branch when the work should not share the current checkout.
+9. **Think big, bet medium, execute tiny** — Preserve the big goal, shape one milestone bet, then work one verified slice at a time.
+10. **Restart on phase boundaries** — New phase, new session. Do not drag long degraded threads forward.
+11. **Prefer slash-command shortcuts when present** — Use `/start-task`, `/north-star`, `/shape-milestone`, `/slice-task`, `/grill`, `/query`, `/session-boundary`, `/research`, `/plan`, `/implement`, `/optimize`, and `/checkpoint` instead of retyping long helper commands.
+12. **Refuse unclear implementation** — If the files, scope, or verification path are unclear, stop and go back to research or planning instead of improvising edits.
+13. **Grill costly ambiguity early** — If the request is broad, ambiguous, or expensive to misunderstand, challenge the assumptions before planning or implementing.
+14. **Stop planning loops early** — After two planning refinements, pick the next executable slice instead of broadening the plan again.
+15. **Optimize by evidence** — Measure first for normal optimization; do bounded architecture review for hard-to-reverse risks.
+16. **Probe Git state before serious edits** — Check branch, dirt, and upstream state first.
+17. **Use worktrees for isolated risky work** — Prefer a short-lived worktree branch when the work should not share the current checkout.
 
 See hub's docs/core-agent-doctrine.md for full principles.
 

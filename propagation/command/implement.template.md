@@ -15,6 +15,8 @@ If `Implement decision: caution`, fix the checkout state first or move the work 
 
 Keep the active context narrow. Execute in small verified slices. Review each change before moving to the next.
 
+Do not silently expand the slice during implementation. If the current slice is no longer the right one, stop and go back to `/plan` or `/shape-milestone`.
+
 After each verified phase:
 - update `session-state.json`
 - prefer a checkpoint commit

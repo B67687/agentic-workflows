@@ -142,9 +142,12 @@ Use bash as the default terminal for workspace automation. Only fall back to Pow
 
 Fast workflow:
 
-- `/shape-task your task`
+- `/start-task your task`
+- `/north-star your goal` for long-horizon targets
+- `/shape-milestone your goal` for the next bounded bet
 - `/slice-task your task` for oversized work
 - `/research your task`
 - `/plan your task`
 - `/implement your task`
+- `/optimize your task` for performance or architecture cost work
 - `/checkpoint ...` or `/finish-task ...`

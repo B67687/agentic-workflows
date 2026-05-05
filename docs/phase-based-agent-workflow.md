@@ -2,12 +2,26 @@
 
 This workspace uses one default execution shape for non-trivial tasks:
 
-**Research -> Plan -> Implement**
+**Think big -> bet medium -> execute tiny**
+
+```mermaid
+flowchart LR
+    A["North Star"] --> B["Milestone Bet"]
+    B --> C["Next Executable Slice"]
+    C --> D["Research"]
+    D --> E["Plan"]
+    E --> F["Implement"]
+    F --> G["Verify"]
+    G --> H["Checkpoint"]
+    H --> C
+```
 
 Default entrypoint:
 
 - start with `/grill your task` when the request is broad, underspecified, or high-cost to misunderstand
 - start with `/start-task your task`
+- start with `/north-star your goal` when the task is a long-horizon dream or preservation target
+- start with `/shape-milestone your goal` when the big goal is known but the next meaningful bet is not
 - start with `/slice-task your task` when the task is obviously too large for one fast cycle
 - use direct handling only when the task is truly small and obvious
 
@@ -24,6 +38,27 @@ For oversized tasks:
 - repeat
 
 Do not try to fully finish a broad system in one plan or one session by default.
+
+## Planning Levels
+
+There are three planning levels, and they should not be mixed.
+
+```mermaid
+flowchart TD
+    A["North Star"] --> A1["Why this large goal matters"]
+    A --> A2["What must feel faithful or true"]
+    A --> A3["What success would prove"]
+
+    B["Milestone Bet"] --> B1["One meaningful bounded capability"]
+    B --> B2["1-3 slice appetite"]
+    B --> B3["What is explicitly not now"]
+
+    C["Next Slice"] --> C1["3-5 concrete steps"]
+    C --> C2["One verification target"]
+    C --> C3["One checkpoint boundary"]
+```
+
+North Star should stay large. Milestone should stay bounded. Slice should stay concrete.
 
 ## Phase 1: Research
 
@@ -75,6 +110,15 @@ If the same task has already gone through two planning refinements:
 
 The plan only needs to be good enough for the next fast cycle, not perfect for the whole project.
 
+```mermaid
+flowchart LR
+    A["Ask for a better plan"] --> B{"Already refined twice?"}
+    B -->|No| C["Refine once more"]
+    B -->|Yes| D["Stop broadening"]
+    D --> E["Choose next slice"]
+    E --> F["Research missing fact or implement"]
+```
+
 ## Phase 3: Implement
 
 Goal: execute the plan in small verified slices.
@@ -113,6 +157,8 @@ Use direct handling only when all of these are true:
 - the task does not need a deeper system read first
 
 Otherwise, start in research.
+
+For serious tasks, treat `/start-task` as the implicit default even if the user does not explicitly ask for task shaping first.
 
 ## Grill Rule
 
@@ -165,3 +211,20 @@ After a verified phase:
 - update `session-state.json`
 - use `/checkpoint` when you want a compact wrap-up
 - prefer a checkpoint commit before a risky next phase
+
+## Optimization Lane
+
+Optimization is a separate lane, not casual cleanup.
+
+```mermaid
+flowchart TD
+    A["Optimization idea"] --> B{"Evidence?"}
+    B -->|Aesthetic discomfort only| C["Wait"]
+    B -->|Observed bottleneck| D["Optimize at smallest useful level"]
+    B -->|Predicted hard-to-reverse architectural risk| E["Do bounded architecture review"]
+
+    D --> F["Measure before/after"]
+    E --> G["Shape explicit architecture bet"]
+```
+
+Use `/optimize` when the task is really about performance, efficiency, or architecture cost.

@@ -4682,3 +4682,34 @@ When in doubt, preserve the decision and its rationale, but label the evidence l
 - task-intake support for `slice-first` iteration routing
 - planning-command guardrails for oversized tasks and planning loops
 - workflow docs and overview updates across the hub
+
+---
+
+# 2026-05-05 — Big-Goal Execution Model
+
+**User intent:** The user wanted the workflow to handle large long-horizon goals productively, not by shrinking the ambition, but by keeping the dream large and making the execution unit small. The user also wanted task shaping to feel more automatic and wanted optimization to become an explicit governed lane.
+
+**Assistant improvement:** Added a new three-level model: North Star, milestone bet, and next executable slice. Added `north-star.sh`, `milestone-shape.sh`, and `optimize-gate.sh`, plus matching slash-command wrappers. Updated `task-intake.sh` so some goals are recognized as `north-star` horizon work instead of only `slice-first`.
+
+**User improvement to the improvement:** The user emphasized that the workflow should be visible at a glance and should reflect best-practice thinking from strong product systems: big vision, bounded bets, fast verified slices, and evidence-based optimization.
+
+**Final agreement:** The hub should now encourage this explicit operating model:
+- think big
+- bet medium
+- execute tiny
+
+And optimization should be a separate lane:
+- wait when there is only aesthetic discomfort
+- measure first for ordinary bottlenecks
+- do bounded architecture review for hard-to-reverse risks
+
+**Implemented:**
+- `scripts/north-star.sh`
+- `scripts/milestone-shape.sh`
+- `scripts/optimize-gate.sh`
+- `/north-star`
+- `/shape-milestone`
+- `/optimize`
+- task-intake support for `north-star` goal horizon
+- start-task and shape-task documentation changes so serious tasks default to shaping
+- workflow diagrams and documentation updates across the hub

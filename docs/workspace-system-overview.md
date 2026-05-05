@@ -74,6 +74,18 @@ Fast iteration rules:
 - broad tasks should become milestone ladder plus first executable slice
 - after two planning refinements, stop broadening and choose the next slice
 - one verified slice beats one giant speculative plan
+- optimization should follow evidence, except for bounded review of hard-to-reverse architecture risks
+
+Big-goal workflow:
+
+```mermaid
+flowchart LR
+    A["North Star"] --> B["Milestone Bet"]
+    B --> C["Next Slice"]
+    C --> D["Verify"]
+    D --> E["Checkpoint"]
+    E --> C
+```
 
 Expected topic-folder root:
 
@@ -87,9 +99,12 @@ Expected topic-folder root:
 |- check-sync-status.sh              (hub-owned managed core)
 |- sync-from-hub.sh                  (hub-owned managed core)
 |- task-intake.sh                    (hub-owned managed core)
+|- north-star.sh                     (hub-owned managed core)
+|- milestone-shape.sh                (hub-owned managed core)
 |- task-slice.sh                     (hub-owned managed core)
 |- phase-gate.sh                     (hub-owned managed core)
 |- plan-guard.sh                     (hub-owned managed core)
+|- optimize-gate.sh                  (hub-owned managed core)
 |- checkpoint-commit.sh              (hub-owned managed core)
 |- session-state.json                (repo-owned after bootstrap)
 |- topic-insights.md                 (repo-owned after bootstrap)

@@ -15,6 +15,8 @@ RISK="medium"
 VERIFICATION="normal"
 ITERATION_STRATEGY="normal"
 ITERATION_REASON="task size looks compatible with one fast cycle"
+GOAL_HORIZON="normal"
+GOAL_REASON="task looks like a normal near-term execution target"
 
 usage() {
   cat <<'EOF'
@@ -138,6 +140,10 @@ if [[ "$SIZE" == "heavy" ]]; then
   ITERATION_STRATEGY="slice-first"
   ITERATION_REASON="heavy tasks should be broken into milestone slices before normal planning"
 fi
+if [[ "$task_lower" =~ (1:1|one\ to\ one|exactly|recreate|preserve|nostalgia|future|long-term|years|survive|full\ experience) ]]; then
+  GOAL_HORIZON="north-star"
+  GOAL_REASON="task sounds like a long-horizon target that should be preserved while execution stays slice-sized"
+fi
 
 lane="research"
 lane_reason="default safe lane for non-trivial work"
@@ -179,7 +185,9 @@ elif [[ "$dirty" == "dirty" && "$git_lane" == "current-checkout" && "$lane" != "
 fi
 
 next_command="/research $TASK"
-if [[ "$lane" == "grill" ]]; then
+if [[ "$GOAL_HORIZON" == "north-star" && "$lane" == "slice-first" ]]; then
+  next_command="/north-star $TASK"
+elif [[ "$lane" == "grill" ]]; then
   next_command="/grill $TASK"
 elif [[ "$lane" == "slice-first" ]]; then
   next_command="/slice-task $TASK"
@@ -204,6 +212,8 @@ else
 fi
 echo "Recommended lane: $lane"
 echo "Lane reason: $lane_reason"
+echo "Goal horizon: $GOAL_HORIZON"
+echo "Goal reason: $GOAL_REASON"
 echo "Iteration strategy: $ITERATION_STRATEGY"
 echo "Iteration reason: $ITERATION_REASON"
 echo "Git lane: $git_lane"

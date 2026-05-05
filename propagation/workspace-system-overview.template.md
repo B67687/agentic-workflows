@@ -29,9 +29,12 @@ Expected root structure:
 |- sync-from-hub.sh                  (hub-owned managed core)
 |- command/                          (hub-owned managed core slash commands)
 |- task-intake.sh                    (hub-owned managed core)
+|- north-star.sh                     (hub-owned managed core)
+|- milestone-shape.sh                (hub-owned managed core)
 |- task-slice.sh                     (hub-owned managed core)
 |- phase-gate.sh                     (hub-owned managed core)
 |- plan-guard.sh                     (hub-owned managed core)
+|- optimize-gate.sh                  (hub-owned managed core)
 |- checkpoint-commit.sh              (hub-owned managed core)
 |- git-session-start.sh              (hub-owned managed core)
 |- git-worktree-branch.sh            (hub-owned managed core)
@@ -60,8 +63,10 @@ Expected root structure:
 6. **Runtime config** - Do not create repo-local OpenCode runtime config. Use the global config and the root session-state file instead.
 7. **Phase workflow** - For non-trivial work, do research first, plan second, implement third.
 8. **Fast iteration** - Big tasks should become milestone ladder plus first executable slice, not one giant plan.
-9. **Anti-paralysis** - After two planning refinements, pick the next slice instead of broadening the plan again.
-10. **Session boundaries** - New phase, new session. Checkpoint when a phase is verified and restart when context quality drops.
+9. **Three planning levels** - North Star keeps the goal large, milestone shaping picks the next bet, slice planning drives execution.
+10. **Anti-paralysis** - After two planning refinements, pick the next slice instead of broadening the plan again.
+11. **Optimization lane** - Optimize by evidence; architecture optimization needs bounded review.
+12. **Session boundaries** - New phase, new session. Checkpoint when a phase is verified and restart when context quality drops.
 
 ## Core Principles
 
@@ -106,7 +111,14 @@ If your client supports slash commands, prefer:
 To classify a task before starting:
 
 ```text
-/shape-task your task
+/start-task your task
+```
+
+For long-horizon goals:
+
+```text
+/north-star your goal
+/shape-milestone your goal
 ```
 
 To force a big task into fast milestones plus a first slice:
@@ -149,6 +161,12 @@ To keep planning from growing too large:
 
 ```bash
 ./plan-guard.sh "your task"
+```
+
+To govern optimization work:
+
+```text
+/optimize your task
 ```
 
 To create an isolated short-lived worktree branch:
