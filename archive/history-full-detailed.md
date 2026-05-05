@@ -4713,3 +4713,27 @@ And optimization should be a separate lane:
 - task-intake support for `north-star` goal horizon
 - start-task and shape-task documentation changes so serious tasks default to shaping
 - workflow diagrams and documentation updates across the hub
+
+---
+
+# 2026-05-05 — Fast Stable Delivery Alignment
+
+**User intent:** The user wanted the workflow validated against stronger external execution systems for moving fast productively without losing stability. The user wanted the system not only to work, but to clearly follow the best-known practices behind fast, stable delivery.
+
+**Assistant improvement:** Performed an external synthesis and identified the strongest matching backbone as a combination of outcome-first framing, bounded milestone bets, small verified batches, and frequent integration. Encoded that synthesis into a dedicated reference document and tightened the main workflow docs to state that speed and stability should improve together through smaller batches.
+
+**User improvement to the improvement:** The user's request sharpened the standard: not just "document our workflow," but "prove that our workflow follows the best systems and make that traceable."
+
+**Final agreement:** The workspace should explicitly align to:
+- Working Backwards for written outcome-first framing
+- Shape Up for one bounded milestone bet at a time
+- DORA for small-batch speed plus stability
+- Trunk-Based Development for short-lived divergence and frequent integration
+
+**Implemented:**
+- `docs/fast-stable-delivery.md`
+- additions to `docs/phase-based-agent-workflow.md`
+- additions to `docs/workspace-system-overview.md`
+- additions to `docs/hub-quickstart.md`
+- additions to `README.md`
+- propagation overview template updates so managed topic repos inherit the clearer system framing

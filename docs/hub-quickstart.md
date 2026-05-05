@@ -22,6 +22,7 @@ Read this first on every resume. Everything else is linked.
 8. **Health-probe after resume** - Read-only sanity check before risky mutations
 9. **Restart on phase change** - New phase, new session
 10. **Checkpoint verified phases** - Prefer small commits after verified milestones instead of carrying giant dirty diffs
+11. **Trust small batches** - Faster and safer usually come from smaller verified slices, not bigger plans
 
 ## Project Context
 
@@ -56,6 +57,7 @@ Read this first on every resume. Everything else is linked.
 | Model selection | `docs/model-selection-guide.md` |
 | Agent routing | `docs/agentic-workflows.md` |
 | Phase workflow | `docs/phase-based-agent-workflow.md` |
+| Fast stable delivery model | `docs/fast-stable-delivery.md` |
 | Retrieval policy | `docs/retrieval-policy.md` |
 | Prompt templates | `docs/prompt-templates.md` |
 | Core principles | `docs/core-agent-doctrine.md` |

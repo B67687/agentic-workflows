@@ -5,6 +5,12 @@
 
 ---
 
+## Phase 14: Fast Stable Delivery Alignment (2026-05-05)
+- Added an explicit external alignment model tying the workflow to Working Backwards, Shape Up, DORA, and Trunk-Based Development
+- Documented the shared principle that speed and stability improve together through smaller verified batches
+- Added a dedicated fast-stable-delivery reference doc
+- Updated core workflow and overview docs so the system explains not just what to do, but why it follows this structure
+
 ## Phase 13: Big-Goal Execution Model (2026-05-05)
 - Added North Star shaping for long-horizon goals
 - Added milestone shaping so big goals become bounded bets before slice execution

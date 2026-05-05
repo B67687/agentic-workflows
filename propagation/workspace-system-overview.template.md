@@ -66,7 +66,8 @@ Expected root structure:
 9. **Three planning levels** - North Star keeps the goal large, milestone shaping picks the next bet, slice planning drives execution.
 10. **Anti-paralysis** - After two planning refinements, pick the next slice instead of broadening the plan again.
 11. **Optimization lane** - Optimize by evidence; architecture optimization needs bounded review.
-12. **Session boundaries** - New phase, new session. Checkpoint when a phase is verified and restart when context quality drops.
+12. **Speed plus stability** - Smaller verified batches should improve both pace and safety.
+13. **Session boundaries** - New phase, new session. Checkpoint when a phase is verified and restart when context quality drops.
 
 ## Core Principles
 
@@ -75,6 +76,7 @@ See AGENTS.md for the full 10 principles. Key ones:
 - **Supply missing structure** when safe
 - **Verify before presenting**
 - **Handle directly** unless clearly justified to spawn subagent
+- **Think big, bet medium, execute tiny**
 
 ## Sync from Hub
 

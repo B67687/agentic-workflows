@@ -25,6 +25,13 @@ Default entrypoint:
 - start with `/slice-task your task` when the task is obviously too large for one fast cycle
 - use direct handling only when the task is truly small and obvious
 
+This execution shape is intentionally aligned with a composite of:
+
+- Amazon Working Backwards for outcome-first framing
+- Shape Up for bounded milestone bets
+- DORA for small-batch speed plus stability
+- Trunk-Based Development for frequent integration and short-lived divergence
+
 ## Iteration Strategy
 
 The default strategy is fast iteration with feedback, not giant one-shot execution.
@@ -38,6 +45,8 @@ For oversized tasks:
 - repeat
 
 Do not try to fully finish a broad system in one plan or one session by default.
+
+This is not just preference. It follows the DORA finding that smaller changes improve both throughput and stability, and the Shape Up practice of betting one bounded cycle at a time.
 
 ## Planning Levels
 
@@ -59,6 +68,12 @@ flowchart TD
 ```
 
 North Star should stay large. Milestone should stay bounded. Slice should stay concrete.
+
+This matches three different external needs:
+
+- Working Backwards: preserve the intended experience
+- Shape Up: define one bounded bet
+- DORA and trunk-based development: keep execution batches small enough to integrate and verify quickly
 
 ## Phase 1: Research
 
@@ -160,6 +175,8 @@ Otherwise, start in research.
 
 For serious tasks, treat `/start-task` as the implicit default even if the user does not explicitly ask for task shaping first.
 
+For long-horizon goals, `/start-task` should route toward `north-star` and `shape-milestone` before normal slice planning.
+
 ## Grill Rule
 
 Use `/grill` before research when:
@@ -228,3 +245,16 @@ flowchart TD
 ```
 
 Use `/optimize` when the task is really about performance, efficiency, or architecture cost.
+
+## Delivery Health Rule
+
+The aim is not raw activity. The aim is fast verified progress without accumulating instability.
+
+Use these practical signals:
+
+- how quickly a slice moves from decision to verification
+- how often verified slices complete
+- how often a slice forces rework
+- how much dirty unverified work survives across checkpoints
+
+If these worsen, reduce slice size before adding more planning complexity.

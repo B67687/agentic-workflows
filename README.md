@@ -42,10 +42,11 @@ For anyone who wants to write better prompts immediately.
 For setting up agentic workflows in your projects.
 
 1. **[docs/hub-quickstart.md](docs/hub-quickstart.md)** - Fast orientation for the current system
-2. **[docs/agentic-workflows.md](docs/agentic-workflows.md)** — Routing ideas, fresh-context patterns, and execution lanes
-3. **[docs/core-agent-doctrine.md](docs/core-agent-doctrine.md)** — 10 principles that underpin the system
-4. **[AGENTS.md](AGENTS.md)** - Operating contract: rules, thresholds, coordination notes
-5. **[AGENTS.md](AGENTS.md)** + **[session-state.json](session-state.json)** — Runtime contract and resume state
+2. **[docs/fast-stable-delivery.md](docs/fast-stable-delivery.md)** — Why this system is structured around big goals, bounded bets, and small verified slices
+3. **[docs/agentic-workflows.md](docs/agentic-workflows.md)** — Routing ideas, fresh-context patterns, and execution lanes
+4. **[docs/core-agent-doctrine.md](docs/core-agent-doctrine.md)** — 10 principles that underpin the system
+5. **[AGENTS.md](AGENTS.md)** - Operating contract: rules, thresholds, coordination notes
+6. **[AGENTS.md](AGENTS.md)** + **[session-state.json](session-state.json)** — Runtime contract and resume state
 
 ### Product Building Path
 For building products fast with AI agents.
@@ -77,6 +78,7 @@ For understanding how this hub and its ecosystem work.
 | Model selection guide | [docs/model-selection-guide.md](docs/model-selection-guide.md) |
 | Quality standards | [docs/quality-standards.md](docs/quality-standards.md) |
 | Git/GitHub best practices | [docs/git-github-best-practices.md](docs/git-github-best-practices.md) |
+| Fast stable delivery model | [docs/fast-stable-delivery.md](docs/fast-stable-delivery.md) |
 | Borrowed workflow patterns that fit this hub | [docs/agentic-workflows.md](docs/agentic-workflows.md) |
 | Repo tooling (Windows/WSL) | [docs/repo-tooling.md](docs/repo-tooling.md) |
 | Token-efficient prompting | [docs/token-efficient-prompting.md](docs/token-efficient-prompting.md) |
@@ -142,6 +144,7 @@ Use bash as the default terminal for workspace automation. Only fall back to Pow
 
 Fast workflow:
 
+- keep the dream large, but only execute one verified slice at a time
 - `/start-task your task`
 - `/north-star your goal` for long-horizon targets
 - `/shape-milestone your goal` for the next bounded bet

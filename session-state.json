@@ -4,9 +4,9 @@
   "interruptedCount": 1,
   "contextPressure": "medium",
   "currentTask": {
-    "name": "Upgrade workflow into a big-goal execution system",
+    "name": "Align workflow with fast stable delivery best practice",
     "status": "verified-phase",
-    "goal": "Preserve large goals through north-star and milestone shaping, keep execution slice-sized, and govern optimization as its own lane"
+    "goal": "Make sure the workflow follows the strongest known patterns for moving quickly while staying stable: outcome-first framing, bounded bets, small verified batches, and frequent integration"
   },
   "environment": {
     "note": "This workspace runs entirely on Debian/WSL2. No PowerShell needed.",
@@ -22,6 +22,8 @@
     "Extended task-intake.sh with north-star goal horizon detection",
     "Updated start-task and shape-task behavior to make shaping the default first move for serious tasks",
     "Updated workflow docs with big-goal execution diagrams and optimization lane guidance",
+    "Added docs/fast-stable-delivery.md to align the workflow with Working Backwards, Shape Up, DORA, and Trunk-Based Development",
+    "Updated workflow and overview docs to explicitly state that speed and stability should improve together through smaller verified batches",
     "Updated history index and full detailed history to record the workflow evolution"
   ],
   "filesTouched": [
@@ -36,6 +38,7 @@
     "command/shape-milestone.md",
     "command/optimize.md",
     "docs/phase-based-agent-workflow.md",
+    "docs/fast-stable-delivery.md",
     "docs/hub-quickstart.md",
     "docs/workspace-system-overview.md",
     "AGENTS.md",
@@ -47,17 +50,18 @@
     "bash ./scripts/north-star.sh \"recreate Elemental Battlegrounds faithfully for nostalgia\" --no-fetch",
     "bash ./scripts/milestone-shape.sh \"recreate Elemental Battlegrounds faithfully for nostalgia\" --no-fetch",
     "bash ./scripts/optimize-gate.sh \"optimize the architecture for future scale\" --evidence predicted --scope architecture",
-    "bash ./scripts/test-propagation-contract.sh"
+    "bash ./scripts/test-propagation-contract.sh",
+    "external research review against Working Backwards, Shape Up, DORA, and Trunk-Based Development"
   ],
   "historyFiles": {
     "index": "archive/history-index.md - quick phase reference",
     "detail": "archive/history-full-detailed.md - full narrative"
   },
-  "residualRisk": "Propagation still needs one more apply pass and topic-repo commits should be handled carefully because some topic repos already have unrelated local work.",
+  "residualRisk": "Managed overview templates need one more propagation apply pass, and topic-repo commits should still be handled carefully because some topic repos already have unrelated local work.",
   "immediateNextSteps": [
-    "Propagate the new north-star, milestone, and optimization lane templates into managed topic repos",
-    "Decide whether fluent-prs should receive only the managed refresh or also a checkpoint commit",
-    "Optionally simplify older docs that still sound too tied to the earlier subagent-heavy worldview"
+    "Propagate the fast-stable-delivery alignment updates into managed topic repos",
+    "Commit the new documentation alignment changes in ai-prompting",
+    "Keep leaving fluent-prs uncommitted unless its unrelated local work is intentionally separated"
   ],
   "resumeRules": [
     "Read session-state.json first on every resume",

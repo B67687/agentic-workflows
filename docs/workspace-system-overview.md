@@ -75,6 +75,7 @@ Fast iteration rules:
 - after two planning refinements, stop broadening and choose the next slice
 - one verified slice beats one giant speculative plan
 - optimization should follow evidence, except for bounded review of hard-to-reverse architecture risks
+- speed and stability should improve together by reducing batch size
 
 Big-goal workflow:
 
@@ -86,6 +87,13 @@ flowchart LR
     D --> E["Checkpoint"]
     E --> C
 ```
+
+External alignment summary:
+
+- Amazon Working Backwards -> define the intended outcome before implementation detail
+- Shape Up -> bet one bounded milestone at a time
+- DORA -> reduce batch size so speed and stability improve together
+- Trunk-Based Development -> integrate frequently and avoid long-lived divergence
 
 Expected topic-folder root:
 
