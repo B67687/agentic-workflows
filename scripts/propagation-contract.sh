@@ -12,6 +12,7 @@ declare -a PROPAGATION_EXCLUDED_FOLDERS=(
 )
 
 declare -a PROPAGATION_MANAGED_CORE=(
+  "ai-prompting-hub.template.sh:.ai-prompting-hub.sh"
   "AGENTS.template.md:AGENTS.md"
   "workspace-system-overview.template.md:docs/workspace-system-overview.md"
   "git-github-best-practices.template.md:git-github-best-practices.md"

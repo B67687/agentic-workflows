@@ -26,7 +26,7 @@ Read this first on every resume. Everything else is linked.
 
 ## Project Context
 
-- This hub manages topic folders in `/home/namikaz/projects/dev`
+- This hub manages sibling topic folders in the parent folder that contains `ai-prompting`
 - Hub work: docs, research, scripts, templates, workflow state
 - Topic work: inside `[topic-name]-content/`, resume from root `session-state.json`
 - Propagate shared defaults: `bash scripts/propagate-to-all.sh --apply`
@@ -80,6 +80,7 @@ Read this first on every resume. Everything else is linked.
 ```
 [Topic]/
 |- AGENTS.md                         (hub-owned managed core)
+|- .ai-prompting-hub.sh              (hub-owned managed core resolver)
 |- docs/workspace-system-overview.md (hub-owned managed core)
 |- git-github-best-practices.md      (hub-owned managed core)
 |- quality-standards.md              (hub-owned managed core)

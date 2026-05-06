@@ -1,6 +1,6 @@
 # ai-prompting Workspace System Overview
 
-This workspace is the control hub for `/home/namikaz/projects/dev`.
+This workspace is the control hub for the parent folder that contains `ai-prompting` by default.
 
 **Current environment:** Debian/WSL2 (2026-04-28). Primary terminal is WSL. All scripts use bash/Linux tooling.
 
@@ -18,7 +18,7 @@ It is not a normal app repo. It is a living knowledge base for:
 
 Shortest version:
 
-> This hub learns useful patterns, stores them in central docs, and pushes reusable parts out to topic folders while protecting your custom content.
+> This hub learns useful patterns, stores them in central docs, and pushes reusable parts out to sibling topic folders while protecting your custom content.
 
 ## 30-Second Read
 
@@ -101,6 +101,7 @@ Expected topic-folder root:
 ```text
 [Topic-Folder]/
 |- AGENTS.md                         (hub-owned managed core)
+|- .ai-prompting-hub.sh              (hub-owned managed core resolver)
 |- docs/workspace-system-overview.md (hub-owned managed core)
 |- git-github-best-practices.md      (hub-owned managed core)
 |- quality-standards.md              (hub-owned managed core)

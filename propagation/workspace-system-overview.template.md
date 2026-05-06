@@ -3,7 +3,7 @@
 
 This file explains the structure and conventions for this topic folder.
 
-For the hub's central knowledge base, see hub's docs/workspace-system-overview.md.
+For the hub's central knowledge base, see the sibling `ai-prompting` folder's `docs/workspace-system-overview.md`.
 
 ## What This Folder Is
 
@@ -21,6 +21,7 @@ Expected root structure:
 ```text
 [Topic-Folder]/
 |- AGENTS.md                         (hub-owned managed core)
+|- .ai-prompting-hub.sh              (hub-owned managed core resolver)
 |- docs/workspace-system-overview.md (hub-owned managed core)
 |- git-github-best-practices.md      (hub-owned managed core)
 |- quality-standards.md              (hub-owned managed core)

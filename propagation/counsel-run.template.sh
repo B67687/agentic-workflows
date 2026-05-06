@@ -3,23 +3,8 @@
 
 set -euo pipefail
 
-find_hub() {
-  local candidates=(
-    "/home/namikaz/projects/dev/ai-prompting"
-    "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/../ai-prompting"
-  )
-  local candidate
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIR/.ai-prompting-hub.sh"
 
-  for candidate in "${candidates[@]}"; do
-    if [[ -f "$candidate/scripts/counsel-run.sh" ]]; then
-      printf '%s\n' "$candidate"
-      return 0
-    fi
-  done
-
-  echo "ERROR: could not find ai-prompting hub counsel-run.sh" >&2
-  return 1
-}
-
-hub="$(find_hub)"
-exec bash "$hub/scripts/counsel-run.sh" "$@"
+HUB_DIR="$(resolve_ai_prompting_hub "scripts/counsel-run.sh" "$SCRIPT_DIR")"
+exec bash "$HUB_DIR/scripts/counsel-run.sh" "$@"

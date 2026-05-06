@@ -16,14 +16,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 source "$SCRIPT_DIR/propagation-contract.sh"
 
-if [[ -d "/mnt/m/M-Namikaz-Others" ]]; then
-  PARENT_DIR="/mnt/m/M-Namikaz-Others"
-elif [[ -d "/home/namikaz/projects/dev" ]]; then
-  PARENT_DIR="/home/namikaz/projects/dev"
-else
-  echo "ERROR: Cannot find workspace root folder"
-  exit 1
-fi
+PARENT_DIR="${AI_PROMPTING_WORKSPACE_ROOT:-$(dirname "$REPO_ROOT")}"
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
