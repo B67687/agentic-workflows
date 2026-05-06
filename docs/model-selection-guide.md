@@ -246,7 +246,7 @@ For sensitive work, avoid the free OpenCode Zen endpoints where possible. OpenCo
 
 Your $10/month Go subscription includes **$12/5hr, $30/week, $60/month**. All models below are included. The key decision is which model to use for which task, given the tradeoffs between **quality**, **speed**, and **token efficiency**.
 
-### The 12 Models at a Glance
+### The Current Go Models at a Glance
 
 | Model | Req / 5 hr | Req / week | Req / month | Context | Speed | Best For |
 |-------|-----------|-----------|------------|---------|-------|----------|
@@ -613,16 +613,16 @@ DeepSeek offers both a **free chat app** and dirt-cheap **API access**.
 2. **OpenRouter free tier** — DeepSeek V3.2 may be available with daily request caps (check current status).
 3. **Local deployment** — MIT license means you can self-host if you have the hardware.
 
-### DeepSeek vs OpenCode Go
+### DeepSeek API vs OpenCode Go
 
-| Factor | DeepSeek API | OpenCode Go (K2.6) |
+| Factor | DeepSeek API | OpenCode Go default |
 |--------|-------------|-------------------|
-| **Cost** | $0.252/$0.378 per 1M | $0.60/$2.80 per 1M |
-| **SWE-Bench Verified** | Not reported | 80.2% |
+| **Cost** | Pay-as-you-go | Included Go allowance |
+| **SWE-Bench Verified** | Varies by model | DeepSeek V4 Flash: 79.0%; DeepSeek V4 Pro: 80.6% |
 | **Reasoning** | Gold medal IMO/IOI | Strong (96.4% AIME) |
-| **Context** | 128K | 256K |
+| **Context** | Usually 128K for V3.2-era API models | 1M on DeepSeek V4 Flash/Pro |
 | **Speed** | Moderate | Medium |
-| **Best for** | Math, algorithms, cheap reasoning | Coding, agentic work |
+| **Best for** | Math, algorithms, direct API experiments | Sustainable coding-agent work |
 
 **Verdict:** DeepSeek is the cheapest API for reasoning tasks. Use it for math-heavy work or when you need MIT-licensed outputs. For coding, K2.6 has proven benchmarks.
 
@@ -669,7 +669,7 @@ Alibaba's Qwen family extends beyond the two Go models. You can access more vari
 |----------|-------------|------------|-----------|----------|
 | **GitHub Copilot Student** | $0 | Opus 4.7 (40 prompts) | 300 premium | Frontier quality, debugging |
 | **Google AI Studio** | $0 | Gemini 3.1 Pro | ~14,400/day | Long context, multimodal, research |
-| **OpenCode Go** | $10 | K2.6 (1,150/5hr) | ~5,750–50,500 | Bulk coding, open models |
+| **OpenCode Go** | $10 | DeepSeek V4 Flash (31,650/5hr) | up to ~158,150 | Sustainable bulk coding, open models |
 | **DeepSeek API** | Pay-as-you-go | V3.2 ($0.252/M) | Unlimited | Cheapest reasoning, math |
 | **OpenRouter** | Pay-as-you-go | Various | Varies | Flexible, many models |
 | **Qwen Chat** | $0 | Qwen3.6 Plus | Unknown limits | Free Qwen access |
@@ -856,14 +856,14 @@ review_type: unified_multi_provider_model_analysis
 corrections_made:
   - Added Kimi K2.6 as strongest open-source agentic model, beats GPT-5.4 on SWE-bench Pro (+0.9), DeepSearchQA (+13.9).
   - Added Ling 2.6 Flash as free fast model with caveat: low coding benchmarks (23.2%), good for exploration only.
-  - Previously updated OpenCode Go lane around Kimi K2.6 promotion context.
+  - Tracked earlier OpenCode Go model-routing updates.
   - Added Kimi K2.6 vs GPT-5.4/Claude benchmark comparison sources.
   - Added Ling 2.6 Flash origin story (Ant Group's "Elephant" stealth model).
   - Added AI Model Comparison source for Ling 2.6 Flash coding score.
-  - Replaced basic OpenCode Go table with comprehensive 10-model guide: all Go models (GLM-5/5.1, Kimi K2.5/2.6, MiMo-V2-Pro/Omni, MiniMax M2.5/2.7, Qwen3.5/3.6 Plus).
+  - Replaced basic OpenCode Go table with a comprehensive Go model guide.
   - Added benchmark comparison table covering SWE-V, SWE-Pro, Terminal-Bench 2.0, AIME, HLE, BrowseComp for all Go models.
   - Added speed & throughput analysis — MiniMax M2.5 Lightning at 100 TPS is fastest in Go.
-  - Added token efficiency & cost-per-dollar analysis with star ratings for all 10 models.
+  - Added token efficiency & cost-per-dollar analysis with star ratings for Go models.
   - Added individual model profiles with key stats, tradeoffs, and use-when guidance.
   - Added routing cheat sheet for 9 common scenarios.
   - Replaced old post-promotion strategy with current Go strategy after DeepSeek V4 Flash became the sustainable default.

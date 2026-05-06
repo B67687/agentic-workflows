@@ -18,39 +18,47 @@ The agentic framework (tools, permissions, subagent spawning) is **model-agnosti
 
 ## Quick Toggle: Three Modes
 
-Switch your orchestrator model in `/home/namikaz/.config/opencode/opencode.jsonc` based on your current credit situation:
+Switch profiles with the helper instead of hand-editing `/home/namikaz/.config/opencode/opencode.jsonc`:
 
-### Mode 1: Full Go (Quality First)
+```bash
+bash scripts/opencode-model-profile.sh sustainable-go
+bash scripts/opencode-model-profile.sh quality-go
+bash scripts/opencode-model-profile.sh free
+```
+
+The JSON snippets below show the intent of each mode, not the recommended switching method.
+
+### Mode 1: Sustainable Go (Current Default)
 ```json
 "agent": {
   "orchestrator": {
-    "model": "opencode-go/kimi-k2.6"
+    "model": "opencode-go/deepseek-v4-flash"
   },
   "explorer": {
     "model": "opencode/minimax-m2.5-free"
   },
   "worker": {
-    "model": "opencode-go/kimi-k2.6"
+    "model": "opencode-go/deepseek-v4-flash"
   }
 }
 ```
-**Use when:** You have plenty of Go credits and want maximum quality.
+**Use when:** You want the normal fast-iteration setup with strong coding ability and low quota burn.
 
-### Mode 2: Hybrid (Recommended Default)
+### Mode 2: Quality Escalation
 ```json
 "agent": {
   "orchestrator": {
-    "model": "opencode/minimax-m2.5-free"
+    "model": "opencode-go/deepseek-v4-flash"
   },
   "explorer": {
     "model": "opencode/minimax-m2.5-free"
   },
   "worker": {
-    "model": "opencode-go/kimi-k2.6"
+    "model": "opencode-go/deepseek-v4-pro"
   }
 }
 ```
-**Use when:** You want to conserve Go credits but keep K2.6 for complex tasks. The orchestrator handles 90% of work directly. K2.6 is only spawned when fresh context is genuinely needed.
+**Use when:** Most work can stay on Flash, but hard implementation/review slices should escalate to Pro.
 
 ### Mode 3: Full Free (Zero Cost)
 ```json
@@ -125,11 +133,11 @@ For most agentic coding, **M2.5 Free is the best free orchestrator.** Use Trinit
 
 ## Practical Workflow
 
-1. **Set orchestrator to M2.5 Free** in `/home/namikaz/.config/opencode/opencode.jsonc`
+1. **Stay on DeepSeek V4 Flash by default** while Go credits are healthy.
 2. **Work normally.** The orchestrator handles most tasks directly.
 3. **When you hit a hard problem,** the orchestrator spawns @worker.
-4. **Worker uses K2.6** (hybrid mode) or Hy3 (full free mode).
-5. **If K2.6 is exhausted,** worker falls back to Hy3 or Trinity.
+4. **Worker uses DeepSeek V4 Pro or Kimi K2.6** when quality matters more than volume.
+5. **If Go is exhausted,** switch to M2.5 Free, Hy3, or Trinity.
 
 You don't need to change your workflow. You just change the model assignments.
 
@@ -138,11 +146,8 @@ You don't need to change your workflow. You just change the model assignments.
 ## Example: Switching to Full Free Mode
 
 ```bash
-# 1. Edit /home/namikaz/.config/opencode/opencode.jsonc
-# 2. Change the top-level "model" and the orchestrator model to opencode/minimax-m2.5-free
-# 3. Change the worker model only if you want a different fallback lane
-# 4. Save and restart OpenCode (or reload config)
-# 5. Work normally — same tools, same permissions, same agentic behavior
+bash scripts/opencode-model-profile.sh free
+# Restart OpenCode after switching.
 ```
 
 No repo-local `.opencode/agents/` edits are needed. The supported setup keeps agent behavior in the global OpenCode config and lets topic repos stay focused on repo context files.
@@ -151,13 +156,13 @@ No repo-local `.opencode/agents/` edits are needed. The supported setup keeps ag
 
 ## When to Switch Back to Go
 
-Switch back to K2.6 as orchestrator when:
+Switch back to the Go default when:
 - Free models are hitting rate limits and slowing you down
 - You're working on sensitive code and need data privacy
 - The free model is consistently failing on a complex multi-step task
-- You have Go credits to burn and want maximum quality
+- You have Go credits again and want the normal sustainable lane
 
-The hybrid mode (free orchestrator + paid worker) is the sustainable default. It gives you 90% cost savings while keeping K2.6 in reserve for the 10% of tasks that need it.
+The sustainable default is DeepSeek V4 Flash. Full-free mode is a fallback for exhausted credits or non-sensitive learning work.
 
 ---
 

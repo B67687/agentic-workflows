@@ -6,7 +6,7 @@ Read this first on every resume. Everything else is linked.
 
 - **Session:** Check root `session-state.json` for the active task
 - **System:** Phase-based direct workflow with deterministic intake, slicing, preflight, and checkpoint helpers
-- **Main AI:** Kimi K2.6 (OpenCode Go) or Claude Sonnet 4.6 (Copilot)
+- **Main AI:** DeepSeek V4 Flash (OpenCode Go) for sustainable volume, or Claude Sonnet 4.6 (Copilot) for higher-quality daily work
 - **Goal:** One main AI for 90% of work. Spawn subagents only for fresh context or bulk search.
 
 ## 10-Second Rules
@@ -39,6 +39,7 @@ Read this first on every resume. Everything else is linked.
 - Deterministic task intake: `bash scripts/task-intake.sh "task"`
 - List/sync Google models: `bash scripts/google-models.sh --sync-opencode-config`
 - Switch OpenCode auth profiles: `bash scripts/opencode-auth-profile.sh status`
+- Switch OpenCode model profiles: `bash scripts/opencode-model-profile.sh status`
 - Deterministic product shaping: `bash scripts/product-shape.sh "goal"`
 - Counsel decision gate: `bash scripts/counsel-gate.sh "decision"`
 - Counsel model-selection policy: `bash scripts/counsel-model-select.sh lite`
@@ -109,6 +110,7 @@ Read this first on every resume. Everything else is linked.
 |- git-worktree-branch.sh           (hub-owned managed core)
 |- google-models.sh                 (hub-owned managed core)
 |- opencode-auth-profile.sh         (hub-owned managed core)
+|- opencode-model-profile.sh        (hub-owned managed core)
 |- retrieve-context.sh               (hub-owned managed core)
 |- repo-map.sh                        (hub-owned managed core)
 |- session-boundary.sh               (hub-owned managed core)

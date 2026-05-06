@@ -1,12 +1,12 @@
 {
-  "session": 59,
+  "session": 60,
   "status": "verified-phase",
   "interruptedCount": 0,
   "contextPressure": "medium",
   "currentTask": {
-    "name": "Switch OpenCode Go sustainable default",
+    "name": "Sweep model and harness workflow consistency",
     "status": "verified-phase",
-    "goal": "Use research-backed OpenCode Go model selection so the default is higher-grade than MiniMax M2.5 while preserving quota"
+    "goal": "Remove stale model-routing assumptions, automate model-profile switching, and document Pi as an experimental harness path"
   },
   "environment": {
     "note": "This workspace runs on Debian/WSL2. Global OpenCode runtime config is at /home/namikaz/.config/opencode/opencode.jsonc.",
@@ -15,33 +15,41 @@
     "topicFoldersPath": "/home/namikaz/projects/dev/"
   },
   "whatChanged": [
-    "Researched OpenCode Go's current model list and request-limit docs",
-    "Set the global OpenCode default model and explicit agent models to opencode-go/deepseek-v4-flash",
-    "Expanded the global OpenCode Go provider config to expose all currently listed Go models",
-    "Updated model-selection and provider-runtime docs with DeepSeek V4 Flash as the sustainable default",
-    "Updated agentic workflow docs to remove stale MiniMax M2.5 Free defaults and Google-breaking small_model examples"
+    "Sweep 1: removed stale Kimi K2.6 promotion/default references from current guidance",
+    "Sweep 2: replaced manual OpenCode model JSON switching with scripts/opencode-model-profile.sh",
+    "Sweep 2: documented Pi as an experimental harness, not an immediate OpenCode replacement",
+    "Sweep 3: added propagation support for opencode-model-profile.sh and synced it to topic folders",
+    "Kept OpenCode Go default on opencode-go/deepseek-v4-flash"
   ],
   "filesTouched": [
-    "/home/namikaz/.config/opencode/opencode.jsonc",
+    "AGENTS.md",
+    "scripts/opencode-model-profile.sh",
+    "propagation/opencode-model-profile.template.sh",
+    "scripts/propagation-contract.sh",
+    "propagation/workspace-system-overview.template.md",
     "docs/model-selection-guide.md",
     "docs/provider-runtime.md",
-    "docs/agentic-workflows.md",
+    "docs/free-tier-agentic-guide.md",
+    "docs/hub-quickstart.md",
+    "docs/workspace-system-overview.md",
     "session-state.json"
   ],
   "verification": [
-    "curl -fsSL https://opencode.ai/zen/go/v1/models",
-    "python3 -m json.tool /home/namikaz/.config/opencode/opencode.jsonc",
-    "rg -n '\"model\":|opencode-go|opencode/minimax|deepseek-v4-flash' /home/namikaz/.config/opencode/opencode.jsonc"
+    "rg -n stale model-routing patterns in current docs",
+    "bash -n scripts/opencode-model-profile.sh propagation/opencode-model-profile.template.sh",
+    "bash scripts/opencode-model-profile.sh status",
+    "bash scripts/test-propagation-contract.sh",
+    "bash scripts/propagate-to-all.sh --apply"
   ],
   "historyFiles": {
     "index": "archive/history-index.md - quick phase reference",
     "detail": "archive/history-full-detailed.md - full narrative"
   },
-  "residualRisk": "OpenCode Go is beta and model limits can change; re-check https://opencode.ai/docs/go/ or the Go models endpoint before major future routing changes.",
+  "residualRisk": "Pi support for OpenCode Go should be tested in a controlled bakeoff before migrating the default workflow. check-sync-status.sh is intended for topic folders; in the hub, use test-propagation-contract.sh plus propagate-to-all.sh.",
   "immediateNextSteps": [
-    "Restart OpenCode so the global config reloads",
-    "Use /models in the TUI to confirm opencode-go/deepseek-v4-flash is available",
-    "Escalate manually to deepseek-v4-pro, kimi-k2.6, or glm-5.1 only for harder or review-heavy work"
+    "Commit the sweep",
+    "Restart OpenCode if the live model config changed in the active app",
+    "If testing Pi, run a same-task bakeoff against OpenCode before migrating default workflow"
   ],
   "resumeRules": [
     "Read session-state.json first on every resume",

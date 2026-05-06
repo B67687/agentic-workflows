@@ -75,6 +75,7 @@ declare -a PROPAGATION_MANAGED_CORE=(
   "task-intake.template.sh:task-intake.sh"
   "google-models.template.sh:google-models.sh"
   "opencode-auth-profile.template.sh:opencode-auth-profile.sh"
+  "opencode-model-profile.template.sh:opencode-model-profile.sh"
   "prompt-contract.template.sh:prompt-contract.sh"
   "product-shape.template.sh:product-shape.sh"
   "counsel-gate.template.sh:counsel-gate.sh"

@@ -97,6 +97,42 @@ Verify the live Go model list before major changes:
 curl -fsSL https://opencode.ai/zen/go/v1/models
 ```
 
+Switch model profiles with the helper instead of hand-editing JSON:
+
+```bash
+bash scripts/opencode-model-profile.sh status
+bash scripts/opencode-model-profile.sh sustainable-go
+bash scripts/opencode-model-profile.sh quality-go
+bash scripts/opencode-model-profile.sh free
+```
+
+The helper backs up the config, updates the top-level default and explicit agent model fields together, and validates JSON after writing.
+
+## Pi Harness Evaluation
+
+Pi is worth testing, not replacing OpenCode with immediately.
+
+Current stance:
+
+- Keep OpenCode as the stable daily harness while the Go subscription is active.
+- Trial Pi in a separate folder/session for workflow experiments, especially custom compaction, commands, skills, git checkpoints, and UI/extension ideas.
+- Do not migrate the whole workflow until the same task can be completed in both harnesses with equal or better speed, safety, and recovery.
+
+Why Pi is interesting:
+
+- It is intentionally minimal: built-in `read`, `write`, `edit`, and `bash` tools.
+- It supports extensions, skills, prompt templates, themes, branching, compaction, and session trees.
+- It is designed for building missing workflow features in the harness instead of waiting for the upstream app to add them.
+
+OpenCode Go billing is not transferable as a subscription, but Pi's provider list includes OpenCode Go API-key support. Treat this as "reuse the Go API key from another harness if compatible", not as moving the subscription itself.
+
+Migration gate:
+
+```text
+Only move the default workflow to Pi after a controlled bakeoff:
+same task, same model, same repo, same verification, compare speed/safety/recovery.
+```
+
 ## Prompting Best Practices To Keep In The Workflow
 
 Frontier-model guidance from OpenAI and Anthropic converges on the same operating pattern:

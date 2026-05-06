@@ -201,7 +201,7 @@ When in agentic mode, the Orchestrator follows these rules:
 
 **Why only 2 subagents?**
 - Drafter + Analyst merged into Worker — both just meant "do work with fresh context"
-- Per-request cost difference is often zero now (free Sonnet 4.6, Gemini free tier, K2.6 promo)
+- The real cost difference is now quota burn and context quality, not just per-request price
 - The real win is **fresh context**, not cheaper models
 
 **All other tasks** — planning, docs, file ops, simple debug/review, Q&A, normal coding — should be handled directly by the Orchestrator. Only spawn when the benefit clearly exceeds the 4–8 second overhead.
