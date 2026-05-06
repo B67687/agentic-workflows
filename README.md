@@ -154,6 +154,7 @@ Fast workflow:
 - `/north-star your goal` for long-horizon targets
 - `/shape-milestone your goal` for the next bounded bet
 - `/slice-task your task` for oversized work
+- `/repo-map` when the folder is unfamiliar or the task is broad
 - `/research your task`
 - `/plan your task`
 - `/implement your task`

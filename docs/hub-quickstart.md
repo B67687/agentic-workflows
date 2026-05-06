@@ -30,7 +30,7 @@ Read this first on every resume. Everything else is linked.
 - Hub work: docs, research, scripts, templates, workflow state
 - Topic work: inside `[topic-name]-content/`, resume from root `session-state.json`
 - Propagate shared defaults: `bash scripts/propagate-to-all.sh --apply`
-- Fast phase commands: `/start-task`, `/shape-product`, `/counsel`, `/counsel-run`, `/task-tree`, `/north-star`, `/shape-milestone`, `/slice-task`, `/grill`, `/research`, `/plan`, `/implement`, `/optimize`, `/query`, `/session-boundary`, `/handoff`, `/checkpoint`, `/close-task`, `/finish-task`, `/git-start`, `/git-worktree`
+- Fast phase commands: `/start-task`, `/shape-product`, `/counsel`, `/counsel-run`, `/task-tree`, `/north-star`, `/shape-milestone`, `/slice-task`, `/grill`, `/repo-map`, `/research`, `/plan`, `/implement`, `/optimize`, `/query`, `/session-boundary`, `/handoff`, `/checkpoint`, `/close-task`, `/finish-task`, `/git-start`, `/git-worktree`
 - OpenCode command discovery should use `.opencode/commands/`; the repo also keeps `command/` as a readable mirrored command set
 - Phase gate: `bash scripts/phase-gate.sh implement --research-done --plan-done --scope-bounded --verification-known`
 - Git repo probe: `bash scripts/git-session-start.sh`
@@ -53,6 +53,7 @@ Read this first on every resume. Everything else is linked.
 - `/optimize` now decides whether optimization should wait, measure first, optimize now, or trigger architecture review
 - `/implement` now begins with deterministic repo plus phase preflight and should refuse unclear or risky checkout state by default
 - `/checkpoint` now begins with deterministic checkpoint review before recommending a commit
+- Map an unfamiliar folder before retrieval: `bash scripts/repo-map.sh .`
 - Retrieve only relevant local context: `bash scripts/retrieve-context.sh "query"`
 - Check whether to restart: `bash scripts/session-boundary.sh --phase research --turns 8`
 - Create a compact continuation packet: `bash scripts/handoff.sh "task" --phase research --turns 8`
@@ -101,6 +102,7 @@ Read this first on every resume. Everything else is linked.
 |- git-session-start.sh             (hub-owned managed core)
 |- git-worktree-branch.sh           (hub-owned managed core)
 |- retrieve-context.sh               (hub-owned managed core)
+|- repo-map.sh                        (hub-owned managed core)
 |- session-boundary.sh               (hub-owned managed core)
 |- handoff.sh                        (hub-owned managed core)
 |- session-state.json                (repo-owned after bootstrap)

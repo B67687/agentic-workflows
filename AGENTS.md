@@ -58,6 +58,7 @@ For topic-folder work, start with that folder's root `session-state.json`, then 
 - **Normal-language tasking by default**: the user should not need to remember slash commands. When a serious task is given directly, silently treat `/start-task` as the implicit first move unless the work is obviously tiny.
 - **Use slash command shortcuts internally when available**: prefer `/start-task`, `/shape-product`, `/counsel`, `/task-tree`, `/north-star`, `/shape-milestone`, `/slice-task`, `/grill`, `/query`, `/session-boundary`, `/handoff`, `/research`, `/plan`, `/implement`, `/optimize`, `/close-task`, `/finish-task`, and `/checkpoint` as internal workflow shortcuts instead of retyping long helper commands.
 - **Report the current lane before redirecting**: after intake, tell the user where the work is now, why, and the single next action. Do not hand them a menu unless there is a real choice with meaningful tradeoffs.
+- **Map before broad reading**: when a folder is unfamiliar or a task is broad, use `/repo-map` before targeted retrieval so context is selected deliberately instead of by wandering.
 - **Close dead branches explicitly**: when a task is resolved, obsolete, not reproducible, wrongly framed, or intentionally parked, use `/close-task` before the final checkpoint.
 - **Grill ambiguous tasks early**: if the request is broad, underspecified, or expensive to get wrong, use `/grill` before planning or implementing.
 - **Stop planning loops early**: after two planning refinements, stop broadening the plan. Choose the next verified slice and move back toward research or implementation.
@@ -131,13 +132,14 @@ Rules:
 - `scripts/plan-guard.sh` - deterministic planning guard against oversized plans and planning loops
 - `scripts/optimize-gate.sh` - deterministic optimization lane for evidence, scope, and smallest-level action
 - `scripts/implement-preflight.sh` - deterministic repo plus phase preflight before implementation
+- `scripts/repo-map.sh` - build a compact folder map before broad research or planning
 - `scripts/retrieve-context.sh` - rank only the local context relevant to the current step
 - `scripts/session-boundary.sh` - decide whether to continue, checkpoint, or restart
 - `scripts/handoff.sh` - build a compact continuation packet before a new session or context transition
 - `scripts/checkpoint-review.sh` - deterministic end-of-phase review before committing or restarting
 - `scripts/close-task.sh` - deterministic task closure classification for resolved or dead branches
 - `scripts/finish-task.sh` - deterministic close-task plus checkpoint composite for clean endings
-- `command/` - slash-command wrappers for task intake, phase flow, and checkpointing
+- `command/` - slash-command wrappers for task intake, repo mapping, phase flow, and checkpointing
 - `.opencode/commands/` - OpenCode-native slash-command entrypoints mirroring the managed command set
 - `scripts/harvest-topic-insights.sh` - collect topic lessons
 - `scripts/build-cross-domain-candidates.sh` - build promotion queue

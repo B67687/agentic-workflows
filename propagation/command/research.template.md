@@ -4,7 +4,12 @@ description: Run the research phase only, with no file edits
 
 This is research mode only.
 
-First, read the normal startup files for the repo. Then use:
+First, read the normal startup files for the repo.
+
+If the folder is unfamiliar or the request is broad, run:
+`bash ./repo-map.sh .`
+
+Then use:
 `bash ./retrieve-context.sh "$ARGUMENTS"`
 when it helps narrow the local context.
 

@@ -45,6 +45,7 @@ Expected root structure:
 |- git-session-start.sh              (hub-owned managed core)
 |- git-worktree-branch.sh            (hub-owned managed core)
 |- retrieve-context.sh               (hub-owned managed core)
+|- repo-map.sh                        (hub-owned managed core)
 |- session-boundary.sh               (hub-owned managed core)
 |- handoff.sh                        (hub-owned managed core)
 |- session-state.json                (repo-owned after bootstrap)
