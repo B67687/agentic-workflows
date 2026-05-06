@@ -277,6 +277,22 @@ Restart when:
 
 Do not keep trying to rescue a degraded thread if a fresh one would be cleaner.
 
+## Handoff Rule
+
+Use `/handoff` before starting a new session when the work is not finished.
+
+The packet should preserve:
+
+- goal
+- current phase
+- verified so far
+- key decisions
+- open risks
+- exact files
+- next command
+
+The packet should drop debate, stale alternatives, and solved branches. It exists to make the next session start cleanly, not to preserve the whole conversation.
+
 ## Checkpoint Rule
 
 After a verified phase:

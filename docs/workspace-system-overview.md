@@ -120,6 +120,7 @@ Expected topic-folder root:
 |- plan-guard.sh                     (hub-owned managed core)
 |- optimize-gate.sh                  (hub-owned managed core)
 |- checkpoint-commit.sh              (hub-owned managed core)
+|- handoff.sh                        (hub-owned managed core)
 |- session-state.json                (repo-owned after bootstrap)
 |- topic-insights.md                 (repo-owned after bootstrap)
 |- .cleanup-protect                  (repo-owned after bootstrap)

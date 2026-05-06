@@ -56,7 +56,7 @@ For topic-folder work, start with that folder's root `session-state.json`, then 
 - **Think big, map coarsely, bet medium, execute tiny**: compress the product experience, preserve the north-star goal, map the major domains, shape one milestone bet, and implement one verified slice at a time.
 - **One task per session by default**: when the phase changes, the topic shifts, or the thread gets long, checkpoint and start a new session instead of dragging the old one forward.
 - **Automatic task shaping by default**: when a serious task is given directly, treat `/start-task` as the implicit first move unless the work is obviously tiny.
-- **Use slash command shortcuts when available**: prefer `/start-task`, `/shape-product`, `/counsel`, `/task-tree`, `/north-star`, `/shape-milestone`, `/slice-task`, `/grill`, `/query`, `/session-boundary`, `/research`, `/plan`, `/implement`, `/optimize`, `/close-task`, `/finish-task`, and `/checkpoint` instead of retyping long helper commands.
+- **Use slash command shortcuts when available**: prefer `/start-task`, `/shape-product`, `/counsel`, `/task-tree`, `/north-star`, `/shape-milestone`, `/slice-task`, `/grill`, `/query`, `/session-boundary`, `/handoff`, `/research`, `/plan`, `/implement`, `/optimize`, `/close-task`, `/finish-task`, and `/checkpoint` instead of retyping long helper commands.
 - **Close dead branches explicitly**: when a task is resolved, obsolete, not reproducible, wrongly framed, or intentionally parked, use `/close-task` before the final checkpoint.
 - **Grill ambiguous tasks early**: if the request is broad, underspecified, or expensive to get wrong, use `/grill` before planning or implementing.
 - **Stop planning loops early**: after two planning refinements, stop broadening the plan. Choose the next verified slice and move back toward research or implementation.
@@ -132,6 +132,7 @@ Rules:
 - `scripts/implement-preflight.sh` - deterministic repo plus phase preflight before implementation
 - `scripts/retrieve-context.sh` - rank only the local context relevant to the current step
 - `scripts/session-boundary.sh` - decide whether to continue, checkpoint, or restart
+- `scripts/handoff.sh` - build a compact continuation packet before a new session or context transition
 - `scripts/checkpoint-review.sh` - deterministic end-of-phase review before committing or restarting
 - `scripts/close-task.sh` - deterministic task closure classification for resolved or dead branches
 - `scripts/finish-task.sh` - deterministic close-task plus checkpoint composite for clean endings

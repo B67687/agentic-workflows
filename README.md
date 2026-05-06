@@ -158,4 +158,5 @@ Fast workflow:
 - `/plan your task`
 - `/implement your task`
 - `/optimize your task` for performance or architecture cost work
+- `/handoff your task` before a new session or high-context transition
 - `/checkpoint ...` or `/finish-task ...`

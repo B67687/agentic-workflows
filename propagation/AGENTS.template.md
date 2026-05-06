@@ -29,7 +29,7 @@ When a request is clear enough and risk is low, you must proactively:
 8. **Slice oversized tasks early** — Big tasks should become milestone ladder plus first executable slice before normal planning.
 9. **Think big, map coarsely, bet medium, execute tiny** — Compress the product experience, preserve the big goal, map major domains, shape one milestone bet, then work one verified slice at a time.
 10. **Restart on phase boundaries** — New phase, new session. Do not drag long degraded threads forward.
-11. **Prefer slash-command shortcuts when present** — Use `/start-task`, `/shape-product`, `/counsel`, `/task-tree`, `/north-star`, `/shape-milestone`, `/slice-task`, `/grill`, `/query`, `/session-boundary`, `/research`, `/plan`, `/implement`, `/optimize`, and `/checkpoint` instead of retyping long helper commands.
+11. **Prefer slash-command shortcuts when present** — Use `/start-task`, `/shape-product`, `/counsel`, `/task-tree`, `/north-star`, `/shape-milestone`, `/slice-task`, `/grill`, `/query`, `/session-boundary`, `/handoff`, `/research`, `/plan`, `/implement`, `/optimize`, and `/checkpoint` instead of retyping long helper commands.
 12. **Refuse unclear implementation** — If the files, scope, or verification path are unclear, stop and go back to research or planning instead of improvising edits.
 13. **Grill costly ambiguity early** — If the request is broad, ambiguous, or expensive to misunderstand, challenge the assumptions before planning or implementing.
 14. **Stop planning loops early** — After two planning refinements, pick the next executable slice instead of broadening the plan again.
