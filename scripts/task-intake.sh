@@ -185,7 +185,9 @@ elif [[ "$dirty" == "dirty" && "$git_lane" == "current-checkout" && "$lane" != "
 fi
 
 next_command="/research $TASK"
-if [[ "$GOAL_HORIZON" == "north-star" ]]; then
+if [[ "$GOAL_HORIZON" == "north-star" && "$ITERATION_STRATEGY" == "slice-first" ]]; then
+  next_command="/shape-product $TASK (then /task-tree $TASK)"
+elif [[ "$GOAL_HORIZON" == "north-star" ]]; then
   next_command="/shape-product $TASK"
 elif [[ "$lane" == "grill" ]]; then
   next_command="/grill $TASK"

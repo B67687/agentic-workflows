@@ -5,6 +5,11 @@
 
 ---
 
+## Phase 17: Task Tree Decomposition (2026-05-06)
+- Added `/task-tree` for decomposing large goals into coarse domains, milestone candidates, and first slices
+- Routed long-horizon oversized goals from intake toward `/shape-product` followed by `/task-tree`
+- Documented the rule that the tree prevents blind spots but should not become a full project plan
+
 ## Phase 16: Counsel Model Selection Policy (2026-05-06)
 - Confirmed counsel model grouping is the right direction only as role-based selection, not fixed permanent panels
 - Added benchmark-informed evidence hierarchy for choosing free OpenRouter candidates

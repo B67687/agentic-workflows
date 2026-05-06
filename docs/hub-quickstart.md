@@ -30,7 +30,7 @@ Read this first on every resume. Everything else is linked.
 - Hub work: docs, research, scripts, templates, workflow state
 - Topic work: inside `[topic-name]-content/`, resume from root `session-state.json`
 - Propagate shared defaults: `bash scripts/propagate-to-all.sh --apply`
-- Fast phase commands: `/start-task`, `/shape-product`, `/counsel`, `/north-star`, `/shape-milestone`, `/slice-task`, `/grill`, `/research`, `/plan`, `/implement`, `/optimize`, `/query`, `/session-boundary`, `/checkpoint`, `/close-task`, `/finish-task`, `/git-start`, `/git-worktree`
+- Fast phase commands: `/start-task`, `/shape-product`, `/counsel`, `/task-tree`, `/north-star`, `/shape-milestone`, `/slice-task`, `/grill`, `/research`, `/plan`, `/implement`, `/optimize`, `/query`, `/session-boundary`, `/checkpoint`, `/close-task`, `/finish-task`, `/git-start`, `/git-worktree`
 - OpenCode command discovery should use `.opencode/commands/`; the repo also keeps `command/` as a readable mirrored command set
 - Phase gate: `bash scripts/phase-gate.sh implement --research-done --plan-done --scope-bounded --verification-known`
 - Git repo probe: `bash scripts/git-session-start.sh`
@@ -38,11 +38,13 @@ Read this first on every resume. Everything else is linked.
 - Deterministic product shaping: `bash scripts/product-shape.sh "goal"`
 - Counsel decision gate: `bash scripts/counsel-gate.sh "decision"`
 - Counsel model-selection policy: `bash scripts/counsel-model-select.sh lite`
+- Task tree decomposition: `bash scripts/task-tree.sh "big goal"`
 - Deterministic implement preflight: `bash scripts/implement-preflight.sh "task" --research-done --plan-done --scope-bounded --verification-known`
 - Isolated branch/worktree: `bash scripts/git-worktree-branch.sh branch-name`
 - `/start-task` now begins with deterministic task intake and should choose current checkout vs worktree by default
 - `/shape-product` now grills and compresses the desired product experience before milestone shaping
 - `/counsel` now decides when independent perspectives should be used for shaping, milestone choice, architecture review, or optimization review
+- `/task-tree` now maps big goals into coarse domains, milestone candidates, and first-slice direction
 - `/north-star` now preserves a large goal separately from execution detail
 - `/shape-milestone` now turns a large goal into one bounded bet
 - `/slice-task` now forces oversized work into a milestone ladder plus first executable slice
@@ -83,6 +85,7 @@ Read this first on every resume. Everything else is linked.
 |- product-shape.sh                 (hub-owned managed core)
 |- counsel-gate.sh                  (hub-owned managed core)
 |- counsel-model-select.sh          (hub-owned managed core)
+|- task-tree.sh                     (hub-owned managed core)
 |- north-star.sh                    (hub-owned managed core)
 |- milestone-shape.sh               (hub-owned managed core)
 |- task-intake.sh                   (hub-owned managed core)

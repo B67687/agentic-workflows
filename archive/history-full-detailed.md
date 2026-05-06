@@ -4786,3 +4786,29 @@ And optimization should be a separate lane:
 - `scripts/counsel-model-select.sh`
 - propagation wrapper for the model-selection helper
 - docs and command updates that point counsel model choice to the policy instead of hardcoded permanent panels
+
+---
+
+# 2026-05-06 — Task Tree Decomposition
+
+**User intent:** The user wanted the system to break down a very large goal, such as recreating a Roblox game, into a large navigable tree of workstreams: client-server, 3D world, mechanics, game design, and then sub-slices.
+
+**Assistant improvement:** Added a task-tree layer between North Star and milestone shaping. This layer maps major domains and dependencies so important workstreams are not forgotten, while still keeping detailed planning limited to the next executable slice.
+
+**User improvement to the improvement:** The user emphasized that they naturally start with a large goal and should not have to manually know how to split it. The workflow should split the problem for them.
+
+**Final agreement:** Large goals now follow:
+- product shape
+- north star
+- task tree
+- milestone bet
+- next executable slice
+
+The task tree should remain coarse. It is a map, not a full detailed project plan.
+
+**Implemented:**
+- `scripts/task-tree.sh`
+- `/task-tree`
+- propagation contract entries for the new command and helper
+- task-intake next-command routing that points broad long-horizon goals toward `/shape-product` and then `/task-tree`
+- workflow docs updated with task-tree diagrams and rules

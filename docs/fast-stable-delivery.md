@@ -75,23 +75,25 @@ The best match for this workspace is not one named framework. It is a layered sy
 ```mermaid
 flowchart TD
     A["Product Shape"] --> B["North Star"]
-    B --> C["Milestone Bet"]
-    C --> D["Next Verified Slice"]
-    D --> E["Research only what the slice needs"]
-    E --> F["Plan only the next move"]
-    F --> G["Implement"]
-    G --> H["Verify"]
-    H --> I["Checkpoint or finish"]
-    I --> J{"Need another slice?"}
-    J -->|Yes| D
-    J -->|No| K["Shape next milestone"]
-    K --> C
+    B --> C["Task Tree"]
+    C --> D["Milestone Bet"]
+    D --> E["Next Verified Slice"]
+    E --> F["Research only what the slice needs"]
+    F --> G["Plan only the next move"]
+    G --> H["Implement"]
+    H --> I["Verify"]
+    I --> J["Checkpoint or finish"]
+    J --> K{"Need another slice?"}
+    K -->|Yes| E
+    K -->|No| L["Shape next milestone"]
+    L --> D
 ```
 
-This gives the workspace four planning levels:
+This gives the workspace five planning levels:
 
 - `Product Shape`: compress the desired final experience into a simple artifact
 - `North Star`: preserve the big why and success criteria
+- `Task Tree`: map major domains and dependencies without detailing every leaf
 - `Milestone Bet`: define one bounded meaningful advance
 - `Next Verified Slice`: define the next fast executable unit
 
@@ -132,6 +134,7 @@ When a task begins:
 
 - compress the intended product experience when the goal is broad or emotional
 - preserve the large goal separately if it is long-horizon
+- build a coarse task tree when the goal spans multiple domains
 - shape only one bounded milestone
 - detail only the next slice
 

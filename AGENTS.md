@@ -53,10 +53,10 @@ For topic-folder work, start with that folder's root `session-state.json`, then 
 - **Use repo-native shell tooling**. Prefer bash in WSL unless a repo explicitly requires PowerShell; see `docs/repo-tooling.md`.
 - **Use phase-based work for non-trivial tasks**: research first, plan second, implement third. Do not jump straight to code when the system is still unclear.
 - **Force fast slices for oversized tasks**: if the task is broad, heavy, or likely to span many moving parts, break it into a milestone ladder and plan only the next executable slice.
-- **Think big, bet medium, execute tiny**: compress the product experience, preserve the north-star goal, shape one milestone bet at a time, and implement one verified slice at a time.
+- **Think big, map coarsely, bet medium, execute tiny**: compress the product experience, preserve the north-star goal, map the major domains, shape one milestone bet, and implement one verified slice at a time.
 - **One task per session by default**: when the phase changes, the topic shifts, or the thread gets long, checkpoint and start a new session instead of dragging the old one forward.
 - **Automatic task shaping by default**: when a serious task is given directly, treat `/start-task` as the implicit first move unless the work is obviously tiny.
-- **Use slash command shortcuts when available**: prefer `/start-task`, `/shape-product`, `/counsel`, `/north-star`, `/shape-milestone`, `/slice-task`, `/grill`, `/query`, `/session-boundary`, `/research`, `/plan`, `/implement`, `/optimize`, `/close-task`, `/finish-task`, and `/checkpoint` instead of retyping long helper commands.
+- **Use slash command shortcuts when available**: prefer `/start-task`, `/shape-product`, `/counsel`, `/task-tree`, `/north-star`, `/shape-milestone`, `/slice-task`, `/grill`, `/query`, `/session-boundary`, `/research`, `/plan`, `/implement`, `/optimize`, `/close-task`, `/finish-task`, and `/checkpoint` instead of retyping long helper commands.
 - **Close dead branches explicitly**: when a task is resolved, obsolete, not reproducible, wrongly framed, or intentionally parked, use `/close-task` before the final checkpoint.
 - **Grill ambiguous tasks early**: if the request is broad, underspecified, or expensive to get wrong, use `/grill` before planning or implementing.
 - **Stop planning loops early**: after two planning refinements, stop broadening the plan. Choose the next verified slice and move back toward research or implementation.
@@ -121,6 +121,7 @@ Rules:
 - `scripts/task-intake.sh` - deterministic task intake with git-aware lane recommendation
 - `scripts/product-shape.sh` - grill and compress broad product goals before milestone shaping
 - `scripts/counsel-gate.sh` - decide when independent perspectives should help a high-cost decision
+- `scripts/task-tree.sh` - map large goals into coarse domains, milestone candidates, and first slices
 - `scripts/north-star.sh` - preserve a large long-horizon goal without turning it into one giant execution plan
 - `scripts/milestone-shape.sh` - shape one bounded milestone bet from a large goal
 - `scripts/task-slice.sh` - deterministic oversized-task slicer for milestone ladder plus first slice

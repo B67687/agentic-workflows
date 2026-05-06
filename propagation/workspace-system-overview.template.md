@@ -32,6 +32,7 @@ Expected root structure:
 |- product-shape.sh                  (hub-owned managed core)
 |- counsel-gate.sh                   (hub-owned managed core)
 |- counsel-model-select.sh           (hub-owned managed core)
+|- task-tree.sh                      (hub-owned managed core)
 |- north-star.sh                     (hub-owned managed core)
 |- milestone-shape.sh                (hub-owned managed core)
 |- task-slice.sh                     (hub-owned managed core)
@@ -131,6 +132,12 @@ For decisions that need independent challenge:
 
 ```text
 /counsel your decision
+```
+
+To map a large goal before choosing a milestone:
+
+```text
+/task-tree your goal
 ```
 
 To force a big task into fast milestones plus a first slice:

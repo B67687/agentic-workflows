@@ -4,9 +4,9 @@
   "interruptedCount": 1,
   "contextPressure": "medium",
   "currentTask": {
-    "name": "Add counsel model selection policy",
+    "name": "Add task tree decomposition",
     "status": "verified-phase",
-    "goal": "Decide whether OpenRouter free-model counsel groupings are the right direction, then add an evidence-based selection policy without prematurely hardcoding live provider routing"
+    "goal": "Make large goals break down into coarse domains, milestone candidates, and first slices without turning the entire project into a detailed plan"
   },
   "environment": {
     "note": "This workspace runs entirely on Debian/WSL2. No PowerShell needed.",
@@ -32,6 +32,10 @@
     "Added counsel-models.json as a refreshable snapshot of current role candidates",
     "Added counsel-model-select.sh to explain lite/full counsel role selection policy",
     "Confirmed model grouping is the right direction only as role-based, refreshable selection rather than fixed permanent panels",
+    "Added task-tree.sh for decomposing large goals into coarse domains and milestone candidates",
+    "Added /task-tree command and propagated it into managed topic folders",
+    "Updated task-intake so long-horizon oversized goals route to /shape-product and then /task-tree",
+    "Updated workflow docs with task tree placement and rules",
     "Updated history index and full detailed history to record the workflow evolution"
   ],
   "filesTouched": [
@@ -42,10 +46,12 @@
     "scripts/product-shape.sh",
     "scripts/counsel-gate.sh",
     "scripts/counsel-model-select.sh",
+    "scripts/task-tree.sh",
     "counsel-models.json",
     "command/start-task.md",
     "command/shape-product.md",
     "command/counsel.md",
+    "command/task-tree.md",
     "command/shape-task.md",
     "command/implement.md",
     "command/north-star.md",
@@ -68,6 +74,7 @@
     "bash ./scripts/product-shape.sh \"recreate Elemental Battlegrounds faithfully for nostalgia\" --no-fetch",
     "bash ./scripts/counsel-gate.sh \"decide the first playable milestone for the Elemental Battlegrounds recreation\" --no-fetch",
     "bash ./scripts/counsel-model-select.sh lite",
+    "bash ./scripts/task-tree.sh \"recreate Elemental Battlegrounds faithfully for nostalgia\" --no-fetch",
     "bash ./scripts/task-intake.sh \"recreate Elemental Battlegrounds faithfully for nostalgia\" --no-fetch",
     "bash ./scripts/test-propagation-contract.sh",
     "external research review against Working Backwards, Shape Up, DORA, and Trunk-Based Development"
@@ -76,10 +83,10 @@
     "index": "archive/history-index.md - quick phase reference",
     "detail": "archive/history-full-detailed.md - full narrative"
   },
-  "residualRisk": "OpenRouter-backed counsel execution is intentionally not automated yet; current work adds model-selection policy, registry, and helper only.",
+  "residualRisk": "Task tree is intentionally coarse; it prevents blind spots but should not become a full project plan.",
   "immediateNextSteps": [
-    "Propagate the counsel model-selection helper into topic repos",
-    "Commit the counsel model-selection policy in ai-prompting",
+    "Commit the task tree workflow changes in ai-prompting",
+    "Use /task-tree when starting large game-recreation goals",
     "Later design live OpenRouter routing if role-based counsel proves useful",
     "Keep leaving fluent-prs uncommitted unless its unrelated local work is intentionally separated"
   ],
