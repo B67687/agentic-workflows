@@ -163,8 +163,8 @@ Your main AI should be whichever model you have best access to:
 | Your Setup | Recommended Main AI | Why |
 |-----------|-------------------|-----|
 | Copilot Student (free) | **Claude Sonnet 4.6** | Best quality at zero cost. 300 premium requests/month. |
-| OpenCode Go ($10/mo, K2.6 promo) | **Kimi K2.6** | Best quality in Go, ~3,450 req/5hr during 3× promo. |
-| OpenCode Go (post-promo) | **Kimi K2.6** for quality, **M2.5** for volume | K2.6 drops to 1,150 req/5hr; M2.5 gives 5.5× more. |
+| OpenCode Go ($10/mo) | **DeepSeek V4 Flash** by default | Best sustainable Go lane: ~31,650 req/5hr, 1M context, strong coding scores. |
+| OpenCode Go escalation | **DeepSeek V4 Pro** or **Kimi K2.6** | Use when quality matters more than request volume. |
 | Gemini AI Studio (free) | **Gemini 3.1 Pro** | 14,400 requests/day, 1M context, multimodal. |
 | DeepSeek API | **DeepSeek V3.2** | Cheapest reasoning ($0.252/M), MIT license. |
 
@@ -202,14 +202,12 @@ The current system uses a primary orchestrator plus optional subsessions:
 {
   "instructions": ["session-state.json"],
   "shell": "bash",
-  "model": "opencode/minimax-m2.5-free",
-  "small_model": "opencode/minimax-m2.5-free",
+  "model": "opencode-go/deepseek-v4-flash",
   "default_agent": "orchestrator",
   "agent": {
     "orchestrator": {
       "mode": "primary",
-      "model": "opencode/minimax-m2.5-free",
-      "small_model": "opencode/minimax-m2.5-free",
+      "model": "opencode-go/deepseek-v4-flash",
       "steps": 20,
       "permission": {
         "edit": "allow",
@@ -225,12 +223,12 @@ The current system uses a primary orchestrator plus optional subsessions:
       }
     },
     "explore": {
-      "model": "opencode/minimax-m2.5-free",
+      "model": "opencode-go/deepseek-v4-flash",
       "steps": 6
     },
     "review": {
       "mode": "subagent",
-      "model": "opencode/minimax-m2.5-free",
+      "model": "opencode-go/deepseek-v4-flash",
       "temperature": 0.1,
       "steps": 6,
       "permission": {
@@ -243,7 +241,7 @@ The current system uses a primary orchestrator plus optional subsessions:
     },
     "plan": {
       "mode": "primary",
-      "model": "opencode/minimax-m2.5-free",
+      "model": "opencode-go/deepseek-v4-flash",
       "temperature": 0.1,
       "steps": 8,
       "permission": {

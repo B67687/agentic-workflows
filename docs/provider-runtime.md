@@ -75,6 +75,28 @@ What can change:
 
 Best practice: switch between tasks or after a checkpoint, not halfway through a delicate edit. If switching mid-task, create a handoff first.
 
+## OpenCode Go Default Model
+
+Current sustainable default:
+
+```text
+opencode-go/deepseek-v4-flash
+```
+
+Reason: OpenCode's live Go docs and model endpoint list DeepSeek V4 Flash as available, with about 31,650 estimated requests per 5 hours, 1M context, and strong coding-agent suitability. It is the best default when the goal is to move fast without burning the quota too aggressively.
+
+Use escalation models deliberately:
+
+- `opencode-go/deepseek-v4-pro` for harder implementation, architecture, and review when quality matters more than volume.
+- `opencode-go/kimi-k2.6` when you want strongest Go reasoning style and can afford lower volume.
+- `opencode-go/glm-5.1` only for occasional deep review or benchmark-sensitive work because it has the lowest Go request allowance.
+
+Verify the live Go model list before major changes:
+
+```bash
+curl -fsSL https://opencode.ai/zen/go/v1/models
+```
+
 ## Prompting Best Practices To Keep In The Workflow
 
 Frontier-model guidance from OpenAI and Anthropic converges on the same operating pattern:
