@@ -1,68 +1,63 @@
 {
-  "session": 56,
+  "session": 57,
   "status": "verified-phase",
   "interruptedCount": 0,
   "contextPressure": "medium",
   "currentTask": {
-    "name": "Add normal-language workflow router",
+    "name": "Harden provider runtime and Google model discovery",
     "status": "verified-phase",
-    "goal": "Let users type serious tasks normally while the workflow deterministically chooses the right lane, maps context when useful, and returns one next action"
+    "goal": "Fix Google model access issues, avoid hardcoded Gemini preview assumptions, support flexible OpenCode auth-profile switching, and document prompt/workflow lessons"
   },
   "environment": {
-    "note": "This workspace runs entirely on Debian/WSL2. No PowerShell needed.",
+    "note": "This workspace runs on Debian/WSL2. Global OpenCode runtime config is at /home/namikaz/.config/opencode/opencode.jsonc.",
     "primaryTerminal": "WSL Debian with native Linux tools",
     "workspacePath": "/home/namikaz/projects/dev/ai-prompting",
     "topicFoldersPath": "/home/namikaz/projects/dev/"
   },
   "whatChanged": [
-    "Added workflow-router.sh as the hidden normal-language request router",
-    "Added /route command and propagation templates for OpenCode command discovery",
-    "Updated task-intake.sh so obvious tiny tasks route direct instead of research",
-    "Updated task-intake.sh so long-horizon knowledge-building goals route through shape-product and task-tree",
-    "Updated AGENTS, README, hub quickstart, and workspace overview to make /route the default internal path",
-    "Updated authoritative agent best practices with source-backed SWE-agent, Agentless, SWE-Dev, and OpenAI workflow lessons",
-    "Propagated route.md and workflow-router.sh to topic folders"
+    "Removed small_model entries from the live OpenCode config after Google rejected that field in request payloads",
+    "Backed up the live OpenCode config before editing it",
+    "Synced 50 Google models from Google's OpenAI-compatible models endpoint into the live OpenCode config",
+    "Confirmed gemini-3.1-pro-preview is listed for the current Google key",
+    "Added google-models.sh to list and sync Google models without hardcoding preview names",
+    "Added opencode-auth-profile.sh to save and switch whole OpenCode auth profiles without printing secrets",
+    "Added docs/provider-runtime.md for Google model discovery, the small_model error, OpenCode Go account switching, memory expectations, and prompting best-practice mapping",
+    "Propagated the provider helper scripts to topic folders"
   ],
   "filesTouched": [
-    "scripts/workflow-router.sh",
-    "scripts/task-intake.sh",
+    "/home/namikaz/.config/opencode/opencode.jsonc",
+    "scripts/google-models.sh",
+    "scripts/opencode-auth-profile.sh",
+    "propagation/google-models.template.sh",
+    "propagation/opencode-auth-profile.template.sh",
     "scripts/propagation-contract.sh",
-    "command/route.md",
-    "command/start-task.md",
-    "propagation/workflow-router.template.sh",
-    "propagation/command/route.template.md",
-    "propagation/command/start-task.template.md",
-    "AGENTS.md",
-    "propagation/AGENTS.template.md",
-    "README.md",
+    "docs/provider-runtime.md",
     "docs/hub-quickstart.md",
     "docs/workspace-system-overview.md",
     "propagation/workspace-system-overview.template.md",
-    "docs/authoritative-agent-best-practices.md",
+    "README.md",
     "session-state.json"
   ],
   "verification": [
-    "bash -n scripts/workflow-router.sh propagation/workflow-router.template.sh",
-    "bash -n scripts/task-intake.sh",
-    "bash ./scripts/workflow-router.sh \"I want to recreate Elemental Battlegrounds exactly for nostalgia\" --limit 8",
-    "bash ./scripts/workflow-router.sh \"fix typo in README\" --no-map",
-    "bash ./scripts/workflow-router.sh \"I want to build a theory of reality from fundamental rules\" --limit 6",
-    "bash ./scripts/test-propagation-contract.sh",
-    "bash ./scripts/propagate-to-all.sh --apply",
-    "bash ./check-sync-status.sh in reality",
-    "bash ./check-sync-status.sh in fluent-prs",
-    "git diff --check"
+    "rg -n small_model /home/namikaz/.config/opencode/opencode.jsonc returned no matches",
+    "python3 -m json.tool /home/namikaz/.config/opencode/opencode.jsonc",
+    "bash -n scripts/google-models.sh scripts/opencode-auth-profile.sh propagation/google-models.template.sh propagation/opencode-auth-profile.template.sh",
+    "bash ./scripts/google-models.sh",
+    "bash ./scripts/google-models.sh --sync-opencode-config",
+    "Direct Google OpenAI-compatible test returned 429 instead of the prior 400 malformed-payload error",
+    "bash ./scripts/opencode-auth-profile.sh status",
+    "bash ./scripts/propagate-to-all.sh --apply"
   ],
   "historyFiles": {
     "index": "archive/history-index.md - quick phase reference",
     "detail": "archive/history-full-detailed.md - full narrative"
   },
-  "residualRisk": "The router is deterministic and useful, but it still relies on the orchestrator to continue the selected next action rather than merely reciting it.",
+  "residualRisk": "The Google direct call hit 429, so payload shape is fixed but account quota/rate access still controls whether gemini-3.1-pro-preview can respond at a given moment.",
   "immediateNextSteps": [
-    "Commit the workflow-router changes in ai-prompting",
-    "Use normal-language prompts in topic folders and let /route choose the lane",
-    "If wrong-lane corrections recur, add examples to task-intake heuristics",
-    "Later consider a lightweight eval harness of representative prompts to test routing changes"
+    "Restart OpenCode so it reads the updated config",
+    "Use bash scripts/google-models.sh whenever Google model availability is uncertain",
+    "Use bash scripts/opencode-auth-profile.sh save/use after connecting each OpenCode Go subscription",
+    "If Google still fails inside OpenCode, test with gemini-2.5-pro or gemini-3.1-pro-preview after quota recovers"
   ],
   "resumeRules": [
     "Read session-state.json first on every resume",

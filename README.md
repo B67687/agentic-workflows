@@ -76,6 +76,7 @@ For understanding how this hub and its ecosystem work.
 |------|-----|
 | Session checkpoint rules | [docs/session-checkpoint.md](docs/session-checkpoint.md) |
 | Model selection guide | [docs/model-selection-guide.md](docs/model-selection-guide.md) |
+| Provider runtime and account switching | [docs/provider-runtime.md](docs/provider-runtime.md) |
 | Quality standards | [docs/quality-standards.md](docs/quality-standards.md) |
 | Git/GitHub best practices | [docs/git-github-best-practices.md](docs/git-github-best-practices.md) |
 | Fast stable delivery model | [docs/fast-stable-delivery.md](docs/fast-stable-delivery.md) |

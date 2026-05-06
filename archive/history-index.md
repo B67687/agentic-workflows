@@ -28,6 +28,13 @@
 - Added a dedicated fast-stable-delivery reference doc
 - Updated core workflow and overview docs so the system explains not just what to do, but why it follows this structure
 
+## Phase 15: Provider Runtime Hardening (2026-05-06)
+- Removed `small_model` from live OpenCode config after Google rejected it as an invalid request field
+- Added Google model discovery/sync from Google's own OpenAI-compatible `/models` endpoint
+- Confirmed `gemini-3.1-pro-preview` is listed for the current Google key, while direct test currently hits 429 quota/rate
+- Added OpenCode auth-profile switching helper for multiple OpenCode Go subscriptions
+- Documented provider runtime, account switching, memory expectations, and frontier prompting lessons
+
 ## Phase 14: Context Mapping & Normal-Language Routing (2026-05-06)
 - Added `repo-map.sh` and `/repo-map` so unfamiliar folders get compact orientation before targeted retrieval
 - Added `workflow-router.sh` and `/route` so serious normal-language prompts route through intake automatically

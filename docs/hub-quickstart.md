@@ -36,6 +36,8 @@ Read this first on every resume. Everything else is linked.
 - Git repo probe: `bash scripts/git-session-start.sh`
 - Normal-language router: `bash scripts/workflow-router.sh "task"`
 - Deterministic task intake: `bash scripts/task-intake.sh "task"`
+- List/sync Google models: `bash scripts/google-models.sh --sync-opencode-config`
+- Switch OpenCode auth profiles: `bash scripts/opencode-auth-profile.sh status`
 - Deterministic product shaping: `bash scripts/product-shape.sh "goal"`
 - Counsel decision gate: `bash scripts/counsel-gate.sh "decision"`
 - Counsel model-selection policy: `bash scripts/counsel-model-select.sh lite`
@@ -103,6 +105,8 @@ Read this first on every resume. Everything else is linked.
 |- checkpoint-commit.sh              (hub-owned managed core)
 |- git-session-start.sh             (hub-owned managed core)
 |- git-worktree-branch.sh           (hub-owned managed core)
+|- google-models.sh                 (hub-owned managed core)
+|- opencode-auth-profile.sh         (hub-owned managed core)
 |- retrieve-context.sh               (hub-owned managed core)
 |- repo-map.sh                        (hub-owned managed core)
 |- session-boundary.sh               (hub-owned managed core)

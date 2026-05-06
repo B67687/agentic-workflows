@@ -71,6 +71,8 @@ declare -a PROPAGATION_MANAGED_CORE=(
   "checkpoint-commit.template.sh:checkpoint-commit.sh"
   "git-session-start.template.sh:git-session-start.sh"
   "task-intake.template.sh:task-intake.sh"
+  "google-models.template.sh:google-models.sh"
+  "opencode-auth-profile.template.sh:opencode-auth-profile.sh"
   "product-shape.template.sh:product-shape.sh"
   "counsel-gate.template.sh:counsel-gate.sh"
   "counsel-model-select.template.sh:counsel-model-select.sh"

@@ -109,6 +109,8 @@ Expected topic-folder root:
 |- check-sync-status.sh              (hub-owned managed core)
 |- sync-from-hub.sh                  (hub-owned managed core)
 |- task-intake.sh                    (hub-owned managed core)
+|- google-models.sh                  (hub-owned managed core)
+|- opencode-auth-profile.sh          (hub-owned managed core)
 |- workflow-router.sh                (hub-owned managed core)
 |- product-shape.sh                  (hub-owned managed core)
 |- counsel-gate.sh                   (hub-owned managed core)

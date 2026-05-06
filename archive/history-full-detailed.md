@@ -4840,3 +4840,28 @@ The task tree should remain coarse. It is a map, not a full detailed project pla
 - task-intake tiny-task direct-routing heuristic
 - propagation entries and topic-folder sync for route and workflow-router
 - source-backed additions to `docs/authoritative-agent-best-practices.md`
+
+---
+
+# 2026-05-06 — Provider Runtime Hardening
+
+**User intent:** The user hit a Google API error while trying to call Gemini 3 Pro/3.1 Pro Preview through OpenCode and wanted the setup to stop hardcoding model names. The user also bought a second OpenCode Go first-month subscription and wanted flexible switching between the two accounts without losing working memory. Finally, the user wanted frontier prompting best practices folded into the workflow so the system can ask for what it needs and help the user learn like they are working in a frontier environment.
+
+**Assistant improvement:** Inspected the live OpenCode config and found `small_model` entries. OpenCode supports `small_model` as a config field, but Google rejected it as an unknown request field, which means a provider-control field had leaked into the Google API payload. Backed up the live config, removed `small_model`, and synced Google models from Google's own OpenAI-compatible `/models` endpoint instead of relying on a hardcoded preview model.
+
+**Verification:** The Google models endpoint listed `gemini-3.1-pro-preview` for the current key. A direct tiny OpenAI-compatible chat-completions test no longer returned the previous `400` malformed-payload error; it returned `429`, meaning payload shape is now past validation and the remaining issue is quota/rate/account access.
+
+**Final agreement:** Provider runtime should now follow this rule:
+- discover current models from the provider
+- keep credentials in profiles, not pasted into configs
+- switch accounts only at task/checkpoint boundaries
+- do handoff before switching model/provider mid-task
+- convert frontier prompting guidance into workflow gates, not giant prompts
+
+**Implemented:**
+- `scripts/google-models.sh`
+- `scripts/opencode-auth-profile.sh`
+- propagation templates for both helper scripts
+- `docs/provider-runtime.md`
+- live OpenCode config update and model sync
+- session-state update for provider-runtime hardening

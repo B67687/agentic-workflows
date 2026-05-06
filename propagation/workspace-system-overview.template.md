@@ -30,6 +30,8 @@ Expected root structure:
 |- sync-from-hub.sh                  (hub-owned managed core)
 |- command/                          (hub-owned managed core slash commands)
 |- task-intake.sh                    (hub-owned managed core)
+|- google-models.sh                  (hub-owned managed core)
+|- opencode-auth-profile.sh          (hub-owned managed core)
 |- workflow-router.sh                (hub-owned managed core)
 |- product-shape.sh                  (hub-owned managed core)
 |- counsel-gate.sh                   (hub-owned managed core)
