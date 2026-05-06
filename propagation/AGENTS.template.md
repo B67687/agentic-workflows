@@ -29,13 +29,15 @@ When a request is clear enough and risk is low, you must proactively:
 8. **Slice oversized tasks early** — Big tasks should become milestone ladder plus first executable slice before normal planning.
 9. **Think big, map coarsely, bet medium, execute tiny** — Compress the product experience, preserve the big goal, map major domains, shape one milestone bet, then work one verified slice at a time.
 10. **Restart on phase boundaries** — New phase, new session. Do not drag long degraded threads forward.
-11. **Prefer slash-command shortcuts when present** — Use `/start-task`, `/shape-product`, `/counsel`, `/task-tree`, `/north-star`, `/shape-milestone`, `/slice-task`, `/grill`, `/query`, `/session-boundary`, `/handoff`, `/research`, `/plan`, `/implement`, `/optimize`, and `/checkpoint` instead of retyping long helper commands.
-12. **Refuse unclear implementation** — If the files, scope, or verification path are unclear, stop and go back to research or planning instead of improvising edits.
-13. **Grill costly ambiguity early** — If the request is broad, ambiguous, or expensive to misunderstand, challenge the assumptions before planning or implementing.
-14. **Stop planning loops early** — After two planning refinements, pick the next executable slice instead of broadening the plan again.
-15. **Optimize by evidence** — Measure first for normal optimization; do bounded architecture review for hard-to-reverse risks.
-16. **Probe Git state before serious edits** — Check branch, dirt, and upstream state first.
-17. **Use worktrees for isolated risky work** — Prefer a short-lived worktree branch when the work should not share the current checkout.
+11. **Normal-language tasking by default** — The user should not need to remember slash commands. Treat serious plain-language requests as implicit `/start-task` unless the task is obviously tiny.
+12. **Prefer slash-command shortcuts internally when present** — Use `/start-task`, `/shape-product`, `/counsel`, `/task-tree`, `/north-star`, `/shape-milestone`, `/slice-task`, `/grill`, `/query`, `/session-boundary`, `/handoff`, `/research`, `/plan`, `/implement`, `/optimize`, and `/checkpoint` as internal workflow shortcuts instead of retyping long helper commands.
+13. **Report the current lane before redirecting** — Tell the user where the work is, why, and the single next action. Do not hand them a menu unless there is a real choice with meaningful tradeoffs.
+14. **Refuse unclear implementation** — If the files, scope, or verification path are unclear, stop and go back to research or planning instead of improvising edits.
+15. **Grill costly ambiguity early** — If the request is broad, ambiguous, or expensive to misunderstand, challenge the assumptions before planning or implementing.
+16. **Stop planning loops early** — After two planning refinements, pick the next executable slice instead of broadening the plan again.
+17. **Optimize by evidence** — Measure first for normal optimization; do bounded architecture review for hard-to-reverse risks.
+18. **Probe Git state before serious edits** — Check branch, dirt, and upstream state first.
+19. **Use worktrees for isolated risky work** — Prefer a short-lived worktree branch when the work should not share the current checkout.
 
 See hub's docs/core-agent-doctrine.md for full principles.
 

@@ -4,6 +4,8 @@ description: Classify a task before starting and choose the right lane
 
 Use this as the default first command for any serious task.
 
+This command is also the implicit router for normal-language requests. The user should not need to type `/start-task`; if they describe a serious task directly, run this workflow internally and explain the selected lane.
+
 First run:
 `bash ./task-intake.sh "$ARGUMENTS"`
 
@@ -14,6 +16,8 @@ Then respond compactly with:
 - the recommended git lane
 - whether editing is safe now
 - the next command to use
+
+Prefer one next command or one immediate action. Do not return a menu unless the user needs to choose between materially different paths.
 
 If the intake output looks too optimistic or too pessimistic, explain why briefly and correct it.
 

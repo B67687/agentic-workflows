@@ -231,6 +231,8 @@ Otherwise, start in research.
 
 For serious tasks, treat `/start-task` as the implicit default even if the user does not explicitly ask for task shaping first.
 
+The user should be able to type normal language. The agent should run the workflow machinery, report the current lane, and give one next action. Slash commands are operator shortcuts, not a memory burden for the user.
+
 For long-horizon goals, `/start-task` should route toward `north-star` and `shape-milestone` before normal slice planning.
 
 ## Grill Rule
