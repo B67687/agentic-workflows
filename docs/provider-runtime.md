@@ -90,6 +90,7 @@ Frontier-model guidance from OpenAI and Anthropic converges on the same operatin
 In this workspace, that maps to:
 
 - `/route` decides the lane
+- `/prompt-contract` turns prompting best practices into a compact self-check
 - `/shape-product` asks for final-experience details
 - `/repo-map` and retrieval keep context deliberate
 - `/plan` and `/implement` require verification paths

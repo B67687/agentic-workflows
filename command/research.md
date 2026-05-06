@@ -6,6 +6,9 @@ This is research mode only.
 
 First, read the normal startup files for the repo.
 
+Run the prompt contract:
+`bash ./scripts/prompt-contract.sh "$ARGUMENTS" --phase research`
+
 If the folder is unfamiliar or the request is broad, run:
 `bash ./scripts/repo-map.sh .`
 

@@ -57,6 +57,7 @@ done
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 intake="$(bash "$SCRIPT_DIR/task-intake.sh" "$TASK")"
+contract="$(bash "$SCRIPT_DIR/prompt-contract.sh" "$TASK" --phase task)"
 
 field() {
   local name="$1"
@@ -71,6 +72,7 @@ git_lane="$(field "Git lane")"
 safe_to_edit="$(field "Safe to edit now")"
 safety_note="$(field "Safety note")"
 next_command="$(field "Next command")"
+ask_policy="$(printf '%s\n' "$contract" | awk -F': ' '$1 == "Ask policy" {print $2; exit}')"
 
 map_recommended="no"
 if [[ "$MAP" == true && ( "$lane" == "research" || "$lane" == "slice-first" || "$goal_horizon" == "north-star" ) ]]; then
@@ -85,6 +87,7 @@ echo "Iteration strategy: $iteration_strategy"
 echo "Git lane: $git_lane"
 echo "Safe to edit: $safe_to_edit"
 echo "Safety note: $safety_note"
+echo "Ask policy: $ask_policy"
 echo "Next action: $next_command"
 echo "Repo map: $map_recommended"
 

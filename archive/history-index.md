@@ -28,6 +28,12 @@
 - Added a dedicated fast-stable-delivery reference doc
 - Updated core workflow and overview docs so the system explains not just what to do, but why it follows this structure
 
+## Phase 16: Prompt Contract Self-Checks (2026-05-06)
+- Added `prompt-contract.sh` and `/prompt-contract`
+- Converted prompting best practices into an internal checklist: outcome, context, constraints, examples, verification, and ask/proceed policy
+- Routed `/research`, `/plan`, `/implement`, and `/route` through the prompt contract
+- Propagated prompt-contract helpers into topic folders
+
 ## Phase 15: Provider Runtime Hardening (2026-05-06)
 - Removed `small_model` from live OpenCode config after Google rejected it as an invalid request field
 - Added Google model discovery/sync from Google's own OpenAI-compatible `/models` endpoint

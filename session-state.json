@@ -1,12 +1,12 @@
 {
-  "session": 57,
+  "session": 58,
   "status": "verified-phase",
   "interruptedCount": 0,
   "contextPressure": "medium",
   "currentTask": {
-    "name": "Harden provider runtime and Google model discovery",
+    "name": "Integrate prompting best practices as self-prompt contracts",
     "status": "verified-phase",
-    "goal": "Fix Google model access issues, avoid hardcoded Gemini preview assumptions, support flexible OpenCode auth-profile switching, and document prompt/workflow lessons"
+    "goal": "Turn frontier prompting best practices into a compact internal self-check before routing, research, planning, and implementation"
   },
   "environment": {
     "note": "This workspace runs on Debian/WSL2. Global OpenCode runtime config is at /home/namikaz/.config/opencode/opencode.jsonc.",
@@ -15,49 +15,54 @@
     "topicFoldersPath": "/home/namikaz/projects/dev/"
   },
   "whatChanged": [
-    "Removed small_model entries from the live OpenCode config after Google rejected that field in request payloads",
-    "Backed up the live OpenCode config before editing it",
-    "Synced 50 Google models from Google's OpenAI-compatible models endpoint into the live OpenCode config",
-    "Confirmed gemini-3.1-pro-preview is listed for the current Google key",
-    "Added google-models.sh to list and sync Google models without hardcoding preview names",
-    "Added opencode-auth-profile.sh to save and switch whole OpenCode auth profiles without printing secrets",
-    "Added docs/provider-runtime.md for Google model discovery, the small_model error, OpenCode Go account switching, memory expectations, and prompting best-practice mapping",
-    "Propagated the provider helper scripts to topic folders"
+    "Added prompt-contract.sh as a compact self-prompt checklist",
+    "Added /prompt-contract command and propagation templates",
+    "Updated workflow-router.sh to report the ask/proceed policy from the prompt contract",
+    "Updated /research, /plan, and /implement commands to run prompt-contract before phase work",
+    "Updated AGENTS, README, hub quickstart, provider runtime docs, and workspace overview to document prompt contracts",
+    "Propagated prompt-contract.sh and command files to topic folders"
   ],
   "filesTouched": [
-    "/home/namikaz/.config/opencode/opencode.jsonc",
-    "scripts/google-models.sh",
-    "scripts/opencode-auth-profile.sh",
-    "propagation/google-models.template.sh",
-    "propagation/opencode-auth-profile.template.sh",
+    "scripts/prompt-contract.sh",
+    "propagation/prompt-contract.template.sh",
+    "command/prompt-contract.md",
+    "propagation/command/prompt-contract.template.md",
+    "scripts/workflow-router.sh",
+    "command/research.md",
+    "propagation/command/research.template.md",
+    "command/plan.md",
+    "propagation/command/plan.template.md",
+    "command/implement.md",
+    "propagation/command/implement.template.md",
     "scripts/propagation-contract.sh",
-    "docs/provider-runtime.md",
     "docs/hub-quickstart.md",
     "docs/workspace-system-overview.md",
     "propagation/workspace-system-overview.template.md",
+    "AGENTS.md",
+    "propagation/AGENTS.template.md",
     "README.md",
+    "docs/provider-runtime.md",
     "session-state.json"
   ],
   "verification": [
-    "rg -n small_model /home/namikaz/.config/opencode/opencode.jsonc returned no matches",
-    "python3 -m json.tool /home/namikaz/.config/opencode/opencode.jsonc",
-    "bash -n scripts/google-models.sh scripts/opencode-auth-profile.sh propagation/google-models.template.sh propagation/opencode-auth-profile.template.sh",
-    "bash ./scripts/google-models.sh",
-    "bash ./scripts/google-models.sh --sync-opencode-config",
-    "Direct Google OpenAI-compatible test returned 429 instead of the prior 400 malformed-payload error",
-    "bash ./scripts/opencode-auth-profile.sh status",
+    "bash -n scripts/prompt-contract.sh propagation/prompt-contract.template.sh",
+    "bash ./scripts/prompt-contract.sh \"maybe build a thing for reality from fundamental rules\" --phase research",
+    "bash ./scripts/prompt-contract.sh \"recreate Elemental Battlegrounds exactly\" --phase plan",
+    "bash ./scripts/prompt-contract.sh \"implement the next verified slice\" --phase implement",
+    "bash ./scripts/workflow-router.sh \"recreate Elemental Battlegrounds exactly\" --no-map",
+    "bash ./scripts/test-propagation-contract.sh",
     "bash ./scripts/propagate-to-all.sh --apply"
   ],
   "historyFiles": {
     "index": "archive/history-index.md - quick phase reference",
     "detail": "archive/history-full-detailed.md - full narrative"
   },
-  "residualRisk": "The Google direct call hit 429, so payload shape is fixed but account quota/rate access still controls whether gemini-3.1-pro-preview can respond at a given moment.",
+  "residualRisk": "Prompt contracts are intentionally heuristic; they improve self-checking but still rely on the orchestrator to ask only genuinely high-impact questions.",
   "immediateNextSteps": [
-    "Restart OpenCode so it reads the updated config",
-    "Use bash scripts/google-models.sh whenever Google model availability is uncertain",
-    "Use bash scripts/opencode-auth-profile.sh save/use after connecting each OpenCode Go subscription",
-    "If Google still fails inside OpenCode, test with gemini-2.5-pro or gemini-3.1-pro-preview after quota recovers"
+    "Commit the prompt-contract workflow changes",
+    "Use normal prompts and let /route plus /prompt-contract decide when to ask questions",
+    "If the model asks too many or too few questions, tune prompt-contract heuristics with examples",
+    "Later add a small routing/prompt-contract eval set"
   ],
   "resumeRules": [
     "Read session-state.json first on every resume",

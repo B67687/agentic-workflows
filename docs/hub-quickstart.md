@@ -30,11 +30,12 @@ Read this first on every resume. Everything else is linked.
 - Hub work: docs, research, scripts, templates, workflow state
 - Topic work: inside `[topic-name]-content/`, resume from root `session-state.json`
 - Propagate shared defaults: `bash scripts/propagate-to-all.sh --apply`
-- Fast phase commands: `/route`, `/start-task`, `/shape-product`, `/counsel`, `/counsel-run`, `/task-tree`, `/north-star`, `/shape-milestone`, `/slice-task`, `/grill`, `/repo-map`, `/research`, `/plan`, `/implement`, `/optimize`, `/query`, `/session-boundary`, `/handoff`, `/checkpoint`, `/close-task`, `/finish-task`, `/git-start`, `/git-worktree`
+- Fast phase commands: `/route`, `/prompt-contract`, `/start-task`, `/shape-product`, `/counsel`, `/counsel-run`, `/task-tree`, `/north-star`, `/shape-milestone`, `/slice-task`, `/grill`, `/repo-map`, `/research`, `/plan`, `/implement`, `/optimize`, `/query`, `/session-boundary`, `/handoff`, `/checkpoint`, `/close-task`, `/finish-task`, `/git-start`, `/git-worktree`
 - OpenCode command discovery should use `.opencode/commands/`; the repo also keeps `command/` as a readable mirrored command set
 - Phase gate: `bash scripts/phase-gate.sh implement --research-done --plan-done --scope-bounded --verification-known`
 - Git repo probe: `bash scripts/git-session-start.sh`
 - Normal-language router: `bash scripts/workflow-router.sh "task"`
+- Prompt self-check: `bash scripts/prompt-contract.sh "task" --phase research`
 - Deterministic task intake: `bash scripts/task-intake.sh "task"`
 - List/sync Google models: `bash scripts/google-models.sh --sync-opencode-config`
 - Switch OpenCode auth profiles: `bash scripts/opencode-auth-profile.sh status`
@@ -98,6 +99,7 @@ Read this first on every resume. Everything else is linked.
 |- milestone-shape.sh               (hub-owned managed core)
 |- task-intake.sh                   (hub-owned managed core)
 |- workflow-router.sh               (hub-owned managed core)
+|- prompt-contract.sh               (hub-owned managed core)
 |- task-slice.sh                    (hub-owned managed core)
 |- phase-gate.sh                    (hub-owned managed core)
 |- plan-guard.sh                    (hub-owned managed core)

@@ -4865,3 +4865,21 @@ The task tree should remain coarse. It is a map, not a full detailed project pla
 - `docs/provider-runtime.md`
 - live OpenCode config update and model sync
 - session-state update for provider-runtime hardening
+
+---
+
+# 2026-05-06 — Prompt Contract Self-Checks
+
+**User intent:** The user clarified that they did not only want provider docs. They wanted the prompting best practices integrated into the workflow itself, possibly as a way for the model to prompt itself.
+
+**Assistant improvement:** Added a compact `prompt-contract` layer. It checks whether the current task has an outcome, relevant context path, constraints, examples, verification, and an ask/proceed policy. This makes prompting best practices part of the phase machinery rather than another document the user has to remember.
+
+**Final agreement:** The workflow should not ask the user endless questions. It should ask only when missing information would materially change the result. Otherwise it should proceed with stated assumptions.
+
+**Implemented:**
+- `scripts/prompt-contract.sh`
+- `/prompt-contract`
+- propagation templates for the helper and command
+- `/route` now reports ask/proceed policy
+- `/research`, `/plan`, and `/implement` now run the prompt contract before phase work
+- docs and AGENTS updates explaining prompt contracts as internal self-checks

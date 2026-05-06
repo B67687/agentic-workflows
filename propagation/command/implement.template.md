@@ -6,6 +6,9 @@ This is implementation mode.
 
 Only proceed if the task already has enough research and a clear plan. If not, stop and say whether `/research` or `/plan` should happen first.
 
+Run the prompt contract:
+`bash ./prompt-contract.sh "$ARGUMENTS" --phase implement`
+
 Before implementation, run the deterministic preflight:
 `bash ./implement-preflight.sh "$ARGUMENTS"`
 

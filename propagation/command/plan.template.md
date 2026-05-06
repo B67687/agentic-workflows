@@ -6,6 +6,9 @@ This is planning mode only.
 
 Use the existing research context if it is already good. If not, say that research is incomplete and stop.
 
+Run the prompt contract:
+`bash ./prompt-contract.sh "$ARGUMENTS" --phase plan`
+
 Before planning, run:
 `bash ./plan-guard.sh "$ARGUMENTS"`
 

@@ -33,6 +33,7 @@ Expected root structure:
 |- google-models.sh                  (hub-owned managed core)
 |- opencode-auth-profile.sh          (hub-owned managed core)
 |- workflow-router.sh                (hub-owned managed core)
+|- prompt-contract.sh                (hub-owned managed core)
 |- product-shape.sh                  (hub-owned managed core)
 |- counsel-gate.sh                   (hub-owned managed core)
 |- counsel-model-select.sh           (hub-owned managed core)
