@@ -180,3 +180,24 @@ Every counsel run should end with:
 - next workflow command
 
 The output is successful only if the next command becomes clearer.
+
+## Live OpenRouter Wiring
+
+The workflow supports optional live counsel calls through `scripts/counsel-run.sh`.
+
+Rules:
+
+- dry-run first
+- require `OPENROUTER_API_KEY` for live calls
+- use environment variables to override role models
+- return the compressed secretary output by default
+- do not expose intermediate role chatter unless requested
+
+Supported overrides:
+
+- `COUNSEL_FACILITATOR_MODEL`
+- `COUNSEL_SPECIALIST_MODEL`
+- `COUNSEL_RED_TEAM_MODEL`
+- `COUNSEL_SECRETARY_MODEL`
+
+Live counsel should still be treated as a high-leverage shaping tool, not an ordinary implementation loop.

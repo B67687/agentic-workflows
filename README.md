@@ -149,6 +149,7 @@ Fast workflow:
 - `/start-task your task`
 - `/shape-product your goal` to grill and compress the intended experience
 - `/counsel your decision` when a high-cost decision needs independent challenge
+- `/counsel-run your decision` to run optional dry-run or OpenRouter-backed counsel
 - `/task-tree your goal` to map a large goal into coarse domains before picking one milestone
 - `/north-star your goal` for long-horizon targets
 - `/shape-milestone your goal` for the next bounded bet

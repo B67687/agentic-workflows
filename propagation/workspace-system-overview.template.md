@@ -32,6 +32,7 @@ Expected root structure:
 |- product-shape.sh                  (hub-owned managed core)
 |- counsel-gate.sh                   (hub-owned managed core)
 |- counsel-model-select.sh           (hub-owned managed core)
+|- counsel-run.sh                    (hub-owned managed core)
 |- task-tree.sh                      (hub-owned managed core)
 |- north-star.sh                     (hub-owned managed core)
 |- milestone-shape.sh                (hub-owned managed core)

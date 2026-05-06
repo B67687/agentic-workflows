@@ -30,7 +30,7 @@ Read this first on every resume. Everything else is linked.
 - Hub work: docs, research, scripts, templates, workflow state
 - Topic work: inside `[topic-name]-content/`, resume from root `session-state.json`
 - Propagate shared defaults: `bash scripts/propagate-to-all.sh --apply`
-- Fast phase commands: `/start-task`, `/shape-product`, `/counsel`, `/task-tree`, `/north-star`, `/shape-milestone`, `/slice-task`, `/grill`, `/research`, `/plan`, `/implement`, `/optimize`, `/query`, `/session-boundary`, `/checkpoint`, `/close-task`, `/finish-task`, `/git-start`, `/git-worktree`
+- Fast phase commands: `/start-task`, `/shape-product`, `/counsel`, `/counsel-run`, `/task-tree`, `/north-star`, `/shape-milestone`, `/slice-task`, `/grill`, `/research`, `/plan`, `/implement`, `/optimize`, `/query`, `/session-boundary`, `/checkpoint`, `/close-task`, `/finish-task`, `/git-start`, `/git-worktree`
 - OpenCode command discovery should use `.opencode/commands/`; the repo also keeps `command/` as a readable mirrored command set
 - Phase gate: `bash scripts/phase-gate.sh implement --research-done --plan-done --scope-bounded --verification-known`
 - Git repo probe: `bash scripts/git-session-start.sh`
@@ -38,6 +38,7 @@ Read this first on every resume. Everything else is linked.
 - Deterministic product shaping: `bash scripts/product-shape.sh "goal"`
 - Counsel decision gate: `bash scripts/counsel-gate.sh "decision"`
 - Counsel model-selection policy: `bash scripts/counsel-model-select.sh lite`
+- Optional live counsel runner: `bash scripts/counsel-run.sh "decision" --dry-run`
 - Task tree decomposition: `bash scripts/task-tree.sh "big goal"`
 - Deterministic implement preflight: `bash scripts/implement-preflight.sh "task" --research-done --plan-done --scope-bounded --verification-known`
 - Isolated branch/worktree: `bash scripts/git-worktree-branch.sh branch-name`
@@ -85,6 +86,7 @@ Read this first on every resume. Everything else is linked.
 |- product-shape.sh                 (hub-owned managed core)
 |- counsel-gate.sh                  (hub-owned managed core)
 |- counsel-model-select.sh          (hub-owned managed core)
+|- counsel-run.sh                   (hub-owned managed core)
 |- task-tree.sh                     (hub-owned managed core)
 |- north-star.sh                    (hub-owned managed core)
 |- milestone-shape.sh               (hub-owned managed core)
