@@ -4763,3 +4763,26 @@ And optimization should be a separate lane:
 - task-intake routing from long-horizon goals to `/shape-product`
 - propagation contract entries for the new scripts and commands
 - workflow docs updated to explain Product Shape and Counsel placement
+
+---
+
+# 2026-05-06 — Counsel Model Selection Policy
+
+**User intent:** The user wanted to know whether the next step should be counsel model groupings through OpenRouter free models, and specifically wanted the answer informed by authoritative model benchmarks rather than vibes.
+
+**Assistant improvement:** Researched current benchmark and availability sources, then chose a role-first model-selection strategy instead of fixed model panels. The important decision was that counsel should be a structured set of roles with refreshable model assignments, because free availability and leaderboard positions change quickly.
+
+**User improvement to the improvement:** The user named the right source categories: OpenRouter leaderboard and free availability, Artificial Analysis, LiveBench, Hugging Face, SWE-rebench, Scale-style evaluations, and related sources. This made the selection policy evidence-based rather than preference-based.
+
+**Final agreement:** The direction is correct, but only if implemented as:
+- role-based counsel first
+- model-selection evidence hierarchy second
+- refreshable registry third
+- live OpenRouter wiring later
+
+**Implemented:**
+- `docs/counsel-model-selection.md`
+- `counsel-models.json`
+- `scripts/counsel-model-select.sh`
+- propagation wrapper for the model-selection helper
+- docs and command updates that point counsel model choice to the policy instead of hardcoded permanent panels

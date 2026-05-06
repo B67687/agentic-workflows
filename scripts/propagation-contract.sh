@@ -62,6 +62,7 @@ declare -a PROPAGATION_MANAGED_CORE=(
   "task-intake.template.sh:task-intake.sh"
   "product-shape.template.sh:product-shape.sh"
   "counsel-gate.template.sh:counsel-gate.sh"
+  "counsel-model-select.template.sh:counsel-model-select.sh"
   "north-star.template.sh:north-star.sh"
   "milestone-shape.template.sh:milestone-shape.sh"
   "task-slice.template.sh:task-slice.sh"

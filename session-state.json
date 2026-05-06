@@ -4,9 +4,9 @@
   "interruptedCount": 1,
   "contextPressure": "medium",
   "currentTask": {
-    "name": "Add product shaping and counsel gate",
+    "name": "Add counsel model selection policy",
     "status": "verified-phase",
-    "goal": "Improve the workflow front-end so broad product goals get grilled, compressed, and optionally reviewed before milestone shaping"
+    "goal": "Decide whether OpenRouter free-model counsel groupings are the right direction, then add an evidence-based selection policy without prematurely hardcoding live provider routing"
   },
   "environment": {
     "note": "This workspace runs entirely on Debian/WSL2. No PowerShell needed.",
@@ -28,6 +28,10 @@
     "Added counsel-gate.sh to decide when multi-perspective review is worth using",
     "Added /shape-product and /counsel commands plus propagation entries",
     "Changed task-intake so long-horizon goals route to /shape-product first",
+    "Added docs/counsel-model-selection.md with benchmark-informed evidence hierarchy",
+    "Added counsel-models.json as a refreshable snapshot of current role candidates",
+    "Added counsel-model-select.sh to explain lite/full counsel role selection policy",
+    "Confirmed model grouping is the right direction only as role-based, refreshable selection rather than fixed permanent panels",
     "Updated history index and full detailed history to record the workflow evolution"
   ],
   "filesTouched": [
@@ -37,6 +41,8 @@
     "scripts/optimize-gate.sh",
     "scripts/product-shape.sh",
     "scripts/counsel-gate.sh",
+    "scripts/counsel-model-select.sh",
+    "counsel-models.json",
     "command/start-task.md",
     "command/shape-product.md",
     "command/counsel.md",
@@ -47,6 +53,7 @@
     "command/optimize.md",
     "docs/phase-based-agent-workflow.md",
     "docs/fast-stable-delivery.md",
+    "docs/counsel-model-selection.md",
     "docs/hub-quickstart.md",
     "docs/workspace-system-overview.md",
     "AGENTS.md",
@@ -60,6 +67,7 @@
     "bash ./scripts/optimize-gate.sh \"optimize the architecture for future scale\" --evidence predicted --scope architecture",
     "bash ./scripts/product-shape.sh \"recreate Elemental Battlegrounds faithfully for nostalgia\" --no-fetch",
     "bash ./scripts/counsel-gate.sh \"decide the first playable milestone for the Elemental Battlegrounds recreation\" --no-fetch",
+    "bash ./scripts/counsel-model-select.sh lite",
     "bash ./scripts/task-intake.sh \"recreate Elemental Battlegrounds faithfully for nostalgia\" --no-fetch",
     "bash ./scripts/test-propagation-contract.sh",
     "external research review against Working Backwards, Shape Up, DORA, and Trunk-Based Development"
@@ -68,11 +76,11 @@
     "index": "archive/history-index.md - quick phase reference",
     "detail": "archive/history-full-detailed.md - full narrative"
   },
-  "residualRisk": "OpenRouter-backed counsel execution is intentionally not automated yet; current work only adds the gate, roles, and workflow placement.",
+  "residualRisk": "OpenRouter-backed counsel execution is intentionally not automated yet; current work adds model-selection policy, registry, and helper only.",
   "immediateNextSteps": [
-    "Propagate the product-shape and counsel-gate managed files into topic repos",
-    "Commit the new workflow-front-end changes in ai-prompting",
-    "Later design OpenRouter model routing for counsel execution if the gate proves useful",
+    "Propagate the counsel model-selection helper into topic repos",
+    "Commit the counsel model-selection policy in ai-prompting",
+    "Later design live OpenRouter routing if role-based counsel proves useful",
     "Keep leaving fluent-prs uncommitted unless its unrelated local work is intentionally separated"
   ],
   "resumeRules": [

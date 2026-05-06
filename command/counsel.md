@@ -10,6 +10,9 @@ Pass the plain decision or task on the same line, like:
 First run:
 `bash ./scripts/counsel-gate.sh "$ARGUMENTS"`
 
+If counsel is needed and the user asks about model choice, run:
+`bash ./scripts/counsel-model-select.sh lite`
+
 Then return a compact counsel note with:
 - whether counsel is needed
 - the roles to use if needed

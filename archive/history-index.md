@@ -5,6 +5,12 @@
 
 ---
 
+## Phase 16: Counsel Model Selection Policy (2026-05-06)
+- Confirmed counsel model grouping is the right direction only as role-based selection, not fixed permanent panels
+- Added benchmark-informed evidence hierarchy for choosing free OpenRouter candidates
+- Added a refreshable `counsel-models.json` registry and model-selection helper
+- Documented current role groupings for lite and full counsel
+
 ## Phase 15: Product Shaping & Counsel Gate (2026-05-06)
 - Added product shaping before North Star for broad product goals
 - Added a counsel gate for shaping, milestone, architecture, and optimization decisions

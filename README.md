@@ -79,6 +79,7 @@ For understanding how this hub and its ecosystem work.
 | Quality standards | [docs/quality-standards.md](docs/quality-standards.md) |
 | Git/GitHub best practices | [docs/git-github-best-practices.md](docs/git-github-best-practices.md) |
 | Fast stable delivery model | [docs/fast-stable-delivery.md](docs/fast-stable-delivery.md) |
+| Counsel model selection | [docs/counsel-model-selection.md](docs/counsel-model-selection.md) |
 | Borrowed workflow patterns that fit this hub | [docs/agentic-workflows.md](docs/agentic-workflows.md) |
 | Repo tooling (Windows/WSL) | [docs/repo-tooling.md](docs/repo-tooling.md) |
 | Token-efficient prompting | [docs/token-efficient-prompting.md](docs/token-efficient-prompting.md) |

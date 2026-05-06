@@ -1,0 +1,97 @@
+{
+  "schema": 1,
+  "updated": "2026-05-06",
+  "principle": "Counsel is role-based first and model-based second.",
+  "sources": [
+    "OpenRouter free-model availability",
+    "Artificial Analysis intelligence, speed, latency, and cost",
+    "LiveBench broad contamination-limited capability",
+    "SWE-rebench and SWE-bench style software-agent results",
+    "Scale-style private evals when available",
+    "Hugging Face open-weight discovery and sanity checks",
+    "local workspace performance"
+  ],
+  "roles": {
+    "facilitator": {
+      "purpose": "Keep the counsel structured, short, and decision-oriented.",
+      "priorities": ["instruction_following", "low_latency", "structured_output", "low_verbosity"]
+    },
+    "product_framer": {
+      "purpose": "Extract final user experience, fidelity anchors, and emotional target.",
+      "priorities": ["language_quality", "long_context_synthesis", "compression", "instruction_following"]
+    },
+    "systems_reviewer": {
+      "purpose": "Assess architecture, feasibility, implementation risks, and dependency boundaries.",
+      "priorities": ["coding_strength", "tool_use", "agentic_reliability", "grounded_risk"]
+    },
+    "red_team": {
+      "purpose": "Challenge assumptions and expose failure modes.",
+      "priorities": ["different_model_family", "reasoning", "skepticism", "low_agreeableness"]
+    },
+    "secretary": {
+      "purpose": "Compress independent views into one decision artifact.",
+      "priorities": ["summarization", "structured_output", "faithful_conflict_compression", "low_verbosity"]
+    }
+  },
+  "current_free_candidate_pool": [
+    {
+      "id": "tencent/hy3-preview:free",
+      "family": "tencent",
+      "leaning": ["agentic", "reasoning", "generalist"],
+      "notes": "OpenRouter free-model page lists strong usage and agentic workflow positioning."
+    },
+    {
+      "id": "nvidia/nemotron-3-super:free",
+      "family": "nvidia",
+      "leaning": ["long_context", "reasoning", "agentic"],
+      "notes": "OpenRouter describes 1M context and benchmark strength claims."
+    },
+    {
+      "id": "inclusionai/ling-2.6-1t:free",
+      "family": "inclusionai",
+      "leaning": ["coding", "agentic", "fast_thinking"],
+      "notes": "OpenRouter lists Programming category strength."
+    },
+    {
+      "id": "poolside/laguna-m-1:free",
+      "family": "poolside",
+      "leaning": ["coding", "software_engineering"],
+      "notes": "Coding-agent model; role fit should be verified locally before relying on it."
+    },
+    {
+      "id": "openai/gpt-oss-120b:free",
+      "family": "openai",
+      "leaning": ["reasoning", "tool_use", "structured_output"],
+      "notes": "Open-weight reasoning and tool-use candidate."
+    },
+    {
+      "id": "z-ai/glm-4.5-air:free",
+      "family": "z-ai",
+      "leaning": ["agentic", "reasoning", "fast"],
+      "notes": "Useful diversity candidate; current free listing should be rechecked before use."
+    },
+    {
+      "id": "minimax/minimax-m2.5:free",
+      "family": "minimax",
+      "leaning": ["productivity", "coding", "office_work"],
+      "notes": "Good pragmatic execution candidate; verify availability and rate limits."
+    },
+    {
+      "id": "google/gemma-4-31b:free",
+      "family": "google",
+      "leaning": ["multimodal", "long_context", "structured_output"],
+      "notes": "Useful secretary or product-framing candidate if output style is stable."
+    }
+  ],
+  "groupings": {
+    "lite": {
+      "roles": ["facilitator", "systems_reviewer_or_product_framer", "red_team", "secretary"],
+      "rule": "Use one role specialist, one different-family challenger, and one compressor."
+    },
+    "full": {
+      "roles": ["facilitator", "product_framer", "user_advocate", "systems_reviewer", "red_team", "secretary"],
+      "rule": "Use only for long-horizon product shaping or major architecture direction."
+    }
+  },
+  "refresh_rule": "Refresh candidates before wiring live OpenRouter calls; do not assume this snapshot stays correct."
+}

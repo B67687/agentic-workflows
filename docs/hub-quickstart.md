@@ -37,6 +37,7 @@ Read this first on every resume. Everything else is linked.
 - Deterministic task intake: `bash scripts/task-intake.sh "task"`
 - Deterministic product shaping: `bash scripts/product-shape.sh "goal"`
 - Counsel decision gate: `bash scripts/counsel-gate.sh "decision"`
+- Counsel model-selection policy: `bash scripts/counsel-model-select.sh lite`
 - Deterministic implement preflight: `bash scripts/implement-preflight.sh "task" --research-done --plan-done --scope-bounded --verification-known`
 - Isolated branch/worktree: `bash scripts/git-worktree-branch.sh branch-name`
 - `/start-task` now begins with deterministic task intake and should choose current checkout vs worktree by default
@@ -81,6 +82,7 @@ Read this first on every resume. Everything else is linked.
 |- command/                         (hub-owned managed core slash commands)
 |- product-shape.sh                 (hub-owned managed core)
 |- counsel-gate.sh                  (hub-owned managed core)
+|- counsel-model-select.sh          (hub-owned managed core)
 |- north-star.sh                    (hub-owned managed core)
 |- milestone-shape.sh               (hub-owned managed core)
 |- task-intake.sh                   (hub-owned managed core)
