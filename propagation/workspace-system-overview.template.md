@@ -29,6 +29,8 @@ Expected root structure:
 |- sync-from-hub.sh                  (hub-owned managed core)
 |- command/                          (hub-owned managed core slash commands)
 |- task-intake.sh                    (hub-owned managed core)
+|- product-shape.sh                  (hub-owned managed core)
+|- counsel-gate.sh                   (hub-owned managed core)
 |- north-star.sh                     (hub-owned managed core)
 |- milestone-shape.sh                (hub-owned managed core)
 |- task-slice.sh                     (hub-owned managed core)
@@ -119,8 +121,15 @@ To classify a task before starting:
 For long-horizon goals:
 
 ```text
+/shape-product your goal
 /north-star your goal
 /shape-milestone your goal
+```
+
+For decisions that need independent challenge:
+
+```text
+/counsel your decision
 ```
 
 To force a big task into fast milestones plus a first slice:

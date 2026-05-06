@@ -5,6 +5,12 @@
 
 ---
 
+## Phase 15: Product Shaping & Counsel Gate (2026-05-06)
+- Added product shaping before North Star for broad product goals
+- Added a counsel gate for shaping, milestone, architecture, and optimization decisions
+- Routed long-horizon task intake toward `/shape-product`
+- Documented counsel as targeted judgment support, not default implementation behavior
+
 ## Phase 14: Fast Stable Delivery Alignment (2026-05-05)
 - Added an explicit external alignment model tying the workflow to Working Backwards, Shape Up, DORA, and Trunk-Based Development
 - Documented the shared principle that speed and stability improve together through smaller verified batches

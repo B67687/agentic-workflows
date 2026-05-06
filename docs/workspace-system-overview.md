@@ -81,11 +81,12 @@ Big-goal workflow:
 
 ```mermaid
 flowchart LR
-    A["North Star"] --> B["Milestone Bet"]
-    B --> C["Next Slice"]
-    C --> D["Verify"]
-    D --> E["Checkpoint"]
-    E --> C
+    A["Product Shape"] --> B["North Star"]
+    B --> C["Milestone Bet"]
+    C --> D["Next Slice"]
+    D --> E["Verify"]
+    E --> F["Checkpoint"]
+    F --> D
 ```
 
 External alignment summary:
@@ -107,6 +108,8 @@ Expected topic-folder root:
 |- check-sync-status.sh              (hub-owned managed core)
 |- sync-from-hub.sh                  (hub-owned managed core)
 |- task-intake.sh                    (hub-owned managed core)
+|- product-shape.sh                  (hub-owned managed core)
+|- counsel-gate.sh                   (hub-owned managed core)
 |- north-star.sh                     (hub-owned managed core)
 |- milestone-shape.sh                (hub-owned managed core)
 |- task-slice.sh                     (hub-owned managed core)

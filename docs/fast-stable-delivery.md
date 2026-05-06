@@ -8,15 +8,17 @@ The synthesis is:
 
 ```mermaid
 flowchart LR
-    A["Working Backwards"] --> B["North Star"]
+    A["Working Backwards"] --> B["Product Shape + North Star"]
     C["Shape Up"] --> D["Milestone Bet"]
     E["DORA + Small Batches"] --> F["Next Verified Slice"]
     G["Trunk-Based Development"] --> H["Frequent Integration"]
+    J["Counsel-style deliberation"] --> K["Independent challenge + compression"]
 
     B --> I["Current workflow"]
     D --> I
     F --> I
     H --> I
+    K --> I
 ```
 
 ## What the Strongest Systems Agree On
@@ -27,9 +29,12 @@ Amazon's Working Backwards process starts by defining the customer experience fi
 
 In this workspace, that maps to:
 
+- `Product Shape`
 - `North Star`
 - `grill`
 - milestone shaping before implementation
+
+The product-shaping layer exists because moving fast depends on compressing complicated intent. If the desired experience cannot be explained simply, the next slice is likely to solve the wrong thing.
 
 ### 2. Bet one bounded cycle at a time
 
@@ -69,24 +74,40 @@ The best match for this workspace is not one named framework. It is a layered sy
 
 ```mermaid
 flowchart TD
-    A["North Star"] --> B["Milestone Bet"]
-    B --> C["Next Verified Slice"]
-    C --> D["Research only what the slice needs"]
-    D --> E["Plan only the next move"]
-    E --> F["Implement"]
-    F --> G["Verify"]
-    G --> H["Checkpoint or finish"]
-    H --> I{"Need another slice?"}
-    I -->|Yes| C
-    I -->|No| J["Shape next milestone"]
-    J --> B
+    A["Product Shape"] --> B["North Star"]
+    B --> C["Milestone Bet"]
+    C --> D["Next Verified Slice"]
+    D --> E["Research only what the slice needs"]
+    E --> F["Plan only the next move"]
+    F --> G["Implement"]
+    G --> H["Verify"]
+    H --> I["Checkpoint or finish"]
+    I --> J{"Need another slice?"}
+    J -->|Yes| D
+    J -->|No| K["Shape next milestone"]
+    K --> C
 ```
 
-This gives the workspace three planning levels:
+This gives the workspace four planning levels:
 
+- `Product Shape`: compress the desired final experience into a simple artifact
 - `North Star`: preserve the big why and success criteria
 - `Milestone Bet`: define one bounded meaningful advance
 - `Next Verified Slice`: define the next fast executable unit
+
+## Counsel Placement
+
+Counsel-style review is useful when judgment diversity beats raw execution speed.
+
+Use it for:
+
+- product shaping
+- milestone selection
+- architecture review
+- optimization review
+- high-cost tradeoff decisions
+
+Avoid it for ordinary implementation. The output of counsel should be one compressed recommendation, not a larger pile of opinions.
 
 ## How to Measure Whether the Workflow Is Healthy
 
@@ -109,6 +130,7 @@ For this workspace, the practical proxies are:
 
 When a task begins:
 
+- compress the intended product experience when the goal is broad or emotional
 - preserve the large goal separately if it is long-horizon
 - shape only one bounded milestone
 - detail only the next slice
@@ -132,10 +154,11 @@ When optimization comes up:
 
 Current workflow alignment is strong:
 
-- Working Backwards: present through `North Star`
+- Working Backwards: present through `Product Shape` and `North Star`
 - Shape Up: present through `Milestone Bet` and appetite-bounded shaping
 - DORA small-batch stability: present through `slice-first`, anti-paralysis, checkpointing, and verified phases
 - Trunk-Based Development: present through short-lived worktree usage, current-checkout default, and frequent verified integration
+- Counsel-style deliberation: present as an optional gate for shaping and high-cost decisions
 
 The main rule to preserve is:
 

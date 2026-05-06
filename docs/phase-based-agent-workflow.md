@@ -6,20 +6,23 @@ This workspace uses one default execution shape for non-trivial tasks:
 
 ```mermaid
 flowchart LR
-    A["North Star"] --> B["Milestone Bet"]
-    B --> C["Next Executable Slice"]
-    C --> D["Research"]
-    D --> E["Plan"]
-    E --> F["Implement"]
-    F --> G["Verify"]
-    G --> H["Checkpoint"]
-    H --> C
+    A["Product Shape"] --> B["North Star"]
+    B --> C["Milestone Bet"]
+    C --> D["Next Executable Slice"]
+    D --> E["Research"]
+    E --> F["Plan"]
+    F --> G["Implement"]
+    G --> H["Verify"]
+    H --> I["Checkpoint"]
+    I --> D
 ```
 
 Default entrypoint:
 
 - start with `/grill your task` when the request is broad, underspecified, or high-cost to misunderstand
 - start with `/start-task your task`
+- use `/shape-product your goal` when the final experience needs to be grilled and compressed before planning
+- use `/counsel your decision` when a product, milestone, or architecture decision needs independent challenge
 - start with `/north-star your goal` when the task is a long-horizon dream or preservation target
 - start with `/shape-milestone your goal` when the big goal is known but the next meaningful bet is not
 - start with `/slice-task your task` when the task is obviously too large for one fast cycle
@@ -50,10 +53,14 @@ This is not just preference. It follows the DORA finding that smaller changes im
 
 ## Planning Levels
 
-There are three planning levels, and they should not be mixed.
+There are four planning levels, and they should not be mixed.
 
 ```mermaid
 flowchart TD
+    P["Product Shape"] --> P1["One-sentence product promise"]
+    P --> P2["Fidelity anchors"]
+    P --> P3["Edge cases and simplifications"]
+
     A["North Star"] --> A1["Why this large goal matters"]
     A --> A2["What must feel faithful or true"]
     A --> A3["What success would prove"]
@@ -67,13 +74,39 @@ flowchart TD
     C --> C3["One checkpoint boundary"]
 ```
 
-North Star should stay large. Milestone should stay bounded. Slice should stay concrete.
+Product Shape should make the end state simple. North Star should stay large. Milestone should stay bounded. Slice should stay concrete.
 
 This matches three different external needs:
 
 - Working Backwards: preserve the intended experience
 - Shape Up: define one bounded bet
 - DORA and trunk-based development: keep execution batches small enough to integrate and verify quickly
+
+## Product Shaping Rule
+
+For long-horizon product goals, first compress the intended experience before choosing the milestone.
+
+Use `/shape-product` when the user can describe the dream, but the system still needs to extract:
+
+- the one-sentence product promise
+- the fidelity anchors that must feel right
+- the edge cases that would make the result feel false
+- the simplifications allowed in the first milestone
+- the smallest proof that would make the direction real
+
+This is the Working Backwards layer: understand the final experience clearly enough that the next bet can stay small.
+
+## Counsel Rule
+
+Use `/counsel` only where independent perspectives improve judgment:
+
+- product shaping
+- milestone choice
+- architecture review
+- optimization review
+- high-cost tradeoff decisions
+
+Do not use counsel for ordinary implementation by default. Implementation should stay narrow, verified, and mostly single-threaded unless the work is already split into separate bounded worktree tasks.
 
 ## Phase 1: Research
 

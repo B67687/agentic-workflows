@@ -4737,3 +4737,29 @@ And optimization should be a separate lane:
 - additions to `docs/hub-quickstart.md`
 - additions to `README.md`
 - propagation overview template updates so managed topic repos inherit the clearer system framing
+
+---
+
+# 2026-05-06 — Product Shaping & Counsel Gate
+
+**User intent:** The user wanted the system to get better at Working Backwards in practice: grilling the user well, compressing complicated product intent simply, surfacing edge cases, and eventually reducing the user's role to providing the end goal plus answers to targeted questions. The user also wanted to explore whether a counsel-style multi-perspective review could help in the high-leverage thinking phases.
+
+**Assistant improvement:** Added a product-shaping layer before North Star for broad product goals. Added a counsel gate that decides whether independent perspectives are worth using and restricts that pattern to shaping, milestone selection, architecture review, optimization review, and high-cost tradeoff decisions.
+
+**User improvement to the improvement:** The user's key refinement was that simple explanation is itself a speed mechanism. If the final product cannot be compressed clearly, execution will drift no matter how good the implementation phase is.
+
+**Final agreement:** The workflow should increasingly automate itself around this shape:
+- the user gives the end goal
+- the system grills for the missing final-experience details
+- the system compresses the answers into a product target
+- the system chooses one bounded milestone and one executable slice
+- counsel-style review is optional and targeted, not always on
+
+**Implemented:**
+- `scripts/product-shape.sh`
+- `scripts/counsel-gate.sh`
+- `/shape-product`
+- `/counsel`
+- task-intake routing from long-horizon goals to `/shape-product`
+- propagation contract entries for the new scripts and commands
+- workflow docs updated to explain Product Shape and Counsel placement

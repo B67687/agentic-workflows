@@ -4,9 +4,9 @@
   "interruptedCount": 1,
   "contextPressure": "medium",
   "currentTask": {
-    "name": "Align workflow with fast stable delivery best practice",
+    "name": "Add product shaping and counsel gate",
     "status": "verified-phase",
-    "goal": "Make sure the workflow follows the strongest known patterns for moving quickly while staying stable: outcome-first framing, bounded bets, small verified batches, and frequent integration"
+    "goal": "Improve the workflow front-end so broad product goals get grilled, compressed, and optionally reviewed before milestone shaping"
   },
   "environment": {
     "note": "This workspace runs entirely on Debian/WSL2. No PowerShell needed.",
@@ -24,6 +24,10 @@
     "Updated workflow docs with big-goal execution diagrams and optimization lane guidance",
     "Added docs/fast-stable-delivery.md to align the workflow with Working Backwards, Shape Up, DORA, and Trunk-Based Development",
     "Updated workflow and overview docs to explicitly state that speed and stability should improve together through smaller verified batches",
+    "Added product-shape.sh to grill and compress the intended product experience before North Star and milestone shaping",
+    "Added counsel-gate.sh to decide when multi-perspective review is worth using",
+    "Added /shape-product and /counsel commands plus propagation entries",
+    "Changed task-intake so long-horizon goals route to /shape-product first",
     "Updated history index and full detailed history to record the workflow evolution"
   ],
   "filesTouched": [
@@ -31,7 +35,11 @@
     "scripts/north-star.sh",
     "scripts/milestone-shape.sh",
     "scripts/optimize-gate.sh",
+    "scripts/product-shape.sh",
+    "scripts/counsel-gate.sh",
     "command/start-task.md",
+    "command/shape-product.md",
+    "command/counsel.md",
     "command/shape-task.md",
     "command/implement.md",
     "command/north-star.md",
@@ -50,6 +58,9 @@
     "bash ./scripts/north-star.sh \"recreate Elemental Battlegrounds faithfully for nostalgia\" --no-fetch",
     "bash ./scripts/milestone-shape.sh \"recreate Elemental Battlegrounds faithfully for nostalgia\" --no-fetch",
     "bash ./scripts/optimize-gate.sh \"optimize the architecture for future scale\" --evidence predicted --scope architecture",
+    "bash ./scripts/product-shape.sh \"recreate Elemental Battlegrounds faithfully for nostalgia\" --no-fetch",
+    "bash ./scripts/counsel-gate.sh \"decide the first playable milestone for the Elemental Battlegrounds recreation\" --no-fetch",
+    "bash ./scripts/task-intake.sh \"recreate Elemental Battlegrounds faithfully for nostalgia\" --no-fetch",
     "bash ./scripts/test-propagation-contract.sh",
     "external research review against Working Backwards, Shape Up, DORA, and Trunk-Based Development"
   ],
@@ -57,10 +68,11 @@
     "index": "archive/history-index.md - quick phase reference",
     "detail": "archive/history-full-detailed.md - full narrative"
   },
-  "residualRisk": "Managed overview templates need one more propagation apply pass, and topic-repo commits should still be handled carefully because some topic repos already have unrelated local work.",
+  "residualRisk": "OpenRouter-backed counsel execution is intentionally not automated yet; current work only adds the gate, roles, and workflow placement.",
   "immediateNextSteps": [
-    "Propagate the fast-stable-delivery alignment updates into managed topic repos",
-    "Commit the new documentation alignment changes in ai-prompting",
+    "Propagate the product-shape and counsel-gate managed files into topic repos",
+    "Commit the new workflow-front-end changes in ai-prompting",
+    "Later design OpenRouter model routing for counsel execution if the gate proves useful",
     "Keep leaving fluent-prs uncommitted unless its unrelated local work is intentionally separated"
   ],
   "resumeRules": [

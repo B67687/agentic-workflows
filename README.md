@@ -146,6 +146,8 @@ Fast workflow:
 
 - keep the dream large, but only execute one verified slice at a time
 - `/start-task your task`
+- `/shape-product your goal` to grill and compress the intended experience
+- `/counsel your decision` when a high-cost decision needs independent challenge
 - `/north-star your goal` for long-horizon targets
 - `/shape-milestone your goal` for the next bounded bet
 - `/slice-task your task` for oversized work

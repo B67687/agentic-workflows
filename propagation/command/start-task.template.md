@@ -19,6 +19,6 @@ If the intake output looks too optimistic or too pessimistic, explain why briefl
 
 If the recommended lane is `grill`, return a compact grilling note.
 
-If the goal horizon is `north-star`, return a compact north-star note and recommend `/north-star`.
+If the goal horizon is `north-star`, route to `/shape-product` first so the intended product experience is grilled and compressed before milestone shaping.
 
 If the recommended lane is `slice-first`, do not jump straight to a full plan. Return a compact slice note or recommend `/shape-milestone` when the task is a long-horizon goal.
