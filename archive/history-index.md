@@ -28,6 +28,13 @@
 - Added a dedicated fast-stable-delivery reference doc
 - Updated core workflow and overview docs so the system explains not just what to do, but why it follows this structure
 
+## Phase 14: Context Mapping & Normal-Language Routing (2026-05-06)
+- Added `repo-map.sh` and `/repo-map` so unfamiliar folders get compact orientation before targeted retrieval
+- Added `workflow-router.sh` and `/route` so serious normal-language prompts route through intake automatically
+- Updated task intake so obvious tiny edits route direct, while large nostalgic/product goals route to product shaping and task-tree decomposition
+- Propagated route and repo-map managed core into topic folders
+- Documented source-backed harness lessons from OpenAI Codex docs, SWE-agent, Agentless, and SWE-Dev
+
 ## Phase 13: Big-Goal Execution Model (2026-05-05)
 - Added North Star shaping for long-horizon goals
 - Added milestone shaping so big goals become bounded bets before slice execution

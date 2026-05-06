@@ -4812,3 +4812,31 @@ The task tree should remain coarse. It is a map, not a full detailed project pla
 - propagation contract entries for the new command and helper
 - task-intake next-command routing that points broad long-horizon goals toward `/shape-product` and then `/task-tree`
 - workflow docs updated with task-tree diagrams and rules
+
+---
+
+# 2026-05-06 — Context Mapping & Normal-Language Routing
+
+**User intent:** The user wanted the workflow to stop requiring manual slash-command selection. They wanted to type normally, have the system infer the right phase, and redirect or proceed without making the user remember the whole procedure.
+
+**Assistant improvement:** Added a repo-map layer first, then added a normal-language router. The repo map gives compact orientation before broad reading. The router wraps deterministic task intake, adds map orientation when useful, and returns one next action. This makes "type the goal" the visible user workflow while preserving the phase gates underneath.
+
+**External research basis:** Public OpenAI Codex documentation emphasizes local or sandboxed coding agents that can read, edit, run code, use environments, and support parallel/background tasks. SWE-agent emphasizes agent-computer interface design: navigation, editing, and testing interfaces affect performance. Agentless shows that a simple localization, repair, validation workflow can compete with more complex agents. SWE-Dev reinforces the importance of tests, verifier signals, and high-quality trajectories.
+
+**User improvement to the improvement:** The user pushed for automation instead of more commands. The system should absorb the procedure and expose only the current lane, why it chose that lane, and the next action.
+
+**Final agreement:** The workflow should now behave like:
+- user types a serious task normally
+- `/route` runs internally
+- the router classifies direct, grill, research, slice-first, or north-star work
+- unfamiliar or broad work gets a compact map first
+- the system proceeds with one next action, not a menu
+
+**Implemented:**
+- `scripts/repo-map.sh`
+- `/repo-map`
+- `scripts/workflow-router.sh`
+- `/route`
+- task-intake tiny-task direct-routing heuristic
+- propagation entries and topic-folder sync for route and workflow-router
+- source-backed additions to `docs/authoritative-agent-best-practices.md`

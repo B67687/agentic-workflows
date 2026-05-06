@@ -30,10 +30,11 @@ Read this first on every resume. Everything else is linked.
 - Hub work: docs, research, scripts, templates, workflow state
 - Topic work: inside `[topic-name]-content/`, resume from root `session-state.json`
 - Propagate shared defaults: `bash scripts/propagate-to-all.sh --apply`
-- Fast phase commands: `/start-task`, `/shape-product`, `/counsel`, `/counsel-run`, `/task-tree`, `/north-star`, `/shape-milestone`, `/slice-task`, `/grill`, `/repo-map`, `/research`, `/plan`, `/implement`, `/optimize`, `/query`, `/session-boundary`, `/handoff`, `/checkpoint`, `/close-task`, `/finish-task`, `/git-start`, `/git-worktree`
+- Fast phase commands: `/route`, `/start-task`, `/shape-product`, `/counsel`, `/counsel-run`, `/task-tree`, `/north-star`, `/shape-milestone`, `/slice-task`, `/grill`, `/repo-map`, `/research`, `/plan`, `/implement`, `/optimize`, `/query`, `/session-boundary`, `/handoff`, `/checkpoint`, `/close-task`, `/finish-task`, `/git-start`, `/git-worktree`
 - OpenCode command discovery should use `.opencode/commands/`; the repo also keeps `command/` as a readable mirrored command set
 - Phase gate: `bash scripts/phase-gate.sh implement --research-done --plan-done --scope-bounded --verification-known`
 - Git repo probe: `bash scripts/git-session-start.sh`
+- Normal-language router: `bash scripts/workflow-router.sh "task"`
 - Deterministic task intake: `bash scripts/task-intake.sh "task"`
 - Deterministic product shaping: `bash scripts/product-shape.sh "goal"`
 - Counsel decision gate: `bash scripts/counsel-gate.sh "decision"`
@@ -94,6 +95,7 @@ Read this first on every resume. Everything else is linked.
 |- north-star.sh                    (hub-owned managed core)
 |- milestone-shape.sh               (hub-owned managed core)
 |- task-intake.sh                   (hub-owned managed core)
+|- workflow-router.sh               (hub-owned managed core)
 |- task-slice.sh                    (hub-owned managed core)
 |- phase-gate.sh                    (hub-owned managed core)
 |- plan-guard.sh                    (hub-owned managed core)

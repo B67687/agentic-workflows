@@ -55,8 +55,8 @@ For topic-folder work, start with that folder's root `session-state.json`, then 
 - **Force fast slices for oversized tasks**: if the task is broad, heavy, or likely to span many moving parts, break it into a milestone ladder and plan only the next executable slice.
 - **Think big, map coarsely, bet medium, execute tiny**: compress the product experience, preserve the north-star goal, map the major domains, shape one milestone bet, and implement one verified slice at a time.
 - **One task per session by default**: when the phase changes, the topic shifts, or the thread gets long, checkpoint and start a new session instead of dragging the old one forward.
-- **Normal-language tasking by default**: the user should not need to remember slash commands. When a serious task is given directly, silently treat `/start-task` as the implicit first move unless the work is obviously tiny.
-- **Use slash command shortcuts internally when available**: prefer `/start-task`, `/shape-product`, `/counsel`, `/task-tree`, `/north-star`, `/shape-milestone`, `/slice-task`, `/grill`, `/query`, `/session-boundary`, `/handoff`, `/research`, `/plan`, `/implement`, `/optimize`, `/close-task`, `/finish-task`, and `/checkpoint` as internal workflow shortcuts instead of retyping long helper commands.
+- **Normal-language tasking by default**: the user should not need to remember slash commands. When a serious task is given directly, silently route it through `/route` unless the work is obviously tiny.
+- **Use slash command shortcuts internally when available**: prefer `/route`, `/start-task`, `/shape-product`, `/counsel`, `/task-tree`, `/north-star`, `/shape-milestone`, `/slice-task`, `/grill`, `/query`, `/session-boundary`, `/handoff`, `/research`, `/plan`, `/implement`, `/optimize`, `/close-task`, `/finish-task`, and `/checkpoint` as internal workflow shortcuts instead of retyping long helper commands.
 - **Report the current lane before redirecting**: after intake, tell the user where the work is now, why, and the single next action. Do not hand them a menu unless there is a real choice with meaningful tradeoffs.
 - **Map before broad reading**: when a folder is unfamiliar or a task is broad, use `/repo-map` before targeted retrieval so context is selected deliberately instead of by wandering.
 - **Close dead branches explicitly**: when a task is resolved, obsolete, not reproducible, wrongly framed, or intentionally parked, use `/close-task` before the final checkpoint.
@@ -121,6 +121,7 @@ Rules:
 - `scripts/propagate-to-all.sh` - sync templates to topic folders
 - `scripts/git-session-start.sh` - probe repo status, upstream divergence, and worktree health before edits
 - `scripts/task-intake.sh` - deterministic task intake with git-aware lane recommendation
+- `scripts/workflow-router.sh` - normal-language request router that wraps intake and map-orientation
 - `scripts/product-shape.sh` - grill and compress broad product goals before milestone shaping
 - `scripts/counsel-gate.sh` - decide when independent perspectives should help a high-cost decision
 - `scripts/task-tree.sh` - map large goals into coarse domains, milestone candidates, and first slices

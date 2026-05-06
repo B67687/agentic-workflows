@@ -9,6 +9,9 @@ For the shared practical doctrine that this guidance supports, see:
 ## Sources
 
 - [OpenAI Codex best practices](https://developers.openai.com/codex/learn/best-practices)
+- [OpenAI Codex web](https://developers.openai.com/codex/cloud)
+- [OpenAI Codex CLI](https://developers.openai.com/codex/cli)
+- [OpenAI Agent Builder](https://developers.openai.com/api/docs/guides/agent-builder)
 - [Anthropic Claude Code best practices](https://code.claude.com/docs/en/best-practices)
 - [Anthropic Claude Code memory docs](https://code.claude.com/docs/en/memory)
 - [GitHub Copilot cloud agent best practices](https://docs.github.com/en/copilot/tutorials/cloud-agent/get-the-best-results)
@@ -16,6 +19,9 @@ For the shared practical doctrine that this guidance supports, see:
 - [Simon Willison's Agentic Engineering Patterns](https://simonwillison.net/guides/agentic-engineering-patterns/)
 - [OpenAI: Introducing study mode](https://openai.com/blog/chatgpt-study-mode/)
 - [OpenAI: New tools for understanding AI and learning outcomes](https://openai.com/index/understanding-ai-and-learning-outcomes/)
+- [SWE-agent paper](https://arxiv.org/abs/2405.15793)
+- [Agentless paper](https://arxiv.org/abs/2407.01489)
+- [SWE-Dev paper](https://arxiv.org/abs/2506.07636)
 
 ## What Is Source-Backed Here
 
@@ -39,6 +45,9 @@ The strongest repeated ideas are:
 9. improve the environment so the agent can build, test, and validate reliably
 10. update instructions after repeated mistakes
 11. use agent workflows to raise quality, not merely increase output volume
+12. separate orientation/localization from editing
+13. validate patches with tests or explicit review checks
+14. keep the workflow inspectable instead of hiding every decision in free-form model reasoning
 
 ## What OpenAI Codex Emphasizes
 
@@ -46,6 +55,25 @@ The strongest repeated ideas are:
 - plan mode for difficult or ambiguous tasks
 - durable repo guidance in `AGENTS.md`
 - tests, checks, and review instead of code generation alone
+- isolated execution environments for delegated work
+- parallel background tasks when work can be separated safely
+- local CLI operation that can read, edit, and run commands in the selected directory
+
+## What Open Source SWE Agent Research Adds
+
+The durable lesson is that harness design matters.
+
+- SWE-agent argues that the interface between model and computer affects performance: navigation, editing, and test execution need to be shaped for the agent, not left as vague chat.
+- Agentless shows that a simple localization, repair, validation workflow can be highly competitive and cheaper than open-ended autonomous action.
+- SWE-Dev shows that better test cases, verifier signals, and high-quality trajectories materially improve software-agent performance.
+
+In this workspace, that supports the current direction:
+
+- `/route` for deterministic request classification
+- `/repo-map` and retrieval before broad reading
+- research or localization before repair
+- implementation preflight before edits
+- verification and checkpoint after each slice
 
 For reasoning-effort specifics, see:
 

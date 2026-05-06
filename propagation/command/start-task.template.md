@@ -4,7 +4,7 @@ description: Classify a task before starting and choose the right lane
 
 Use this as the default first command for any serious task.
 
-This command is also the implicit router for normal-language requests. The user should not need to type `/start-task`; if they describe a serious task directly, run this workflow internally and explain the selected lane.
+This command is the intake layer. For normal-language requests, prefer `/route` first so mapping and next-action selection happen together.
 
 First run:
 `bash ./task-intake.sh "$ARGUMENTS"`

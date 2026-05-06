@@ -126,13 +126,18 @@ task_lower="$(printf '%s' "$TASK" | tr '[:upper:]' '[:lower:]')"
 if [[ "$task_lower" =~ (typo|readme|docs|comment|link|rename|small|minor) ]] && [[ "$SIZE" == "medium" ]]; then
   SIZE="light"
 fi
+if [[ "$task_lower" =~ (typo|spelling|readme|docs|comment|link|rename|small|minor) && "$SIZE" == "light" ]]; then
+  [[ "$CLARITY" == "mixed" ]] && CLARITY="clear"
+  [[ "$RISK" == "medium" ]] && RISK="low"
+  [[ "$VERIFICATION" == "normal" ]] && VERIFICATION="simple"
+fi
 if [[ "$task_lower" =~ (architecture|migrate|workflow|system|recreate|multiplayer|benchmark|integrate|refactor) ]] && [[ "$SIZE" == "medium" ]]; then
   SIZE="heavy"
 fi
 if [[ "$task_lower" =~ (not\ sure|maybe|i\ think|unclear|figure\ out) ]] && [[ "$CLARITY" == "mixed" ]]; then
   CLARITY="ambiguous"
 fi
-if [[ "$task_lower" =~ (1:1|one\ to\ one|entire|whole|full|complete|everything|all\ at\ once|from\ scratch|recreate|clone|platform|game|system|engine|app) ]]; then
+if [[ "$task_lower" =~ (1:1|one\ to\ one|entire|whole|full|complete|everything|all\ at\ once|from\ scratch|recreate|clone|platform|game|system|engine|app|theory|fundamental\ rules|understanding\ of\ reality|build\ an\ understanding) ]]; then
   ITERATION_STRATEGY="slice-first"
   ITERATION_REASON="task likely spans too many moving parts for one safe fast cycle"
 fi
@@ -140,7 +145,7 @@ if [[ "$SIZE" == "heavy" ]]; then
   ITERATION_STRATEGY="slice-first"
   ITERATION_REASON="heavy tasks should be broken into milestone slices before normal planning"
 fi
-if [[ "$task_lower" =~ (1:1|one\ to\ one|exactly|recreate|preserve|nostalgia|future|long-term|years|survive|full\ experience) ]]; then
+if [[ "$task_lower" =~ (1:1|one\ to\ one|exactly|recreate|preserve|nostalgia|future|long-term|years|survive|full\ experience|theory|fundamental\ rules|understanding\ of\ reality|build\ an\ understanding) ]]; then
   GOAL_HORIZON="north-star"
   GOAL_REASON="task sounds like a long-horizon target that should be preserved while execution stays slice-sized"
 fi

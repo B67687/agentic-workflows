@@ -146,6 +146,7 @@ Use bash as the default terminal for workspace automation. Only fall back to Pow
 Fast workflow:
 
 - keep the dream large, but only execute one verified slice at a time
+- type normally; serious requests route internally through `/route`
 - `/start-task your task`
 - `/shape-product your goal` to grill and compress the intended experience
 - `/counsel your decision` when a high-cost decision needs independent challenge
