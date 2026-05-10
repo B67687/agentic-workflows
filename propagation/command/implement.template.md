@@ -25,6 +25,7 @@ After each verified phase:
 - prefer a checkpoint commit
 - recommend a new session if the next step changes phase or scope
 
+<rationalizations>
 ### Common Rationalizations
 | Shortcut | Why It Fails |
 |---|---|
@@ -33,9 +34,13 @@ After each verified phase:
 | "I'll commit everything at the end" | Large commits hide bugs and make rollback impossible. Commit each verified slice. |
 | "The tests can wait until I'm done" | Untested code is unverified code. Tests written after the fact miss the intent. |
 
+</rationalizations>
+
+<red_flags>
 ### Red Flags
 - Writing more than ~100 lines without running tests or committing
 - Touching files outside the explicit scope list from the plan
 - Preflight returned "caution" or "block" but proceeding anyway
 - Skipping the checkpoint commit after a verified phase
 - Scope silently expanding during implementation ("while I'm here I'll also...")
+</red_flags>

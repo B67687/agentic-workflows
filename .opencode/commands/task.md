@@ -122,7 +122,7 @@ Return a compact slice note with:
 
 If the slice output says normal planning is enough, recommend `/plan $ARGUMENTS` instead.
 
-### Common Rationalizations
+<rationalizations>
 | Shortcut | Why It Fails |
 |---|---|
 | "The request is clear enough" | Clear-seeming requests hide unstated constraints and implicit scope boundaries. Run intake. |
@@ -130,10 +130,12 @@ If the slice output says normal planning is enough, recommend `/plan $ARGUMENTS`
 | "All milestones are equally clear" | Only the first milestone should be detailed. Detailing the rest is false precision. |
 | "This can be one big plan" | Oversized plans lose precision. Milestone ladder + one detailed first slice is more robust. |
 | "Verification target can wait" | Undefined success criteria cause "done but wrong." Define what correct looks like before starting. |
+</rationalizations>
 
-### Red Flags
+<red_flags>
 - Proceeding to research or planning without stating any assumptions
 - Accepting "fix the real problem" without asking what "fixed" looks like
 - Producing a flat plan instead of a milestone ladder for a task >5 steps
 - First slice has no explicit verification target
+</red_flags>
 - Stop line is empty or says "nothing is out of scope"

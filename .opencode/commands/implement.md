@@ -25,17 +25,19 @@ After each verified phase:
 - prefer a checkpoint commit
 - recommend a new session if the next step changes phase or scope
 
-### Common Rationalizations
+<rationalizations>
 | Shortcut | Why It Fails |
 |---|---|
 | "This is small enough to skip the preflight" | Preflights catch checkout dirt, missing research, and unclear scope that cause mid-implementation rework. |
 | "I'll clean up adjacent code while I'm here" | Scope creep is the #1 cause of regressions. Note it, don't fix it. |
 | "I'll commit everything at the end" | Large commits hide bugs and make rollback impossible. Commit each verified slice. |
 | "The tests can wait until I'm done" | Untested code is unverified code. Tests written after the fact miss the intent. |
+</rationalizations>
 
-### Red Flags
+<red_flags>
 - Writing more than ~100 lines without running tests or committing
 - Touching files outside the explicit scope list from the plan
 - Preflight returned "caution" or "block" but proceeding anyway
 - Skipping the checkpoint commit after a verified phase
 - Scope silently expanding during implementation ("while I'm here I'll also...")
+</red_flags>

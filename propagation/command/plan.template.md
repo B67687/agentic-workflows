@@ -30,6 +30,7 @@ Return a compact plan with:
 - what is explicitly out of scope
 - where to checkpoint or restart between phases
 
+<rationalizations>
 ### Common Rationalizations
 | Shortcut | Why It Fails |
 |---|---|
@@ -38,8 +39,12 @@ Return a compact plan with:
 | "The plan is obvious" | "Obvious" plans hide implicit assumptions that the plan guard would catch. |
 | "I already researched this" | Research notes aren't a plan — plans need exact file list, steps, and per-step verification.
 
+</rationalizations>
+
+<red_flags>
 ### Red Flags
 - More than 5 broad milestones without a detailed first slice
 - Plan guard blocked but proceeding anyway
 - Verification target is vague ("make it work") instead of specific ("tests pass + build succeeds + endpoint returns 200")
 - No explicit "out of scope" section
+</red_flags>

@@ -57,17 +57,19 @@ Run:
 
 Then respond compactly with: the closure classification, what must go into session-state.json, what prior path is now obsolete, whether a checkpoint commit is appropriate now, and whether the next step should be archive, delete, or stop.
 
-### Common Rationalizations
+<rationalizations>
 | Shortcut | Why It Fails |
 |---|---|
 | "I'll commit at the end" | Large commits hide bugs and make rollback impossible. Commit each verified phase. |
 | "No need to checkpoint — I'll remember" | Sessions degrade. session-state.json is the durable record. |
 | "The task just faded out, no need to classify" | Unclassified tasks leave stale state. Always close or park explicitly. |
 | "I can hand off by summarizing in chat" | Chat summaries degrade over handoffs. Use the structured handoff packet. |
+</rationalizations>
 
-### Red Flags
+<red_flags>
 - Leaving the session without updating session-state.json
 - Ending a task without classifying it as fixed/obsolete/wrong-framing
 - Handing off without a structured packet
 - Skipping the checkpoint commit because "it's just a small change"
+</red_flags>
 - Context degraded but continuing instead of restarting

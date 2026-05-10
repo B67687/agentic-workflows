@@ -24,16 +24,18 @@ Return a compact research note covering:
 - the main risks or edge cases
 - what needs to be true before planning
 
-### Common Rationalizations
+<rationalizations>
 | Shortcut | Why It Fails |
 |---|---|
 | "I know this repo already" | Repos change between sessions. Stale assumptions cause wrong file choices. |
 | "I'll research as I implement" | Research mixed with edits creates confusion about what's fact vs guess. |
 | "One quick grep is enough" | Surface-level search misses edge cases, hidden dependencies, and stale references. |
 | "I can skip the repo map" | Unfamiliar folders need structural orientation before deep reading — otherwise you read the wrong files first. |
+</rationalizations>
 
-### Red Flags
+<red_flags>
 - Starting to edit files before producing the research note
 - Research note has no file paths or only guesses at dependencies
 - Skipping repo-map on an unfamiliar folder
 - "I already know this" without recent evidence
+</red_flags>

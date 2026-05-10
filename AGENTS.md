@@ -38,6 +38,7 @@ For topic-folder work: root `session-state.json`, then `AGENTS.md`, then `docs/w
 
 ## Key Rules
 
+<rules>
 - **No new files** if an existing doc covers the need.
 - **Verify aggressively** — verification is the quality engine.
 - **Summarize work** as root cause, fix, verification, residual risk. Add "Intentionally not changed:" when scope discipline was exercised. Add "Potential concerns:" when the fix has known tradeoffs.
@@ -66,6 +67,7 @@ For topic-folder work: root `session-state.json`, then `AGENTS.md`, then `docs/w
 - **Probe repo before edits**: check branch, divergence, dirt, upstream state. Use worktrees for risky or parallel tasks.
 - **Batch file reads to 3 at a time**: avoid dispatching 6+ parallel reads mixed with a long-running build — memory pressure on 4GB WSL2 can interrupt tool execution.
 - **Use `gradle-build` for Gradle projects**: instead of bare `./gradlew`. The wrapper runs the build then stops the daemon, freeing ~600MB–1.8GB RSS.
+</rules>
 
 ## Structure Rules
 
@@ -106,11 +108,12 @@ This hub integrates **[agent-skills](https://github.com/addyosmani/agent-skills)
 
 Skills are structured workflows with steps, verification gates, and anti-rationalization tables. The OpenCode `skill` tool loads and executes them by name.
 
-**Core rules:**
+<rules>
 - If a task matches a skill, you MUST invoke it via the `skill` tool
 - Skills are located in `skills/<skill-name>/SKILL.md`
 - Never implement directly if a skill applies — use it first
 - Follow the skill workflow exactly (do not partially apply)
+</rules>
 
 ### Intent → Skill Mapping
 

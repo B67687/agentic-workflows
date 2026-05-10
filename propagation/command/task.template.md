@@ -122,6 +122,7 @@ Return a compact slice note with:
 
 If the slice output says normal planning is enough, recommend `/plan $ARGUMENTS` instead.
 
+<rationalizations>
 ### Common Rationalizations
 | Shortcut | Why It Fails |
 |---|---|
@@ -131,9 +132,13 @@ If the slice output says normal planning is enough, recommend `/plan $ARGUMENTS`
 | "This can be one big plan" | Oversized plans lose precision. Milestone ladder + one detailed first slice is more robust. |
 | "Verification target can wait" | Undefined success criteria cause "done but wrong." Define what correct looks like before starting. |
 
+</rationalizations>
+
+<red_flags>
 ### Red Flags
 - Proceeding to research or planning without stating any assumptions
 - Accepting "fix the real problem" without asking what "fixed" looks like
 - Producing a flat plan instead of a milestone ladder for a task >5 steps
 - First slice has no explicit verification target
 - Stop line is empty or says "nothing is out of scope"
+</red_flags>

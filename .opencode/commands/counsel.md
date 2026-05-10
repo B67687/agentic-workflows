@@ -26,14 +26,16 @@ Only run live when `OPENROUTER_API_KEY` is set and the user explicitly wants liv
 
 Return only the compressed recommendation, not all intermediate model chatter, unless the user asks for the role views.
 
-### Common Rationalizations
+<rationalizations>
 | Shortcut | Why It Fails |
 |---|---|
 | "I already know the answer" | Counsel surfaces blind spots one perspective always misses. |
 | "Counsel takes too long" | A wrong decision costs 10x the counsel time. Use the gate to decide if it's needed. |
 | "Only one model review is enough" | Divergent models catch different failure modes — that's the point. |
+</rationalizations>
 
-### Red Flags
+<red_flags>
 - Using counsel for trivial implementation decisions
 - Running counsel live without the user explicitly asking for it
+</red_flags>
 - Summarizing intermediate model chatter instead of the compressed recommendation

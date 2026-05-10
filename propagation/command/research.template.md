@@ -24,6 +24,7 @@ Return a compact research note covering:
 - the main risks or edge cases
 - what needs to be true before planning
 
+<rationalizations>
 ### Common Rationalizations
 | Shortcut | Why It Fails |
 |---|---|
@@ -32,8 +33,12 @@ Return a compact research note covering:
 | "One quick grep is enough" | Surface-level search misses edge cases, hidden dependencies, and stale references. |
 | "I can skip the repo map" | Unfamiliar folders need structural orientation before deep reading — otherwise you read the wrong files first. |
 
+</rationalizations>
+
+<red_flags>
 ### Red Flags
 - Starting to edit files before producing the research note
 - Research note has no file paths or only guesses at dependencies
 - Skipping repo-map on an unfamiliar folder
 - "I already know this" without recent evidence
+</red_flags>
