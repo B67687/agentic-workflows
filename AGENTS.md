@@ -72,7 +72,7 @@ For topic-folder work: root `session-state.json`, then `AGENTS.md`, then `docs/w
 ## Structure Rules
 
 - This hub's working areas are `docs/`, `research/`, `scripts/`, `workflow/`, `propagation/`, `archive/`, `personal-voice/`, `skills/`, `agents/`, and `references/`.
-- Hub commands live in `commands/`. The old `command/` directory is deprecated — do not use it.
+- Hub commands live in `commands/` (14 files: task, plan, implement, pipeline, research, session, git, counsel, route, optimize, parley, prompt-contract, repo-map, query). The old `command/` directory is deprecated — do not use it.
 - Do not move hub content into `agentic-workflows-content/` unless the whole hub is intentionally redesigned.
 - In propagated project folders, normal work belongs in `[folder-name]-content/`.
 - Keep propagated folder roots for managed-core files only.
@@ -291,7 +291,24 @@ When completing any phase, task, or skill workflow, end with one of these status
 
 After 3 consecutive failed attempts on the same issue, escalate with `ESCALATE` prefix.
 
-### 8. Safety Scoping
+### 8. Subagent Pipeline Dispatch
+
+When executing a `/pipeline` flow, each plan task MUST be dispatched to an isolated `@worker` subagent via the `task` tool. Do NOT implement pipeline tasks directly in the main session.
+
+Worker prompt must include:
+- Task description (from pipeline state, via `pipeline-run.sh next <id>`)
+- Exact files to modify (from the plan)
+- Verification target (from the plan)
+- Constraint: "Implement only this task. Do not expand scope."
+
+After the worker returns:
+1. Read and verify the worker's output
+2. Update pipeline state: `bash ./scripts/pipeline-run.sh update <id> <task> done|failed "notes"`
+3. Continue with `bash ./scripts/pipeline-run.sh next <id>` or resolve failures
+
+The main session is the **orchestrator** — it does NOT implement code directly. It dispatches, reviews, and integrates.
+
+### 9. Safety Scoping
 
 If a `.gstack-freeze` file exists in the workspace root, read it — it contains a single directory path. **Do NOT edit any files outside that directory.** This is a hard block, not a warning. If a task requires changes outside the frozen scope, report it and ask for `/unfreeze`.
 
