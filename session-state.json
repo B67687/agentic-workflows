@@ -48,7 +48,10 @@
     "Added safety scoping: scripts/freeze.sh + scripts/unfreeze.sh + AGENTS.md rules + session.md docs",
     "Upgraded grill intake with 6 forcing questions (inspired by gstack /office-hours)",
     "Added context save/restore: scripts/context-save.sh + context-restore.sh + session.md commands",
-    "Added cross-session learnings fallback: scripts/learnings-save.sh + learnings-search.sh + AGENTS.md"
+    "Added cross-session learnings fallback: scripts/learnings-save.sh + learnings-search.sh + AGENTS.md",
+    "Added subagent pipeline: pipeline.md command + pipeline-run.sh script + AGENTS.md dispatch rules",
+    "46 scripts total (added pipeline-run.sh), 14 commands total (added pipeline.md)",
+    "AGENTS.md: subagent dispatch rule, safety scoping, completion status protocol, 6 forcing questions",
   ],
   "filesTouched": [
     "commands/task.md",
