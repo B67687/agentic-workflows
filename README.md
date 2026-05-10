@@ -9,8 +9,8 @@ A living knowledge base for prompt design, agent workflows, repo rollout, and re
 | **Write better prompts** | [Daily Prompts](docs/daily-prompts.md) → [Prompt Library](docs/prompt-templates.md) |
 | **Set up AI agents in my project** | [Hub Quickstart](docs/hub-quickstart.md) → [Agentic Workflows](docs/agentic-workflows.md) → [AGENTS.md](AGENTS.md) |
 | **Build an AI product** | [AI Product Building](docs/ai-product-building.md) → [TDD with Agents](docs/tdd-with-agents.md) |
-| **Research a new AI topic** | [Research Methodology](docs/research-methodology.md) → [Authoritative Best Practices](docs/authoritative-agent-best-practices.md) |
-| **Maintain my cognitive skills** | [Cognitive Identity](docs/cognitive-identity.md) |
+| **Research a new AI topic** | [Research Methodology](archive/research/research-methodology.md) → [Authoritative Best Practices](archive/lessons/authoritative-agent-best-practices.md) |
+| **Maintain my cognitive skills** | [Cognitive Identity](archive/research/cognitive-identity.md) |
 | **Understand this whole system** | [System Overview](docs/workspace-system-overview.md) → [Cross-Project Memory](docs/cross-project-memory-loop.md) |
 | **Resume interrupted work** | [Session State](session-state.json) → [AGENTS.md](AGENTS.md) |
 
@@ -53,14 +53,14 @@ For building products fast with AI agents.
 
 1. **[docs/ai-product-building.md](docs/ai-product-building.md)** — One-page spec, 6-week timeline, agent patterns
 2. **[docs/tdd-with-agents.md](docs/tdd-with-agents.md)** — Tests-first and red/green patterns
-3. **[docs/learning-while-building-with-agents.md](docs/learning-while-building-with-agents.md)** — Keep learning speed close to build speed
+3. **[archive/lessons/learning-while-building-with-agents.md](archive/lessons/learning-while-building-with-agents.md)** — Keep learning speed close to build speed
 
 ### Research Path
 For investigating AI topics authoritatively.
 
-1. **[docs/research-methodology.md](docs/research-methodology.md)** — Source hierarchy, verification, confidence levels
-2. **[docs/authoritative-agent-best-practices.md](docs/authoritative-agent-best-practices.md)** — Cross-tool guidance
-3. **[docs/research-findings.md](docs/research-findings.md)** — Durable discoveries from past research
+1. **[archive/research/research-methodology.md](archive/research/research-methodology.md)** — Source hierarchy, verification, confidence levels
+2. **[archive/lessons/authoritative-agent-best-practices.md](archive/lessons/authoritative-agent-best-practices.md)** — Cross-tool guidance
+3. **[archive/research/research-findings.md](archive/research/research-findings.md)** — Durable discoveries from past research
 4. **[research/research-log.md](research/research-log.md)** — Active research campaigns
 
 ### System Path
@@ -84,15 +84,13 @@ For understanding how this hub and its ecosystem work.
 | Borrowed workflow patterns that fit this hub | [docs/agentic-workflows.md](docs/agentic-workflows.md) |
 | Repo tooling (Windows/WSL) | [docs/repo-tooling.md](docs/repo-tooling.md) |
 | Token-efficient prompting | [docs/token-efficient-prompting.md](docs/token-efficient-prompting.md) |
-| Cognitive identity | [docs/cognitive-identity.md](docs/cognitive-identity.md) |
-| Codex reasoning guide | [docs/codex-reasoning-guide.md](docs/codex-reasoning-guide.md) |
 
 ## Research
 
 - **[research/research-log.md](research/research-log.md)** — Active research intake and campaign index
 - **[research/research-prompt.md](research/research-prompt.md)** — Reusable research prompt with analysis framework
 - **[research/integration-log.md](research/integration-log.md)** — Research-to-knowledge-base integration tracker
-- **[docs/research-findings.md](docs/research-findings.md)** — Durable validated discoveries
+- **[archive/research/research-findings.md](archive/research/research-findings.md)** — Durable validated discoveries
 - **[archive/research-log-2026-04.md](archive/research-log-2026-04.md)** — Full April 2026 pre-optimization research log.
 
 ## Scripts
@@ -116,11 +114,10 @@ Templates in `propagation/` drive two different actions:
 ```bash
 bash ./scripts/propagate-to-all.sh
 bash ./scripts/propagate-to-all.sh --apply
-bash ./scripts/test-propagation-contract.sh
 bash ./scripts/checkpoint-commit.sh -m "checkpoint summary"
 ```
 
-- Managed core: `AGENTS.md`, `docs/workspace-system-overview.md`, `git-github-best-practices.md`, `quality-standards.md`, `checkpoint-commit.sh`, and helper scripts
+- Managed core: `AGENTS.md`, `docs/workspace-system-overview.md`, `checkpoint-commit.sh`, and helper scripts
 - Repo-owned after bootstrap: `session-state.json`, `topic-insights.md`, `.cleanup-protect`, and archive history files
 - Topic folders create `[folder-name]-content/` for normal project work
 - Run the smoke test after changing `propagate-to-all.sh`, `check-sync-status.sh`, `sync-from-hub.template.sh`, or `propagation-contract.sh`
@@ -149,18 +146,13 @@ Fast workflow:
 - keep the dream large, but only execute one verified slice at a time
 - type normally; serious requests route internally through `/route`
 - prompting best practices run internally through `/prompt-contract`
-- `/start-task your task`
-- `/shape-product your goal` to grill and compress the intended experience
+- `/task your goal` — classify, grill, shape, slice, and intake any task
 - `/counsel your decision` when a high-cost decision needs independent challenge
-- `/counsel-run your decision` to run optional dry-run or OpenRouter-backed counsel
-- `/task-tree your goal` to map a large goal into coarse domains before picking one milestone
-- `/north-star your goal` for long-horizon targets
-- `/shape-milestone your goal` for the next bounded bet
-- `/slice-task your task` for oversized work
 - `/repo-map` when the folder is unfamiliar or the task is broad
 - `/research your task`
 - `/plan your task`
 - `/implement your task`
 - `/optimize your task` for performance or architecture cost work
-- `/handoff your task` before a new session or high-context transition
-- `/checkpoint ...` or `/finish-task ...`
+- `/session checkpoint` to wrap up a verified phase
+- `/session handoff` before a new session or high-context transition
+- `/session finish` to close and checkpoint in one step

@@ -78,7 +78,7 @@ Read this first on every resume. Everything else is linked.
 | Retrieval policy | `docs/retrieval-policy.md` |
 | Prompt templates | `docs/prompt-templates.md` |
 | Core principles | `docs/core-agent-doctrine.md` |
-| Research methodology | `docs/research-methodology.md` |
+| Research methodology | `archive/research/research-methodology.md` |
 | Repo tooling | `docs/repo-tooling.md` |
 | Quality standards | `docs/quality-standards.md` |
 | Token efficiency | `docs/token-efficient-prompting.md` |

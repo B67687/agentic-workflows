@@ -820,7 +820,7 @@ From `sansan0/TrendRadar`:
 
 ### Source Notes
 
-- [Thunderbolt](https://github.com/thunderbird/thunderbolt) and [architecture doc](https://raw.githubusercontent.com/thunderbird/thunderbolt/main/docs/architecture.md)
+- [Thunderbolt](https://github.com/thunderbird/thunderbolt) and [architecture doc](https://raw.githubusercontent.com/thunderbird/thunderbolt/main/archive/research/architecture.md)
 - [Claude Context](https://github.com/zilliztech/claude-context) and [evaluation doc](https://raw.githubusercontent.com/zilliztech/claude-context/master/evaluation/README.md)
 - [RAG-Anything](https://github.com/HKUDS/RAG-Anything)
 - [TrendRadar](https://github.com/sansan0/TrendRadar) and [README-EN](https://raw.githubusercontent.com/sansan0/TrendRadar/master/README-EN.md)

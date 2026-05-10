@@ -4,7 +4,7 @@ Active research intake and index.
 
 Full pre-optimization April research log is preserved at [../archive/research-log-2026-04.md](../archive/research-log-2026-04.md).
 
-Durable distilled findings belong in [../docs/research-findings.md](../docs/research-findings.md). Completed long campaigns should move to `archive/` and leave a compact index entry here.
+Durable distilled findings belong in [../archive/research/research-findings.md](../archive/research/research-findings.md). Completed long campaigns should move to `archive/` and leave a compact index entry here.
 
 ## Current Active Research
 
@@ -15,9 +15,9 @@ No active long-form research entry is open.
 | Date / Campaign | Full record | Durable output |
 |---|---|---|
 | 2026-04-22 Indie project research | [docs/ai-product-building.md](../docs/ai-product-building.md) | Palettu.com (color palette generator by Daniel Guan), Daniel Guan portfolio (NUS maker, medical hardware + AI), updated Langflow to 147k stars with MCP details |
-| 2026-04-22 Interpretability (extended) | [docs/interpretability.md](../docs/interpretability.md) | Added Claude's emotion concepts (functional despair/hack vectors), model diff tool (DFC finds CCP/copyright features), tracing thoughts, introspection, persona vectors |
-| 2026-04-22 Interpretability (core) | [docs/interpretability.md](../docs/interpretability.md) | Two-level framework (behavioral vs mechanistic), core concepts (features, circuits, superposition, SAEs), key techniques (activation probing/patching/steering, circuit analysis, step-back prompting), agent design implications |
-| 2026-04-22 Research methodology | [docs/research-methodology.md](../docs/research-methodology.md) | 5-tier source hierarchy, evaluation checklist, triangulation rules, AI-specific source pitfalls |
+| 2026-04-22 Interpretability (extended) | [archive/research/interpretability.md](../archive/research/interpretability.md) | Added Claude's emotion concepts (functional despair/hack vectors), model diff tool (DFC finds CCP/copyright features), tracing thoughts, introspection, persona vectors |
+| 2026-04-22 Interpretability (core) | [archive/research/interpretability.md](../archive/research/interpretability.md) | Two-level framework (behavioral vs mechanistic), core concepts (features, circuits, superposition, SAEs), key techniques (activation probing/patching/steering, circuit analysis, step-back prompting), agent design implications |
+| 2026-04-22 Research methodology | [archive/research/research-methodology.md](../archive/research/research-methodology.md) | 5-tier source hierarchy, evaluation checklist, triangulation rules, AI-specific source pitfalls |
 | 2026-04-21 Language-filtered GitHub trending | [archive/research-log-2026-04.md](../archive/research-log-2026-04.md#2026-04-21-language-filtered-github-trending-scan-python--typescript) | Repo reporting tables, runtime primitives, model routing, local URL stability, secrets plane |
 | 2026-04-21 GitHub trending deep scan | [archive/research-log-2026-04.md](../archive/research-log-2026-04.md#2026-04-21-github-trending-deep-scan) | Retrieval evaluation, production-readiness signaling, parser-pluggable multimodal RAG |
 | 2026-04-21 Focused model refresh | [archive/research-log-2026-04.md](../archive/research-log-2026-04.md#2026-04-21-focused-model-refresh) | Model routing should account for access, cost, license, and harness |
@@ -52,5 +52,5 @@ No active long-form research entry is open.
 
 - Keep only active or very recent research here.
 - Move completed detailed campaigns to `archive/`.
-- Add durable, reusable conclusions to `docs/research-findings.md`.
+- Add durable, reusable conclusions to `archive/research/research-findings.md`.
 - Link archives from this file instead of pasting long completed research inline.

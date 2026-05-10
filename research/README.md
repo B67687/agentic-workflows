@@ -15,7 +15,7 @@ Use the prompt in research-prompt.md to research what's new, then add findings t
 |------|---------|
 | `research-prompt.md` | Reusable prompt for daily research runs |
 | `research-log.md` | Active research intake and campaign index |
-| `../docs/research-findings.md` | Durable distilled discoveries worth keeping |
+| `../archive/research/research-findings.md` | Durable distilled discoveries worth keeping |
 | `../archive/research-log-YYYY-MM.md` | Full completed research campaigns |
 
 ## What's Tracked
@@ -30,7 +30,7 @@ Use the prompt in research-prompt.md to research what's new, then add findings t
 1. Run research prompt (manual or scheduled)
 2. Add active entry to `research-log.md`
 3. When the campaign is complete, move the full long-form record to `archive/`
-4. Add only durable reusable conclusions to `../docs/research-findings.md`
+4. Add only durable reusable conclusions to `../archive/research/research-findings.md`
 5. Leave a compact index row in `research-log.md`
 
 ## Retention Rule
