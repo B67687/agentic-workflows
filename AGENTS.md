@@ -59,9 +59,9 @@ For topic-folder work: root `session-state.json`, then `AGENTS.md`, then `docs/w
 - **Normal-language tasking by default**: serious tasks route silently through `/route` unless obviously tiny.
 - **Use prompt contracts** as internal self-checks before non-trivial phase work.
 - **Map before broad reading**: use `/repo-map` when a folder is unfamiliar.
-- **Close dead branches explicitly**: use `/close-task` when resolved, obsolete, or parked.
+- **Close dead branches explicitly**: use `/session close-task` when resolved, obsolete, or parked.
 - **Gate implementation**: before editing code, confirm research, plan, bounded scope, and verification path are clear.
-- **Grill ambiguous tasks early**: if broad, underspecified, or expensive to get wrong, use `/grill` before planning.
+- **Grill ambiguous tasks early**: if broad, underspecified, or expensive to get wrong, use `/task` to classify and grill before planning.
 - **Stop planning loops after two refinements**: choose the next verified slice and move toward implementation.
 - **Optimize by evidence**: measure first. Only do architecture review for hard-to-reverse risks.
 - **Probe repo before edits**: check branch, divergence, dirt, upstream state. Use worktrees for risky or parallel tasks.

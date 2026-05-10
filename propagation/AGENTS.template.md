@@ -100,3 +100,17 @@ For complex tasks, prompt yourself until plateau:
 - Topic insights → `topic-insights.md`
 - Quality standards → `quality-standards.md`
 - Git practices → `git-github-best-practices.md`
+
+## Engineering Skills
+
+This topic folder has access to 23 engineering skills from the hub's `skills/` directory. Skills are grouped into lifecycle bundles for faster selection:
+
+| Bundle | Purpose | Skills |
+|---|---|---|
+| **define** | Spec, plan, break down work | `idea-refine`, `spec-driven-development`, `planning-and-task-breakdown` |
+| **build** | Implement with discipline | `incremental-implementation`, `test-driven-development`, `source-driven-development`, `frontend-ui-engineering`, `api-and-interface-design` |
+| **verify** | Debug, test, review, harden | `debugging-and-error-recovery`, `code-review-and-quality`, `code-simplification`, `browser-testing-with-devtools`, `security-and-hardening`, `performance-optimization` |
+| **ship** | Release, document, automate | `git-workflow-and-versioning`, `ci-cd-and-automation`, `deprecation-and-migration`, `documentation-and-adrs`, `shipping-and-launch` |
+| **meta** | How we work | `context-engineering`, `doubt-driven-development`, `skill-evaluator`, `using-agent-skills` |
+
+When a task matches a skill, invoke it via the `skill` tool — follow the skill workflow exactly without implementing directly. For tasks spanning the lifecycle, invoke skills in **define → build → verify → ship** order.
