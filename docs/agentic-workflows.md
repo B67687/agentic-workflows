@@ -1,5 +1,7 @@
 # Agentic Workflows
 
+> **Note:** This doc is a deep reference. For the up-to-date workflow orientation, read **[docs/workflow.md](workflow.md)** instead. This file is preserved for historical depth.
+
 Native agentic configuration for the AI Prompting workspace. Uses OpenCode's built-in agent system with semi-automatic routing via the `Task` tool.
 
 ---

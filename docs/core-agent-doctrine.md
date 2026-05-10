@@ -1,5 +1,7 @@
 # Core Agent Doctrine
 
+> **Note:** This doc is a deep reference. For the up-to-date workflow orientation, read **[docs/workflow.md](workflow.md)** instead. This file is preserved for historical depth.
+
 Use this file as the shared backbone for this workspace.
 
 It captures the durable principles that were starting to repeat across multiple docs.

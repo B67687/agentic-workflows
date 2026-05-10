@@ -1,5 +1,7 @@
 # Phase-Based Agent Workflow
 
+> **Note:** This doc is a deep reference. For the up-to-date workflow orientation, read **[docs/workflow.md](workflow.md)** instead. This file is preserved for historical depth.
+
 This workspace uses one default execution shape for non-trivial tasks:
 
 **Think big -> bet medium -> execute tiny**
