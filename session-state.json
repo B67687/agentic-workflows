@@ -43,7 +43,12 @@
     "Updated AGENTS.md with full agentmemory section: 51 MCP tools, auto-capture, 4-tier memory",
     "Fully integrated agent-skills into hub: 22 skills copied (no symlink dep), 3 agents, 5 checklists, 12 setup docs",
     ".opencode/skills/ symlink → skills/ for OpenCode skill discovery",
-    "285 total tracked files (+57 from agent-skills, 10,365 lines added)"
+    "285 total tracked files (+57 from agent-skills, 10,365 lines added)",
+    "Added completion status protocol (DONE/DONE_WITH_CONCERNS/BLOCKED/NEEDS_CONTEXT) to AGENTS.md",
+    "Added safety scoping: scripts/freeze.sh + scripts/unfreeze.sh + AGENTS.md rules + session.md docs",
+    "Upgraded grill intake with 6 forcing questions (inspired by gstack /office-hours)",
+    "Added context save/restore: scripts/context-save.sh + context-restore.sh + session.md commands",
+    "Added cross-session learnings fallback: scripts/learnings-save.sh + learnings-search.sh + AGENTS.md"
   ],
   "filesTouched": [
     "commands/task.md",
