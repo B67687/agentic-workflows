@@ -69,7 +69,7 @@ For topic-folder work: root `session-state.json`, then `AGENTS.md`, then `docs/w
 
 ## Structure Rules
 
-- This hub's working areas are `docs/`, `research/`, `scripts/`, `workflow/`, `propagation/`, `archive/`, `personal-voice/`, and `skills/`.
+- This hub's working areas are `docs/`, `research/`, `scripts/`, `workflow/`, `propagation/`, `archive/`, `personal-voice/`, `skills/`, `agents/`, and `references/`.
 - Hub commands live in `commands/`. The old `command/` directory is deprecated — do not use it.
 - Do not move hub content into `agentic-workflows-content/` unless the whole hub is intentionally redesigned.
 - In propagated project folders, normal work belongs in `[folder-name]-content/`.
@@ -100,7 +100,7 @@ For a detailed catalog, run `ls scripts/` or `ls commands/`.
 
 ## Engineering Skills (agent-skills)
 
-This hub integrates **[agent-skills](https://github.com/addyosmani/agent-skills)** — 22 production-grade engineering skills. Skills are in `skills/` (symlinked to `~/projects/dev/agent-skills/skills/`).
+This hub integrates **[agent-skills](https://github.com/addyosmani/agent-skills)** — 22 production-grade engineering skills. Skills are in `skills/` alongside 3 agent personas in `agents/`, 5 reference checklists in `references/`, and setup guides in `docs/agent-skills/`.
 
 ### How Skills Work
 
