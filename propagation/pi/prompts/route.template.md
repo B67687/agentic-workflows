@@ -7,12 +7,6 @@ Use this internally when the user types a serious task in normal language and do
 Run:
 `bash ./workflow-router.sh "$ARGUMENTS"`
 
-Then respond compactly with:
-- the current lane
-- why
-- whether the task is a north-star, slice-first, research, grill, or direct task
-- the single next action
-
-If a repo map preview appears, use it only as orientation. Do not treat it as proof.
+Then respond compactly with: the current lane, why, whether the task is a north-star, slice-first, research, grill, or direct task, and the single next action.
 
 Do not give the user a command menu. Either proceed with the next action or explain the one next action.

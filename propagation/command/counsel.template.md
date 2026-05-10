@@ -1,26 +1,39 @@
 ---
-description: Decide whether a multi-perspective review should help before committing to a direction
+description: Multi-perspective review for product shaping, milestone selection, architecture, and tradeoffs
 ---
 
-Use this for product shaping, milestone selection, architecture review, optimization review, or decisions that are expensive to misunderstand.
+Use this for product shaping, milestone selection, architecture review, optimization review, or decisions that are expensive to misunderstand. Do not use for ordinary implementation unless the work is already split into separate bounded worktree tasks.
 
-Pass the plain decision or task on the same line, like:
-`/counsel decide the first playable milestone for the Elemental Battlegrounds recreation`
+## Gate (decide whether counsel is needed)
 
-First run:
-`bash ./counsel-gate.sh "$ARGUMENTS"`
+Run:
+`bash ./scripts/counsel-gate.sh "$ARGUMENTS"`
 
 If counsel is needed and the user asks about model choice, run:
-`bash ./counsel-model-select.sh lite`
+`bash ./scripts/counsel-model-select.sh lite`
 
-Then return a compact counsel note with:
-- whether counsel is needed
-- the roles to use if needed
-- the decision being reviewed
-- the strongest supporting view
-- the strongest objection
-- the missing facts
-- the compressed recommendation
-- the next command to use
+Return a compact counsel note with: whether counsel is needed, the roles to use if needed, the decision being reviewed, the strongest supporting view, the strongest objection, the missing facts, the compressed recommendation, and the next command to use.
 
-Do not use counsel for ordinary implementation unless the work is already split into separate bounded worktree tasks.
+## Run (execute the counsel review)
+
+Use this after the gate says counsel is useful and the decision is worth the extra model calls.
+
+First run dry:
+`bash ./scripts/counsel-run.sh "$ARGUMENTS" --dry-run`
+
+Only run live when `OPENROUTER_API_KEY` is set and the user explicitly wants live counsel calls:
+`bash ./scripts/counsel-run.sh "$ARGUMENTS" --mode lite`
+
+Return only the compressed recommendation, not all intermediate model chatter, unless the user asks for the role views.
+
+### Common Rationalizations
+| Shortcut | Why It Fails |
+|---|---|
+| "I already know the answer" | Counsel surfaces blind spots one perspective always misses. |
+| "Counsel takes too long" | A wrong decision costs 10x the counsel time. Use the gate to decide if it's needed. |
+| "Only one model review is enough" | Divergent models catch different failure modes — that's the point. |
+
+### Red Flags
+- Using counsel for trivial implementation decisions
+- Running counsel live without the user explicitly asking for it
+- Summarizing intermediate model chatter instead of the compressed recommendation

@@ -1,1 +1,0 @@
-docs/quality-standards.md

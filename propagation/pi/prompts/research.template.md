@@ -18,8 +18,4 @@ when it helps narrow the local context.
 
 Do not edit files yet.
 
-Return a compact research note covering:
-- the exact files involved
-- the relevant flow or dependencies
-- the main risks or edge cases
-- what needs to be true before planning
+Return a compact research note covering: the exact files involved, the relevant flow or dependencies, the main risks or edge cases, and what needs to be true before planning.

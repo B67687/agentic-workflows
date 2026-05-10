@@ -8,7 +8,7 @@ Pass the plain task on the same line, like:
 `/optimize reduce the cost of this architecture bottleneck`
 
 First run:
-`bash ./optimize-gate.sh "$ARGUMENTS"`
+`bash ./scripts/optimize-gate.sh "$ARGUMENTS"`
 
 Then return a compact optimization note with:
 - the optimization scope

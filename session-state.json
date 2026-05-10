@@ -27,7 +27,12 @@
     "Created docs/workflow.md — compact workflow reference merging core-agent-doctrine + phase-based + agentic-workflows + workspace-system-overview + model-tiering",
     "Updated AGENTS.md startup order, paths, deep references, and structure rules",
     "Updated hub-quickstart.md and workspace-system-overview.md paths",
-    "Moved 7 external lesson docs to archive/lessons/ and 4 research-heavy docs to archive/research/ (docs/ hot path: 33 files, 9,408 lines)"
+    "Moved 7 external lesson docs to archive/lessons/ and 4 research-heavy docs to archive/research/ (docs/ hot path: 33 files, 9,408 lines)",
+    "Rewrote propagation/command/ with 13 merged templates matching commands/ (removed 26 old, 1:1 match with commands/)",
+    "Rewrote propagation/pi/prompts/ with 13 merged templates (removed 9 old, 1:1 match with commands/)",
+    "Updated propagation-contract.sh — 26 command mappings + 13 pi prompt mappings, all current",
+    "Fixed AGENTS.md Governance Rules: workspace-system-overview.md → workflow.md",
+    "Removed 2 root-level symlinks (quality-standards.md, git-github-best-practices.md)"
   ],
   "filesTouched": [
     "commands/task.md",
@@ -53,16 +58,25 @@
     "session-state.json",
     "REMOVED: command/ (26 files)",
     "MOVED: archive/lessons/ (7 files)",
-    "MOVED: archive/research/ (4 files)"
+    "MOVED: archive/research/ (4 files)",
+    "propagation/command/ (13 new, 26 old removed)",
+    "propagation/pi/prompts/ (13 new, 9 old removed)",
+    "scripts/propagation-contract.sh (updated mappings)",
+    "REMOVED: quality-standards.md (root symlink)",
+    "REMOVED: git-github-best-practices.md (root symlink)"
   ],
   "verification": [
     "commands/: 13 files total (50% reduction from 26)",
     "All 3 mirror locations identical: commands/ = .opencode/commands/ = .pi/prompts/ (13 each)",
     "sync-commands.sh: syntax OK, dry-run and verbose modes work",
-    "AGENTS.md: all paths updated to commands/, startup order points to workflow.md",
+    "AGENTS.md: all paths updated, startup order points to workflow.md, Governance Rules fixed",
     "docs/workflow.md: 144 lines, covers phase system, anti-failure rules, model tiering, harness tracks",
     "No stale references to old command/ path remain in active files",
     "docs/ hot path: 33 files (9,408 lines) — 11 files/2,668 lines moved out of hot path",
+    "propagation/command/: 13 templates, names match commands/ 1:1",
+    "propagation/pi/prompts/: 13 templates, names match commands/ 1:1",
+    "propagation-contract.sh: 26 command mappings + 13 pi prompt mappings, all current",
+    "Root-level symlinks removed",
     "session-state.json resume rules carry forward all 7 rules"
   ],
   "keyLearnings": [
@@ -72,7 +86,7 @@
     "docs/workflow.md at 144 lines replaces the need to read 4 separate docs (1,578 lines total) for cold-start",
     "session-state.json remains the unique advantage — no other skills repo has resume capability"
   ],
-  "residualRisk": "Propagation templates in propagation/command/ still reference old file names. Topic folder propagation will need a separate update pass. docs/ still has 33 files (9,408 lines) — the deep-reference docs could be further consolidated if desired.",
+  "residualRisk": "prompts/orchestrator.md (root-owned) still exists — delete with sudo. Future: when a new topic folder gets propagated for the first time, the new 13 merged templates will create the correct command structure. Existing topic folders with old command/ directory and old pi prompts need a one-time propagate-to-all to sync up.",
   "immediateNextSteps": [],
   "resumeRules": [
     "Read session-state.json first on every resume",

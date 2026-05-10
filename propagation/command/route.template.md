@@ -5,7 +5,7 @@ description: Route a normal-language request into the right workflow lane
 Use this internally when the user types a serious task in normal language and does not name a command.
 
 Run:
-`bash ./workflow-router.sh "$ARGUMENTS"`
+`bash ./scripts/workflow-router.sh "$ARGUMENTS"`
 
 Then respond compactly with:
 - the current lane

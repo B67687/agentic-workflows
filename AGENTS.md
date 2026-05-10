@@ -79,7 +79,7 @@ For topic-folder work: root `session-state.json`, then `AGENTS.md`, then `docs/w
 ## Governance Rules
 
 - Runtime authority: global OpenCode config at `/home/namikaz/.config/opencode/opencode.jsonc`.
-- Repo authority: `session-state.json` → `AGENTS.md` → `docs/workspace-system-overview.md`.
+- Repo authority: `session-state.json` → `AGENTS.md` → `docs/workflow.md`.
 - Do not create repo-local `opencode.json` or workspace-level `.opencode/` directories, except for `.opencode/commands/` command files.
 - After tool, model, OS, or app-variant changes, scan and update stale runtime assumptions before resuming work.
 - Propagation ownership split is defined in `scripts/propagation-contract.sh`.

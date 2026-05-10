@@ -14,18 +14,8 @@ Before planning, run:
 
 If the guard says `Plan decision: go-back`, stop and send the task back exactly one phase.
 
-If the guard says `Plan decision: first-slice-only` or `Plan decision: stop-refining`, do not produce a giant end-to-end plan. Produce only:
-- a coarse milestone ladder with at most 5 milestones
-- one detailed next slice
-- at most 5 steps for that slice
-- the verification target for that slice
-- the next command to use
+If the guard says `Plan decision: first-slice-only` or `Plan decision: stop-refining`, produce only: a coarse milestone ladder (≤5), one detailed next slice (≤5 steps), the verification target, and the next command.
 
 Do not implement yet.
 
-Return a compact plan with:
-- the exact files that should change
-- the step-by-step sequence
-- the verification command or check for each step
-- what is explicitly out of scope
-- where to checkpoint or restart between phases
+Return a compact plan with: the exact files that should change, the step-by-step sequence, the verification command or check for each step, what is explicitly out of scope, and where to checkpoint between phases.
