@@ -32,12 +32,16 @@ Use this when the request has multiple possible interpretations, wrong assumptio
 Run:
 `bash ./scripts/task-intake.sh "$ARGUMENTS"`
 
-If the recommended lane is `grill`, challenge the assumptions:
+If the recommended lane is `grill`, use the **forcing questions** pattern before proceeding:
 
-1. What is the real goal — not the stated request?
-2. Who is this for, and what does "done" look like?
-3. What constraints or boundaries are unstated?
-4. What would be the worst thing to get wrong?
+1. **What is the real goal** — not the stated request? What user pain are we solving?
+2. **Who is this for** and what does "done" look like? What's the smallest proof it works?
+3. **What constraints or boundaries** are unstated? (platform, perf, security, scale)
+4. **What would be the worst thing** to get wrong? What would make this a failure?
+5. **What approach are you assuming** — and what alternatives exist? Is there a simpler path?
+6. **Why now?** What changed that makes this the right time?
+
+Let the user answer before proceeding. The goal is to challenge assumptions, not validate them.
 
 Then return a compact grilling note clarifying scope, hidden assumptions, and risks. Do not proceed to research or planning until the task is clear enough that wrong-direction risk is low.
 
