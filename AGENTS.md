@@ -175,6 +175,22 @@ Skills are structured workflows with steps, verification gates, and anti-rationa
 - It starts automatically with OpenCode (configured in `opencode.jsonc`)
 - No maintenance needed — it captures and compresses silently
 
+## Bug Memory
+
+A `buglog.json` in the project root tracks past bugs and fixes across sessions.
+
+- BEFORE fixing a bug, check `buglog.json` for the same error message or symptom
+- AFTER fixing, append: error message, file, root cause, fix, and tags
+- Prevents re-fixing the same bug or re-learning a known solution
+
+## Do-Not-Repeat
+
+A short chronological list of mistakes and their corrections. Keep it in `session-state.json` under a `doNotRepeat` key, or inline in this file if short.
+
+- BEFORE writing code, check the list for relevant past mistakes
+- AFTER being corrected, append: `[date]: what went wrong — how to avoid`
+- This compounds over time — a single line costs nothing, a missing entry costs a repeat
+
 ## Agentic Behavior Rules
 
 When in agentic mode, the Orchestrator follows these rules:

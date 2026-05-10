@@ -16,6 +16,7 @@ declare -a PROPAGATION_MANAGED_CORE=(
   "workspace-system-overview.template.md:docs/workspace-system-overview.md"
   "git-github-best-practices.template.md:git-github-best-practices.md"
   "quality-standards.template.md:quality-standards.md"
+  "buglog.template.json:buglog.json"
   "command/task.template.md:commands/task.md"
   "command/task.template.md:.opencode/commands/task.md"
   "command/session.template.md:commands/session.md"
