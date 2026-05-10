@@ -1,0 +1,53 @@
+{
+  "version": "1.0.0",
+  "description": "Agent skills organized into lifecycle bundles for selective propagation",
+  "bundles": {
+    "define": {
+      "description": "Spec, plan, and break down work before building",
+      "skills": [
+        "idea-refine",
+        "spec-driven-development",
+        "planning-and-task-breakdown"
+      ]
+    },
+    "build": {
+      "description": "Implement features with discipline and source-driven practice",
+      "skills": [
+        "incremental-implementation",
+        "test-driven-development",
+        "source-driven-development",
+        "frontend-ui-engineering",
+        "api-and-interface-design"
+      ]
+    },
+    "verify": {
+      "description": "Debug, test, review, and harden code before shipping",
+      "skills": [
+        "debugging-and-error-recovery",
+        "code-review-and-quality",
+        "code-simplification",
+        "browser-testing-with-devtools",
+        "security-and-hardening",
+        "performance-optimization"
+      ]
+    },
+    "ship": {
+      "description": "Release, document, deprecate, and automate delivery",
+      "skills": [
+        "git-workflow-and-versioning",
+        "ci-cd-and-automation",
+        "deprecation-and-migration",
+        "documentation-and-adrs",
+        "shipping-and-launch"
+      ]
+    },
+    "meta": {
+      "description": "Process skills that govern how we work",
+      "skills": [
+        "context-engineering",
+        "doubt-driven-development",
+        "using-agent-skills"
+      ]
+    }
+  }
+}

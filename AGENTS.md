@@ -149,15 +149,19 @@ Skills are structured workflows with steps, verification gates, and anti-rationa
 | Review | `/counsel` | `code-review-and-quality`, `doubt-driven-development` | Counsel for decisions; skills for code |
 | Ship | — | `shipping-and-launch`, `git-workflow-and-versioning` | No hub equivalent — use skill directly |
 
-### Auto-Create Skills
+### Skill Bundles
 
-After completing a complex task (5+ tool calls), fixing a tricky error, or discovering a non-trivial workflow, save the approach as a new skill:
+Skills are grouped into **lifecycle bundles** in `skills/manifest.json` for selective propagation and faster agent orientation:
 
-1. Create `skills/<name>/SKILL.md` with frontmatter + workflow steps
-2. Run `bash ./scripts/sync-commands.sh` to sync to `.opencode/skills/`
-3. The `skill` tool will discover it on next session
+| Bundle | Purpose | Skills |
+|---|---|---|
+| **define** | Spec, plan, break down work | `idea-refine`, `spec-driven-development`, `planning-and-task-breakdown` |
+| **build** | Implement with discipline | `incremental-implementation`, `test-driven-development`, `source-driven-development`, `frontend-ui-engineering`, `api-and-interface-design` |
+| **verify** | Debug, test, review, harden | `debugging-and-error-recovery`, `code-review-and-quality`, `code-simplification`, `browser-testing-with-devtools`, `security-and-hardening`, `performance-optimization` |
+| **ship** | Release, document, automate | `git-workflow-and-versioning`, `ci-cd-and-automation`, `deprecation-and-migration`, `documentation-and-adrs`, `shipping-and-launch` |
+| **meta** | How we work | `context-engineering`, `doubt-driven-development`, `using-agent-skills` |
 
-When using a skill and finding it outdated, incomplete, or wrong, patch it immediately — don't wait to be asked. Skills that aren't maintained become liabilities.
+When a task spans the lifecycle (e.g. "build and ship"), invoke skills from multiple bundles in order: **define → build → verify → ship**.
 
 ## Persistent Memory (agentmemory)
 
