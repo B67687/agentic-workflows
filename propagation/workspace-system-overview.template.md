@@ -3,7 +3,7 @@
 
 This file explains the structure and conventions for this topic folder.
 
-For the hub's central knowledge base, see the sibling `agentic-workflows` folder's `docs/workspace-system-overview.md`.
+For the hub's central knowledge base, see the sibling `agentic-workflows` folder's `docs/workflow.md`.
 
 ## What This Folder Is
 
@@ -24,8 +24,9 @@ This is a topic folder within the shared workspace.
 |- git-github-best-practices.md      (hub-owned managed core)
 |- quality-standards.md              (hub-owned managed core)
 |- scripts/*.sh                      (hub-owned managed core — see below)
-|- command/                          (hub-owned managed core slash commands)
-|- .opencode/commands/               (hub-owned managed core, mirrored)
+|- commands/                         (hub-owned managed core; 13 merged files — synced via sync-commands.sh)
+|- .opencode/commands/               (hub-owned managed core, mirror of commands/)
+|- .pi/prompts/                       (hub-owned managed core, mirror of commands/)
 |- session-state.json                (repo-owned after bootstrap)
 |- topic-insights.md                 (repo-owned after bootstrap)
 |- .cleanup-protect                  (repo-owned)
@@ -68,30 +69,19 @@ See AGENTS.md for the full operating contract. Key ones: supply missing structur
 Prefer these over raw script calls when your client supports them:
 
 | Command | Use Case |
-|---|---|
+|---|---|---|
 | `/route` | Route a normal-language task into the right lane |
-| `/start-task` | Classify a task before starting |
+| `/task` | Classify, grill, shape, and slice any task (merged: start-task, shape-product, north-star, shape-milestone, slice-task, task-tree, grill) |
 | `/query` | Retrieve only relevant context |
 | `/research` | Start a research phase |
 | `/plan` | Start a planning phase |
 | `/implement` | Start implementation |
-| `/shape-product` | Grill and compress broad product goals |
-| `/north-star` | Preserve long-horizon goals |
-| `/shape-milestone` | Shape one bounded milestone bet |
-| `/slice-task` | Break oversized tasks into milestones + first slice |
-| `/task-tree` | Map large goals to domains and milestones |
 | `/counsel` | Get independent challenge on a decision |
-| `/grill` | Challenge assumptions before deeper work |
-| `/git-start` | Probe branch and upstream state before edits |
-| `/git-worktree` | Create isolated short-lived worktree branch |
-| `/session-boundary` | Decide whether to continue or restart |
-| `/phase-gate` | Verify implementation is actually allowed |
-| `/plan-guard` | Keep planning from growing too large |
 | `/optimize` | Govern optimization work |
-| `/checkpoint` | Create a checkpoint commit |
-| `/handoff` | Build continuation packet for new session |
-| `/close-task` | Close a resolved or dead branch |
-| `/finish-task` | Close + checkpoint composite |
+| `/session` | Session lifecycle: checkpoint, handoff, boundary, close, finish (merged: session-boundary, checkpoint, handoff, close-task, finish-task) |
+| `/git` | Probe branch state or create worktree (merged: git-start, git-worktree) |
+| `/repo-map` | Map unfamiliar folders |
+| `/prompt-contract` | Build self-prompt contract before phase work |
 
 To sync the command files: run `./sync-from-hub.sh`.
 
