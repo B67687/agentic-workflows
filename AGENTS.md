@@ -156,10 +156,9 @@ Never downgrade critical tasks. Verify specialist output. If agent misroutes 3×
 
 | Topic | Reference |
 |-------|-----------|
-| Agentic workflows and routing | `docs/workflow.md` |
-| Core doctrine and teaching | `docs/core-agent-doctrine.md` |
+| Workflow and routing | `docs/workflow.md` |
 | Model selection and fallbacks | `docs/model-selection-guide.md` |
 | Token/context efficiency | `docs/token-efficient-prompting.md` |
 | Session checkpoints | `docs/session-checkpoint.md` |
 
-For the full reference index, see `README.md` or `docs/hub-quickstart.md`.
+For the full reference index, see `docs/hub-quickstart.md`.

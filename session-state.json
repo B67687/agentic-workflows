@@ -26,7 +26,8 @@
     "Removed old command/ directory (26 files, replaced by commands/ with 13)",
     "Created docs/workflow.md — compact workflow reference merging core-agent-doctrine + phase-based + agentic-workflows + workspace-system-overview + model-tiering",
     "Updated AGENTS.md startup order, paths, deep references, and structure rules",
-    "Updated hub-quickstart.md and workspace-system-overview.md paths"
+    "Updated hub-quickstart.md and workspace-system-overview.md paths",
+    "Moved 7 external lesson docs to archive/lessons/ and 4 research-heavy docs to archive/research/ (docs/ hot path: 33 files, 9,408 lines)"
   ],
   "filesTouched": [
     "commands/task.md",
@@ -50,7 +51,9 @@
     "docs/hub-quickstart.md",
     "docs/workspace-system-overview.md",
     "session-state.json",
-    "REMOVED: command/ (26 files)"
+    "REMOVED: command/ (26 files)",
+    "MOVED: archive/lessons/ (7 files)",
+    "MOVED: archive/research/ (4 files)"
   ],
   "verification": [
     "commands/: 13 files total (50% reduction from 26)",
@@ -59,6 +62,7 @@
     "AGENTS.md: all paths updated to commands/, startup order points to workflow.md",
     "docs/workflow.md: 144 lines, covers phase system, anti-failure rules, model tiering, harness tracks",
     "No stale references to old command/ path remain in active files",
+    "docs/ hot path: 33 files (9,408 lines) — 11 files/2,668 lines moved out of hot path",
     "session-state.json resume rules carry forward all 7 rules"
   ],
   "keyLearnings": [
@@ -68,7 +72,7 @@
     "docs/workflow.md at 144 lines replaces the need to read 4 separate docs (1,578 lines total) for cold-start",
     "session-state.json remains the unique advantage — no other skills repo has resume capability"
   ],
-  "residualRisk": "Propagation templates in propagation/command/ still reference old file names. Topic folder propagation will need a separate update pass. The old deep-reference docs (core-agent-doctrine, etc.) still exist but are no longer on the startup path.",
+  "residualRisk": "Propagation templates in propagation/command/ still reference old file names. Topic folder propagation will need a separate update pass. docs/ still has 33 files (9,408 lines) — the deep-reference docs could be further consolidated if desired.",
   "immediateNextSteps": [],
   "resumeRules": [
     "Read session-state.json first on every resume",
