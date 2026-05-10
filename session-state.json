@@ -32,7 +32,8 @@
     "Rewrote propagation/pi/prompts/ with 13 merged templates (removed 9 old, 1:1 match with commands/)",
     "Updated propagation-contract.sh — 26 command mappings + 13 pi prompt mappings, all current",
     "Fixed AGENTS.md Governance Rules: workspace-system-overview.md → workflow.md",
-    "Removed 2 root-level symlinks (quality-standards.md, git-github-best-practices.md)"
+    "Removed 2 root-level symlinks (quality-standards.md, git-github-best-practices.md)",
+    "Removed 16 stale .opencode/commands/ and 5 stale .pi/prompts/ files from all 14 topic folders (294 files total)"
   ],
   "filesTouched": [
     "commands/task.md",
@@ -77,6 +78,7 @@
     "propagation/pi/prompts/: 13 templates, names match commands/ 1:1",
     "propagation-contract.sh: 26 command mappings + 13 pi prompt mappings, all current",
     "Root-level symlinks removed",
+    "All 14 topic folders: commands/ = .opencode/commands/ = .pi/prompts/ = 13 files each, no stale files",
     "session-state.json resume rules carry forward all 7 rules"
   ],
   "keyLearnings": [
