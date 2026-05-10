@@ -86,7 +86,7 @@
     "docs/workflow.md at 144 lines replaces the need to read 4 separate docs (1,578 lines total) for cold-start",
     "session-state.json remains the unique advantage — no other skills repo has resume capability"
   ],
-  "residualRisk": "prompts/orchestrator.md (root-owned) still exists — delete with sudo. Future: when a new topic folder gets propagated for the first time, the new 13 merged templates will create the correct command structure. Existing topic folders with old command/ directory and old pi prompts need a one-time propagate-to-all to sync up.",
+  "residualRisk": "All 14 topic folders synced to new 13-command structure. Old command/ directories in topic folders remain as stale artifacts but are no longer active. They can be cleaned up manually (rm -rf each topic-folder's command/).",
   "immediateNextSteps": [],
   "resumeRules": [
     "Read session-state.json first on every resume",
