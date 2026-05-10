@@ -182,6 +182,15 @@ Do NOT save task progress, session outcomes, completed-work logs, or temporary s
 
 Procedures and workflows belong in skills (`skills/`), not in memory.
 
+### Fallback: Local Learnings File
+
+If agentmemory MCP is unavailable or unresponsive, use the local learnings file instead:
+
+- **Save:** `bash ./scripts/learnings-save.sh "insight" [tags]`
+- **Search:** `bash ./scripts/learnings-search.sh [query]`
+
+The local file lives at `.learnings.jsonl` in the repo root. It supports keyword search only (no semantic search). Prefer agentmemory for semantic lookups; use this as a fallback.
+
 ### Session Search
 
 When the user references something from a past conversation, use `memory_smart_search` or `memory_recall` before asking them to repeat themselves.
