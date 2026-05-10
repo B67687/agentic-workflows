@@ -12,6 +12,12 @@ workflow/retrieval-index/
 agent-concourse/sessions/
 agent-concourse/benchmark-results.json
 
+# Pi session data
+.pi/sessions/
+
+# Python cache
+__pycache__/
+
 # Large binaries
 personal-voice/samples/course-guide.pdf
 
