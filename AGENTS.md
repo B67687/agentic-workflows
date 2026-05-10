@@ -137,6 +137,8 @@ Skills are structured workflows with steps, verification gates, and anti-rationa
 | High-stakes review | `doubt-driven-development` |
 | Context management | `context-engineering` |
 | Unsure which skill | `using-agent-skills` (meta-skill) |
+| Evaluate / improve a skill | `skill-evaluator` |
+| Testing a skill's behavior | `skill-evaluator` |
 
 ### Lifecycle Integration
 
@@ -159,7 +161,7 @@ Skills are grouped into **lifecycle bundles** in `skills/manifest.json` for sele
 | **build** | Implement with discipline | `incremental-implementation`, `test-driven-development`, `source-driven-development`, `frontend-ui-engineering`, `api-and-interface-design` |
 | **verify** | Debug, test, review, harden | `debugging-and-error-recovery`, `code-review-and-quality`, `code-simplification`, `browser-testing-with-devtools`, `security-and-hardening`, `performance-optimization` |
 | **ship** | Release, document, automate | `git-workflow-and-versioning`, `ci-cd-and-automation`, `deprecation-and-migration`, `documentation-and-adrs`, `shipping-and-launch` |
-| **meta** | How we work | `context-engineering`, `doubt-driven-development`, `using-agent-skills` |
+| **meta** | How we work | `context-engineering`, `doubt-driven-development`, `skill-evaluator`, `using-agent-skills` |
 
 When a task spans the lifecycle (e.g. "build and ship"), invoke skills from multiple bundles in order: **define → build → verify → ship**.
 
