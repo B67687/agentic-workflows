@@ -40,7 +40,10 @@
     "Updated workspace-system-overview.template.md for topic folders: commands/ not command/, merged command table",
     "Integrated agent-skills: 22 skills symlinked at skills/, AGENTS.md skill mapping + lifecycle table",
     "Added agentmemory MCP to opencode.jsonc (~$0.11/yr on DeepSeek V4 Flash)",
-    "Updated AGENTS.md with full agentmemory section: 51 MCP tools, auto-capture, 4-tier memory"
+    "Updated AGENTS.md with full agentmemory section: 51 MCP tools, auto-capture, 4-tier memory",
+    "Fully integrated agent-skills into hub: 22 skills copied (no symlink dep), 3 agents, 5 checklists, 12 setup docs",
+    ".opencode/skills/ symlink → skills/ for OpenCode skill discovery",
+    "285 total tracked files (+57 from agent-skills, 10,365 lines added)"
   ],
   "filesTouched": [
     "commands/task.md",
