@@ -149,6 +149,16 @@ Skills are structured workflows with steps, verification gates, and anti-rationa
 | Review | `/counsel` | `code-review-and-quality`, `doubt-driven-development` | Counsel for decisions; skills for code |
 | Ship | — | `shipping-and-launch`, `git-workflow-and-versioning` | No hub equivalent — use skill directly |
 
+### Auto-Create Skills
+
+After completing a complex task (5+ tool calls), fixing a tricky error, or discovering a non-trivial workflow, save the approach as a new skill:
+
+1. Create `skills/<name>/SKILL.md` with frontmatter + workflow steps
+2. Run `bash ./scripts/sync-commands.sh` to sync to `.opencode/skills/`
+3. The `skill` tool will discover it on next session
+
+When using a skill and finding it outdated, incomplete, or wrong, patch it immediately — don't wait to be asked. Skills that aren't maintained become liabilities.
+
 ## Persistent Memory (agentmemory)
 
 **agentmemory** (`@agentmemory/mcp`) is available as an MCP server. It provides persistent, cross-session memory for this workspace.
@@ -157,6 +167,18 @@ Skills are structured workflows with steps, verification gates, and anti-rationa
 - **Auto-captures** tool use, prompts, file access during sessions
 - **Compresses** observations into searchable memory (working → episodic → semantic → procedural)
 - **Injects** relevant context automatically at session start — no re-explaining needed
+
+### Memory Discipline
+
+Save durable facts: user preferences, environment details, tool quirks, stable conventions. Prioritize what reduces future steering — the most valuable memory prevents the user from correcting you again.
+
+Do NOT save task progress, session outcomes, completed-work logs, or temporary state to memory. If a fact will be stale in a week, it does not belong in memory.
+
+Procedures and workflows belong in skills (`skills/`), not in memory.
+
+### Session Search
+
+When the user references something from a past conversation, use `memory_smart_search` or `memory_recall` before asking them to repeat themselves.
 
 ### MCP Tools Available
 51 tools including:
