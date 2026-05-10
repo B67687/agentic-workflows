@@ -69,7 +69,7 @@ For topic-folder work: root `session-state.json`, then `AGENTS.md`, then `docs/w
 
 ## Structure Rules
 
-- This hub's working areas are `docs/`, `research/`, `scripts/`, `workflow/`, `propagation/`, `archive/`, and `personal-voice/`.
+- This hub's working areas are `docs/`, `research/`, `scripts/`, `workflow/`, `propagation/`, `archive/`, `personal-voice/`, and `skills/`.
 - Hub commands live in `commands/`. The old `command/` directory is deprecated — do not use it.
 - Do not move hub content into `agentic-workflows-content/` unless the whole hub is intentionally redesigned.
 - In propagated project folders, normal work belongs in `[folder-name]-content/`.
@@ -97,6 +97,80 @@ Use `docs/repo-quality-analysis-protocol.md` before deleting or merging files. S
 See `scripts/` for automation and `commands/` for slash commands. The single source of truth is `commands/` — after edits, run `bash ./scripts/sync-commands.sh` to mirror to `.opencode/commands/` and `.pi/prompts/`.
 
 For a detailed catalog, run `ls scripts/` or `ls commands/`.
+
+## Engineering Skills (agent-skills)
+
+This hub integrates **[agent-skills](https://github.com/addyosmani/agent-skills)** — 22 production-grade engineering skills. Skills are in `skills/` (symlinked to `~/projects/dev/agent-skills/skills/`).
+
+### How Skills Work
+
+Skills are structured workflows with steps, verification gates, and anti-rationalization tables. The OpenCode `skill` tool loads and executes them by name.
+
+**Core rules:**
+- If a task matches a skill, you MUST invoke it via the `skill` tool
+- Skills are located in `skills/<skill-name>/SKILL.md`
+- Never implement directly if a skill applies — use it first
+- Follow the skill workflow exactly (do not partially apply)
+
+### Intent → Skill Mapping
+
+| Intent | Skill(s) to invoke |
+|---|---|
+| Feature / new functionality | `spec-driven-development` → `incremental-implementation` + `test-driven-development` |
+| Planning / breakdown | `planning-and-task-breakdown` |
+| Bug / failure | `debugging-and-error-recovery` |
+| Code review | `code-review-and-quality` |
+| Refactoring / simplification | `code-simplification` |
+| API or interface design | `api-and-interface-design` |
+| UI work | `frontend-ui-engineering` |
+| Performance optimization | `performance-optimization` |
+| Security review | `security-and-hardening` |
+| Git workflow / versioning | `git-workflow-and-versioning` |
+| CI/CD / automation | `ci-cd-and-automation` |
+| Documentation / ADRs | `documentation-and-adrs` |
+| Shipping / launch | `shipping-and-launch` |
+| Deprecation / migration | `deprecation-and-migration` |
+| Source verification | `source-driven-development` |
+| High-stakes review | `doubt-driven-development` |
+| Context management | `context-engineering` |
+| Unsure which skill | `using-agent-skills` (meta-skill) |
+
+### Lifecycle Integration
+
+| Phase | Hub command | agent-skills skill(s) | Notes |
+|---|---|---|---|
+| Define | `/task` | `idea-refine` → `spec-driven-development` | Hub handles intake; skill handles spec |
+| Plan | `/plan` | `planning-and-task-breakdown` | Hub plan → skill task breakdown |
+| Build | `/implement` | `incremental-implementation` + `test-driven-development` | Hub gates; skill executes |
+| Test | — | `test-driven-development`, `browser-testing-with-devtools` | No hub equivalent — use skill directly |
+| Review | `/counsel` | `code-review-and-quality`, `doubt-driven-development` | Counsel for decisions; skills for code |
+| Ship | — | `shipping-and-launch`, `git-workflow-and-versioning` | No hub equivalent — use skill directly |
+
+## Persistent Memory (agentmemory)
+
+**agentmemory** (`@agentmemory/mcp`) is available as an MCP server. It provides persistent, cross-session memory for this workspace.
+
+### What it does
+- **Auto-captures** tool use, prompts, file access during sessions
+- **Compresses** observations into searchable memory (working → episodic → semantic → procedural)
+- **Injects** relevant context automatically at session start — no re-explaining needed
+
+### MCP Tools Available
+51 tools including:
+- `memory_recall` — search past observations
+- `memory_smart_search` — hybrid semantic + keyword search
+- `memory_save` — save insights, decisions, patterns
+- `memory_profile` — project profile (concepts, files, patterns)
+- `memory_sessions` — list recent sessions
+- `memory_timeline` — chronological observations
+
+### Cost
+~1,900 tokens/session (~$0.11/year on DeepSeek V4 Flash). The token burn concern that justified removing it earlier does not apply to this model.
+
+### Usage
+- agentmemory runs as a background MCP server (`npx @agentmemory/mcp`)
+- It starts automatically with OpenCode (configured in `opencode.jsonc`)
+- No maintenance needed — it captures and compresses silently
 
 ## Agentic Behavior Rules
 
