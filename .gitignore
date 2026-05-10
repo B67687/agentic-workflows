@@ -1,4 +1,4 @@
-# Generated / Large
+# Dependencies
 .opencode/node_modules/
 opencode/package-lock.json
 opencode/package.json
@@ -7,6 +7,13 @@ opencode/package.json
 workflow/sync-state.json
 workflow/cross-domain-review-state.json
 workflow/retrieval-index/
+
+# Experimental session data
+agent-concourse/sessions/
+agent-concourse/benchmark-results.json
+
+# Large binaries
+personal-voice/samples/course-guide.pdf
 
 # Temporary files
 *.tmp
