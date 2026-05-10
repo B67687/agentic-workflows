@@ -57,6 +57,20 @@ Run:
 
 Then respond compactly with: the closure classification, what must go into session-state.json, what prior path is now obsolete, whether a checkpoint commit is appropriate now, and whether the next step should be archive, delete, or stop.
 
+## Safety Scope (freeze edit boundaries)
+
+Use these during debugging or sensitive work to prevent accidental edits outside scope.
+
+**Freeze (restrict edits to one directory):**
+`bash ./scripts/freeze.sh $ARGUMENTS`
+
+If `$ARGUMENTS` is empty, ask for the allowed directory in one sentence. Creates `.gstack-freeze` at repo root. While this file exists, you MUST NOT edit files outside that directory.
+
+**Unfreeze (remove the restriction):**
+`bash ./scripts/unfreeze.sh`
+
+Removes `.gstack-freeze`. Always confirm with the user before unfreezing if there are active edits in progress.
+
 <rationalizations>
 | Shortcut | Why It Fails |
 |---|---|

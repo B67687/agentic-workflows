@@ -271,6 +271,24 @@ Do not add public-facing footers that disclose routing, model use, or internal e
 
 Never downgrade critical tasks. Verify specialist output. If agent misroutes 3× in a session, revert to monolithic. If the same fix fails twice, checkpoint, re-plan, or switch to fresh context.
 
+### 7. Completion Status Protocol
+
+When completing any phase, task, or skill workflow, end with one of these status codes:
+
+- **DONE** — completed with evidence (files changed, tests passed, output produced)
+- **DONE_WITH_CONCERNS** — completed, but list unresolved concerns explicitly
+- **BLOCKED** — cannot proceed; state what blocker was and what was tried
+- **NEEDS_CONTEXT** — missing information; state exactly what is needed
+
+After 3 consecutive failed attempts on the same issue, escalate with `ESCALATE` prefix.
+
+### 8. Safety Scoping
+
+If a `.gstack-freeze` file exists in the workspace root, read it — it contains a single directory path. **Do NOT edit any files outside that directory.** This is a hard block, not a warning. If a task requires changes outside the frozen scope, report it and ask for `/unfreeze`.
+
+- `/freeze <path>` — creates `.gstack-freeze` with the given directory
+- `/unfreeze` — removes `.gstack-freeze`
+
 ---
 
 ## Deep References
