@@ -6,7 +6,8 @@ Read this first on every resume. Everything else is linked.
 
 - **Session:** Check root `session-state.json` for the active task
 - **System:** Phase-based direct workflow with deterministic intake, slicing, preflight, and checkpoint helpers
-- **Main AI:** DeepSeek V4 Flash (OpenCode Go) for sustainable volume, or Claude Sonnet 4.6 (Copilot) for higher-quality daily work
+- **Main AI:** DeepSeek V4 Pro (OpenCode Go) for hard daily work; switch to DeepSeek V4 Flash when you need sustainable volume
+- **Pi layer:** Project-local `.pi/` prompts, sessions, and workflow guard are now propagated across topic folders
 - **Goal:** One main AI for 90% of work. Spawn subagents only for fresh context or bulk search.
 
 ## 10-Second Rules
@@ -26,12 +27,13 @@ Read this first on every resume. Everything else is linked.
 
 ## Project Context
 
-- This hub manages sibling topic folders in the parent folder that contains `ai-prompting`
+- This hub manages sibling topic folders in the parent folder that contains `agentic-workflows`
 - Hub work: docs, research, scripts, templates, workflow state
 - Topic work: inside `[topic-name]-content/`, resume from root `session-state.json`
 - Propagate shared defaults: `bash scripts/propagate-to-all.sh --apply`
 - Fast phase commands: `/route`, `/prompt-contract`, `/start-task`, `/shape-product`, `/counsel`, `/counsel-run`, `/task-tree`, `/north-star`, `/shape-milestone`, `/slice-task`, `/grill`, `/repo-map`, `/research`, `/plan`, `/implement`, `/optimize`, `/query`, `/session-boundary`, `/handoff`, `/checkpoint`, `/close-task`, `/finish-task`, `/git-start`, `/git-worktree`
-- OpenCode command discovery should use `.opencode/commands/`; the repo also keeps `command/` as a readable mirrored command set
+- OpenCode command discovery should use `.opencode/commands/`; commands are edited in `commands/` and synced via `scripts/sync-commands.sh`
+- Pi prompt discovery should use `.pi/prompts/`; Pi session data should stay in `.pi/sessions/`
 - Phase gate: `bash scripts/phase-gate.sh implement --research-done --plan-done --scope-bounded --verification-known`
 - Git repo probe: `bash scripts/git-session-start.sh`
 - Normal-language router: `bash scripts/workflow-router.sh "task"`
@@ -86,11 +88,11 @@ Read this first on every resume. Everything else is linked.
 ```
 [Topic]/
 |- AGENTS.md                         (hub-owned managed core)
-|- .ai-prompting-hub.sh              (hub-owned managed core resolver)
+|- .ai-prompting-hub.sh              (hub-owned managed core; change HUB_FOLDER_NAME in it on rename)
 |- docs/workspace-system-overview.md (hub-owned managed core)
 |- git-github-best-practices.md      (hub-owned managed core)
 |- quality-standards.md              (hub-owned managed core)
-|- command/                         (hub-owned managed core slash commands)
+|- commands/                        (hub-owned managed core slash commands; synced via sync-commands.sh)
 |- product-shape.sh                 (hub-owned managed core)
 |- counsel-gate.sh                  (hub-owned managed core)
 |- counsel-model-select.sh          (hub-owned managed core)
@@ -111,6 +113,9 @@ Read this first on every resume. Everything else is linked.
 |- google-models.sh                 (hub-owned managed core)
 |- opencode-auth-profile.sh         (hub-owned managed core)
 |- opencode-model-profile.sh        (hub-owned managed core)
+|- .pi/settings.json                (hub-owned managed core)
+|- .pi/prompts/                     (hub-owned managed core Pi prompt templates)
+|- .pi/extensions/workflow-guard.ts (hub-owned managed core Pi safety layer)
 |- retrieve-context.sh               (hub-owned managed core)
 |- repo-map.sh                        (hub-owned managed core)
 |- session-boundary.sh               (hub-owned managed core)

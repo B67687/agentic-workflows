@@ -15,18 +15,11 @@ set -uo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+source "$SCRIPT_DIR/propagation-contract.sh"
 WORKFLOW_DIR="$REPO_ROOT/workflow"
 OUTPUT_FILE="$WORKFLOW_DIR/harvested-topic-insights.md"
 
-# Find workspace root
-if [[ -d "/mnt/m/M-Namikaz-Others" ]]; then
-    PARENT_DIR="/mnt/m/M-Namikaz-Others"
-elif [[ -d "/home/namikaz/projects/dev" ]]; then
-    PARENT_DIR="/home/namikaz/projects/dev"
-else
-    echo "ERROR: Cannot find workspace root folder"
-    exit 1
-fi
+PARENT_DIR="${AI_PROMPTING_WORKSPACE_ROOT:-$(propagation_parent_dir)}"
 
 PREVIEW=false
 
@@ -69,20 +62,15 @@ echo "Harvest Topic Insights"
 echo "============================================="
 echo ""
 
-# Find all folders with topic-insights.md
+# Find all topic folders with topic-insights.md
 folders_with_insights=()
-for folder in "$PARENT_DIR"/*/; do
-    folder="${folder%/}"
-    folder_name="$(basename "$folder")"
-    # Skip the ai-prompting hub itself
-    [[ "$folder_name" == "ai-prompting" ]] && continue
-    [[ "$folder_name" == .* ]] && continue
-    
+while IFS= read -r folder; do
+    [[ -z "$folder" ]] && continue
     insights_file="$folder/topic-insights.md"
     if [[ -f "$insights_file" ]]; then
         folders_with_insights+=("$folder")
     fi
-done
+done < <(propagation_collect_topic_folders)
 
 echo "Found ${#folders_with_insights[@]} folders with topic-insights.md"
 echo ""

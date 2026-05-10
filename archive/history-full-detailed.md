@@ -2012,7 +2012,7 @@ The biggest final agreements:
 - Cheap/free models are useful, but not all cheap models belong in main coding loops.
 - Topic folders need a mandatory `[folder-name]-content/` operating area.
 - `meta/` is optional and should not be bulk-created.
-- Hub content already lives in `docs/`, `research/`, `scripts/`, `workflow/`, `propagate-templates/`, `archive/`, and `personal-voice/`; do not create `ai-prompting-content/` for the hub without a deliberate redesign.
+- Hub content already lives in `docs/`, `research/`, `scripts/`, `workflow/`, `propagate-templates/`, `archive/`, and `personal-voice/`; do not create `agentic-workflows-content/` for the hub without a deliberate redesign.
 - `scripts/` is only for executable automation.
 - `workflow/` is for state, queues, registries, generated outputs, and process logs.
 - `docs/quality-standards.md` is documentation, not a root file.
@@ -2156,7 +2156,7 @@ The biggest final agreements:
 **Implemented:**
 
 - `AGENTS.md` says the hub's working areas are `docs/`, `research/`, `scripts/`, `workflow/`, `propagate-templates/`, `archive/`, and `personal-voice/`.
-- It also says not to move hub content into `ai-prompting-content/` unless the whole hub is intentionally redesigned.
+- It also says not to move hub content into `agentic-workflows-content/` unless the whole hub is intentionally redesigned.
 
 ### 6. Root Files Were Classified More Strictly
 

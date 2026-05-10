@@ -1,4 +1,4 @@
-# ai-prompting Hub — How to Use AI Best
+# agentic-workflows Hub — How to Use AI Best
 
 A living knowledge base for prompt design, agent workflows, repo rollout, and reusable lessons.
 

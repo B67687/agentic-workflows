@@ -4,7 +4,7 @@
 # =============================================================================
 # After approving a cross-domain candidate:
 #   1. Reads the approved candidate from workflow/cross-domain-candidates.md
-#   2. Inserts the generalized lesson into the target doc in ai-prompting
+#   2. Inserts the generalized lesson into the target doc in the hub
 #   3. Updates merge-log.md
 #   4. Optionally runs propagate-to-all.sh
 #

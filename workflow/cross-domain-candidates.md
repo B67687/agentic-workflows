@@ -1,6 +1,6 @@
 # Cross-Domain Candidates
 
-Generated: 2026-04-30 22:10:19 +0800
+Generated: 2026-05-08 11:37:20 +0800
 
 ## Candidates
 

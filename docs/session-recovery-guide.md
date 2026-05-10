@@ -13,7 +13,7 @@ How to recover sessions in OpenCode when the UI doesn't show them.
 ```sql
 SELECT id, title, project_id, directory, time_archived, time_created, time_updated
 FROM session 
-WHERE directory LIKE '%ai-prompting%'
+WHERE directory LIKE '%agentic-workflows%'
 ORDER BY time_updated DESC;
 ```
 

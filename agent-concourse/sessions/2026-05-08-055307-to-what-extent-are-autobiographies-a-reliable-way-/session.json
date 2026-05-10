@@ -1,0 +1,174 @@
+{
+  "session_id": "2026-05-08-055307-to-what-extent-are-autobiographies-a-reliable-way-",
+  "topic": "To what extent are autobiographies a reliable way of learning about well-known historical figures?",
+  "panel": "3-debate",
+  "panel_file": "/home/namikaz/projects/dev/agentic-workflows/agent-concourse/panels/3-debate.json",
+  "created": "2026-05-08T05:53:07Z",
+  "rounds_total": 5,
+  "rounds_completed": 5,
+  "agent_count": 3,
+  "agents": [
+    {
+      "name": "Guide",
+      "model": "nvidia/nemotron-3-super-120b-a12b:free",
+      "temperature": 0.3,
+      "max_tokens": 200,
+      "persona": "You keep a conversation moving. Do not give your own opinion.\n\n- 2-3 sentences\n- No formatting\n- Summarize the key point, then ask one question",
+      "model_short": "nemotron-3-super-120b-a12b"
+    },
+    {
+      "name": "Analyst",
+      "model": "minimax/minimax-m2.5:free",
+      "temperature": 0.6,
+      "max_tokens": 250,
+      "persona": "You look at things from a practical, evidence-based angle.\n\n- 3-4 sentences\n- No formatting\n- State your view, give one reason, mention what's missing",
+      "model_short": "minimax-m2.5"
+    },
+    {
+      "name": "Challenger",
+      "model": "openai/gpt-oss-120b:free",
+      "temperature": 0.7,
+      "max_tokens": 250,
+      "persona": "You question assumptions and stress-test ideas.\n\n- 3-4 sentences\n- No formatting\n- Find what's being taken for granted\n- Ask a pointed question at the end",
+      "model_short": "gpt-oss-120b"
+    }
+  ],
+  "messages": [
+    {
+      "round": 1,
+      "agent_index": 0,
+      "agent_name": "Guide",
+      "model": "nvidia/nemotron-3-super-120b-a12b:free",
+      "timestamp": "2026-05-08T05:53:10Z",
+      "content": "[ERROR: HTTP Error 429: Too Many Requests]",
+      "latency_s": 3.0
+    },
+    {
+      "round": 1,
+      "agent_index": 1,
+      "agent_name": "Analyst",
+      "model": "minimax/minimax-m2.5:free",
+      "timestamp": "2026-05-08T05:54:24Z",
+      "content": "I don't see previous responses from others in this conversation, but I can offer my position on the topic.\n\nAutobiographies are only moderately reliable for learning about historical figures because they are inherently self-serving. Authors naturally present themselves in the most favorable light, omit embarrassing details, and reshape memories to fit narratives they want to believe about themselves.\n\nWhat's missing is triangulation with external sources - contemporary accounts, correspondence, and critical biographies that can verify claims or reveal what the subject chose to omit or distort.",
+      "latency_s": 74.0
+    },
+    {
+      "round": 1,
+      "agent_index": 2,
+      "agent_name": "Challenger",
+      "model": "openai/gpt-oss-120b:free",
+      "timestamp": "2026-05-08T05:54:32Z",
+      "content": "You assume that an autobiography\u2019s value lies chiefly in the factual details it supplies, yet it is first and foremost a performance where the author curates a legacy, often rewriting events to fit a later self\u2011image. By treating the text as a neutral window, you ignore how memory is selective, how the desire for posthumous reputation filters recollection, and how publishing constraints force omissions or embellishments. If we accept autobiographies as reliable without cross\u2011checking against letters, newspapers, and rival memoirs, we risk perpetuating the very myths the subject constructed. How would our understanding of a figure like Napoleon change if we treated his memoirs as propaganda rather than primary evidence?",
+      "latency_s": 7.9
+    },
+    {
+      "round": 2,
+      "agent_index": 0,
+      "agent_name": "Guide",
+      "model": "nvidia/nemotron-3-super-120b-a12b:free",
+      "timestamp": "2026-05-08T05:54:35Z",
+      "content": "[ERROR: HTTP Error 429: Too Many Requests]",
+      "latency_s": 2.7
+    },
+    {
+      "round": 2,
+      "agent_index": 1,
+      "agent_name": "Analyst",
+      "model": "minimax/minimax-m2.5:free",
+      "timestamp": "2026-05-08T05:54:40Z",
+      "content": "[ERROR: HTTP Error 429: Too Many Requests]",
+      "latency_s": 4.0
+    },
+    {
+      "round": 2,
+      "agent_index": 2,
+      "agent_name": "Challenger",
+      "model": "openai/gpt-oss-120b:free",
+      "timestamp": "2026-05-08T05:54:48Z",
+      "content": "You assume that the mere existence of corroborating letters or newspaper reports automatically validates an autobiography\u2019s accuracy, overlooking that those external sources can be equally biased, incomplete, or produced under the same political pressures. By treating \u201cmultiple sources\u201d as a simple checklist, you ignore the interpretive work required to assess provenance, audience, and purpose, which can distort the very facts you think you\u2019re confirming. The debate often presumes that an author\u2019s self\u2011selection is the only distortion, yet editorial censorship, publisher agendas, and contemporary propaganda can reshape the narrative as much as the writer\u2019s memory. If we accepted that every source\u2014autobiography, diary, press, or official record\u2014carries its own agenda, how would we decide which version of a historical figure\u2019s life to trust?",
+      "latency_s": 7.8
+    },
+    {
+      "round": 3,
+      "agent_index": 0,
+      "agent_name": "Guide",
+      "model": "nvidia/nemotron-3-super-120b-a12b:free",
+      "timestamp": "2026-05-08T05:54:51Z",
+      "content": "[ERROR: HTTP Error 429: Too Many Requests]",
+      "latency_s": 2.7
+    },
+    {
+      "round": 3,
+      "agent_index": 1,
+      "agent_name": "Analyst",
+      "model": "minimax/minimax-m2.5:free",
+      "timestamp": "2026-05-08T05:55:56Z",
+      "content": "The solution isn't to abandon autobiographies but to treat them as one source type among many, each with distinct strengths and weaknesses. Autobiographies excel at revealing how figures wanted to be perceived and what narratives they considered important enough to preserve, which is itself historically valuable for understanding reputation and self-fashioning. What's missing from this debate is acknowledgment that reliability varies by purpose - for factual events, corroboration matters; for understanding how subjects constructed their legacies, autobiographies are indispensable.",
+      "latency_s": 64.9
+    },
+    {
+      "round": 3,
+      "agent_index": 2,
+      "agent_name": "Challenger",
+      "model": "openai/gpt-oss-120b:free",
+      "timestamp": "2026-05-08T05:56:27Z",
+      "content": "You take for granted that an autobiography\u2019s \u201clegitimacy\u201d can be measured by how well it aligns with external facts, ignoring that the very act of self\u2011presentation reshapes the historical record in ways facts alone cannot capture. By privileging corroborated events, you dismiss the insight that discrepancies themselves reveal power dynamics, censorship, or the subject\u2019s strategic self\u2011mythologizing. If we treated the gaps and contradictions not as failures of reliability but as data points about identity construction, would we then deem autobiographies more useful than we currently allow?",
+      "latency_s": 30.0
+    },
+    {
+      "round": 4,
+      "agent_index": 0,
+      "agent_name": "Guide",
+      "model": "nvidia/nemotron-3-super-120b-a12b:free",
+      "timestamp": "2026-05-08T05:56:35Z",
+      "content": "[ERROR: HTTP Error 429: Too Many Requests]",
+      "latency_s": 7.4
+    },
+    {
+      "round": 4,
+      "agent_index": 1,
+      "agent_name": "Analyst",
+      "model": "minimax/minimax-m2.5:free",
+      "timestamp": "2026-05-08T05:57:27Z",
+      "content": "Autobiographies are most reliable about mundane details the author had no incentive to distort and least reliable about the very things we'd most want to know - their true motivations, private failures, and moments of doubt. The desire to present a coherent narrative actually makes autobiographies more trustworthy on peripheral matters than on the central dramas that interest historians most.\n\nWhat's missing from this debate is distinguishing between different types of information within a single autobiography - some passages are more defensible than others, and treating the entire text as equally suspect or equally credible misses that nuance.",
+      "latency_s": 51.2
+    },
+    {
+      "round": 4,
+      "agent_index": 2,
+      "agent_name": "Challenger",
+      "model": "openai/gpt-oss-120b:free",
+      "timestamp": "2026-05-08T05:57:41Z",
+      "content": "You assume that \u201cmundane details\u201d are automatically safe because the author supposedly has no motive to tweak them, yet even trivial facts can be selected or omitted to support a larger self\u2011portrait\u2014think of the way a writer mentions a childhood hobby only if it reinforces a later claim about innate talent. By drawing a blanket line between \u201ccentral dramas\u201d (unreliable) and \u201cperipheral matters\u201d (reliable), you ignore that the same narrative strategies\u2014omission, emphasis, reinterpretation\u2014operate across the whole text, and that what appears mundane may be deliberately highlighted to shape the reader\u2019s perception. If we stopped treating autobiographies as a single monolith of truth\u2011or\u2011lie and instead graded each passage by its evidential load and narrative function, how would that change the way we use them as historical sources?",
+      "latency_s": 13.1
+    },
+    {
+      "round": 5,
+      "agent_index": 0,
+      "agent_name": "Guide",
+      "model": "nvidia/nemotron-3-super-120b-a12b:free",
+      "timestamp": "2026-05-08T05:57:48Z",
+      "content": "[ERROR: HTTP Error 429: Too Many Requests]",
+      "latency_s": 6.1
+    },
+    {
+      "round": 5,
+      "agent_index": 1,
+      "agent_name": "Analyst",
+      "model": "minimax/minimax-m2.5:free",
+      "timestamp": "2026-05-08T05:58:16Z",
+      "content": "This granular approach is theoretically sound but practically difficult because we rarely have enough contextual evidence to assess each passage's reliability independently - grading evidential load requires knowing what was omitted or distorted in the first place, which creates a circular problem.\n\nWhat's missing is acknowledgment that historians already do this informally through professional judgment, and the debate would benefit from concrete case studies showing how this works rather than abstract principles about reliability.",
+      "latency_s": 26.9
+    },
+    {
+      "round": 5,
+      "agent_index": 2,
+      "agent_name": "Challenger",
+      "model": "openai/gpt-oss-120b:free",
+      "timestamp": "2026-05-08T05:58:23Z",
+      "content": "You take for granted that a historian\u2019s \u201cprofessional judgment\u201d can be applied uniformly, yet that judgment itself rests on shared training, institutional biases, and the availability of corroborating archives that differ across regions and eras. By assuming the existence of enough contextual evidence to grade each passage, you overlook the many autobiographies that survive precisely because they filled a documentary void, leaving little external material to test any claim. If we accept that expert intuition cannot fill every evidentiary gap, how do we decide when an autobiographical fragment is worth treating as fact rather than speculation?",
+      "latency_s": 7.1
+    }
+  ],
+  "summary": null
+}

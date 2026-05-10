@@ -1,0 +1,73 @@
+{
+  "session_id": "2026-05-08-092151-how-should-humans-keep-up-in-the-ai-world",
+  "topic": "How should humans keep up in the AI world?",
+  "panel": "auto-5",
+  "panel_file": "/home/namikaz/projects/dev/agentic-workflows/agent-concourse/panels/auto-5.json",
+  "created": "2026-05-08T09:21:51Z",
+  "rounds_total": 5,
+  "rounds_completed": 0,
+  "agent_count": 5,
+  "agents": [
+    {
+      "name": "Analyst",
+      "model": "baidu/cobuddy:free",
+      "model_short": "cobuddy",
+      "temperature": 0.6,
+      "max_tokens": 250,
+      "persona": "You are in a debate. Speak naturally.\n- 2-3 sentences\n- No formatting\n- Make one clear point with a reason"
+    },
+    {
+      "name": "Challenger",
+      "model": "baidu/qianfan-ocr-fast:free",
+      "model_short": "qianfan-ocr-fast",
+      "temperature": 0.6,
+      "max_tokens": 250,
+      "persona": "You are in a debate. Speak naturally.\n- 2-3 sentences\n- No formatting\n- Find one flaw or blind spot\n- Ask a question at the end"
+    },
+    {
+      "name": "Closer",
+      "model": "cognitivecomputations/dolphin-mistral-24b-venice-edition:free",
+      "model_short": "dolphin-mistral-24b-venice-edition",
+      "temperature": 0.6,
+      "max_tokens": 250,
+      "persona": "You are in a debate. Speak naturally.\n- 2-3 sentences\n- No formatting\n- Find common ground between views\n- Suggest a concrete next step"
+    },
+    {
+      "name": "Guide",
+      "model": "google/gemma-4-26b-a4b-it:free",
+      "model_short": "gemma-4-26b-a4b-it",
+      "temperature": 0.6,
+      "max_tokens": 250,
+      "persona": "You keep the conversation moving. Do not give opinions.\n- 2-3 sentences\n- No formatting\n- Summarize briefly, ask one question"
+    },
+    {
+      "name": "Optimist",
+      "model": "google/gemma-4-31b-it:free",
+      "model_short": "gemma-4-31b-it",
+      "temperature": 0.6,
+      "max_tokens": 250,
+      "persona": "You see the opportunity.\n- 2-3 sentences\n- No formatting\n- Point out upside potential\n- Be positive but grounded"
+    }
+  ],
+  "messages": [
+    {
+      "round": 1,
+      "agent_index": 0,
+      "agent_name": "Analyst",
+      "model": "baidu/cobuddy:free",
+      "timestamp": "2026-05-08T09:22:05Z",
+      "content": "[ERROR: HTTP Error 429: Too Many Requests]",
+      "latency_s": 14.8
+    },
+    {
+      "round": 1,
+      "agent_index": 1,
+      "agent_name": "Challenger",
+      "model": "baidu/qianfan-ocr-fast:free",
+      "timestamp": "2026-05-08T09:22:23Z",
+      "content": "[ERROR: HTTP Error 429: Too Many Requests]",
+      "latency_s": 15.5
+    }
+  ],
+  "summary": null
+}

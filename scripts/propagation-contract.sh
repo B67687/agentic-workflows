@@ -6,10 +6,9 @@ PROPAGATION_CONTRACT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 PROPAGATION_TEMPLATES_DIR="${PROPAGATION_TEMPLATES_DIR:-$PROPAGATION_CONTRACT_ROOT/propagation}"
 MANAGED_MARKER="Managed-By: AI-Prompting-Library"
 
-declare -a PROPAGATION_EXCLUDED_FOLDERS=(
-  "ai-prompting"
-  "open-codex"
-)
+# Auto-detected from repo root — dynamically handles any rename
+PROPAGATION_HUB_NAME="$(basename "$PROPAGATION_CONTRACT_ROOT")"
+PROPAGATION_PARENT_DIR="$(dirname "$PROPAGATION_CONTRACT_ROOT")"
 
 declare -a PROPAGATION_MANAGED_CORE=(
   "ai-prompting-hub.template.sh:.ai-prompting-hub.sh"
@@ -76,6 +75,17 @@ declare -a PROPAGATION_MANAGED_CORE=(
   "google-models.template.sh:google-models.sh"
   "opencode-auth-profile.template.sh:opencode-auth-profile.sh"
   "opencode-model-profile.template.sh:opencode-model-profile.sh"
+  "pi/settings.template.json:.pi/settings.json"
+  "pi/prompts/route.template.md:.pi/prompts/route.md"
+  "pi/prompts/start-task.template.md:.pi/prompts/start-task.md"
+  "pi/prompts/grill.template.md:.pi/prompts/grill.md"
+  "pi/prompts/research.template.md:.pi/prompts/research.md"
+  "pi/prompts/plan.template.md:.pi/prompts/plan.md"
+  "pi/prompts/implement.template.md:.pi/prompts/implement.md"
+  "pi/prompts/checkpoint.template.md:.pi/prompts/checkpoint.md"
+  "pi/prompts/session-boundary.template.md:.pi/prompts/session-boundary.md"
+  "pi/prompts/handoff.template.md:.pi/prompts/handoff.md"
+  "pi/extensions/workflow-guard.template.ts:.pi/extensions/workflow-guard.ts"
   "prompt-contract.template.sh:prompt-contract.sh"
   "product-shape.template.sh:product-shape.sh"
   "counsel-gate.template.sh:counsel-gate.sh"
@@ -157,13 +167,31 @@ propagation_template_path() {
 
 propagation_folder_excluded() {
   local folder_name="$1"
-  local excluded
+  # Only exclude the hub itself — all siblings are valid topic folders
+  [[ "$folder_name" == "$PROPAGATION_HUB_NAME" ]] && return 0
+  return 1
+}
 
-  for excluded in "${PROPAGATION_EXCLUDED_FOLDERS[@]}"; do
-    if [[ "$excluded" == "$folder_name" ]]; then
-      return 0
-    fi
+# Discover the parent directory that contains all topic folders
+propagation_parent_dir() {
+  echo "$PROPAGATION_PARENT_DIR"
+}
+
+# Collect all topic folders (siblings except hub and hidden dirs)
+propagation_collect_topic_folders() {
+  local parent_dir item item_name
+  parent_dir="$(propagation_parent_dir)"
+  for item in "$parent_dir"/*/; do
+    item_name="$(basename "$item")"
+    [[ "$item_name" == .* ]] && continue
+    propagation_folder_excluded "$item_name" && continue
+    printf '%s\n' "${item%/}"
   done
+}
 
+# Check if a folder is a topic folder (has AGENTS.md marker)
+propagation_is_topic_folder() {
+  local folder="$1"
+  [[ -f "$folder/AGENTS.md" ]] && return 0
   return 1
 }

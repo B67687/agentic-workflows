@@ -1,13 +1,14 @@
 #!/usr/bin/env bash
 # Managed-By: AI-Prompting-Library
 # =============================================================================
-# sync-from-hub.sh - Refresh hub-owned managed-core files from ai-prompting
+# sync-from-hub.sh - Refresh hub-owned managed-core files from the hub
 # =============================================================================
 
 set -uo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 TARGET_DIR="$SCRIPT_DIR"
+HUB_FOLDER_NAME="${HUB_FOLDER_NAME:-agentic-workflows}"
 MODE="apply"
 
 while [[ $# -gt 0 ]]; do
@@ -37,14 +38,14 @@ done
 
 HUB_DIR=""
 for d in "$TARGET_DIR"/.. "$TARGET_DIR"/../.. "$TARGET_DIR"/../../..; do
-  if [[ -d "$d/ai-prompting" ]] && [[ -f "$d/ai-prompting/scripts/propagation-contract.sh" ]]; then
-    HUB_DIR="$d/ai-prompting"
+  if [[ -d "$d/$HUB_FOLDER_NAME" ]] && [[ -f "$d/$HUB_FOLDER_NAME/scripts/propagation-contract.sh" ]]; then
+    HUB_DIR="$d/$HUB_FOLDER_NAME"
     break
   fi
 done
 
 if [[ -z "$HUB_DIR" ]]; then
-  echo "ERROR: Could not find ai-prompting hub"
+  echo "ERROR: Could not find $HUB_FOLDER_NAME hub"
   exit 1
 fi
 

@@ -170,5 +170,5 @@ Generated: $(date '+%Y-%m-%d %H:%M:%S')
 
 ## Files Analyzed
 
-$(printf '%s\n' "${sample_files[@/#/}" | sed 's|.*/||')
+$(printf '%s\n' "${sample_files[@]}" | sed 's|.*/||')
 EOF

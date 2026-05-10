@@ -6,8 +6,8 @@ Central index of folders participating in the cross-domain knowledge flow.
 
 | Folder | Path | Status | Notes |
 |--------|------|--------|-------|
-| ai-prompting | `/home/namikaz/projects/dev/ai-prompting` | Central Hub | Central knowledge base and workflow owner |
-| bus-app | `/home/namikaz/projects/dev/bus-app` | Active | Topic folder with repo-owned insights |
+| agentic-workflows | `/home/namikaz/projects/dev/agentic-workflows` | Central Hub | Central knowledge base and workflow owner |
+| bus-hop | `/home/namikaz/projects/dev/bus-hop` | Active | Topic folder with repo-owned insights |
 | fengshui | `/home/namikaz/projects/dev/fengshui` | Active | Topic folder with repo-owned insights |
 | fluent-prs | `/home/namikaz/projects/dev/fluent-prs` | Active | Topic folder with repo-owned insights |
 | hugo | `/home/namikaz/projects/dev/hugo` | Active | Topic folder with repo-owned insights |
@@ -20,7 +20,7 @@ Central index of folders participating in the cross-domain knowledge flow.
 | random | `/home/namikaz/projects/dev/random` | Active | Topic folder with repo-owned insights |
 | reality | `/home/namikaz/projects/dev/reality` | Active | Topic folder with repo-owned insights |
 | rss-reader | `/home/namikaz/projects/dev/rss-reader` | Active | Topic folder with repo-owned insights |
-| wall-you | `/home/namikaz/projects/dev/wall-you` | Active | Topic folder with repo-owned insights |
+| scenic-fetch | `/home/namikaz/projects/dev/scenic-fetch` | Active | Topic folder with repo-owned insights |
 
 ## How to Add a New Folder
 
@@ -43,9 +43,9 @@ Central index of folders participating in the cross-domain knowledge flow.
 
 ```yaml
 ---
-central_hub: ai-prompting
+central_hub: agentic-workflows
 version: 2.0
-last_updated: 2026-04-30
+last_updated: 2026-05-08
 active_topic_folders: 14
 workflow_mode: manual-approval
 ---

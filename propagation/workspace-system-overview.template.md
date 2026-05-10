@@ -3,7 +3,7 @@
 
 This file explains the structure and conventions for this topic folder.
 
-For the hub's central knowledge base, see the sibling `ai-prompting` folder's `docs/workspace-system-overview.md`.
+For the hub's central knowledge base, see the sibling `agentic-workflows` folder's `docs/workspace-system-overview.md`.
 
 ## What This Folder Is
 
@@ -11,208 +11,95 @@ This is a topic folder within the shared workspace.
 
 | Area | What it is | Where normal work goes |
 |---|---|---|
-| `ai-prompting` hub | Central knowledge and propagation system | (sibling folder) |
+| `agentic-workflows` hub | Central knowledge and propagation system | (sibling folder) |
 | This topic folder | Your project/topic workspace | `[folder-name]-content/` |
 
 ## Folder Structure
 
-Expected root structure:
-
-```text
+```
 [Topic-Folder]/
 |- AGENTS.md                         (hub-owned managed core)
 |- .ai-prompting-hub.sh              (hub-owned managed core resolver)
 |- docs/workspace-system-overview.md (hub-owned managed core)
 |- git-github-best-practices.md      (hub-owned managed core)
 |- quality-standards.md              (hub-owned managed core)
-|- audit-folder-quality.sh           (hub-owned managed core)
-|- check-sync-status.sh              (hub-owned managed core)
-|- sync-from-hub.sh                  (hub-owned managed core)
+|- scripts/*.sh                      (hub-owned managed core — see below)
 |- command/                          (hub-owned managed core slash commands)
-|- task-intake.sh                    (hub-owned managed core)
-|- google-models.sh                  (hub-owned managed core)
-|- opencode-auth-profile.sh          (hub-owned managed core)
-|- opencode-model-profile.sh         (hub-owned managed core)
-|- workflow-router.sh                (hub-owned managed core)
-|- prompt-contract.sh                (hub-owned managed core)
-|- product-shape.sh                  (hub-owned managed core)
-|- counsel-gate.sh                   (hub-owned managed core)
-|- counsel-model-select.sh           (hub-owned managed core)
-|- counsel-run.sh                    (hub-owned managed core)
-|- task-tree.sh                      (hub-owned managed core)
-|- north-star.sh                     (hub-owned managed core)
-|- milestone-shape.sh                (hub-owned managed core)
-|- task-slice.sh                     (hub-owned managed core)
-|- phase-gate.sh                     (hub-owned managed core)
-|- plan-guard.sh                     (hub-owned managed core)
-|- optimize-gate.sh                  (hub-owned managed core)
-|- checkpoint-commit.sh              (hub-owned managed core)
-|- git-session-start.sh              (hub-owned managed core)
-|- git-worktree-branch.sh            (hub-owned managed core)
-|- retrieve-context.sh               (hub-owned managed core)
-|- repo-map.sh                        (hub-owned managed core)
-|- session-boundary.sh               (hub-owned managed core)
-|- handoff.sh                        (hub-owned managed core)
+|- .opencode/commands/               (hub-owned managed core, mirrored)
 |- session-state.json                (repo-owned after bootstrap)
 |- topic-insights.md                 (repo-owned after bootstrap)
-|- .cleanup-protect                  (repo-owned after bootstrap)
-|- archive/history-index.md          (repo-owned after bootstrap)
-|- archive/history-full-detailed.md  (repo-owned after bootstrap)
+|- .cleanup-protect                  (repo-owned)
+|- archive/history-index.md          (repo-owned)
+|- archive/history-full-detailed.md  (repo-owned)
 |- [folder-name]-content/            (YOUR WORK GOES HERE)
-`- meta/                             (optional - YOUR custom content)
+`- meta/                             (YOUR custom content — never touched by propagation)
 ```
+
+The hub manages: AGENTS.md, workspace-system-overview.md, git-github-best-practices.md, quality-standards.md, audit-folder-quality.sh, check-sync-status.sh, sync-from-hub.sh, and all scripts. Run `bash .ai-prompting-hub.sh` to locate the hub, or set `$AI_PROMPTING_HUB`.
 
 ## Key Rules
 
-1. **Work goes in `[topic-name]-content/`** - This is your primary operating area. The hub never touches this folder.
-
-2. **meta/ is protected** - Any folder or file in `meta/` is YOURS. Hub propagation never touches it.
-
-3. **Content folder naming** - Uses simple kebab-case: lowercase + spaces → dashes.
-   - Example: "Fluent PRs" → `fluent-prs-content`
-
-4. **Session state** - The file `session-state.json` tracks current work. Read it on every resume.
-5. **Ownership split** - The hub may refresh only the managed core. `session-state.json`, `topic-insights.md`, `.cleanup-protect`, and archive files are repo-owned after bootstrap.
-6. **Runtime config** - Do not create repo-local OpenCode runtime config. Use the global config and the root session-state file instead.
-7. **Phase workflow** - For non-trivial work, do research first, plan second, implement third.
-8. **Fast iteration** - Big tasks should become milestone ladder plus first executable slice, not one giant plan.
-9. **Three planning levels** - North Star keeps the goal large, milestone shaping picks the next bet, slice planning drives execution.
-10. **Anti-paralysis** - After two planning refinements, pick the next slice instead of broadening the plan again.
-11. **Optimization lane** - Optimize by evidence; architecture optimization needs bounded review.
-12. **Speed plus stability** - Smaller verified batches should improve both pace and safety.
-13. **Session boundaries** - New phase, new session. Checkpoint when a phase is verified and restart when context quality drops.
+1. **Work goes in `[topic-name]-content/`** — The hub never touches this folder.
+2. **`meta/` is protected** — Hub propagation never touches it.
+3. **Content folder naming** — Kebab-case: `fluent-prs-content`
+4. **Session state** — Read `session-state.json` on every resume.
+5. **Ownership split** — Hub refreshes only managed core. Session state, topic-insights, cleanup-protect, and archive are repo-owned.
+6. **No repo-local OpenCode config** — Use global config.
+7. **Phase workflow** — Research → plan → implement for non-trivial work.
+8. **Fast iteration** — Milestone ladder + first slice, not one giant plan.
+9. **Anti-paralysis** — After two planning refinements, pick the next slice.
+10. **Optimize by evidence** — Measure first; architecture review for hard-to-reverse risks.
+11. **Session boundaries** — New phase, new session. Checkpoint when verified.
 
 ## Core Principles
 
-See AGENTS.md for the full 10 principles. Key ones:
-
-- **Supply missing structure** when safe
-- **Verify before presenting**
-- **Handle directly** unless clearly justified to spawn subagent
-- **Think big, bet medium, execute tiny**
+See AGENTS.md for the full operating contract. Key ones: supply missing structure when safe, verify before presenting, handle directly unless clearly justified to spawn a subagent, think big bet medium execute tiny.
 
 ## Sync from Hub
 
-To sync the latest templates from the hub:
-
 ```bash
-./sync-from-hub.sh
+./sync-from-hub.sh           # pull latest templates
+./check-sync-status.sh       # check freshness
+./audit-folder-quality.sh    # validate structure
 ```
 
-To check if you're up to date:
+## Common Slash Commands
 
-```bash
-./check-sync-status.sh
-```
+Prefer these over raw script calls when your client supports them:
 
-For folder quality validation:
+| Command | Use Case |
+|---|---|
+| `/route` | Route a normal-language task into the right lane |
+| `/start-task` | Classify a task before starting |
+| `/query` | Retrieve only relevant context |
+| `/research` | Start a research phase |
+| `/plan` | Start a planning phase |
+| `/implement` | Start implementation |
+| `/shape-product` | Grill and compress broad product goals |
+| `/north-star` | Preserve long-horizon goals |
+| `/shape-milestone` | Shape one bounded milestone bet |
+| `/slice-task` | Break oversized tasks into milestones + first slice |
+| `/task-tree` | Map large goals to domains and milestones |
+| `/counsel` | Get independent challenge on a decision |
+| `/grill` | Challenge assumptions before deeper work |
+| `/git-start` | Probe branch and upstream state before edits |
+| `/git-worktree` | Create isolated short-lived worktree branch |
+| `/session-boundary` | Decide whether to continue or restart |
+| `/phase-gate` | Verify implementation is actually allowed |
+| `/plan-guard` | Keep planning from growing too large |
+| `/optimize` | Govern optimization work |
+| `/checkpoint` | Create a checkpoint commit |
+| `/handoff` | Build continuation packet for new session |
+| `/close-task` | Close a resolved or dead branch |
+| `/finish-task` | Close + checkpoint composite |
 
-```bash
-./audit-folder-quality.sh
-```
-
-To pull only the context relevant to one step:
-
-```bash
-./retrieve-context.sh "your query"
-```
-
-If your client supports slash commands, prefer:
-
-```text
-/query your query
-```
-
-To classify a task before starting:
-
-```text
-/start-task your task
-```
-
-For long-horizon goals:
-
-```text
-/shape-product your goal
-/north-star your goal
-/shape-milestone your goal
-```
-
-For decisions that need independent challenge:
-
-```text
-/counsel your decision
-```
-
-To map a large goal before choosing a milestone:
-
-```text
-/task-tree your goal
-```
-
-To force a big task into fast milestones plus a first slice:
-
-```text
-/slice-task your task
-```
-
-To challenge assumptions before deeper work:
-
-```text
-/grill your task
-```
-
-To probe branch and upstream state before edits:
-
-```text
-/git-start
-```
-
-To decide whether to continue or restart:
-
-```bash
-./session-boundary.sh --phase research --turns 8
-```
-
-Shortcut form:
-
-```text
-/session-boundary research 8
-```
-
-To verify that implementation is actually allowed:
-
-```bash
-./phase-gate.sh implement --research-done --plan-done --scope-bounded --verification-known
-```
-
-To keep planning from growing too large:
-
-```bash
-./plan-guard.sh "your task"
-```
-
-To govern optimization work:
-
-```text
-/optimize your task
-```
-
-To create an isolated short-lived worktree branch:
-
-```text
-/git-worktree branch-name
-```
+To sync the command files: run `./sync-from-hub.sh`.
 
 ## Two-Git Architecture (Optional)
 
-This workspace supports keeping public code separate from propagated files:
+To keep GitHub repos clean, the workspace supports keeping public code separate from propagated files. Root git tracks propagated files; project git inside `content/` tracks your code. Add to `.gitignore`:
 
-1. **Root git** (at workspace root): Tracks propagated files
-2. **Project git** (inside subfolder): Only tracks your code for GitHub
-
-To keep GitHub repos clean, add to `.gitignore`:
 ```
-# AI-Prompting-Library propagated files
 AGENTS.md
 topic-insights.md
 .cleanup-protect
@@ -221,10 +108,4 @@ docs/workspace-system-overview.md
 
 ## Root Discipline
 
-The folder root is for propagated files and control files. Put normal work in `[folder-name]-content/`.
-
-Root should NOT collect: source folders, notes, docs, assets, downloads, archives, logs, temp folders, datasets, or duplicate legacy content. Move such content to content/ folder.
-
-## Hub Reference
-
-For deeper guidance, see the hub docs folder (sync to get latest):
+Root is for propagated files and control files. Put normal work in `[folder-name]-content/`. Do not put source folders, notes, downloads, temp files, or datasets in root.

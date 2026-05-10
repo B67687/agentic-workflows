@@ -30,26 +30,24 @@ When a request is clear enough and risk is low, you must proactively:
 9. **Think big, map coarsely, bet medium, execute tiny** — Compress the product experience, preserve the big goal, map major domains, shape one milestone bet, then work one verified slice at a time.
 10. **Restart on phase boundaries** — New phase, new session. Do not drag long degraded threads forward.
 11. **Normal-language tasking by default** — The user should not need to remember slash commands. Treat serious plain-language requests as implicit `/route` unless the task is obviously tiny.
-12. **Prefer slash-command shortcuts internally when present** — Use `/route`, `/start-task`, `/shape-product`, `/counsel`, `/task-tree`, `/north-star`, `/shape-milestone`, `/slice-task`, `/grill`, `/query`, `/session-boundary`, `/handoff`, `/research`, `/plan`, `/implement`, `/optimize`, and `/checkpoint` as internal workflow shortcuts instead of retyping long helper commands.
-13. **Report the current lane before redirecting** — Tell the user where the work is, why, and the single next action. Do not hand them a menu unless there is a real choice with meaningful tradeoffs.
-14. **Use prompt contracts as internal self-checks** — Before non-trivial phase work, check outcome, context, constraints, examples, verification, and ask/proceed policy. Ask only when missing information would materially change the result.
-15. **Map before broad reading** — When a folder is unfamiliar or a task is broad, use `/repo-map` before targeted retrieval so context is selected deliberately instead of by wandering.
-16. **Refuse unclear implementation** — If the files, scope, or verification path are unclear, stop and go back to research or planning instead of improvising edits.
-17. **Grill costly ambiguity early** — If the request is broad, ambiguous, or expensive to misunderstand, challenge the assumptions before planning or implementing.
-18. **Stop planning loops early** — After two planning refinements, pick the next executable slice instead of broadening the plan again.
-19. **Optimize by evidence** — Measure first for normal optimization; do bounded architecture review for hard-to-reverse risks.
-20. **Probe Git state before serious edits** — Check branch, dirt, and upstream state first.
-21. **Use worktrees for isolated risky work** — Prefer a short-lived worktree branch when the work should not share the current checkout.
+12. **Use prompt contracts as internal self-checks** — Before non-trivial phase work, check outcome, context, constraints, examples, verification, and ask/proceed policy. Ask only when missing information would materially change the result.
+13. **Map before broad reading** — When a folder is unfamiliar or a task is broad, use `/repo-map` before targeted retrieval.
+14. **Refuse unclear implementation** — If files, scope, or verification path are unclear, stop and go back to research or planning.
+15. **Grill costly ambiguity early** — Challenge assumptions before planning or implementing broad/ambiguous requests.
+16. **Stop planning loops early** — After two refinements, pick the next slice instead of broadening.
+17. **Optimize by evidence** — Measure first; architecture review for hard-to-reverse risks.
+18. **Probe Git state before serious edits** — Check branch, dirt, and upstream state first.
+19. **Use worktrees for isolated risky work** — Prefer a short-lived worktree branch for risky or parallel work.
+20. **Batch file reads to 3 at a time** — Avoid dispatching 6+ parallel reads mixed with a long-running build. Memory pressure on a 4GB WSL2 VM can interrupt tool execution.
+21. **Use `gradle-build` for Gradle projects** — Instead of bare `./gradlew`. The wrapper runs the build then stops the daemon, freeing ~600MB–1.8GB RSS on WSL2.
 
-See hub's docs/core-agent-doctrine.md for full principles.
+See hub's `docs/core-agent-doctrine.md` for full principles.
 
 ---
 
 ## Session State
 
 Every session MUST update `session-state.json` before heavy operations or resume.
-
-The file tracks: current task, what changed, files touched, verification, next steps.
 
 Default resume order:
 1. `session-state.json`
@@ -78,14 +76,12 @@ Treat `session-state.json`, `topic-insights.md`, `.cleanup-protect`, and archive
 
 ## Agent System
 
-Two context lanes for when you need them:
+| Lane | When to Use |
+|------|-------------|
+| **Direct** | Normal work, focused tasks, small or medium scopes |
+| **Fresh session** | 15+ turns, topic shift, quality degradation, tangled context |
 
-| Agent | When to Use |
-|-------|-------------|
-| **Direct lane** | Normal work, focused tasks, small or medium scopes |
-| **Fresh-session lane** | 15+ turns, topic shift, quality degradation, or tangled context |
-
-**Default:** Handle directly. Only restart into a fresh session when the context is clearly degrading.
+**Default:** Handle directly. Only restart into a fresh session when context is clearly degrading.
 
 ---
 
@@ -93,16 +89,14 @@ Two context lanes for when you need them:
 
 For complex tasks, prompt yourself until plateau:
 1. Make initial attempt
-2. Ask: "What else should I consider?"
-3. Ask: "Am I missing anything?"
-4. Ask: "Is this complete?"
-5. Stop when iterations produce only minor refinements
+2. Ask: "What else should I consider?" → "Am I missing anything?" → "Is this complete?"
+3. Stop when iterations produce only minor refinements
 
 ---
 
 ## Deep References
 
-- Session state → session-state.json
-- Topic insights → topic-insights.md
-- Quality standards → quality-standards.md
-- Git practices → git-github-best-practices.md
+- Session state → `session-state.json`
+- Topic insights → `topic-insights.md`
+- Quality standards → `quality-standards.md`
+- Git practices → `git-github-best-practices.md`

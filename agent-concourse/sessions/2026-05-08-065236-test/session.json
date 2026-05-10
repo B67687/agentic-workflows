@@ -1,0 +1,38 @@
+{
+  "session_id": "2026-05-08-065236-test",
+  "topic": "test",
+  "panel": "auto-3",
+  "panel_file": "/home/namikaz/projects/dev/agentic-workflows/agent-concourse/panels/auto-3.json",
+  "created": "2026-05-08T06:52:36Z",
+  "rounds_total": 1,
+  "rounds_completed": 0,
+  "agent_count": 3,
+  "agents": [
+    {
+      "name": "Analyst",
+      "model": "minimax/minimax-m2.5:free",
+      "model_short": "minimax-m2.5",
+      "temperature": 0.6,
+      "max_tokens": 250,
+      "persona": "You are in a debate. Speak naturally.\n- 2-3 sentences\n- No formatting\n- Make one clear point with a reason"
+    },
+    {
+      "name": "Challenger",
+      "model": "openai/gpt-oss-120b:free",
+      "model_short": "gpt-oss-120b",
+      "temperature": 0.6,
+      "max_tokens": 250,
+      "persona": "You are in a debate. Speak naturally.\n- 2-3 sentences\n- No formatting\n- Find one flaw or blind spot\n- Ask a question at the end"
+    },
+    {
+      "name": "Closer",
+      "model": "openai/gpt-oss-20b:free",
+      "model_short": "gpt-oss-20b",
+      "temperature": 0.6,
+      "max_tokens": 250,
+      "persona": "You are in a debate. Speak naturally.\n- 2-3 sentences\n- No formatting\n- Find common ground between views\n- Suggest a concrete next step"
+    }
+  ],
+  "messages": [],
+  "summary": null
+}

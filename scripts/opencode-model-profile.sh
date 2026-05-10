@@ -9,11 +9,13 @@ Usage:
   bash scripts/opencode-model-profile.sh status
   bash scripts/opencode-model-profile.sh sustainable-go
   bash scripts/opencode-model-profile.sh quality-go
+  bash scripts/opencode-model-profile.sh hard-go
   bash scripts/opencode-model-profile.sh free
 
 Profiles:
   sustainable-go  opencode-go/deepseek-v4-flash
   quality-go      opencode-go/deepseek-v4-pro
+  hard-go         opencode-go/deepseek-v4-pro
   free            opencode/minimax-m2.5-free
 
 Set OPENCODE_CONFIG to target a different config file.
@@ -25,7 +27,7 @@ profile="${1:-status}"
 case "$profile" in
   status) target="" ;;
   sustainable-go) target="opencode-go/deepseek-v4-flash" ;;
-  quality-go) target="opencode-go/deepseek-v4-pro" ;;
+  quality-go|hard-go) target="opencode-go/deepseek-v4-pro" ;;
   free) target="opencode/minimax-m2.5-free" ;;
   -h|--help|help) usage; exit 0 ;;
   *) echo "Unknown profile: $profile" >&2; usage >&2; exit 2 ;;

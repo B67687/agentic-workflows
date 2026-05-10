@@ -101,8 +101,8 @@ call_model() {
     curl -sS https://openrouter.ai/api/v1/chat/completions \
       -H "Authorization: Bearer ${OPENROUTER_API_KEY}" \
       -H "Content-Type: application/json" \
-      -H "HTTP-Referer: https://github.com/B67687/ai-prompting" \
-      -H "X-Title: ai-prompting counsel" \
+      -H "HTTP-Referer: https://github.com/B67687/agentic-workflows" \
+      -H "X-Title: agentic-workflows counsel" \
       -d @- |
     jq -r '.choices[0].message.content // .error.message // "ERROR: empty response"'
 }

@@ -1,0 +1,52 @@
+{
+  "timestamp": "2026-05-08T04:23:27Z",
+  "rounds": 2,
+  "models": {
+    "z-ai/glm-4.5-air:free": {
+      "latencies": [],
+      "errors": [
+        "object of type 'NoneType' has no len()",
+        "object of type 'NoneType' has no len()"
+      ]
+    },
+    "google/gemma-4-31b:free": {
+      "latencies": [],
+      "errors": [
+        "HTTP Error 400: Bad Request",
+        "HTTP Error 400: Bad Request"
+      ]
+    },
+    "minimax/minimax-m2.5:free": {
+      "latencies": [
+        27.1,
+        10.4
+      ],
+      "errors": []
+    },
+    "tencent/hy3-preview:free": {
+      "latencies": [],
+      "errors": [
+        "object of type 'NoneType' has no len()",
+        "object of type 'NoneType' has no len()"
+      ]
+    },
+    "nvidia/nemotron-3-super:free": {
+      "latencies": [],
+      "errors": [
+        "HTTP Error 400: Bad Request",
+        "HTTP Error 400: Bad Request"
+      ]
+    },
+    "openai/gpt-oss-120b:free": {
+      "latencies": [
+        5.9,
+        3.6
+      ],
+      "errors": []
+    }
+  },
+  "ranking": [
+    "openai/gpt-oss-120b:free",
+    "minimax/minimax-m2.5:free"
+  ]
+}

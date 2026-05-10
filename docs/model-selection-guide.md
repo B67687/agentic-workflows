@@ -4,7 +4,7 @@ Use this when choosing which model to use for work right now. The simple rule:
 
 **Match the model to the job. Do not chase one universal winner.**
 
-The current workspace default is `opencode-go/deepseek-v4-flash`. It is the sustainable OpenCode Go default because OpenCode's live Go docs list it at roughly 31,650 requests per 5 hours, while still offering 1M context and strong coding benchmark results. Use heavier Go models such as `deepseek-v4-pro`, `kimi-k2.6`, or `glm-5.1` only when quality matters more than request volume.
+The current workspace hard-task default is `opencode-go/deepseek-v4-pro`. It is the best single hard-task default because the live OpenCode Go model list includes it directly, OpenCode Go gives it much more request headroom than `mimo-v2.5-pro`, and current coding usage data favors it more strongly as a general coding default. Keep `opencode-go/deepseek-v4-flash` as the sustainable volume lane.
 
 The current market has split into lanes:
 - Claude Opus 4.7: hardest agentic coding and professional reasoning

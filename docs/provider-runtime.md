@@ -77,18 +77,19 @@ Best practice: switch between tasks or after a checkpoint, not halfway through a
 
 ## OpenCode Go Default Model
 
-Current sustainable default:
+Current hard-task default:
 
 ```text
-opencode-go/deepseek-v4-flash
+opencode-go/deepseek-v4-pro
 ```
 
-Reason: OpenCode's live Go docs and model endpoint list DeepSeek V4 Flash as available, with about 31,650 estimated requests per 5 hours, 1M context, and strong coding-agent suitability. It is the best default when the goal is to move fast without burning the quota too aggressively.
+Reason: OpenCode's live Go docs and model endpoint list `deepseek-v4-pro`, `deepseek-v4-flash`, and `mimo-v2.5-pro` as separate current model IDs. For one universal hard-task default, DeepSeek V4 Pro is the best choice because it has much more OpenCode Go request headroom than MiMo-V2.5-Pro, while current coding usage data still favors it as the stronger general coding default. Keep DeepSeek V4 Flash as the sustainable high-volume lane.
 
 Use escalation models deliberately:
 
-- `opencode-go/deepseek-v4-pro` for harder implementation, architecture, and review when quality matters more than volume.
-- `opencode-go/kimi-k2.6` when you want strongest Go reasoning style and can afford lower volume.
+- `opencode-go/deepseek-v4-flash` for long sessions, broad exploration, and quota-efficient volume.
+- `opencode-go/mimo-v2.5-pro` as a second-opinion specialist when DeepSeek stalls or you want a different reasoning style.
+- `opencode-go/kimi-k2.6` when you want a different strong reasoning style and can afford lower volume.
 - `opencode-go/glm-5.1` only for occasional deep review or benchmark-sensitive work because it has the lowest Go request allowance.
 
 Verify the live Go model list before major changes:
@@ -103,6 +104,7 @@ Switch model profiles with the helper instead of hand-editing JSON:
 bash scripts/opencode-model-profile.sh status
 bash scripts/opencode-model-profile.sh sustainable-go
 bash scripts/opencode-model-profile.sh quality-go
+bash scripts/opencode-model-profile.sh hard-go
 bash scripts/opencode-model-profile.sh free
 ```
 

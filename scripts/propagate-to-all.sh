@@ -16,7 +16,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 source "$SCRIPT_DIR/propagation-contract.sh"
 
-PARENT_DIR="${AI_PROMPTING_WORKSPACE_ROOT:-$(dirname "$REPO_ROOT")}"
+PARENT_DIR="${AI_PROMPTING_WORKSPACE_ROOT:-$(propagation_parent_dir)}"
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -180,18 +180,7 @@ collect_folders() {
     printf '%s\n' "$TARGET_FOLDER"
     return
   fi
-
-  local item item_name
-  for item in "$PARENT_DIR"/*/; do
-    item_name="$(basename "$item")"
-    if [[ "$item_name" == .* ]]; then
-      continue
-    fi
-    if propagation_folder_excluded "$item_name"; then
-      continue
-    fi
-    printf '%s\n' "${item%/}"
-  done
+  propagation_collect_topic_folders
 }
 process_folder() {
   local folder="$1"

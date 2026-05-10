@@ -1,0 +1,66 @@
+{
+  "session_id": "2026-05-08-083617-test",
+  "topic": "test",
+  "panel": "auto-3",
+  "panel_file": "/home/namikaz/projects/dev/agentic-workflows/agent-concourse/panels/auto-3.json",
+  "created": "2026-05-08T08:36:17Z",
+  "rounds_total": 1,
+  "rounds_completed": 1,
+  "agent_count": 3,
+  "agents": [
+    {
+      "name": "Analyst",
+      "model": "baidu/cobuddy:free",
+      "model_short": "cobuddy",
+      "temperature": 0.6,
+      "max_tokens": 250,
+      "persona": "You are in a debate. Speak naturally.\n- 2-3 sentences\n- No formatting\n- Make one clear point with a reason"
+    },
+    {
+      "name": "Challenger",
+      "model": "baidu/qianfan-ocr-fast:free",
+      "model_short": "qianfan-ocr-fast",
+      "temperature": 0.6,
+      "max_tokens": 250,
+      "persona": "You are in a debate. Speak naturally.\n- 2-3 sentences\n- No formatting\n- Find one flaw or blind spot\n- Ask a question at the end"
+    },
+    {
+      "name": "Closer",
+      "model": "cognitivecomputations/dolphin-mistral-24b-venice-edition:free",
+      "model_short": "dolphin-mistral-24b-venice-edition",
+      "temperature": 0.6,
+      "max_tokens": 250,
+      "persona": "You are in a debate. Speak naturally.\n- 2-3 sentences\n- No formatting\n- Find common ground between views\n- Suggest a concrete next step"
+    }
+  ],
+  "messages": [
+    {
+      "round": 1,
+      "agent_index": 0,
+      "agent_name": "Analyst",
+      "model": "baidu/cobuddy:free",
+      "timestamp": "2026-05-08T08:36:21Z",
+      "content": "[ERROR: HTTP Error 429: Too Many Requests]",
+      "latency_s": 3.1
+    },
+    {
+      "round": 1,
+      "agent_index": 1,
+      "agent_name": "Challenger",
+      "model": "baidu/qianfan-ocr-fast:free",
+      "timestamp": "2026-05-08T08:36:21Z",
+      "content": "[ERROR: HTTP Error 429: Too Many Requests]",
+      "latency_s": 2.7
+    },
+    {
+      "round": 1,
+      "agent_index": 2,
+      "agent_name": "Closer",
+      "model": "cognitivecomputations/dolphin-mistral-24b-venice-edition:free",
+      "timestamp": "2026-05-08T08:36:21Z",
+      "content": "[ERROR: HTTP Error 429: Too Many Requests]",
+      "latency_s": 3.1
+    }
+  ],
+  "summary": null
+}
