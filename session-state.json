@@ -37,7 +37,10 @@
     "Removed 6 dead scripts: cleanup-folders, extract-voice-profile, migrate-templates, parley-web, test-propagation-contract, test-ws (937 lines)",
     "Updated .gitignore: agent-concourse sessions+benchmark, personal-voice PDF, __pycache__, .pi/sessions (untracked 60 files, freed ~3.4MB)",
     "Updated workspace-system-overview.md + 3 deep-ref docs: redirect to workflow.md, fix stale architecture",
-    "Updated workspace-system-overview.template.md for topic folders: commands/ not command/, merged command table"
+    "Updated workspace-system-overview.template.md for topic folders: commands/ not command/, merged command table",
+    "Integrated agent-skills: 22 skills symlinked at skills/, AGENTS.md skill mapping + lifecycle table",
+    "Added agentmemory MCP to opencode.jsonc (~$0.11/yr on DeepSeek V4 Flash)",
+    "Updated AGENTS.md with full agentmemory section: 51 MCP tools, auto-capture, 4-tier memory"
   ],
   "filesTouched": [
     "commands/task.md",
