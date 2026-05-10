@@ -86,7 +86,7 @@
     "docs/workflow.md at 144 lines replaces the need to read 4 separate docs (1,578 lines total) for cold-start",
     "session-state.json remains the unique advantage — no other skills repo has resume capability"
   ],
-  "residualRisk": "All 14 topic folders synced to new 13-command structure. Old command/ directories in topic folders remain as stale artifacts but are no longer active. They can be cleaned up manually (rm -rf each topic-folder's command/).",
+  "residualRisk": "None known. All 14 topic folders synced and stale command/ directories removed.",
   "immediateNextSteps": [],
   "resumeRules": [
     "Read session-state.json first on every resume",
