@@ -2,6 +2,27 @@
 description: Session lifecycle — checkpoint, handoff, boundary, close, and finish
 ---
 
+## Context Save (capture working state for resume)
+
+Use this before ending a session mid-task, or when context pressure is high and you might lose state.
+
+Run:
+`bash ./scripts/context-save.sh "summary of current progress"`
+
+Saves: git branch, dirty files, pending decisions, freeze restrictions. Later resume clears saved context automatically.
+
+## Context Restore (resume from a saved snapshot)
+
+Use this in a new session to restore working context saved by context-save.
+
+Run:
+`bash ./scripts/context-restore.sh $ARGUMENTS`
+
+With no arguments, lists available contexts with timestamps and summaries. Pass a context ID to restore:
+`bash ./scripts/context-restore.sh 20260510_143022`
+
+Respond compactly with: saved branch, dirty files count, whether freeze is active, and the next recommended action.
+
 ## Session Boundary (decide continue, checkpoint, or restart)
 
 Use the repo's session-boundary helper when you need to decide whether to continue, checkpoint, or restart.
