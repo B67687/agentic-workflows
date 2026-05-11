@@ -18,6 +18,18 @@ agent-concourse/benchmark-results.json
 # Python cache
 __pycache__/
 
+# SwarmVault generated artifacts
+raw/
+wiki/
+state/
+
+# SwarmVault agent integrations (generated for other tools)
+.claude/
+.codex/
+.cursor/
+CLAUDE.md
+GEMINI.md
+
 # Large binaries
 personal-voice/samples/course-guide.pdf
 
