@@ -4,9 +4,9 @@
   "interruptedCount": 0,
   "contextPressure": "low",
   "currentTask": {
-    "name": "Import high-value patterns from everything-claude-code — agents, rules, hooks",
-    "status": "verified-phase",
-    "goal": "8 specialized agents, rules/ directory with common + language packs, quality gate hooks wired into checkpoint-commit"
+    "name": "Import high-value patterns from mattpocock/skills — CONTEXT.md, grill-me, ADR format, debugging enhancement",
+    "status": "implemented",
+    "goal": "4 high-value patterns from 70K-star repo: grill-me skill, CONTEXT.md domain glossary, lightweight ADR format, feedback-loop-first debugging"
   },
   "environment": {
     "note": "This workspace runs on Debian/WSL2. Global OpenCode runtime config at /home/namikaz/.config/opencode/opencode.jsonc. WSL limited to 4GB RAM via .wslconfig.",
@@ -15,51 +15,38 @@
     "topicFoldersPath": "/home/namikaz/projects/dev/"
   },
   "whatChanged": [
-    "Created 5 new specialized agents: planner.md, tdd-guide.md, build-resolver.md, doc-updater.md, database-reviewer.md",
-    "Updated agents/README.md — table now has 8 agents, added usage examples for all new personas",
-    "Created rules/ directory with 7 files across 3 subdirectories: common/ (coding-style, git-workflow, testing, security), typescript/ (patterns), python/ (patterns)",
-    "Created rules/README.md — structure overview and install guide",
-    "Created scripts/hooks/quality-gate.sh — pre-commit checks for console.log, secrets, TODO/FIXME, large files",
-    "Created hooks/hooks.json — hook configuration file with PreCompact and PostToolUse event definitions",
-    "Wired quality gate into scripts/checkpoint-commit.sh — runs automatically before commit, --skip-quality to bypass",
-    "Added --skip-quality flag to checkpoint-commit.sh option parser",
+    "Created skills/grill-me/SKILL.md — structured requirements alignment skill (phases, ground rules, red flags)",
+    "Created docs/context-format.md — domain language glossary format guide (CONTEXT.md pattern from mattpocock)",
+    "Enhanced skills/debugging-and-error-recovery/SKILL.md — added Phase 0: Build a Feedback Loop (feedback-loop-first debugging)",
+    "Enhanced skills/documentation-and-adrs/SKILL.md — added lightweight ADR format (single paragraph) and 3-gate criteria",
+    "Updated skills/manifest.json — added grill-me to define bundle",
+    "Updated AGENTS.md — added grill-me to intent→skill mapping, updated Deep References and High-Signal Files with new patterns",
     "Updated session-state.json for session 69"
   ],
   "filesTouched": [
-    "agents/planner.md (new)",
-    "agents/tdd-guide.md (new)",
-    "agents/build-resolver.md (new)",
-    "agents/doc-updater.md (new)",
-    "agents/database-reviewer.md (new)",
-    "agents/README.md (updated table and usage examples)",
-    "rules/README.md (new)",
-    "rules/common/coding-style.md (new)",
-    "rules/common/git-workflow.md (new)",
-    "rules/common/testing.md (new)",
-    "rules/common/security.md (new)",
-    "rules/typescript/patterns.md (new)",
-    "rules/python/patterns.md (new)",
-    "scripts/hooks/quality-gate.sh (new)",
-    "hooks/hooks.json (new)",
-    "scripts/checkpoint-commit.sh (added --skip-quality flag, wired quality gate)",
+    "skills/grill-me/SKILL.md (new — structured requirements alignment skill)",
+    "docs/context-format.md (new — domain language glossary format)",
+    "skills/debugging-and-error-recovery/SKILL.md (added Phase 0: Build a Feedback Loop)",
+    "skills/documentation-and-adrs/SKILL.md (added lightweight ADR format + 3-gate criteria)",
+    "skills/manifest.json (added grill-me to define bundle)",
+    "AGENTS.md (added grill-me refs, context-format refs, updated deep references table)",
     "session-state.json"
   ],
   "verification": [
-    "agents/: 8 files (5 new + 3 existing), all follow the same YAML frontmatter format",
-    "agents/README.md: table includes all 8 agents with correct links to each file",
-    "rules/: 8 files in 3 subdirectories, all with YAML frontmatter for agent compatibility",
-    "rules/README.md: documents structure and install guide for topic folder propagation",
-    "scripts/hooks/quality-gate.sh: syntax OK, runs without errors on clean repo",
-    "scripts/checkpoint-commit.sh: --help documents --skip-quality flag, quality gate runs before commit",
-    "hooks/hooks.json: valid JSON, follows Claude Code hooks schema",
-    "session-state.json: session 69, all changes documented"
+    "skills/grill-me/SKILL.md: 99 lines, YAML frontmatter, 4 phases, ground rules, rationalizations, red flags, verification checklist",
+    "docs/context-format.md: 117 lines — format spec, rules, maintenance guide, multi-context support, ADR relationship table",
+    "debugging skill: Phase 0 added with 11 feedback loop construction techniques, iteration guidance, non-deterministic handling",
+    "documentation skill: Lightweight ADR format (single paragraph) + 3-gate criteria added before existing full template",
+    "manifest.json: grill-me added to define bundle (now 4 skills in define)",
+    "AGENTS.md: grill-me in intent mapping, context-format.md in High-Signal Files and Deep References",
+    "All files read back and verified for correctness"
   ],
   "keyLearnings": [
-    "50% command reduction was achievable without losing any capability — just merging by domain",
-    "Triple mirroring is now a single source + build step instead of manual 3x maintenance",
-    "The original Codex design philosophy (normal language first, slice-first, checkpoint often) maps perfectly onto the merged command structure",
-    "docs/workflow.md at 144 lines replaces the need to read 4 separate docs (1,578 lines total) for cold-start",
-    "session-state.json remains the unique advantage — no other skills repo has resume capability"
+    "mattpocock/skills (70K stars) is a skill library for Claude Code — not a replacement for our hub, but highly complementary",
+    "CONTEXT.md domain glossary is Matt's most underrated pattern: reduces token usage ~20-30% by giving AI a shared vocabulary",
+    "Our debugging skill was strong on step-by-step triage but missed the critical insight: 'build a feedback loop first' is the real skill",
+    "Lightweight ADR (single paragraph + 3-gate criteria) is a better default than full template — only expand when needed",
+    "Matt's grill-me and our 'grill ambiguous tasks early' rule were aligned in philosophy — now we have a structured skill to match"
   ],
   "residualRisk": "None known. All 14 topic folders synced and stale command/ directories removed.",
   "immediateNextSteps": [],

@@ -34,6 +34,7 @@ For topic-folder work: root `session-state.json`, then `AGENTS.md`, then `docs/w
 | `docs/repo-quality-analysis-protocol.md` | Compression, deletion, and redundancy protocol |
 | `docs/daily-prompts.md` | Most-used prompts |
 | `docs/prompt-templates.md` | Prompt library index |
+| `docs/context-format.md` | Domain language glossary format (CONTEXT.md) |
 | `personal-voice/VOICE-PROFILE.md` | User voice patterns; read before writing in the user's voice |
 
 ## Key Rules
@@ -61,7 +62,7 @@ For topic-folder work: root `session-state.json`, then `AGENTS.md`, then `docs/w
 - **Map before broad reading**: use `/repo-map` when a folder is unfamiliar.
 - **Close dead branches explicitly**: use `/session close-task` when resolved, obsolete, or parked.
 - **Gate implementation**: before editing code, confirm research, plan, bounded scope, and verification path are clear.
-- **Grill ambiguous tasks early**: if broad, underspecified, or expensive to get wrong, use `/task` to classify and grill before planning.
+- **Grill ambiguous tasks early**: if broad, underspecified, or expensive to get wrong, use the `grill-me` skill to align before planning. If the project has a `CONTEXT.md` domain glossary file, use it during grilling to keep terminology consistent.
 - **Stop planning loops after two refinements**: choose the next verified slice and move toward implementation.
 - **Optimize by evidence**: measure first. Only do architecture review for hard-to-reverse risks.
 - **Probe repo before edits**: check branch, divergence, dirt, upstream state. Use worktrees for risky or parallel tasks.
@@ -118,7 +119,8 @@ Skills are structured workflows with steps, verification gates, and anti-rationa
 ### Intent → Skill Mapping
 
 | Intent | Skill(s) to invoke |
-|---|---|
+|---|---|---|
+| Requirements alignment / ambiguous tasks | `grill-me` (see `docs/context-format.md` for domain glossary) |
 | Feature / new functionality | `spec-driven-development` → `incremental-implementation` + `test-driven-development` |
 | Planning / breakdown | `planning-and-task-breakdown` |
 | Bug / failure | `debugging-and-error-recovery` |
@@ -130,7 +132,7 @@ Skills are structured workflows with steps, verification gates, and anti-rationa
 | Security review | `security-and-hardening` |
 | Git workflow / versioning | `git-workflow-and-versioning` |
 | CI/CD / automation | `ci-cd-and-automation` |
-| Documentation / ADRs | `documentation-and-adrs` |
+| Documentation / ADRs | `documentation-and-adrs` (see `docs/context-format.md` for domain glossary pattern) |
 | Shipping / launch | `shipping-and-launch` |
 | Deprecation / migration | `deprecation-and-migration` |
 | Source verification | `source-driven-development` |
@@ -325,6 +327,8 @@ If a `.gstack-freeze` file exists in the workspace root, read it — it contains
 | Model selection and fallbacks | `docs/model-selection-guide.md` |
 | Token/context efficiency | `docs/token-efficient-prompting.md` |
 | Session checkpoints | `docs/session-checkpoint.md` |
+| Domain language glossary | `docs/context-format.md` |
+| Requirements alignment | `skills/grill-me/SKILL.md` |
 
 For the full reference index, see `docs/hub-quickstart.md`.
 

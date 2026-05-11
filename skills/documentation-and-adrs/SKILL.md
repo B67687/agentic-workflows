@@ -33,9 +33,42 @@ ADRs capture the reasoning behind significant technical decisions. They're the h
 - Choosing between build tools, hosting platforms, or infrastructure
 - Any decision that would be expensive to reverse
 
-### ADR Template
+### Lightweight ADR Format (Preferred for Most Decisions)
 
-Store ADRs in `docs/decisions/` with sequential numbering:
+Most decisions don't need a full template. If a decision is hard to reverse, surprising without context, and the result of a real trade-off, record it as a single paragraph:
+
+```markdown
+# ADR-014: Use PostgreSQL for write model, read models in Redis
+
+The write model needs ACID transactions (order state changes must be atomic).
+PostgreSQL gives us that with a well-understood operational story. Read models
+are projected into Redis for sub-millisecond query performance on the dashboard.
+We considered keeping everything in Postgres, but dashboard queries would need
+complex aggregates that are hard to optimize. Redis lets us pre-compute the
+shapes the dashboard needs. Trade-off: eventual consistency between write and
+read models (~500ms lag), which is acceptable per ADR-007.
+```
+
+**That's it.** The value is in recording *that* a decision was made and *why* — not in filling out sections.
+
+Only expand to the full format when:
+- The decision had multiple serious alternatives worth remembering
+- The consequences are non-obvious and need explicit documentation
+- The decision supersedes a previous ADR
+
+### When to Offer an ADR
+
+All three of these must be true:
+
+1. **Hard to reverse** — the cost of changing your mind later is meaningful
+2. **Surprising without context** — a future reader will look at the code and wonder "why did they do it this way?"
+3. **The result of a real trade-off** — there were genuine alternatives and you picked one for specific reasons
+
+If any is missing, skip the ADR.
+
+### ADR Template (Full Format)
+
+For decisions that need the full treatment, store ADRs in `docs/decisions/` with sequential numbering:
 
 ```markdown
 # ADR-001: Use PostgreSQL for primary database
