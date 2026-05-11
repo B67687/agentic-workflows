@@ -112,6 +112,6 @@ The glossary names things. ADRs explain why things are the way they are.
 
 ## Related
 
-- `docs/adr-format.md` — Lightweight Architecture Decision Record format
+- `skills/documentation-and-adrs/SKILL.md` — Lightweight Architecture Decision Record format and workflow
 - `skills/grill-me/SKILL.md` — Structured requirements alignment
 - `skills/documentation-and-adrs/SKILL.md` — Documentation and ADR workflow
