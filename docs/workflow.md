@@ -37,6 +37,16 @@ Expected output: exact files involved, relevant flow, main risks and edge cases,
 
 Use: `commands/research.md`
 
+### Route (default intake)
+When the user types a task in normal language without naming a command, route it to the correct lane — research, grill, shape, or direct implementation.
+
+Use: `commands/route.md`
+
+### Task (classify, grill, shape, slice)
+Classify a task before starting. If ambiguous, grill scope. If too large, shape milestones and slice. If it's a north-star goal, preserve the ambition while executing one slice at a time.
+
+Use: `commands/task.md`
+
 ### Plan
 Turn research into explicit steps. Define exact files, verification per step, and what should not change.
 
@@ -49,6 +59,41 @@ Execute the plan in small verified slices. Keep context narrow. Run the implemen
 
 Use: `commands/implement.md`
 
+### Pipeline (multi-task dispatch)
+Dispatch each plan task to an isolated `@worker` subagent. Orchestrates: dispatch → implement → review → integrate. Use when a plan has 3+ well-defined independent tasks.
+
+Use: `commands/pipeline.md`
+
+### Counsel (multi-perspective review)
+Get independent challenge on product shaping, milestone selection, architecture, or tradeoffs. Runs multiple model perspectives and compresses the recommendation.
+
+Use: `commands/counsel.md`
+
+### Optimize (governance gate)
+Decide whether optimization should happen now, at what scope, and with what evidence. Defer optimization without measurements.
+
+Use: `commands/optimize.md`
+
+### Parley (multi-agent conversation)
+Start a sequential conversation between free AI agents (via OpenRouter) for broad exploration, decision debates, or council-style advice.
+
+Use: `commands/parley.md`
+
+### Prompt Contract (self-check)
+Build a compact self-prompt contract before non-trivial research, planning, or implementation. Covers outcome, context, constraints, verification, and ask/proceed policy.
+
+Use: `commands/prompt-contract.md`
+
+### Repo Map (orientation)
+Build a compact map of the current repo or topic folder — control files, content areas, key symbols. Use before reading unfamiliar folders.
+
+Use: `commands/repo-map.md`
+
+### Query (targeted retrieval)
+Retrieve only the local context relevant to the current step. Faster than manual grepping.
+
+Use: `commands/query.md`
+
 ### Verify
 Tests, scripted scenarios, diff review, or explicit residual risk. Verification is not optional.
 
@@ -56,6 +101,11 @@ Tests, scripted scenarios, diff review, or explicit residual risk. Verification 
 Update session-state.json, commit automatically, and decide whether to restart fresh.
 
 Use: `commands/session.md`
+
+### Git (probe + worktree)
+Probe branch state before editing. Create isolated worktree branches for parallel work.
+
+Use: `commands/git.md`
 
 ### Repeat or Close
 Either loop for the next slice, or classify the task as fixed/obsolete/parked and close.

@@ -27,6 +27,8 @@ Only ask questions when the gap has real consequences for safety, scope, or corr
 
 For topic-folder work: root `session-state.json`, then lifecycle hooks, then `AGENTS.md`, then `docs/workflow.md`, then `meta/` files only when deeper context is needed.
 
+For SwarmVault graph queries, read `wiki/graph/report.md` first (falls back to `wiki/index.md`).
+
 ## High-Signal Files
 
 | File | Purpose |
@@ -37,9 +39,9 @@ For topic-folder work: root `session-state.json`, then lifecycle hooks, then `AG
 | `docs/repo-quality-analysis-protocol.md` | Compression, deletion, and redundancy protocol |
 | `docs/daily-prompts.md` | Most-used prompts |
 | `docs/prompt-templates.md` | Prompt library index |
-| `docs/context-format.md` | Domain language glossary format (CONTEXT.md) |
-| `docs/design-md-pattern.md` | Visual language spec format (DESIGN.md) — how things should look |
 | `personal-voice/VOICE-PROFILE.md` | User voice patterns; read before writing in the user's voice |
+| `swarmvault.schema.md` | SwarmVault schema — read before compile/query/lint operations |
+| `wiki/index.md` | SwarmVault wiki index — read before broad file searching |
 | `scripts/build-index.sh` | Build BM25 search index for full-workspace retrieval |
 | `scripts/search-index.sh` | Query BM25 index — ranked results across all text files |
 | `scripts/repo-map.sh` | Tree-sitter repo map with PageRank ranking |
@@ -109,6 +111,29 @@ At the end of meaningful work, update `session-state.json`. Write `archive/histo
 ## Compression And Cleanup
 
 Use `docs/repo-quality-analysis-protocol.md` before deleting or merging files. Similar is not redundant — different audiences may justify overlap. Hot-path files stay compact and link to deep references.
+
+## SwarmVault Knowledge Graph
+
+This workspace integrates **SwarmVault** — a local knowledge graph that ingests, compiles, and queries structured knowledge from 50+ source documents.
+
+### Key locations
+
+| Path | Purpose |
+|------|---------|
+| `raw/` | Immutable source input (ingested docs, transcripts, guides) |
+| `wiki/` | Generated markdown (dashboards, memory, graph reports) — agent-owned |
+| `state/` | Internal state (graph, retrieval database, sessions, analyses) |
+| `swarmvault.schema.md` | Canonical schema — read before compile/query/lint |
+| `wiki/graph/report.md` | Graph report — read before broad file searching (falls back to `wiki/index.md`) |
+
+### Rules
+
+- Read `swarmvault.schema.md` before compile or query operations.
+- Treat `raw/` as immutable source — never edit directly.
+- Treat `wiki/` as generated content owned by the agent and compiler workflow.
+- Prefer `swarmvault graph query`, `swarmvault graph path`, and `swarmvault graph explain` before broad grep for graph questions.
+- Preserve frontmatter fields: `page_id`, `source_ids`, `node_ids`, `freshness`, `source_hashes`.
+- Save high-value answers to `wiki/outputs/` instead of leaving them only in chat.
 
 ## Scripts and Commands
 
