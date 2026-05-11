@@ -48,7 +48,8 @@
         "context-engineering",
         "doubt-driven-development",
         "skill-evaluator",
-        "using-agent-skills"
+        "using-agent-skills",
+        "bash-explore"
       ]
     }
   }
