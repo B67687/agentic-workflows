@@ -47,3 +47,6 @@ Thumbs.db
 # Archives (optional — uncomment if too large)
 # archive/
 # research/
+
+# Generated screenshots
+.screenshots_*.png
