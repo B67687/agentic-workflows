@@ -2,6 +2,7 @@
 """
 repo-graph.py — Generate a beautiful interactive knowledge graph for the repo.
 Shows explicit links, propagation mirrors, and co-location clusters.
+Uses vis.js (forceAtlas2Based) for well-spaced, living-force layout.
 
 Usage: python3 scripts/repo-graph.py [output.html]
 Default output: repo-graph.html
@@ -22,8 +23,8 @@ INCLUDE_EXT = {".md"}
 EXCLUDE_FILES = {"session-state.json"}
 
 EXPLICIT_COLOR = "rgba(200,200,200,0.25)"
-MIRROR_COLOR = "rgba(155,89,182,0.35)"    # purple for propagation mirrors
-COLOCATION_COLOR = "rgba(255,255,255,0.06)"  # very subtle for same-directory
+MIRROR_COLOR = "rgba(155,89,182,0.35)"
+COLOCATION_COLOR = "rgba(255,255,255,0.06)"
 
 DIR_COLORS = {
     "docs":           {"bg": "#4A90D9", "border": "#2C6BB0", "label": "Documentation"},
@@ -56,7 +57,6 @@ def get_group(filepath):
 
 
 def stem(filepath):
-    """Get filename without extension."""
     return os.path.splitext(os.path.basename(filepath))[0]
 
 
@@ -67,7 +67,6 @@ def main():
 
     print("🔍 Scanning repo for markdown files and links...")
 
-    # ── Collect all markdown files ──
     all_files = []
     for root, dirs, filenames in os.walk("."):
         dirs[:] = [d for d in dirs if not d.startswith(".") and d not in EXCLUDE_DIRS]
@@ -79,38 +78,33 @@ def main():
 
     print(f"  Found {len(all_files)} markdown files")
 
-    # ── Build lookup: filename stem → list of filepaths ──
     stem_to_paths = defaultdict(list)
     for fpath in all_files:
         stem_to_paths[stem(fpath)].append(fpath)
 
-    # Build a normalized lookup: normalized path → original path
     norm_to_orig = {}
+    file_set = set()
     for f in all_files:
         norm = f.replace("\\", "/")
         if norm.startswith("./"):
             norm = norm[2:]
         norm_to_orig[norm] = f
-    file_set = set(norm_to_orig.keys())
+        file_set.add(norm)
 
-    # ── Extract explicit markdown links ──
     link_pattern = re.compile(r"\[([^\]]*)\]\(([^)]+)\)")
 
     node_map = {}
     explicit_edges = []
 
-    # First pass: collect nodes
     for fpath in all_files:
         try:
             content = open(fpath, "r", encoding="utf-8").read()
         except Exception:
             continue
-
         line_count = len(content.splitlines())
         links = link_pattern.findall(content)
         internal_links = [l for l in links
                           if l[1].endswith(".md") and not l[1].startswith("http")]
-
         node_map[fpath] = {
             "filepath": fpath,
             "display": stem(fpath),
@@ -120,60 +114,37 @@ def main():
             "incoming": 0,
         }
 
-    # Helper: resolve a link target to a known filepath
     def resolve_target(source_file, target):
         if target.startswith("http") or not target.endswith(".md"):
             return None
-
         source_dir = os.path.dirname(source_file)
         resolved = os.path.normpath(os.path.join(source_dir, target))
         resolved = resolved.replace("\\", "/")
-
-        # Strip leading ./
         if resolved.startswith("./"):
             resolved = resolved[2:]
-
-        # Normalize source for matching
-        source_norm = source_file.replace("\\", "/")
-        if source_norm.startswith("./"):
-            source_norm = source_norm[2:]
-
-        # Direct match in normalized set
-        if resolved in file_set:
-            # Convert back to original path
-            if resolved in norm_to_orig:
-                return norm_to_orig[resolved]
-            return resolved
-
-        # Try matching by suffix
+        if resolved in norm_to_orig:
+            return norm_to_orig[resolved]
         for norm_key in file_set:
             if norm_key.endswith(resolved):
                 if norm_key in norm_to_orig:
                     return norm_to_orig[norm_key]
                 return norm_key
-
-        # Try matching just the filename
         target_stem = stem(target)
         source_stem = stem(source_file)
         if target_stem in stem_to_paths and target_stem != source_stem:
-            candidates = stem_to_paths[target_stem]
-            for c in candidates:
+            for c in stem_to_paths[target_stem]:
                 if c != source_file:
                     return c
-
         return None
 
-    # Second pass: extract edges
     for fpath in all_files:
         try:
             content = open(fpath, "r", encoding="utf-8").read()
         except Exception:
             continue
-
         links = link_pattern.findall(content)
         internal_links = [l for l in links
                           if l[1].endswith(".md") and not l[1].startswith("http")]
-
         for text, target in internal_links:
             matched = resolve_target(fpath, target)
             if matched:
@@ -181,42 +152,28 @@ def main():
                 node_map[matched]["incoming"] += 1
                 node_map[fpath]["outgoing"] += 1
 
-    # Remove self-loops
     explicit_edges = [e for e in explicit_edges if e["source"] != e["target"]]
 
     print(f"  Found {len(explicit_edges)} explicit link edges")
 
-    # ── Add implicit propagation mirror edges ──
-    # commands/foo.md ↔ propagation/command/foo.template.md
+    # Propagation mirror edges
     mirror_edges = []
     for fpath in all_files:
         fstem = stem(fpath)
         norm_path = fpath.replace("\\", "/")
         if norm_path.startswith("./"):
             norm_path = norm_path[2:]
-
         if norm_path.startswith("commands/"):
-            # Look for mirror in propagation/command/
-            mirror_norm = f"propagation/command/{fstem}.template.md"
-            if mirror_norm in norm_to_orig:
-                mirror_orig = norm_to_orig[mirror_norm]
-                mirror_edges.append({"source": fpath, "target": mirror_orig})
-                mirror_edges.append({"source": mirror_orig, "target": fpath})
-
-            # Also propagation/pi/prompts/
-            mirror_pi_norm = f"propagation/pi/prompts/{fstem}.template.md"
-            if mirror_pi_norm in norm_to_orig:
-                mirror_pi_orig = norm_to_orig[mirror_pi_norm]
-                mirror_edges.append({"source": fpath, "target": mirror_pi_orig})
-                mirror_edges.append({"source": mirror_pi_orig, "target": fpath})
+            for prefix in ["propagation/command/", "propagation/pi/prompts/"]:
+                mir_norm = f"{prefix}{fstem}.template.md"
+                if mir_norm in norm_to_orig:
+                    mir_orig = norm_to_orig[mir_norm]
+                    mirror_edges.append({"source": fpath, "target": mir_orig})
+                    mirror_edges.append({"source": mir_orig, "target": fpath})
 
     print(f"  Added {len(mirror_edges)} propagation mirror edges")
 
-    # ── Add co-location edges (same directory → subtle connection) ──
-    # Only for directories with 3-12 files. Uses a chain pattern (file→file→file)
-    # to show neighborhood relationships without full-mesh clutter.
-    # Large dirs like docs/ (30+ files) skip co-location — their internal
-    # links and shared context already indicate group membership.
+    # Co-location edges (small directories only, chain pattern)
     dir_groups = defaultdict(list)
     for fpath in all_files:
         d = os.path.dirname(fpath)
@@ -227,11 +184,9 @@ def main():
         n = len(files_in_dir)
         if n < 3 or n > 12:
             continue
-        # Chain pattern: sorted alphabetically, connect adjacent pairs
         sorted_files = sorted(files_in_dir)
         for i in range(n - 1):
             a, b = sorted_files[i], sorted_files[i + 1]
-            # Skip if already explicitly connected
             already = any(
                 (e["source"] == a and e["target"] == b) or
                 (e["source"] == b and e["target"] == a)
@@ -242,10 +197,9 @@ def main():
 
     print(f"  Added {len(colocation_edges)} co-location edges")
 
-    # ── Build nodes with size calculation ──
+    # Build nodes with size
     max_size, min_size = 0, float("inf")
     for key, info in node_map.items():
-        # Size = content size + connection importance
         size = math.sqrt(info["lines"]) * 2 + info["incoming"] * 3 + info["outgoing"] * 1
         info["raw_size"] = size
         max_size = max(max_size, size)
@@ -281,11 +235,10 @@ def main():
             "incoming": info["incoming"],
         })
 
-    # ── Build all edges with dedup and styling ──
+    # Build edges with dedup and type styling
     seen = set()
     all_edges = []
 
-    # Explicit edges first
     for e in explicit_edges:
         key = (e["source"], e["target"])
         if key not in seen:
@@ -300,7 +253,6 @@ def main():
                 "smooth": {"type": "curvedCW", "roundness": 0.08},
             })
 
-    # Mirror edges (propagation relationships) — lighter but distinct
     for e in mirror_edges:
         key = (e["source"], e["target"])
         if key not in seen:
@@ -314,7 +266,6 @@ def main():
                 "dashes": True,
             })
 
-    # Co-location edges — very subtle
     for e in colocation_edges:
         key = (e["source"], e["target"])
         if key not in seen:
@@ -327,30 +278,25 @@ def main():
                 "smooth": {"type": "curvedCW", "roundness": 0.15},
             })
 
-    print(f"  Total: {len(nodes_json)} nodes, {len(all_edges)} edges "
-          f"({len(explicit_edges)} explicit, {len(mirror_edges)} mirror, "
-          f"{len(colocation_edges)} co-location)")
-
-    # ── Count connections for orphans report ──
+    # Report
     connected = set()
     for e in all_edges:
         connected.add(e["from"])
         connected.add(e["to"])
     orphans = [n for n in nodes_json if n["id"] not in connected]
+
+    print(f"\n  Total: {len(nodes_json)} nodes, {len(all_edges)} edges")
+    print(f"    {len(explicit_edges)} explicit · {len(mirror_edges)} mirror · {len(colocation_edges)} co-location")
     if orphans:
-        print(f"\n  ⚠️  {len(orphans)} orphan files (0 connections):")
+        print(f"\n  ⚠️  {len(orphans)} orphan files:")
         for o in sorted(orphans, key=lambda x: x["filepath"]):
             print(f"      {o['filepath']}")
 
-    # ── Embed everything into HTML ──
-    nodes_embedded = json.dumps(nodes_json)
-    edges_embedded = json.dumps(all_edges)
-
-    # Build legend HTML
-    legend_items = ""
+    # Build legend
     group_counts = defaultdict(int)
     for n in nodes_json:
         group_counts[n["group"]] += 1
+    legend_items = ""
     for g_key, g_info in DIR_COLORS.items():
         if g_key in group_counts:
             legend_items += f'''
@@ -360,7 +306,6 @@ def main():
               <span class="legend-count">{group_counts[g_key]}</span>
             </div>'''
 
-    # Edge type legend
     edge_legend = f'''
     <div class="legend-section">
       <div class="edge-legend-item">
@@ -377,7 +322,11 @@ def main():
       </div>
     </div>'''
 
-    # ── Write the HTML ──
+    # Serialize
+    nodes_embedded = json.dumps(nodes_json)
+    edges_embedded = json.dumps(all_edges)
+
+    # ── Generate HTML ──
     html = f'''<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -390,7 +339,7 @@ def main():
 
   body {{
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    background: #0f1117;
+    background: radial-gradient(ellipse at 50% 40%, #141822, #0a0c12);
     color: #e1e4e8;
     overflow: hidden;
     height: 100vh;
@@ -408,36 +357,50 @@ def main():
     top: 0; left: 0; right: 0;
     z-index: 100;
     padding: 20px 28px;
-    background: linear-gradient(180deg, rgba(15,17,23,0.95) 50%, transparent);
+    background: linear-gradient(180deg, rgba(10,12,18,0.95) 50%, transparent);
     display: flex;
     align-items: center;
     gap: 14px;
     pointer-events: none;
   }}
 
-  .top-bar h1 {{
-    font-size: 17px;
-    font-weight: 600;
-    letter-spacing: -0.3px;
-    color: #f0f2f5;
-  }}
-
-  .top-bar .subtitle {{
-    font-size: 13px;
-    color: #8b949e;
-    font-weight: 400;
-  }}
-
+  .top-bar h1 {{ font-size: 17px; font-weight: 600; letter-spacing: -0.3px; color: #f0f2f5; }}
+  .top-bar .subtitle {{ font-size: 13px; color: #8b949e; font-weight: 400; }}
   .top-bar .badge {{
-    font-size: 10px;
-    padding: 3px 10px;
+    font-size: 10px; padding: 3px 10px;
     border-radius: 20px;
     background: rgba(88,166,255,0.10);
     color: #58a6ff;
     border: 1px solid rgba(88,166,255,0.15);
     font-weight: 500;
-    letter-spacing: 0.02em;
   }}
+
+  .controls {{
+    position: fixed;
+    top: 18px;
+    right: 24px;
+    z-index: 100;
+    display: flex;
+    gap: 8px;
+    pointer-events: all;
+  }}
+
+  .ctrl-btn {{
+    width: 34px; height: 34px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.08);
+    background: rgba(22,27,34,0.85);
+    backdrop-filter: blur(8px);
+    color: #8b949e;
+    font-size: 15px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+  }}
+  .ctrl-btn:hover {{ background: rgba(255,255,255,0.08); color: #f0f2f5; }}
+  .ctrl-btn.active {{ color: #58a6ff; border-color: rgba(88,166,255,0.3); }}
 
   .legend {{
     position: fixed;
@@ -454,62 +417,22 @@ def main():
     user-select: none;
   }}
 
-  .legend h3 {{
-    font-size: 10px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: #8b949e;
-    margin-bottom: 8px;
-  }}
-
-  .legend-section {{
-    margin-top: 10px;
-    padding-top: 10px;
-    border-top: 1px solid rgba(255,255,255,0.06);
-  }}
+  .legend h3 {{ font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: #8b949e; margin-bottom: 8px; }}
+  .legend-section {{ margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.06); }}
 
   .legend-item {{
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 3px 4px;
-    cursor: pointer;
+    display: flex; align-items: center; gap: 8px;
+    padding: 3px 4px; cursor: pointer; border-radius: 4px;
     transition: background 0.15s;
-    border-radius: 4px;
   }}
   .legend-item:hover {{ background: rgba(255,255,255,0.05); }}
 
-  .legend-dot {{
-    width: 10px; height: 10px;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }}
+  .legend-dot {{ width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }}
+  .legend-label {{ color: #c9d1d9; font-size: 12px; flex: 1; }}
+  .legend-count {{ color: #8b949e; font-size: 11px; }}
 
-  .legend-label {{
-    color: #c9d1d9;
-    font-size: 12px;
-    flex: 1;
-  }}
-
-  .legend-count {{
-    color: #8b949e;
-    font-size: 11px;
-  }}
-
-  .edge-legend-item {{
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 2px 4px;
-  }}
-
-  .edge-line {{
-    display: inline-block;
-    width: 18px;
-    height: 0;
-    flex-shrink: 0;
-  }}
+  .edge-legend-item {{ display: flex; align-items: center; gap: 8px; padding: 2px 4px; }}
+  .edge-line {{ display: inline-block; width: 18px; height: 0; flex-shrink: 0; }}
   .edge-line.solid {{ border-top: 2px solid rgba(200,200,200,0.4); }}
   .edge-line.dashed {{ border-top: 2px dashed rgba(155,89,182,0.5); }}
   .edge-line.subtle {{ border-top: 1px solid rgba(255,255,255,0.1); }}
@@ -527,15 +450,36 @@ def main():
     font-size: 12px;
     text-align: right;
     line-height: 1.8;
+    pointer-events: none;
   }}
 
   .stats span {{ color: #8b949e; }}
   .stats strong {{ color: #f0f2f5; font-weight: 600; }}
 
+  .physics-indicator {{
+    position: fixed;
+    bottom: 82px;
+    right: 24px;
+    z-index: 100;
+    font-size: 10px;
+    color: #484f58;
+    pointer-events: none;
+    text-align: right;
+  }}
+  .physics-indicator .dot {{
+    display: inline-block;
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    margin-right: 4px;
+    vertical-align: middle;
+  }}
+  .physics-indicator .dot.alive {{ background: #3fb950; box-shadow: 0 0 4px rgba(63,185,80,0.4); }}
+  .physics-indicator .dot.frozen {{ background: #484f58; }}
+
   .info-panel {{
     position: fixed;
-    top: 80px;
-    right: 24px;
+    top: 72px;
+    right: 72px;
     z-index: 100;
     background: rgba(22,27,34,0.94);
     backdrop-filter: blur(16px);
@@ -549,10 +493,7 @@ def main():
   }}
 
   .info-panel.visible {{ display: block; animation: fadeSlide 0.25s ease; }}
-  @keyframes fadeSlide {{
-    from {{ opacity: 0; transform: translateY(-6px); }}
-    to {{ opacity: 1; transform: translateY(0); }}
-  }}
+  @keyframes fadeSlide {{ from {{ opacity: 0; transform: translateY(-6px); }} to {{ opacity: 1; transform: translateY(0); }} }}
 
   .info-panel .file-path {{
     color: #58a6ff;
@@ -563,17 +504,8 @@ def main():
     opacity: 0.8;
   }}
 
-  .info-panel .file-name {{
-    font-size: 16px;
-    font-weight: 600;
-    margin-bottom: 2px;
-  }}
-
-  .info-panel .file-stats {{
-    color: #8b949e;
-    font-size: 12px;
-    line-height: 1.6;
-  }}
+  .info-panel .file-name {{ font-size: 16px; font-weight: 600; margin-bottom: 2px; }}
+  .info-panel .file-stats {{ color: #8b949e; font-size: 12px; line-height: 1.6; }}
 
   .search-box {{
     position: fixed;
@@ -581,7 +513,7 @@ def main():
     left: 50%;
     transform: translateX(-50%);
     z-index: 100;
-    width: 280px;
+    width: 260px;
     pointer-events: all;
   }}
 
@@ -599,11 +531,7 @@ def main():
     text-align: center;
   }}
 
-  .search-box input:focus {{
-    border-color: rgba(255,255,255,0.2);
-    background: rgba(22,27,34,0.96);
-  }}
-
+  .search-box input:focus {{ border-color: rgba(255,255,255,0.2); background: rgba(22,27,34,0.96); }}
   .search-box input::placeholder {{ color: #8b949e; }}
 
   .loading {{
@@ -628,26 +556,12 @@ def main():
   @keyframes spin {{ to {{ transform: rotate(360deg); }} }}
 
   .no-data {{
-    position: fixed;
-    top: 50%; left: 50%;
+    position: fixed; top: 50%; left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 2;
-    text-align: center;
+    z-index: 2; text-align: center;
   }}
   .no-data h2 {{ color: #f85149; font-size: 18px; margin-bottom: 8px; }}
   .no-data p {{ color: #8b949e; font-size: 13px; }}
-
-  .hints {{
-    position: fixed;
-    bottom: 80px;
-    right: 24px;
-    z-index: 100;
-    font-size: 11px;
-    color: #484f58;
-    text-align: right;
-    line-height: 1.6;
-    pointer-events: none;
-  }}
 </style>
 </head>
 <body>
@@ -660,11 +574,16 @@ def main():
 <div class="top-bar">
   <h1>Knowledge Graph</h1>
   <span class="subtitle">· agentic-workflows</span>
-  <span class="badge">interactive</span>
+  <span class="badge">living</span>
+</div>
+
+<div class="controls">
+  <button class="ctrl-btn" id="btnFreeze" title="Toggle physics">⟳</button>
+  <button class="ctrl-btn" id="btnFit" title="Fit all nodes to view">⊞</button>
 </div>
 
 <div class="search-box">
-  <input type="text" id="search" placeholder="Search files… (⌘F)" spellcheck="false" />
+  <input type="text" id="search" placeholder="Search…" spellcheck="false" />
 </div>
 
 <div class="info-panel" id="infoPanel">
@@ -686,7 +605,9 @@ def main():
   <span><strong id="edgeCount">0</strong> connections</span>
 </div>
 
-<div class="hints">drag · scroll to zoom<br>click a node · esc to reset</div>
+<div class="physics-indicator" id="physicsIndicator">
+  <span class="dot alive" id="physicsDot"></span><span id="physicsLabel">alive</span>
+</div>
 
 <script>
 (function() {{
@@ -703,6 +624,7 @@ def main():
   document.getElementById('nodeCount').textContent = NODES.length;
   document.getElementById('edgeCount').textContent = EDGES.length;
 
+  // vis-network with forceAtlas2Based for natural spreading
   const data = {{
     nodes: new vis.DataSet(NODES),
     edges: new vis.DataSet(EDGES)
@@ -710,13 +632,13 @@ def main():
 
   const options = {{
     physics: {{
-      stabilization: {{ iterations: 200 }},
+      stabilization: {{ iterations: 150 }},
       solver: 'forceAtlas2Based',
       forceAtlas2Based: {{
-        gravitationalConstant: -30,
+        gravitationalConstant: -35,
         centralGravity: 0.003,
-        springLength: 160,
-        springConstant: 0.05,
+        springLength: 200,
+        springConstant: 0.04,
         damping: 0.5,
       }},
       adaptiveTimestep: true,
@@ -727,17 +649,94 @@ def main():
     }},
     interaction: {{
       hover: true,
-      tooltipDelay: 200,
+      tooltipDelay: 150,
       navigationButtons: false,
       keyboard: true,
     }},
   }};
 
   const network = new vis.Network(container, data, options);
+  let physicsFrozen = false;
 
-  // After stabilization, freeze physics and auto-frame
+  // After stabilization, simmer with gentle continuous motion
   network.once('stabilizationIterationsDone', function() {{
-    network.setOptions({{ physics: false }});
+    network.setOptions({{
+      physics: {{
+        forceAtlas2Based: {{
+          gravitationalConstant: -8,
+          centralGravity: 0.001,
+          springLength: 220,
+          springConstant: 0.025,
+          damping: 0.6,
+        }},
+        minVelocity: 0.01,
+        maxVelocity: 6,
+      }}
+    }});
+    network.fit({{ animation: true, duration: 500 }});
+
+    // Perpetual breathing: nudge nodes to keep the graph alive
+    setInterval(function() {{
+      if (!physicsFrozen) {{
+        var positions = network.getPositions();
+        var ids = Object.keys(positions);
+        for (var i = 0; i < ids.length; i++) {{
+          if (Math.random() < 0.12) {{
+            network.moveNode(ids[i],
+              positions[ids[i]].x + (Math.random() - 0.5) * 8,
+              positions[ids[i]].y + (Math.random() - 0.5) * 8
+            );
+          }}
+        }}
+      }}
+    }}, 1500);
+  }});
+
+  // Hover highlight
+  network.on('hoverNode', function(params) {{
+    const connected = network.getConnectedEdges(params.node);
+    EDGES.forEach(function(e, i) {{
+      if (!e._origColor) e._origColor = JSON.parse(JSON.stringify(e.color));
+      const isConnected = connected.indexOf(i) !== -1;
+      e.color = isConnected
+        ? {{ color: (e._origColor.color || 'rgba(200,200,200,0.35)').replace(/[\\d.]+(?=\\))/, '0.6') }}
+        : {{ color: 'rgba(255,255,255,0.03)' }};
+    }});
+    data.edges.update(EDGES);
+  }});
+
+  network.on('blurNode', function() {{
+    EDGES.forEach(function(e) {{
+      if (e._origColor) e.color = JSON.parse(JSON.stringify(e._origColor));
+    }});
+    data.edges.update(EDGES);
+  }});
+
+  // Freeze/unfreeze
+  document.getElementById('btnFreeze').addEventListener('click', function() {{
+    physicsFrozen = !physicsFrozen;
+    if (physicsFrozen) {{
+      network.setOptions({{ physics: false }});
+      this.classList.add('active');
+      document.getElementById('physicsDot').className = 'dot frozen';
+      document.getElementById('physicsLabel').textContent = 'frozen';
+    }} else {{
+      network.setOptions({{
+        physics: {{
+          forceAtlas2Based: {{
+            gravitationalConstant: -8, centralGravity: 0.001,
+            springLength: 220, springConstant: 0.025, damping: 0.65,
+          }},
+          minVelocity: 0.3, maxVelocity: 4,
+        }}
+      }});
+      this.classList.remove('active');
+      document.getElementById('physicsDot').className = 'dot alive';
+      document.getElementById('physicsLabel').textContent = 'alive';
+    }}
+  }});
+
+  document.getElementById('btnFit').addEventListener('click', function() {{
     network.fit({{ animation: true, duration: 400 }});
   }});
 
@@ -748,10 +747,7 @@ def main():
     clearTimeout(searchTimeout);
     searchTimeout = setTimeout(() => {{
       const q = this.value.toLowerCase().trim();
-      if (!q) {{
-        network.selectNodes([]);
-        return;
-      }}
+      if (!q) {{ network.selectNodes([]); return; }}
       const hits = NODES.filter(n =>
         n.label.toLowerCase().includes(q) || n.filepath.toLowerCase().includes(q)
       );
@@ -763,7 +759,7 @@ def main():
     }}, 150);
   }});
 
-  // Click → info panel
+  // Click info panel
   network.on('click', function(params) {{
     const panel = document.getElementById('infoPanel');
     if (params.nodes.length > 0) {{
@@ -781,7 +777,7 @@ def main():
     }}
   }});
 
-  // Legend click → select group
+  // Legend → focus group
   document.querySelectorAll('.legend-item').forEach(function(item) {{
     item.addEventListener('click', function() {{
       const group = this.dataset.group;
@@ -799,7 +795,7 @@ def main():
       network.selectNodes([]);
       searchInput.value = '';
       document.getElementById('infoPanel').classList.remove('visible');
-      network.fit({{ animation: true }});
+      network.fit({{ animation: true, duration: 300 }});
     }}
     if ((e.ctrlKey || e.metaKey) && e.key === 'f') {{
       e.preventDefault();
@@ -824,8 +820,6 @@ def main():
     real_path = os.path.abspath(output_path)
     print(f"\n✅ Generated: {real_path}")
     print(f"   {len(nodes_json)} nodes · {len(all_edges)} edges")
-    print(f"   ({len(explicit_edges)} explicit, {len(mirror_edges)} mirror, "
-          f"{len(colocation_edges)} co-location)")
     print(f"\n   Open: file://{real_path}")
 
 
