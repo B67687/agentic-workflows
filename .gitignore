@@ -33,6 +33,9 @@ GEMINI.md
 # Large binaries
 personal-voice/samples/course-guide.pdf
 
+
+# Generated search indexes and caches
+.cache/
 # Temporary files
 *.tmp
 *.log
@@ -50,3 +53,5 @@ Thumbs.db
 
 # Generated screenshots
 .screenshots_*.png
+.screenshots_*.png
+repo-graph.html
