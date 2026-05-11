@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "hooks": {
+    "PreCompact": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ./scripts/checkpoint-commit.sh --dry-run -m \"auto-checkpoint before compaction\"",
+            "description": "Verify all changes are committed before compaction",
+            "id": "pre:compact:verify-committed"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Bash|Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ./scripts/hooks/quality-gate.sh 2>/dev/null || true",
+            "description": "Non-blocking quality reminders after tool use",
+            "id": "post:edit:quality-reminder"
+          }
+        ]
+      }
+    ]
+  },
+  "description": "Hook configuration for agentic-workflows hub. Hooks fire on tool events to enforce quality, safety, and state management.",
+  "notes": [
+    "The quality gate runs as a pre-commit check via checkpoint-commit.sh (wired into the script directly).",
+    "These hooks provide additional event-based enforcement for non-commit events (compaction, tool use).",
+    "Hooks are implemented as bash scripts in scripts/hooks/ for simplicity and cross-platform compatibility."
+  ]
+}

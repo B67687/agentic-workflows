@@ -4,9 +4,14 @@ Specialist personas that play a single role with a single perspective. Each pers
 
 | Persona | Role | Best for |
 |---------|------|----------|
+| [planner](planner.md) | Staff Engineer | Feature decomposition, milestone planning, dependency analysis |
+| [tdd-guide](tdd-guide.md) | TDD Specialist | RED → GREEN → IMPROVE cycle, test-first discipline |
 | [code-reviewer](code-reviewer.md) | Senior Staff Engineer | Five-axis review before merge |
 | [security-auditor](security-auditor.md) | Security Engineer | Vulnerability detection, OWASP-style audit |
 | [test-engineer](test-engineer.md) | QA Engineer | Test strategy, coverage analysis, Prove-It pattern |
+| [build-resolver](build-resolver.md) | Build/Tooling Engineer | Systematic build, type, lint, and dependency error resolution |
+| [doc-updater](doc-updater.md) | Technical Writer | Documentation sync after code changes |
+| [database-reviewer](database-reviewer.md) | Staff DBA | Schema, query, migration, and data access pattern review |
 
 ## How personas relate to skills and commands
 
@@ -25,9 +30,14 @@ The user (or a slash command) is the orchestrator. **Personas do not call other 
 ### Direct persona invocation
 Pick this when you want one perspective on the current change and the user is in the loop.
 
+- "Plan the implementation for user authentication" → invoke `planner` directly
+- "Write a failing test for the payment bug" → invoke `tdd-guide` directly
 - "Review this PR" → invoke `code-reviewer` directly
 - "Are there security issues in `auth.ts`?" → invoke `security-auditor` directly
 - "What tests are missing for the checkout flow?" → invoke `test-engineer` directly
+- "The TypeScript build is failing with type errors" → invoke `build-resolver` directly
+- "Update the docs after the API changes" → invoke `doc-updater` directly
+- "Review this database migration" → invoke `database-reviewer` directly
 
 ### Slash command (single persona behind it)
 Pick this when there's a repeatable workflow you'd otherwise re-explain every time.

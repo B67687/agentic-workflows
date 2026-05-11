@@ -9,6 +9,7 @@ EXPECTED_IDENT="B67687 <111849193+B67687@users.noreply.github.com>"
 STAGE_ALL=true
 DRY_RUN=false
 SHOW_DIFF=false
+SKIP_QUALITY=false
 MESSAGE=""
 DETAIL=""
 
@@ -23,6 +24,7 @@ Options:
   -d, --detail TEXT    Optional commit body paragraph
   --no-stage           Commit only what is already staged
   --show-diff          Show staged diff summary before committing
+  --skip-quality       Skip the pre-commit quality gate
   --dry-run            Validate and stage, but do not commit
   -h, --help           Show this help
 USAGE
@@ -44,6 +46,10 @@ while [[ $# -gt 0 ]]; do
       ;;
     --show-diff)
       SHOW_DIFF=true
+      shift
+      ;;
+    --skip-quality)
+      SKIP_QUALITY=true
       shift
       ;;
     --dry-run)
@@ -90,6 +96,17 @@ if git diff --name-only --diff-filter=U | grep -q .; then
   echo "ERROR: resolve merge conflicts before checkpoint committing." >&2
   git diff --name-only --diff-filter=U >&2
   exit 1
+fi
+
+if [[ "$SKIP_QUALITY" == false ]]; then
+  QUALITY_SCRIPT="$(dirname "$0")/hooks/quality-gate.sh"
+  if [[ -f "$QUALITY_SCRIPT" ]]; then
+    echo ":: Running pre-commit quality gate..."
+    if ! bash "$QUALITY_SCRIPT"; then
+      echo "ERROR: quality gate failed. Use --skip-quality to bypass (not recommended)." >&2
+      exit 1
+    fi
+  fi
 fi
 
 if [[ "$STAGE_ALL" == true ]]; then
