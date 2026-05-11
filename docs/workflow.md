@@ -140,5 +140,6 @@ Do not read archive, research, or deep reference docs unless the task explicitly
 | Context/token efficiency | `docs/token-efficient-prompting.md` |
 | Git best practices | `git-github-best-practices.md` |
 | Quality standards | `quality-standards.md` |
+| MCP architecture reference | `docs/mcp-architecture.md` |
 | Cross-repo propagation | `docs/cross-project-memory-loop.md` |
 | TDD with agents | `docs/tdd-with-agents.md` |
