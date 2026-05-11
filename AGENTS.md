@@ -35,6 +35,7 @@ For topic-folder work: root `session-state.json`, then `AGENTS.md`, then `docs/w
 | `docs/daily-prompts.md` | Most-used prompts |
 | `docs/prompt-templates.md` | Prompt library index |
 | `docs/context-format.md` | Domain language glossary format (CONTEXT.md) |
+| `docs/design-md-pattern.md` | Visual language spec format (DESIGN.md) — how things should look |
 | `personal-voice/VOICE-PROFILE.md` | User voice patterns; read before writing in the user's voice |
 
 ## Key Rules
@@ -72,7 +73,7 @@ For topic-folder work: root `session-state.json`, then `AGENTS.md`, then `docs/w
 
 ## Structure Rules
 
-- This hub's working areas are `commands/` (source of truth), `docs/`, `research/`, `scripts/` (includes `scripts/hooks/`), `workflow/`, `propagation/`, `archive/`, `personal-voice/`, `skills/`, `agents/`, `references/`, `rules/`, `agent-concourse/`, `hooks/`, `raw/`, `state/`, `wiki/`, `agent/`, and `inbox/`.
+- This hub's working areas are `commands/` (source of truth), `docs/`, `research/`, `scripts/` (includes `scripts/hooks/`), `workflow/`, `propagation/`, `archive/`, `personal-voice/`, `skills/`, `agents/`, `references/`, `rules/`, `agent-concourse/`, `hooks/`, `raw/`, `state/`, `wiki/`, `agent/`, `design-md/`, and `inbox/`.
 - Hub commands live in `commands/` (14 files: task, plan, implement, pipeline, research, session, git, counsel, route, optimize, parley, prompt-contract, repo-map, query). The old `command/` directory is deprecated — do not use it.
 - Do not move hub content into `agentic-workflows-content/` unless the whole hub is intentionally redesigned.
 - In propagated project folders, normal work belongs in `[folder-name]-content/`.
@@ -328,7 +329,9 @@ If a `.gstack-freeze` file exists in the workspace root, read it — it contains
 | Token/context efficiency | `docs/token-efficient-prompting.md` |
 | Session checkpoints | `docs/session-checkpoint.md` |
 | Domain language glossary | `docs/context-format.md` |
+| Visual language spec | `docs/design-md-pattern.md` |
 | Requirements alignment | `skills/grill-me/SKILL.md` |
+| Brand design systems | `design-md/README.md` (links to awesome-design-md) |
 
 For the full reference index, see `docs/hub-quickstart.md`.
 

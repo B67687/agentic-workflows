@@ -113,7 +113,28 @@ Global store (Zustand, Redux)    → Complex client state shared app-wide
 
 **Avoid prop drilling deeper than 3 levels.** If you're passing props through components that don't use them, introduce context or restructure the component tree.
 
-## Design System Adherence
+## Design System Input (DESIGN.md)
+
+Before building any UI, check if the project has a `DESIGN.md` file at the root. This file defines the project's visual language in a machine-readable format.
+
+**If DESIGN.md exists:**
+- Read it first. Extract tokens (colors, typography, spacing, components)
+- Reference token values directly — never invent new colors, spacing, or radii
+- Use the component names from DESIGN.md (e.g., `button-primary`, `card-feature`) in your code
+
+**If DESIGN.md does NOT exist:**
+- Ask the user if they want to create one
+- If not, use the project's existing design tokens (CSS variables, Tailwind theme, etc.)
+- As a fallback, use the reference at `docs/design-md-pattern.md` to understand the format
+
+**How DESIGN.md integrates with UI work:**
+```
+DESIGN.md → provides color tokens, type scale, component specs
+AGENTS.md → provides build conventions, tooling, project rules
+Your code → merges both into production UI
+```
+
+For ready-to-use DESIGN.md files from popular brands, see `design-md/README.md` or the [awesome-design-md](https://github.com/VoltAgent/awesome-design-md) collection.
 
 ### Avoid the AI Aesthetic
 
@@ -294,7 +315,9 @@ function useToggleTask() {
 
 ## See Also
 
-For detailed accessibility requirements and testing tools, see `references/accessibility-checklist.md`.
+- `docs/design-md-pattern.md` — How to create and use DESIGN.md visual language specs
+- `design-md/README.md` — Curated DESIGN.md collection (brand designs + custom patterns)
+- `references/accessibility-checklist.md` — Detailed accessibility requirements and testing tools
 
 ## Common Rationalizations
 
