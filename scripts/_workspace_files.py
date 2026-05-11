@@ -27,6 +27,8 @@ ignore_dirs: set[str] = {
     ".aider", ".gitpod",
     ".vscode", ".idea",
     ".dart_tool", ".packages",
+    # Generated / derived content (mirrors of originals)
+    "raw", "state", "archive",
 }
 
 # File extensions treated as text (parsable for search/indexing)
