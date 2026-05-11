@@ -12,8 +12,20 @@
 
 set -euo pipefail
 
-ROOT="${1:-$(pwd)}"
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+
+# ---- Help ----
+if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
+  echo "Usage: bash ./scripts/build-index.sh [root-dir]"
+  echo ""
+  echo "Builds a BM25 text index for the workspace (saved to .cache/bm25/)."
+  echo "Default root-dir: current directory"
+  echo ""
+  echo "Dependencies: pip install bm25s"
+  exit 0
+fi
+
+ROOT="${1:-$(pwd)}"
 
 # ---- Dependency check ----
 python3 -c "import bm25s" 2>/dev/null || {

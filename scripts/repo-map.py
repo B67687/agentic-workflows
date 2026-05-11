@@ -289,6 +289,13 @@ def page_rank(
 def main() -> None:
     args = sys.argv[1:]
 
+    if any(a in ("--help", "-h") for a in args):
+        print("Usage: python3 repo-map.py [root-dir] [--max-tokens N] [--no-headings] [--no-symbols]")
+        print("  --max-tokens N    Token budget for output (default: 2048)")
+        print("  --no-headings     Skip markdown headings")
+        print("  --no-symbols      Skip code symbols")
+        sys.exit(0)
+
     # Parse args
     root = Path.cwd()
     max_tokens = 2048
