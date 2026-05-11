@@ -48,7 +48,10 @@ Keep the packet short. Preserve only what the next session needs.
 
 Use this at the end of a phase. If the task is actually over, obsolete, or misframed, use Close Task first so the ending gets classified cleanly.
 
-First, run the deterministic checkpoint review:
+First, run the pre-compact snapshot to preserve working context:
+`bash ./scripts/hooks/pre-compact.sh`
+
+Then run the deterministic checkpoint review:
 `bash ./scripts/checkpoint-review.sh $ARGUMENTS`
 
 Then respond compactly with: what was completed, what must go into session-state.json, whether a checkpoint commit is appropriate now, and whether the next step should start in a new session.
@@ -57,6 +60,9 @@ If the review says `Checkpoint commit ready: yes`, run immediately:
 `bash ./scripts/checkpoint-commit.sh -m "checkpoint summary"`
 
 Do not ask. Commit is the default action after a verified phase, not a suggestion.
+
+After checkpoint commit (or if deferring), run the post-compact restoration reminder:
+`bash ./scripts/hooks/post-compact.sh`
 
 ## Close Task (classify and close a resolved task)
 

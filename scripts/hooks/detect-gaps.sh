@@ -1,0 +1,113 @@
+#!/usr/bin/env bash
+# =============================================================================
+# detect-gaps.sh — SessionStart lifecycle hook
+# Detects common workspace hygiene gaps:
+#   1. BM25 index stale or missing
+#   2. session-state.json stale or missing
+#   3. Uncommitted work that should be checkpointed
+#   4. Propagation sync drift
+#   5. Stale learnings file
+#
+# Non-blocking — reports findings, exits 0.
+# Compatible with: Claude Code (via hooks.json), manual invocation, AGENTS.md
+# =============================================================================
+
+set -euo pipefail
+
+FOUND_GAP=false
+
+report_gap() {
+    local severity="$1" message="$2"
+    FOUND_GAP=true
+    if [ "$severity" = "WARN" ]; then
+        echo "  ⚠  $message"
+    else
+        echo "  ℹ   $message"
+    fi
+}
+
+echo "=== Gap Detection ==="
+
+# ---- Check 1: BM25 Index Freshness ----
+INDEX_DIR=".cache/bm25-index"
+INDEX_FILE="$INDEX_DIR/index.bm25"  # bm25s creates this
+if [ -d "$INDEX_DIR" ]; then
+    # Find newest file in workspace to compare
+    NEWEST_FILE=$(find . -path ./.git -prune -o -path ./.cache -prune -o -type f -print 2>/dev/null | head -1000 | xargs stat -c %Y 2>/dev/null | sort -rn | head -1 || echo 0)
+    NEWEST_INDEX=$(find "$INDEX_DIR" -type f -exec stat -c %Y {} + 2>/dev/null | sort -rn | head -1 || echo 0)
+    if [ "$NEWEST_FILE" -gt "$NEWEST_INDEX" ] 2>/dev/null; then
+        report_gap "WARN" "BM25 index is stale. Run: bash ./scripts/build-index.sh"
+    else
+        echo "  ✓  BM25 index is current"
+    fi
+else
+    report_gap "WARN" "BM25 index missing. Run: bash ./scripts/build-index.sh"
+fi
+
+# ---- Check 2: Session State Health ----
+STATE_FILE="session-state.json"
+if [ -f "$STATE_FILE" ]; then
+    NOW=$(date +%s)
+    STATE_MTIME=$(stat -c %Y "$STATE_FILE" 2>/dev/null || echo 0)
+    AGE_HOURS=$(( (NOW - STATE_MTIME) / 3600 ))
+    if [ "$AGE_HOURS" -gt 24 ]; then
+        report_gap "WARN" "session-state.json is $AGE_HOURS hours old — may be stale"
+    fi
+    # Check if interruptedCount suggests a crashed session
+    INTERRUPTED=$(python3 -c "
+import json
+try:
+    s = json.load(open('$STATE_FILE'))
+    print(s.get('interruptedCount', 0))
+except: print(0)
+" 2>/dev/null || echo 0)
+    if [ "$INTERRUPTED" -gt 0 ] && [ "$INTERRUPTED" -lt 3 ]; then
+        report_gap "ℹ" "session-state.json has $INTERRUPTED interruption(s) — may need attention"
+    fi
+else
+    report_gap "WARN" "session-state.json not found"
+fi
+
+# ---- Check 3: Uncommitted Work ----
+DIRTY=$(git status --short 2>/dev/null | wc -l | tr -d ' ')
+UNTRACKED=$(git ls-files --others --exclude-standard 2>/dev/null | wc -l | tr -d ' ')
+if [ "$DIRTY" -gt 10 ]; then
+    report_gap "WARN" "Large dirty worktree ($DIRTY changes, $UNTRACKED untracked). Consider checkpointing."
+elif [ "$DIRTY" -gt 0 ]; then
+    echo "  ℹ   $DIRTY uncommitted change(s), $UNTRACKED untracked"
+fi
+
+# ---- Check 4: Propagation Sync ----
+PROP_CONTRACT="scripts/propagation-contract.sh"
+if [ -f "$PROP_CONTRACT" ]; then
+    # Quick check: do propagated repos have recent sync?
+    PROP_DIRS=$(find propagation -mindepth 1 -maxdepth 1 -type d 2>/dev/null | wc -l | tr -d ' ')
+    if [ "$PROP_DIRS" -gt 0 ]; then
+        echo "  ℹ   $PROP_DIRS propagation target(s) configured"
+        # Check most recent sync across all targets
+        LATEST_PROP=$(find propagation -name ".sync-timestamp" -exec cat {} + 2>/dev/null | sort -rn | head -1 || echo "never")
+        if [ "$LATEST_PROP" = "never" ]; then
+            report_gap "ℹ" "No propagation sync timestamps found. Run: bash ./scripts/propagate-to-all.sh"
+        fi
+    fi
+fi
+
+# ---- Check 5: Learnings freshness ----
+LEARNINGS=".learnings.jsonl"
+if [ -f "$LEARNINGS" ]; then
+    NOW=$(date +%s)
+    LEARN_MTIME=$(stat -c %Y "$LEARNINGS" 2>/dev/null || echo 0)
+    LEARN_AGE_DAYS=$(( (NOW - LEARN_MTIME) / 86400 ))
+    if [ "$LEARN_AGE_DAYS" -gt 14 ]; then
+        report_gap "ℹ" ".learnings.jsonl not updated in $LEARN_AGE_DAYS days"
+    fi
+fi
+
+# ---- Summary ----
+echo ""
+if [ "$FOUND_GAP" = true ]; then
+    echo "Gaps detected — address as needed. None are blocking."
+else
+    echo "✓  No gaps detected — workspace is healthy."
+fi
+echo "=== End Gap Detection ==="

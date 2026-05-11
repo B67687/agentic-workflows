@@ -18,11 +18,14 @@ Only ask questions when the gap has real consequences for safety, scope, or corr
 ## Startup Order
 
 1. `session-state.json` — active session state; read first on every resume
-2. `AGENTS.md` — this operating contract
-3. `docs/workflow.md` — fast orientation (replaces multi-file startup — merged from core-agent-doctrine + phase-based + agentic-workflows + system-overview)
-4. Task-specific files only when needed
+2. Lifecycle hooks run automatically (printed to conversation):
+   - `bash ./scripts/hooks/session-start.sh` — branch, recent commits, state health
+   - `bash ./scripts/hooks/detect-gaps.sh` — stale indexes, missing state, drift
+3. `AGENTS.md` — this operating contract
+4. `docs/workflow.md` — fast orientation (replaces multi-file startup — merged from core-agent-doctrine + phase-based + agentic-workflows + system-overview)
+5. Task-specific files only when needed
 
-For topic-folder work: root `session-state.json`, then `AGENTS.md`, then `docs/workflow.md`, then `meta/` files only when deeper context is needed.
+For topic-folder work: root `session-state.json`, then lifecycle hooks, then `AGENTS.md`, then `docs/workflow.md`, then `meta/` files only when deeper context is needed.
 
 ## High-Signal Files
 
@@ -41,6 +44,13 @@ For topic-folder work: root `session-state.json`, then `AGENTS.md`, then `docs/w
 | `scripts/search-index.sh` | Query BM25 index — ranked results across all text files |
 | `scripts/repo-map.sh` | Tree-sitter repo map with PageRank ranking |
 | `skills/bash-explore/SKILL.md` | Bash-hybrid exploration patterns |
+| `scripts/hooks/session-start.sh` | Session-start diagnostics (branch, commits, state health) |
+| `scripts/hooks/detect-gaps.sh` | Gap detection — stale index, missing state, propagation drift |
+| `scripts/hooks/pre-compact.sh` | Pre-compaction context snapshot |
+| `scripts/hooks/post-compact.sh` | Post-compaction context restoration reminder |
+| `scripts/hooks/log-agent.sh` | Subagent audit trail (start) |
+| `scripts/hooks/log-agent-stop.sh` | Subagent audit trail (stop) |
+| `scripts/hooks/hooks.json` | Claude Code-compatible hook lifecycle configuration |
 
 ## Key Rules
 

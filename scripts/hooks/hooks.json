@@ -1,6 +1,27 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
   "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ./scripts/hooks/session-start.sh",
+            "description": "Print branch, recent commits, state health",
+            "id": "session:start:diagnostics",
+            "timeout": 10
+          },
+          {
+            "type": "command",
+            "command": "bash ./scripts/hooks/detect-gaps.sh",
+            "description": "Detect stale indexes, missing state, propagation drift",
+            "id": "session:start:gap-detection",
+            "timeout": 15
+          }
+        ]
+      }
+    ],
     "PreCompact": [
       {
         "matcher": "*",
@@ -10,6 +31,27 @@
             "command": "bash ./scripts/checkpoint-commit.sh --dry-run -m \"auto-checkpoint before compaction\"",
             "description": "Verify all changes are committed before compaction",
             "id": "pre:compact:verify-committed"
+          },
+          {
+            "type": "command",
+            "command": "bash ./scripts/hooks/pre-compact.sh",
+            "description": "Save working context snapshot before compaction",
+            "id": "pre:compact:snapshot",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PostCompact": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ./scripts/hooks/post-compact.sh",
+            "description": "Remind to restore session context after compaction",
+            "id": "post:compact:restore",
+            "timeout": 10
           }
         ]
       }
@@ -26,12 +68,43 @@
           }
         ]
       }
+    ],
+    "SubagentStart": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ./scripts/hooks/log-agent.sh",
+            "description": "Log subagent invocation to audit trail",
+            "id": "subagent:start:audit",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ./scripts/hooks/log-agent-stop.sh",
+            "description": "Log subagent completion to audit trail",
+            "id": "subagent:stop:audit",
+            "timeout": 5
+          }
+        ]
+      }
     ]
   },
   "description": "Hook configuration for agentic-workflows hub. Hooks fire on tool events to enforce quality, safety, and state management.",
   "notes": [
     "The quality gate runs as a pre-commit check via checkpoint-commit.sh (wired into the script directly).",
     "These hooks provide additional event-based enforcement for non-commit events (compaction, tool use).",
-    "Hooks are implemented as bash scripts in scripts/hooks/ for simplicity and cross-platform compatibility."
+    "Hooks are implemented as bash scripts in scripts/hooks/ for simplicity and cross-platform compatibility.",
+    "OpenCode does not natively fire all hook lifecycle events — hooks.json serves as Claude Code compatibility layer.",
+    "In OpenCode, session-start and detect-gaps are invoked via AGENTS.md startup instructions.",
+    "Audit logging is wired into subagent task prompts in opencode.jsonc."
   ]
 }
