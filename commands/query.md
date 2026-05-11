@@ -1,17 +1,18 @@
 ---
-description: Retrieve only the local context relevant to the current step
+description: Search the full workspace via BM25 ranked index
 ---
 
-Use the repo's local retrieval helper instead of reading broad context by hand.
+Use the repo's BM25 search index instead of manual file scanning. Results are
+ranked by relevance across ALL text files in the workspace.
 
-If you do not yet know the folder shape, run:
-`bash ./scripts/repo-map.sh .`
+If the index has not been built yet, build it first:
+`bash ./scripts/build-index.sh`
 
 Run:
-`bash ./scripts/retrieve-context.sh "$ARGUMENTS"`
+`bash ./scripts/search-index.sh "$ARGUMENTS"`
 
 Then respond compactly with:
-- the top matches
+- the top matches (show scores, paths, and snippets)
 - what to read next
 - any obvious missing context
 
