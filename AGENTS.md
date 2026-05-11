@@ -71,7 +71,7 @@ For topic-folder work: root `session-state.json`, then `AGENTS.md`, then `docs/w
 
 ## Structure Rules
 
-- This hub's working areas are `docs/`, `research/`, `scripts/`, `workflow/`, `propagation/`, `archive/`, `personal-voice/`, `skills/`, `agents/`, and `references/`.
+- This hub's working areas are `commands/` (source of truth), `docs/`, `research/`, `scripts/` (includes `scripts/hooks/`), `workflow/`, `propagation/`, `archive/`, `personal-voice/`, `skills/`, `agents/`, `references/`, `rules/`, `agent-concourse/`, `hooks/`, `raw/`, `state/`, `wiki/`, `agent/`, and `inbox/`.
 - Hub commands live in `commands/` (14 files: task, plan, implement, pipeline, research, session, git, counsel, route, optimize, parley, prompt-contract, repo-map, query). The old `command/` directory is deprecated — do not use it.
 - Do not move hub content into `agentic-workflows-content/` unless the whole hub is intentionally redesigned.
 - In propagated project folders, normal work belongs in `[folder-name]-content/`.
