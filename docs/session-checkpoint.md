@@ -261,6 +261,10 @@ Even without token counts, these signal rising pressure:
 
 **Checkpoint trigger**: Write state at medium. Heavy operations only after writing state.
 
+**Recovery shortcut**: Instead of re-reading many files, run:
+- `bash ./scripts/search-index.sh "task keywords"` — ranked retrieval of relevant docs
+- `bash ./scripts/repo-map.sh --max-tokens 512` — quick orientation map
+
 ---
 
 ## Anti-Patterns

@@ -37,6 +37,10 @@ For topic-folder work: root `session-state.json`, then `AGENTS.md`, then `docs/w
 | `docs/context-format.md` | Domain language glossary format (CONTEXT.md) |
 | `docs/design-md-pattern.md` | Visual language spec format (DESIGN.md) — how things should look |
 | `personal-voice/VOICE-PROFILE.md` | User voice patterns; read before writing in the user's voice |
+| `scripts/build-index.sh` | Build BM25 search index for full-workspace retrieval |
+| `scripts/search-index.sh` | Query BM25 index — ranked results across all text files |
+| `scripts/repo-map.sh` | Tree-sitter repo map with PageRank ranking |
+| `skills/bash-explore/SKILL.md` | Bash-hybrid exploration patterns |
 
 ## Key Rules
 
@@ -318,6 +322,37 @@ If a `.gstack-freeze` file exists in the workspace root, read it — it contains
 - `/freeze <path>` — creates `.gstack-freeze` with the given directory
 - `/unfreeze` — removes `.gstack-freeze`
 
+### 10. Bash-Hybrid Exploration (Layer 3)
+
+For codebase exploration, use a two-phase approach:
+1. **Bash for discovery** — use `find`, `grep -rl`, `ls`, `cat` for bulk file
+   discovery and pattern matching across many files.
+2. **Tools for precision** — use Read, Grep, Glob for targeted operations
+   *after* bash has narrowed the search space.
+
+See `skills/bash-explore/SKILL.md` for patterns and safety guidance.
+
+### 11. Context Budget Management (Layer 4)
+
+Monitor context pressure and compact proactively:
+
+| Signal | Action |
+|--------|--------|
+| 15+ turns in thread | Compact context — summarize older turns |
+| `session-state.json` `contextPressure` = medium | Write state, consider handoff |
+| Repeating explanations or generic responses | Immediate compaction or fresh context |
+
+When compacting, use:
+1. `bash ./scripts/search-index.sh "current task keywords"` — fast retrieval
+   instead of re-scanning
+2. `bash ./scripts/repo-map.sh --max-tokens 512` — re-orient without full
+   re-read
+3. 5-line summary for handoff (see `docs/session-checkpoint.md`)
+
+Prompt caching hint: the repo map and startup files (AGENTS.md, session-state.json)
+are the most-repeated content — keep them early in the prompt for cache hits on
+supported APIs.
+
 ---
 
 ## Deep References
@@ -332,6 +367,9 @@ If a `.gstack-freeze` file exists in the workspace root, read it — it contains
 | Visual language spec | `docs/design-md-pattern.md` |
 | Requirements alignment | `skills/grill-me/SKILL.md` |
 | Brand design systems | `design-md/README.md` (links to awesome-design-md) |
+| Bash-hybrid exploration | `skills/bash-explore/SKILL.md` |
+| BM25 workspace search | `scripts/search-index.sh` |
+| Token/context efficiency | `docs/token-efficient-prompting.md` |
 
 For the full reference index, see `docs/hub-quickstart.md`.
 
