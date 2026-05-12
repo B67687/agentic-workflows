@@ -503,8 +503,10 @@ supported APIs.
 | Daily prompts | `docs/daily-prompts.md` |
 | AI product building with agents | `docs/ai-product-building.md` |
 | TDD with agents | `docs/tdd-with-agents.md` |
+| MCP architecture reference | `docs/mcp-architecture.md` |
 | Retrieval policy | `docs/retrieval-policy.md` |
 | Hub quickstart (full index) | `docs/hub-quickstart.md` |
+| System architecture research | `research/well-maintained-system-research.md` |
 | Superseded design docs | `archive/superseded/` (core-agent-doctrine, phase-based, etc.) |
 
 <!-- swarmvault:managed:start -->

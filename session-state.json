@@ -2,7 +2,7 @@
   "session": 73,
   "status": "implemented",
   "interruptedCount": 0,
-  "contextPressure": "low",
+  "contextPressure": "healthy",
   "currentTask": {
     "name": "Full repo audit + git bloat purge + companion scripts for 4 skills",
     "status": "implemented",
@@ -113,5 +113,49 @@
       "status": "active",
       "lastReviewed": "2026-05-12T09:06:14Z"
     }
-  ]
+  ],
+  "contextMetrics": {
+    "history": [
+      {
+        "status": "HEALTHY",
+        "score": 1,
+        "signals": {
+          "session_age_hours": 0,
+          "commits_today": 33,
+          "dirty_count": 5,
+          "dirty_new": 2,
+          "dirty_modified": 3,
+          "context_pressure": "low"
+        },
+        "timestamp": 1778578707
+      },
+      {
+        "status": "HEALTHY",
+        "score": 1,
+        "signals": {
+          "session_age_hours": 0,
+          "commits_today": 33,
+          "dirty_count": 6,
+          "dirty_new": 2,
+          "dirty_modified": 4,
+          "context_pressure": "healthy"
+        },
+        "timestamp": 1778578707
+      }
+    ],
+    "last": {
+      "status": "HEALTHY",
+      "score": 1,
+      "signals": {
+        "session_age_hours": 0,
+        "commits_today": 33,
+        "dirty_count": 6,
+        "dirty_new": 2,
+        "dirty_modified": 4,
+        "context_pressure": "healthy"
+      },
+      "timestamp": 1778578707
+    },
+    "trend": "insufficient_data"
+  }
 }

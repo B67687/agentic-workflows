@@ -134,6 +134,32 @@ print(overdue)
     fi
 fi
 
+# ---- Check 7: Context Pressure Monitoring ----
+if [ -f "session-state.json" ]; then
+    PRESS_STATUS=$(python3 -c "
+import json
+with open('session-state.json') as f:
+    data = json.load(f)
+cm = data.get('contextMetrics', {})
+s = cm.get('last', {}).get('status', 'unknown')
+t = cm.get('trend', 'unknown')
+h = len(cm.get('history', []))
+print(f'{s}|{t}|{h}')
+" 2>/dev/null || echo "unknown|unknown|0")
+    
+    PRESS_STATUS_VAL=$(echo "$PRESS_STATUS" | cut -d'|' -f1)
+    PRESS_TREND=$(echo "$PRESS_STATUS" | cut -d'|' -f2)
+    PRESS_COUNT=$(echo "$PRESS_STATUS" | cut -d'|' -f3)
+    
+    if [ "$PRESS_STATUS_VAL" = "critical" ]; then
+        report_gap "WARN" "Context pressure CRITICAL — run: bash ./scripts/context-pressure.sh --auto"
+    elif [ "$PRESS_STATUS_VAL" = "warning" ]; then
+        echo "  ℹ   Context pressure: WARNING (trend: $PRESS_TREND, $PRESS_COUNT measurements)"
+    else
+        echo "  ℹ   Context pressure: healthy ($PRESS_COUNT measurements tracked)"
+    fi
+fi
+
 # ---- Summary ----
 echo ""
 if [ "$FOUND_GAP" = true ]; then
