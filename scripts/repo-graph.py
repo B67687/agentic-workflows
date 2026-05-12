@@ -18,7 +18,8 @@ from collections import defaultdict
 
 # ---- CONFIG ----
 EXCLUDE_DIRS = {"archive", ".git", "skills", "agents", "references",
-                "node_modules", "agent-concourse", ".opencode", ".pi"}
+                "node_modules", "agent-concourse", ".opencode", ".pi",
+                "raw", "state", "wiki"}
 INCLUDE_EXT = {".md"}
 EXCLUDE_FILES = {"session-state.json"}
 
@@ -666,30 +667,60 @@ def main():
           gravitationalConstant: -8,
           centralGravity: 0.001,
           springLength: 220,
-          springConstant: 0.025,
-          damping: 0.6,
+          springConstant: 0.008,
+          damping: 0.75,
         }},
         minVelocity: 0.01,
-        maxVelocity: 6,
+        maxVelocity: 3,
       }}
     }});
     network.fit({{ animation: true, duration: 500 }});
 
-    // Perpetual breathing: nudge nodes to keep the graph alive
+    /* Gentle drift: move a few nodes slowly, let physics absorb naturally */
+    var animatingNodes = {{}};
+    function easedMove(nodeId, targetX, targetY, duration) {{
+      if (animatingNodes[nodeId]) return;
+      animatingNodes[nodeId] = true;
+
+      var startPos = network.getPosition(nodeId);
+      var startX = startPos.x;
+      var startY = startPos.y;
+      var startTime = Date.now();
+      /* NO physics disable — let springs pull back naturally during the move */
+
+      function animate() {{
+        var elapsed = Date.now() - startTime;
+        var t = Math.min(elapsed / duration, 1);
+        var ease = 1 - Math.pow(1 - t, 3);
+        network.moveNode(nodeId,
+          startX + (targetX - startX) * ease,
+          startY + (targetY - startY) * ease
+        );
+        if (t < 1) {{
+          requestAnimationFrame(animate);
+        }} else {{
+          delete animatingNodes[nodeId];
+        }}
+      }}
+      animate();
+    }}
+
+    /* Occasional gentle pushes — sparse, large, slow */
     setInterval(function() {{
       if (!physicsFrozen) {{
         var positions = network.getPositions();
         var ids = Object.keys(positions);
         for (var i = 0; i < ids.length; i++) {{
-          if (Math.random() < 0.12) {{
-            network.moveNode(ids[i],
-              positions[ids[i]].x + (Math.random() - 0.5) * 8,
-              positions[ids[i]].y + (Math.random() - 0.5) * 8
+          if (Math.random() < 0.015) {{
+            easedMove(ids[i],
+              positions[ids[i]].x + (Math.random() - 0.5) * 30,
+              positions[ids[i]].y + (Math.random() - 0.5) * 30,
+              1500
             );
           }}
         }}
       }}
-    }}, 1500);
+    }}, 600);
   }});
 
   // Hover highlight
