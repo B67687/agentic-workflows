@@ -25,9 +25,10 @@ docs go here, scripts go here," then new contributions will naturally follow.
 > When you look at the top level directory structure, does it scream what the system
 > is about, or does it scream the frameworks you used?
 
-The root of this workspace should scream: **agent knowledge base**. Every directory
-(`skills/`, `docs/`, `scripts/`, `commands/`, `rules/`) has a clear purpose.
-A new file should be obviously classifiable into exactly one of these.
+The root of this workspace should scream: **agent harness + systems engineering**.
+Every directory has a clear role in managing, orchestrating, or extending AI agents
+(`skills/`, `scripts/`, `commands/`, `propagation/`, `docs/`, `rules/`).
+A new file should be obviously classifiable into exactly one of these roles.
 
 ### 3. Package Principles (Robert C. Martin, 1996)
 

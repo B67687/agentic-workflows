@@ -1,6 +1,6 @@
-# agentic-workflows Hub — How to Use AI Best
+# agentic-workflows — Agent Harness + Systems Engineering
 
-A living knowledge base for prompt design, agent workflows, repo rollout, and reusable lessons.
+An agent harness for orchestrating, managing, and extending AI agents. Systems engineering workspace for agent workflows, cross-repo orchestration, and capability propagation.
 
 ## Start Here: Pick Your Goal
 
