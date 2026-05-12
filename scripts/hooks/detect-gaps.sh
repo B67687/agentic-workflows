@@ -187,7 +187,7 @@ d = [s for s in os.listdir('skills')
 for s in d:
     print(s)
 " 2>/dev/null)
-SKILL_COUNT=$(echo "$SKILL_MISSING" | grep -c . 2>/dev/null || echo 0)
+SKILL_COUNT=$(echo "$SKILL_MISSING" | grep -c . 2>/dev/null) || SKILL_COUNT=0
 if [ "$SKILL_COUNT" -gt 0 ]; then
     echo "  ℹ   $SKILL_COUNT skill(s) missing companion scripts:"
     echo "$SKILL_MISSING" | head -5 | while read -r s; do echo "       $s"; done
