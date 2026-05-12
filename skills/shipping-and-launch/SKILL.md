@@ -7,6 +7,12 @@ handoffs: ci-cd-and-automation (for pipeline), git-workflow-and-versioning (to t
 
 # Shipping and Launch
 
+**Companion script:** `scripts/launch-prep.sh` — pre-launch checklists and rollback plans.
+```bash
+bash ./scripts/launch-prep.sh checklist "<version>"  # pre-launch checklist
+bash ./scripts/launch-prep.sh rollback "<version>"    # rollback plan template
+```
+
 ## Overview
 
 Ship with confidence. The goal is not just to deploy — it's to deploy safely, with monitoring in place, a rollback plan ready, and a clear understanding of what success looks like. Every launch should be reversible, observable, and incremental.

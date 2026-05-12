@@ -7,6 +7,12 @@ handoffs: idea-refine (to refine ideas), spec-driven-development (to spec)
 
 # Divergent Ideation
 
+**Companion script:** `scripts/ideate.sh` — structured ideation prompts and idea capture.
+```bash
+bash ./scripts/ideate.sh prompt "<topic>"   # generate ideation prompt
+bash ./scripts/ideate.sh capture "<idea>"   # capture an idea
+```
+
 Generate genuinely novel ideas using LLMs, when convergent thinking would produce predictable results.
 
 Use when: open-ended problems, stale approaches, need for originality. Do NOT use for well-defined implementation tasks where correctness matters more than novelty.

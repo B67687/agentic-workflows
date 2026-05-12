@@ -7,6 +7,13 @@ handoffs: using-agent-skills (to pick a skill), bash-explore (to explore codebas
 
 # Context Engineering
 
+**Companion script:** `scripts/context-budget.sh` — estimates context token usage, flags budget risks, and recommends compaction.
+```bash
+bash ./scripts/context-budget.sh estimate <file>     # estimate tokens
+bash ./scripts/context-budget.sh check <path>        # check directory budget
+bash ./scripts/context-budget.sh compact "5-line summary"  # compact template
+```
+
 ## Overview
 
 Feed agents the right information at the right time. Context is the single biggest lever for agent output quality — too little and the agent hallucinates, too much and it loses focus. Context engineering is the practice of deliberately curating what the agent sees, when it sees it, and how it's structured.

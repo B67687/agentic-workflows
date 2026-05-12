@@ -196,16 +196,18 @@ if [ "$SKILL_COUNT" -gt 0 ]; then
     fi
 fi
 
-# ---- Check 9: Archive File Size Budget ----
-ARCHIVE_THRESHOLD_KB=150
-for f in archive/*.md archive/**/*.md; do
+# ---- Check 9: Hot-path File Size Budget ----
+# Archive files are intentionally cold storage — excluded.
+# Only hot-path files (read on every session) need a budget.
+HOTPATH_THRESHOLD_KB=300
+for f in AGENTS.md docs/workflow.md session-state.json; do
     if [ -f "$f" ]; then
         SIZE_KB=$(du -k "$f" | cut -f1)
-        if [ "$SIZE_KB" -gt "$ARCHIVE_THRESHOLD_KB" ] 2>/dev/null; then
-            report_gap "WARN" "$f is ${SIZE_KB}KB (budget: ${ARCHIVE_THRESHOLD_KB}KB). Split into dated chunks."
+        if [ "$SIZE_KB" -gt "$HOTPATH_THRESHOLD_KB" ] 2>/dev/null; then
+            report_gap "WARN" "$f is ${SIZE_KB}KB (budget: ${HOTPATH_THRESHOLD_KB}KB). Consider compacting."
         fi
     fi
-done 2>/dev/null || true
+done
 
 # ---- Summary ----
 echo ""
