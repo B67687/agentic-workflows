@@ -285,9 +285,6 @@ When the user references something from a past conversation, use `memory_smart_s
 - `memory_sessions` — list recent sessions
 - `memory_timeline` — chronological observations
 
-### Cost
-~1,900 tokens/session (~$0.11/year on DeepSeek V4 Flash). The token burn concern that justified removing it earlier does not apply to this model.
-
 ### Usage
 - agentmemory runs as a background MCP server (`npx @agentmemory/mcp`)
 - It starts automatically with OpenCode (configured in `opencode.jsonc`)
@@ -342,7 +339,7 @@ When in agentic mode, the Orchestrator follows these rules:
 
 **Cost rule:** Direct handling costs zero extra. Worker costs same model. Escalation uses Copilot quota — keep rare.
 
-### 10. Automatic Worktree Forking
+### 4. Automatic Worktree Forking
 
 Two lanes: **worktree for big tasks, main for quick fixes.**
 
@@ -382,7 +379,7 @@ When choosing:
 
 When the worktree session is done, use `--merge` or `--close` from within the worktree.
 
-### 4. Context Compression
+### 5. Context Compression
 
 When spawning subsessions, pass only:
 - Task (specific, bounded)
@@ -393,15 +390,15 @@ When spawning subsessions, pass only:
 
 **Never pass:** full thread history, previous reasoning chains, teaching material.
 
-### 5. Internal Coordination Notes
+### 6. Internal Coordination Notes
 
 Do not add public-facing footers that disclose routing, model use, or internal execution mechanics. Keep accountability in `session-state.json`. User-facing summaries focus on root cause, fix, verification, residual risk. PRs and public comments stay project-native.
 
-### 6. Quality Guardrails
+### 7. Quality Guardrails
 
 Never downgrade critical tasks. Verify specialist output. If agent misroutes 3× in a session, revert to monolithic. If the same fix fails twice, checkpoint, re-plan, or switch to fresh context.
 
-### 7. Completion Status Protocol
+### 8. Completion Status Protocol
 
 When completing any phase, task, or skill workflow, end with one of these status codes:
 
@@ -412,7 +409,7 @@ When completing any phase, task, or skill workflow, end with one of these status
 
 After 3 consecutive failed attempts on the same issue, escalate with `ESCALATE` prefix.
 
-### 8. Subagent Pipeline Dispatch
+### 9. Subagent Pipeline Dispatch
 
 When executing a `/pipeline` flow, each plan task MUST be dispatched to an isolated `@worker` subagent via the `task` tool. Do NOT implement pipeline tasks directly in the main session.
 
@@ -429,14 +426,14 @@ After the worker returns:
 
 The main session is the **orchestrator** — it does NOT implement code directly. It dispatches, reviews, and integrates.
 
-### 9. Safety Scoping
+### 10. Safety Scoping
 
 If a `.gstack-freeze` file exists in the workspace root, read it — it contains a single directory path. **Do NOT edit any files outside that directory.** This is a hard block, not a warning. If a task requires changes outside the frozen scope, report it and ask for `/unfreeze`.
 
 - `/freeze <path>` — creates `.gstack-freeze` with the given directory
 - `/unfreeze` — removes `.gstack-freeze`
 
-### 10. Bash-Hybrid Exploration (Layer 3)
+### 11. Bash-Hybrid Exploration (Layer 3)
 
 For codebase exploration, use a two-phase approach:
 1. **Bash for discovery** — use `find`, `grep -rl`, `ls`, `cat` for bulk file
@@ -446,7 +443,7 @@ For codebase exploration, use a two-phase approach:
 
 See `skills/bash-explore/SKILL.md` for patterns and safety guidance.
 
-### 11. Context Budget Management (Layer 4)
+### 12. Context Budget Management (Layer 4)
 
 Monitor context pressure and compact proactively:
 
@@ -506,6 +503,7 @@ supported APIs.
 | TDD with agents | `docs/tdd-with-agents.md` |
 | MCP architecture reference | `docs/mcp-architecture.md` |
 | Retrieval policy | `docs/retrieval-policy.md` |
+| Learnings strategy (three-store system) | `docs/learnings-strategy.md` |
 | Hub quickstart (full index) | `docs/hub-quickstart.md` |
 | System architecture research | `research/well-maintained-system-research.md` |
 | Superseded design docs | `archive/superseded/` (core-agent-doctrine, phase-based, etc.) |
