@@ -26,6 +26,7 @@
     "P2: scripts/log-error.sh — pipeable error capture feeding into .triage/errors.log",
     "P3: scripts/agent-dispatch.sh — async task dispatcher for external coding agents (pi, codex, claude)",
     "P3: scripts/_agent_runner.py — standalone Python runner avoiding shell quoting issues",
+    "Pipeline integration: pipeline-run.sh dispatch + collect — fire-and-forget pipeline tasks to external agents",
     "AGENTS.md — updated with tools.sh and agent-sandbox.sh entries",
     "session-state.json — updated for session 72"
   ],
@@ -46,6 +47,7 @@
     "scripts/log-error.sh (new)",
     "scripts/agent-dispatch.sh (new)",
     "scripts/_agent_runner.py (new)",
+    "Pipeline integration: pipeline-run.sh (updated — dispatch + collect commands)",
     "AGENTS.md (updated — tool registry, sandbox entries)",
     "session-state.json (updated for session 72)"
   ],
