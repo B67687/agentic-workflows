@@ -17,24 +17,17 @@ ACTION="${1:-status}"
 
 case "$ACTION" in
   on)
-    sed -i 's/"enabled": false$/"enabled": true/' "$CONFIG"
+    # Replace 'false' with 'true' on the enabled line within the playwright block
+    sed -i '/"playwright":/,/^    }/s/"enabled": false/"enabled": true/' "$CONFIG"
     echo "Playwright MCP enabled. Restart OpenCode session for changes to take effect."
     ;;
   off)
-    sed -i 's/"enabled": true$/"enabled": false/' "$CONFIG"
+    sed -i '/"playwright":/,/^    }/s/"enabled": true/"enabled": false/' "$CONFIG"
     echo "Playwright MCP disabled."
     ;;
   status)
-    # Find the playwright section and check its enabled state
-    # (sed only: works on JSONC with comments)
-    STATUS=$(sed -n '/"playwright":/,/^    }/{
-      /"enabled":/{
-        s/.*"enabled": *//
-        s/,//
-        s/ *//
-        p
-      }
-    }' "$CONFIG" 2>/dev/null || echo "false")
+    # Check the enabled line within the playwright block
+    STATUS=$(sed -n '/"playwright":/,/^    }/p' "$CONFIG" | grep '"enabled"' | grep -q true && echo "true" || echo "false")
     if [ "$STATUS" = "true" ]; then
       echo "Playwright MCP: ON"
     else
