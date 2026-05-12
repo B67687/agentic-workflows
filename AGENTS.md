@@ -80,6 +80,7 @@ For SwarmVault graph queries, read `wiki/graph/report.md` first (falls back to `
 | `scripts/hooks/log-agent.sh` | Subagent audit trail (start) |
 | `scripts/hooks/log-agent-stop.sh` | Subagent audit trail (stop) |
 | `scripts/hooks/hooks.json` | Claude Code-compatible hook lifecycle configuration |
+| `ruflo` (MCP) | Ruflo orchestration MCP server — 266 tools across 20 categories (agent, memory, hooks, analyze, neural, guidance). See `bash ruflo mcp tools` for full list. Memory init (sql.js WASM) hangs on WSL2 — use agentmemory for semantic search. |
 
 ## Key Rules
 
