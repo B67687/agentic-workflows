@@ -72,7 +72,7 @@ ByteDance's [UI-TARS-desktop](https://github.com/bytedance/UI-TARS-desktop) (Apa
 
 These are speculative — not planned work, just documented patterns for when the need arises:
 
-1. **Hub MCP server** — Expose propagation, audit, harvesting as MCP tools. The original analysis (`docs/agent-system-evaluation.md#as-a-provider`) has a detailed table. This is worth doing when an external agent needs to consume hub services.
+1. **Hub MCP server** — Expose propagation, audit, harvesting as MCP tools. The original analysis (`archive/research/agent-system-evaluation.md#as-a-provider`) has a detailed table. This is worth doing when an external agent needs to consume hub services.
 
 2. **Multi-transport MCP client** — If we ever run agents across hosts, the multi-transport pattern from `@agent-infra/mcp-client` avoids rewriting tool access per transport.
 
@@ -85,7 +85,7 @@ These are speculative — not planned work, just documented patterns for when th
 | Topic | Doc |
 |-------|-----|
 | Native vs MCP tool choice | `docs/repo-tooling.md` |
-| Original MCP research (historical) | `docs/agent-system-evaluation.md` |
+| Original MCP research (historical) | `archive/research/agent-system-evaluation.md` |
 | MCP code context retrieval | `docs/token-efficient-prompting.md` |
 | UI-TARS SDK guide | [@ui-tars/sdk](https://github.com/bytedance/UI-TARS-desktop/blob/main/docs/sdk.md) |
 | MCP specification | [modelcontextprotocol.io](https://modelcontextprotocol.io/) |

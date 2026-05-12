@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 # Remove the file-edit restriction.
 # Usage: bash ./scripts/unfreeze.sh
 

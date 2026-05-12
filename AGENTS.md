@@ -185,17 +185,9 @@ Skills are structured workflows with steps, verification gates, and anti-rationa
 - Never implement directly if a skill applies — use it first
 - Follow the skill workflow exactly (do not partially apply)
 
-### Skill Bundles
+### Bundle Overview
 
-Skills are grouped into **lifecycle bundles** for faster selection:
-
-| Bundle | Purpose | Skills |
-|---|---|---|
-| **define** | Spec, plan, break down work | `idea-refine`, `spec-driven-development`, `planning-and-task-breakdown`, `divergent-ideation` |
-| **build** | Implement with discipline | `incremental-implementation`, `test-driven-development`, `source-driven-development`, `frontend-ui-engineering`, `api-and-interface-design` |
-| **verify** | Debug, test, review, harden | `debugging-and-error-recovery`, `code-review-and-quality`, `code-simplification`, `browser-testing-with-devtools`, `security-and-hardening`, `performance-optimization` |
-| **ship** | Release, document, automate | `git-workflow-and-versioning`, `ci-cd-and-automation`, `deprecation-and-migration`, `documentation-and-adrs`, `shipping-and-launch` |
-| **meta** | How we work | `context-engineering`, `doubt-driven-development`, `skill-evaluator`, `using-agent-skills` |
+Skills are grouped into **lifecycle bundles** for faster selection (see [full table](#skill-bundles)).
 </rules>
 
 ### Intent → Skill Mapping
@@ -203,6 +195,8 @@ Skills are grouped into **lifecycle bundles** for faster selection:
 | Intent | Skill(s) to invoke |
 |---|---|---|
 | Creative / novel / original ideas | `divergent-ideation` (before spec-driven-development) |
+| Ambiguous / needs scoping | `grill-me` (relentless questioning before commit) |
+| Refine an idea | `idea-refine` (structured divergent → convergent) |
 | Feature / new functionality | `spec-driven-development` → `incremental-implementation` + `test-driven-development` |
 | Planning / breakdown | `planning-and-task-breakdown` |
 | Bug / failure | `debugging-and-error-recovery` |
@@ -220,9 +214,11 @@ Skills are grouped into **lifecycle bundles** for faster selection:
 | Source verification | `source-driven-development` |
 | High-stakes review | `doubt-driven-development` |
 | Context management | `context-engineering` |
+| Exploration / codebase search | `bash-explore` |
 | Unsure which skill | `using-agent-skills` (meta-skill) |
 | Evaluate / improve a skill | `skill-evaluator` |
 | Testing a skill's behavior | `skill-evaluator` |
+| Formulating a question | `structured-questioning` (5W+H + Socratic + ACI) |
 
 ### Lifecycle Integration
 
@@ -241,11 +237,11 @@ Skills are grouped into **lifecycle bundles** in `skills/manifest.json` for sele
 
 | Bundle | Purpose | Skills |
 |---|---|---|
-| **define** | Spec, plan, break down work | `idea-refine`, `spec-driven-development`, `planning-and-task-breakdown` |
+| **define** | Spec, plan, break down work | `grill-me`, `idea-refine`, `divergent-ideation`, `spec-driven-development`, `structured-questioning`, `planning-and-task-breakdown` |
 | **build** | Implement with discipline | `incremental-implementation`, `test-driven-development`, `source-driven-development`, `frontend-ui-engineering`, `api-and-interface-design` |
 | **verify** | Debug, test, review, harden | `debugging-and-error-recovery`, `code-review-and-quality`, `code-simplification`, `browser-testing-with-devtools`, `security-and-hardening`, `performance-optimization` |
 | **ship** | Release, document, automate | `git-workflow-and-versioning`, `ci-cd-and-automation`, `deprecation-and-migration`, `documentation-and-adrs`, `shipping-and-launch` |
-| **meta** | How we work | `context-engineering`, `doubt-driven-development`, `skill-evaluator`, `using-agent-skills` |
+| **meta** | How we work | `context-engineering`, `doubt-driven-development`, `skill-evaluator`, `using-agent-skills`, `bash-explore` |
 
 When a task spans the lifecycle (e.g. "build and ship"), invoke skills from multiple bundles in order: **define → build → verify → ship**.
 
@@ -479,16 +475,36 @@ supported APIs.
 | Workflow and routing | `docs/workflow.md` |
 | Model selection and fallbacks | `docs/model-selection-guide.md` |
 | Token/context efficiency | `docs/token-efficient-prompting.md` |
-| Session checkpoints | `docs/session-checkpoint.md` |
+| Session checkpoints and recovery | `docs/session-checkpoint.md`, `docs/session-recovery-guide.md` |
+| Agent-human interaction patterns | `docs/agent-human-interaction.md` |
+| Agent-to-agent (A2A) protocol | `docs/a2a-protocol.md` |
+| Agent context handover guide | `docs/agent-context-handover.md` |
+| Multi-agent debate (Parley) | `docs/parley-system.md` |
+| Cross-project memory loop | `docs/cross-project-memory-loop.md` |
 | Domain language glossary | `docs/context-format.md` |
 | Visual language spec | `docs/design-md-pattern.md` |
+| Fast / stable delivery patterns | `docs/fast-stable-delivery.md` |
+| Free-tier agentic coding guide | `docs/free-tier-agentic-guide.md` |
+| Quality standards | `docs/quality-standards.md` |
+| GitHub best practices | `docs/git-github-best-practices.md` |
+| MCP architecture reference | `docs/mcp-architecture.md` |
+| Prompt templates library | `docs/prompt-templates.md`, `docs/prompt-library/` |
+| Counsel model selection | `docs/counsel-model-selection.md` |
 | Requirements alignment | `skills/grill-me/SKILL.md` |
+| Structured questioning | `skills/structured-questioning/SKILL.md` |
 | Brand design systems | `design-md/README.md` (links to awesome-design-md) |
 | Bash-hybrid exploration | `skills/bash-explore/SKILL.md` |
 | BM25 workspace search | `scripts/search-index.sh` |
-| Token/context efficiency | `docs/token-efficient-prompting.md` |
-
-For the full reference index, see `docs/hub-quickstart.md`.
+| Repo map (tree-sitter) | `scripts/repo-map.sh` |
+| Project rollout template | `docs/project-rollout-template.md` |
+| Agent sandbox | `docs/agent-sandbox.md`, `scripts/agent-sandbox.sh` |
+| Provider runtime notes | `docs/provider-runtime.md` |
+| Daily prompts | `docs/daily-prompts.md` |
+| AI product building with agents | `docs/ai-product-building.md` |
+| TDD with agents | `docs/tdd-with-agents.md` |
+| Retrieval policy | `docs/retrieval-policy.md` |
+| Hub quickstart (full index) | `docs/hub-quickstart.md` |
+| Superseded design docs | `archive/superseded/` (core-agent-doctrine, phase-based, etc.) |
 
 <!-- swarmvault:managed:start -->
 # SwarmVault Rules

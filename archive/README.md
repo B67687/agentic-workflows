@@ -11,6 +11,7 @@ Preserved material that should stay available but should not sit on the hot path
 | `prompt-templates-2026-04-pre-split.md` | Exact prompt template file before the prompt-library split. |
 | `starred-repos-2026-04-22.md` | Starred repo scan. |
 | `starred-repos-phase2-2026-04-22.md` | Starred repo phase 2/3 deep-dive record. |
+| `research/agent-system-evaluation.md` | Agent system & MCP research — historical decision record (superseded by current bash-first system). |
 
 ## Raw Snapshots
 
