@@ -335,13 +335,26 @@ When in agentic mode, the Orchestrator follows these rules:
 
 ### 10. Automatic Worktree Forking
 
-**Before starting implementation on a new task while on `main`, call `session-fork.sh`:**
+Two lanes: **worktree for big tasks, main for quick fixes.**
+
+| Task feels like... | Action |
+|---|---|
+| New feature, research, refactor, multi-file change | Fork worktree via `session-fork.sh` |
+| Single fix, typo, gitignore, dead link, 1-3 file edit | Work directly on `main`, commit fast |
+
+**When to fork (the 46% case):**
+
+Before starting a multi-file task while on `main`, call `session-fork.sh`:
 
 ```
 bash ./scripts/session-fork.sh "<task-name>"
 ```
 
-This creates an isolated git worktree on a new branch so parallel sessions don't conflict.
+This creates an isolated git worktree on a new branch so parallel sessions don't conflict. Tell the user to `cd` to the worktree path and start a new OpenCode session there.
+
+**When NOT to fork (the 21% case):**
+
+If the task is obviously a single-file fix or takes under 60 seconds to verify, don't fork. Just edit on `main` and commit. The worktree is always available if you change your mind.
 
 **Branching logic (choose the right base):**
 
@@ -357,8 +370,6 @@ When choosing:
 - **Depends on another branch's changes** → fork from that branch: `session-fork.sh "task" s73-other-branch`
 - **Continuing exactly what a branch started** → use `--attach` to reuse it
 - **Quick fix, no isolation needed** → work directly on `main`, commit fast
-
-After forking, tell the user to `cd` to the worktree path and start a new OpenCode session there. The main checkout stays clean.
 
 When the worktree session is done, use `--merge` or `--close` from within the worktree.
 

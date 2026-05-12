@@ -120,12 +120,13 @@ except: pass
 " 2>/dev/null || echo "")
     if [ -n "$AUTO_TASK" ]; then
       echo ""
-      echo "ℹ  Auto-forking worktree for task: $AUTO_TASK"
-      bash "$(dirname "$0")/../session-fork.sh" "$AUTO_TASK" 2>&1 | sed 's/^/  /'
+      echo "ℹ  Resuming task: $AUTO_TASK"
+      echo "   The AI will fork a worktree if this is a multi-file task."
     else
       echo ""
-      echo "ℹ  On main with a clean state — fork a session worktree:"
-      echo "   bash ./scripts/session-fork.sh \"<task-name>\""
+      echo "ℹ  On main with a clean state."
+      echo "   Multi-file task? → bash ./scripts/session-fork.sh \"<task-name>\""
+      echo "   Quick fix (1-3 files)? → work directly on main"
       echo "   bash ./scripts/session-fork.sh --list   — show active worktrees"
     fi
   fi
