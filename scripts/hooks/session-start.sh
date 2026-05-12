@@ -144,6 +144,13 @@ if command -v ruflo &>/dev/null; then
   echo "  bash ruflo hooks session-restore   — restore previous session context"
   echo "  bash ruflo hooks route -t \"...\"    — route task to optimal agent"
   echo "  bash ruflo mcp tools               — list 266 MCP tools"
+  # Check daemon status
+  DAEMON_STATUS=$(ruflo daemon status 2>/dev/null | grep -o "RUNNING\|STOPPED" || echo "unknown")
+  if [ "$DAEMON_STATUS" = "RUNNING" ]; then
+    echo "  ●  ruflo daemon running (5 bg workers: map, audit, optimize, consolidate, testgaps)"
+  else
+    echo "  ○  ruflo daemon stopped (run: ruflo daemon start)"
+  fi
 fi
 
 echo "=== End Diagnostics ==="
