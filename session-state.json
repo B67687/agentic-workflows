@@ -102,5 +102,16 @@
     "Run retrospect after meaningful work: `bash ./scripts/task-retrospect.sh \"insight\" tags`"
   ],
   "lastRetrospect": "2026-05-12T05:08:08Z",
-  "learningsCount": 8
+  "learningsCount": 8,
+  "assumptions": [
+    {
+      "id": "residualRisk",
+      "claim": "agent-dispatch.sh only tested with pi (not codex/claude — not installed). Bubblewrap sandbox isolates network completely (no allowlist yet). Session health monitoring (P4) not implemented — context rot can still degrade agent quality silently. Learnings live in .learnings.jsonl but not yet semantic-searchable by direct bash (only via agentmemory MCP).",
+      "source": "session-state.json",
+      "created": "2026-05-12T05:08:08Z",
+      "expiresAt": "2026-07-11T00:00:00Z",
+      "status": "active",
+      "lastReviewed": "2026-05-12T09:06:14Z"
+    }
+  ]
 }

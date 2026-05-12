@@ -103,6 +103,37 @@ if [ -f "$LEARNINGS" ]; then
     fi
 fi
 
+# ---- Check 6: Assumption Expiry ----
+if [ -f "session-state.json" ]; then
+    OVERDUE=$(python3 -c "
+import json
+from datetime import datetime, timezone
+now = datetime.now(timezone.utc)
+with open('session-state.json') as f:
+    data = json.load(f)
+overdue = 0
+for a in data.get('assumptions', []):
+    if a.get('status') == 'dismissed':
+        continue
+    expires = a.get('expiresAt', None)
+    if not expires:
+        overdue += 1
+        continue
+    try:
+        exp = datetime.fromisoformat(expires.replace('Z', '+00:00'))
+        if (exp - now).days <= 0:
+            overdue += 1
+    except:
+        overdue += 1
+print(overdue)
+" 2>/dev/null || echo 0)
+    if [ "$OVERDUE" -gt 0 ]; then
+        report_gap "WARN" "$OVERDUE assumption(s) expired. Run: bash ./scripts/assumption-expiry.sh check"
+    else
+        echo "  ℹ   Assumption expiry check — all current"
+    fi
+fi
+
 # ---- Summary ----
 echo ""
 if [ "$FOUND_GAP" = true ]; then
