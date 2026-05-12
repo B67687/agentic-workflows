@@ -333,6 +333,21 @@ When in agentic mode, the Orchestrator follows these rules:
 
 **Cost rule:** Direct handling costs zero extra. Worker costs same model. Escalation uses Copilot quota — keep rare.
 
+### 10. Automatic Worktree Forking
+
+**Before starting implementation on a new task while on `main`, call `session-fork.sh`:**
+
+```
+bash ./scripts/session-fork.sh "<task-name>"
+```
+
+This creates an isolated git worktree on a new branch so parallel sessions don't conflict.
+
+- If the task name isn't known yet, defer — the hook will suggest forking
+- After forking, tell the user to `cd` to the worktree path and start a new OpenCode session there
+- The main checkout stays clean, the worktree has all tracked files including `.opencode/commands/`
+- When the worktree session is done, use `--merge` or `--close` from within the worktree
+
 ### 4. Context Compression
 
 When spawning subsessions, pass only:

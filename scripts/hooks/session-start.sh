@@ -103,19 +103,37 @@ echo "  bash ./scripts/tools.sh            — full tool list"
 echo "  bash ./scripts/test-smoke.sh       — 31-tool smoke test"
 echo "  bash ./scripts/session-status.sh   — this overview"
 
-# ---- Worktree Fork Offer ----
+# ---- Worktree Fork Offer / Auto-Fork ----
 if [ "$IS_WORKTREE" = false ] && [ "$BRANCH" = "main" ]; then
   DIRTY=$(git status --short 2>/dev/null | wc -l | tr -d ' ')
   if [ "$DIRTY" -eq 0 ]; then
-    echo ""
-    echo "ℹ  On main with a clean state. Fork a session worktree to work in parallel:"
-    echo "   bash ./scripts/session-fork.sh \"<task-name>\""
-    echo "   bash ./scripts/session-fork.sh --list   — show active worktrees"
+    # Check if a task name is already set (resuming with context)
+    AUTO_TASK=$(python3 -c "
+import json
+try:
+    s = json.load(open('session-state.json'))
+    t = s.get('currentTask', {}).get('name', '')
+    st = s.get('currentTask', {}).get('status', '')
+    if t and st in ('pending', 'planned', 'in_progress'):
+        print(t)
+except: pass
+" 2>/dev/null || echo "")
+    if [ -n "$AUTO_TASK" ]; then
+      echo ""
+      echo "ℹ  Auto-forking worktree for task: $AUTO_TASK"
+      bash "$(dirname "$0")/../session-fork.sh" "$AUTO_TASK" 2>&1 | sed 's/^/  /'
+    else
+      echo ""
+      echo "ℹ  On main with a clean state — fork a session worktree:"
+      echo "   bash ./scripts/session-fork.sh \"<task-name>\""
+      echo "   bash ./scripts/session-fork.sh --list   — show active worktrees"
+    fi
   fi
 elif [ "$IS_WORKTREE" = true ]; then
   echo ""
-  echo "ℹ  Working in a session worktree. To close when done:"
-  echo "   bash ./scripts/session-fork.sh --close"
+  echo "ℹ  Working in a session worktree. Finish with:"
+  echo "   bash ./scripts/session-fork.sh --merge   (merge into main)"
+  echo "   bash ./scripts/session-fork.sh --close   (just cleanup)"
 fi
 
 echo "=== End Diagnostics ==="
