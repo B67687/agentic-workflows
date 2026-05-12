@@ -11,6 +11,10 @@ workflow/retrieval-index/
 
 # Experimental session data
 agent-concourse/sessions/
+
+# Generated job/triage state
+.triage/
+.agent-jobs/
 agent-concourse/benchmark-results.json
 
 # Pi session data
