@@ -106,6 +106,32 @@ Once bash has identified the relevant file(s), switch to tools for precision:
 3. `Glob` to verify file existence
 4. `Edit` for modifications
 
+## Companion Script: `core/explore.py`
+
+This skill ships with a reusable Python script that wraps common discovery
+operations. It handles edge cases, large trees, and structured output
+that ad-hoc bash commands often get wrong.
+
+```bash
+# Find files matching a name pattern
+python3 core/explore.py find-by-name '*handler*'
+
+# Find files containing a regex (with extension filtering)
+python3 core/explore.py find-by-content 'def handle_' --ext .py .ts
+
+# Count files by extension across the workspace
+python3 core/explore.py file-stats
+
+# Largest files (by line count) for a given extension
+python3 core/explore.py largest-files --ext .py --top 10
+
+# Directory tree structure
+python3 core/explore.py dir-tree --max-depth 3
+```
+
+The script integrates with `scripts/_workspace_files.py` for
+consistent ignore-dir logic across the workspace.
+
 ## Why Hybrid (Not Bash-Only)
 
 Pure bash exploration (like mini-SWE-agent) removes all guardrails:

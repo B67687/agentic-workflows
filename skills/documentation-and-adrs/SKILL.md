@@ -20,6 +20,24 @@ Document decisions, not just code. The most valuable documentation captures the 
 
 **When NOT to use:** Don't document obvious code. Don't add comments that restate what the code already says. Don't write docs for throwaway prototypes.
 
+## Companion Script: `scripts/create-adr.sh`
+
+Creates a sequentially-numbered ADR from the skill's template:
+
+```bash
+# Basic: creates ADR-001-title.md in docs/decisions/
+bash ./scripts/create-adr.sh "Use PostgreSQL for primary database"
+
+# With status (default: Accepted)
+bash ./scripts/create-adr.sh --status "Proposed" "API versioning strategy"
+
+# Custom directory
+bash ./scripts/create-adr.sh --dir docs/adrs "Title"
+```
+
+The script auto-numbers, derives the filename from the title, and
+fills in the date and section headers from the ADR template below.
+
 ## Architecture Decision Records (ADRs)
 
 ADRs capture the reasoning behind significant technical decisions. They're the highest-value documentation you can write.

@@ -18,6 +18,33 @@ Systematic debugging with structured triage. When something breaks, stop adding 
 - An error appears in logs or console
 - Something worked before and stopped working
 
+## Companion Script: `scripts/triage.sh`
+
+When a failure occurs, run triage first to capture structured evidence:
+
+```bash
+# Capture current failure context (outputs JSON, saves to .triage/latest.json)
+bash ./scripts/triage.sh
+
+# The triage artifact includes: timestamp, git state, recent errors,
+# recent commands, dirty files, and environment variables.
+```
+
+To populate triage with error data, pipe failing commands through
+`log-error.sh`:
+
+```bash
+# Capture a failing command's output
+npm test 2>&1 | bash ./scripts/log-error.sh "npm test"
+
+# Then run triage to see the recent errors in context
+bash ./scripts/triage.sh
+```
+
+Use the triage output to seed your debugging session — it gives you
+a structured starting point instead of relying on memory or scrolling
+through terminal output.
+
 ## The Stop-the-Line Rule
 
 When anything unexpected happens:
