@@ -84,14 +84,10 @@ if [ -f "$SNAPSHOT" ]; then
     fi
 fi
 
-# ---- Available Tools (compact reference) ----
-echo ""
-echo "Agent tools (run 'bash ./scripts/tools.sh' for full list):"
-echo "  bash ./scripts/tools.sh            — list all agent tools"
-echo "  bash ./scripts/search-index.sh 'q' — BM25 workspace search"
-echo "  bash ./scripts/repo-map.sh         — tree-sitter repo map"
-echo "  bash ./scripts/agent-sandbox.sh    — isolated agent execution (bwrap)"
-echo "  bash ./scripts/pipeline-run.sh     — pipeline state management"
-echo "  bash ./scripts/checkpoint-commit.sh — verified checkpoint commit"
+# ---- Session Status Overview ----
+bash "$(dirname "$0")/../session-status.sh" --compact 2>/dev/null || true
+echo "  bash ./scripts/tools.sh            — full tool list"
+echo "  bash ./scripts/test-smoke.sh       — 31-tool smoke test"
+echo "  bash ./scripts/session-status.sh   — this overview"
 
 echo "=== End Diagnostics ==="

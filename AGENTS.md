@@ -58,6 +58,7 @@ For SwarmVault graph queries, read `wiki/graph/report.md` first (falls back to `
 | `skills/debugging-and-error-recovery/scripts/triage.sh` | Failure context capture as structured JSON |
 | `skills/documentation-and-adrs/scripts/create-adr.sh` | Auto-numbered ADR creation from template |
 | `scripts/log-error.sh` | Pipeable error capture feeding into triage system |
+| `scripts/session-status.sh` | One-shot workspace orientation (branch, health, tools, tests) |
 | `scripts/_agent_runner.py` | Python runner for async agent dispatch (avoids shell quoting) |
 | `docs/agent-sandbox.md` | Sandbox documentation and usage guidance |
 | `skills/bash-explore/SKILL.md` | Bash-hybrid exploration patterns |
