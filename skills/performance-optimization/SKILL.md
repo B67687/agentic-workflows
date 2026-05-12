@@ -5,6 +5,14 @@ description: Optimizes application performance. Use when performance requirement
 
 # Performance Optimization
 
+**Companion script:** `scripts/perf-scan.sh` — health checks, baseline generation, and time guardians for CI.
+```bash
+bash ./scripts/perf-scan.sh check                      # quick health check
+bash ./scripts/perf-scan.sh baseline                   # generate baseline
+bash ./scripts/perf-scan.sh guardian "cmd" --max 30    # time guard (CI)
+bash ./scripts/perf-scan.sh cwv                        # Core Web Vitals ref
+```
+
 ## Overview
 
 Measure before optimizing. Performance work without measurement is guessing — and guessing leads to premature optimization that adds complexity without improving what matters. Profile first, identify the actual bottleneck, fix it, measure again. Optimize only what measurements prove matters.

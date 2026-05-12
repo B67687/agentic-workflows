@@ -5,6 +5,13 @@ description: Grounds every implementation decision in official documentation. Us
 
 # Source-Driven Development
 
+**Companion script:** `scripts/source-verify.sh` — detects project stack, extracts versions, generates source verification prompts.
+```bash
+bash ./scripts/source-verify.sh detect             # scan dependency files
+bash ./scripts/source-verify.sh prompt "<p>" "<u>"  # verification prompt
+bash ./scripts/source-verify.sh check               # quick dependency listing
+```
+
 ## Overview
 
 Every framework-specific code decision must be backed by official documentation. Don't implement from memory — verify, cite, and let the user see your sources. Training data goes stale, APIs get deprecated, best practices evolve. This skill ensures the user gets code they can trust because every pattern traces back to an authoritative source they can check.

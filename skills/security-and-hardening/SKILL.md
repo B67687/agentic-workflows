@@ -5,6 +5,13 @@ description: Hardens code against vulnerabilities. Use when handling user input,
 
 # Security and Hardening
 
+**Companion script:** `scripts/security-scan.sh` — scans working tree for secrets, SQL risks, dangerous patterns, and dependency vulnerabilities.
+```bash
+bash ./scripts/security-scan.sh check       # full security scan
+bash ./scripts/security-scan.sh checklist   # Three-Tier Boundary checklist
+bash ./scripts/security-scan.sh deps        # dependency vulnerability audit
+```
+
 ## Overview
 
 Security-first development practices for web applications. Treat every external input as hostile, every secret as sacred, and every authorization check as mandatory. Security isn't a phase — it's a constraint on every line of code that touches user data, authentication, or external systems.
