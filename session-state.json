@@ -31,7 +31,11 @@
     "P1: Slice 2: daemon running under systemd (PID 4937, 74.5MB RSS, 11 threads)",
     "P1: Slice 2: 5 workers active (map 5min, audit 10min, optimize 15min, consolidate 30min, testgaps 20min)",
     "P1: Slice 2: loginctl enable-linger set for reboot survival",
-    "P1: scripts/hooks/session-start.sh — added daemon status check"
+    "P1: scripts/hooks/session-start.sh \u2014 added daemon status check",
+    "P2: Slice 3: Plugin marketplace evaluated — 20 plugins in IPFS registry, 7s+ fetch latency",
+    "P2: Slice 3: Plugin `create` scaffold command tested — appears to have a bug (no files written)",
+    "P2: Slice 3: Skill→plugin mapping evaluated — fundamentally different paradigms (markdown vs TS)",
+    "P2: Slice 3: Conclusion — SKIP plugin bridge; propagate-to-all.sh is better for our use case"
   ],
   "filesTouched": [
     ".config/opencode/opencode.jsonc (updated \u2014 added ruflo MCP server)",
@@ -60,15 +64,16 @@
     "A compact tool registry (<400 tokens) at session start is the most effective way to make the agent aware of available tools",
     "Async dispatch works best with a standalone Python runner receiving args via env var JSON",
     "Post-task reflection with structured capture is the one Hermes feature worth replicating without migrating frameworks",
-    "Ruflo v3.7.0-alpha.26: 26 CLI commands, 266 MCP tools, hooks pretrain works (1107 files), but sql.js WASM hangs on WSL2 (Bus error/SIGBUS \u2014 use agentmemory instead)"
+    "Ruflo v3.7.0-alpha.26: 26 CLI commands, 266 MCP tools, hooks pretrain works (1107 files), but sql.js WASM hangs on WSL2 (Bus error/SIGBUS \u2014 use agentmemory instead)",
+    "Ruflo plugins are TypeScript npm packages (not markdown skills) — fundamentally different paradigm, plugin bridge not worth the effort"
   ],
   "residualRisk": "agent-dispatch.sh only tested with pi (not codex/claude \u2014 not installed). Bubblewrap sandbox isolates network completely (no allowlist yet). Session health monitoring (P4) not implemented \u2014 context rot can still degrade agent quality silently. Learnings live in .learnings.jsonl but not yet semantic-searchable by direct bash (only via agentmemory MCP). Ruflo memory init (sql.js WASM) hangs on WSL2 \u2014 local vector DB not available as ruflo dependency.",
   "immediateNextSteps": [
     "Install Codex CLI or Claude Code to test agent-dispatch with non-pi agents",
     "Add semantic search over .learnings.jsonl to learnings-search.sh",
     "P4: Session health monitoring \u2014 automated context pressure detection, compaction triggers, quality regression logging",
-    "Slice 2: Install ruflo daemon systemd supervisor, enable map + audit workers",
-    "Slice 3: Evaluate plugin packaging \u2014 scaffold test plugin from one skill"
+    "Slice 2: systemd daemon + background workers — DONE",
+    "Slice 3: Plugin/skill bridge — SKIPPED (fundamentally different: markdown vs TypeScript)"
   ],
   "resumeRules": [
     "Read session-state.json first on every resume",
@@ -90,8 +95,8 @@
     "Commit after every meaningful change: `bash ./scripts/checkpoint-commit.sh`",
     "Run retrospect after meaningful work: `bash ./scripts/task-retrospect.sh \"insight\" tags`"
   ],
-  "lastRetrospect": "2026-05-12T12:42:01Z",
-  "learningsCount": 6,
+  "lastRetrospect": "2026-05-12T12:45:12Z",
+  "learningsCount": 7,
   "assumptions": [
     {
       "id": "residualRisk",
