@@ -58,5 +58,7 @@ Thumbs.db
 
 # Generated screenshots
 .screenshots_*.png
-.screenshots_*.png
 repo-graph.html
+
+# Personal files
+PHASE1-CHECKLIST.md
