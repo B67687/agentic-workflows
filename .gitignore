@@ -1,66 +1,107 @@
-# Dependencies
-node_modules/
-.opencode/node_modules/
-opencode/package-lock.json
-opencode/package.json
+# =============================================================================
+# .gitignore — Tiered File Classification
+#
+# Every file in this workspace belongs to one of four tiers. This file
+# enforces the boundary between tracked and ignored artifacts.
+#
+# Tier 1 — ALWAYS TRACKED: source code, config, documentation, skills
+#   No gitignore entry needed.
+#
+# Tier 2 — CONDITIONALLY TRACKED: propagation templates, IDE config
+#   Tracked individually via git add.
+#
+# Tier 3 — GENERATED (never tracked): build output, compiled indexes, caches
+#   Listed below. Regenerated from source.
+#
+# Tier 4 — EXTERNAL (never tracked): VM caches, editor state, session data
+#   Listed below. Not part of the project.
+# =============================================================================
 
-# Generated workflow state
+# ------------------------------------------------------------------
+# Tier 4 — External / Environment
+# ------------------------------------------------------------------
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.tmp
+*.log
+*.bak
+
+# ------------------------------------------------------------------
+# Tier 4 — Session and Runtime Data
+# ------------------------------------------------------------------
+.pi/sessions/
+.triage/
+.agent-jobs/
+__pycache__/
+agent-concourse/sessions/
+agent-concourse/benchmark-results.json
+
+# ------------------------------------------------------------------
+# Tier 3 — Generated Workflow State
+# ------------------------------------------------------------------
 workflow/sync-state.json
 workflow/cross-domain-review-state.json
 workflow/retrieval-index/
 
-# Experimental session data
-agent-concourse/sessions/
-
-# Generated job/triage state
-.triage/
-.agent-jobs/
-agent-concourse/benchmark-results.json
-
-# Pi session data
-.pi/sessions/
-
-# Python cache
-__pycache__/
-
-# SwarmVault generated artifacts
+# ------------------------------------------------------------------
+# Tier 3 — Generated SwarmVault Artifacts
+# ------------------------------------------------------------------
 raw/
 wiki/
 state/
 
-# SwarmVault agent integrations (generated for other tools)
+# ------------------------------------------------------------------
+# Tier 3 — Generated Agent Integrations (claude, codex, cursor, gemini)
+# ------------------------------------------------------------------
 .claude/
 .claude-flow/
-ruvector.db
 .codex/
 .cursor/
 CLAUDE.md
 GEMINI.md
 
-# Large binaries
-personal-voice/samples/course-guide.pdf
-
-
-# Generated search indexes and caches
+# ------------------------------------------------------------------
+# Tier 3 — Generated Search Indexes and Caches
+# ------------------------------------------------------------------
 .cache/
-# Temporary files
-*.tmp
-*.log
-*.bak
 
-# Editor / OS
-.DS_Store
-Thumbs.db
-.vscode/
-.idea/
+# ------------------------------------------------------------------
+# Tier 3 — Large Binaries (not source)
+# ------------------------------------------------------------------
+personal-voice/samples/course-guide.pdf
+*.pdf
 
-# Archives (optional — uncomment if too large)
-# archive/
-# research/
+# ------------------------------------------------------------------
+# Tier 3 — Database Files (generated, not source)
+# ------------------------------------------------------------------
+ruvector.db
+*.db
+*.sqlite
+*.sqlite3
 
-# Generated screenshots
+# ------------------------------------------------------------------
+# Tier 4 — Dependencies (external, regenerable)
+# ------------------------------------------------------------------
+node_modules/
+.opencode/node_modules/
+opencode/package-lock.json
+opencode/package.json
+
+# ------------------------------------------------------------------
+# Tier 3 — Generated Reports and Screenshots
+# ------------------------------------------------------------------
 .screenshots_*.png
 repo-graph.html
 
-# Personal files
+# ------------------------------------------------------------------
+# Tier 4 — Personal Files (not workspace content)
+# ------------------------------------------------------------------
 PHASE1-CHECKLIST.md
+
+# ------------------------------------------------------------------
+# Archive (optional — uncomment if archive contents exceed threshold)
+# ------------------------------------------------------------------
+# archive/
+# research/

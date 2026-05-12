@@ -160,6 +160,28 @@ print(f'{s}|{t}|{h}')
     fi
 fi
 
+# ---- Check 8: Skill Completeness ----
+SKILL_MISSING=$(python3 -c "
+import os
+d = [s for s in os.listdir('skills') 
+     if os.path.isdir(os.path.join('skills', s)) 
+     and not any(f != 'SKILL.md' and f != 'manifest.json' 
+                 for f in os.listdir(os.path.join('skills', s)))
+     and os.path.exists(os.path.join('skills', s, 'SKILL.md'))]
+for s in d:
+    print(s)
+" 2>/dev/null)
+SKILL_COUNT=$(echo "$SKILL_MISSING" | grep -c . 2>/dev/null || echo 0)
+if [ "$SKILL_COUNT" -gt 0 ]; then
+    echo "  ℹ   $SKILL_COUNT skill(s) missing companion scripts:"
+    echo "$SKILL_MISSING" | head -5 | while read -r s; do echo "       $s"; done
+    if [ "$SKILL_COUNT" -gt 5 ]; then
+        echo "       ... and $(($SKILL_COUNT - 5)) more"
+    fi
+else
+    echo "  ✓  All skills have companion scripts"
+fi
+
 # ---- Summary ----
 echo ""
 if [ "$FOUND_GAP" = true ]; then
