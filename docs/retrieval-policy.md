@@ -33,7 +33,7 @@ When a task starts:
 
 1. read `session-state.json`
 2. read `AGENTS.md`
-3. read `docs/workspace-system-overview.md`
+3. read `archive/superseded/workspace-system-overview.md`
 4. run `bash ./scripts/retrieve-context.sh "your query"` for the exact step
 5. pull deeper docs only if the top matches say they matter
 

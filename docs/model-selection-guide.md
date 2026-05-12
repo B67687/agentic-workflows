@@ -484,7 +484,7 @@ Is the session under 15 turns and straightforward?
 | M2.5 Free (Explorer) | Qwen3.5 Plus (10,200 req/5hr) | M2.7 | — |
 | Worker (K2.6 or M2.7) | Same model, retry | Other Go model | Sonnet 4.6 (Copilot) |
 
-See `docs/agentic-workflows.md` for full architecture, context passing format, and warm handoff protocol.
+See `archive/superseded/agentic-workflows.md` for full architecture, context passing format, and warm handoff protocol.
 
 ---
 

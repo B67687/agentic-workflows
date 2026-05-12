@@ -12,7 +12,7 @@ query=""
 hot_paths=(
   "AGENTS.md:220"
   "README.md:180"
-  "docs/workspace-system-overview.md:240"
+  "archive/superseded/workspace-system-overview.md:240"
   "research/research-log.md:500"
   "docs/prompt-templates.md:350"
 )

@@ -41,7 +41,7 @@ When a request is clear enough and risk is low, you must proactively:
 20. **Batch file reads to 3 at a time** — Avoid dispatching 6+ parallel reads mixed with a long-running build. Memory pressure on a 4GB WSL2 VM can interrupt tool execution.
 21. **Use `gradle-build` for Gradle projects** — Instead of bare `./gradlew`. The wrapper runs the build then stops the daemon, freeing ~600MB–1.8GB RSS on WSL2.
 
-See hub's `docs/core-agent-doctrine.md` for full principles.
+See hub's `archive/superseded/core-agent-doctrine.md` for full principles.
 
 ---
 
@@ -52,7 +52,7 @@ Every session MUST update `session-state.json` before heavy operations or resume
 Default resume order:
 1. `session-state.json`
 2. `AGENTS.md`
-3. `docs/workspace-system-overview.md`
+3. `archive/superseded/workspace-system-overview.md`
 
 Do not create repo-local OpenCode runtime config or workspace-level `.opencode/` directories.
 Treat `session-state.json`, `topic-insights.md`, `.cleanup-protect`, and archive history files as repo-owned after bootstrap.
@@ -64,7 +64,7 @@ Treat `session-state.json`, `topic-insights.md`, `.cleanup-protect`, and archive
 ```
 [Topic-Folder]/
 |- AGENTS.md                    (this file)
-|- docs/workspace-system-overview.md (quick orientation)
+|- archive/superseded/workspace-system-overview.md (quick orientation)
 |- topic-insights.md            (your lessons - update when you learn)
 |- session-state.json           (current work state)
 |- [folder-name]-content/        (YOUR WORK - hub never touches)

@@ -84,7 +84,7 @@ If you cannot answer these confidently, do not flag the file.
 
 ### Error 2: Confusing Purpose with Content
 
-**Wrong:** Flagged `authoritative-agent-best-practices.md` as having content "absorbed into core-agent-doctrine.md."
+**Wrong:** Flagged `authoritative-agent-best-practices.md` as having content "absorbed into archive/superseded/core-agent-doctrine.md."
 
 **Why it was wrong:** The file's unique value is PROVENANCE - showing exactly what each vendor (OpenAI, Claude, GitHub Copilot, Simon Willison) emphasizes. This is source attribution, not doctrine.
 

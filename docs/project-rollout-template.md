@@ -270,7 +270,7 @@ The propagation workflow uses two ownership classes:
 
 That means:
 
-- `AGENTS.md`, `docs/workspace-system-overview.md`, `git-github-best-practices.md`, `quality-standards.md`, `audit-folder-quality.sh`, `check-sync-status.sh`, and `sync-from-hub.sh` can be updated from the hub
+- `AGENTS.md`, `archive/superseded/workspace-system-overview.md`, `git-github-best-practices.md`, `quality-standards.md`, `audit-folder-quality.sh`, `check-sync-status.sh`, and `sync-from-hub.sh` can be updated from the hub
 - `session-state.json`, `archive/history-index.md`, `archive/history-full-detailed.md`, `topic-insights.md`, and `.cleanup-protect` are repo-owned after bootstrap and are never overwritten by propagation
 
 ### Example sync usage

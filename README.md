@@ -7,11 +7,11 @@ A living knowledge base for prompt design, agent workflows, repo rollout, and re
 | I Want To... | Start With |
 |--------------|------------|
 | **Write better prompts** | [Daily Prompts](docs/daily-prompts.md) → [Prompt Library](docs/prompt-templates.md) |
-| **Set up AI agents in my project** | [Hub Quickstart](docs/hub-quickstart.md) → [Agentic Workflows](docs/agentic-workflows.md) → [AGENTS.md](AGENTS.md) |
+| **Set up AI agents in my project** | [Hub Quickstart](docs/hub-quickstart.md) → [Workflow](docs/workflow.md) → [AGENTS.md](AGENTS.md) |
 | **Build an AI product** | [AI Product Building](docs/ai-product-building.md) → [TDD with Agents](docs/tdd-with-agents.md) |
 | **Research a new AI topic** | [Research Methodology](archive/research/research-methodology.md) → [Authoritative Best Practices](archive/lessons/authoritative-agent-best-practices.md) |
 | **Maintain my cognitive skills** | [Cognitive Identity](archive/research/cognitive-identity.md) |
-| **Understand this whole system** | [System Overview](docs/workspace-system-overview.md) → [Cross-Project Memory](docs/cross-project-memory-loop.md) |
+| **Understand this whole system** | [Workflow](docs/workflow.md) → [Cross-Project Memory](docs/cross-project-memory-loop.md) |
 | **Resume interrupted work** | [Session State](session-state.json) → [AGENTS.md](AGENTS.md) |
 
 ## Structure
@@ -43,8 +43,8 @@ For setting up agentic workflows in your projects.
 
 1. **[docs/hub-quickstart.md](docs/hub-quickstart.md)** - Fast orientation for the current system
 2. **[docs/fast-stable-delivery.md](docs/fast-stable-delivery.md)** — Why this system is structured around big goals, bounded bets, and small verified slices
-3. **[docs/agentic-workflows.md](docs/agentic-workflows.md)** — Routing ideas, fresh-context patterns, and execution lanes
-4. **[docs/core-agent-doctrine.md](docs/core-agent-doctrine.md)** — 10 principles that underpin the system
+3. **[archive/superseded/agentic-workflows.md](archive/superseded/agentic-workflows.md)** — Routing ideas, fresh-context patterns, and execution lanes
+4. **[archive/superseded/core-agent-doctrine.md](archive/superseded/core-agent-doctrine.md)** — 10 principles that underpin the system
 5. **[AGENTS.md](AGENTS.md)** - Operating contract: rules, thresholds, coordination notes
 6. **[AGENTS.md](AGENTS.md)** + **[session-state.json](session-state.json)** — Runtime contract and resume state
 
@@ -66,9 +66,9 @@ For investigating AI topics authoritatively.
 ### System Path
 For understanding how this hub and its ecosystem work.
 
-1. **[docs/workspace-system-overview.md](docs/workspace-system-overview.md)** — Whole-system map
+1. **[docs/workflow.md](docs/workflow.md)** — Whole-system map
 2. **[docs/cross-project-memory-loop.md](docs/cross-project-memory-loop.md)** — How knowledge flows: topic folders ↔ hub
-3. **[scripts/propagate-to-all.sh](scripts/propagate-to-all.sh)** + **[docs/workspace-system-overview.md](docs/workspace-system-overview.md)** — How shared defaults propagate to topic folders
+3. **[scripts/propagate-to-all.sh](scripts/propagate-to-all.sh)** + **[docs/workflow.md](docs/workflow.md)** — How shared defaults propagate to topic folders
 
 ## Quick Reference
 
@@ -81,7 +81,7 @@ For understanding how this hub and its ecosystem work.
 | Git/GitHub best practices | [docs/git-github-best-practices.md](docs/git-github-best-practices.md) |
 | Fast stable delivery model | [docs/fast-stable-delivery.md](docs/fast-stable-delivery.md) |
 | Counsel model selection | [docs/counsel-model-selection.md](docs/counsel-model-selection.md) |
-| Borrowed workflow patterns that fit this hub | [docs/agentic-workflows.md](docs/agentic-workflows.md) |
+| Borrowed workflow patterns that fit this hub | [archive/superseded/agentic-workflows.md](archive/superseded/agentic-workflows.md) |
 | Repo tooling (Windows/WSL) | [docs/repo-tooling.md](docs/repo-tooling.md) |
 | Token-efficient prompting | [docs/token-efficient-prompting.md](docs/token-efficient-prompting.md) |
 
@@ -117,7 +117,7 @@ bash ./scripts/propagate-to-all.sh --apply
 bash ./scripts/checkpoint-commit.sh -m "checkpoint summary"
 ```
 
-- Managed core: `AGENTS.md`, `docs/workspace-system-overview.md`, `checkpoint-commit.sh`, and helper scripts
+- Managed core: `AGENTS.md`, `archive/superseded/workspace-system-overview.md`, `checkpoint-commit.sh`, and helper scripts
 - Repo-owned after bootstrap: `session-state.json`, `topic-insights.md`, `.cleanup-protect`, and archive history files
 - Topic folders create `[folder-name]-content/` for normal project work
 - Run the smoke test after changing `propagate-to-all.sh`, `check-sync-status.sh`, `sync-from-hub.template.sh`, or `propagation-contract.sh`

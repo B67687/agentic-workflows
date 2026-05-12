@@ -4,7 +4,7 @@ Use this file when the goal is lower total workflow cost, not just shorter promp
 
 For the shared principles behind it, start with:
 
-- [core-agent-doctrine.md](core-agent-doctrine.md)
+- [archive/superseded/core-agent-doctrine.md](archive/superseded/core-agent-doctrine.md)
 
 ## Core Rule
 

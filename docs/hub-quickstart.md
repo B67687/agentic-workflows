@@ -72,12 +72,12 @@ Read this first on every resume. Everything else is linked.
 | Need | File |
 |------|------|
 | Model selection | `docs/model-selection-guide.md` |
-| Agent routing | `docs/agentic-workflows.md` |
-| Phase workflow | `docs/phase-based-agent-workflow.md` |
+| Agent routing | `archive/superseded/agentic-workflows.md` |
+| Phase workflow | `archive/superseded/phase-based-agent-workflow.md` |
 | Fast stable delivery model | `docs/fast-stable-delivery.md` |
 | Retrieval policy | `docs/retrieval-policy.md` |
 | Prompt templates | `docs/prompt-templates.md` |
-| Core principles | `docs/core-agent-doctrine.md` |
+| Core principles | `archive/superseded/core-agent-doctrine.md` |
 | Research methodology | `archive/research/research-methodology.md` |
 | Repo tooling | `docs/repo-tooling.md` |
 | Quality standards | `docs/quality-standards.md` |
@@ -89,7 +89,7 @@ Read this first on every resume. Everything else is linked.
 [Topic]/
 |- AGENTS.md                         (hub-owned managed core)
 |- .ai-prompting-hub.sh              (hub-owned managed core; change HUB_FOLDER_NAME in it on rename)
-|- docs/workspace-system-overview.md (hub-owned managed core)
+|- archive/superseded/workspace-system-overview.md (hub-owned managed core)
 |- git-github-best-practices.md      (hub-owned managed core)
 |- quality-standards.md              (hub-owned managed core)
 |- commands/                        (hub-owned managed core slash commands; synced via sync-commands.sh)

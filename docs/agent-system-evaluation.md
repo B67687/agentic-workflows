@@ -1,7 +1,7 @@
 # Agent System Evaluation & MCP Research
 
 **Date:** 2026-04-24
-**Status:** SUPERSEDED — Historical decision record only. The current system is the bash-first, four-system architecture documented in `docs/agentic-workflows.md`, `docs/cross-project-memory-loop.md`, and `docs/workspace-system-overview.md`.
+**Status:** SUPERSEDED — Historical decision record only. The current system is the bash-first, four-system architecture documented in `archive/superseded/agentic-workflows.md`, `docs/cross-project-memory-loop.md`, and `archive/superseded/workspace-system-overview.md`.
 
 **Purpose:** Honest assessment of the original 7-subagent system and early MCP adoption ideas. Kept for decision history, not as current implementation guidance.
 
@@ -194,4 +194,4 @@ Building an MCP server to expose hub scripts (propagate, audit, harvest) remains
 
 ---
 
-*This evaluation is kept for decision history. The current system is documented in `docs/agentic-workflows.md`.*
+*This evaluation is kept for decision history. The current system is documented in `archive/superseded/agentic-workflows.md`.*

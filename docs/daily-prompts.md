@@ -235,7 +235,7 @@ Use a phased workflow:
 
 ## See Also
 
-- [core-agent-doctrine.md](core-agent-doctrine.md): The 10-principle backbone
+- [archive/superseded/core-agent-doctrine.md](archive/superseded/core-agent-doctrine.md): The 10-principle backbone
 - [prompt-templates.md](prompt-templates.md): Copy-paste templates for serious work
 - [tdd-with-agents.md](tdd-with-agents.md): Red/green TDD patterns
 

@@ -767,7 +767,7 @@ sequenceDiagram
 |---------|------------|-------|
 | Plan Mode | ai-product-building.md | New "Start with Plans" section |
 | Parallel Agents | ai-product-building.md | Add to "Agent Workflow Patterns" |
-| Evidence-Based Debug | core-agent-doctrine.md | "Verify aggressively" pattern |
+| Evidence-Based Debug | archive/superseded/core-agent-doctrine.md | "Verify aggressively" pattern |
 | Long-Running Loops | ai-product-building.md | Iterate-until-done pattern |
 
 ### Next Steps

@@ -108,7 +108,7 @@ def score(path: str) -> int:
         return 100
     if path.endswith("AGENTS.md"):
         return 95
-    if path.endswith("docs/workspace-system-overview.md"):
+    if path.endswith("archive/superseded/workspace-system-overview.md"):
         return 90
     if "/docs/" in path:
         return 75
@@ -141,7 +141,7 @@ for idx, (path, snippets) in enumerate(ranked[:limit], start=1):
         reason.append("active state")
     elif path.endswith("AGENTS.md"):
         reason.append("operating contract")
-    elif path.endswith("docs/workspace-system-overview.md"):
+    elif path.endswith("archive/superseded/workspace-system-overview.md"):
         reason.append("system map")
     elif "/docs/" in path:
         reason.append("doc match")

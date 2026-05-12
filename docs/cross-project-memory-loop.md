@@ -53,7 +53,7 @@ Instead:
 
 ## Where To Merge Things
 
-- [core-agent-doctrine.md](core-agent-doctrine.md) for durable operating principles
+- [archive/superseded/core-agent-doctrine.md](archive/superseded/core-agent-doctrine.md) for durable operating principles
 - [daily-prompts.md](daily-prompts.md) for prompt shapes and scenario playbooks
 - [token-efficient-prompting.md](token-efficient-prompting.md) for context-efficiency lessons
 - [tdd-with-agents.md](tdd-with-agents.md) for test-driven execution patterns
@@ -94,7 +94,7 @@ Promotion is manual. After review, merge the approved lesson explicitly:
 ```bash
 bash ./scripts/merge-and-propagate.sh \
   --id "[candidate-id]" \
-  --target "core-agent-doctrine.md" \
+  --target "archive/superseded/core-agent-doctrine.md" \
   --wording "[reusable wording]"
 ```
 

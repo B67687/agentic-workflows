@@ -227,7 +227,7 @@ These are warning thresholds, not hard failures. Exceeding one means the file sh
 |------|----------------|
 | `AGENTS.md` | 220 lines |
 | `README.md` | 150 lines |
-| `docs/workspace-system-overview.md` | 240 lines |
+| `archive/superseded/workspace-system-overview.md` | 240 lines |
 | `research/research-log.md` | 500 lines |
 | `docs/prompt-templates.md` | 350 lines |
 
