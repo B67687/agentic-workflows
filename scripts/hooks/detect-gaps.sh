@@ -209,6 +209,18 @@ for f in AGENTS.md docs/workflow.md session-state.json; do
     fi
 done
 
+# ---- Check 10: Inbox Classification ----
+INBOX_FILES=$(find inbox -type f -not -name '.gitkeep' 2>/dev/null)
+if [ -n "$INBOX_FILES" ]; then
+    COUNT=$(echo "$INBOX_FILES" | wc -l)
+    report_gap "WARN" "$COUNT file(s) in inbox/ need classification. See docs/structural-governance.md"
+    echo "$INBOX_FILES" | while read -r f; do
+        echo "       $f"
+    done
+else
+    echo "  ✓  inbox/ is empty"
+fi
+
 # ---- Summary ----
 echo ""
 if [ "$FOUND_GAP" = true ]; then
