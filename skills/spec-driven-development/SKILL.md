@@ -5,6 +5,13 @@ description: Creates specs before coding. Use when starting a new project, featu
 
 # Spec-Driven Development
 
+**Companion script:** `scripts/spec-generator.sh` — spec scaffolding, assumptions formatting, and gate review checklists.
+```bash
+bash ./scripts/spec-generator.sh spec "<name>" "<desc>"   # full spec document
+bash ./scripts/spec-generator.sh assumptions "<claim>"     # assumption entry
+bash ./scripts/spec-generator.sh checklist                 # gate review checklist
+```
+
 ## Overview
 
 Write a structured specification before writing any code. The spec is the shared source of truth between you and the human engineer — it defines what we're building, why, and how we'll know it's done. Code without a spec is guessing.

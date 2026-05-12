@@ -5,6 +5,14 @@ description: Automates CI/CD pipeline setup. Use when setting up or modifying bu
 
 # CI/CD and Automation
 
+**Companion script:** `scripts/ci-check.sh` — CI configuration scanning, pipeline templates, and quality gate checklists.
+```bash
+bash ./scripts/ci-check.sh check                  # scan for CI config
+bash ./scripts/ci-check.sh template gh-actions    # GitHub Actions workflow
+bash ./scripts/ci-check.sh template gitlab-ci     # GitLab CI config
+bash ./scripts/ci-check.sh gates                  # quality gate checklist
+```
+
 ## Overview
 
 Automate quality gates so that no change reaches production without passing tests, lint, type checking, and build. CI/CD is the enforcement mechanism for every other skill — it catches what humans and agents miss, and it does so consistently on every single change.

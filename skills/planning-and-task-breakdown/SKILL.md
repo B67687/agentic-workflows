@@ -5,6 +5,13 @@ description: Breaks work into ordered tasks. Use when you have a spec or clear r
 
 # Planning and Task Breakdown
 
+**Companion script:** `scripts/plan-breakdown.sh` — task breakdown templates, sizing guidance, and structured decomposition.
+```bash
+bash ./scripts/plan-breakdown.sh template               # blank breakdown
+bash ./scripts/plan-breakdown.sh size <lines>            # sizing guidance
+bash ./scripts/plan-breakdown.sh decompose "<desc>"      # generate breakdown
+```
+
 ## Overview
 
 Decompose work into small, verifiable tasks with explicit acceptance criteria. Good task breakdown is the difference between an agent that completes work reliably and one that produces a tangled mess. Every task should be small enough to implement, test, and verify in a single focused session.
