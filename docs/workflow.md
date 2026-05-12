@@ -156,6 +156,54 @@ Either loop for the next slice, or classify the task as fixed/obsolete/parked an
 
 ---
 
+## Sub-Agent Patterns (Context-Efficient Delegation)
+
+Use sub-agents to keep the main thread lean when work is broad, multi-step, or generates significant intermediate output. Patterns adopted from teambrilliant/dev-skills.
+
+### When to Delegate
+
+| Task type | Delegate to sub-agent | Handle directly in main thread |
+|---|---|---|
+| Codebase exploration | Multi-file, multi-directory discovery | Single-file read or one-directory ls |
+| Browser testing | Full QA pass with snapshots+interactions | Single element verification |
+| Parallel research | Independent web + codebase research | One quick pattern check |
+| File updates | Bulk frontmatter edits across many files | Single-file edit |
+
+### Sub-Agent Types
+
+| Type | Tools | Best for |
+|---|---|---|
+| **explore** | Read-only (Read, Grep, Glob, bash for find) | Discovery, research, pattern extraction |
+| **worker** | Full tool access + edit | Implementation, file creation, multi-edit |
+| **review** | Read-only + diff reading | Code review, diff analysis |
+
+### Patterns
+
+**Fan-out pattern** — dispatch multiple sub-agents in parallel for independent tasks:
+```
+# Instead of: read dir A, then read dir B, then read dir C
+# Do: dispatch 3 sub-agents in parallel, collect results
+```
+
+**Thin-result pattern** — sub-agents return compact summaries, not raw output. Raw data stays in their context and is discarded.
+
+**Pre-flight → execute pattern** — use a sub-agent for context gathering (pre-flight), then handle the actual work directly in the main thread with the pre-flight summary:
+
+```
+Pre-flight sub-agent → compact summary → main thread acts on summary
+```
+
+**Fail-escalate pattern** — after 2 failed fix-and-retest cycles via worker, escalate back to main thread rather than silently continuing.
+
+### When NOT to use sub-agents
+
+- Single-file reads or edits (cost of dispatch > benefit)
+- Quick checks that fit in one tool call
+- Sequential dependencies where the sub-agent would need to wait for main thread context
+- Simple yes/no questions about the codebase
+
+---
+
 ## Model Tiering
 
 | Tier | Model | Use For |
