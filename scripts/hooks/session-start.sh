@@ -77,4 +77,14 @@ if [ -f "$SNAPSHOT" ]; then
     fi
 fi
 
+# ---- Available Tools (compact reference) ----
+echo ""
+echo "Agent tools (run 'bash ./scripts/tools.sh' for full list):"
+echo "  bash ./scripts/tools.sh            — list all agent tools"
+echo "  bash ./scripts/search-index.sh 'q' — BM25 workspace search"
+echo "  bash ./scripts/repo-map.sh         — tree-sitter repo map"
+echo "  bash ./scripts/agent-sandbox.sh    — isolated agent execution (bwrap)"
+echo "  bash ./scripts/pipeline-run.sh     — pipeline state management"
+echo "  bash ./scripts/checkpoint-commit.sh — verified checkpoint commit"
+
 echo "=== End Diagnostics ==="

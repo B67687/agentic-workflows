@@ -1,0 +1,23 @@
+{
+  "name": "Agent Sandbox",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind",
+  "workspaceFolder": "/workspace",
+  "runArgs": [
+    "--cap-add=NET_ADMIN",
+    "--cap-add=NET_RAW",
+    "--security-opt=no-new-privileges:true"
+  ],
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "dbaeumer.vscode-eslint"
+      ]
+    }
+  },
+  "postCreateCommand": "pip install -q bm25s tree-sitter-languages 2>/dev/null; npm install -g prettier 2>/dev/null; echo 'Sandbox ready'",
+  "remoteUser": "agent"
+}
