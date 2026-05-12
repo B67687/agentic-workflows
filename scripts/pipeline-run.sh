@@ -33,7 +33,7 @@ case "$CMD" in
     ID=0
     for task in "${TASKS[@]}"; do
       ID=$((ID + 1))
-      TASK_JSON=$(echo "$TASK_JSON" | jq ". + [{\"id\": $ID, \"description\": $(echo "$task" | jq -Rs .), \"status\": \"pending\", \"worker_result\": null, \"notes\": null}]" 2>/dev/null)
+      TASK_JSON=$(echo "$TASK_JSON" | jq ". + [{\"id\": $ID, \"description\": $(echo "$task" | jq -Rs .), \"status\": \"pending\", \"agent_job_id\": null, \"worker_result\": null, \"notes\": null}]" 2>/dev/null)
     done
     
     cat > "$PIPELINE_DIR/$PIPELINE_ID.json" << EOF
@@ -135,7 +135,7 @@ EOF
     fi
     
     # If all tasks done, mark pipeline as complete
-    ALL_DONE=$(jq '[.tasks[] | select(.status=="done" or .status=="failed")] | length == (.tasks | length)' "$FILE" 2>/dev/null)
+    ALL_DONE=$(jq '(.tasks | length) as $n | ([.tasks[] | select(.status=="done" or .status=="failed")] | length) == $n' "$FILE" 2>/dev/null)
     if [ "$ALL_DONE" = "true" ]; then
       jq '.status = "complete"' "$FILE" > "$FILE.tmp" && mv "$FILE.tmp" "$FILE"
       echo "Pipeline complete: $PIPELINE_ID"
@@ -193,17 +193,167 @@ EOF
     echo "  bash ./scripts/pipeline-run.sh next $PIPELINE_ID"
     ;;
     
+  dispatch)
+    # Dispatch all pending tasks to an external agent asynchronously
+    PIPELINE_ID="${2:-}"
+    AGENT="${3:-pi}"
+    [ -z "$PIPELINE_ID" ] && echo "Usage: pipeline-run.sh dispatch <pipeline-id> [agent]" && exit 1
+
+    FILE="$PIPELINE_DIR/$PIPELINE_ID.json"
+    [ ! -f "$FILE" ] && echo "Pipeline not found: $PIPELINE_ID" && exit 1
+
+    echo "Dispatching pending tasks to '$AGENT'..."
+    echo ""
+
+    # Check agent-dispatch exists
+    DISPATCH_SCRIPT="$REPO_ROOT/scripts/agent-dispatch.sh"
+    if [ ! -f "$DISPATCH_SCRIPT" ]; then
+      echo "agent-dispatch.sh not found at $DISPATCH_SCRIPT"
+      echo "Pipeline dispatch requires agent-dispatch.sh (created in session 72)"
+      exit 1
+    fi
+
+    # Find pending tasks
+    PENDING=$(jq '[.tasks[] | select(.status=="pending")]' "$FILE" 2>/dev/null)
+    PENDING_COUNT=$(echo "$PENDING" | jq 'length' 2>/dev/null || echo 0)
+
+    if [ "$PENDING_COUNT" -eq 0 ]; then
+      echo "No pending tasks to dispatch."
+      exit 0
+    fi
+
+    echo "Found $PENDING_COUNT pending task(s)."
+    echo ""
+
+    DISPATCHED=0
+    for i in $(seq 0 $((PENDING_COUNT - 1))); do
+      TASK_ID=$(echo "$PENDING" | jq -r ".[$i].id" 2>/dev/null)
+      TASK_DESC=$(echo "$PENDING" | jq -r ".[$i].description" 2>/dev/null)
+
+      echo "[$((i+1))/$PENDING_COUNT] Task $TASK_ID: ${TASK_DESC:0:60}..."
+
+      # Dispatch to agent
+      JOB_RESULT=$(bash "$DISPATCH_SCRIPT" run "$AGENT" "$TASK_DESC" 2>&1)
+      JOB_ID=$(echo "$JOB_RESULT" | head -1 | grep -E "^job-" || echo "")
+
+      if [ -n "$JOB_ID" ]; then
+        # Mark as dispatched with the job ID
+        jq --arg id "$TASK_ID" --arg jid "$JOB_ID" '
+          (.tasks[] | select(.id == ($id | tonumber))) |= (.status = "dispatched" | .agent_job_id = $jid)
+        ' "$FILE" > "$FILE.tmp" && mv "$FILE.tmp" "$FILE"
+        echo "  → $JOB_ID"
+        DISPATCHED=$((DISPATCHED + 1))
+      else
+        echo "  → FAILED to dispatch"
+        echo "  → $JOB_RESULT" | head -3
+      fi
+    done
+
+    echo ""
+    echo "Dispatched $DISPATCHED/$PENDING_COUNT task(s) to '$AGENT'."
+    echo ""
+    echo "Collect results: bash ./scripts/pipeline-run.sh collect $PIPELINE_ID"
+    ;;
+
+  collect)
+    # Collect results from dispatched agent tasks
+    PIPELINE_ID="${2:-}"
+    [ -z "$PIPELINE_ID" ] && echo "Usage: pipeline-run.sh collect <pipeline-id>" && exit 1
+
+    FILE="$PIPELINE_DIR/$PIPELINE_ID.json"
+    [ ! -f "$FILE" ] && echo "Pipeline not found: $PIPELINE_ID" && exit 1
+
+    DISPATCHED=$(jq '[.tasks[] | select(.status=="dispatched")]' "$FILE" 2>/dev/null)
+    DISPATCHED_COUNT=$(echo "$DISPATCHED" | jq 'length' 2>/dev/null || echo 0)
+
+    if [ "$DISPATCHED_COUNT" -eq 0 ]; then
+      echo "No dispatched tasks awaiting collection."
+      echo "Run: bash ./scripts/pipeline-run.sh dispatch $PIPELINE_ID"
+      exit 0
+    fi
+
+    echo "Collecting $DISPATCHED_COUNT dispatched task(s)..."
+    echo ""
+
+    COMPLETED=0
+    for i in $(seq 0 $((DISPATCHED_COUNT - 1))); do
+      TASK_ID=$(echo "$DISPATCHED" | jq -r ".[$i].id" 2>/dev/null)
+      TASK_DESC=$(echo "$DISPATCHED" | jq -r ".[$i].description" 2>/dev/null)
+      JOB_ID=$(echo "$DISPATCHED" | jq -r ".[$i].agent_job_id" 2>/dev/null)
+
+      if [ -z "$JOB_ID" ] || [ "$JOB_ID" = "null" ]; then
+        echo "[$((i+1))/$DISPATCHED_COUNT] Task $TASK_ID: no job ID (re-dispatch needed)"
+        continue
+      fi
+
+      # Check agent job status
+      JOB_STATUS="unknown"
+      if [ -f "$REPO_ROOT/.agent-jobs/$JOB_ID.json" ]; then
+        JOB_STATUS=$(jq -r '.status' "$REPO_ROOT/.agent-jobs/$JOB_ID.json" 2>/dev/null || echo "unknown")
+        EXIT_CODE=$(jq -r '.exit_code // "null"' "$REPO_ROOT/.agent-jobs/$JOB_ID.json" 2>/dev/null || echo "null")
+      fi
+
+      echo "[$((i+1))/$DISPATCHED_COUNT] Task $TASK_ID: ${TASK_DESC:0:50}..."
+
+      case "$JOB_STATUS" in
+        done)
+          jq --arg id "$TASK_ID" '
+            (.tasks[] | select(.id == ($id | tonumber))) |= (.status = "done")
+          ' "$FILE" > "$FILE.tmp" && mv "$FILE.tmp" "$FILE"
+          echo "  → DONE (exit: $EXIT_CODE)"
+          COMPLETED=$((COMPLETED + 1))
+          ;;
+        failed)
+          jq --arg id "$TASK_ID" '
+            (.tasks[] | select(.id == ($id | tonumber))) |= (.status = "failed")
+          ' "$FILE" > "$FILE.tmp" && mv "$FILE.tmp" "$FILE"
+          echo "  → FAILED (exit: $EXIT_CODE)"
+          COMPLETED=$((COMPLETED + 1))
+          ;;
+        running)
+          echo "  → still running"
+          ;;
+        cancelled)
+          jq --arg id "$TASK_ID" '
+            (.tasks[] | select(.id == ($id | tonumber))) |= (.status = "pending" | .agent_job_id = null)
+          ' "$FILE" > "$FILE.tmp" && mv "$FILE.tmp" "$FILE"
+          echo "  → was CANCELLED, reset to pending"
+          ;;
+        *)
+          echo "  → unknown status: $JOB_STATUS"
+          ;;
+      esac
+    done
+
+    echo ""
+    # Auto-update pipeline status based on completed tasks
+    ALL_DONE=$(jq '(.tasks | length) as $n | ([.tasks[] | select(.status=="done" or .status=="failed")] | length) == $n' "$FILE" 2>/dev/null)
+    if [ "$ALL_DONE" = "true" ]; then
+      jq '.status = "complete"' "$FILE" > "$FILE.tmp" && mv "$FILE.tmp" "$FILE"
+      echo "Pipeline complete: $PIPELINE_ID"
+    elif [ "$COMPLETED" -gt 0 ]; then
+      echo "Collected $COMPLETED result(s). Some tasks still pending/dispatched."
+      echo "Re-run: bash ./scripts/pipeline-run.sh collect $PIPELINE_ID"
+    fi
+    ;;
+
   *)
     echo "Subagent Pipeline State Manager"
     echo ""
     echo "Usage:"
-    echo "  init    <title> [tasks...]   Create a new pipeline"
-    echo "  list                         List all pipelines"
-    echo "  status  [pipeline-id]        Show pipeline status"
-    echo "  update  <id> <task> <s> [n]  Update task status (done/failed/pending)"
-    echo "  next    <pipeline-id>        Show next uncompleted task"
+    echo "  init    <title> [tasks...]     Create a new pipeline"
+    echo "  list                           List all pipelines"
+    echo "  status  [pipeline-id]          Show pipeline status"
+    echo "  update  <id> <task> <s> [n]    Update task status (done/failed/pending)"
+    echo "  next    <pipeline-id>          Show next uncompleted task"
+    echo "  dispatch <id> [agent]          Dispatch pending tasks to agent asynchronously"
+    echo "  collect <id>                   Collect results from dispatched tasks"
+    echo ""
+    echo "Agents for dispatch: pi (default), codex, claude"
     echo ""
     echo "Example:"
     echo "  pipeline-run.sh init \"Auth module\" \"Implement JWT middleware\" \"Add login endpoint\" \"Write tests\""
+    echo "  pipeline-run.sh dispatch <id> pi"
+    echo "  pipeline-run.sh collect <id>"
     ;;
 esac
