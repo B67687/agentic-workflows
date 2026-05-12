@@ -38,7 +38,7 @@
     "P2: Slice 3: Conclusion \u2014 SKIP plugin bridge; propagate-to-all.sh is better for our use case",
     "P0: Full repo re-scan + workflow analysis \u2014 ruflo value is in CLI commands, not persistent infrastructure",
     "P0: MCP server disabled in opencode.jsonc (enabled: false) \u2014 saves 168MB per session",
-    "P0: Daemon stopped + systemd disabled \u2014 saves 74.5MB always-on",
+    "P0: Daemon stopped + systemd unit removed \u2014 saves 74.5MB always-on",
     "P0: session-start.sh cleaned up \u2014 no daemon polling, pure CLI hints",
     "P0: Final state: 0MB persistent ruflo cost, CLI commands integrated into scripts"
   ],
@@ -97,7 +97,7 @@
     "Commit after every meaningful change: `bash ./scripts/checkpoint-commit.sh`",
     "Run retrospect after meaningful work: `bash ./scripts/task-retrospect.sh \"insight\" tags`"
   ],
-  "lastRetrospect": "2026-05-12T20:26:00Z",
+  "lastRetrospect": "2026-05-12T14:25:39Z",
   "learningsCount": 9,
   "assumptions": [
     {
