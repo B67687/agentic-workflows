@@ -5,7 +5,16 @@ description: Interview the user relentlessly about a plan or design until reachi
 
 # Grill Me
 
-Structured requirements alignment. When a task is broad, ambiguous, or expensive to get wrong, stop and grill before planning.
+Structured requirements alignment grounded in the **Socratic elenchus** (Plato's early dialogues:
+*Euthyphro*, *Meno*, *Apology*). Socrates used iterative questioning to expose hidden assumptions
+and reach shared understanding before committing to action. This skill does the same for modern
+agentic workflows.
+
+When a task is broad, ambiguous, or expensive to get wrong, stop and grill before planning.
+
+> **Related skill**: Use `structured-questioning` to prepare your questions *before* entering a grill
+> session. That skill decomposes any question into 5W+H + Socratic probe. This skill walks the
+> decision tree with the other party.
 
 ## Phases
 

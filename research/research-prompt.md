@@ -24,6 +24,11 @@ Research goal: Find, analyze, and integrate significant findings into the knowle
 
 ## Research Phase
 
+**Before starting**: Run the [structured-questioning](/skills/structured-questioning/SKILL.md) skill
+to decompose your research question. Apply the 5W+H checklist to sharpen scope before investing
+research tokens. A vague question produces vague results — the 30 seconds of decomposition
+pays back in focused findings.
+
 ### 1. Passive Research (always run)
 Search for:
 - Trending GitHub repos in AI agents/engineering
