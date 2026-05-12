@@ -92,9 +92,9 @@ do_analyze() {
         esac
 
         if $found; then
-            ((present++))
+            present=$((present + 1))
         else
-            ((missing++))
+            missing=$((missing + 1))
             [[ -n "$missing_list" ]] && missing_list+=", "
             missing_list+="$field"
         fi
@@ -224,7 +224,7 @@ do_checklist() {
         read -r answer
         if [[ -z "$answer" ]]; then
             echo -e "  ${RED}  ⚠ Left blank — consider if this matters${NC}"
-            ((missing++))
+            missing=$((missing + 1))
         fi
         echo ""
     done

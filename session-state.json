@@ -130,8 +130,6 @@
   "immediateNextSteps": [
     "P4: Session health monitoring — automated context pressure detection, compaction triggers, quality regression logging"
   ],
-  "lastRetrospect": "2026-05-12T05:08:08Z",
-  "learningsCount": 8,
   "resumeRules": [
     "Read session-state.json first on every resume",
     "Question Gate is automatic: vague requests trigger structured probes (5W+H) before implementation",
