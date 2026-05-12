@@ -137,4 +137,13 @@ elif [ "$IS_WORKTREE" = true ]; then
   echo "   bash ./scripts/session-fork.sh --close   (just cleanup)"
 fi
 
+# ---- Ruflo Integration (if available) ----
+if command -v ruflo &>/dev/null; then
+  echo ""
+  echo "Ruflo intelligence available:"
+  echo "  bash ruflo hooks session-restore   — restore previous session context"
+  echo "  bash ruflo hooks route -t \"...\"    — route task to optimal agent"
+  echo "  bash ruflo mcp tools               — list 266 MCP tools"
+fi
+
 echo "=== End Diagnostics ==="

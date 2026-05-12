@@ -133,7 +133,24 @@ with open('$REPO_ROOT/buglog.json', 'w') as f:
   fi
 fi
 
-# === 3. Try agentmemory (best-effort, don't fail) ===
+# === 3. Try ruflo hooks post-task (best-effort, don't fail) ===
+if command -v ruflo &>/dev/null; then
+  TASK_ID="retrospect-$(echo "$TIMESTAMP" | sha256sum 2>/dev/null | cut -c1-12 || echo "$TIMESTAMP")"
+  SUCCESS="true"
+  if echo "$INSIGHT $TAGS" | grep -qi "fail\|error\|broken\|wrong\|issue\|blocked"; then
+    SUCCESS="false"
+  fi
+  ruflo hooks post-task \
+    --task-id "$TASK_ID" \
+    --description "$(echo "$INSIGHT" | head -c 200)" \
+    --success "$SUCCESS" \
+    --quality 0.8 \
+    --agent "retrospect" \
+    2>/dev/null || true
+  echo "  ✓ Pattern recorded to ruflo memory"
+fi
+
+# === 4. Try agentmemory (best-effort, don't fail) ===
 # Check if the MCP server is running by looking for node agentmemory
 if command -v npx &>/dev/null && npx --yes @agentmemory/mcp --help &>/dev/null 2>&1; then
   # Save via memory_save — can't call MCP from bash directly
@@ -141,7 +158,7 @@ if command -v npx &>/dev/null && npx --yes @agentmemory/mcp --help &>/dev/null 2
   echo "  ℹ  Run 'agentmemory memory_save' with content from .learnings.jsonl to persist cross-session"
 fi
 
-# === 4. Track last retrospect in session-state.json ===
+# === 5. Track last retrospect in session-state.json ===
 if [ -f "$REPO_ROOT/session-state.json" ]; then
   python3 -c "
 import json

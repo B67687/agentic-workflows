@@ -1,0 +1,11 @@
+{
+  "timestamp": "2026-05-12T12:26:33.498Z",
+  "projectRoot": "/home/namikaz/projects/dev/agentic-workflows",
+  "structure": {
+    "hasPackageJson": false,
+    "hasTsConfig": false,
+    "hasClaudeConfig": true,
+    "hasClaudeFlow": true
+  },
+  "scannedAt": 1778588793498
+}
