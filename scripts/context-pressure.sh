@@ -40,8 +40,8 @@ COMMITS_TODAY=$(git log --oneline --after="$TODAY 00:00:00" 2>/dev/null | wc -l 
 DIRTY_COUNT=$(git status --short 2>/dev/null | wc -l | tr -d ' ')
 
 # --- Dirty files by type ---
-DIRTY_NEW=$(git status --short 2>/dev/null | grep "^??" | wc -l | tr -d ' ' || echo 0)
-DIRTY_MODIFIED=$(git status --short 2>/dev/null | grep "^ M\|^M " | wc -l | tr -d ' ' || echo 0)
+DIRTY_NEW=$(git status --short 2>/dev/null | grep -c "^??" || true)
+DIRTY_MODIFIED=$(git status --short 2>/dev/null | grep -c "^ M\|^M " || true)
 
 # --- contextPressure from session state ---
 CONTEXT_PRESSURE="unknown"
