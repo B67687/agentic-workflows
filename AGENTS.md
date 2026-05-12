@@ -173,7 +173,7 @@ For a detailed catalog, run `ls scripts/` or `ls commands/`.
 
 ## Engineering Skills (agent-skills)
 
-This hub integrates **[agent-skills](https://github.com/addyosmani/agent-skills)** — 22 production-grade engineering skills. Skills are in `skills/` alongside 3 agent personas in `agents/`, 5 reference checklists in `references/`, and setup guides in `docs/agent-skills/`.
+This hub integrates **[agent-skills](https://github.com/addyosmani/agent-skills)** — 22 production-grade engineering skills plus divergent-ideation for creative ideation. Skills are in `skills/` (28 total) alongside 3 agent personas in `agents/`, 5 reference checklists in `references/`, and setup guides in `docs/agent-skills/`.
 
 ### How Skills Work
 
@@ -184,13 +184,25 @@ Skills are structured workflows with steps, verification gates, and anti-rationa
 - Skills are located in `skills/<skill-name>/SKILL.md`
 - Never implement directly if a skill applies — use it first
 - Follow the skill workflow exactly (do not partially apply)
+
+### Skill Bundles
+
+Skills are grouped into **lifecycle bundles** for faster selection:
+
+| Bundle | Purpose | Skills |
+|---|---|---|
+| **define** | Spec, plan, break down work | `idea-refine`, `spec-driven-development`, `planning-and-task-breakdown`, `divergent-ideation` |
+| **build** | Implement with discipline | `incremental-implementation`, `test-driven-development`, `source-driven-development`, `frontend-ui-engineering`, `api-and-interface-design` |
+| **verify** | Debug, test, review, harden | `debugging-and-error-recovery`, `code-review-and-quality`, `code-simplification`, `browser-testing-with-devtools`, `security-and-hardening`, `performance-optimization` |
+| **ship** | Release, document, automate | `git-workflow-and-versioning`, `ci-cd-and-automation`, `deprecation-and-migration`, `documentation-and-adrs`, `shipping-and-launch` |
+| **meta** | How we work | `context-engineering`, `doubt-driven-development`, `skill-evaluator`, `using-agent-skills` |
 </rules>
 
 ### Intent → Skill Mapping
 
 | Intent | Skill(s) to invoke |
 |---|---|---|
-| Requirements alignment / ambiguous tasks | `grill-me` (see `docs/context-format.md` for domain glossary) |
+| Creative / novel / original ideas | `divergent-ideation` (before spec-driven-development) |
 | Feature / new functionality | `spec-driven-development` → `incremental-implementation` + `test-driven-development` |
 | Planning / breakdown | `planning-and-task-breakdown` |
 | Bug / failure | `debugging-and-error-recovery` |
@@ -216,7 +228,7 @@ Skills are structured workflows with steps, verification gates, and anti-rationa
 
 | Phase | Hub command | agent-skills skill(s) | Notes |
 |---|---|---|---|
-| Define | `/task` | `idea-refine` → `spec-driven-development` | Hub handles intake; skill handles spec |
+| Define | `/task` | `idea-refine` → `divergent-ideation` → `spec-driven-development` | Hub handles intake; divergent-ideation for novelty; spec handles formalization |
 | Plan | `/plan` | `planning-and-task-breakdown` | Hub plan → skill task breakdown |
 | Build | `/implement` | `incremental-implementation` + `test-driven-development` | Hub gates; skill executes |
 | Test | — | `test-driven-development`, `browser-testing-with-devtools` | No hub equivalent — use skill directly |
