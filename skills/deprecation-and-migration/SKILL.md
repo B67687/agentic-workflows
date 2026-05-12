@@ -7,6 +7,12 @@ handoffs: documentation-and-adrs (to document), shipping-and-launch (to ship)
 
 # Deprecation and Migration
 
+**Companion script:** `scripts/migrate-plan.sh` — migration plan templates and deprecation checklists.
+```bash
+bash ./scripts/migrate-plan.sh plan "<old>" "<new>"   # migration plan
+bash ./scripts/migrate-plan.sh checklist               # deprecation checklist
+```
+
 ## Overview
 
 Code is a liability, not an asset. Every line of code has ongoing maintenance cost — bugs to fix, dependencies to update, security patches to apply, and new engineers to onboard. Deprecation is the discipline of removing code that no longer earns its keep, and migration is the process of moving users safely from the old to the new.

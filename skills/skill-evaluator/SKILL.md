@@ -7,6 +7,12 @@ handoffs: using-agent-skills (to discover skills), context-engineering (to refin
 
 # Skill Evaluator
 
+**Companion script:** `scripts/skill-test.sh` — discover skills, verify structure, check completeness.
+```bash
+bash ./scripts/skill-test.sh discover         # list all skills with triggers
+bash ./scripts/skill-test.sh check <name>     # verify skill completeness
+```
+
 A meta-skill for testing, evaluating, and improving skills. Use this when a skill isn't triggering properly, produces wrong results, or you want to verify a new or modified skill works correctly.
 
 ## Process

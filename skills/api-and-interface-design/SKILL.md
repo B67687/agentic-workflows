@@ -7,6 +7,13 @@ handoffs: implementation-planning (to plan), code-review-and-quality (to review)
 
 # API and Interface Design
 
+**Companion script:** `scripts/api-contract.sh` — REST endpoint contracts, module boundary templates, and design principles.
+```bash
+bash ./scripts/api-contract.sh rest <name>     # REST endpoint contract
+bash ./scripts/api-contract.sh module <name>   # module boundary contract
+bash ./scripts/api-contract.sh principles      # design principles
+```
+
 ## Overview
 
 Design stable, well-documented interfaces that are hard to misuse. Good interfaces make the right thing easy and the wrong thing hard. This applies to REST APIs, GraphQL schemas, module boundaries, component props, and any surface where one piece of code talks to another.
