@@ -13,22 +13,16 @@ echo "=== Agent Tools ==="
 # 1. Scripts (from scripts/*.sh with comment headers)
 find "$REPO_ROOT/scripts" -maxdepth 1 -name '*.sh' -type f | sort | while read -r f; do
   name="$(basename "$f" .sh)"
-  desc="$(head -5 "$f" | grep "^# " | grep -v "^# ===" | head -1 | sed 's/^# //')"
-  if [ -z "$desc" ]; then
-    desc="(no description)"
-  fi
-  echo "  script/$name  — $desc"
+  desc="$(head -5 "$f" | grep "^# " | grep -v "^# ===" | head -1 | sed 's/^# //' || true)"
+  echo "  script/$name  — ${desc:-(no description)}"
 done
 
 # 2. Commands (from commands/*.md — these are OpenCode slash commands)
 if [ -d "$REPO_ROOT/commands" ]; then
   find "$REPO_ROOT/commands" -name '*.md' -type f | sort | while read -r f; do
     name="$(basename "$f" .md)"
-    desc="$(head -5 "$f" | grep "^#" | head -1 | sed 's/^#* *//')"
-    if [ -z "$desc" ]; then
-      desc="(no description)"
-    fi
-    echo "  command/$name — $desc"
+    desc="$(head -5 "$f" | grep "^#" | head -1 | sed 's/^#* *//' || true)"
+    echo "  command/$name — ${desc:-(no description)}"
   done
 fi
 
@@ -37,7 +31,7 @@ if [ -d "$HOME/.local/bin" ]; then
   ls "$HOME/.local/bin" 2>/dev/null | while read -r name; do
     file="$HOME/.local/bin/$name"
     if [ -x "$file" ] && [ ! -d "$file" ]; then
-      desc="$(head -3 "$file" | grep "^# " | head -1 | sed 's/^# //')"
+      desc="$(head -3 "$file" | grep "^# " | head -1 | sed 's/^# //' || true)"
       echo "  bin/$name  — ${desc:-custom binary}"
     fi
   done
