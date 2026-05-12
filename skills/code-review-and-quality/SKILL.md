@@ -5,6 +5,13 @@ description: Conducts multi-axis code review. Use before merging any change. Use
 
 # Code Review and Quality
 
+**Companion script:** `scripts/review-checklist.sh` — generates structured multi-axis review templates. Run from the skill directory:
+```bash
+bash ./scripts/review-checklist.sh template        # blank review template
+bash ./scripts/review-checklist.sh diff HEAD~1      # review from git diff
+bash ./scripts/review-checklist.sh check            # quick quality reference
+```
+
 ## Overview
 
 Multi-dimensional code review with quality gates. Every change gets reviewed before merge — no exceptions. Review covers five axes: correctness, readability, architecture, security, and performance.

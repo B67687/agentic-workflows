@@ -5,6 +5,14 @@ description: Structures git workflow practices. Use when making any code change.
 
 # Git Workflow and Versioning
 
+**Companion script:** `scripts/git-branch-cleanup.sh` — scans branches for staleness, merge status, and divergence. Run from the skill directory:
+```bash
+bash ./scripts/git-branch-cleanup.sh scan              # all branches
+bash ./scripts/git-branch-cleanup.sh stale 5           # branches >5 days old
+bash ./scripts/git-branch-cleanup.sh merged            # branches merged into main
+bash ./scripts/git-branch-cleanup.sh diverged          # branches far behind main
+```
+
 ## Overview
 
 Git is your safety net. Treat commits as save points, branches as sandboxes, and history as documentation. With AI agents generating code at high speed, disciplined version control is the mechanism that keeps changes manageable, reviewable, and reversible.

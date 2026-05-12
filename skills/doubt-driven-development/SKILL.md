@@ -5,6 +5,13 @@ description: Subjects every non-trivial decision to a fresh-context adversarial 
 
 # Doubt-Driven Development
 
+**Companion script:** `scripts/doubt-adversarial.sh` — automates prompt generation, EXTRACT formatting, and RECONCILE templating. Run from the skill directory:
+```bash
+bash ./scripts/doubt-adversarial.sh prompt     # generate adversarial prompt from stdin
+bash ./scripts/doubt-adversarial.sh reconcile  # output RECONCILE template
+bash ./scripts/doubt-adversarial.sh full       # interactive full cycle
+```
+
 ## Overview
 
 A confident answer is not a correct one. Long sessions accumulate context that quietly turns assumptions into "facts" without anyone noticing. Doubt-driven development is the discipline of materializing a fresh-context reviewer — biased to **disprove**, not approve — before any non-trivial output stands.

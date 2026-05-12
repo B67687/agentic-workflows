@@ -4,9 +4,9 @@
   "interruptedCount": 0,
   "contextPressure": "low",
   "currentTask": {
-    "name": "Research & implement structured questioning skill + agent interaction patterns",
+    "name": "Full repo audit + git bloat purge + companion scripts for 4 skills",
     "status": "implemented",
-    "goal": "Authoritative research on question-asking frameworks (Aristotle Five Ws, Socratic method, ACI), A2A protocol, agent-human interaction; implement best practices as skills and docs."
+    "goal": "Comprehensive repo scan, fix data integrity issues, purge git history bloat (22M->1.9M), configure MCPs, add companion scripts to highest-value skills."
   },
   "environment": {
     "note": "This workspace runs on Debian/WSL2. Global OpenCode runtime config at /home/namikaz/.config/opencode/opencode.jsonc. WSL now has 8GB RAM and 8 cores.",

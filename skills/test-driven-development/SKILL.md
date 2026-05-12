@@ -5,6 +5,14 @@ description: Drives development with tests. Use when implementing any logic, fix
 
 # Test-Driven Development
 
+**Companion script:** `scripts/tdd-cycle.sh` — runs tests and validates each TDD phase (RED/GREEN/REFACTOR) with structured output. Run from the skill directory:
+```bash
+bash ./scripts/tdd-cycle.sh red "npm test -- --grep 'test name'"
+bash ./scripts/tdd-cycle.sh green "npm test -- --grep 'test name'"
+bash ./scripts/tdd-cycle.sh refactor "npm test"
+bash ./scripts/tdd-cycle.sh prove "npm test -- --grep 'bug test'"
+```
+
 ## Overview
 
 Write a failing test before writing the code that makes it pass. For bug fixes, reproduce the bug with a test before attempting a fix. Tests are proof — "seems right" is not done. A codebase with good tests is an AI agent's superpower; a codebase without tests is a liability.
