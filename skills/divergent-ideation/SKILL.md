@@ -14,32 +14,42 @@ Do NOT use for: well-defined implementation tasks, bug fixes, translations, or a
 
 ## How It Works
 
-A single LLM call converges to the most probable path. This skill forces divergence by using **multiple constrained perspectives**, then **cross-pollinating** the results, then **evaluating for novelty**, then **converging** on the most promising hybrid.
+A single LLM call converges to the most probable path. This skill forces divergence through **multiple methods** — constrained perspectives, lateral thinking techniques, and cross-domain forcing — then **cross-pollinates**, **evaluates**, and **converges** on the most promising hybrid.
 
 ```
-Diverge ──→ Cross-Pollinate ──→ Evaluate ──→ Converge
-  │               │                 │             │
-  varied          hybrids          scores        creative brief
-  perspectives
+Warm-up (play) → Diverge ──→ Cross-Pollinate ──→ Evaluate ──→ Converge
+                   │               │                 │             │
+                  varied          hybrids          scores        creative brief
+                 methods
 ```
+
+Research shows **positive mood and playfulness directly enhance divergent thinking** (Vosburg 1998, Lieberman 1965). The warm-up is not optional — it shifts from evaluative to generative mode.
+
+---
+
+## Step 0: Warm-up — Enter Play Mode
+
+Before any serious ideation, do a 1-2 minute warm-up. This is not optional — research shows positive mood significantly improves divergent thinking performance.
+
+Pick one:
+- **Absurd improvement**: Take something unrelated to the problem (e.g. a toaster, a tree, a spoon) and list 5 ridiculous ways to improve it
+- **Random connection**: Pick a random noun (look around the room). Force a connection to the problem. "How is this problem like a [lamp/backpack/cloud]?"
+- **Reverse the problem**: State the exact opposite of your goal. "How would we make this as bad as possible?" Then invert each answer.
+- **What would a child do?**: Without any knowledge of the domain, what's the simplest, most fun version?
+
+The warm-up has one rule: **no judgment**. The goal is fluency, not quality.
 
 ---
 
 ## Step 1: Diverge — Generate N Deliberately Different Approaches
 
-Generate 3-6 approaches, each from a **distinct perspective** with a **unique constraint** that forces different thinking.
+Use at least **two different divergence methods** from the options below. If all your ideas feel similar, you only used one method — add another.
 
-The number and choice of perspectives depends on the problem. Low complexity → 3 perspectives across the most relevant axes. High complexity or highly creative need → 5-6 perspectives including extreme ones.
+### Method A: Constrained Perspectives
 
-### How to choose perspectives
+Generate 2-4 approaches, each from a **distinct perspective** with a **unique constraint**. Choose perspectives that pull in opposite directions along the tensions relevant to the problem.
 
-Look at the problem and ask: **what are the most useful tensions here?**
-
-Then select or create perspectives that pull in opposite directions along those tensions. For example, if the problem is technical but needs good UX, pull in a Hacker and a Designer. If the problem is about behavior change, pull in a Psychologist and an Economist.
-
-### Perspective catalog
-
-Select 3-6 from this catalog (or create your own):
+Select from this catalog (or create your own). The constraint is what forces divergence, not the label:
 
 | Perspective | Core constraint | Forces thinking toward |
 |---|---|---|
@@ -55,52 +65,82 @@ Select 3-6 from this catalog (or create your own):
 | **Archaeologist** | The past holds the answer. Find the pattern. | Historical precedent, forgotten approaches |
 | **Alien** | Humanity solved this wrong. Start from zero. | Radical reframing, questioning fundamentals |
 | **Oracle** | You know the future outcome. How did you get there? | Reverse-casting, working backward from success |
+| **Jester** | Nothing is sacred. Laugh at everything. | Absurdity, satire, breaking taboos |
+| **Gardener** | Don't build — grow. Nurture conditions. | Organic systems, emergence, cultivation |
+| **Detective** | Something was missed. Find the clue. | Hidden signals, overlooked details, anomalies |
 
-The same perspective should never be used twice in the same session. If a problem needs the same lens repeatedly (e.g. "Designer" for multiple problems), force a different expression of it — e.g. "Designer focused on accessibility" vs "Designer focused on delight."
+Format each generation as a separate thought:
 
-### How to run each generation
+> "You are [Perspective]. Your constraint is: [Constraint]. Generate one approach to: [PROBLEM]. Do not produce a typical solution. Force yourself to think differently within your constraint."
 
-For each perspective, generate the approach as a separate thought. The format:
+If any two approaches are essentially the same, discard one and use a different perspective.
 
-> Approach [N]: [Perspective name] — [Short label]
->
-> "You are [Perspective]. Your goal is to generate one approach to: [PROBLEM]. Your constraint is: [Constraint from catalog]. Do not produce a typical solution. Force yourself to think differently."
->
-> 3-5 sentence description of the approach.
+### Method B: De Bono's Lateral Thinking
 
-If any two approaches feel essentially the same, discard one and replace it with a different perspective.
+Use these techniques instead of (or in addition to) perspectives. Each forces a different kind of divergence:
 
-### Can I create custom perspectives?
+| Technique | How it works | Example |
+|---|---|---|
+| **Random entry** | Pick a random noun/object/image. Force a connection to the problem. Ask "How is this problem like a [random thing]?" | Random word "nose" → photocopier that smells like lavender when low on paper |
+| **Provocation** | State something deliberately impossible or wrong. Then treat it as real and derive ideas. | "The factory is downstream of itself" → law requiring factories to take input from their own output |
+| **Challenge** | Question why things are done the way they are, even if they seem obvious. | "Why do coffee cups need handles?" → insulated finger grips, cup holders, less hot coffee |
+| **Concept extraction** | Take an existing idea and extract the concept behind it. Generate new ideas from that concept in a different context. | Shopping cart → "carrying multiple items" → apply to digital bookmarks, grocery lists, project management |
+| **Disproving** | Take an obvious assumption and try to convincingly disprove it. | "The majority is always wrong" → question every default approach |
 
-Yes. If the problem domain suggests a perspective not in the catalog, create it. The critical requirement is that it has a **specific, actionable constraint** that differs from all other perspectives chosen. A perspective without a binding constraint is just noise.
+Run at least one lateral thinking technique alongside perspectives.
+
+### Method C: Cross-Domain Forcing (Steve Jobs method)
+
+Forcibly connect the problem to a completely unrelated domain. For at least 2 domains below, ask "How would this problem be solved in [domain]?" and extract the principle.
+
+| Domain | What it teaches | Example connection |
+|---|---|---|
+| **Biology** | Evolution, symbiosis, ecosystems, emergence | How would a coral reef solve this? What self-organizes? |
+| **Music** | Rhythm, harmony, tension/release, improvisation | What's the melody of this problem? Where's the silence? |
+| **Games** | Feedback loops, scoring, difficulty curves, fun | How do you make this addictive? What are the levels? |
+| **Architecture** | Structure, flow, light, boundaries, public/private | What's the floor plan of this problem? Where are the windows? |
+| **Cooking** | Taste, timing, substitution, fermentation | What are the core ingredients? What if we let it ferment? |
+| **Martial arts** | Leverage, momentum, positioning, timing | What's the least effort path? Where's the opponent's weight? |
+| **Theater** | Narrative, staging, audience, timing, improvisation | Who's the audience for this? What's the third act twist? |
+| **Sports** | Strategy, positioning, team dynamics, counters | What's the winning play? Where's the weak side? |
+
+Extract at least 2 transferable principles from different domains and turn them into concrete approaches.
+
+### Step 1 output
+
+At the end of the diverge phase you should have:
+- At least 1 approach from Method A (perspectives)
+- At least 1 approach from Method B (lateral thinking)
+- At least 1 approach from Method C (cross-domain)
+- No two approaches should feel like variations of the same idea
+
+If they do, you haven't used different enough methods — add another lateral thinking technique or cross-domain domain.
 
 ---
 
 ## Step 2: Cross-Pollinate — Create Hybrids
 
-Combine the most contradictory perspectives. The best hybrids come from approaches that pull in opposite directions — that tension is where novelty lives.
+Combine approaches from **different divergence methods**, not from the same method. Hybrids produce more novelty when they bridge fundamentally different thinking modes (e.g. a perspective approach + a lateral thinking approach).
 
 For each hybrid:
 
-> "Combine the [Perspective A] approach with the [Perspective B] approach. Take the strongest element from each and merge them into something neither would have created alone. What emerges from this tension?"
+> "Combine the [Method A approach] with the [Method B approach]. They came from different thinking modes. Take the strongest element from each and merge them into something neither mode alone would produce. What emerges from this tension?"
 
 ### How to pair
 
-Don't pair similar perspectives (Designer + Artist = same direction). Pair opposites:
-
-| Pairing principle | Example | Why it works |
+| Pairing principle | Combine | Why it works |
 |---|---|---|
-| **Speed + polish** | Hacker + Designer | Forces solutions that are both fast AND beautiful |
-| **Feeling + logic** | Psychologist + Scientist | Emotionally resonant AND rigorously tested |
-| **Wild + structured** | Child + Economist | Playful ideas with real-world viability |
-| **Inversion + evidence** | Contrarian + Archaeologist | Challenge assumptions by learning from the past |
-| **Constraints + freedom** | Chef + Artist | Limits force creative expression |
+| **Speed + polish** | Hacker perspective + Designer perspective | Both fast AND beautiful |
+| **Feeling + systems** | Psychologist perspective + Provocation technique | Emotionally resonant AND counter-intuitive |
+| **Cross-domain + perspective** | Biology principle + Hacker perspective | Evolutionary hacking |
+| **Wild + lateral** | Cross-domain (Games) + Random entry | Playful surprise |
+| **Inversion + history** | Contrarian perspective + Archaeologist perspective | Challenge assumptions by learning from the past |
 
-Produce 2-3 hybrids. Fewer, more distinct hybrids beat many trivial ones.
+Mix methods, not just content. The more different the origins, the more novel the hybrid.
+
+Produce 2-3 hybrids. Label each with their origins and a short evocative name (e.g. **Hacker × Biology: "Evolutionary MVP"**, **Provocation × Psychology: "Adversarial Delight"**).
 
 If a hybrid is just a rephrasing of an existing approach, discard it and try a different pair.
-
-Label each hybrid with the perspectives that created it and a short evocative name (e.g. **Hacker × Designer: "Rapid Polish"**, **Child × Economist: "Playful Value"**).
 
 ---
 
@@ -142,6 +182,21 @@ This creative brief becomes the input for the next workflow phase (typically `sp
 
 ---
 
+## Why This Works (Research Basis)
+
+This skill is grounded in established creativity research:
+
+| Finding | Source | How the skill applies it |
+|---|---|---|
+| **Playfulness directly predicts divergent thinking** | Lieberman (1965), confirmed by multiple replication studies | Step 0 warm-up primes generative mode. Play is not optional — it's cognitive preparation. |
+| **Positive mood facilitates divergent performance** | Vosburg (1998), Murray et al. (1990) | The warm-up creates positive affect before ideation begins. Evaluating later keeps mood from blocking generation. |
+| **Multidisciplinary breadth predicts innovation** | Steve Jobs, various innovation studies | Method C forces cross-domain transfer. The best ideas come from connecting disparate fields. |
+| **Constraints force novelty** | De Bono (1967, 1992) | Perspectives aren't labels — they're binding constraints. Without a constraint, the model converges to the average. |
+| **Lateral thinking ≠ vertical thinking** | De Bono (1967) | Method B (lateral thinking) deliberately breaks sequential reasoning patterns. Used alongside Method A (perspectives/vertical), they diverge in different dimensions. |
+| **Hybridization produces genuine novelty** | Various creativity studies | Step 2 combines approaches from different methods, not just different labels. Method-level hybrids beat perspective-level hybrids. |
+
+---
+
 ## Common Rationalizations
 
 | Shortcut | Why It Fails |
@@ -154,13 +209,15 @@ This creative brief becomes the input for the next workflow phase (typically `sp
 
 ## Red Flags
 
-- All approaches look like variations of the same idea → you didn't pull from different enough perspectives. Choose perspectives that conflict.
-- Novelty scores are all below 5 → you haven't diverged enough. Add an extreme perspective (Alien, Oracle, Child).
-- Hybrids are just rephrasing of existing approaches → try pairing more contradictory perspectives.
-- You chose all similar perspectives (e.g. all technical) → you're converging before diverging. Force a non-technical perspective.
-- The final concept feels safe → convergent thinking took over; restart or force a more extreme hybrid.
+- All approaches look like variations of the same idea → you only used ONE divergence method. Every approach came from Method A (perspectives) alone. Force yourself to use Method B (lateral thinking) and Method C (cross-domain).
+- Novelty scores are all below 5 → you didn't diverge in kind, only in degree. Add a method you haven't used yet.
+- You skipped the warm-up → without play priming, your ideas will be safe and convergent. Go back and do Step 0.
+- Hybrids are just rephrasing of existing approaches → you paired approaches from the SAME method. Cross-pollinate between different methods instead.
+- You chose all similar perspectives (e.g. all technical) → you're converging before diverging. Force a perspective that can't use technical reasoning (Artist, Child, Jester).
+- The final concept feels safe → convergent thinking took over. Restart with a more extreme method pair (e.g. Provocation + Cross-domain).
+- You used only perspectives and called it done → perspectives are one method. You need at least two different methods for genuine divergence.
 - You feel like you already know the answer → that's exactly when you need this skill.
-- You used only the first 3 perspectives from the catalog → you picked the easiest, not the most divergent. Scrolling further in the catalog yields more unusual perspectives.
+- The warm-up produced better ideas than the main session → you're converging too fast in the main session. Spend more time in fan divergence.
 
 ## Relationship to Other Skills
 
