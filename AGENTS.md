@@ -343,10 +343,24 @@ bash ./scripts/session-fork.sh "<task-name>"
 
 This creates an isolated git worktree on a new branch so parallel sessions don't conflict.
 
-- If the task name isn't known yet, defer — the hook will suggest forking
-- After forking, tell the user to `cd` to the worktree path and start a new OpenCode session there
-- The main checkout stays clean, the worktree has all tracked files including `.opencode/commands/`
-- When the worktree session is done, use `--merge` or `--close` from within the worktree
+**Branching logic (choose the right base):**
+
+| Situation | Command | Result |
+|---|---|---|
+| New task, independent | `session-fork.sh "fix-auth"` | New branch from main |
+| Related to existing work | `session-fork.sh "extend-redesign" s73-redesign` | New branch from s73-redesign |
+| Continue a previous branch | `session-fork.sh --attach s73-redesign` | Worktree on existing branch |
+| Same branch but new session | `session-fork.sh --attach s73-task-name` | Another worktree on same branch |
+
+When choosing:
+- **Independent task** → fork from `main` (default)
+- **Depends on another branch's changes** → fork from that branch: `session-fork.sh "task" s73-other-branch`
+- **Continuing exactly what a branch started** → use `--attach` to reuse it
+- **Quick fix, no isolation needed** → work directly on `main`, commit fast
+
+After forking, tell the user to `cd` to the worktree path and start a new OpenCode session there. The main checkout stays clean.
+
+When the worktree session is done, use `--merge` or `--close` from within the worktree.
 
 ### 4. Context Compression
 

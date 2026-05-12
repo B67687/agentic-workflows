@@ -7,9 +7,18 @@
 # a new task so parallel sessions don't conflict.
 #
 # Usage:
-#   bash ./scripts/session-fork.sh [task-name]
-#     Create a worktree branch for task-name (auto-slugged).
-#     If omitted, reads from session-state.json currentTask.name.
+#   bash ./scripts/session-fork.sh [task-name] [base-ref]
+#     Create a worktree + new branch for task-name, off base-ref.
+#     base-ref defaults to HEAD (usually main).
+#     Example: session-fork.sh "fix-api" s73-redesign  (branch from existing branch)
+#
+#   bash ./scripts/session-fork.sh --attach <branch>
+#     Create a worktree on an EXISTING branch (no new branch).
+#     Use this to continue work from a previous session branch.
+#     Example: session-fork.sh --attach s73-redesign
+#
+#   bash ./scripts/session-fork.sh --base <ref> [task-name]
+#     Same as positional base-ref but explicit flag form.
 #
 #   bash ./scripts/session-fork.sh --close
 #     Commit any staged changes, push branch, remove worktree.
@@ -44,28 +53,40 @@
 set -euo pipefail
 
 MODE="create"
+BASE_REF=""
+ATTACH_BRANCH=""
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
-    --close)    MODE="close" ;;
-    --merge)    MODE="merge" ;;
-    --rename)   MODE="rename"; NEW_NAME="${2:-}"; shift ;;
-    --list)     MODE="list" ;;
-    --cleanup)  MODE="cleanup" ;;
+    --close)    MODE="close"; shift; continue ;;
+    --merge)    MODE="merge"; shift; continue ;;
+    --list)     MODE="list"; shift; continue ;;
+    --cleanup)  MODE="cleanup"; shift; continue ;;
+    --rename)   MODE="rename"; NEW_NAME="${2:-}"; [ $# -ge 2 ] && shift 2 || shift; continue ;;
+    --attach)   MODE="attach"; ATTACH_BRANCH="${2:-}"; [ $# -ge 2 ] && shift 2 || shift; continue ;;
+    --base)     BASE_REF="${2:-HEAD}"; shift 2; continue ;;
     --help|-h)
       sed -n '2,/^$/p' "$0" | sed 's/^# //;s/^#$//;s/^#//'
       exit 0
       ;;
     *)
       if [ "$MODE" = "create" ]; then
-        TASK_NAME="$1"
+        if [ -z "${TASK_NAME:-}" ]; then
+          TASK_NAME="$1"
+          shift
+        elif [ -z "$BASE_REF" ]; then
+          BASE_REF="$1"
+          shift
+        else
+          echo "Too many arguments. Usage: session-fork.sh [task-name] [base-ref]" >&2
+          exit 2
+        fi
       else
         echo "Unknown option: $1" >&2
         exit 2
       fi
       ;;
   esac
-  shift
 done
 
 # ── Shared helpers ──────────────────────────────────────────────────────────
@@ -333,21 +354,21 @@ cleanup_worktrees() {
 # ── Create worktree ─────────────────────────────────────────────────────────
 
 create_worktree() {
-  # Only create from main — worktrees should branch off main
   local current_branch
   current_branch="$(git rev-parse --abbrev-ref HEAD)"
+  local ref="${BASE_REF:-HEAD}"
 
-  if [ "$current_branch" != "main" ]; then
+  # Only check "on main" when no base-ref is specified (defaults to HEAD = main)
+  if [ -z "${BASE_REF:-}" ] && [ "$current_branch" != "main" ]; then
     echo "You're on '$current_branch', not 'main'."
-    echo "Only fork from main. Either:"
-    echo "  a) 'git checkout main' and re-run, or"
-    echo "  b) work directly on this branch (no worktree needed)"
+    echo "To branch from a different base, specify it:"
+    echo "  bash ./scripts/session-fork.sh \"task\" $current_branch"
     exit 1
   fi
 
   # Check for dirty files
   if [ -n "$(git status --short)" ]; then
-    echo "⚠  You have uncommitted changes on main."
+    echo "⚠  You have uncommitted changes."
     echo "   Please commit or stash before forking."
     echo ""
     git status --short | head -10
@@ -390,8 +411,8 @@ except: print('')
 
   mkdir -p "$WORKTREE_ROOT"
 
-  echo "Creating worktree..."
-  git worktree add -b "$branch" "$worktree_path" HEAD
+  echo "Creating worktree from $ref..."
+  git worktree add -b "$branch" "$worktree_path" "$ref"
 
   # Copy session-state.json to worktree
   if [ -f "session-state.json" ]; then
@@ -402,7 +423,7 @@ except: print('')
   echo ""
   echo "========================================"
   echo "  Session forked!"
-  echo "  Branch:  $branch"
+  echo "  Branch:  $branch (from ${ref})"
   echo "  Path:    $worktree_path"
   echo "========================================"
   echo ""
@@ -413,6 +434,53 @@ except: print('')
   echo "To close when done (from within worktree):"
   echo "  bash ./scripts/session-fork.sh --close"
   echo "  bash ./scripts/session-fork.sh --merge   (merge into main + cleanup)"
+}
+
+# ── Attach to existing branch ────────────────────────────────────────────────
+
+attach_worktree() {
+  if [ -z "$ATTACH_BRANCH" ]; then
+    echo "Usage: bash ./scripts/session-fork.sh --attach <existing-branch>"
+    echo ""
+    echo "Available branches:"
+    git branch --list 's*' --format='  %(refname:short) (%(committerdate:relative))'
+    exit 1
+  fi
+
+  if ! git show-ref --verify --quiet "refs/heads/$ATTACH_BRANCH"; then
+    echo "Branch '$ATTACH_BRANCH' does not exist."
+    echo "Available session branches:"
+    git branch --list 's*' --format='  %(refname:short) (%(committerdate:relative))'
+    exit 1
+  fi
+
+  local existing_wt
+  existing_wt=$(grep -A1 "refs/heads/$ATTACH_BRANCH" < <(git worktree list --porcelain) 2>/dev/null | grep "^worktree " | sed 's/^worktree //' || true)
+  if [ -n "$existing_wt" ]; then
+    echo "Branch '$ATTACH_BRANCH' already has a worktree at:"
+    echo "  $existing_wt"
+    echo "Use that directly or close it first."
+    exit 1
+  fi
+
+  local worktree_path="$WORKTREE_ROOT/$ATTACH_BRANCH"
+  mkdir -p "$WORKTREE_ROOT"
+
+  echo "Creating worktree on existing branch '$ATTACH_BRANCH'..."
+  git worktree add "$worktree_path" "$ATTACH_BRANCH"
+
+  if [ -f "session-state.json" ]; then
+    cp session-state.json "$worktree_path/"
+  fi
+
+  echo ""
+  echo "========================================"
+  echo "  Attached to $ATTACH_BRANCH"
+  echo "  Path:    $worktree_path"
+  echo "========================================"
+  echo ""
+  echo "  cd $worktree_path"
+  echo "  opencode"
 }
 
 # ── Dispatch ────────────────────────────────────────────────────────────────
@@ -429,6 +497,9 @@ case "$MODE" in
     ;;
   rename)
     rename_branch
+    ;;
+  attach)
+    attach_worktree
     ;;
   cleanup)
     cleanup_worktrees
