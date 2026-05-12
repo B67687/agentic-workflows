@@ -66,6 +66,13 @@ else
     echo "⚠  session-state.json not found — create for context persistence"
 fi
 
+# ---- Session Health Check ----
+HEALTH_STATUS=$(bash "$(dirname "$0")/../context-pressure.sh" --check 2>/dev/null || true)
+if echo "$HEALTH_STATUS" | grep -q "CRITICAL"; then
+    echo ""
+    echo "⚠  SESSION HEALTH: CRITICAL — run context-pressure.sh for details"
+fi
+
 # ---- Saved Context Snapshot ----
 SNAPSHOT=".cache/session-snapshot.json"
 if [ -f "$SNAPSHOT" ]; then
