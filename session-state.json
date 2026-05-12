@@ -6,7 +6,7 @@
   "currentTask": {
     "name": "Research + implement extensions supercharging agentic workflows",
     "status": "implemented",
-    "goal": "Close gaps in 8 categories: P0 sandbox, P1 tool registry, P2 scripted skills, P3 async agent dispatch. Next: P4 session health monitoring."
+    "goal": "Close gaps across 7 categories: sandbox, tool registry, scripted skills, async dispatch, health monitoring, browser automation, knowledge base sync."
   },
   "environment": {
     "note": "This workspace runs on Debian/WSL2. Global OpenCode runtime config at /home/namikaz/.config/opencode/opencode.jsonc. WSL now has 8GB RAM and 8 cores.",
@@ -27,6 +27,9 @@
     "P3: scripts/agent-dispatch.sh — async task dispatcher for external coding agents (pi, codex, claude)",
     "P3: scripts/_agent_runner.py — standalone Python runner avoiding shell quoting issues",
     "Pipeline integration: pipeline-run.sh dispatch + collect — fire-and-forget pipeline tasks to external agents",
+    "Browser automation: Playwright MCP (opencode.jsonc) + scripts/browser.sh — navigate, screenshot, text, html, pdf, check",
+    "Knowledge base: swarmvault.schema.md updated, wiki/concepts/agent-tools.md created, AGENTS.md high-signal files updated",
+    "Smoke tests: scripts/test-smoke.sh — 31 tests, all passing",
     "AGENTS.md — updated with tools.sh and agent-sandbox.sh entries",
     "session-state.json — updated for session 72"
   ],
@@ -48,6 +51,29 @@
     "scripts/agent-dispatch.sh (new)",
     "scripts/_agent_runner.py (new)",
     "Pipeline integration: pipeline-run.sh (updated — dispatch + collect commands)",
+    ".gitignore — added node_modules/",
+    "scripts/browser.sh (new)",
+    "scripts/test-smoke.sh (new)",
+    ".devcontainer/Dockerfile (new)",
+    ".devcontainer/devcontainer.json (new)",
+    ".devcontainer/init-firewall.sh (new)",
+    "scripts/agent-sandbox.sh (new)",
+    "docs/agent-sandbox.md (new)",
+    "scripts/tools.sh (new)",
+    "scripts/hooks/session-start.sh (updated — tool listing + health check)",
+    "scripts/context-pressure.sh (new)",
+    "scripts/log-error.sh (new)",
+    "skills/bash-explore/core/explore.py (new)",
+    "skills/bash-explore/SKILL.md (updated — references explore.py)",
+    "skills/debugging-and-error-recovery/scripts/triage.sh (new)",
+    "skills/debugging-and-error-recovery/SKILL.md (updated — references triage.sh, log-error.sh)",
+    "skills/documentation-and-adrs/scripts/create-adr.sh (new)",
+    "skills/documentation-and-adrs/SKILL.md (updated — references create-adr.sh)",
+    "skills/browser-testing-with-devtools/SKILL.md (updated — Playwright MCP + browser.sh)",
+    "AGENTS.md (updated — tool registry, sandbox, browser, smoke tests entries)",
+    "session-state.json (updated for session 72)",
+    "swarmvault.schema.md (updated — workspace domain categories)",
+    "wiki/concepts/agent-tools.md (new — comprehensive tool documentation)",
     "AGENTS.md (updated — tool registry, sandbox entries)",
     "session-state.json (updated for session 72)"
   ],

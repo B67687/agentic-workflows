@@ -47,6 +47,19 @@ For SwarmVault graph queries, read `wiki/graph/report.md` first (falls back to `
 | `scripts/build-index.sh` | Build BM25 search index for full-workspace retrieval |
 | `scripts/search-index.sh` | Query BM25 index — ranked results across all text files |
 | `scripts/repo-map.sh` | Tree-sitter repo map with PageRank ranking |
+| `scripts/agent-sandbox.sh` | Isolated sandbox for safe YOLO-mode agent operations (bwrap + Docker) |
+| `scripts/tools.sh` | Tool registry — lists all agent-callable tools with descriptions |
+| `scripts/agent-dispatch.sh` | Async task dispatcher for external coding agents (pi, codex, claude) |
+| `scripts/context-pressure.sh` | Session health monitor — detects context rot (age, dirt, commit count) |
+| `scripts/browser.sh` | Browser automation via Playwright (navigate, screenshot, text, html, pdf) |
+| `scripts/pipeline-run.sh` | Pipeline state manager with async dispatch + collect commands |
+| `scripts/test-smoke.sh` | 31-test smoke suite covering all tools |
+| `skills/bash-explore/core/explore.py` | Structured file discovery companion script |
+| `skills/debugging-and-error-recovery/scripts/triage.sh` | Failure context capture as structured JSON |
+| `skills/documentation-and-adrs/scripts/create-adr.sh` | Auto-numbered ADR creation from template |
+| `scripts/log-error.sh` | Pipeable error capture feeding into triage system |
+| `scripts/_agent_runner.py` | Python runner for async agent dispatch (avoids shell quoting) |
+| `docs/agent-sandbox.md` | Sandbox documentation and usage guidance |
 | `skills/bash-explore/SKILL.md` | Bash-hybrid exploration patterns |
 | `scripts/hooks/session-start.sh` | Session-start diagnostics (branch, commits, state health) |
 | `scripts/hooks/detect-gaps.sh` | Gap detection — stale index, missing state, propagation drift |
