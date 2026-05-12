@@ -5,9 +5,28 @@ description: Tests in real browsers. Use when building or debugging anything tha
 
 # Browser Testing with DevTools
 
+## Companion Tools
+
+This skill works with two automation backends:
+
+| Backend | Setup | Best For |
+|---------|-------|----------|
+| **Playwright MCP** | Built-in to OpenCode (opencode.jsonc) | Interactive browsing, clicking, filling forms |
+| **`scripts/browser.sh`** | No setup — uses Playwright directly | Quick navigation, screenshots, text extraction |
+
+Playwright MCP is configured in your global OpenCode config under `mcp.playwright`. It provides tools like:
+`browser_navigate`, `browser_screenshot`, `browser_click`, `browser_fill`, etc.
+
+For ad-hoc operations:
+```bash
+bash ./scripts/browser.sh navigate https://example.com
+bash ./scripts/browser.sh screenshot https://example.com /tmp/page.png
+bash ./scripts/browser.sh text https://example.com | head -10
+```
+
 ## Overview
 
-Use Chrome DevTools MCP to give your agent eyes into the browser. This bridges the gap between static code analysis and live browser execution — the agent can see what the user sees, inspect the DOM, read console logs, analyze network requests, and capture performance data. Instead of guessing what's happening at runtime, verify it.
+Use browser automation to give your agent eyes into the web. This bridges the gap between static code analysis and live browser execution — the agent can see what the user sees, inspect the DOM, read console logs, analyze network requests, and capture performance data. Instead of guessing what's happening at runtime, verify it.
 
 ## When to Use
 

@@ -140,6 +140,30 @@ rm -rf .triage/ 2>/dev/null || true
 
 # ===========================================================================
 echo ""
+echo "--- Browser ---"
+
+assert_output_contains "browser.sh help" \
+  "bash scripts/browser.sh help" \
+  "navigate"
+
+assert_output_contains "browser.sh navigate" \
+  "bash scripts/browser.sh navigate https://example.com" \
+  "Example Domain"
+
+assert_output_contains "browser.sh text" \
+  "bash scripts/browser.sh text https://example.com" \
+  "Example Domain"
+
+assert_output_contains "browser.sh check (found)" \
+  "bash scripts/browser.sh check https://example.com 'Example'" \
+  "FOUND"
+
+assert_output_contains "browser.sh check (not found)" \
+  "bash scripts/browser.sh check https://example.com 'NonexistentTextXYZ'" \
+  "NOT FOUND"
+
+# ===========================================================================
+echo ""
 echo "--- P3: Async Agent Dispatch ---"
 
 assert_output_contains "agent-dispatch.sh help" \
