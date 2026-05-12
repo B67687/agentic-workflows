@@ -7,6 +7,13 @@ handoffs: all other skills (this is the meta-skill dispatcher)
 
 # Using Agent Skills
 
+**Companion script:** `scripts/skill-find.sh` — discover, search, and list skills with statistics.
+```bash
+bash ./scripts/skill-find.sh find "<query>"     # search skills
+bash ./scripts/skill-find.sh list [bundle]      # list skills
+bash ./scripts/skill-find.sh stats              # coverage stats
+```
+
 ## Overview
 
 Agent Skills is a collection of engineering workflow skills organized by development phase. Each skill encodes a specific process that senior engineers follow. This meta-skill helps you discover and apply the right skill for your current task.

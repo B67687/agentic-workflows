@@ -10,14 +10,10 @@ companion-script: scripts/plan-implementation.sh
 
 Take a ticket, shaped work, or technical challenge and create a detailed implementation plan that any developer or agent can follow.
 
-**Companion script:** `scripts/plan-implementation.sh`
+**Companion script:** `scripts/plan-implementation.sh` — implementation plan and phase templates.
 ```bash
-bash ./scripts/plan-implementation.sh locate "<feature>"     # sub-agent prompt for locating files
-bash ./scripts/plan-implementation.sh patterns "<feature>"   # sub-agent for similar impls
-bash ./scripts/plan-implementation.sh analyze "<feature>"    # sub-agent for flow analysis
-bash ./scripts/plan-implementation.sh plan "<title>"          # implementation plan template
-bash ./scripts/plan-implementation.sh phase "<name>"          # single phase template
-bash ./scripts/plan-implementation.sh check "<plan>"          # plan quality check
+bash ./scripts/plan-implementation.sh plan "<title>"   # full plan template
+bash ./scripts/plan-implementation.sh phase "<name>"   # single phase template
 ```
 
 ## Principles
