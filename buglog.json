@@ -12,6 +12,12 @@
       "summary": "Error handling: forgot to add set -e to new script, wasted 10min debugging\n",
       "tags": "general,bug",
       "source": "retrospect"
+    },
+    {
+      "ts": "2026-05-12T12:48:17Z",
+      "summary": "Slice 3 complete: ruflo plugin marketplace evaluated \u2014 20 plugins via IPFS/Pinata, 7s+ fetch latency. Plugins are TypeScript npm packages (src/index.ts, hooks.ts) \u2014 fundamentally different from our markdown skills with companion scripts. Plugin create command appears to have a scaffolding bug (no files written). Conclusion: propagate-to-all.sh is superior for our skill distribution \u2014 instant, local, no rewrite, no IPFS dependency. SKIP plugin bridge.\n",
+      "tags": "ruflo,plugins,evaluation,skills,bug",
+      "source": "retrospect"
     }
   ]
 }

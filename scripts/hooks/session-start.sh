@@ -137,20 +137,13 @@ elif [ "$IS_WORKTREE" = true ]; then
   echo "   bash ./scripts/session-fork.sh --close   (just cleanup)"
 fi
 
-# ---- Ruflo Integration (if available) ----
+# ---- Ruflo Integration (CLI-only, if available) ----
 if command -v ruflo &>/dev/null; then
   echo ""
-  echo "Ruflo intelligence available:"
+  echo "Ruflo CLI available (0MB persistent):"
   echo "  bash ruflo hooks session-restore   — restore previous session context"
-  echo "  bash ruflo hooks route -t \"...\"    — route task to optimal agent"
-  echo "  bash ruflo mcp tools               — list 266 MCP tools"
-  # Check daemon status
-  DAEMON_STATUS=$(ruflo daemon status 2>/dev/null | grep -o "RUNNING\|STOPPED" || echo "unknown")
-  if [ "$DAEMON_STATUS" = "RUNNING" ]; then
-    echo "  ●  ruflo daemon running (5 bg workers: map, audit, optimize, consolidate, testgaps)"
-  else
-    echo "  ○  ruflo daemon stopped (run: ruflo daemon start)"
-  fi
+  echo "  bash ruflo hooks route -t \"...\"    — route task via learned patterns"
+  echo "  bash ruflo hooks pretrain          — re-analyze repo for patterns"
 fi
 
 echo "=== End Diagnostics ==="

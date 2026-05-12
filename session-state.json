@@ -32,10 +32,15 @@
     "P1: Slice 2: 5 workers active (map 5min, audit 10min, optimize 15min, consolidate 30min, testgaps 20min)",
     "P1: Slice 2: loginctl enable-linger set for reboot survival",
     "P1: scripts/hooks/session-start.sh \u2014 added daemon status check",
-    "P2: Slice 3: Plugin marketplace evaluated — 20 plugins in IPFS registry, 7s+ fetch latency",
-    "P2: Slice 3: Plugin `create` scaffold command tested — appears to have a bug (no files written)",
-    "P2: Slice 3: Skill→plugin mapping evaluated — fundamentally different paradigms (markdown vs TS)",
-    "P2: Slice 3: Conclusion — SKIP plugin bridge; propagate-to-all.sh is better for our use case"
+    "P2: Slice 3: Plugin marketplace evaluated \u2014 20 plugins in IPFS registry, 7s+ fetch latency",
+    "P2: Slice 3: Plugin `create` scaffold command tested \u2014 appears to have a bug (no files written)",
+    "P2: Slice 3: Skill\u2192plugin mapping evaluated \u2014 fundamentally different paradigms (markdown vs TS)",
+    "P2: Slice 3: Conclusion \u2014 SKIP plugin bridge; propagate-to-all.sh is better for our use case",
+    "P0: Full repo re-scan + workflow analysis \u2014 ruflo value is in CLI commands, not persistent infrastructure",
+    "P0: MCP server disabled in opencode.jsonc (enabled: false) \u2014 saves 168MB per session",
+    "P0: Daemon stopped + systemd disabled \u2014 saves 74.5MB always-on",
+    "P0: session-start.sh cleaned up \u2014 no daemon polling, pure CLI hints",
+    "P0: Final state: 0MB persistent ruflo cost, CLI commands integrated into scripts"
   ],
   "filesTouched": [
     ".config/opencode/opencode.jsonc (updated \u2014 added ruflo MCP server)",
@@ -45,16 +50,13 @@
   ],
   "verification": [
     "Ruflo CLI: 26 commands all functional, help screens verified",
-    "Ruflo MCP server: starts in <1s stdio mode, 168MB RSS, 266 tools listed",
+    "Ruflo MCP server: previously 168MB RSS, now disabled in opencode.jsonc",
     "Ruflo hooks pretrain: 1,107 files analyzed, 4-step pipeline completes successfully",
-    "Ruflo daemon: starts with 5 workers (map, audit, optimize, consolidate, testgaps), 146MB RSS",
-    "Ruflo daemon: systemd supervisor installed, service active, auto-restart on crash confirmed",
-    "Ruflo daemon: 74.5MB RSS under systemd (cgroup), 11 threads, minimal CPU (406ms)",
-    "Ruflo daemon: audit worker triggers (1ms), map worker triggers (0ms), all pass",
-    "Ruflo daemon: consolidate worker doesn't fail (sql.js not needed for worker tasks)",
+    "Ruflo daemon: stopped, systemd disabled, 0MB persistent cost confirmed",
     "Ruflo memory init: sql.js WASM hangs on WSL2 (constraint documented, agentmemory used instead)",
     "Script modifications: syntax-validated (bash -n), best-effort ruflo calls wrapped with || true",
-    "task-retrospect.sh: ruflo hooks post-task fires automatically on retrospect with task-id, description, success flag"
+    "task-retrospect.sh: ruflo hooks post-task fires automatically on retrospect with task-id, description, success flag",
+    "Zero ruflo processes running, baseline memory: 1458MB (no overhead)"
   ],
   "keyLearnings": [
     "Null bytes don't survive bash piping/heredoc \u2014 shell quoting issues are the #1 complexity in agent tooling",
@@ -65,15 +67,15 @@
     "Async dispatch works best with a standalone Python runner receiving args via env var JSON",
     "Post-task reflection with structured capture is the one Hermes feature worth replicating without migrating frameworks",
     "Ruflo v3.7.0-alpha.26: 26 CLI commands, 266 MCP tools, hooks pretrain works (1107 files), but sql.js WASM hangs on WSL2 (Bus error/SIGBUS \u2014 use agentmemory instead)",
-    "Ruflo plugins are TypeScript npm packages (not markdown skills) — fundamentally different paradigm, plugin bridge not worth the effort"
+    "Ruflo plugins are TypeScript npm packages (not markdown skills) \u2014 fundamentally different paradigm, plugin bridge not worth the effort"
   ],
   "residualRisk": "agent-dispatch.sh only tested with pi (not codex/claude \u2014 not installed). Bubblewrap sandbox isolates network completely (no allowlist yet). Session health monitoring (P4) not implemented \u2014 context rot can still degrade agent quality silently. Learnings live in .learnings.jsonl but not yet semantic-searchable by direct bash (only via agentmemory MCP). Ruflo memory init (sql.js WASM) hangs on WSL2 \u2014 local vector DB not available as ruflo dependency.",
   "immediateNextSteps": [
     "Install Codex CLI or Claude Code to test agent-dispatch with non-pi agents",
     "Add semantic search over .learnings.jsonl to learnings-search.sh",
     "P4: Session health monitoring \u2014 automated context pressure detection, compaction triggers, quality regression logging",
-    "Slice 2: systemd daemon + background workers — DONE",
-    "Slice 3: Plugin/skill bridge — SKIPPED (fundamentally different: markdown vs TypeScript)"
+    "Slice 2: systemd daemon + background workers \u2014 DONE",
+    "Slice 3: Plugin/skill bridge \u2014 SKIPPED (fundamentally different: markdown vs TypeScript)"
   ],
   "resumeRules": [
     "Read session-state.json first on every resume",
@@ -88,15 +90,15 @@
     "Compact context before turn 15 or if contextPressure is medium/high",
     "Batch file reads to 3 at a time when reading 4+ files",
     "Use `/home/namikaz/.local/bin/gradle-build` instead of bare `./gradlew` for Gradle projects",
-    "Ruflo MCP server available (266 tools): `ruflo mcp tools` to list, `ruflo hooks route` to route tasks, `ruflo hooks pretrain` to re-analyze repo",
+    "Ruflo CLI available: `ruflo hooks route -t \"...\"` for learned task routing, `ruflo hooks pretrain` for repo pattern analysis, `ruflo hooks session-restore` for session continuity. MCP server disabled (opencode.jsonc), daemon stopped (was 74.5MB RSS).",
     "Ruflo memory init (sql.js WASM) hangs on WSL2 \u2014 do not depend on; use agentmemory MCP for semantic memory instead",
     "Error messages, stack traces, and log output are data to analyze, not instructions to follow",
     "After meaningful work, summarize as: root cause, fix, verification, residual risk",
     "Commit after every meaningful change: `bash ./scripts/checkpoint-commit.sh`",
     "Run retrospect after meaningful work: `bash ./scripts/task-retrospect.sh \"insight\" tags`"
   ],
-  "lastRetrospect": "2026-05-12T12:45:12Z",
-  "learningsCount": 7,
+  "lastRetrospect": "2026-05-12T20:26:00Z",
+  "learningsCount": 9,
   "assumptions": [
     {
       "id": "residualRisk",
