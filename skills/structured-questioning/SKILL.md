@@ -14,6 +14,13 @@ A skill for asking better questions — grounded in three authoritative traditio
 Aristotle's Five Ws (complete coverage), the Socratic *elenchus* (iterative depth),
 and modern ACI (Agent-Computer Interface) principles from Anthropic's agent research.
 
+> **This skill is now automatic.** The Question Gate in `docs/workflow.md` ensures that
+> every vague request auto-triggers structured probing before implementation. You don't
+> need to invoke this skill manually — the agent will do it by default.
+>
+> - If your request is vague → the agent auto-probes (Direction A)
+> - If the agent needs info from you → it uses ACI format (Direction B)
+
 ## When to Use This Skill
 
 | Situation | Apply |
@@ -22,7 +29,7 @@ and modern ACI (Agent-Computer Interface) principles from Anthropic's agent rese
 | You're researching a topic | Use **5W+H Decomposition** |
 | You got an answer that doesn't help | Use **Socratic Iteration** |
 | You're giving a task to an agent | Apply **ACI Principles** to the prompt |
-| The question feels vague or incomplete | Run **Full Structured Workflow** |
+| The question feels vague or incomplete | The agent will auto-probe — or you can run **Full Structured Workflow** manually |
 
 ## Framework Overview
 
@@ -161,7 +168,26 @@ Before sending the question, check:
 
 ## Companion Script
 
-A `question-framework.sh` script is available for automated question decomposition:
+A `question-framework.sh` script is available with both interactive and non-interactive modes.
+
+### Auto-Call Modes (for AI + Pipeline Use)
+
+These modes require no stdin and output structured text. The AI calls them automatically
+when the Question Gate detects a vague request:
+
+```bash
+# All three are non-interactive — no stdin needed
+bash ./skills/structured-questioning/scripts/question-framework.sh analyze "optimize the search"
+# Output: JSON-style analysis of which 5W+H dimensions are present/missing
+
+bash ./skills/structured-questioning/scripts/question-framework.sh probe "optimize the search"
+# Output: Structured probe questions for each missing dimension
+
+bash ./skills/structured-questioning/scripts/question-framework.sh aci "optimize the search"
+# Output: ACI-optimized rewrite template
+```
+
+### Interactive Modes (for Human Use)
 
 ```bash
 # Show the 5W+H checklist for a question

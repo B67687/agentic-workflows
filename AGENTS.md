@@ -13,7 +13,18 @@ When the request is clear enough and risk is low, proactively:
 - choose the lightest execution lane
 - switch to tests-first work when behavior changes
 
+**Automatic questioning (always on):**
+- **Direction A (user → agent):** When a request is vague or lacks critical context,
+  auto-probe before proceeding. One question at a time. Include your recommended answer.
+  Do not implement an ambiguous request — sharpen it first.
+- **Direction B (agent needs info → user):** When you need information from the user,
+  format the question as: context → fork → recommendation → impact → fallback.
+  Give a clear default so the user can just say "yes" or pick option B.
+- **Never guess** when 1 question to the user would resolve the ambiguity.
+  Structured probing is cheaper than rebuilding.
+
 Only ask questions when the gap has real consequences for safety, scope, or correctness.
+But err on the side of asking — a structured probe costs 5 seconds; fixing the wrong output costs hours.
 
 ## Startup Order
 
@@ -59,6 +70,7 @@ For SwarmVault graph queries, read `wiki/graph/report.md` first (falls back to `
 | `skills/documentation-and-adrs/scripts/create-adr.sh` | Auto-numbered ADR creation from template |
 | `scripts/log-error.sh` | Pipeable error capture feeding into triage system |
 | `scripts/session-status.sh` | One-shot workspace orientation (branch, health, tools, tests) |
+| `scripts/task-retrospect.sh` | Hermes-style post-task reflection loop (learning capture → buglog → session-state) |
 | `scripts/_agent_runner.py` | Python runner for async agent dispatch (avoids shell quoting) |
 | `docs/agent-sandbox.md` | Sandbox documentation and usage guidance |
 | `skills/bash-explore/SKILL.md` | Bash-hybrid exploration patterns |
@@ -95,6 +107,8 @@ For SwarmVault graph queries, read `wiki/graph/report.md` first (falls back to `
 - **Map before broad reading**: use `/repo-map` when a folder is unfamiliar.
 - **Close dead branches explicitly**: use `/session close-task` when resolved, obsolete, or parked.
 - **Gate implementation**: before editing code, confirm research, plan, bounded scope, and verification path are clear.
+- **Auto-probe vague requests**: when the user's request is missing critical context (who, what, when, where, why, how), automatically ask one structured question at a time before proceeding. Do not implement first and ask later.
+- **Format all user-directed questions as: context → fork → recommendation → impact → fallback**. Give a clear default so the user can answer with one word.
 - **Grill ambiguous tasks early**: if broad, underspecified, or expensive to get wrong, use the `grill-me` skill to align before planning. If the project has a `CONTEXT.md` domain glossary file, use it during grilling to keep terminology consistent.
 - **Stop planning loops after two refinements**: choose the next verified slice and move toward implementation.
 - **Optimize by evidence**: measure first. Only do architecture review for hard-to-reverse risks.

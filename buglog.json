@@ -1,4 +1,17 @@
 {
   "version": 1,
-  "bugs": []
+  "bugs": [
+    {
+      "ts": "2026-05-12T05:06:43Z",
+      "summary": "The pipefail + grep pattern causes double-counting. Fix: use grep -c with || true instead of wc -l with trailing or\n",
+      "tags": "general",
+      "source": "retrospect"
+    },
+    {
+      "ts": "2026-05-12T05:06:44Z",
+      "summary": "Error handling: forgot to add set -e to new script, wasted 10min debugging\n",
+      "tags": "general,bug",
+      "source": "retrospect"
+    }
+  ]
 }

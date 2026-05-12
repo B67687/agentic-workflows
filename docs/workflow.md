@@ -10,7 +10,11 @@ Start with the real goal in normal language, let the system classify and shrink 
 
 ```mermaid
 flowchart TD
-    A["You state the real goal in normal language"] --> B["Route / intake"]
+    A["You state the real goal in normal language"] --> Q{"Question Gate"}
+    Q -->|Request is vague / missing context| Q1["Agent auto-probes with 5W+H"]
+    Q1 --> Q2["You clarify"]
+    Q2 --> Q
+    Q -->|Request is well-formed| B["Route / intake"]
     B --> C{"What kind of task is this?"}
     C -->|Ambiguous or costly to misunderstand| D["Grill the task"]
     C -->|Too big| E["Shape / milestone / slice"]
@@ -24,11 +28,34 @@ flowchart TD
     J -->|No| K["Checkpoint / handoff / new session if needed"]
     K --> F
     J -->|Yes| L["Close task / checkpoint commit / restart fresh"]
+
+    style Q fill:#ff6,stroke:#333,stroke-width:2px
+    style Q1 fill:#ff6,stroke:#333,stroke-width:1px
+    style Q2 fill:#ff6,stroke:#333,stroke-width:1px
 ```
 
 ---
 
 ## Phase System
+
+### Question Gate (automatic, no command needed)
+
+**This runs on every interaction automatically.** When you state a goal or ask a question, the agent
+analyzes it for completeness using the 5W+H framework (Who, What, When, Where, Why, How).
+
+**Direction A (Your request → Agent):** If your request is vague or missing critical context,
+the agent automatically responds with structured probes — one question at a time, with a
+recommended answer — before proceeding. This is not a skill you invoke; it's default behavior.
+
+**Direction B (Agent needs info → You):** When the agent needs information from you, it formats
+its question using this structure:
+- **Context**: 1-2 sentences on why this is needed
+- **Fork**: the possible paths
+- **Recommendation**: which path it recommends and why
+- **Impact**: what changes based on your answer
+- **Fallback**: what it will do if it doesn't hear back
+
+No manual invocation needed. The Question Gate is the first thing that fires on every task.
 
 ### Research
 Understand the system before changing it. Read startup files, retrieve relevant context, identify exact files and dependencies. **Do not edit yet.**
@@ -116,6 +143,8 @@ Either loop for the next slice, or classify the task as fixed/obsolete/parked an
 
 | Situation | Response |
 |---|---|
+| Request is vague or missing 5W+H dimensions | **Auto-probe before routing** — one question at a time, with recommendation |
+| Agent needs info from user | **ACI format** — context, fork, recommendation, impact, fallback |
 | Task is ambiguous or costly to misunderstand | **Grill first** — surface assumptions, sharpen scope |
 | Task is too big for one cycle | **Slice first** — milestone ladder + first executable slice |
 | Planning loops twice without converging | **Stop refining, pick the next slice** |
