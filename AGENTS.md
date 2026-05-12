@@ -506,6 +506,9 @@ supported APIs.
 | Learnings strategy (three-store system) | `docs/learnings-strategy.md` |
 | Hub quickstart (full index) | `docs/hub-quickstart.md` |
 | System architecture research | `research/well-maintained-system-research.md` |
+| Agent coding rules (common) | `rules/common/` (coding-style, security, git-workflow, testing) |
+| Agent coding rules (language) | `rules/typescript/patterns.md`, `rules/python/patterns.md` |
+| TAP project memory | `.tap/README.md` (`tap-audit`, `systems-health`, `retrospective`, `curate-product-context`) |
 | Superseded design docs | `archive/superseded/` (core-agent-doctrine, phase-based, etc.) |
 
 <!-- swarmvault:managed:start -->
