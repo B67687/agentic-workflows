@@ -8,6 +8,11 @@ companion-script: scripts/product-discover.sh
 
 # Product Discovery
 
+**Companion script:** `scripts/product-discover.sh` — hypothesis definition with evidence gates.
+```bash
+bash ./scripts/product-discover.sh hypothesis "<idea>"    # define discovery hypothesis
+```
+
 Figure out whether an idea is worth building before committing engineering time. The goal is sufficient evidence that the solution will work.
 
 70-90% of features built without validation fail to deliver. Discovery exists to catch failures early and cheap.

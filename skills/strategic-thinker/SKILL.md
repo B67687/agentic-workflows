@@ -8,6 +8,11 @@ companion-script: scripts/strategic-think.sh
 
 # Strategic Thinker
 
+**Companion script:** `scripts/strategic-think.sh` — cross-level tradeoff analysis.
+```bash
+bash ./scripts/strategic-think.sh analyze "<question>"   # tradeoff analysis
+```
+
 Think like a modern senior architect who creates environments where people and systems thrive. Reason across levels — from 30,000ft context down to ground-level constraints.
 
 **Companion script:** `scripts/strategic-think.sh`

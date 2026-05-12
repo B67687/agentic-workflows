@@ -8,6 +8,11 @@ companion-script: scripts/loop-check.sh
 
 # Loop Check
 
+**Companion script:** `scripts/loop-check.sh` — assess feedback loops, identify gaps and leverage points.
+```bash
+bash ./scripts/loop-check.sh assess   # feedback loop assessment
+```
+
 Answer one question: **"What's needed to make feedback loops autonomous in this repo?"**
 
 Find what's manual, what's missing, and prescribe concrete automation paths.

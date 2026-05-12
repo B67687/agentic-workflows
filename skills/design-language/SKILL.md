@@ -8,6 +8,12 @@ companion-script: scripts/design-language.sh
 
 # Design Language
 
+**Companion script:** `scripts/design-language.sh` — capture design principles, review implementation.
+```bash
+bash ./scripts/design-language.sh capture "<product>"   # capture design language
+bash ./scripts/design-language.sh review "<product>"    # review implementation
+```
+
 Capture and enforce a product's visual language — principles + patterns that make it feel like itself. Two modes, one skill.
 
 - **Capture** — given an external source (Figma URL, screenshot, live URL), distill novel design decisions and propose a diff to `docs/design.md`.

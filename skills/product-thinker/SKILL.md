@@ -8,6 +8,12 @@ companion-script: scripts/product-think.sh
 
 # Product Thinker
 
+**Companion script:** `scripts/product-think.sh` — product evaluation and competitive analysis templates.
+```bash
+bash ./scripts/product-think.sh evaluate "<question>"    # build-vs-buy decision
+bash ./scripts/product-think.sh competitive "<product>"  # competitive analysis
+```
+
 Think like a senior product manager. Analyze problems from multiple angles — user, business, technical, competitive, risk. Use all available context to ground recommendations in reality.
 
 **Companion script:** `scripts/product-think.sh`

@@ -8,6 +8,11 @@ companion-script: scripts/curate-product-context.sh
 
 # Curate Product Context
 
+**Companion script:** `scripts/curate-product-context.sh` — generate `.tap/product.md` skeleton with product vision, focus, and non-goals.
+```bash
+bash ./scripts/curate-product-context.sh init "<product>"   # initialize product context
+```
+
 Install and maintain durable product-strategic context as an in-repo artifact (`.tap/product.md`) so human engineers and AI agents can make decisions without pinging the leader.
 
 **Companion script:** `scripts/curate-product-context.sh`
