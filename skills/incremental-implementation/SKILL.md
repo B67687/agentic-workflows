@@ -5,6 +5,13 @@ description: Delivers changes incrementally. Use when implementing any feature o
 
 # Incremental Implementation
 
+**Companion script:** `scripts/increment-slice.sh` — change size validation, slice decomposition, one-cycle runner.
+```bash
+bash ./scripts/increment-slice.sh check                # validate slice size
+bash ./scripts/increment-slice.sh suggest "<task>"     # suggest slices
+bash ./scripts/increment-slice.sh cycle "<test-cmd>"   # run one cycle
+```
+
 ## Overview
 
 Build in thin vertical slices — implement one piece, test it, verify it, then expand. Avoid implementing an entire feature in one pass. Each increment should leave the system in a working, testable state. This is the execution discipline that makes large features manageable.

@@ -5,6 +5,13 @@ description: Interview the user relentlessly about a plan or design until reachi
 
 # Grill Me
 
+**Companion script:** `scripts/grill-session.sh` — session framing, question formatting, and closure summary.
+```bash
+bash ./scripts/grill-session.sh start "<topic>"       # open a grill session
+bash ./scripts/grill-session.sh question "<q>" "<r>"   # format a question
+bash ./scripts/grill-session.sh close                  # closure summary
+```
+
 Structured requirements alignment grounded in the **Socratic elenchus** (Plato's early dialogues:
 *Euthyphro*, *Meno*, *Apology*). Socrates used iterative questioning to expose hidden assumptions
 and reach shared understanding before committing to action. This skill does the same for modern

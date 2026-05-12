@@ -5,6 +5,13 @@ description: Simplifies code for clarity. Use when refactoring code for clarity 
 
 # Code Simplification
 
+**Companion script:** `scripts/simplify-check.sh` — complexity analysis, file comparison, five principles reference.
+```bash
+bash ./scripts/simplify-check.sh check <file>          # analyze complexity
+bash ./scripts/simplify-check.sh compare <a> <b>       # compare versions
+bash ./scripts/simplify-check.sh principles            # five principles
+```
+
 > Inspired by the [Claude Code Simplifier plugin](https://github.com/anthropics/claude-plugins-official/blob/main/plugins/code-simplifier/agents/code-simplifier.md). Adapted here as a model-agnostic, process-driven skill for any AI coding agent.
 
 ## Overview
