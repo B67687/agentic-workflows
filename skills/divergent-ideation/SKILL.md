@@ -19,78 +19,88 @@ A single LLM call converges to the most probable path. This skill forces diverge
 ```
 Diverge ──→ Cross-Pollinate ──→ Evaluate ──→ Converge
   │               │                 │             │
-  5 personas      hybrids          scores        creative brief
+  varied          hybrids          scores        creative brief
+  perspectives
 ```
 
 ---
 
-## Step 1: Diverge — Generate 5 Deliberately Different Approaches
+## Step 1: Diverge — Generate N Deliberately Different Approaches
 
-Generate exactly 5 approaches, each from a distinct persona with a unique constraint. Each generation is a separate thought, not a list.
+Generate 3-6 approaches, each from a **distinct perspective** with a **unique constraint** that forces different thinking.
 
-For each persona, explicitly instruct:
+The number and choice of perspectives depends on the problem. Low complexity → 3 perspectives across the most relevant axes. High complexity or highly creative need → 5-6 perspectives including extreme ones.
 
-> "You are a [PERSONA]. Your goal is to generate one approach to: [PROBLEM]. You must obey your constraint. Do not produce a typical solution. Force yourself to think differently."
+### How to choose perspectives
 
-### Persona 1: Hacker
+Look at the problem and ask: **what are the most useful tensions here?**
 
-**Constraint:** Minimal resources, maximum speed. Build something rough and functional fast using clever shortcuts. Elegance is not the goal — working is.
+Then select or create perspectives that pull in opposite directions along those tensions. For example, if the problem is technical but needs good UX, pull in a Hacker and a Designer. If the problem is about behavior change, pull in a Psychologist and an Economist.
 
-**Forces thinking toward:** MVP-first, creative workarounds, unconventional tech stacks, "good enough" solutions.
+### Perspective catalog
 
-### Persona 2: Designer
+Select 3-6 from this catalog (or create your own):
 
-**Constraint:** The user experience is everything. If it's not delightful, it doesn't matter how well it works. Start from the feeling you want the user to have.
+| Perspective | Core constraint | Forces thinking toward |
+|---|---|---|
+| **Hacker** | Minimal resources, maximum speed. Build it now. | MVPs, shortcuts, unconventional stacks |
+| **Designer** | Delight or bust. Start from the feeling. | Aesthetics, flow, craft |
+| **Scientist** | First principles. Everything falsifiable. | Metrics, experiments, evidence |
+| **Contrarian** | Invert every assumption. Opposite of default. | Counter-intuitive approaches |
+| **Child** | No constraints. No fear. Just fun. | Naive innovation, playful exploration |
+| **Economist** | Incentives drive everything. Optimize for leverage. | Market dynamics, game theory, efficiency |
+| **Psychologist** | People don't do what's rational. | Cognitive biases, motivation, habit formation |
+| **Artist** | Express something. Mean something. | Metaphor, emotion, cultural resonance |
+| **Chef** | Constraints breed creativity. Limited ingredients. | Taste, combination, surprising pairings |
+| **Archaeologist** | The past holds the answer. Find the pattern. | Historical precedent, forgotten approaches |
+| **Alien** | Humanity solved this wrong. Start from zero. | Radical reframing, questioning fundamentals |
+| **Oracle** | You know the future outcome. How did you get there? | Reverse-casting, working backward from success |
 
-**Forces thinking toward:** Aesthetics, flow states, emotional response, simplicity, craft.
+The same perspective should never be used twice in the same session. If a problem needs the same lens repeatedly (e.g. "Designer" for multiple problems), force a different expression of it — e.g. "Designer focused on accessibility" vs "Designer focused on delight."
 
-### Persona 3: Scientist
+### How to run each generation
 
-**Constraint:** First principles. Break the problem down to its fundamental truths. Hypothesize, measure, iterate. Everything must be falsifiable.
+For each perspective, generate the approach as a separate thought. The format:
 
-**Forces thinking toward:** Systematic reasoning, metrics, controlled experiments, evidence over intuition.
+> Approach [N]: [Perspective name] — [Short label]
+>
+> "You are [Perspective]. Your goal is to generate one approach to: [PROBLEM]. Your constraint is: [Constraint from catalog]. Do not produce a typical solution. Force yourself to think differently."
+>
+> 3-5 sentence description of the approach.
 
-### Persona 4: Contrarian
+If any two approaches feel essentially the same, discard one and replace it with a different perspective.
 
-**Constraint:** Do the opposite of what everyone else does. Identify the conventional wisdom for this problem and invert every assumption.
+### Can I create custom perspectives?
 
-**Forces thinking toward:** Counter-intuitive approaches, neglected angles, "what if everyone is wrong about X?"
-
-### Persona 5: Child
-
-**Constraint:** You have no knowledge of existing solutions. No budget limits. No technical constraints. No fear of being wrong. What would you build just because it's fun?
-
-**Forces thinking toward:** Naive innovation, playful exploration, blue-sky thinking, removing artificial constraints.
-
-### What to produce
-
-For each persona, write a 3-5 sentence approach description. Label it clearly (e.g. **H1: Hacker approach**, **D2: Designer approach**).
-
-If any two approaches feel essentially the same, discard one and force a new generation from a different angle.
+Yes. If the problem domain suggests a perspective not in the catalog, create it. The critical requirement is that it has a **specific, actionable constraint** that differs from all other perspectives chosen. A perspective without a binding constraint is just noise.
 
 ---
 
 ## Step 2: Cross-Pollinate — Create Hybrids
 
-Now take the most promising pairs of approaches and synthesize them. Force unexpected combinations.
+Combine the most contradictory perspectives. The best hybrids come from approaches that pull in opposite directions — that tension is where novelty lives.
 
-For each hybrid, explicitly instruct:
+For each hybrid:
 
-> "Combine the [PERSONA1] approach with the [PERSONA2] approach. Take the strongest element from each and merge them into something neither persona would have created alone. What emerges?"
+> "Combine the [Perspective A] approach with the [Perspective B] approach. Take the strongest element from each and merge them into something neither would have created alone. What emerges from this tension?"
 
-### Suggested Pairings
+### How to pair
 
-| Hybrid | Combine | Why |
+Don't pair similar perspectives (Designer + Artist = same direction). Pair opposites:
+
+| Pairing principle | Example | Why it works |
 |---|---|---|
-| H-D | Hacker + Designer | Speed + polish. Build fast but make it beautiful. |
-| S-C | Scientist + Contrarian | Systematic inversion. Rigorously test the opposite. |
-| D-K | Designer + Child | Playful delight. What's fun AND well-crafted? |
-| H-K | Hacker + Child | No-limits building with creative shortcuts. Just make it exist. |
-| C-S | Contrarian + Scientist | Challenge assumptions systematically. Prove the inverted approach. |
+| **Speed + polish** | Hacker + Designer | Forces solutions that are both fast AND beautiful |
+| **Feeling + logic** | Psychologist + Scientist | Emotionally resonant AND rigorously tested |
+| **Wild + structured** | Child + Economist | Playful ideas with real-world viability |
+| **Inversion + evidence** | Contrarian + Archaeologist | Challenge assumptions by learning from the past |
+| **Constraints + freedom** | Chef + Artist | Limits force creative expression |
 
-At minimum, produce 3 hybrids. Each should be genuinely different from the 5 original approaches and from each other. Label them clearly (e.g. **H-D Hybrid: "Rapid Delight"**, **S-C Hybrid: "Prove the Opposite"**).
+Produce 2-3 hybrids. Fewer, more distinct hybrids beat many trivial ones.
 
 If a hybrid is just a rephrasing of an existing approach, discard it and try a different pair.
+
+Label each hybrid with the perspectives that created it and a short evocative name (e.g. **Hacker × Designer: "Rapid Polish"**, **Child × Economist: "Playful Value"**).
 
 ---
 
@@ -107,8 +117,8 @@ Produce a small table:
 
 | Hybrid | Novelty | Viability | Notes |
 |---|---|---|---|
-| H-D: "Rapid Delight" | 7 | 8 | Fast to prototype, great UX |
-| S-C: "Prove the Opposite" | 9 | 4 | Novel but hard to validate |
+| Hacker × Designer: "Rapid Polish" | 7 | 8 | Fast to prototype, great UX |
+| Scientist × Contrarian: "Prove the Opposite" | 9 | 4 | Novel but hard to validate |
 | ... | | | |
 
 Mark the **most promising hybrid** with ★.
@@ -137,18 +147,20 @@ This creative brief becomes the input for the next workflow phase (typically `sp
 | Shortcut | Why It Fails |
 |---|---|
 | "Higher temperature will make it creative" | Temperature adds noise, not novel structure. The model still converges to probable token sequences — it just does it sloppily. |
-| "I already generated 5 ideas, that's divergent" | 5 variations on the same approach is not divergence. Each persona must produce a fundamentally DIFFERENT kind of solution. |
+| "I already generated N ideas, that's divergent" | N variations on the same approach is not divergence. Each perspective must produce a fundamentally DIFFERENT kind of solution. If you can't see a clear conflict between perspectives, they aren't divergent enough. |
 | "The first idea was the best one" | The first idea is always the most probable path. Divergent thinking requires forcing past the first idea into unlikely territory. |
 | "I'll skip cross-pollination, just pick the best" | Hybridization is where true novelty emerges. Pure approaches are rarely surprising; their combinations are. |
-| "Creativity prompts aren't needed — I'm already creative" | The LLM defaults to convergence. Without structural forcing, it will produce the average of all training data. |
+| "I'll just ask the LLM to be creative" | "Be creative" is an empty instruction. Without a specific constraint that blocks the default path, the model produces the most probable (and most boring) answer. The constraint is what forces divergence, not the request. |
 
 ## Red Flags
 
-- All 5 approaches look like variations of the same idea → restart from Step 1 with stronger constraint differences
-- Novelty scores are all below 5 → you haven't diverged enough
-- Hybrids are just rephrasings of existing approaches → try different pairings
-- The final concept feels safe → convergent thinking took over; restart or force a more extreme hybrid
-- You feel like you already know the answer → that's exactly when you need this skill
+- All approaches look like variations of the same idea → you didn't pull from different enough perspectives. Choose perspectives that conflict.
+- Novelty scores are all below 5 → you haven't diverged enough. Add an extreme perspective (Alien, Oracle, Child).
+- Hybrids are just rephrasing of existing approaches → try pairing more contradictory perspectives.
+- You chose all similar perspectives (e.g. all technical) → you're converging before diverging. Force a non-technical perspective.
+- The final concept feels safe → convergent thinking took over; restart or force a more extreme hybrid.
+- You feel like you already know the answer → that's exactly when you need this skill.
+- You used only the first 3 perspectives from the catalog → you picked the easiest, not the most divergent. Scrolling further in the catalog yields more unusual perspectives.
 
 ## Relationship to Other Skills
 
