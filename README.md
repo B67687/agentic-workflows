@@ -1,6 +1,8 @@
-# agentic-workflows — Agent Harness + Systems Engineering
+# agentic-workflows — Systems Engineering for AI Agents
 
-An agent harness for orchestrating, managing, and extending AI agents. Systems engineering workspace for agent workflows, cross-repo orchestration, and capability propagation.
+Systems engineering applied to the agent domain: an agent harness for orchestrating,
+managing, and extending AI agents. Cross-repo orchestration, knowledge propagation,
+and capability management.
 
 ## Start Here: Pick Your Goal
 

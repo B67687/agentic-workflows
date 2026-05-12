@@ -7,6 +7,22 @@ This document defines a **structural governance system** — a small set of rule
 classification guide, and a feedback loop — so new additions land in the right place
 from day one.
 
+## What This Workspace Is
+
+```
+Systems Engineering                       (the macro discipline)
+  └── Agent Harness Engineering           (the specific application)
+        ├── Knowledge Base                (docs, skills, wiki content)
+        ├── Propagation Engine            (workflows → downstream repos)
+        ├── Agent Tooling                 (scripts, commands, dispatch)
+        ├── Monitoring & Health           (context pressure, assumption expiry)
+        ├── Session Management            (checkpoints, state, forks)
+        └── Quality Gates                 (smoke tests, detect-gaps, audit)
+```
+
+Everything in this workspace belongs to one of these subsystems.
+The classification guide below maps each subsystem to a directory.
+
 ## Authority
 
 This pattern synthesizes four established principles from software architecture:
@@ -55,16 +71,19 @@ When adding something new to this workspace, answer one question:
 
 **What kind of thing is this?**
 
-| If it's... | Put it in... | Examples |
-|---|---|---|
-| A repeatable process with steps | `skills/<name>/` | `skills/doubt-driven-development/` |
-| A reference document | `docs/<category>/` | `docs/assumption-expiry.md` |
-| An automation script | `scripts/` or `skills/<name>/scripts/` | `scripts/context-pressure.sh` |
-| A slash command | `commands/<name>.md` | `commands/session.md` |
-| An agent behavior rule | `rules/<language>/` or `rules/common/` | `rules/common/coding-style.md` |
-| A template for downstream repos | `propagation/<type>/` | `propagation/command/` |
-| A session log or research note | `archive/` or `research/` | `archive/history-2026-05.md` |
-| **I don't know** | `inbox/` | Staging — classify within 7 days |
+| If it's... | Subsystem | Put it in... | Examples |
+|---|---|---|---|---|
+| A repeatable process with steps | Knowledge Base | `skills/<name>/` | `skills/doubt-driven-development/` |
+| A reference document | Knowledge Base | `docs/<category>/` | `docs/assumption-expiry.md` |
+| A wiki page | Knowledge Base | `wiki/<type>/` | `wiki/concepts/`, `wiki/entities/` |
+| An automation script | Agent Tooling | `scripts/` or `skills/<name>/scripts/` | `scripts/context-pressure.sh` |
+| A slash command | Agent Tooling | `commands/<name>.md` | `commands/session.md` |
+| An agent behavior rule | Agent Harness | `rules/<language>/` or `rules/common/` | `rules/common/coding-style.md` |
+| A template for downstream repos | Propagation Engine | `propagation/<type>/` | `propagation/command/` |
+| A session log or research note | Session Management | `archive/` or `research/` | `archive/history-2026-05.md` |
+| A health/fitness check | Monitoring & Health | `scripts/` (hook) or `docs/` (pattern) | `scripts/assumption-expiry.sh` |
+| A quality gate | Quality Gates | `scripts/hooks/` or `scripts/test-*` | `scripts/hooks/detect-gaps.sh` |
+| **I don't know** | **Staging** | `inbox/` | Classify within 7 days |
 
 ### Decision Tree (for uncertain cases)
 
