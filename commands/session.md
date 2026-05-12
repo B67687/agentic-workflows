@@ -2,6 +2,27 @@
 description: Session lifecycle — checkpoint, handoff, boundary, close, and finish
 ---
 
+## Session Fork (isolated worktree for parallel work)
+
+Use this before starting a new task. Creates an independent worktree directory + branch so you can work in multiple sessions without file conflicts.
+
+Run:
+`bash ./scripts/session-fork.sh "task-name"`
+
+Creates a new branch `s<id>-<slug>` and worktree at `../.worktrees/<repo>/<branch>/`.
+Copies session-state.json into the worktree.
+
+Then `cd` to the worktree path and open a new OpenCode session there. The main checkout stays clean.
+
+To close a worktree session:
+`bash ./scripts/session-fork.sh --close` (run from inside the worktree)
+
+To see active worktrees:
+`bash ./scripts/session-fork.sh --list`
+
+To prune closed/merged session branches:
+`bash ./scripts/session-fork.sh --cleanup`
+
 ## Context Save (capture working state for resume)
 
 Use this before ending a session mid-task, or when context pressure is high and you might lose state.

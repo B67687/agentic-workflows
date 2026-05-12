@@ -111,3 +111,10 @@ if [[ -n "$NOTE" ]]; then
   echo "Closure note: $NOTE"
 fi
 echo "Next: $NEXT"
+
+# Worktree cleanup hint
+if git rev-parse --git-common-dir 2>/dev/null | grep -q "worktrees"; then
+  echo ""
+  echo "ℹ  You're in a session worktree. When ready:"
+  echo "   bash ./scripts/session-fork.sh --close"
+fi

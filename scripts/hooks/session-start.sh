@@ -15,9 +15,22 @@ set -euo pipefail
 
 echo "=== Session Start — Diagnostics ==="
 
+# ---- Worktree Detection ----
+GIT_DIR="$(git rev-parse --git-dir 2>/dev/null || true)"
+GIT_COMMON_DIR="$(git rev-parse --git-common-dir 2>/dev/null || true)"
+IS_WORKTREE=false
+if [ "$GIT_DIR" != "$GIT_COMMON_DIR" ]; then
+  IS_WORKTREE=true
+fi
+
 # ---- Branch and Recent Commits ----
 BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo "unknown")
-echo "Branch: $BRANCH"
+if [ "$IS_WORKTREE" = true ]; then
+  echo "Branch: $BRANCH (session worktree)"
+  echo "  cd ../.worktrees/ to list all workspaces"
+else
+  echo "Branch: $BRANCH (main checkout)"
+fi
 
 echo ""
 echo "Recent commits:"
@@ -89,5 +102,20 @@ bash "$(dirname "$0")/../session-status.sh" --compact 2>/dev/null || true
 echo "  bash ./scripts/tools.sh            — full tool list"
 echo "  bash ./scripts/test-smoke.sh       — 31-tool smoke test"
 echo "  bash ./scripts/session-status.sh   — this overview"
+
+# ---- Worktree Fork Offer ----
+if [ "$IS_WORKTREE" = false ] && [ "$BRANCH" = "main" ]; then
+  DIRTY=$(git status --short 2>/dev/null | wc -l | tr -d ' ')
+  if [ "$DIRTY" -eq 0 ]; then
+    echo ""
+    echo "ℹ  On main with a clean state. Fork a session worktree to work in parallel:"
+    echo "   bash ./scripts/session-fork.sh \"<task-name>\""
+    echo "   bash ./scripts/session-fork.sh --list   — show active worktrees"
+  fi
+elif [ "$IS_WORKTREE" = true ]; then
+  echo ""
+  echo "ℹ  Working in a session worktree. To close when done:"
+  echo "   bash ./scripts/session-fork.sh --close"
+fi
 
 echo "=== End Diagnostics ==="

@@ -54,7 +54,7 @@ For SwarmVault graph queries, read `wiki/graph/report.md` first (falls back to `
 | `swarmvault.schema.md` | SwarmVault schema — read before compile/query/lint operations |
 | `wiki/index.md` | SwarmVault wiki index — read before broad file searching |
 | `scripts/tools.sh` | Tool registry — lists all agent-callable tools with descriptions |
-| `scripts/agent-sandbox.sh` | Isolated sandbox for safe YOLO-mode agent operations |
+| `scripts/session-fork.sh` | Fork session into isolated worktree for parallel work |
 | `scripts/build-index.sh` | Build BM25 search index for full-workspace retrieval |
 | `scripts/search-index.sh` | Query BM25 index — ranked results across all text files |
 | `scripts/repo-map.sh` | Tree-sitter repo map with PageRank ranking |
