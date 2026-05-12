@@ -53,6 +53,35 @@
         "using-agent-skills",
         "bash-explore"
       ]
+    },
+    "product": {
+      "description": "Product thinking, strategy, discovery, and work shaping",
+      "skills": [
+        "product-thinker",
+        "strategic-thinker",
+        "shaping-work",
+        "product-discovery",
+        "product-primitives",
+        "design-language"
+      ]
+    },
+    "plan-technical": {
+      "description": "Technical planning and implementation design",
+      "skills": [
+        "implementation-planning"
+      ]
+    },
+    "assess": {
+      "description": "Loop assessment, repo audits, system health, and impact analysis",
+      "skills": [
+        "loop-check",
+        "tighten-loop",
+        "tap-audit",
+        "blast-radius",
+        "systems-health",
+        "retrospective",
+        "curate-product-context"
+      ]
     }
   }
 }

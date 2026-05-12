@@ -1,9 +1,13 @@
 ---
 name: performance-optimization
 description: Optimizes application performance. Use when performance requirements exist, when you suspect performance regressions, or when Core Web Vitals or load times need improvement. Use when profiling reveals bottlenecks that need fixing.
+trigger-phrases: optimize performance, slow, bottleneck, profiling, speed up, performance issue, lazy load
+handoffs: code-review-and-quality (to review), debugging-and-error-recovery (to debug issues)
 ---
 
 # Performance Optimization
+
+**Companion script:** `scripts/perf-scan.sh` — health checks, baseline generation, and time guardians for CI.
 
 **Companion script:** `scripts/perf-scan.sh` — health checks, baseline generation, and time guardians for CI.
 ```bash
@@ -318,6 +322,16 @@ npx bundlesize --config bundlesize.config.json
 
 # Lighthouse CI
 npx lhci autorun
+```
+
+## Presentation
+
+```
+`★ Performance View ──────────────────────────────`
+- [Target] — [before → after improvement]
+- [Key optimization applied]
+- [Regression risk noted]
+`─────────────────────────────────────────────────`
 ```
 
 ## See Also

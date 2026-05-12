@@ -1,7 +1,20 @@
 ---
 name: spec-driven-development
 description: Creates specs before coding. Use when starting a new project, feature, or significant change and no specification exists yet. Use when requirements are unclear, ambiguous, or only exist as a vague idea.
+trigger-phrases: write a spec, specification, define requirements, scope this, what are we building, requirements doc
+handoffs: planning-and-task-breakdown (to decompose), grill-me (to clarify)
+companion-script: scripts/spec-generator.sh
 ---
+
+## Presentation
+
+```
+`★ Spec View ─────────────────────────────────────`
+- [Feature/Project] — [status: DRAFT / REVIEW / APPROVED]
+- [Scope: what's in / what's out]
+- [Top open question]
+`─────────────────────────────────────────────────`
+```
 
 # Spec-Driven Development
 

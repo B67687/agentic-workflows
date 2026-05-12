@@ -1,6 +1,9 @@
 ---
 name: ci-cd-and-automation
 description: Automates CI/CD pipeline setup. Use when setting up or modifying build and deployment pipelines. Use when you need to automate quality gates, configure test runners in CI, or establish deployment strategies.
+trigger-phrases: ci/cd, pipeline, automation, github actions, deploy pipeline, build pipeline
+handoffs: shipping-and-launch (to ship), git-workflow-and-versioning (for versioning)
+companion-script: scripts/ci-check.sh
 ---
 
 # CI/CD and Automation
@@ -363,6 +366,15 @@ jobs:
         with: { node-version: '22', cache: 'npm' }
       - run: npm ci
       - run: npm test -- --coverage
+```
+
+## Presentation
+
+```
+`★ CI/CD View ────────────────────────────────────`
+- [Pipeline name] — [status]
+- [Top finding or recommendation]
+`─────────────────────────────────────────────────`
 ```
 
 ## Common Rationalizations

@@ -1,3 +1,10 @@
+---
+name: divergent-ideation
+description: Generates genuinely novel ideas using LLMs. Use when tackling open-ended problems, when existing approaches feel stale, or when you need originality over predictability.
+trigger-phrases: brainstorm, ideate, generate ideas, come up with, creative ideas, alternatives
+handoffs: idea-refine (to refine ideas), spec-driven-development (to spec)
+---
+
 # Divergent Ideation
 
 Generate genuinely novel ideas using LLMs, when convergent thinking would produce predictable results.

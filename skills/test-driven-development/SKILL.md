@@ -1,6 +1,8 @@
 ---
 name: test-driven-development
 description: Drives development with tests. Use when implementing any logic, fixing any bug, or changing any behavior. Use when you need to prove that code works, when a bug report arrives, or when you're about to modify existing functionality.
+trigger-phrases: write tests, tdd, test first, add tests, unit test, integration test, test coverage
+handoffs: incremental-implementation (to build), debugging-and-error-recovery (to fix failures)
 ---
 
 # Test-Driven Development
@@ -389,3 +391,13 @@ After completing any implementation:
 - [ ] Coverage hasn't decreased (if tracked)
 
 **Note:** Run each test command after a change that could affect the result. After a clean run, don't repeat the same command unless the code has changed since — re-running on unchanged code adds no confidence.
+
+## Presentation
+
+```
+`★ Test View ─────────────────────────────────────`
+- [Test suite] — [N tests: N pass / N fail / N skip]
+- [Coverage: N%]
+- [Key uncovered areas]
+`─────────────────────────────────────────────────`
+```

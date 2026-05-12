@@ -1,6 +1,9 @@
 ---
 name: browser-testing-with-devtools
 description: Tests in real browsers. Use when building or debugging anything that runs in a browser. Use when you need to inspect the DOM, capture console errors, analyze network requests, profile performance, or verify visual output with real runtime data via Chrome DevTools MCP.
+trigger-phrases: browser test, qa in browser, devtools, inspect element, console error, network request, screenshot
+handoffs: debugging-and-error-recovery (to debug failures), code-review-and-quality (to review)
+companion-script: scripts/browser.sh
 ---
 
 # Browser Testing with DevTools

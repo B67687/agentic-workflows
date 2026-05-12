@@ -1,6 +1,9 @@
 ---
 name: debugging-and-error-recovery
 description: Guides systematic root-cause debugging. Use when tests fail, builds break, behavior doesn't match expectations, or you encounter any unexpected error. Use when you need a systematic approach to finding and fixing the root cause rather than guessing.
+trigger-phrases: debug this, fix this, why is this broken, error, test failure, build failure, root cause, bug
+handoffs: test-driven-development (to write tests), code-review-and-quality (to review fix)
+companion-script: scripts/triage.sh
 ---
 
 # Debugging and Error Recovery
@@ -327,6 +330,16 @@ Add logging only when it helps. Remove it when done.
 - Error boundaries with error reporting
 - API error logging with request context
 - Performance metrics at key user flows
+
+## Presentation
+
+```
+`★ Debugging View ────────────────────────────────`
+- [Error/failure] — [root cause]
+- [Fix applied]
+- [Verification: tests pass?]
+`─────────────────────────────────────────────────`
+```
 
 ## Common Rationalizations
 

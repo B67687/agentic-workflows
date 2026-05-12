@@ -1,6 +1,9 @@
 ---
 name: incremental-implementation
 description: Delivers changes incrementally. Use when implementing any feature or change that touches more than one file. Use when you're about to write a large amount of code at once, or when a task feels too big to land in one step.
+trigger-phrases: implement step by step, incremental, slice, phase by phase, one step at a time, build incrementally
+handoffs: test-driven-development (to test), git-workflow-and-versioning (to commit)
+companion-script: scripts/increment-slice.sh
 ---
 
 # Incremental Implementation

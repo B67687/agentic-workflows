@@ -1,6 +1,9 @@
 ---
 name: code-simplification
 description: Simplifies code for clarity. Use when refactoring code for clarity without changing behavior. Use when code works but is harder to read, maintain, or extend than it should be. Use when reviewing code that has accumulated unnecessary complexity.
+trigger-phrases: simplify this, refactor, clean up, reduce complexity, make this simpler, technical debt
+handoffs: code-review-and-quality (to review), test-driven-development (to add tests)
+companion-script: scripts/simplify-check.sh
 ---
 
 # Code Simplification
@@ -299,6 +302,16 @@ function UserBadge({ user }: Props) {
 // SIMPLIFY: Prop drilling through intermediate components
 // Before — consider whether context or composition solves this better.
 // This is a judgment call — flag it, don't auto-refactor.
+```
+
+## Presentation
+
+```
+`★ Code Simplification ───────────────────────────`
+- [Module] — [complexity before → after]
+- [Key simplification applied]
+- [Remaining concerns]
+`─────────────────────────────────────────────────`
 ```
 
 ## Common Rationalizations

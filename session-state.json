@@ -4,9 +4,17 @@
   "interruptedCount": 0,
   "contextPressure": "healthy",
   "currentTask": {
-    "name": "Ruflo full evaluation (Tier 1 + Slice 2: systemd daemon)",
-    "status": "implemented",
-    "goal": "Deep research ruflo, implement Tier 1 improvements (MCP, auto-learning), Slice 2 daemon + systemd supervisor + background workers."
+    "name": "teambrilliant skills integration (Milestones 1-4)",
+    "status": "in_progress",
+    "goal": "Integrate patterns and skills from teambrilliant/tap-skills + teambrilliant/dev-skills: signature blocks, enhanced frontmatter, 11 new skills with companion scripts, manifest updates."
+  },
+  "integrationPlan": {
+    "phase": "Milestones 1-4 in parallel",
+    "milestone1": "Patterns layer (signature blocks, enhanced frontmatter, references/)",
+    "milestone2": "7 new product/strategy skills with companion scripts",
+    "milestone3": "3 loop/assessment skills with companion scripts",
+    "milestone4": "5 TAP methodology skills with companion scripts",
+    "status": "in_progress"
   },
   "environment": {
     "note": "This workspace runs on Debian/WSL2. Global OpenCode runtime config at /home/namikaz/.config/opencode/opencode.jsonc. WSL now has 8GB RAM and 8 cores.",
@@ -15,32 +23,31 @@
     "topicFoldersPath": "/home/namikaz/projects/dev/"
   },
   "whatChanged": [
-    "P0: opencode.jsonc \u2014 added ruflo MCP server (266 tools, enabled, memory-safe config)",
-    "P1: scripts/task-retrospect.sh \u2014 added ruflo hooks post-task integration (auto-records patterns to ruflo learning loop)",
-    "P1: scripts/hooks/session-start.sh \u2014 added ruflo availability check with available commands",
-    "P0: session-state.json \u2014 updated for session 74 ruflo evaluation",
-    "P0: Global npm ruflo@3.7.0-alpha.26 installed (908 packages, 26 CLI commands)",
-    "P0: Ruflo MCP server tested: 266 tools across 20 categories, 168MB RSS, stdio mode",
-    "P0: Ruflo hooks pretrain run: 1,107 files analyzed, 6 patterns extracted",
-    "P1: Ruflo daemon tested: 5 background workers active, 146MB RSS, systemd supervisor available",
-    "P2: Ruflo memory init tested: sql.js WASM hangs on WSL2 (known constraint \u2014 use agentmemory as fallback)",
-    "P2: Ruflo plugin marketplace evaluated: IPFS-based, supports search/install/create",
-    "P2: GOAP goal planner evaluated: web-only SPA, not CLI-integratable",
-    "P3: Evaluation synthesis complete: 7 milestones, decision matrix, action items",
-    "P1: Slice 2: systemd supervisor installed (ruflo-daemon.service, enabled)",
-    "P1: Slice 2: daemon running under systemd (PID 4937, 74.5MB RSS, 11 threads)",
-    "P1: Slice 2: 5 workers active (map 5min, audit 10min, optimize 15min, consolidate 30min, testgaps 20min)",
-    "P1: Slice 2: loginctl enable-linger set for reboot survival",
-    "P1: scripts/hooks/session-start.sh \u2014 added daemon status check",
-    "P2: Slice 3: Plugin marketplace evaluated \u2014 20 plugins in IPFS registry, 7s+ fetch latency",
-    "P2: Slice 3: Plugin `create` scaffold command tested \u2014 appears to have a bug (no files written)",
-    "P2: Slice 3: Skill\u2192plugin mapping evaluated \u2014 fundamentally different paradigms (markdown vs TS)",
-    "P2: Slice 3: Conclusion \u2014 SKIP plugin bridge; propagate-to-all.sh is better for our use case",
-    "P0: Full repo re-scan + workflow analysis \u2014 ruflo value is in CLI commands, not persistent infrastructure",
-    "P0: MCP server disabled in opencode.jsonc (enabled: false) \u2014 saves 168MB per session",
-    "P0: Daemon stopped + systemd unit removed \u2014 saves 74.5MB always-on",
-    "P0: session-start.sh cleaned up \u2014 no daemon polling, pure CLI hints",
-    "P0: Final state: 0MB persistent ruflo cost, CLI commands integrated into scripts"
+    "P0: 14 new skills with companion scripts from teambrilliant integration",
+    "P0: Enhanced frontmatter (trigger-phrases, handoffs) added to all 41 skills",
+    "P0: Signature block pattern (★ View ──────) added to output-heavy skills",
+    "P0: skills/manifest.json — added 4 new bundles (product, plan-technical, assess)",
+    "P0: .tap/ — created project memory directory with README"
+  ],
+  "filesTouched": [
+    "session-state.json (updated for teambrilliant integration)",
+    "skills/manifest.json (added product, plan-technical, assess bundles)",
+    ".tap/README.md (created project memory directory)",
+    "skills/product-thinker/SKILL.md + scripts/product-think.sh",
+    "skills/strategic-thinker/SKILL.md + scripts/strategic-think.sh",
+    "skills/shaping-work/SKILL.md + scripts/shape-work.sh",
+    "skills/product-discovery/SKILL.md + scripts/product-discover.sh",
+    "skills/product-primitives/SKILL.md + scripts/decompose-primitives.sh",
+    "skills/design-language/SKILL.md + scripts/design-language.sh",
+    "skills/implementation-planning/SKILL.md + scripts/plan-implementation.sh",
+    "skills/loop-check/SKILL.md + scripts/loop-check.sh",
+    "skills/tighten-loop/SKILL.md + scripts/tighten-loop.sh",
+    "skills/blast-radius/SKILL.md + scripts/blast-radius.sh",
+    "skills/tap-audit/SKILL.md + scripts/tap-audit.sh",
+    "skills/systems-health/SKILL.md + scripts/systems-health.sh",
+    "skills/retrospective/SKILL.md + scripts/tap-retrospective.sh",
+    "skills/curate-product-context/SKILL.md + scripts/curate-product-context.sh",
+    "Updated frontmatter + signature blocks on all 27 original skills"
   ],
   "filesTouched": [
     ".config/opencode/opencode.jsonc (updated \u2014 added ruflo MCP server)",
@@ -59,15 +66,18 @@
     "Zero ruflo processes running, baseline memory: 1458MB (no overhead)"
   ],
   "keyLearnings": [
-    "Null bytes don't survive bash piping/heredoc \u2014 shell quoting issues are the #1 complexity in agent tooling",
+    "Null bytes don't survive bash piping/heredoc — shell quoting issues are the #1 complexity in agent tooling",
     "Python subprocess with proper argument list avoids all shell quoting issues (no shell=True needed)",
     "Skills with companion scripts are significantly more useful than instruction-only skills",
     "The .devcontainer pattern plus bubblewrap covers tier-1 and tier-2 sandboxing without Docker dependency",
     "A compact tool registry (<400 tokens) at session start is the most effective way to make the agent aware of available tools",
     "Async dispatch works best with a standalone Python runner receiving args via env var JSON",
     "Post-task reflection with structured capture is the one Hermes feature worth replicating without migrating frameworks",
-    "Ruflo v3.7.0-alpha.26: 26 CLI commands, 266 MCP tools, hooks pretrain works (1107 files), but sql.js WASM hangs on WSL2 (Bus error/SIGBUS \u2014 use agentmemory instead)",
-    "Ruflo plugins are TypeScript npm packages (not markdown skills) \u2014 fundamentally different paradigm, plugin bridge not worth the effort"
+    "Ruflo v3.7.0-alpha.26: 26 CLI commands, 266 MCP tools, hooks pretrain works (1107 files), but sql.js WASM hangs on WSL2 (Bus error/SIGBUS — use agentmemory instead)",
+    "Ruflo plugins are TypeScript npm packages (not markdown skills) — fundamentally different paradigm, plugin bridge not worth the effort",
+    "teambrilliant/tap-skills and dev-skills are high-quality but low-star (1 and 4) repos with genuinely unique skills — no overlap for 9 out of 17 skills",
+    "Signature blocks (★ View ──────) + enhanced frontmatter (trigger-phrases, handoffs) add significant value across all skills with minimal code change",
+    "Worker agents for parallel frontmatter updates are efficient but produce format inconsistencies — post-processing sweep needed for signature block format"
   ],
   "residualRisk": "agent-dispatch.sh only tested with pi (not codex/claude \u2014 not installed). Bubblewrap sandbox isolates network completely (no allowlist yet). Session health monitoring (P4) not implemented \u2014 context rot can still degrade agent quality silently. Learnings live in .learnings.jsonl but not yet semantic-searchable by direct bash (only via agentmemory MCP). Ruflo memory init (sql.js WASM) hangs on WSL2 \u2014 local vector DB not available as ruflo dependency.",
   "immediateNextSteps": [

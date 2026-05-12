@@ -1,6 +1,8 @@
 ---
 name: shipping-and-launch
 description: Prepares production launches. Use when preparing to deploy to production. Use when you need a pre-launch checklist, when setting up monitoring, when planning a staged rollout, or when you need a rollback strategy.
+trigger-phrases: ship this, launch, deploy to production, release, go live, production deploy, rollout
+handoffs: ci-cd-and-automation (for pipeline), git-workflow-and-versioning (to tag)
 ---
 
 # Shipping and Launch
@@ -263,6 +265,16 @@ Every deployment needs a rollback plan before it happens:
 - Redeploy previous version: < 5 minutes
 - Database rollback: < 15 minutes
 ```
+## Presentation
+
+```
+`★ Shipping View ─────────────────────────────────`
+- [Feature/Release] — [environment]
+- [Launch checklist: N/M complete]
+- [Top risk or rollback concern]
+`─────────────────────────────────────────────────`
+```
+
 ## See Also
 
 - For security pre-launch checks, see `references/security-checklist.md`

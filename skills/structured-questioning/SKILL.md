@@ -6,6 +6,8 @@ description: >-
   Use when you need to ask a question — of a human, an agent, or yourself — and want to ensure
   nothing essential is missed. Use before starting a research task, before asking for help, or
   whenever you sense you might not be asking the right question.
+trigger-phrases: ask a question, formulate question, how to ask, what should I ask, structured question, probe
+handoffs: grill-me (to probe requirements), idea-refine (to explore)
 ---
 
 # Structured Questioning

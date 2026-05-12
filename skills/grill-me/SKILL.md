@@ -1,6 +1,9 @@
 ---
 name: grill-me
 description: Interview the user relentlessly about a plan or design until reaching shared understanding, resolving branches of the decision tree one at a time. Use when requirements are ambiguous, the task could be costly to misunderstand, or the user says "grill me."
+trigger-phrases: grill me, grill this, clarify requirements, ask me questions, probe this, challenge me
+handoffs: spec-driven-development (to spec), idea-refine (to refine ideas)
+companion-script: scripts/grill-session.sh
 ---
 
 # Grill Me

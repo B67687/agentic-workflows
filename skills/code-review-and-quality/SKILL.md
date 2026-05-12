@@ -1,6 +1,9 @@
 ---
 name: code-review-and-quality
 description: Conducts multi-axis code review. Use before merging any change. Use when reviewing code written by yourself, another agent, or a human. Use when you need to assess code quality across multiple dimensions before it enters the main branch.
+trigger-phrases: review this, code review, quality check, review my code, is this good, check for issues
+handoffs: debugging-and-error-recovery (to fix issues), code-simplification (to simplify)
+companion-script: scripts/review-checklist.sh
 ---
 
 # Code Review and Quality
@@ -321,6 +324,16 @@ Part of code review is dependency review:
 
 - For detailed security review guidance, see `references/security-checklist.md`
 - For performance review checks, see `references/performance-checklist.md`
+
+## Presentation
+
+```
+`★ Code Review ───────────────────────────────────`
+- [Overall verdict: APPROVE / CHANGES REQUESTED / BLOCKED]
+- [Top finding] — [severity]
+- [Most important recommendation]
+`─────────────────────────────────────────────────`
+```
 
 ## Common Rationalizations
 

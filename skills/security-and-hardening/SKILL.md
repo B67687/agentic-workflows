@@ -1,7 +1,19 @@
 ---
 name: security-and-hardening
 description: Hardens code against vulnerabilities. Use when handling user input, authentication, data storage, or external integrations. Use when building any feature that accepts untrusted data, manages user sessions, or interacts with third-party services.
+trigger-phrases: security review, harden, vulnerability, secure this, auth, permissions, input validation, xss, sql injection
+handoffs: code-review-and-quality (to review), debugging-and-error-recovery (to fix issues)
 ---
+
+## Presentation
+
+```
+`★ Security View ─────────────────────────────────`
+- [Component] — [risk level: LOW/MEDIUM/HIGH/CRITICAL]
+- [Top finding] — [severity]
+- [Recommendation]
+`─────────────────────────────────────────────────`
+```
 
 # Security and Hardening
 

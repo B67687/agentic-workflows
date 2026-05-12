@@ -1,6 +1,8 @@
 ---
 name: source-driven-development
 description: Grounds every implementation decision in official documentation. Use when you want authoritative, source-cited code free from outdated patterns. Use when building with any framework or library where correctness matters.
+trigger-phrases: check the docs, source of truth, official docs, verify against docs, is this correct per docs
+handoffs: test-driven-development (to verify), documentation-and-adrs (to document)
 ---
 
 # Source-Driven Development
