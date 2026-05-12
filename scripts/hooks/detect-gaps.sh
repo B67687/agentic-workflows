@@ -2,13 +2,19 @@
 # =============================================================================
 # detect-gaps.sh — SessionStart lifecycle hook
 # Detects common workspace hygiene gaps:
-#   1. BM25 index stale or missing
+#   1. BM25 index stale or missing → auto-heals if HEAL=1
 #   2. session-state.json stale or missing
 #   3. Uncommitted work that should be checkpointed
 #   4. Propagation sync drift
 #   5. Stale learnings file
+#   6. Expired assumptions
+#   7. Context pressure status
+#   8. Skill completeness gaps
+#   9. Archive file size thresholds
 #
 # Non-blocking — reports findings, exits 0.
+# Set HEAL=1 to auto-fix regeneratable artifacts (BM25 index).
+#   Example: HEAL=1 bash ./scripts/hooks/detect-gaps.sh
 # Compatible with: Claude Code (via hooks.json), manual invocation, AGENTS.md
 # =============================================================================
 
@@ -28,7 +34,7 @@ report_gap() {
 
 echo "=== Gap Detection ==="
 
-# ---- Check 1: BM25 Index Freshness ----
+# ---- Check 1: BM25 Index Freshness (auto-heals if HEAL=1) ----
 INDEX_DIR=".cache/bm25-index"
 INDEX_FILE="$INDEX_DIR/index.bm25"  # bm25s creates this
 if [ -d "$INDEX_DIR" ]; then
@@ -36,12 +42,22 @@ if [ -d "$INDEX_DIR" ]; then
     NEWEST_FILE=$(find . -path ./.git -prune -o -path ./.cache -prune -o -type f -print 2>/dev/null | head -1000 | xargs stat -c %Y 2>/dev/null | sort -rn | head -1 || echo 0)
     NEWEST_INDEX=$(find "$INDEX_DIR" -type f -exec stat -c %Y {} + 2>/dev/null | sort -rn | head -1 || echo 0)
     if [ "$NEWEST_FILE" -gt "$NEWEST_INDEX" ] 2>/dev/null; then
-        report_gap "WARN" "BM25 index is stale. Run: bash ./scripts/build-index.sh"
+        if [ "${HEAL:-0}" = "1" ]; then
+            echo "  ⚡  BM25 index stale — auto-rebuilding..."
+            bash ./scripts/build-index.sh 2>/dev/null && echo "  ✓  BM25 index rebuilt" || echo "  ⚠  BM25 index rebuild failed (run: bash ./scripts/build-index.sh)"
+        else
+            report_gap "WARN" "BM25 index is stale. Run: HEAL=1 bash ./scripts/hooks/detect-gaps.sh"
+        fi
     else
         echo "  ✓  BM25 index is current"
     fi
 else
-    report_gap "WARN" "BM25 index missing. Run: bash ./scripts/build-index.sh"
+    if [ "${HEAL:-0}" = "1" ]; then
+        echo "  ⚡  BM25 index missing — auto-building..."
+        bash ./scripts/build-index.sh 2>/dev/null && echo "  ✓  BM25 index created" || echo "  ⚠  BM25 index build failed (run: bash ./scripts/build-index.sh)"
+    else
+        report_gap "WARN" "BM25 index missing. Run: HEAL=1 bash ./scripts/hooks/detect-gaps.sh"
+    fi
 fi
 
 # ---- Check 2: Session State Health ----
@@ -178,9 +194,18 @@ if [ "$SKILL_COUNT" -gt 0 ]; then
     if [ "$SKILL_COUNT" -gt 5 ]; then
         echo "       ... and $(($SKILL_COUNT - 5)) more"
     fi
-else
-    echo "  ✓  All skills have companion scripts"
 fi
+
+# ---- Check 9: Archive File Size Budget ----
+ARCHIVE_THRESHOLD_KB=150
+for f in archive/*.md archive/**/*.md; do
+    if [ -f "$f" ]; then
+        SIZE_KB=$(du -k "$f" | cut -f1)
+        if [ "$SIZE_KB" -gt "$ARCHIVE_THRESHOLD_KB" ] 2>/dev/null; then
+            report_gap "WARN" "$f is ${SIZE_KB}KB (budget: ${ARCHIVE_THRESHOLD_KB}KB). Split into dated chunks."
+        fi
+    fi
+done 2>/dev/null || true
 
 # ---- Summary ----
 echo ""
