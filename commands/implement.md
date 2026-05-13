@@ -54,4 +54,5 @@ After each verified phase:
 - Approving output because it "looks right" without being able to explain why
 - Accepting a confident-sounding answer for a design tradeoff without asking the model to argue against itself
 - Committing code you cannot reconstruct the reasoning for
+- Adding a complex solution when a simpler one would work — consider: does this change make the system simpler or more complex? If the latter, the improvement must be proportional. (Simplicity criterion from karpathy/autoresearch.)
 </red_flags>

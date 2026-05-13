@@ -11,6 +11,7 @@ Then use the output as a compact self-check:
 - outcome
 - context
 - constraints
+- **simplicity check** — does this change make the system simpler or more complex? If more complex, is the improvement proportional? "All else equal, simpler is better." (karpathy/autoresearch simplicity criterion)
 - examples
 - verification
 - **expectation** (what you predict the output will look like — structure, approach, key decisions)
