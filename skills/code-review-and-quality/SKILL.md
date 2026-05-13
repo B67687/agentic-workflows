@@ -158,30 +158,11 @@ For critical reviews: one model writes, another reviews (correctness + architect
 
 ## Dead Code Hygiene
 
-After any refactoring or implementation change, check for orphaned code:
-
-1. Identify code that is now unreachable or unused
-2. List it explicitly
-3. **Ask before deleting:** "Should I remove these now-unused elements: [list]?"
-
-Don't leave dead code lying around --- it confuses future readers and agents. But don't silently delete things you're not sure about. When in doubt, ask.
-
-```
-DEAD CODE IDENTIFIED:
-- formatLegacyDate() in src/utils/date.ts --- replaced by formatDate()
-- OldTaskCard component in src/components/ --- replaced by TaskCard
-- LEGACY_API_URL constant in src/config.ts --- no remaining references
--> Safe to remove these?
-```
+After refactoring, check for orphaned code. Identify it, list it, and ask before deleting — but don't leave dead code behind.
 
 ## Review Speed
 
-Slow reviews block entire teams. The cost of context-switching to review is less than the waiting cost imposed on others.
-
-- **Respond within one business day** --- this is the maximum, not the target
-- **Ideal cadence:** Respond shortly after a review request arrives, unless deep in focused coding. A typical change should complete multiple review rounds in a single day
-- **Prioritize fast individual responses** over quick final approval. Quick feedback reduces frustration even if multiple rounds are needed
-- **Large changes:** Ask the author to split them rather than reviewing one massive changeset
+Respond within one business day. Fast individual responses matter more than quick approval. Ask the author to split large changes.
 
 ## Handling Disagreements
 
@@ -206,77 +187,18 @@ When reviewing code --- whether written by you, another agent, or a human:
 
 ## Dependency Discipline
 
-Part of code review is dependency review:
+When reviewing new dependencies: does the existing stack solve this? Is it maintained? Any known vulnerabilities? Prefer standard library over new dependencies.
 
-**Before adding any dependency:**
-1. Does the existing stack solve this? (Often it does.)
-2. How large is the dependency? (Check bundle impact.)
-3. Is it actively maintained? (Check last commit, open issues.)
-4. Does it have known vulnerabilities? (`npm audit`)
-5. What's the license? (Must be compatible with the project.)
+## Review Checklist Template
 
-**Rule:** Prefer standard library and existing utilities over new dependencies. Every dependency is a liability.
+Use the companion script for a full structured template: `scripts/review-checklist.sh`
 
-## The Review Checklist
+Key review axes to verify: correctness (spec match, edge cases, error paths), readability (clear naming, straightforward logic), architecture (existing patterns, no unnecessary coupling), security (secrets, input validation, injection), performance (N+1 queries, unbounded ops).
 
-```markdown
-## Review: [PR/Change title]
-
-### Context
-- [ ] I understand what this change does and why
-- [ ] **Surrender check:** I can reconstruct the reasoning behind this change without the AI's help. The review was not a ratification. (See `research/cognitive-surrender-research.md`.)
-
-### Correctness
-- [ ] Change matches spec/task requirements
-- [ ] Edge cases handled
-- [ ] Error paths handled
-- [ ] Tests cover the change adequately
-
-### Readability
-- [ ] Names are clear and consistent
-- [ ] Logic is straightforward
-- [ ] No unnecessary complexity
-
-### Architecture
-- [ ] Follows existing patterns
-- [ ] No unnecessary coupling or dependencies
-- [ ] Appropriate abstraction level
-
-### Security
-- [ ] No secrets in code
-- [ ] Input validated at boundaries
-- [ ] No injection vulnerabilities
-- [ ] Auth checks in place
-- [ ] External data sources treated as untrusted
-
-### Performance
-- [ ] No N+1 patterns
-- [ ] No unbounded operations
-- [ ] Pagination on list endpoints
-
-### Verification
-- [ ] Tests pass
-- [ ] Build succeeds
-- [ ] Manual verification done (if applicable)
-
-### Verdict
-- [ ] **Approve** --- Ready to merge
-- [ ] **Request changes** --- Issues must be addressed
-```
 ## See Also
 
 - For detailed security review guidance, see `references/security-checklist.md`
 - For performance review checks, see `references/performance-checklist.md`
-
-## Presentation
-
-```
-`★ Code Review ───────────────────────────────────`
-- [Overall verdict: APPROVE / CHANGES REQUESTED / BLOCKED]
-- [Top finding] --- [severity]
-- [Most important recommendation]
-`─────────────────────────────────────────────────`
-```
 
 ## Common Rationalizations
 
