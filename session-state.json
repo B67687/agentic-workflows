@@ -55,7 +55,9 @@
     "Run task-retrospect.sh to capture insights from this cycle to agentmemory",
     "Consider adding cognitive surrender as a permanent topic to the SwarmVault knowledge graph",
     "If mmarseglia GitHub Claude prompts prove useful, consider integrating as system prompts",
-    "Longer-term: track whether the calibration heuristic changes agent behavior measurably"
+    "Longer-term: track whether the calibration heuristic changes agent behavior measurably",
+    "Clean up stale content dirs: bus-hop/bus-app-content (empty), scenic-fetch/wall-you-content (empty) — leftovers from renames",
+    "Bootstrap missing content dir: math-learning-notes is missing math-learning-notes-content/"
   ],
   "resumeRules": [
     "Read session-state.json first on every resume",
@@ -81,8 +83,8 @@
   "doNotRepeat": [
     "2026-05-13: Researched cognitive surrender using only webfetch (URL-guessing). Missed the #1 Google result (Addy Osmani's blog) and 4+ major scholarly sources. Lesson: research without web search tool is systematically blind. Use websearch first when available; when only webfetch is available, ask user for starting URLs rather than guessing."
   ],
-  "lastRetrospect": "2026-05-13T03:07:51Z",
-  "learningsCount": 15,
+  "lastRetrospect": "2026-05-13T08:29:38Z",
+  "learningsCount": 16,
   "assumptions": [
     {
       "id": "residualRisk",
