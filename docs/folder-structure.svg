@@ -29,7 +29,7 @@
 
   <rect x="30" y="152" width="300" height="44" rx="6" fill="url(#blueBox)" stroke="#0ea5e9" stroke-width="1"/>
   <text x="48" y="171" fill="#0ea5e9" font-size="12" font-weight="bold">commands/</text>
-  <text x="148" y="171" fill="#8b949e" font-size="10">Slash commands (/task, /plan, /research...)</text>
+  <text x="148" y="171" fill="#8b949e" font-size="10">/task, /plan, /research slash commands</text>
   <text x="48" y="186" fill="#8b949e" font-size="10">14 commands for session, pipeline, git, research</text>
 
   <rect x="30" y="206" width="300" height="44" rx="6" fill="url(#blueBox)" stroke="#0ea5e9" stroke-width="1"/>
