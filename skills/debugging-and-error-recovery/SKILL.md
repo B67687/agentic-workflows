@@ -131,37 +131,13 @@ Spend disproportionate effort here. **Be aggressive. Be creative. Refuse to give
 
 Try these in roughly this order:
 
-1. **Failing test** at whatever seam reaches the bug --- unit, integration, e2e.
+1. **Failing test** at whatever seam reaches the bug.
 2. **Curl / HTTP script** against a running dev server.
-3. **CLI invocation** with a fixture input, diffing stdout against a known-good snapshot.
-4. **Headless browser script** (Playwright / Puppeteer) --- drives the UI, asserts on DOM/console/network.
-5. **Replay a captured trace.** Save a real network request / payload / event log to disk; replay it through the code path in isolation.
-6. **Throwaway harness.** Spin up a minimal subset of the system (one service, mocked deps) that exercises the bug code path with a single function call.
-7. **Property / fuzz loop.** If the bug is "sometimes wrong output," run 1000 random inputs and look for the failure mode.
-8. **Bisection harness.** If the bug appeared between two known states (commit, dataset, version), automate "boot at state X, check, repeat" so you can `git bisect run` it.
-9. **Differential loop.** Run the same input through old-version vs new-version (or two configs) and diff outputs.
-10. **HITL bash script.** Last resort. If a human must click, drive *them* with a structured loop script so the cycle is still systematic.
-11. **Log analysis loop.** If you can't build a deterministic repro (intermittent production bug), set up structured log aggregation: add tagged instrumentation, deploy, collect, analyze, iterate. Each iteration tightens the log window.
+3. **CLI invocation** with a fixture input.
+4. **Replay a captured trace** (network request, event log) through the code path in isolation.
+5. **Log analysis loop** for intermittent production bugs: add tagged instrumentation, deploy, collect, iterate.
 
-### Iterate on the Loop Itself
-
-Treat the loop as a product. Once you have *a* loop, ask:
-
-- Can I make it **faster**? (Cache setup, skip unrelated init, narrow the test scope.)
-- Can I make the **signal sharper**? (Assert on the specific symptom, not "didn't crash.")
-- Can I make it more **deterministic**? (Pin time, seed RNG, isolate filesystem, freeze network.)
-
-A 30-second flaky loop is barely better than no loop. A 2-second deterministic loop is a debugging superpower.
-
-### Non-Deterministic Bugs
-
-The goal is not a clean repro but a **higher reproduction rate**. Loop the trigger 100×, parallelize, add stress, narrow timing windows, inject sleeps. A 50% flaky bug is debuggable; 1% is not --- keep raising the rate until it's debuggable.
-
-### When You Genuinely Cannot Build a Loop
-
-Stop and say so explicitly. List what you tried. Ask the user for: (a) access to whatever environment reproduces it, (b) a captured artifact (HAR file, log dump, core dump, screen recording with timestamps), or (c) permission to add temporary production instrumentation. **Do not** proceed to hypothesize without a loop.
-
-Only proceed to Step 1 once you have a loop you believe in.
+Treat the loop as a product — make it faster, sharper, more deterministic. A 2-second deterministic loop is a debugging superpower. For non-deterministic bugs, focus on raising the reproduction rate until it's debuggable. If you genuinely cannot build a loop, say so explicitly and ask for access, artifacts, or permission to instrument.
 
 ## The Triage Checklist
 
