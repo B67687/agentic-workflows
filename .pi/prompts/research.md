@@ -1,40 +1,70 @@
 ---
-description: Run the research phase only, with no file edits
+description: Run the research phase — frame, discover, gather, synthesize, apply, preserve
 ---
 
-This is research mode. The quality framework below also applies **automatically by default** to any research-adjacent task (exploring, investigating, comparing, learning, understanding a system) — even without calling `/research`. See AGENTS.md "Default Research Conduct."
+This is research mode. The methodology below applies **automatically by default** to any
+research-adjacent task — even without calling `/research`. See `AGENTS.md` "Default
+Research Conduct" and `research/research-prompt.md` for the full methodology.
 
-## Quality Framework (Default — Always Apply)
+## The Agent Research Methodology (Default)
 
-Every research action applies the quality standards from `research/research-prompt.md`:
+Research follows 6 phases. Each phase produces a clear output before advancing.
 
-1. **Source Triangulation** — Single source = MEDIUM confidence, 1+ official = HIGH, 2+ independent = VERY HIGH, contradictory = DISCARD
-2. **Authority Weighting** — Official docs > Primary benchmarks > Industry analysis > Third-party > Social/anecdotal
-3. **Confidence Levels** — Every claim gets one: SPECULATIVE, PLAUSIBLE, CONFIRMED, or ESTABLISHED
-4. **Uncertainty Encoding** — When a claim can't be fully verified, label it explicitly (PLAUSIBLE / NEEDS_VERIFICATION)
-5. **Depth Tiers** — Level 1 (medium) for all findings, Level 2 (deep) only for significant/actionable findings
-6. **Cite Sources** — Full URLs, deep links with anchors where possible, relevant quote for non-obvious decisions
-7. **Error Impact Audit** — If a wrong claim would affect safety/cost/legal/license, flag as NEEDS_VERIFICATION
+```
+Phase 0: Frame the Question  →  Sharpened scope + "done" criteria
+Phase 1: Discover Local      →  What's already known + gaps
+Phase 2: Gather External     →  Raw claims with source URLs + dates
+Phase 3: Triangulate         →  Coherent model with confidence per claim
+Phase 4: Apply to Problem    →  What changes, what must be true
+Phase 5: Preserve            →  Memory saved, docs updated, learnings logged
+```
 
-**Do not wait for `/research` or quality qualifiers like "authoritative" or "thorough" — those are redundant; this is already how research works here.**
+**Read the full methodology:** `research/research-prompt.md`
+
+---
 
 ## Before Starting
 
-First, read the normal startup files for the repo.
+1. Run the prompt contract:
+   `bash ./scripts/prompt-contract.sh "$ARGUMENTS" --phase research`
 
-Run the prompt contract:
-`bash ./scripts/prompt-contract.sh "$ARGUMENTS" --phase research`
+2. If the topic is unfamiliar, run the repo map first:
+   `bash ./scripts/repo-map.sh .`
 
-If the prompt contract output shows `Rigor: high`, the research depth expectation is already escalated — proceed accordingly.
+3. Frame the research question using `skill` → `structured-questioning` (5W+H)
 
-## Two Research Paths
+---
 
-### Path A: Codebase Research (pre-implementation)
+## Three Research Paths
 
-If researching code, dependencies, or architecture:
+### Path A: Architecture / System Research
+
+For understanding, analyzing, or improving an architecture or system design:
+
+1. Map the current system using the **macro-to-micro funnel**:
+   - Level 1 (System): Components, connections, data flow — `repo-map`, `docs/`
+   - Level 2 (Domain): Affected subsystem boundaries
+   - Level 3 (Module): Key files and code paths
+   - Level 4 (Root Cause / Analysis): Specific gaps or defects
+
+2. Research best practices for this kind of system:
+   - Reference architectures, documented patterns, case studies
+   - Official docs and specs for relevant technologies
+   - Industry standards and recommendations
+
+3. Gap analysis: current → best practice with impact and effort
+
+4. Transformation plan: phased, minimal viable step first
+
+Return an architecture research note (see `research/research-prompt.md` for format).
+
+### Path B: Code / Dependency Research
+
+For understanding code, dependencies, or implementation details:
 
 - Run `bash ./scripts/repo-map.sh .` for unfamiliar folders
-- Run `bash ./scripts/retrieve-context.sh "$ARGUMENTS"` for local context
+- Run `bash ./scripts/search-index.sh "$ARGUMENTS"` for local context
+- Use `grep` / `glob` for precise code location
 
 Return a compact research note covering:
 - the exact files involved
@@ -42,42 +72,50 @@ Return a compact research note covering:
 - the main risks or edge cases
 - what needs to be true before planning
 
-### Path B: Domain / Web Research
+### Path C: Domain / Web Research
 
-If researching a topic, technology, trend, or competitive landscape:
+For researching any topic, technology, trend, or approach:
 
-- Run `bash ./research/research-prompt.md` for the full research workflow
+- Apply the 6-phase methodology from `research/research-prompt.md`
 - Use `webfetch` to gather authoritative sources
 - Apply source triangulation and confidence levels to every claim
-- Use structured-questioning (`skill tool`) to sharpen the research question before starting
+- Use `structured-questioning` to sharpen the research question before starting
 
-Return a structured research note covering:
+Return a structured research note with:
 - the research question (sharpened via 5W+H)
-- key findings each with confidence level and source
+- key findings with confidence levels and sources
 - what is confirmed vs plausible vs speculative
-- integration recommendation (target doc, or "pending verification")
-- what would need to be true before planning or acting on these findings
+- integration recommendation
+- what would need to be true before planning or acting
 
-## Common to Both Paths
+---
 
-Do not edit files yet.
+## Common to All Paths
+
+- **Do not edit files yet.** Research is research, implementation is implementation.
+- **Cite all sources** with URLs and authority ratings.
+- **Flag all uncertainties** — unlabeled claims are silently treated as CONFIRMED.
+- **Know when to stop** — see Scope Control in `research/research-prompt.md`.
+- **Preserve durable findings** to memory and docs (Phase 5 of the methodology).
 
 <rationalizations>
 | Shortcut | Why It Fails |
 |---|---|
-| "I know this repo already" | Repos change between sessions. Stale assumptions cause wrong file choices. |
-| "I'll research as I implement" | Research mixed with edits creates confusion about what's fact vs guess. |
-| "One quick grep is enough" | Surface-level search misses edge cases, hidden dependencies, and stale references. |
-| "I can skip the repo map" | Unfamiliar folders need structural orientation before deep reading — otherwise you read the wrong files first. |
-| "The confidence template is for special cases" | Every claim without a confidence level is silently treated as CONFIRMED, which is worse than SPECULATIVE. Default to labeling. |
-| "I know what thorough research looks like" | Your training data averages toward shallow. The quality framework forces depth on every finding regardless of how the request is phrased. |
+| "I know this topic already" | Stale knowledge is worse than no knowledge. Verify current state. |
+| "I'll research as I implement" | Research mixed with edits creates guesses that look like facts. |
+| "One quick grep is enough" | Surface search misses edge cases, hidden deps, stale references. |
+| "The architecture is obvious" | Obvious architectures hide implicit assumptions. Map it first. |
+| "I don't need confidence levels" | Every unlabeled claim is treated as CONFIRMED, which is worse than SPECULATIVE. |
+| "I know when to stop" | Agents naturally research too long or too little. Use the Scope Control table. |
 </rationalizations>
 
 <red_flags>
-- Starting to edit files before producing the research note
-- Research note has no file paths or only guesses at dependencies
-- Skipping repo-map on an unfamiliar folder
+- Editing files before producing the research note
+- Research note has no source URLs or confidence levels
+- Skipping the question-framing phase (jumping straight to gathering)
+- Skipping local knowledge discovery (re-researching what's already known)
 - "I already know this" without recent evidence
-- Returning findings without confidence levels or source citations
-- Using "I think" or "probably" instead of uncertainty encoding ("PLAUSIBLE — single source")
+- No explicit gaps or uncertainty section
+- Claiming CONFIDENT without source citations
+- Researching past the scope control signals
 </red_flags>

@@ -303,23 +303,22 @@ def main() -> None:
     show_symbols = True
 
     positional = []
-    for a in args:
+    skip_next = False
+    for i, a in enumerate(args):
+        if skip_next:
+            skip_next = False
+            continue
         if a == "--no-headings":
             show_headings = False
         elif a == "--no-symbols":
             show_symbols = False
         elif a.startswith("--max-tokens="):
             max_tokens = int(a.split("=", 1)[1])
-        elif a.startswith("--max-tokens"):
-            # handled below with next arg
-            pass
+        elif a == "--max-tokens" and i + 1 < len(args):
+            max_tokens = int(args[i + 1])
+            skip_next = True
         else:
             positional.append(a)
-
-    # Handle --max-tokens with space
-    for i, a in enumerate(args):
-        if a == "--max-tokens" and i + 1 < len(args):
-            max_tokens = int(args[i + 1])
 
     if positional:
         root = Path(positional[0]).resolve()
