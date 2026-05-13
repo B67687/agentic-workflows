@@ -4,7 +4,7 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source "$SCRIPT_DIR/.ai-prompting-hub.sh"
+source "$SCRIPT_DIR/.agentic-workflows.sh"
 
-HUB_DIR="$(resolve_ai_prompting_hub "scripts/task-tree.sh" "$SCRIPT_DIR")"
+HUB_DIR="$(resolve_agentic_workflows_hub "scripts/task-tree.sh" "$SCRIPT_DIR")"
 exec bash "$HUB_DIR/scripts/task-tree.sh" "$@"

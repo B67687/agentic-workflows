@@ -11,7 +11,7 @@ PROPAGATION_HUB_NAME="$(basename "$PROPAGATION_CONTRACT_ROOT")"
 PROPAGATION_PARENT_DIR="$(dirname "$PROPAGATION_CONTRACT_ROOT")"
 
 declare -a PROPAGATION_MANAGED_CORE=(
-  "ai-prompting-hub.template.sh:propagated/.ai-prompting-hub.sh"
+  "agentic-workflows.template.sh:propagated/.agentic-workflows.sh"
   "AGENTS.template.md:AGENTS.md"
   "CLAUDE.template.md:CLAUDE.md"
   "claude-settings/settings.template.json:.claude/settings.json"
