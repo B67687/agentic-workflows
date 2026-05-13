@@ -8,12 +8,7 @@ companion-script: scripts/review-checklist.sh
 
 # Code Review and Quality
 
-**Companion script:** `scripts/review-checklist.sh` --- generates structured multi-axis review templates. Run from the skill directory:
-```bash
-bash ./scripts/review-checklist.sh template        # blank review template
-bash ./scripts/review-checklist.sh diff HEAD~1      # review from git diff
-bash ./scripts/review-checklist.sh check            # quick quality reference
-```
+Companion script: `scripts/review-checklist.sh`
 
 ## Overview
 
@@ -114,16 +109,6 @@ Small, focused changes are easier to review, faster to merge, and safer to deplo
 **When large changes are acceptable:** Complete file deletions and automated refactoring where the reviewer only needs to verify intent, not every line.
 
 **Separate refactoring from feature work.** A change that refactors existing code and adds new behavior is two changes --- submit them separately. Small cleanups (variable renaming) can be included at reviewer discretion.
-
-## Change Descriptions
-
-Every change needs a description that stands alone in version control history.
-
-**First line:** Short, imperative, standalone. "Delete the FizzBuzz RPC" not "Deleting the FizzBuzz RPC." Must be informative enough that someone searching history can understand the change without reading the diff.
-
-**Body:** What is changing and why. Include context, decisions, and reasoning not visible in the code itself. Link to bug numbers, benchmark results, or design docs where relevant. Acknowledge approach shortcomings when they exist.
-
-**Anti-patterns:** "Fix bug," "Fix build," "Add patch," "Moving code from A to B," "Phase 1," "Add convenience functions."
 
 ## Review Process
 
