@@ -23,73 +23,22 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/B67687/agentic-workflows"><img src="https://github-readme-stats.vercel.app/api?username=B67687&repo=agentic-workflows&show_icons=true&theme=transparent&hide_border=true&hide_title=true&show=reviews,discussions_started,discussions_answered&include_all_commits=true" alt="GitHub Stats"></a>
+  <a href="https://github.com/B67687/agentic-workflows"><img src="https://github-readme-stats.vercel.app/api?username=B67687&show_icons=true&icon_color=58a6ff&theme=transparent&hide_border=true&hide_title=true&include_all_commits=true" alt="GitHub Stats"></a>
 </p>
 
 <br>
 
 <p align="center">
-  <img src="https://readme-svg-typing-generator.vercel.app/api?lines=Systems+engineering+for+AI+agents.;Operating+contract.+Workflow+discipline.+Knowledge+propagation.;One+hub.+One+contract.+N+repos.;Shared+knowledge+flows+both+ways.&animation=typing&color=58a6ff&background=00000000&size=20&width=760&height=80&center=true&vCenter=true&multiline=true&repeat=true" alt="Typing animation">
+  <img src="https://readme-svg-typing-generator.vercel.app/api?lines=Systems+engineering+for+AI+agents.;Operating+contract.+Workflow+discipline.+Knowledge+propagation.;One+hub.+One+contract.+N+repos.;Shared+knowledge+flows+both+ways.&animation=neon&color=58a6ff&background=00000000&size=18&width=760&height=120&center=true&vCenter=true&multiline=true&repeat=false" alt="Typing animation">
 </p>
 
-```mermaid
-flowchart TB
-    subgraph Hub["agentic-workflows Hub"]
-        direction TB
-        CONTRACT["AGENTS.md<br/>Operating Contract"]
-        SKILLS["skills/<br/>42 Engineering Skills<br/>5 Design Patterns"]
-        PROP["propagation/<br/>Template Engine<br/>39 Managed Templates"]
-        SCRIPTS["scripts/<br/>83 Automation Scripts<br/>Session Management"]
-        MEM["agentmemory MCP<br/>Cross-Session Memory<br/>Observations -> Semantic -> Procedural"]
-        QUALITY["Quality Guardrails<br/>32 Smoke Tests<br/>Assumption Expiry<br/>Error Escalation A2H"]
-
-        CONTRACT --> SCRIPTS
-        CONTRACT --> SKILLS
-        CONTRACT --> QUALITY
-        QUALITY --> MEM
-        PROP --> SKILLS
-        MEM -.-> CONTRACT
-    end
-
-    subgraph Topics["Topic Folders (15+)"]
-        direction TB
-        A[Project A<br/>Topic Content]
-        B[Project B<br/>Topic Content]
-        C[Project C<br/>Topic Content]
-        D[Project D<br/>Topic Content]
-    end
-
-    subgraph Runtime["Runtime State (.runtime/)"]
-        LOGS["Error Logs<br/>Triage & Escalation"]
-        JOBS["Agent Jobs<br/>Pipeline State"]
-        A2H["A2H Contacts<br/>Human Approvals"]
-        CACHE["Session Cache<br/>Snapshots"]
-    end
-
-    PROP -- "propagated/ templates" --> A
-    PROP -- "propagated/ templates" --> B
-    PROP -- "propagated/ templates" --> C
-    PROP -- "propagated/ templates" --> D
-    A -. "harvest insights" .-> Hub
-    B -. "harvest insights" .-> Hub
-    C -. "harvest insights" .-> Hub
-    D -. "harvest insights" .-> Hub
-
-    SCRIPTS --> LOGS
-    SCRIPTS --> JOBS
-    SCRIPTS --> A2H
-    SCRIPTS --> CACHE
-
-    style Hub fill:#1a1a2e,stroke:#58a6ff,stroke-width:2px,color:#fff
-    style Topics fill:#16213e,stroke:#0ea5e9,stroke-width:1px,color:#e2e8f0
-    style Runtime fill:#0d1117,stroke:#30363d,stroke-width:1px,color:#8b949e
-    style CONTRACT fill:#0f3460,stroke:#58a6ff,color:#fff
-    style SKILLS fill:#0f3460,stroke:#58a6ff,color:#fff
-    style PROP fill:#0f3460,stroke:#58a6ff,color:#fff
-    style SCRIPTS fill:#0f3460,stroke:#58a6ff,color:#fff
-    style MEM fill:#533483,stroke:#e1306c,color:#fff
-    style QUALITY fill:#533483,stroke:#e1306c,color:#fff
-```
+<p align="center">
+  <a href="docs/hub-architecture.svg">
+    <img src="docs/hub-architecture.svg" width="100%" alt="Hub Architecture Diagram" style="max-width:900px;">
+  </a>
+  <br>
+  <sub>SVG architecture diagram --- <a href="docs/hub-architecture.svg">view full size</a></sub>
+</p>
 
 <p align="center">
   <img src="https://img.shields.io/badge/Shell-121011?style=flat-square&logo=gnubash&logoColor=white" alt="Shell">
