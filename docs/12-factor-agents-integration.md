@@ -244,10 +244,13 @@ N consecutive failures.
 **Alignment:** Very strong. We have error logging, triage, bug tracking, and
 assumption expiry — all feeding back into the working context.
 
-**Gap:** No explicit **error counter** pattern for self-healing loops.
-If a tool call fails, we don't count consecutive failures and escalate to a human
-after N attempts. Our implementation is diagnostic (log + triage) rather than
-therapeutic (retry + escalate).
+**Addressed (Slice 5):** `scripts/error-counter.sh` implements the full error
+counter pattern: tracks consecutive failures per operation, outputs compact XML
+error context for LLM consumption (self-healing), and auto-escalates to a human
+via A2H protocol after N consecutive failures (default: 3, configurable via
+`ERROR_THRESHOLD`). Combined with `scripts/log-error.sh` (capture) and
+`scripts/a2h-contact.sh` (escalation), this completes the therapeutic pipeline:
+capture → count → context → escalate.
 
 **Reference:** [12-factor-agents Factor 9](https://github.com/humanlayer/12-factor-agents/blob/main/content/factor-09-compact-errors.md)
 
@@ -407,7 +410,7 @@ contact channels address our primary gaps (Factors 7 and 11).
 | F6 (Launch/Pause/Resume) | Low | REST API surface for external systems |
 | **F7 (Contact humans)** | ✅ Addressed | `scripts/a2h-contact.sh` + `scripts/notify.sh` — full A2H protocol |
 | **F8 (Own control flow)** | ✅ Addressed | `--risk high` flag triggers approval gate in implement-preflight.sh |
-| **F9 (Compact errors)** | **Medium** | No error counter / self-healing + escalate pattern |
+| **F9 (Compact errors)** | ✅ Addressed | error-counter.sh + log-error.sh + a2h-contact.sh — capture → count → context → escalate |
 | F10 (Small focused agents) | None | Fully implemented — this IS our architecture |
 | **F11 (Trigger anywhere)** | **Medium** | No contact channels (Slack, Email, SMS) |
 | F12 (Stateless reducer) | ✅ Addressed | `events` array in session-state.json + checkpoint commit cycle |
@@ -423,7 +426,7 @@ contact channels address our primary gaps (Factors 7 and 11).
 | 2 | Context Engineering Deepening | F3, F5, F12, F13 | ✅ Complete (Slice 2) |
 | 3 | Human-in-the-Loop Integration | F7, F8, F11 | ✅ Complete (Slice 3) |
 | 4 | Scaffolding & Templates | All (tooling) | ✅ Complete (Slice 4) |
-| 5 | Error Handling & Control Flow | F8, F9 | Planned |
+| 5 | Error Handling & Control Flow | F8, F9 | ✅ Complete (Slice 5) |
 
 ---
 

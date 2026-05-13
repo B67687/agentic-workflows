@@ -35,6 +35,41 @@ logs the request to `.a2h/` and `.notifications/` for later processing.
 
 See: `scripts/a2h-contact.sh`, `scripts/notify.sh`
 
+### Error Counter & Self-Healing (12-Factor F9)
+
+When an implementation step fails, use the error counter pattern to track
+consecutive failures and escalate to a human after the threshold:
+
+```
+# On failure: increment counter, feed error back into context
+bash ./scripts/log-error.sh "operation-name" <<< "error output"
+bash ./scripts/error-counter.sh inc operation-name "error output"
+
+# Include error context in next LLM turn for self-healing
+# The XML output is compact and attention-friendly
+bash ./scripts/error-counter.sh context operation-name
+
+# On success: reset counter
+bash ./scripts/error-counter.sh reset operation-name
+
+# Check current status
+bash ./scripts/error-counter.sh check operation-name
+```
+
+This implements the **compact errors into context window** pattern:
+1. Error captured deterministically (log-error.sh)
+2. Counter tracks consecutive failures (error-counter.sh)
+3. Error context fed back into LLM for self-healing (context command)
+4. After N failures (default: 3), an A2H approval request is created
+5. All errors are logged to `.triage/errors.log` for cross-session reference
+
+Set the escalation threshold via environment:
+```
+export ERROR_THRESHOLD=5
+```
+
+See: `scripts/error-counter.sh`, `scripts/log-error.sh`
+
 Keep the active context narrow. Execute in small verified slices. Review each change before moving to the next.
 
 **Before each slice: construct the expectation.** State (even briefly) what you expect the output to contain — the structure, the approach, the key decisions. When the AI output matches your expectation, you are calibrated. When it does not, you have a real decision to make: is your expectation wrong, or is the output wrong? That decision is the thing cognitive surrender skips.
