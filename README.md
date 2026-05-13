@@ -57,156 +57,159 @@
 
 ---
 
-<img src="https://readme-svg-wave-divider-generator.vercel.app/api/wave?color_top=0d1117&color_bottom=161b22&amplitude=20&frequency=1&type=smooth" width="100%" alt="">
+<h2 id="quick-start">🚀 Quick Start</h2>
 
-<h2 id="quick-start">Quick Start</h2>
+<table>
+<tr>
+  <td width="33%" align="center">
+    <h3>1</h3>
+    <img src="https://img.shields.io/badge/clone-58a6ff?style=for-the-badge&logo=git&logoColor=white" alt="Clone"><br>
+    <code>git clone https://github.com/B67687/agentic-workflows.git</code><br>
+    <sub>Get the hub</sub>
+  </td>
+  <td width="33%" align="center">
+    <h3>2</h3>
+    <img src="https://img.shields.io/badge/verify-3fb950?style=for-the-badge&logo=checkmarx&logoColor=white" alt="Verify"><br>
+    <code>bash ./scripts/test-smoke.sh</code><br>
+    <sub>32 tests confirm everything works</sub>
+  </td>
+  <td width="33%" align="center">
+    <h3>3</h3>
+    <img src="https://img.shields.io/badge/read-0ea5e9?style=for-the-badge&logo=readthedocs&logoColor=white" alt="Read"><br>
+    <a href="AGENTS.md"><code>AGENTS.md</code></a><br>
+    <sub>That's the operating contract --- every agent reads it first</sub>
+  </td>
+</tr>
+</table>
 
-```bash
-git clone https://github.com/B67687/agentic-workflows.git
-cd agentic-workflows
-bash ./scripts/test-smoke.sh           # 32 tests --- verify everything works
-bash ./scripts/session-status.sh       # Workspace orientation
-```
-
-**Then open [`AGENTS.md`](AGENTS.md)** --- that's the operating contract. Every agent reads it first. Add a `CLAUDE.md` to your project pointing here, or run `bash ./scripts/propagate.sh all --apply` to propagate templates to your own repos.
+<p align="center">
+  <b>Then run</b> <code>bash ./scripts/propagate.sh all --apply</code> <b>to push templates to your own repos, or add a <code>CLAUDE.md</code> pointing here for single-project use.</b>
+</p>
 
 ---
 
-<img src="https://readme-svg-wave-divider-generator.vercel.app/api/wave?color_top=161b22&color_bottom=0d1117&amplitude=20&frequency=1&type=smooth&flip=true" width="100%" alt="">
-
-<h2 id="features">Features</h2>
+<h2 id="features">🧩 Features</h2>
 
 <table>
 <tr>
   <td width="33%" valign="top">
-    <h4>🧠 Operating Contract</h4>
-    <p><a href="AGENTS.md"><code>AGENTS.md</code></a> --- shared rules, conventions, and escalation paths that every agent reads on entry. No more ad-hoc sessions.</p>
+    <img src="https://img.shields.io/badge/AGENTS.md-operating%20contract-58a6ff?style=flat-square" alt="Operating Contract"><br>
+    <strong>🧠 Operating Contract</strong><br>
+    Shared rules, conventions, and escalation paths that every agent reads on entry. No more ad-hoc sessions.
   </td>
   <td width="33%" valign="top">
-    <h4>📚 Skill System</h4>
-    <p><a href="skills/"><code>skills/</code></a> --- 41 production-grade engineering skills with companion scripts. Debug, test, review, ship, deprecate, document.</p>
+    <img src="https://img.shields.io/badge/skills-42%20engineering%20skills-0ea5e9?style=flat-square" alt="Skills"><br>
+    <strong>📚 Skill System</strong><br>
+    42 production-grade engineering skills with companion scripts. Debug, test, review, ship, deprecate, document.
   </td>
   <td width="33%" valign="top">
-    <h4>🔄 Knowledge Propagation</h4>
-    <p><a href="propagation/"><code>propagation/</code></a> --- change once in the hub, templates flow to 25+ topic folders automatically.</p>
-  </td>
-</tr>
-<tr>
-  <td width="33%" valign="top">
-    <h4>💾 Persistent Memory</h4>
-    <p>Agentmemory captures tool use, compresses observations, injects context across sessions via agentmemory MCP.</p>
-  </td>
-  <td width="33%" valign="top">
-    <h4>⚡ Workflow Discipline</h4>
-    <p>Checkpoints, handoffs, session management, pipeline dispatch, context-aware worktrees. Structured phases instead of chaotic chats.</p>
-  </td>
-  <td width="33%" valign="top">
-    <h4>🔬 Research Engine</h4>
-    <p>6-phase systematic research: frame -> discover -> gather -> triangulate -> apply -> preserve. Source confidence weighting.</p>
+    <img src="https://img.shields.io/badge/propagation-15%2B%20topic%20folders-3fb950?style=flat-square" alt="Propagation"><br>
+    <strong>🔄 Knowledge Propagation</strong><br>
+    Change once in the hub, templates flow to 15+ topic folders automatically. Centralized management, decentralized work.
   </td>
 </tr>
 <tr>
   <td width="33%" valign="top">
-    <h4>🛡️ Quality Guardrails</h4>
-    <p>Assumption expiry, context pressure monitoring, debug triage, pre-push quality gates, error counters with human escalation (A2H).</p>
+    <img src="https://img.shields.io/badge/memory-MCP%20persistent-e1306c?style=flat-square" alt="Memory"><br>
+    <strong>💾 Persistent Memory</strong><br>
+    agentmemory MCP captures tool use, compresses observations, injects context across sessions. Pick up where you left off.
   </td>
   <td width="33%" valign="top">
-    <h4>🌐 Multi-Repo Orchestration</h4>
-    <p>One hub, 15+ topic folders. Propagate templates, harvest insights. Cross-project memory loop keeps knowledge flowing both ways.</p>
+    <img src="https://img.shields.io/badge/workflow-phases%20not%20chats-58a6ff?style=flat-square" alt="Workflow"><br>
+    <strong>⚡ Workflow Discipline</strong><br>
+    Checkpoints, handoffs, session management, pipeline dispatch, context-aware worktrees. Structured phases, not chaotic chats.
   </td>
   <td width="33%" valign="top">
-    <h4>🧪 Test-Driven Agents</h4>
-    <p>Red/green TDD patterns, verification targets, 32-test smoke suite. Every change verified before it's committed.</p>
+    <img src="https://img.shields.io/badge/research-6%20phase%20systematic-0ea5e9?style=flat-square" alt="Research"><br>
+    <strong>🔬 Research Engine</strong><br>
+    6-phase systematic research: frame > discover > gather > triangulate > apply > preserve. Source confidence weighting.
+  </td>
+</tr>
+<tr>
+  <td width="33%" valign="top">
+    <img src="https://img.shields.io/badge/quality-A2H%20escalation-3fb950?style=flat-square" alt="Quality"><br>
+    <strong>🛡️ Quality Guardrails</strong><br>
+    Assumption expiry, context pressure monitoring, debug triage, pre-push quality gates, error counters with human escalation.
+  </td>
+  <td width="33%" valign="top">
+    <img src="https://img.shields.io/badge/orchestration-cross%20repo%20memory-e1306c?style=flat-square" alt="Orchestration"><br>
+    <strong>🌐 Multi-Repo Orchestration</strong><br>
+    One hub, 15+ topic folders. Propagate templates, harvest insights. Cross-project memory loop keeps knowledge flowing.
+  </td>
+  <td width="33%" valign="top">
+    <img src="https://img.shields.io/badge/tests-32%20smoke%20suite-58a6ff?style=flat-square" alt="Tests"><br>
+    <strong>🧪 Test-Driven Agents</strong><br>
+    Red/green TDD patterns, verification targets, 32-test smoke suite. Every change verified before it's committed.
   </td>
 </tr>
 </table>
 
 ---
 
-<img src="https://readme-svg-wave-divider-generator.vercel.app/api/wave?color_top=0d1117&color_bottom=161b22&amplitude=20&frequency=1&type=smooth" width="100%" alt="">
-
-<h2 id="how-it-works">How It Works</h2>
+<h2 id="how-it-works">⚙️ How It Works</h2>
 
 <table>
 <tr>
-  <td width="50%" valign="top">
-
-### For a single project
-
-```bash
-# 1. Copy the operating contract
-cp -r propagation/* my-project/
-
-# 2. Read it on session start
-cat AGENTS.md
-
-# 3. Agents carry shared context into your repo
-```
-
+  <td width="33%" align="center">
+    <h2>📥</h2>
+    <h3>1. Define</h3>
+    <p><code>AGENTS.md</code> sets the rules. Every agent reads it on entry. Skills, commands, and propagation templates inherit from it.</p>
   </td>
-  <td width="50%" valign="top">
-
-### For multiple projects (the hub model)
-
-```bash
-# 1. This repo becomes the hub
-# 2. Templates flow to every topic folder
-bash ./scripts/propagate.sh all --apply
-
-# 3. Pull learnings back
-bash ./scripts/harvest-topic-insights.sh
-```
-
+  <td width="33%" align="center">
+    <h2>🔄</h2>
+    <h3>2. Propagate</h3>
+    <p><code>propagate.sh</code> pushes templates to topic folders. One change in the hub updates 15+ repos. Commands, scripts, configs --- all synced.</p>
+  </td>
+  <td width="33%" align="center">
+    <h2>📤</h2>
+    <h3>3. Harvest</h3>
+    <p>Learnings flow back to the hub via insight harvesting. Cross-project memory loops keep knowledge circulating instead of siloed.</p>
   </td>
 </tr>
 </table>
 
 ---
 
-<img src="https://readme-svg-wave-divider-generator.vercel.app/api/wave?color_top=161b22&color_bottom=0d1117&amplitude=20&frequency=1&type=smooth&flip=true" width="100%" alt="">
+<h2 id="orientation">🗺️ Orientation</h2>
 
-<h2 id="orientation">One-Minute Orientation</h2>
+<table>
+<tr>
+  <td width="50%" valign="top">
 
 ```
 agentic-workflows/
-├── AGENTS.md            <- Read this first --- the operating contract
-├── commands/            <- Slash commands (/task, /plan, /research...)
-├── docs/                <- Core documentation (quickstart, quality, etc.)
-├── scripts/             <- 83 automation scripts + hooks
-├── skills/              <- 42 engineering skills (debug, review, ship...)
-├── propagation/         <- Templates synced across topic folders
-├── research/            <- Active research campaigns
-├── swarmvault.schema.md <- Knowledge graph schema
-└── wiki/                <- SwarmVault knowledge graph output
+├── AGENTS.md      -> Operating contract
+├── commands/      -> /task, /plan, /research...
+├── docs/          -> Quickstart, quality, workflow
+├── scripts/       -> 83 automation scripts
+├── skills/        -> 42 engineering skills
+├── propagation/   -> Templates for topic folders
+├── research/      -> Active campaigns
+├── .runtime/      -> Generated state (A2H, jobs, logs)
+└── wiki/          -> Knowledge graph output
 ```
-
-<table>
-<tr>
-  <td width="50%" valign="top">
-
-### Common Commands
-
-| Command | What it does |
-|---------|-------------|
-| `bash ./scripts/session-status.sh` | Workspace orientation |
-| `bash ./scripts/tools.sh` | Tool registry |
-| `bash ./scripts/search-index.sh "q"` | BM25 search |
-| `bash ./scripts/propagate.sh status` | Sync status |
-| `bash ./scripts/checkpoint-commit.sh -m "msg"` | Safe verified commit |
 
   </td>
   <td width="50%" valign="top">
 
-### Documentation Compass
+| Quick Command | Action |
+|:---|---:|
+| <code>bash ./scripts/session-status.sh</code> | Workspace health |
+| <code>bash ./scripts/tools.sh</code> | Tool registry |
+| <code>bash ./scripts/search-index.sh "q"</code> | BM25 search |
+| <code>bash ./scripts/propagate.sh status</code> | Sync status |
+| <code>bash ./scripts/checkpoint-commit.sh -m "msg"</code> | Verified commit |
 
-| I Want To... | Start Here |
-|---|---|
-| Understand the whole system | [docs/workflow.md](docs/workflow.md) |
-| Set this up in my project | [docs/hub-quickstart.md](docs/hub-quickstart.md) |
-| Research an AI topic | [research/research-prompt.md](research/research-prompt.md) |
-| Debug a failure | [skills/debugging-and-error-recovery/SKILL.md](skills/debugging-and-error-recovery/SKILL.md) |
-| Review code quality | [skills/code-review-and-quality/SKILL.md](skills/code-review-and-quality/SKILL.md) |
-| Resume interrupted work | [session-state.json](session-state.json) + [AGENTS.md](AGENTS.md) |
+<br>
+
+| Need | Go to |
+|:---|---:|
+| Understand the system | [docs/workflow.md](docs/workflow.md) |
+| Set up your project | [docs/hub-quickstart.md](docs/hub-quickstart.md) |
+| Research a topic | [research/research-prompt.md](research/research-prompt.md) |
+| Debug a failure | [debugging skill](skills/debugging-and-error-recovery/SKILL.md) |
+| Code review | [review skill](skills/code-review-and-quality/SKILL.md) |
+| Resume work | [session-state.json](session-state.json) |
 
   </td>
 </tr>
@@ -214,64 +217,39 @@ agentic-workflows/
 
 ---
 
-<img src="https://readme-svg-wave-divider-generator.vercel.app/api/wave?color_top=0d1117&color_bottom=161b22&amplitude=20&frequency=1&type=smooth" width="100%" alt="">
+<h2 id="ecosystem">🌍 Ecosystem</h2>
 
-<h2 id="ecosystem">Ecosystem</h2>
-
-<p>This harness was built by studying and integrating patterns from <b>50+ open-source projects</b> across agent frameworks, developer tools, skills methodology, memory systems, workflow platforms, and LLM infrastructure.</p>
-
-<h3>Core Inspirations</h3>
+<p>This harness was built by studying and integrating patterns from <b>50+ open-source projects</b> across the agent ecosystem.</p>
 
 <table>
 <tr>
   <td width="33%" valign="top">
-    <h4>🤖 Agent Frameworks</h4>
-    <ul>
-      <li><a href="https://github.com/microsoft/autogen">AutoGen</a> --- Multi-agent convos</li>
-      <li><a href="https://github.com/google/adk-python">Google ADK</a> --- <a href="https://x.com/GoogleCloudTech/status/2033953579824758855">5 skill design patterns</a></li>
-      <li><a href="https://github.com/anthropics/claude-agent-sdk">Claude Agent SDK</a> --- Lifecycle & tool use</li>
-      <li><a href="https://github.com/openai/openai-agents-python">OpenAI Agents SDK</a> --- Handoff patterns</li>
-      <li><a href="https://github.com/Significant-Gravitas/AutoGPT">AutoGPT</a> --- Autonomous loops</li>
-    </ul>
+    <img src="https://img.shields.io/badge/Agent%20Frameworks-12-58a6ff?style=flat-square" alt="Agent Frameworks"><br>
+    AutoGen · Google ADK · Claude Agent SDK · OpenAI Agents SDK · Pydantic AI · AutoGPT · MetaGPT · A2A Protocol · Hermes Agent · AgentScope · Open-SWE · crewAI
   </td>
   <td width="33%" valign="top">
-    <h4>🛠️ Developer Tools</h4>
-    <ul>
-      <li><a href="https://github.com/anthropics/claude-code">Claude Code</a> --- Agentic coding</li>
-      <li><a href="https://github.com/Aider-AI/aider">Aider</a> --- Pair programming agent</li>
-      <li><a href="https://github.com/humanlayer/humanlayer">HumanLayer</a> --- A2H protocol</li>
-      <li><a href="https://github.com/garrytan/gstack">GStack</a> --- Git workflow</li>
-      <li><a href="https://github.com/anomaloco/opencode">OpenCode</a> --- The runtime</li>
-    </ul>
+    <img src="https://img.shields.io/badge/Developer%20Tools-9-0ea5e9?style=flat-square" alt="Dev Tools"><br>
+    Claude Code · Aider · HumanLayer · GStack · UI-TARS · Deer Flow · browser-use · OpenCode · Pi
   </td>
   <td width="33%" valign="top">
-    <h4>📘 Methodology</h4>
-    <ul>
-      <li><a href="https://github.com/addyosmani/agent-skills">Agent-Skills</a> --- 27 engineering skills</li>
-      <li><a href="https://github.com/humanlayer/12-factor-agents">12-Factor Agents</a> --- F1-F12 principles</li>
-      <li><a href="https://github.com/ruvnet/ruflo">Ruflo</a> --- Task routing</li>
-      <li><a href="https://github.com/jiangjiax/counsel">Counsel</a> --- Debate methodology</li>
-      <li><a href="https://github.com/VoltAgent/awesome-design-md">Design MD</a> --- Visual language</li>
-    </ul>
+    <img src="https://img.shields.io/badge/Skills%20%26%20Quality-5-3fb950?style=flat-square" alt="Skills"><br>
+    Agent-Skills · 12-Factor Agents · System Design Primer · tree-sitter · promptfoo
   </td>
 </tr>
 </table>
 
 <details>
-<summary><b>Full ecosystem</b> --- 50+ projects across 8 categories</summary>
+<summary><b>Full ecosystem</b> --- 50+ projects across 8 more categories</summary>
 
-| Category | Key Projects |
-|----------|-------------|
-| **Agent Frameworks** | AutoGen, crewAI, OpenAI Agents SDK, Google ADK, Claude Agent SDK, Pydantic AI, AutoGPT, MetaGPT, A2A Protocol, Hermes Agent, AgentScope, Open-SWE |
-| **CLIs & Dev Tools** | Claude Code, Aider, GStack, HumanLayer, UI-TARS, Deer Flow, browser-use |
-| **Skills & Quality** | Agent-Skills, 12-Factor Agents, System Design Primer, tree-sitter, promptfoo |
-| **Memory & RAG** | Mem0, LMCache, MemPalace, MemOS, PageIndex, agentmemory, GraphRAG |
-| **Workflow Platforms** | n8n, Flowise, Langflow, Dify, Manifest, Infisical |
-| **Prompt Libraries** | Pi-Skills, Karpathy-Skills, Codex Skills, Counsel, Awe(Claude Code) |
-| **README Design & Rendering** | [readme-svg-typing-generator](https://github.com/readme-SVG/readme-SVG-typing-generator), [readme-svg-wave-divider-generator](https://github.com/readme-SVG/readme-SVG-wave-divider-generator), [GitHub Readme Stats](https://github.com/anuraghazra/github-readme-stats), [readme-hub](https://github.com/mkr-infinity/readme-hub) |
-| **MCP & Protocols** | MCP Registry, MCP Servers, GitHub MCP Server |
-| **Agent Platforms** | Pi, Cline, CUA, Rufo, Agency-Agents, OpenCode |
-| **LLMs & Learning** | DeepSeek-V3, OpenAI Codex, Qwen, Gemini CLI, Hello Agents, Claude Code Best Practice, Generative AI for Beginners |
+| Category | Projects |
+|----------|----------|
+| <img src="https://img.shields.io/badge/Memory%20%26%20RAG-8-e1306c?style=flat-square" alt="Memory"> | Mem0, LMCache, MemPalace, MemOS, PageIndex, agentmemory, GraphRAG, RAG-Anything |
+| <img src="https://img.shields.io/badge/Workflow%20Platforms-6-58a6ff?style=flat-square" alt="Workflow"> | n8n, Flowise, Langflow, Dify, Manifest, Infisical |
+| <img src="https://img.shields.io/badge/Prompt%20Libraries-7-0ea5e9?style=flat-square" alt="Prompts"> | Pi-Skills, Karpathy-Skills, Codex Skills, Counsel, Everything Claude Code, Awesome Claude Code, awesome-codex-skills |
+| <img src="https://img.shields.io/badge/MCP%20%26%20Protocols-3-3fb950?style=flat-square" alt="MCP"> | MCP Registry, MCP Servers, GitHub MCP Server |
+| <img src="https://img.shields.io/badge/Agent%20Platforms-6-e1306c?style=flat-square" alt="Platforms"> | Cline, CUA, Rufo, Agency-Agents, Codex CLI, generative-ai-for-beginners |
+| <img src="https://img.shields.io/badge/README%20Design-4-58a6ff?style=flat-square" alt="Readme Design"> | readme-svg-wave-divider-generator, readme-hub, GitHub Readme Stats, readme-aura |
+| <img src="https://img.shields.io/badge/LLMs%20%26%20Learning-6-0ea5e9?style=flat-square" alt="LLMs"> | DeepSeek-V3, OpenAI Codex, Qwen, Gemini CLI, Hello Agents, Claude Code Best Practice |
 
 </details>
 
@@ -282,25 +260,16 @@ agentic-workflows/
 |------|-----|
 | [tree-sitter](https://github.com/tree-sitter/tree-sitter) | Repo-map generation |
 | [Playwright](https://github.com/microsoft/playwright) | Browser automation |
-| [RTK (Rust Token Killer)](https://github.com/ericseppanen/rtk) | File counting & analysis |
+| [RTK](https://github.com/ericseppanen/rtk) | File counting & analysis |
 | [git-filter-repo](https://github.com/newren/git-filter-repo) | Git history management |
 | [promptfoo](https://github.com/promptfoo/promptfoo) | Prompt evaluation |
-| [readme-aura](https://github.com/collectioneur/readme-aura) | React/JSX to SVG README components |
-| [SVG Typing Generator](https://github.com/readme-SVG/readme-SVG-typing-generator) | Animated README header |
-| [GitHub Readme Stats](https://github.com/anuraghazra/github-readme-stats) | Repository stats |
-| [Wave Divider Generator](https://github.com/readme-SVG/readme-SVG-wave-divider-generator) | Section dividers |
 
 </details>
 
 <br>
-
-*If you maintain a project listed here and would prefer different attribution or removal, please [open an issue](https://github.com/B67687/agentic-workflows/issues).*
+<sub>If you maintain a project listed here and would prefer different attribution or removal, please <a href="https://github.com/B67687/agentic-workflows/issues">open an issue</a>.</sub>
 
 ---
-
-<p align="center">
-  <img src="https://readme-svg-wave-divider-generator.vercel.app/api/wave?color_top=0d1117&color_bottom=161b22&amplitude=24&frequency=0.5&type=smooth&layers=2" width="100%" alt="">
-</p>
 
 <p align="center">
   <sub>
