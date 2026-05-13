@@ -49,6 +49,7 @@ declare -a PROPAGATION_MANAGED_CORE=(
   "command/repo-map.template.md:.opencode/commands/repo-map.md"
   "command/query.template.md:commands/query.md"
   "command/query.template.md:.opencode/commands/query.md"
+  "a2h-contact.template.sh:a2h-contact.sh"
   "audit-folder-quality.template.sh:audit-folder-quality.sh"
   "check-sync-status.template.sh:check-sync-status.sh"
   "sync-from-hub.template.sh:sync-from-hub.sh"
@@ -95,7 +96,11 @@ declare -a PROPAGATION_MANAGED_CORE=(
   "handoff.template.sh:handoff.sh"
   "checkpoint-review.template.sh:checkpoint-review.sh"
   "close-task.template.sh:close-task.sh"
+  "error-counter.template.sh:error-counter.sh"
   "finish-task.template.sh:finish-task.sh"
+  "log-error.template.sh:log-error.sh"
+  "prefetch-context.template.sh:prefetch-context.sh"
+  "propagate.template.sh:propagate.sh"
 )
 
 declare -a PROPAGATION_REPO_OWNED_BOOTSTRAP=(
