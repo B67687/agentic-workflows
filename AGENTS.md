@@ -15,6 +15,8 @@ When the request is clear enough and risk is low, proactively:
 
 **Default research conduct:** Research is rigorous by default — source triangulation, confidence levels (SPECULATIVE→ESTABLISHED), authority weighting, and cited sources from `research/research-prompt.md`. Applied automatically to any research-adjacent task (exploring, investigating, comparing, learning a topic, understanding a system). Do not wait for `/research` or quality qualifiers like "authoritative" or "thorough" — those are redundant; this is already how research works here.
 
+**Default fix conduct (macro-to-micro funnel):** When fixing any issue — bug, regression, misbehavior, broken build — start at the architectural/systemic/macro level and drill down to micro. Always understand the system before touching code. This is automatic: never dive into code without first mapping the system architecture, identifying the affected subsystem, and localizing the failure. The funnel has four levels — System (how does it connect?), Domain (which subsystem?), Module (which file/code path?), Root Cause (what specific logic fails?). Do not skip levels based on intuition. See `skills/debugging-and-error-recovery/SKILL.md` for the full methodology.
+
 **Automatic questioning (always on):**
 - **Direction A (user → agent):** When a request is vague or lacks critical context,
   auto-probe before proceeding. One question at a time. Include your recommended answer.
@@ -103,6 +105,7 @@ For SwarmVault graph queries, read `wiki/graph/report.md` first (falls back to `
 - **Commit after every meaningful change automatically.** After a verified edit, checkpoint, or completed slice, run `bash ./scripts/checkpoint-commit.sh -m "summary"` immediately. Do not ask for permission. Do not leave verified work uncommitted. If the commit fails, fix the issue and retry — do not move on with uncommitted changes.
 - **Prefer bash in WSL** unless a repo explicitly requires PowerShell; see `docs/repo-tooling.md`.
 - **Phase-based work**: research → plan → implement. Do not jump to code on unclear systems.
+- **Fix macro-to-micro by default**: when fixing, always start at the system architecture level and drill down to code. Map the system, identify the affected domain, localize the module, then find the root cause. Never skip to the code level based on intuition — that is how shallow fixes happen.
 - **Force fast slices**: break broad tasks into a milestone ladder, execute one slice at a time.
 - **Think big, map coarsely, bet medium, execute tiny**: compress the goal, map domains, shape one milestone, implement one slice.
 - **One task per session**: when phase/topic shifts or thread gets long, checkpoint and restart fresh.
