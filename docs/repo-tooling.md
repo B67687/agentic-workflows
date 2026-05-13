@@ -224,6 +224,39 @@ The default index is local SQLite FTS under `workflow/retrieval-index/` and cove
 
 Use `-IncludeSource` only when the curated index misses source-level context and the slower scan is worth it. Keep MCP as a wrapper around these commands later, not a second retrieval implementation.
 
+## Tool Selection Framework (Utility Tree)
+
+When choosing between tooling approaches, a flat criteria list hides tradeoffs. Use this **context-weighted utility tree** (adapted from ATAM — Architecture Tradeoff Analysis Method, SEI/CMU):
+
+```
+Root: Solution fitness for this context
+├── Functional quality (weight: high always)
+│   ├── Correctness: Does it produce accurate results?
+│   └── Coverage: Does it handle the range of inputs needed?
+├── Operational harmony (weight: context-dependent)
+│   ├── Dependencies: What does it require to run? (API keys, services, packages)
+│   ├── Resource profile: Memory/CPU at runtime (bash=1, node=2, docker=3+)
+│   └── Reliability: Does it work consistently or flake?
+├── Long-term viability (weight: high for permanent tools, low for one-offs)
+│   ├── Maintainability: Can someone else fix it?
+│   ├── Composability: Does it work with existing tools/scripts?
+│   └── Evolution path: Can it be upgraded without replacement?
+└── Cost of adoption (weight: inverse of urgency)
+    ├── Setup time: Minutes to first working result
+    ├── Learning curve: How much new knowledge required
+    └── Friction: Signups, config, approval gates
+```
+
+**How to use it:**
+1. Assign weights (1-10) based on the *specific decision context*
+2. Score options against each leaf criterion
+3. Weighted sum gives the best-fit solution
+4. Surface the tradeoff when two high-weight criteria conflict (like correctness vs. no-API-key)
+
+**When to use:** Any tool or implementation decision trading off multiple competing constraints.
+
+**Always consider Brooks' distinction:** Minimize *accidental complexity* (introduced by the solution), accept *essential complexity* (inherent to the problem).
+
 ## What Each Tool Replaces
 
 **Always use the faster native tool over MCP:**
