@@ -15,18 +15,7 @@ switch to Read/Grep tools for *precision* gives the best of both approaches: fas
 bulk traversal constrained by safety rails.
 
 **Principle:** Bash for breadth, tools for depth.
-
-```
-┌──────────────────────────────────────────────────┐
-│  1. Bash Discovery (find, grep, ls, cat)         │ <- bulk, fast, flexible
-│     -> "find . -name '*.py' | head -20"           │
-│     -> "grep -rl 'class.*Handler' src/"           │
-├──────────────────────────────────────────────────┤
-│  2. Tool Precision (Read, Grep, Glob)            │ <- targeted, safe, auditable
-│     -> Read the identified file                   │
-│     -> Grep for specific patterns within it       │
-└──────────────────────────────────────────────────┘
-```
+**Sequence:** Bash discovery (find/grep/ls) → narrow to 1-5 files → Tool precision (Read/Grep/Glob) → Edit
 
 ## Directory Exclusion
 
