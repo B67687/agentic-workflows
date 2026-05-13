@@ -1,7 +1,7 @@
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://img.shields.io/badge/agentic–workflows-ffffff?style=for-the-badge&logo=github&logoColor=white&labelColor=181717">
-    <img alt="agentic-workflows" src="https://img.shields.io/badge/agentic–workflows-000000?style=for-the-badge&logo=github&logoColor=white">
+    <source media="(prefers-color-scheme: dark)" srcset="https://img.shields.io/badge/agentic--workflows-ffffff?style=for-the-badge&logo=github&logoColor=white&labelColor=181717">
+    <img alt="agentic-workflows" src="https://img.shields.io/badge/agentic--workflows-000000?style=for-the-badge&logo=github&logoColor=white">
   </picture>
 </p>
 
@@ -67,7 +67,7 @@ bash ./scripts/test-smoke.sh           # Verify everything works
 bash ./scripts/session-status.sh       # Workspace orientation
 ```
 
-**Then open [`AGENTS.md`](AGENTS.md)** — that's the operating contract. Every agent reads it first. Add a `CLAUDE.md` to your project pointing here, or fork the model to propagate templates to your own repos.
+**Then open [`AGENTS.md`](AGENTS.md)** --- that's the operating contract. Every agent reads it first. Add a `CLAUDE.md` to your project pointing here, or fork the model to propagate templates to your own repos.
 
 ---
 
@@ -77,15 +77,15 @@ bash ./scripts/session-status.sh       # Workspace orientation
 <tr>
   <td width="33%" valign="top">
     <h4>🧠 Operating Contract</h4>
-    <p><a href="AGENTS.md"><code>AGENTS.md</code></a> — shared rules, conventions, and escalation paths that every agent reads on entry. No more ad-hoc sessions.</p>
+    <p><a href="AGENTS.md"><code>AGENTS.md</code></a> --- shared rules, conventions, and escalation paths that every agent reads on entry. No more ad-hoc sessions.</p>
   </td>
   <td width="33%" valign="top">
     <h4>📚 Skill System</h4>
-    <p><a href="skills/"><code>skills/</code></a> — 41 production-grade engineering skills with companion scripts. Debug, test, review, ship, deprecate, document.</p>
+    <p><a href="skills/"><code>skills/</code></a> --- 41 production-grade engineering skills with companion scripts. Debug, test, review, ship, deprecate, document.</p>
   </td>
   <td width="33%" valign="top">
     <h4>🔄 Knowledge Propagation</h4>
-    <p><a href="propagation/"><code>propagation/</code></a> — change once in the hub, templates flow to every topic folder automatically.</p>
+    <p><a href="propagation/"><code>propagation/</code></a> --- change once in the hub, templates flow to every topic folder automatically.</p>
   </td>
 </tr>
 <tr>
@@ -99,7 +99,7 @@ bash ./scripts/session-status.sh       # Workspace orientation
   </td>
   <td width="33%" valign="top">
     <h4>🔬 Research Engine</h4>
-    <p>6-phase systematic research: frame → discover → gather → triangulate → apply → preserve. Source confidence, authority weighting.</p>
+    <p>6-phase systematic research: frame -> discover -> gather -> triangulate -> apply -> preserve. Source confidence, authority weighting.</p>
   </td>
 </tr>
 <tr>
@@ -147,15 +147,15 @@ bash ./scripts/session-status.sh       # Workspace orientation
 
 ```
 agentic-workflows/
-├── AGENTS.md            ← Read this first — the operating contract
-├── commands/            ← Slash commands (/task, /plan, /research...)
-├── docs/                ← Core documentation (quickstart, quality, etc.)
-├── scripts/             ← Automation, tooling, hooks
-├── skills/              ← 41 engineering skills (debug, review, ship...)
-├── propagation/         ← Templates synced across topic folders
-├── research/            ← Active research campaigns
-├── swarmvault.schema.md ← Knowledge graph schema
-└── wiki/                ← SwarmVault knowledge graph output
+├── AGENTS.md            <- Read this first --- the operating contract
+├── commands/            <- Slash commands (/task, /plan, /research...)
+├── docs/                <- Core documentation (quickstart, quality, etc.)
+├── scripts/             <- Automation, tooling, hooks
+├── skills/              <- 41 engineering skills (debug, review, ship...)
+├── propagation/         <- Templates synced across topic folders
+├── research/            <- Active research campaigns
+├── swarmvault.schema.md <- Knowledge graph schema
+└── wiki/                <- SwarmVault knowledge graph output
 ```
 
 ### Common Commands
@@ -228,7 +228,7 @@ This harness was built by studying and integrating patterns from the following o
 
 | Repo | Influence |
 |------|-----------|
-| [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills) | **Core skill framework** — 27 engineering + 14 TAP methodology skills |
+| [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills) | **Core skill framework** --- 27 engineering + 14 TAP methodology skills |
 | [humanlayer/12-factor-agents](https://github.com/humanlayer/12-factor-agents) | 12-factor principles for reliable LLM apps |
 | [donnemartin/system-design-primer](https://github.com/donnemartin/system-design-primer) | Systems engineering methodology |
 | [tree-sitter/tree-sitter](https://github.com/tree-sitter/tree-sitter) | Repo-map generation |

@@ -227,7 +227,7 @@ Pre-flight sub-agent -> compact summary -> main thread acts on summary
 |---|---|---|
 | **OpenCode** | Stable daily harness. All commands live in `commands/`, synced to `.opencode/commands/`. |
 | **Pi** | Parallel harness with project prompts, session storage, and a workflow guard. Same command source, synced to `.pi/prompts/`. |
-| **Claude Code** | Uses `CLAUDE.md` → `AGENTS.md` delegation, `.claude/hooks/` for lifecycle hooks, `.claude/rules/` for project rules. Invoke commands as `bash scripts/<name>.sh`. |
+| **Claude Code** | Uses `CLAUDE.md` -> `AGENTS.md` delegation, `.claude/hooks/` for lifecycle hooks, `.claude/rules/` for project rules. Invoke commands as `bash scripts/<name>.sh`. |
 | **Cursor** | Uses `.cursor/rules/` for project rules (startup order, key contract). Invoke commands as `bash scripts/<name>.sh`. |
 | **Codex CLI** | Uses `.codex/hooks.json` for hook events, `.codex/rules/` for startup instructions. Invoke commands as `bash scripts/<name>.sh`. |
 
