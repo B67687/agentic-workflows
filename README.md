@@ -11,8 +11,7 @@ and capability management.
 | **Write better prompts** | [Daily Prompts](docs/daily-prompts.md) → [Prompt Library](docs/prompt-templates.md) |
 | **Set up AI agents in my project** | [Hub Quickstart](docs/hub-quickstart.md) → [Workflow](docs/workflow.md) → [AGENTS.md](AGENTS.md) |
 | **Build an AI product** | [AI Product Building](docs/ai-product-building.md) → [TDD with Agents](docs/tdd-with-agents.md) |
-| **Research a new AI topic** | [Research Methodology](archive/research/research-methodology.md) → [Authoritative Best Practices](archive/lessons/authoritative-agent-best-practices.md) |
-| **Maintain my cognitive skills** | [Cognitive Identity](archive/research/cognitive-identity.md) |
+| **Research a new AI topic** | [Research Methodology](research/research-prompt.md) → [Well-Maintained Systems](research/well-maintained-system-research.md) |
 | **Understand this whole system** | [Workflow](docs/workflow.md) → [Cross-Project Memory](docs/cross-project-memory-loop.md) |
 | **Resume interrupted work** | [Session State](session-state.json) → [AGENTS.md](AGENTS.md) |
 
@@ -26,8 +25,7 @@ and capability management.
 |- research/              # Active research campaigns
 |- scripts/               # Automation scripts
 |- workflow/              # Session state, sync logs, registries
-|- propagation/   # Templates synced to 25 topic folders
-|- archive/               # Preserved historical material
+|- propagation/   # Templates synced to topic folders
 `- ../personal-voice/      # User voice profile (topic folder, not embedded)
 ```
 
