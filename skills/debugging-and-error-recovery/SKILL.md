@@ -44,6 +44,11 @@ Output: System diagram (mental or written) showing components,
 
 **Do not look at code yet.** If you cannot sketch the system architecture, you are not ready to fix anything.
 
+For deeper architectural research — best practices, reference architectures, comparative
+analysis — use the full **Agent Research Methodology** in `research/research-prompt.md`.
+This is especially important when the fix requires questioning the architecture itself
+rather than just patching a defect.
+
 ### Level 2 — Domain / Subsystem
 
 Identify which subsystem contains the problem.
