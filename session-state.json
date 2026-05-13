@@ -4,9 +4,9 @@
   "interruptedCount": 1,
   "contextPressure": "healthy",
   "currentTask": {
-    "name": "Integrate 12-factor-agents framework \u2014 Slice 1: Foundation + Principles Map",
+    "name": "Integrate 12-factor-agents framework \u2014 Slice 3: Human-in-the-Loop",
     "status": "done",
-    "goal": "Research humanlayer/humanlayer + humanlayer/12-factor-agents, scan our repo, map all 12 factors to our patterns, create integration doc."
+    "goal": "Create A2H protocol implementation, notification dispatcher, approval gate, and pipeline human-checkpoint"
   },
   "environment": {
     "note": "Configure per-workspace in your OpenCode config at `$HOME/.config/opencode/opencode.jsonc`.",
@@ -78,8 +78,8 @@
   "doNotRepeat": [
     "2026-05-13: Researched cognitive surrender using only webfetch (URL-guessing). Missed the #1 Google result (Addy Osmani's blog) and 4+ major scholarly sources. Lesson: research without web search tool is systematically blind. Use websearch first when available; when only webfetch is available, ask user for starting URLs rather than guessing."
   ],
-  "lastRetrospect": "2026-05-13T11:18:23Z",
-  "learningsCount": 16,
+  "lastRetrospect": "2026-05-13T11:27:54Z",
+  "learningsCount": 18,
   "assumptions": [
     {
       "id": "residualRisk",
@@ -161,6 +161,21 @@
         "docs/12-factor-agents-integration.md"
       ],
       "verification": "Scripts execute, XML output parses, events array populated"
+    },
+    {
+      "timestamp": "2026-05-13T12:27:00Z",
+      "type": "checkpoint",
+      "milestone": "slice-3-human-in-the-loop",
+      "summary": "Created A2H protocol contact script, notification dispatcher, approval gate, and pipeline checkpoint",
+      "filesChanged": [
+        "scripts/a2h-contact.sh",
+        "scripts/notify.sh",
+        "commands/implement.md",
+        "scripts/implement-preflight.sh",
+        "scripts/pipeline-run.sh",
+        "docs/12-factor-agents-integration.md"
+      ],
+      "verification": "All scripts execute, A2H contact/approve/respond/list flow works, notification dispatch works, pipeline human-checkpoint registered"
     }
   ]
 }
