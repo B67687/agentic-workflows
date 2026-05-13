@@ -4,9 +4,9 @@
   "interruptedCount": 1,
   "contextPressure": "healthy",
   "currentTask": {
-    "name": "Integrate 12-factor-agents framework \u2014 Slice 4: Scaffolding & Templates",
+    "name": "Integrate 12-factor-agents framework \u2014 Slice 5: Error Handling & Control Flow",
     "status": "done",
-    "goal": "Create create-hl-agent.sh scaffold script and propagation template for 12-factor agent projects"
+    "goal": "Create error-counter.sh with human escalation — complete therapeutic pipeline"
   },
   "environment": {
     "note": "Configure per-workspace in your OpenCode config at `$HOME/.config/opencode/opencode.jsonc`.",
@@ -78,8 +78,8 @@
   "doNotRepeat": [
     "2026-05-13: Researched cognitive surrender using only webfetch (URL-guessing). Missed the #1 Google result (Addy Osmani's blog) and 4+ major scholarly sources. Lesson: research without web search tool is systematically blind. Use websearch first when available; when only webfetch is available, ask user for starting URLs rather than guessing."
   ],
-  "lastRetrospect": "2026-05-13T11:33:31Z",
-  "learningsCount": 19,
+  "lastRetrospect": "2026-05-13T11:36:58Z",
+  "learningsCount": 20,
   "assumptions": [
     {
       "id": "residualRisk",
@@ -188,6 +188,18 @@
         "docs/12-factor-agents-integration.md"
       ],
       "verification": "create-hl-agent.sh scaffolds a working agent project with scripts, checkpoint.sh runs correctly, propagation template creates skeleton"
+    },
+    {
+      "timestamp": "2026-05-13T12:36:00Z",
+      "type": "checkpoint",
+      "milestone": "slice-5-error-handling",
+      "summary": "Created error-counter.sh with human escalation — complete therapeutic pipeline: capture -> count -> context -> escalate",
+      "filesChanged": [
+        "scripts/error-counter.sh",
+        "commands/implement.md",
+        "docs/12-factor-agents-integration.md"
+      ],
+      "verification": "error-counter.sh inc/check/reset/context/list all work, escalation fires at threshold, XML context output parses correctly"
     }
   ]
 }
