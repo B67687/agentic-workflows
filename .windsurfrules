@@ -1,0 +1,10 @@
+# Agentic Workflows — Operating Contract for Windsurf
+# See AGENTS.md for complete contract
+
+Rules:
+- Read session-state.json first on every resume
+- No new files if existing doc covers the need
+- Verify aggressively
+- Commit after every change: bash ./scripts/checkpoint-commit.sh -m "summary"
+- Batch file reads to 3 at a time
+- Map before broad reading

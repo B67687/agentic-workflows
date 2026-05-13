@@ -1,0 +1,27 @@
+---
+description: Agentic Workflows harness operating contract for Cursor.
+alwaysApply: true
+---
+
+# Agentic Workflows — Operating Contract
+
+This project is an agent harness, not a code project. Read the full contract at `AGENTS.md`.
+
+## Key Rules for Cursor
+
+- **No new files** if an existing doc covers the need
+- **Verify aggressively** — verification is the quality engine
+- **Summarize work** as root cause, fix, verification, residual risk
+- **Read session-state.json first** on every resume
+- **Commit after every meaningful change** — use `bash ./scripts/checkpoint-commit.sh -m "summary"`
+- **Batch file reads to 3 at a time** — memory pressure on 4GB WSL2
+- **Map before broad reading** — use repo-map command first
+
+## Startup Order
+
+1. `session-state.json` — active session state
+2. `AGENTS.md` — operating contract
+3. `docs/workflow.md` — workflow summary
+4. Task-specific files only when needed
+
+See `AGENTS.md` for the complete operating contract.
