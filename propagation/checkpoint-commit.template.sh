@@ -6,10 +6,8 @@
 
 set -euo pipefail
 
-EXPECTED_IDENT="${EXPECTED_GIT_IDENT:-Your Name <your@email.com>}"
 STAGE_ALL=true
 DRY_RUN=false
-SHOW_DIFF=false
 MESSAGE=""
 DETAIL=""
 
@@ -72,6 +70,21 @@ fi
 if ! git rev-parse --show-toplevel >/dev/null 2>&1; then
   echo "ERROR: not inside a git repository." >&2
   exit 1
+fi
+
+# Expected identity: env var, or auto-detect from global git config only.
+# Using --global (not git var, not local config) catches repo-local
+# overrides where the local identity differs from your global privacy identity.
+if [[ -n "${EXPECTED_GIT_IDENT:-}" ]]; then
+  EXPECTED_IDENT="$EXPECTED_GIT_IDENT"
+else
+  EXPECTED_NAME="$(git config --global --get user.name 2>/dev/null || true)"
+  EXPECTED_EMAIL="$(git config --global --get user.email 2>/dev/null || true)"
+  if [[ -z "$EXPECTED_NAME" || -z "$EXPECTED_EMAIL" ]]; then
+    echo "ERROR: set user.name and user.email in global git config, or set EXPECTED_GIT_IDENT." >&2
+    exit 1
+  fi
+  EXPECTED_IDENT="$EXPECTED_NAME <$EXPECTED_EMAIL>"
 fi
 
 AUTHOR_IDENT="$(git var GIT_AUTHOR_IDENT | sed "s/ [0-9][0-9]* [+-][0-9][0-9][0-9][0-9]$//")"

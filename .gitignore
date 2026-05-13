@@ -69,6 +69,13 @@ GEMINI.md
 skills/.skill-index.json
 
 # ------------------------------------------------------------------
+# Tier 3 — Generated Experiment Artifacts (benchmarks, logs)
+# ------------------------------------------------------------------
+.bench-runs/
+.experiments/
+experiments.tsv
+
+# ------------------------------------------------------------------
 # Tier 3 — Large Binaries (not source)
 # ------------------------------------------------------------------
 *.pdf
