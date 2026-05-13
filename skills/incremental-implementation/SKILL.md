@@ -210,6 +210,8 @@ Be explicit about what's in scope and what's NOT in scope for each increment.
 
 After each increment, verify:
 
+**Calibration check (cognitive surrender resistance):** Before the final commit, test whether you understood what was produced or just ratified it. Ask: *"Can I reconstruct this change's reasoning without the AI's help?"* If you cannot explain what changed and why, go back and rebuild the mental model. This is the difference between offloading (strategic delegation) and surrender (uncritical adoption).
+
 - [ ] The change does one thing and does it completely
 - [ ] All existing tests still pass (`npm test`)
 - [ ] The build succeeds (`npm run build`)
@@ -217,6 +219,7 @@ After each increment, verify:
 - [ ] Linting passes (`npm run lint`)
 - [ ] The new functionality works as expected
 - [ ] The change is committed with a descriptive message
+- [ ] **Calibration check:** I can reconstruct the reasoning behind this change without the AI's help
 
 **Note:** Run each verification command after a change that could affect it. After a successful run, don't repeat the same command unless the code has changed since --- re-running on unchanged code adds no information.
 
@@ -230,6 +233,9 @@ After each increment, verify:
 | "I'll add the feature flag later" | If the feature isn't complete, it shouldn't be user-visible. Add the flag now. |
 | "This refactor is small enough to include" | Refactors mixed with features make both harder to review and debug. Separate them. |
 | "Let me run the build command again just to be sure" | After a successful run, repeating the same command adds nothing unless the code has changed since. Run it again after subsequent edits, not as reassurance. |
+| "The output looks right, I can skip the calibration check" | "Looks right" is the surrender posture. If you cannot reconstruct the reasoning, you did not verify; you ratified. The calibration check exists because cognitive surrender feels identical to calibration from the inside. |
+| "I'll understand it when I need to" | Comprehension debt compounds. Each surrendered slice makes the next harder to evaluate. The interest gets paid when something breaks and you cannot reconstruct the system from first principles. |
+| "This design decision is obvious — no need to ask for a counterargument" | The most confident-sounding answers are the most dangerous for cognitive surrender. For any tradeoff decision, ask the model to argue against itself. If you cannot reason about which side is right, you have found a surrender point. |
 
 ## Red Flags
 
@@ -243,6 +249,10 @@ After each increment, verify:
 - Touching files outside the task scope "while I'm here"
 - Creating new utility files for one-time operations
 - Running the same build/test command twice in a row without any intervening code change
+- Accepting AI output without having stated what you expected it to contain
+- Committing code you cannot reconstruct the reasoning for
+- Making a tradeoff decision from the first answer without asking for a counterargument
+- Saying "it looks right" when you cannot explain why it is right
 
 ## Verification
 

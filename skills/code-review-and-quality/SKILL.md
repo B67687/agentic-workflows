@@ -282,6 +282,7 @@ Part of code review is dependency review:
 
 ### Context
 - [ ] I understand what this change does and why
+- [ ] **Surrender check:** I can reconstruct the reasoning behind this change without the AI's help. The review was not a ratification. (See `research/cognitive-surrender-research.md`.)
 
 ### Correctness
 - [ ] Change matches spec/task requirements
@@ -344,6 +345,7 @@ Part of code review is dependency review:
 | "We'll clean it up later" | Later never comes. The review is the quality gate --- use it. Require cleanup before merge, not after. |
 | "AI-generated code is probably fine" | AI code needs more scrutiny, not less. It's confident and plausible, even when wrong. |
 | "The tests pass, so it's good" | Tests are necessary but not sufficient. They don't catch architecture problems, security issues, or readability concerns. |
+| "I read the diff, it looks fine" | Reading surface tokens is not reviewing. Read the diff like a junior engineer wrote it — would you approve it on the strength of "looks right"? If you did not evaluate correctness, edge cases, architecture, and security independently, you ratified, not reviewed. |
 
 ## Red Flags
 

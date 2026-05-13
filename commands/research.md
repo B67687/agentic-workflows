@@ -81,8 +81,11 @@ For researching any topic, technology, trend, or approach:
 - Apply source triangulation and confidence levels to every claim
 - Use `structured-questioning` to sharpen the research question before starting
 
+**Calibration:** Before gathering sources, state what you expect to find — the key claims, the likely authorities, the expected debates. After gathering, compare. This is the cognitive surrender check for research: did you find what you expected and appropriately update your model, or did you confirm priors without noticing?
+
 Return a structured research note with:
 - the research question (sharpened via 5W+H)
+- your pre-research expectation vs. what you actually found
 - key findings with confidence levels and sources
 - what is confirmed vs plausible vs speculative
 - integration recommendation
