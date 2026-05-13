@@ -512,6 +512,12 @@ supported APIs.
 | Retrieval policy | `docs/retrieval-policy.md` |
 | 12-Factor Agents principles map | `docs/12-factor-agents-integration.md` |
 | A2H (Agent-to-Human) protocol | `drafts/a2h-spec.md` in [humanlayer/12-factor-agents](https://github.com/humanlayer/12-factor-agents) |
+| Agent-to-Human contact tool | `scripts/a2h-contact.sh` — contact, approve, respond, list |
+| Multi-channel notifications | `scripts/notify.sh` — Slack webhook, CLI, file |
+| Error counter with escalation | `scripts/error-counter.sh` — inc, check, reset, context, list |
+| Deterministic context pre-fetch | `scripts/prefetch-context.sh` — XML, JSON, compact modes |
+| XML-style context retrieval | `scripts/retrieve-context.sh --xml` — token-efficient context output |
+| 12-factor agent scaffold | `scripts/create-hl-agent.sh` — creates a complete 12-factor agent project |
 | Learnings strategy (three-store system) | `docs/learnings-strategy.md` |
 | Hub quickstart (full index) | `docs/hub-quickstart.md` |
 | Cognitive surrender research and evidence | `research/cognitive-surrender-research.md` |

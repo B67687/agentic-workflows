@@ -301,8 +301,13 @@ any channel. Agents respond through the same channels.
 but we lack explicit contact channels (Slack, Email, SMS) for agent-to-human
 communication.
 
-**Gap:** No Slack integration, email triggers, or webhook receivers for agent
-activation. Our trigger surface is limited to the file system and harness commands.
+**Addressed (outbound):** `scripts/notify.sh` dispatches agent notifications to
+Slack (via webhook), CLI output, and file-based logs. Supports urgency levels
+and structured notification objects.
+
+**Remaining (inbound):** We still lack Slack commands, email-to-agent, and
+webhook receivers for activating agents from external channels. Our trigger
+surface is limited to the file system and harness commands.
 
 **Reference:** [12-factor-agents Factor 11](https://github.com/humanlayer/12-factor-agents/blob/main/content/factor-11-trigger-from-anywhere.md)
 
@@ -402,17 +407,17 @@ contact channels address our primary gaps (Factors 7 and 11).
 
 | Factor | Gap Severity | What's Missing |
 |---|---|---|
-| F1 (NL→Tools) | Low | Explicit documentation |
+| F1 (NL→Tools) | ✅ Addressed | `commands/` routing system + `route.md` — natural language to structured tool calls |
 | F2 (Own prompts) | None | Fully implemented |
 | F3 (Own context) | ✅ Addressed | XML-style output (`--xml` flag) + pre-fetch (`--prefetch` flag) in retrieve-context.sh |
-| F4 (Tools = structured outputs) | Low | Explicit documentation |
+| F4 (Tools = structured outputs) | ✅ Addressed | `commands/` (14 commands) — each is a structured tool with metadata |
 | F5 (Unify state) | ✅ Addressed | `events` array in session-state.json for append-only event sourcing |
-| F6 (Launch/Pause/Resume) | Low | REST API surface for external systems |
+| F6 (Launch/Pause/Resume) | ✅ Addressed | `session-fork.sh` + `checkpoint-commit.sh` + `context-save.sh` — file-system-based launch/pause/resume |
 | **F7 (Contact humans)** | ✅ Addressed | `scripts/a2h-contact.sh` + `scripts/notify.sh` — full A2H protocol |
 | **F8 (Own control flow)** | ✅ Addressed | `--risk high` flag triggers approval gate in implement-preflight.sh |
 | **F9 (Compact errors)** | ✅ Addressed | error-counter.sh + log-error.sh + a2h-contact.sh — capture → count → context → escalate |
 | F10 (Small focused agents) | None | Fully implemented — this IS our architecture |
-| **F11 (Trigger anywhere)** | **Medium** | No contact channels (Slack, Email, SMS) |
+| **F11 (Trigger anywhere)** | ⚡ Partial (outbound) | `scripts/notify.sh` dispatches to Slack/CLI/file. **Inbound triggers** (Slack commands, email-to-agent, webhooks) still missing |
 | F12 (Stateless reducer) | ✅ Addressed | `events` array in session-state.json + checkpoint commit cycle |
 | F13 (Pre-fetch context) | ✅ Addressed | `scripts/prefetch-context.sh` + `retrieve-context.sh --prefetch` |
 

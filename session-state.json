@@ -150,6 +150,19 @@
   },
   "events": [
     {
+      "timestamp": "2026-05-13T11:00:00Z",
+      "type": "checkpoint",
+      "milestone": "slice-1-foundation",
+      "summary": "Created 12-factor-agents-integration.md principles map, added cross-references to README, AGENTS.md, workflow.md",
+      "filesChanged": [
+        "README.md",
+        "AGENTS.md",
+        "docs/workflow.md",
+        "docs/12-factor-agents-integration.md"
+      ],
+      "verification": "31 references across 4 files, all 12 factors mapped to concrete paths"
+    },
+    {
       "timestamp": "2026-05-13T12:00:00Z",
       "type": "checkpoint",
       "milestone": "slice-2-context-engineering",

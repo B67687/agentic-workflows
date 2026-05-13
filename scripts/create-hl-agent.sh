@@ -102,6 +102,7 @@ methodology:
 |------|-------------|
 | \`scripts/a2h-contact.sh\` | Contact humans (F7) — contact, approve, respond, list |
 | \`scripts/notify.sh\` | Notification dispatch (F11) — Slack, CLI, file |
+| \`scripts/error-counter.sh\` | Error counter (F9) — increment, check, reset, context, escalate |
 | \`scripts/prefetch-context.sh\` | Deterministic pre-fetch (F13) — XML, JSON, compact |
 | \`scripts/checkpoint.sh\` | Save state (F5, F12) — commit session + changes |
 
@@ -141,6 +142,10 @@ chmod +x "$TARGET_PATH/scripts/a2h-contact.sh"
 # --- scripts/notify.sh (Factor 11: Trigger from anywhere) ---
 cp "$REPO_ROOT/scripts/notify.sh" "$TARGET_PATH/scripts/notify.sh"
 chmod +x "$TARGET_PATH/scripts/notify.sh"
+
+# --- scripts/error-counter.sh (Factor 9: Compact errors + escalate) ---
+cp "$REPO_ROOT/scripts/error-counter.sh" "$TARGET_PATH/scripts/error-counter.sh"
+chmod +x "$TARGET_PATH/scripts/error-counter.sh"
 
 # --- scripts/prefetch-context.sh (Factor 13: Pre-fetch all context) ---
 cp "$REPO_ROOT/scripts/prefetch-context.sh" "$TARGET_PATH/scripts/prefetch-context.sh"
@@ -204,6 +209,7 @@ $AGENT_NAME/
 ├── scripts/
 │   ├── a2h-contact.sh     ← Contact humans (question + approval)
 │   ├── notify.sh          ← Multi-channel notifications
+│   ├── error-counter.sh   ← Error counter + escalation
 │   ├── prefetch-context.sh ← Deterministic context pre-fetch
 │   └── checkpoint.sh      ← State checkpoint
 ├── .a2h/                  ← A2H contact queue
@@ -225,7 +231,8 @@ See \`AGENTS.md\` for the full principles reference.
 | F6 (Launch/Pause/Resume) | git + session-state.json |
 | F7 (Contact humans) | scripts/a2h-contact.sh |
 | F8 (Own control flow) | scripts/checkpoint.sh |
-| F9 (Compact errors) | (add your error handler here) |
+| F9 (Compact errors) | scripts/error-counter.sh |
+| F10 (Small focused) | Each script does one thing |
 | F10 (Small focused) | Each script does one thing |
 | F11 (Trigger anywhere) | scripts/notify.sh |
 | F12 (Stateless reducer) | session-state.json events |
