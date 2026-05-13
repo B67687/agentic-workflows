@@ -15,25 +15,38 @@
     "topicFoldersPath": "Change to your topic folders parent"
   },
   "whatChanged": [
-    "P0: Full research of humanlayer/humanlayer (CodeLayer IDE + HumanLayer SDK, 10.8k \u2605) \u2014 architecture, patterns, A2H protocol",
-    "P0: Full research of humanlayer/12-factor-agents (19.8k \u2605) \u2014 all 12 factors + appendix 13 + workshops + drafts",
-    "P0: Full scan of our repo \u2014 confirmed ~80% implicit alignment with 12-factor patterns",
-    "P0: Created docs/12-factor-agents-integration.md \u2014 maps every factor to our concrete files, documents 3 high/medium gaps",
-    "P0: Added cross-references in README.md, AGENTS.md, docs/workflow.md",
-    "P1: Recursive integration plan \u2014 5 milestones, each independently verifiable, gated on previous"
+    "P0: Badge QA for README \"Works with\" compat claims --- audited 30+ files across repo",
+    "P0: Fixed AGENTS.md --- skills section is now tool-agnostic (skill tool OR read SKILL.md directly)",
+    "P0: Fixed AGENTS.md governance --- runtime authority lists all tools, not just OpenCode",
+    "P1: Added Pi badge to README --- repo has real pi integration (.pi/ dir, tested dispatch)",
+    "P1: Enhanced .codex/hooks.json with session-start + detect-gaps hooks",
+    "P1: Created .codex/rules/agentic-workflows.md --- Codex CLI startup instructions",
+    "P1: Fixed .gitignore --- now tracks .claude/, .cursor/, .codex/, CLAUDE.md so they ship in clones",
+    "P1: Fixed docs/workflow.md harness tracks --- added Claude Code, Cursor, Codex CLI rows",
+    "P1: Fixed docs/hub-quickstart.md --- tool-agnostic command discovery, OpenCode-specific sections labeled",
+    "P1: Fixed propagation/AGENTS.template.md --- tool-agnostic runtime config language",
+    "P1: Fixed scripts/sync-commands.sh --- documented why Claude Code/Cursor have no sync target",
+    "P1: Fixed session-state.json env note --- cites all runtime configs",
+    "P2: Fixed pre-existing Unicode chars blocking quality gate (23 chars in README + workflow.md)"
   ],
   "filesTouched": [
-    "README.md (added humanlayer/humanlayer and humanlayer/12-factor-agents to acknowledgments)",
-    "AGENTS.md (added 12-factor and A2H references under deep references)",
-    "docs/workflow.md (added 12-factor integration + A2H to related docs table)",
-    "docs/12-factor-agents-integration.md (NEW \u2014 full 130+ line principles map, all factors, gaps documented)",
-    "session-state.json (updated for session 79)"
+    "AGENTS.md (skills section tool-agnostic, governance lists all tools, worktree wording generic)",
+    "README.md (added Pi badge, Unicode-normalized --- ~18 chars fixed)",
+    "docs/workflow.md (added Claude Code, Cursor, Codex CLI to harness tracks, Unicode-fixed)",
+    "docs/hub-quickstart.md (tool-agnostic command discovery section)",
+    "session-state.json (env note cites all tools, updated event log)",
+    "propagation/AGENTS.template.md (tool-agnostic runtime config language)",
+    "scripts/sync-commands.sh (design scope comment)",
+    ".gitignore (removed .claude/.cursor/.codex/CLAUDE.md from ignore --- configs now ship)",
+    ".codex/hooks.json (NEW --- enhanced with session-start + detect-gaps hooks)",
+    ".codex/rules/agentic-workflows.md (NEW --- Codex CLI startup instructions)"
   ],
   "verification": [
-    "grep for '12-factor|humanlayer' returns 31 matches across 4 files \u2014 all expected references present",
-    "All 12 factors + appendix 13 + A2H protocol mapped to our concrete file paths",
-    "First slice committed: 4 files, +435 lines, verified",
-    "Gaps clearly documented with severity levels (3 high/medium gaps identified)"
+    "Zero hard OpenCode-only references remain in AGENTS.md (grep confirms clean)",
+    "Quality gate passes: no problematic Unicode chars in any text file",
+    ".codex/ and .cursor/ now tracked in git --- new clones get full agent configs",
+    "All 13 files committed across 2 commits, 355 lines changed",
+    "Badge matrix: Claude Code (full), Pi (full), Cursor (full), OpenCode (full), Codex CLI (defensible), Any AGENTS.md AI (true)"
   ],
   "keyLearnings": [
     "Web search vs webfetch: having search changes everything. URL-guessing missed 4+ major sources. The research quality gap was tooling, not methodology.",
@@ -47,12 +60,10 @@
   ],
   "residualRisk": "Cognitive surrender interventions have limited empirical backing outside Shaw & Nave Study 3 (incentives+feedback) and automation bias literature (Parasuraman & Manzey). The 3 heuristics integrated here are theoretically grounded but untested as a bundle. The SCF framework (arXiv 2603.21735) is unvalidated at the neurophysiological level. Cross-cultural surrender rates unknown. No longitudinal data on whether workflow-level heuristics durably reduce surrender.",
   "immediateNextSteps": [
-    "Run task-retrospect.sh to capture insights from this cycle to agentmemory",
-    "Consider adding cognitive surrender as a permanent topic to the SwarmVault knowledge graph",
-    "If mmarseglia GitHub Claude prompts prove useful, consider integrating as system prompts",
-    "Longer-term: track whether the calibration heuristic changes agent behavior measurably",
-    "Clean up stale content dirs: bus-hop/bus-app-content (empty), scenic-fetch/wall-you-content (empty) \u2014 leftovers from renames",
-    "Bootstrap missing content dir: math-learning-notes is missing math-learning-notes-content/"
+    "Run task-retrospect.sh to capture insights about the badge QA cycle",
+    "The quality gate now passes -- no more Unicode bypass needed",
+    "Consider whether Codex CLI dispatch should be tested (+session-state.json assumption updated)",
+    "Clean up stale content dirs: bus-hop/bus-app-content (empty), scenic-fetch/wall-you-content (empty) -- leftovers from renames"
   ],
   "resumeRules": [
     "Read session-state.json first on every resume",
