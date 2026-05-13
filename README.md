@@ -22,21 +22,18 @@
 <br>
 
 ```mermaid
-flowchart TB
-    HUB["🧠 Agentic Hub<br/><small>AGENTS.md · docs/ · skills/ · scripts/ · propagation/ · research/</small>"]
-    
-    HUB --> A["📦 Project A<br/><small>codebase/ · shared/</small>"]
-    HUB --> B["👤 Personal Voice<br/><small>voice/ · rules/</small>"]
-    HUB --> C["🌐 Website<br/><small>content/ · assets/</small>"]
+flowchart LR
+    HUB[🧠 Agentic Hub]
+    A[📦 Project A]
+    B[👤 Personal Voice]
+    C[🌐 Website]
 
-    A -.->|learnings| HUB
-    B -.->|learnings| HUB
-    C -.->|learnings| HUB
-
-    classDef hub fill:#1a1a2e,color:#fff,stroke:#e94560,stroke-width:2px
-    classDef leaf fill:#16213e,color:#fff,stroke:#0f3460,stroke-width:1px
-    class HUB hub
-    class A,B,C leaf
+    HUB --> A
+    HUB --> B
+    HUB --> C
+    A -.-> HUB
+    B -.-> HUB
+    C -.-> HUB
 ```
 
 *One hub. One contract. N repos. Shared knowledge flows both ways.*
