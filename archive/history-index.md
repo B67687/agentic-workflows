@@ -5,7 +5,56 @@
 
 ---
 
-## Phase 17: Task Tree Decomposition (2026-05-06)
+## Phase 25: Agent Dreaming Integration (2026-05-12)
+- Bridged "agent dreaming" / divergent thinking concept to the existing `divergent-ideation` skill
+- Enhanced skill description to cover play/exploration contexts naturally
+- Removed unnatural trigger phrases; improved description instead
+
+## Phase 24: AGENTS.md Restructuring (2026-05-12)
+- Fixed numbering in Agentic Behavior Rules (was 1→2→3→10→4→5→...→1→2→3→4→5→6→7→8→9→10→11→12)
+- Removed Cost section from Persistent Memory (irrelevant at runtime)
+- Corrected skill count: 28 → 41
+- Removed ghost `agent/` directory reference from Structure Rules
+- Added markdown links to agent-skills setup guides, rules/, .tap/, archive content
+- Added orphaned doc references to Deep References table
+
+## Phase 23: Companion Scripts — Full Coverage (2026-05-12)
+- 13 new companion scripts across 6 batches: doubt-driven, tdd, git-workflow, code-review, source-driven, security, performance, plan-breakdown, spec-generator, ci-check, grill, increment-slice, simplify-check, context-engineering, divergent-ideation, shipping-and-launch, api-contract, migrate-plan, skill-test
+- Achieved 41/41 (100%) companion script coverage (was 5/27 = 19%)
+
+## Phase 22: TAP Skills Integration (2026-05-12)
+- Added 14 TAP methodology skills (product-thinker, strategic-thinker, shaping-work, product-discovery, product-primitives, design-language, implementation-planning, loop-check, tighten-loop, tap-audit, systems-health, retrospective, curate-product-context, blast-radius)
+- Enhanced frontmatter on all 41 skills
+- Added .tap/ project memory directory
+- Added learnings strategy documentation
+- Updated manifest.json with new bundles
+
+## Phase 21: Ruflo Integration (2026-05-12)
+- CLI-only model (0MB persistent cost), daemon stopped
+- Memory init (sql.js WASM) hangs on WSL2 — evaluated as non-viable for this platform
+- Plugin bridge evaluation: SKIPPED (markdown ≠ TypeScript fundamentally)
+- Hooks retained: route, pretrain, session-restore
+
+## Phase 20: 4-Layer Governance Architecture (2026-05-12)
+- Layer 1 — Tiered file classification (.gitignore with exact tier comments: Tier 3 generated, Tier 4 external)
+- Layer 2 — Skill completeness contract (detect-gaps.sh Check 8)
+- Layer 3 — Archive growth policy (detect-gaps.sh Check 9, 300KB hot-path budget)
+- Layer 4 — Auto-healing (HEAL=1 mode for BM25 rebuild)
+- Fixed ruvector.db tracking (1.6M SQLite DB untracked, *.db pattern added)
+- Fixed archive budget (was 150KB on archive files, too aggressive — moved to 300KB on hot-path only)
+
+## Phase 19: Assumption Expiry + Health Monitoring (2026-05-12)
+- Assumption expiry pattern: scripts/assumption-expiry.sh (check/list/mark/dismiss/init)
+- docs/assumption-expiry.md with 4 authoritative sources
+- detect-gaps.sh Check 6: expired assumption flagging at session start
+- session-state.json assumptions[] array with TTL tracking
+- Context pressure: --persist/--auto modes, cross-session trend tracking
+- detect-gaps.sh Check 7: context pressure + trend at session start
+
+## Phase 18: System Research (2026-05-12)
+- research/well-maintained-system-research.md — 9 authoritative sources synthesized
+- Sources: Ford (Evolutionary Architecture), Taleb (Antifragile), Fowler (Tech Debt), Meyer (Design by Contract), Lehman (Laws of Evolution), Hunt & Thomas (Pragmatic Programmer), DORA, Google SRE
+- Retroactive plan docs: archive/phase5-assumption-expiry-plan.md, archive/phase6-system-research-plan.md
 - Added `/task-tree` for decomposing large goals into coarse domains, milestone candidates, and first slices
 - Routed long-horizon oversized goals from intake toward `/shape-product` followed by `/task-tree`
 - Documented the rule that the tree prevents blind spots but should not become a full project plan
