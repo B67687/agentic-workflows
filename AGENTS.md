@@ -204,13 +204,13 @@ loading 41 full skill files, load progressively:
 | **L3** | Reference files, assets, scripts | Variable | On demand |
 
 ```bash
-bash ./scripts/skill-toolset.sh list           # L1 — browse 41 skills
+bash ./scripts/skill-toolset.sh list           # L1 — browse 42 skills
 bash ./scripts/skill-toolset.sh load <name>    # L2 — full instructions
 bash ./scripts/skill-toolset.sh resource <name> <path>  # L3 — specific file
 bash ./scripts/skill-toolset.sh find <query>   # Search by name/pattern
 ```
 
-Every 41-skill L1 scan costs ~4K tokens. Full monolithic loading of all 41 would
+Every 42-skill L1 scan costs ~4K tokens. Full monolithic loading of all 42 would
 cost ~200K tokens. Progressive disclosure makes the difference between "I can have
 many skills" and "I can't afford to know they exist."
 

@@ -22,7 +22,7 @@ bash ./scripts/skill-find.sh stats              # coverage stats
 ## Progressive Disclosure (L1/L2/L3)
 
 Skills use the **Agent Skills progressive disclosure** model to keep context efficient.
-Instead of loading all 41 skills fully, you load only what you need, when you need it:
+Instead of loading all 42 skills fully, you load only what you need, when you need it:
 
 | Level | What | Tokens | When |
 |-------|------|--------|------|
@@ -33,7 +33,7 @@ Instead of loading all 41 skills fully, you load only what you need, when you ne
 **Use the toolset to navigate progressively:**
 
 ```bash
-bash ./scripts/skill-toolset.sh list                     # L1 — browse all 41 skills (compact)
+bash ./scripts/skill-toolset.sh list                     # L1 — browse all 42 skills (compact)
 bash ./scripts/skill-toolset.sh load <name>               # L2 — load a skill's full instructions
 bash ./scripts/skill-toolset.sh resource <name> <path>    # L3 — load a file (references/, assets/)
 bash ./scripts/skill-toolset.sh find <query>              # search by name/pattern/bundle

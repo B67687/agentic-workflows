@@ -1,7 +1,7 @@
 # Skill Design Patterns
 
 A shared language for structuring SKILL.md content. Derived from Google ADK's 5
-agent skill design patterns and adapted to this workspace's 41 skills.
+agent skill design patterns and adapted to this workspace's 42 skills.
 
 ## Why Patterns Matter
 
