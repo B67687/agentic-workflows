@@ -57,163 +57,76 @@
 
 ---
 
-<h2 id="quick-start">🚀 Quick Start</h2>
+<h2>🚀 Quick Start</h2>
 
-<table>
-<tr>
-  <td width="33%" align="center">
-    <h3>1</h3>
-    <img src="https://img.shields.io/badge/clone-58a6ff?style=for-the-badge&logo=git&logoColor=white" alt="Clone"><br>
-    <code>git clone https://github.com/B67687/agentic-workflows.git</code><br>
-    <sub>Get the hub</sub>
-  </td>
-  <td width="33%" align="center">
-    <h3>2</h3>
-    <img src="https://img.shields.io/badge/verify-3fb950?style=for-the-badge&logo=checkmarx&logoColor=white" alt="Verify"><br>
-    <code>bash ./scripts/test-smoke.sh</code><br>
-    <sub>32 tests confirm everything works</sub>
-  </td>
-  <td width="33%" align="center">
-    <h3>3</h3>
-    <img src="https://img.shields.io/badge/read-0ea5e9?style=for-the-badge&logo=readthedocs&logoColor=white" alt="Read"><br>
-    <a href="AGENTS.md"><code>AGENTS.md</code></a><br>
-    <sub>That's the operating contract --- every agent reads it first</sub>
-  </td>
-</tr>
-</table>
+```bash
+git clone https://github.com/B67687/agentic-workflows.git
+cd agentic-workflows
+bash ./scripts/test-smoke.sh
+bash ./scripts/propagate.sh all --apply    # push templates to your repos
+```
 
-<p align="center">
-  <b>Then run</b> <code>bash ./scripts/propagate.sh all --apply</code> <b>to push templates to your own repos, or add a <code>CLAUDE.md</code> pointing here for single-project use.</b>
-</p>
+Then open **[`AGENTS.md`](AGENTS.md)** --- that's the operating contract. Every agent reads it first.
 
 ---
 
-<h2 id="features">🧩 Features</h2>
+<h2>🧩 Features</h2>
 
-<table>
-<tr>
-  <td width="33%" valign="top">
-    <img src="https://img.shields.io/badge/AGENTS.md-operating%20contract-58a6ff?style=flat-square" alt="Operating Contract"><br>
-    <strong>🧠 Operating Contract</strong><br>
-    Shared rules, conventions, and escalation paths that every agent reads on entry. No more ad-hoc sessions.
-  </td>
-  <td width="33%" valign="top">
-    <img src="https://img.shields.io/badge/skills-42%20engineering%20skills-0ea5e9?style=flat-square" alt="Skills"><br>
-    <strong>📚 Skill System</strong><br>
-    42 production-grade engineering skills with companion scripts. Debug, test, review, ship, deprecate, document.
-  </td>
-  <td width="33%" valign="top">
-    <img src="https://img.shields.io/badge/propagation-15%2B%20topic%20folders-3fb950?style=flat-square" alt="Propagation"><br>
-    <strong>🔄 Knowledge Propagation</strong><br>
-    Change once in the hub, templates flow to 15+ topic folders automatically. Centralized management, decentralized work.
-  </td>
-</tr>
-<tr>
-  <td width="33%" valign="top">
-    <img src="https://img.shields.io/badge/memory-MCP%20persistent-e1306c?style=flat-square" alt="Memory"><br>
-    <strong>💾 Persistent Memory</strong><br>
-    agentmemory MCP captures tool use, compresses observations, injects context across sessions. Pick up where you left off.
-  </td>
-  <td width="33%" valign="top">
-    <img src="https://img.shields.io/badge/workflow-phases%20not%20chats-58a6ff?style=flat-square" alt="Workflow"><br>
-    <strong>⚡ Workflow Discipline</strong><br>
-    Checkpoints, handoffs, session management, pipeline dispatch, context-aware worktrees. Structured phases, not chaotic chats.
-  </td>
-  <td width="33%" valign="top">
-    <img src="https://img.shields.io/badge/research-6%20phase%20systematic-0ea5e9?style=flat-square" alt="Research"><br>
-    <strong>🔬 Research Engine</strong><br>
-    6-phase systematic research: frame > discover > gather > triangulate > apply > preserve. Source confidence weighting.
-  </td>
-</tr>
-<tr>
-  <td width="33%" valign="top">
-    <img src="https://img.shields.io/badge/quality-A2H%20escalation-3fb950?style=flat-square" alt="Quality"><br>
-    <strong>🛡️ Quality Guardrails</strong><br>
-    Assumption expiry, context pressure monitoring, debug triage, pre-push quality gates, error counters with human escalation.
-  </td>
-  <td width="33%" valign="top">
-    <img src="https://img.shields.io/badge/orchestration-cross%20repo%20memory-e1306c?style=flat-square" alt="Orchestration"><br>
-    <strong>🌐 Multi-Repo Orchestration</strong><br>
-    One hub, 15+ topic folders. Propagate templates, harvest insights. Cross-project memory loop keeps knowledge flowing.
-  </td>
-  <td width="33%" valign="top">
-    <img src="https://img.shields.io/badge/tests-32%20smoke%20suite-58a6ff?style=flat-square" alt="Tests"><br>
-    <strong>🧪 Test-Driven Agents</strong><br>
-    Red/green TDD patterns, verification targets, 32-test smoke suite. Every change verified before it's committed.
-  </td>
-</tr>
-</table>
+| | |
+|---|---|
+| <img src="https://img.shields.io/badge/Contract-58a6ff?style=flat-square" alt=""> | **AGENTS.md** --- Shared rules and conventions every agent reads on entry |
+| <img src="https://img.shields.io/badge/Skills-0ea5e9?style=flat-square" alt=""> | **42 engineering skills** --- Debug, review, ship, document. Companion scripts for each |
+| <img src="https://img.shields.io/badge/Propagation-3fb950?style=flat-square" alt=""> | **Templates flow to 15+ repos** --- Change once in the hub, updates everywhere |
+| <img src="https://img.shields.io/badge/Memory-e1306c?style=flat-square" alt=""> | **agentmemory MCP** --- Captures tool use, compresses observations, persists across sessions |
+| <img src="https://img.shields.io/badge/Workflow-58a6ff?style=flat-square" alt=""> | **Checkpoints, handoffs, pipelines** --- Structured phases instead of chaotic chats |
+| <img src="https://img.shields.io/badge/Research-0ea5e9?style=flat-square" alt=""> | **6-phase systematic research** --- Frame, discover, triangulate, apply, preserve |
+| <img src="https://img.shields.io/badge/Quality-3fb950?style=flat-square" alt=""> | **A2H escalation, assumption expiry** --- Pre-push quality gates, error counters |
+| <img src="https://img.shields.io/badge/Orchestration-e1306c?style=flat-square" alt=""> | **Cross-project memory loop** --- Propagate templates, harvest insights across repos |
+| <img src="https://img.shields.io/badge/Tests-58a6ff?style=flat-square" alt=""> | **32-test smoke suite** --- Every change verified before commit. Red/green TDD |
 
 ---
 
-<h2 id="how-it-works">⚙️ How It Works</h2>
+<h2>⚙️ How It Works</h2>
 
-<table>
-<tr>
-  <td width="33%" align="center">
-    <h2>📥</h2>
-    <h3>1. Define</h3>
-    <p><code>AGENTS.md</code> sets the rules. Every agent reads it on entry. Skills, commands, and propagation templates inherit from it.</p>
-  </td>
-  <td width="33%" align="center">
-    <h2>🔄</h2>
-    <h3>2. Propagate</h3>
-    <p><code>propagate.sh</code> pushes templates to topic folders. One change in the hub updates 15+ repos. Commands, scripts, configs --- all synced.</p>
-  </td>
-  <td width="33%" align="center">
-    <h2>📤</h2>
-    <h3>3. Harvest</h3>
-    <p>Learnings flow back to the hub via insight harvesting. Cross-project memory loops keep knowledge circulating instead of siloed.</p>
-  </td>
-</tr>
-</table>
+**📥 Define** --- `AGENTS.md` sets the rules. Every agent reads it on entry. Skills, commands, and propagation templates inherit from it.
+
+**🔄 Propagate** --- `propagate.sh` pushes templates to topic folders. One change in the hub updates 15+ repos. Commands, scripts, configs all synced.
+
+**📤 Harvest** --- Learnings flow back to the hub via insight harvesting. Cross-project memory loops keep knowledge circulating instead of siloed.
 
 ---
 
-<h2 id="orientation">🗺️ Orientation</h2>
-
-<table>
-<tr>
-  <td width="50%" valign="top">
+<h2>🗺️ Orientation</h2>
 
 ```
 agentic-workflows/
-├── AGENTS.md      -> Operating contract
-├── commands/      -> /task, /plan, /research...
-├── docs/          -> Quickstart, quality, workflow
-├── scripts/       -> 83 automation scripts
-├── skills/        -> 42 engineering skills
-├── propagation/   -> Templates for topic folders
-├── research/      -> Active campaigns
-├── .runtime/      -> Generated state (A2H, jobs, logs)
-└── wiki/          -> Knowledge graph output
+├── AGENTS.md         Operating contract (read first)
+├── commands/         Slash commands (/task, /plan, /research...)
+├── docs/             Quickstart, quality, workflow docs
+├── scripts/          83 automation scripts + hooks
+├── skills/           42 engineering skills with companion scripts
+├── propagation/      Templates synced across 15+ topic folders
+├── research/         Active research campaigns
+├── .runtime/         Generated state (A2H, jobs, logs, sessions)
+└── wiki/             Knowledge graph output
 ```
 
-  </td>
-  <td width="50%" valign="top">
-
 | Quick Command | Action |
-|:---|---:|
-| <code>bash ./scripts/session-status.sh</code> | Workspace health |
-| <code>bash ./scripts/tools.sh</code> | Tool registry |
-| <code>bash ./scripts/search-index.sh "q"</code> | BM25 search |
-| <code>bash ./scripts/propagate.sh status</code> | Sync status |
-| <code>bash ./scripts/checkpoint-commit.sh -m "msg"</code> | Verified commit |
-
-<br>
+|---|---|
+| `bash ./scripts/session-status.sh` | Workspace health |
+| `bash ./scripts/tools.sh` | Tool registry |
+| `bash ./scripts/search-index.sh "query"` | BM25 search |
+| `bash ./scripts/propagate.sh status` | Sync status |
+| `bash ./scripts/checkpoint-commit.sh -m "msg"` | Verified commit |
 
 | Need | Go to |
-|:---|---:|
-| Understand the system | [docs/workflow.md](docs/workflow.md) |
-| Set up your project | [docs/hub-quickstart.md](docs/hub-quickstart.md) |
-| Research a topic | [research/research-prompt.md](research/research-prompt.md) |
+|---|---|
+| Understand the whole system | [docs/workflow.md](docs/workflow.md) |
+| Set this up in your project | [docs/hub-quickstart.md](docs/hub-quickstart.md) |
+| Research an AI topic | [research/research-prompt.md](research/research-prompt.md) |
 | Debug a failure | [debugging skill](skills/debugging-and-error-recovery/SKILL.md) |
 | Code review | [review skill](skills/code-review-and-quality/SKILL.md) |
-| Resume work | [session-state.json](session-state.json) |
-
-  </td>
-</tr>
-</table>
+| Resume interrupted work | [session-state.json](session-state.json) + [AGENTS.md](AGENTS.md) |
 
 ---
 
