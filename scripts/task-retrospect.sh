@@ -9,6 +9,7 @@
 # Usage:
 #   bash ./scripts/task-retrospect.sh                        # interactive (stdin)
 #   bash ./scripts/task-retrospect.sh "got stuck on X fix Y"  # direct
+#   bash ./scripts/task-retrospect.sh --session-end           # summarize session to history files
 #   bash ./scripts/task-retrospect.sh --help                  # this help
 #
 # Stores to:
@@ -39,6 +40,10 @@ while [ $# -gt 0 ]; do
       awk '/^#!/{p=1;next} /^[^#]/ && p{exit} p{print}' "$0" | sed 's/^# \?//'
       exit 0
       ;;
+    --session-end)
+      MODE="session-end"
+      shift
+      ;;
     --type|--type=*)
       if [[ "$1" == --type=* ]]; then TYPE="${1#*=}"; else shift; TYPE="${1:-}"; fi
       ;;
@@ -59,6 +64,102 @@ while [ $# -gt 0 ]; do
   esac
   shift
 done
+
+# --- Interactive mode (no args, stdin is a tty) ---
+if [ "$MODE" = "session-end" ]; then
+  # --- Session end mode: auto-document history from session-state.json ---
+  TIMESTAMP=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+  DATE_ONLY=$(date -u +%Y-%m-%d)
+  
+  # Read whatChanged from session-state.json
+  WC_ITEMS=$(python3 -c "
+import json
+with open('$REPO_ROOT/session-state.json') as f:
+    s = json.load(f)
+wc = s.get('whatChanged', [])
+task = s.get('currentTask', {}).get('name', 'unspecified work')
+for w in wc[:15]:
+    print(f\"- {w}\")
+" 2>/dev/null || echo "- unspecified changes")
+  
+  # Count commits since last history entry
+  HIST_COMMITS=$(git log --oneline "$(git log -1 --format='%H' -- archive/history-full-detailed.md 2>/dev/null || echo HEAD~5)"..HEAD 2>/dev/null | wc -l)
+  
+  echo "=== Session End Documentation ==="
+  echo "  Commits since last history entry: $HIST_COMMITS"
+  echo ""
+  
+  # Generate summary from session-state.json
+  SESSION_TITLE=$(python3 -c "
+import json
+with open('$REPO_ROOT/session-state.json') as f:
+    s = json.load(f)
+print(s.get('currentTask', {}).get('name', 'unspecified work'))
+")
+  
+  echo "Session title: $SESSION_TITLE"
+  echo "Commits since last history entry: $HIST_COMMITS"
+  echo "whatChanged entries: $(echo "$WC_ITEMS" | wc -l)"
+  echo ""
+  
+  read -r -p "Accept? [Y/n]: " CONFIRM
+  if [ "$CONFIRM" = "n" ] || [ "$CONFIRM" = "N" ]; then
+    read -r -p "Custom title: " SESSION_TITLE
+  fi
+  
+  # --- Prepend to history-full-detailed.md (top, newest-first) ---
+  HIST_FILE="$REPO_ROOT/archive/history-full-detailed.md"
+  if [ -f "$HIST_FILE" ]; then
+    python3 -c "
+import re
+with open('$HIST_FILE') as f:
+    content = f.read()
+
+# Insert new entry right after header (before first # 2026- entry)
+m = re.search(r'\n# 2026-', content)
+insert_at = m.start() + 1 if m else len(content)
+
+new_entry = '''\n
+# ${DATE_ONLY} — ${SESSION_TITLE}
+
+**Session end:** ${TIMESTAMP}
+**Commits since last entry:** ${HIST_COMMITS}
+
+${WC_ITEMS}
+'''
+
+new_content = content[:insert_at] + new_entry + content[insert_at:]
+with open('$HIST_FILE', 'w') as f:
+    f.write(new_content)
+"
+    echo "  ✓ Prepended to archive/history-full-detailed.md"
+  fi
+  
+  # --- Prepend to history-index.md (top, newest-first) ---
+  IDX_FILE="$REPO_ROOT/archive/history-index.md"
+  if [ -f "$IDX_FILE" ]; then
+    # Find the first phase heading to insert after
+    HEADER=$(head -6 "$IDX_FILE")
+    REST=$(tail -n +7 "$IDX_FILE")
+    
+    # Find next phase number
+    NEXT_PHASE=$(echo "$REST" | grep -oP 'Phase \K\d+' | head -1)
+    NEXT_PHASE=$((NEXT_PHASE + 1))
+    
+    TMP=$(mktemp)
+    echo "$HEADER" > "$TMP"
+    echo "" >> "$TMP"
+    echo "## Phase ${NEXT_PHASE}: ${SESSION_TITLE} (${DATE_ONLY})" >> "$TMP"
+    echo "$WC_ITEMS" | head -6 | sed 's/^P[0-4]: //' >> "$TMP"
+    echo "" >> "$TMP"
+    echo "$REST" >> "$TMP"
+    mv "$TMP" "$IDX_FILE"
+    echo "  ✓ Prepended Phase ${NEXT_PHASE} to archive/history-index.md"
+  fi
+  
+  echo "  Done. Session documented."
+  exit 0
+fi
 
 # --- Interactive mode (no args, stdin is a tty) ---
 if [ -z "$INSIGHT" ] && [ -t 0 ]; then

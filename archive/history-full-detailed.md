@@ -4665,80 +4665,124 @@ When in doubt, preserve the decision and its rationale, but label the evidence l
 
 ---
 
-# 2026-05-04 — Fast Iteration Guardrails
+# 2026-05-12 — Full Workspace Audit and Refactor
 
-**User intent:** The user wanted the workflow to stop oversized one-shot tasks automatically, break them into fast slices, and avoid getting trapped in repeated planning refinements.
+**User intent:** The user asked for a comprehensive scan of the entire repo to find every issue from macro to micro, fix them recursively, and reach a state where no structural problems remain.
 
-**Assistant improvement:** Added a deterministic split between normal tasks and oversized tasks. `task-intake.sh` now marks heavy or broad work as `slice-first`. New helpers `task-slice.sh` and `plan-guard.sh` force milestone ladder plus first-slice planning and cap repeated planning rounds.
+**Duration:** Multiple sessions across 2-3 days, ~80+ commits.
 
-**User improvement to the improvement:** The user also asked that the workflow updates be documented in the hub itself and reflected in the workspace history so future sessions can understand how the strategy evolved.
+## Phase 18: Structural Audit + Fixes
 
-**Final agreement:** Fast iteration is the default strategy. Big tasks should be broken into a coarse milestone ladder plus one executable slice. After two planning refinements, the workflow should stop broadening the plan and push toward the next slice.
+**Initial scan findings:** 902 files on disk, 349 tracked by git. 22M .git for 2MB of actual content. session-state.json had 6 sets of duplicate keys. AGENTS.md had broken numbering (1→2→3→10→4→5→...). 11 docs unreferenced from Deep References. 15 skill inconsistencies.
 
-**Implemented:**
-- `scripts/task-slice.sh`
-- `scripts/plan-guard.sh`
-- `/slice-task` command and propagation templates
-- task-intake support for `slice-first` iteration routing
-- planning-command guardrails for oversized tasks and planning loops
-- workflow docs and overview updates across the hub
+**Fixes applied:**
+- session-state.json: merged 6 duplicate key sets into single clean entries
+- AGENTS.md: Deep References expanded 11→33 entries. Skill Bundles synced to manifest.json. Intent→Skill Mapping +5 skills. Assumption expiry rule + references added.
+- Superseded doc moved: docs/agent-system-evaluation.md → archive/research/
+- Script hardening: set -euo pipefail added to 2 scripts
+- .screenshots_landing.png removed, .learnings.jsonl test entries cleaned, BOM fixed
+- skill count corrected: 28→41 after teambrilliant integration
+- agent/ ghost directory removed from AGENTS.md Structure Rules
 
----
+## Phase 19: Git Bloat Purge
 
-# 2026-05-05 — Big-Goal Execution Model
+22M .git for 2MB tracked files. Historical blobs identified:
+- ~10MB archive/raw/session raw HTML dump
+- ~6MB archive/raw/chat export JSONL
+- ~3.3MB personal-voice/samples/course-guide.pdf
+- ~2MB .cache/ BM25 indexes
 
-**User intent:** The user wanted the workflow to handle large long-horizon goals productively, not by shrinking the ambition, but by keeping the dream large and making the execution unit small. The user also wanted task shaping to feel more automatic and wanted optimization to become an explicit governed lane.
+**Action:** git filter-repo --invert-paths on archive/raw/, .cache/, course-guide.pdf. Result: .git 22M→4.7M (91% reduction). 141 commits preserved.
 
-**Assistant improvement:** Added a new three-level model: North Star, milestone bet, and next executable slice. Added `north-star.sh`, `milestone-shape.sh`, and `optimize-gate.sh`, plus matching slash-command wrappers. Updated `task-intake.sh` so some goals are recognized as `north-star` horizon work instead of only `slice-first`.
+## Phase 20: MCP Configuration
 
-**User improvement to the improvement:** The user emphasized that the workflow should be visible at a glance and should reflect best-practice thinking from strong product systems: big vision, bounded bets, fast verified slices, and evidence-based optimization.
+agentmemory MCP + sequential-thinking MCP were disabled. playwright MCP was in central config (should be per-topic-folder).
 
-**Final agreement:** The hub should now encourage this explicit operating model:
-- think big
-- bet medium
-- execute tiny
+**Action:** agentmemory → enabled, sequential-thinking → enabled, playwright → removed from central config. enable-playwright.sh toggle script deleted.
 
-And optimization should be a separate lane:
-- wait when there is only aesthetic discomfort
-- measure first for ordinary bottlenecks
-- do bounded architecture review for hard-to-reverse risks
+## Phase 21: Assumption Expiry Pattern
 
-**Implemented:**
-- `scripts/north-star.sh`
-- `scripts/milestone-shape.sh`
-- `scripts/optimize-gate.sh`
-- `/north-star`
-- `/shape-milestone`
-- `/optimize`
-- task-intake support for `north-star` goal horizon
-- start-task and shape-task documentation changes so serious tasks default to shaping
-- workflow diagrams and documentation updates across the hub
+**Research:** 4 authoritative sources (Fowler Tech Debt Quadrant, Lehman's Laws, Meyer Design by Contract, Software Rot). Synthesized into a pattern for non-verifiable claims with TTL.
 
----
+**Implementation:**
+- scripts/assumption-expiry.sh — full lifecycle (check/list/mark/dismiss/init)
+- docs/assumption-expiry.md — complete pattern documentation
+- detect-gaps.sh Check 6 — checks for expired assumptions at session start
+- session-state.json assumptions[] array — structured TTL tracking
+- AGENTS.md integration — High-Signal Files, Key Rules, Deep References
+- Residual risk migrated from free-text string to structured assumption with expiry
 
-# 2026-05-05 — Fast Stable Delivery Alignment
+## Phase 22: Session Health Monitoring (P4)
 
-**User intent:** The user wanted the workflow validated against stronger external execution systems for moving fast productively without losing stability. The user wanted the system not only to work, but to clearly follow the best-known practices behind fast, stable delivery.
+context-pressure.sh was a one-shot snapshot tool with no persistence.
 
-**Assistant improvement:** Performed an external synthesis and identified the strongest matching backbone as a combination of outcome-first framing, bounded milestone bets, small verified batches, and frequent integration. Encoded that synthesis into a dedicated reference document and tightened the main workflow docs to state that speed and stability should improve together through smaller batches.
+**Enhancements:**
+- --persist mode: saves metrics to session-state.json.contextMetrics
+- --auto mode: persists + triggers pre-compact.sh at CRITICAL threshold
+- Cross-session trend tracking: last 20 measurements stored, trend computed
+- detect-gaps.sh Check 7: reports pressure status + trend at session start
+- session-state.json now has structured contextMetrics with history
 
-**User improvement to the improvement:** The user's request sharpened the standard: not just "document our workflow," but "prove that our workflow follows the best systems and make that traceable."
+## Phase 23: System Research
 
-**Final agreement:** The workspace should explicitly align to:
-- Working Backwards for written outcome-first framing
-- Shape Up for one bounded milestone bet at a time
-- DORA for small-batch speed plus stability
-- Trunk-Based Development for short-lived divergence and frequent integration
+Synthesized 9 authoritative sources into a unified framework:
+Ford (Evolutionary Architecture), Taleb (Antifragile), Fowler (Technical Debt Quadrant), Meyer (Design by Contract), Lehman (Laws of Evolution), Hunt & Thomas (Pragmatic Programmer), Fowler (Quality Economics), DORA (DevOps Research), Google SRE.
 
-**Implemented:**
-- `docs/fast-stable-delivery.md`
-- additions to `docs/phase-based-agent-workflow.md`
-- additions to `docs/workspace-system-overview.md`
-- additions to `docs/hub-quickstart.md`
-- additions to `README.md`
-- propagation overview template updates so managed topic repos inherit the clearer system framing
+**Output:** research/well-maintained-system-research.md
 
----
+## Phase 24: Companion Scripts (Full Coverage)
+
+Before: 5/27 skills had companion scripts (19%).
+After: 41/41 skills have companion scripts (100%).
+
+**13 new scripts across 6 batches:**
+- Batch 1: doubt-adversarial.sh, tdd-cycle.sh, git-branch-cleanup.sh, review-checklist.sh
+- Batch 2: source-verify.sh, security-scan.sh, perf-scan.sh
+- Batch 3: plan-breakdown.sh, spec-generator.sh, ci-check.sh
+- Batch 4: grill-session.sh, increment-slice.sh, simplify-check.sh
+- Batch 5: context-budget.sh, ideate.sh, launch-prep.sh
+- Batch 6: api-contract.sh, migrate-plan.sh, skill-test.sh
+
+TAP session (via worktree fork by user): 9 additional companion scripts.
+
+## Phase 25: TAP Skills Integration (teambrilliant)
+
+14 new TAP methodology skills added: product-thinker, strategic-thinker, shaping-work, product-discovery, product-primitives, design-language, implementation-planning, loop-check, tighten-loop, tap-audit, systems-health, retrospective, curate-product-context, blast-radius.
+
+Frontmatter enhanced on all 41 skills. .tap/ project memory directory added. Manifest.json updated.
+
+## Phase 26: 4-Layer Governance Architecture
+
+Designed to prevent future structural rot. Implemented across 2 commits.
+
+- Layer 1: Tiered file classification in .gitignore (Tier 3 generated, Tier 4 external). *.db/*.sqlite patterns added. ruvector.db untracked.
+- Layer 2: Skill completeness contract (detect-gaps.sh Check 8). Reports skills missing companion scripts at every session start.
+- Layer 3: Archive growth policy (detect-gaps.sh Check 9). 300KB budget on hot-path files (AGENTS.md, workflow.md, session-state.json). Archive files exempted.
+- Layer 4: Auto-healing (HEAL=1 mode). HEAL=1 bash ./scripts/hooks/detect-gaps.sh auto-rebuilds BM25 index if missing or stale.
+
+## Phase 27: Structural Cleanup
+
+- 10 stale duplicate scripts removed from scripts/ root (diverged copies that also lived in skills/*/scripts/)
+- agent/ ghost directory removed (was empty; real directory was agents/)
+- skills/shaping-work/references/ empty dir removed
+- detect-gaps shell bug fixed: "|| echo 0" with grep -c returned multi-line value triggering "integer expression expected"
+- archive/README.md — added links to lessons, research, phase plans
+- research/README.md — added links to completed research docs
+- repo-graph.html confirmed untracked and gitignored
+
+## Phase 28: Structural Governance
+
+docs/structural-governance.md — classification guide with 6-subsystem hierarchy (Knowledge Base, Propagation Engine, Agent Tooling, Monitoring & Health, Session Management, Quality Gates). Decision tree for placement of new content. inbox/ directory for unclassified staging (detect-gaps.sh Check 10).
+
+## Phase 29: Agent Dreaming Bridge
+
+The "agent dreaming" concept (divergent thinking in agents) existed in research docs but was not connected to the existing divergent-ideation skill with its ideate.sh companion script. Skill description enhanced to cover play/exploration/divergent thinking contexts naturally. Trigger phrases reverted to natural language.
+
+## Verification
+
+All changes verified: 31/31 smoke tests passing, detect-gaps.sh clean, assumption expiry current, context pressure healthy, all cross-references valid.
+
+**Final state:** Git 4.7M, 180+ commits, 413 tracked files, 41 skills with 100% companion script coverage, 10 working workflow categories, all structural issues addressed.
 
 # 2026-05-06 — Product Shaping & Counsel Gate
 
@@ -4884,121 +4928,77 @@ The task tree should remain coarse. It is a map, not a full detailed project pla
 - `/research`, `/plan`, and `/implement` now run the prompt contract before phase work
 - docs and AGENTS updates explaining prompt contracts as internal self-checks
 
-# 2026-05-12 — Full Workspace Audit and Refactor
+# 2026-05-05 — Big-Goal Execution Model
 
-**User intent:** The user asked for a comprehensive scan of the entire repo to find every issue from macro to micro, fix them recursively, and reach a state where no structural problems remain.
+**User intent:** The user wanted the workflow to handle large long-horizon goals productively, not by shrinking the ambition, but by keeping the dream large and making the execution unit small. The user also wanted task shaping to feel more automatic and wanted optimization to become an explicit governed lane.
 
-**Duration:** Multiple sessions across 2-3 days, ~80+ commits.
+**Assistant improvement:** Added a new three-level model: North Star, milestone bet, and next executable slice. Added `north-star.sh`, `milestone-shape.sh`, and `optimize-gate.sh`, plus matching slash-command wrappers. Updated `task-intake.sh` so some goals are recognized as `north-star` horizon work instead of only `slice-first`.
 
-## Phase 18: Structural Audit + Fixes
+**User improvement to the improvement:** The user emphasized that the workflow should be visible at a glance and should reflect best-practice thinking from strong product systems: big vision, bounded bets, fast verified slices, and evidence-based optimization.
 
-**Initial scan findings:** 902 files on disk, 349 tracked by git. 22M .git for 2MB of actual content. session-state.json had 6 sets of duplicate keys. AGENTS.md had broken numbering (1→2→3→10→4→5→...). 11 docs unreferenced from Deep References. 15 skill inconsistencies.
+**Final agreement:** The hub should now encourage this explicit operating model:
+- think big
+- bet medium
+- execute tiny
 
-**Fixes applied:**
-- session-state.json: merged 6 duplicate key sets into single clean entries
-- AGENTS.md: Deep References expanded 11→33 entries. Skill Bundles synced to manifest.json. Intent→Skill Mapping +5 skills. Assumption expiry rule + references added.
-- Superseded doc moved: docs/agent-system-evaluation.md → archive/research/
-- Script hardening: set -euo pipefail added to 2 scripts
-- .screenshots_landing.png removed, .learnings.jsonl test entries cleaned, BOM fixed
-- skill count corrected: 28→41 after teambrilliant integration
-- agent/ ghost directory removed from AGENTS.md Structure Rules
+And optimization should be a separate lane:
+- wait when there is only aesthetic discomfort
+- measure first for ordinary bottlenecks
+- do bounded architecture review for hard-to-reverse risks
 
-## Phase 19: Git Bloat Purge
+**Implemented:**
+- `scripts/north-star.sh`
+- `scripts/milestone-shape.sh`
+- `scripts/optimize-gate.sh`
+- `/north-star`
+- `/shape-milestone`
+- `/optimize`
+- task-intake support for `north-star` goal horizon
+- start-task and shape-task documentation changes so serious tasks default to shaping
+- workflow diagrams and documentation updates across the hub
 
-22M .git for 2MB tracked files. Historical blobs identified:
-- ~10MB archive/raw/session raw HTML dump
-- ~6MB archive/raw/chat export JSONL
-- ~3.3MB personal-voice/samples/course-guide.pdf
-- ~2MB .cache/ BM25 indexes
+---
 
-**Action:** git filter-repo --invert-paths on archive/raw/, .cache/, course-guide.pdf. Result: .git 22M→4.7M (91% reduction). 141 commits preserved.
+# 2026-05-05 — Fast Stable Delivery Alignment
 
-## Phase 20: MCP Configuration
+**User intent:** The user wanted the workflow validated against stronger external execution systems for moving fast productively without losing stability. The user wanted the system not only to work, but to clearly follow the best-known practices behind fast, stable delivery.
 
-agentmemory MCP + sequential-thinking MCP were disabled. playwright MCP was in central config (should be per-topic-folder).
+**Assistant improvement:** Performed an external synthesis and identified the strongest matching backbone as a combination of outcome-first framing, bounded milestone bets, small verified batches, and frequent integration. Encoded that synthesis into a dedicated reference document and tightened the main workflow docs to state that speed and stability should improve together through smaller batches.
 
-**Action:** agentmemory → enabled, sequential-thinking → enabled, playwright → removed from central config. enable-playwright.sh toggle script deleted.
+**User improvement to the improvement:** The user's request sharpened the standard: not just "document our workflow," but "prove that our workflow follows the best systems and make that traceable."
 
-## Phase 21: Assumption Expiry Pattern
+**Final agreement:** The workspace should explicitly align to:
+- Working Backwards for written outcome-first framing
+- Shape Up for one bounded milestone bet at a time
+- DORA for small-batch speed plus stability
+- Trunk-Based Development for short-lived divergence and frequent integration
 
-**Research:** 4 authoritative sources (Fowler Tech Debt Quadrant, Lehman's Laws, Meyer Design by Contract, Software Rot). Synthesized into a pattern for non-verifiable claims with TTL.
+**Implemented:**
+- `docs/fast-stable-delivery.md`
+- additions to `docs/phase-based-agent-workflow.md`
+- additions to `docs/workspace-system-overview.md`
+- additions to `docs/hub-quickstart.md`
+- additions to `README.md`
+- propagation overview template updates so managed topic repos inherit the clearer system framing
 
-**Implementation:**
-- scripts/assumption-expiry.sh — full lifecycle (check/list/mark/dismiss/init)
-- docs/assumption-expiry.md — complete pattern documentation
-- detect-gaps.sh Check 6 — checks for expired assumptions at session start
-- session-state.json assumptions[] array — structured TTL tracking
-- AGENTS.md integration — High-Signal Files, Key Rules, Deep References
-- Residual risk migrated from free-text string to structured assumption with expiry
+---
 
-## Phase 22: Session Health Monitoring (P4)
+# 2026-05-04 — Fast Iteration Guardrails
 
-context-pressure.sh was a one-shot snapshot tool with no persistence.
+**User intent:** The user wanted the workflow to stop oversized one-shot tasks automatically, break them into fast slices, and avoid getting trapped in repeated planning refinements.
 
-**Enhancements:**
-- --persist mode: saves metrics to session-state.json.contextMetrics
-- --auto mode: persists + triggers pre-compact.sh at CRITICAL threshold
-- Cross-session trend tracking: last 20 measurements stored, trend computed
-- detect-gaps.sh Check 7: reports pressure status + trend at session start
-- session-state.json now has structured contextMetrics with history
+**Assistant improvement:** Added a deterministic split between normal tasks and oversized tasks. `task-intake.sh` now marks heavy or broad work as `slice-first`. New helpers `task-slice.sh` and `plan-guard.sh` force milestone ladder plus first-slice planning and cap repeated planning rounds.
 
-## Phase 23: System Research
+**User improvement to the improvement:** The user also asked that the workflow updates be documented in the hub itself and reflected in the workspace history so future sessions can understand how the strategy evolved.
 
-Synthesized 9 authoritative sources into a unified framework:
-Ford (Evolutionary Architecture), Taleb (Antifragile), Fowler (Technical Debt Quadrant), Meyer (Design by Contract), Lehman (Laws of Evolution), Hunt & Thomas (Pragmatic Programmer), Fowler (Quality Economics), DORA (DevOps Research), Google SRE.
+**Final agreement:** Fast iteration is the default strategy. Big tasks should be broken into a coarse milestone ladder plus one executable slice. After two planning refinements, the workflow should stop broadening the plan and push toward the next slice.
 
-**Output:** research/well-maintained-system-research.md
+**Implemented:**
+- `scripts/task-slice.sh`
+- `scripts/plan-guard.sh`
+- `/slice-task` command and propagation templates
+- task-intake support for `slice-first` iteration routing
+- planning-command guardrails for oversized tasks and planning loops
+- workflow docs and overview updates across the hub
 
-## Phase 24: Companion Scripts (Full Coverage)
-
-Before: 5/27 skills had companion scripts (19%).
-After: 41/41 skills have companion scripts (100%).
-
-**13 new scripts across 6 batches:**
-- Batch 1: doubt-adversarial.sh, tdd-cycle.sh, git-branch-cleanup.sh, review-checklist.sh
-- Batch 2: source-verify.sh, security-scan.sh, perf-scan.sh
-- Batch 3: plan-breakdown.sh, spec-generator.sh, ci-check.sh
-- Batch 4: grill-session.sh, increment-slice.sh, simplify-check.sh
-- Batch 5: context-budget.sh, ideate.sh, launch-prep.sh
-- Batch 6: api-contract.sh, migrate-plan.sh, skill-test.sh
-
-TAP session (via worktree fork by user): 9 additional companion scripts.
-
-## Phase 25: TAP Skills Integration (teambrilliant)
-
-14 new TAP methodology skills added: product-thinker, strategic-thinker, shaping-work, product-discovery, product-primitives, design-language, implementation-planning, loop-check, tighten-loop, tap-audit, systems-health, retrospective, curate-product-context, blast-radius.
-
-Frontmatter enhanced on all 41 skills. .tap/ project memory directory added. Manifest.json updated.
-
-## Phase 26: 4-Layer Governance Architecture
-
-Designed to prevent future structural rot. Implemented across 2 commits.
-
-- Layer 1: Tiered file classification in .gitignore (Tier 3 generated, Tier 4 external). *.db/*.sqlite patterns added. ruvector.db untracked.
-- Layer 2: Skill completeness contract (detect-gaps.sh Check 8). Reports skills missing companion scripts at every session start.
-- Layer 3: Archive growth policy (detect-gaps.sh Check 9). 300KB budget on hot-path files (AGENTS.md, workflow.md, session-state.json). Archive files exempted.
-- Layer 4: Auto-healing (HEAL=1 mode). HEAL=1 bash ./scripts/hooks/detect-gaps.sh auto-rebuilds BM25 index if missing or stale.
-
-## Phase 27: Structural Cleanup
-
-- 10 stale duplicate scripts removed from scripts/ root (diverged copies that also lived in skills/*/scripts/)
-- agent/ ghost directory removed (was empty; real directory was agents/)
-- skills/shaping-work/references/ empty dir removed
-- detect-gaps shell bug fixed: "|| echo 0" with grep -c returned multi-line value triggering "integer expression expected"
-- archive/README.md — added links to lessons, research, phase plans
-- research/README.md — added links to completed research docs
-- repo-graph.html confirmed untracked and gitignored
-
-## Phase 28: Structural Governance
-
-docs/structural-governance.md — classification guide with 6-subsystem hierarchy (Knowledge Base, Propagation Engine, Agent Tooling, Monitoring & Health, Session Management, Quality Gates). Decision tree for placement of new content. inbox/ directory for unclassified staging (detect-gaps.sh Check 10).
-
-## Phase 29: Agent Dreaming Bridge
-
-The "agent dreaming" concept (divergent thinking in agents) existed in research docs but was not connected to the existing divergent-ideation skill with its ideate.sh companion script. Skill description enhanced to cover play/exploration/divergent thinking contexts naturally. Trigger phrases reverted to natural language.
-
-## Verification
-
-All changes verified: 31/31 smoke tests passing, detect-gaps.sh clean, assumption expiry current, context pressure healthy, all cross-references valid.
-
-**Final state:** Git 4.7M, 180+ commits, 413 tracked files, 41 skills with 100% companion script coverage, 10 working workflow categories, all structural issues addressed.
+---
