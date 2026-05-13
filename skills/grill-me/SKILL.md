@@ -15,11 +15,7 @@ bash ./scripts/grill-session.sh question "<q>" "<r>"   # format a question
 bash ./scripts/grill-session.sh close                  # closure summary
 ```
 
-Structured requirements alignment grounded in the **Socratic elenchus** (Plato's early dialogues:
-*Euthyphro*, *Meno*, *Apology*). Socrates used iterative questioning to expose hidden assumptions
-and reach shared understanding before committing to action. This skill does the same for modern
-agentic workflows.
-
+Socratic questioning: expose hidden assumptions before committing to action.
 When a task is broad, ambiguous, or expensive to get wrong, stop and grill before planning.
 
 > **Related skill**: Use `structured-questioning` to prepare your questions *before* entering a grill
@@ -95,10 +91,8 @@ Use `/grill-with-docs` instead when the project has a CONTEXT.md domain language
 
 | Rationalization | Reality |
 |---|---|
-| "I know what they want, I've done this before" | Every project is different. Yesterday's assumptions are today's bugs. |
-| "Grilling slows me down" | It slows down the first hour. It saves the next 10 hours of rebuilding the wrong thing. |
-| "The requirements are in the issue" | Issues describe symptoms, not the full decision tree. The hidden branches are where the cost lives. |
-| "They'll correct me if I'm wrong" | They'll see the wrong output and correct you after you've built it. Much more expensive. |
+| "Grilling slows me down" | It slows the first hour. Saves the next 10. |
+| "The requirements are in the issue" | Issues describe symptoms, not the full decision tree. |
 
 ## Red Flags
 
