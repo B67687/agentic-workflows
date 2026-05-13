@@ -4,13 +4,13 @@ set -euo pipefail
 CONFIG="${OPENCODE_CONFIG:-$HOME/.config/opencode/opencode.jsonc}"
 
 usage() {
-  cat <<'USAGE'
+  cat <<USAGE
 Usage:
-  bash scripts/opencode-model-profile.sh status
-  bash scripts/opencode-model-profile.sh sustainable-go
-  bash scripts/opencode-model-profile.sh quality-go
-  bash scripts/opencode-model-profile.sh hard-go
-  bash scripts/opencode-model-profile.sh free
+  bash $(basename "$0") status
+  bash $(basename "$0") sustainable-go
+  bash $(basename "$0") quality-go
+  bash $(basename "$0") hard-go
+  bash $(basename "$0") free
 
 Profiles:
   sustainable-go  opencode-go/deepseek-v4-flash

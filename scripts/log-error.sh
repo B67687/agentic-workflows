@@ -8,11 +8,11 @@
 # include recent errors in its analysis.
 #
 # Usage:
-#   bash ./scripts/log-error.sh "command that failed" < error_output.txt
-#   bash ./scripts/log-error.sh "npm test" <<< "FAIL src/test.ts (1 error)"
+#   bash $(basename "$0") "command that failed" < error_output.txt
+#   bash $(basename "$0") "npm test" <<< "FAIL src/test.ts (1 error)"
 #
 # Or pipe error output:
-#   npm test 2>&1 | bash ./scripts/log-error.sh "npm test"
+#   npm test 2>&1 | bash $(basename "$0") "npm test"
 # =============================================================================
 set -euo pipefail
 

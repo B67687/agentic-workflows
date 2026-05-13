@@ -8,20 +8,20 @@
 # to prevent infinite retry loops.
 #
 # Usage:
-#   bash ./scripts/error-counter.sh increment <operation> [error-message]
+#   bash $(basename "$0") increment <operation> [error-message]
 #     Increment the error counter for an operation.
 #     If count >= threshold (default: 3), escalates to human via A2H.
 #
-#   bash ./scripts/error-counter.sh check <operation>
+#   bash $(basename "$0") check <operation>
 #     Show current count and escalation status.
 #
-#   bash ./scripts/error-counter.sh reset <operation>
+#   bash $(basename "$0") reset <operation>
 #     Reset counter (call on success).
 #
-#   bash ./scripts/error-counter.sh context <operation>
+#   bash $(basename "$0") context <operation>
 #     Output error context in compact XML format (for feeding into LLM context).
 #
-#   bash ./scripts/error-counter.sh list
+#   bash $(basename "$0") list
 #     Show all tracked operations.
 #
 # Environment:
@@ -36,6 +36,7 @@ set -euo pipefail
 trap 'echo "[ERROR] $BASH_SOURCE:$LINENO"' ERR
 
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 COUNTER_DIR="$REPO_ROOT/.runtime/error-counter"
 mkdir -p "$COUNTER_DIR"
 
@@ -101,8 +102,8 @@ escalate() {
   echo "  [escalate] Escalating to human..."
 
   # Try A2H contact if available
-  if [ -f "$REPO_ROOT/scripts/a2h-contact.sh" ]; then
-    bash "$REPO_ROOT/scripts/a2h-contact.sh" approve \
+  if [ -f "$SCRIPT_DIR/a2h-contact.sh" ]; then
+    bash "$SCRIPT_DIR/a2h-contact.sh" approve \
       "retry-$operation" \
       "{\"operation\": \"$operation\", \"failures\": $count, \"last_error\": $(echo "$error_msg" | python3 -c "import sys,json; print(json.dumps(sys.stdin.read()[:500]))" 2>/dev/null || echo "\"\"")}" \
       --urgency high --channel cli 2>&1 || true

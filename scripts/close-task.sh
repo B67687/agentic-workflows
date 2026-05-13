@@ -116,5 +116,5 @@ echo "Next: $NEXT"
 if git rev-parse --git-common-dir 2>/dev/null | grep -q "worktrees"; then
   echo ""
   echo "ℹ  You're in a session worktree. When ready:"
-  echo "   bash ./scripts/session-fork.sh --close"
+  echo "   bash $(dirname "$0")/session-fork.sh --close"
 fi

@@ -6,18 +6,18 @@
 # Supports human contacts (questions) and function approvals (authorization).
 #
 # Usage:
-#   bash ./scripts/a2h-contact.sh contact <message> [options]
+#   bash $(basename "$0") contact <message> [options]
 #     Create a human contact request. Agent asks a human a question.
 #     Options: --urgency low|medium|high  --channel slack|cli|file  --subject ""
 #
-#   bash ./scripts/a2h-contact.sh approve <operation> <details> [options]
+#   bash $(basename "$0") approve <operation> <details> [options]
 #     Request human approval for a high-stakes operation.
 #     Options: --urgency high|medium|low  --channel slack|cli|file
 #
-#   bash ./scripts/a2h-contact.sh respond <contact-id> <response>
+#   bash $(basename "$0") respond <contact-id> <response>
 #     Record a human response to a pending contact.
 #
-#   bash ./scripts/a2h-contact.sh list [--pending]
+#   bash $(basename "$0") list [--pending]
 #     List all pending contacts/approvals.
 #
 # Principle: "Contact humans with tool calls. The LLM can request a human

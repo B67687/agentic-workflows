@@ -4,13 +4,13 @@
 #
 # Orchestrates all sync and propagation operations from a single entry point:
 #
-#   bash ./scripts/propagate.sh               # Show sync status (default)
-#   bash ./scripts/propagate.sh status         # Check propagation status
-#   bash ./scripts/propagate.sh sync           # Sync commands/ -> .opencode/ + .pi/
-#   bash ./scripts/propagate.sh propagate      # Preview propagation to topic folders
-#   bash ./scripts/propagate.sh propagate --apply  # Apply propagation
-#   bash ./scripts/propagate.sh all            # Sync + propagate (preview)
-#   bash ./scripts/propagate.sh all --apply    # Full sync + propagate
+#   bash $(basename "$0")               # Show sync status (default)
+#   bash $(basename "$0") status         # Check propagation status
+#   bash $(basename "$0") sync           # Sync commands/ -> .opencode/ + .pi/
+#   bash $(basename "$0") propagate      # Preview propagation to topic folders
+#   bash $(basename "$0") propagate --apply  # Apply propagation
+#   bash $(basename "$0") all            # Sync + propagate (preview)
+#   bash $(basename "$0") all --apply    # Full sync + propagate
 #
 # Replaces manual invocation of:
 #   sync-commands.sh, propagate-to-all.sh, check-sync-status.sh
@@ -28,8 +28,8 @@ CMD="${1:-status}"
 shift || true
 
 usage() {
-  cat <<'USAGE'
-Usage: ./scripts/propagate.sh <command> [options]
+  cat <<USAGE
+Usage: $(basename "$0") <command> [options]
 
 Commands:
   status                   Check propagation status (default)
@@ -42,10 +42,10 @@ Options:
   -h, --help               Show this help
 
 Examples:
-  bash ./scripts/propagate.sh            # check status
-  bash ./scripts/propagate.sh sync       # sync commands to local harnesses
-  bash ./scripts/propagate.sh propagate  # preview propagation
-  bash ./scripts/propagate.sh all --apply  # full pipeline
+  bash $(basename "$0")            # check status
+  bash $(basename "$0") sync       # sync commands to local harnesses
+  bash $(basename "$0") propagate  # preview propagation
+  bash $(basename "$0") all --apply  # full pipeline
 USAGE
 }
 

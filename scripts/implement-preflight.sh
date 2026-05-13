@@ -22,8 +22,8 @@ VERIFICATION_KNOWN=false
 CONTRIBUTION_READ=false
 
 usage() {
-  cat <<'EOF'
-Usage: ./scripts/implement-preflight.sh "task" [options]
+  cat <<EOF
+Usage: $(basename "$0") "task" [options]
 
 Task intake options:
   --size light|medium|heavy
@@ -172,7 +172,7 @@ if [[ "$RISK" == "high" ]]; then
   elif echo "$APPROVAL_OUTPUT" | grep -q "pending"; then
     IMPLEMENT_DECISION="block"
     IMPLEMENT_REASON="high-risk operation awaiting human approval --- check .runtime/a2h/ for pending approvals"
-    IMPLEMENT_NEXT="run: bash scripts/a2h-contact.sh list --pending"
+    IMPLEMENT_NEXT="run: bash $SCRIPT_DIR/a2h-contact.sh list --pending"
   fi
 fi
 

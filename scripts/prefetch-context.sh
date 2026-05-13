@@ -6,9 +6,9 @@
 # to call tools to discover them. Outputs in XML-style tagged format.
 #
 # Usage:
-#   bash ./scripts/prefetch-context.sh           # XML output (default)
-#   bash ./scripts/prefetch-context.sh --json    # JSON output
-#   bash ./scripts/prefetch-context.sh --compact # short one-liner
+#   bash $(basename "$0")           # XML output (default)
+#   bash $(basename "$0") --json    # JSON output
+#   bash $(basename "$0") --compact # short one-liner
 #
 # Principle: "If you know what tools the model will need, call them
 # deterministically before the LLM invocation and include their results."
@@ -19,6 +19,7 @@ set -euo pipefail
 trap 'echo "[ERROR] $BASH_SOURCE:$LINENO"' ERR
 
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$REPO_ROOT"
 
 MODE="${1:-xml}"
@@ -49,11 +50,11 @@ print(d.get('status', '?'))
 fi
 
 # Context health
-HEALTH_JSON=$(bash scripts/context-pressure.sh --json 2>/dev/null || echo "{}")
+HEALTH_JSON=$(bash "$SCRIPT_DIR/context-pressure.sh" --json 2>/dev/null || echo "{}")
 HEALTH_STATUS=$(echo "$HEALTH_JSON" | python3 -c "import json,sys; d=json.load(sys.stdin); print(d.get('status','?'))" 2>/dev/null || echo "?")
 
 # Tools
-TOOL_COUNT=$(bash scripts/tools.sh 2>/dev/null | grep -cE "^(  script/|  command/)" || echo "?")
+TOOL_COUNT=$(bash "$SCRIPT_DIR/tools.sh" 2>/dev/null | grep -cE "^(  script/|  command/)" || echo "?")
 
 # Skills available (from manifest bundles)
 SKILL_BUNDLES=$(python3 -c "
