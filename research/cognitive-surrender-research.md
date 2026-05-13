@@ -217,6 +217,10 @@ The Microsoft Research finding is particularly important: **domain-general criti
 | Process accountability | **Promising** (Tetlock's framework: requiring justification of reasoning, not just outcomes) |
 | Incentives + feedback | **Partially effective** (Shaw & Nave Study 3: reduces but does not eliminate surrender; OR remains 11+) |
 | Time pressure relief | **Not effective** (makes surrender worse) |
+| **Scaffolded Cognitive Friction** (MAS devil's advocate agents) | **PROMISING THEORY** (arXiv 2603.21735: proposes multi-agent systems as explicit cognitive forcing functions; neurophysiological evaluation framework; not yet empirically validated) |
+| **Structured disagreement matrices** (anti-rationalization tables) | **PROMISING** (Osmani 2026; agent-skills pattern; integrative rationale but no direct experimental test as surrender intervention) |
+| **Construct expectation before generation** | **PROMISING** (Osmani 2026; based on Shaw & Nave calibration framework; no direct empirical test) |
+| **AI-free internalization phases** (solo work before AI) | **PROMISING** (Kos'myna et al. 2025: MIT EEG shows prior AI-free work produces stronger neural engagement when transitioning to AI use; Cognitive Offloading Ladder framework) |
 
 ### 5.5 The Surrender Loop Hypothesis
 
@@ -230,6 +234,25 @@ This hypothesis is **plausible but unvalidated** at the loop level. Individual c
 
 The complete end-to-end loop has not been tested longitudinally.
 
+### 5.6 Scholarly Debate: Is Cognitive Surrender a New Phenomenon?
+
+**Critique — Potkalitsky (2026)**:
+A significant critique argues that cognitive surrender is **not a novel discovery** but a relabeling of established phenomena:
+
+- **Anchoring** — the tendency to rely on the first piece of information encountered
+- **Automation bias** — uncritical trust in automated system outputs (Parasuraman & Manzey, 2010)
+- **Authority compliance** — deferring to authoritative-seeming sources (Milgram tradition)
+- **Advice-taking under uncertainty** — the judge-advisor system literature
+
+The critique is important and partially correct. What Shaw & Nave contribute is not the discovery of a new bias but:
+1. **Integration** — unifying multiple known effects under a single theoretical framework (Tri-System Theory) with a new mechanism: System 3 as an external cognitive system that bypasses System 1/2
+2. **Measurement** — providing an experimental paradigm that isolates the effect cleanly (OR = 16.07, h = 0.81)
+3. **Naming** — giving practitioners a tractable concept ("surrender") that aids recognition
+
+The debate's value: the critique correctly identifies that **intervention research lags behind labeling**. The field has a name for the problem; it does not yet have tested, scalable solutions outside controlled lab conditions. This directly motivates the practical integration work in this workspace.
+
+*Confidence: DEBATE NOTED — both positions have merit; the critique identifies a genuine gap in intervention research while understating the value of Tri-System Theory as an integrative framework.*
+
 ---
 
 ## 6. Key Sources (Ranked by Authority)
@@ -238,21 +261,28 @@ The complete end-to-end loop has not been tested longitudinally.
 1. **Shaw & Nave (2026)** — SSRN 6097646. Tri-System Theory and the first empirical demonstration. [PLAUSIBLE → HIGH: preregistered, large N, not yet peer-reviewed]
 2. **Dimant (2026)** — SSRN 6622458. Domain boundary: cognitive vs. moral surrender. [CONFIRMED: preregistered, incentive-compatible]
 3. **Lee et al. (2025)** — CHI 2025. Microsoft Research study of 319 knowledge workers. [CONFIRMED: peer-reviewed conference proceedings]
-4. **Van Valkenburg (2026)** — SSRN 6536378. Process integrity framework. [PLAUSIBLE: philosophically grounded working paper]
-5. **Canale (2026)** — SSRN 6228558. The Surrender Loop. [PLAUSIBLE: theoretical, well-sourced components, unvalidated at loop level]
-6. **Vagle (2026)** — Stanford Law Review (forthcoming). Policing and agnotology. [HIGH: peer-reviewed law review]
-7. **Storey (2026)** — arXiv 2603.22106. Triple Debt Model. [CONFIRMED: arXiv preprint, cited by 4]
-8. **Vicente & Matute (2023)** — *Scientific Reports*. AI bias persistence after removal. [ESTABLISHED: peer-reviewed]
-9. **Parasuraman & Manzey (2010)** — *Human Factors*. Foundational automation bias review. [ESTABLISHED: peer-reviewed, 870+ citations]
+4. **Kos'myna et al. (2025)** — MIT Media Lab. "Your Brain on ChatGPT." EEG study (N=54, 4 sessions over 4 months): LLM use produces weakest neural connectivity; prior LLM use causes persistent under-engagement when AI is removed. Introduces "cognitive debt." [HIGH: peer-reviewed neuroscience methods, pre-registered, multi-session longitudinal design]
+5. **Van Valkenburg (2026)** — SSRN 6536378. Process integrity framework. [PLAUSIBLE: philosophically grounded working paper]
+6. **Canale (2026)** — SSRN 6228558. The Surrender Loop. [PLAUSIBLE: theoretical, well-sourced components, unvalidated at loop level]
+7. **Vagle (2026)** — Stanford Law Review (forthcoming). Policing and agnotology. [HIGH: peer-reviewed law review]
+8. **Storey (2026)** — arXiv 2603.22106. Triple Debt Model. [CONFIRMED: arXiv preprint, cited by 4]
+9. **Vicente & Matute (2023)** — *Scientific Reports*. AI bias persistence after removal. [ESTABLISHED: peer-reviewed]
+10. **Parasuraman & Manzey (2010)** — *Human Factors*. Foundational automation bias review. [ESTABLISHED: peer-reviewed, 870+ citations]
 
 ### Software Engineering / Practitioner
-10. **Osmani (2026)** — Blog post. Engineer's guide to cognitive surrender; connects to comprehension debt, cognitive debt, anti-rationalization tables, agent harness engineering. [CONFIRMED: engineer at Google, author of agent-skills, primary sources cited]
-11. **Storey (2026)** — arXiv 2603.22106. Triple Debt Model (technical, cognitive, intent debt). [CONFIRMED: arXiv preprint]
+11. **Osmani (2026)** — Blog post. Engineer's guide to cognitive surrender; connects to comprehension debt, cognitive debt, anti-rationalization tables, agent harness engineering. [CONFIRMED: engineer at Google, author of agent-skills, primary sources cited]
+12. **Storey (2026)** — arXiv 2603.22106. Triple Debt Model (technical, cognitive, intent debt). [CONFIRMED: arXiv preprint]
+
+### Intervention Research
+13. **Cognitive Agency Surrender (2026)** — arXiv 2603.21735. Scaffolded Cognitive Friction (SCF): proposes MAS-based "devil's advocate" agents as cognitive forcing functions to interrupt surrender. [SPECULATIVE: theoretical proposal; neurophysiological evaluation framework not yet validated]
 
 ### Theoretical / Contextual
-12. **Chiriatti et al. (2024)** — *Nature Human Behaviour*. System 0. [ESTABLISHED: peer-reviewed, 51+ citations]
-13. **Bainbridge (1983)** — *Automatica*. Ironies of automation. [ESTABLISHED: foundational, 4000+ citations]
-14. **Clark & Chalmers (1998)** — *Analysis*. Extended mind. [ESTABLISHED: foundational]
+14. **Chiriatti et al. (2024)** — *Nature Human Behaviour*. System 0. [ESTABLISHED: peer-reviewed, 51+ citations]
+15. **Bainbridge (1983)** — *Automatica*. Ironies of automation. [ESTABLISHED: foundational, 4000+ citations]
+16. **Clark & Chalmers (1998)** — *Analysis*. Extended mind. [ESTABLISHED: foundational]
+
+### Critique / Debate
+17. **Potkalitsky (2026)** — Substack. Argues cognitive surrender relabels known phenomena (anchoring, automation bias); calls for intervention research over neologisms. [PLAUSIBLE: identifies genuine gap in intervention research]
 
 ---
 
@@ -334,17 +364,20 @@ The complete end-to-end loop has not been tested longitudinally.
 2. Canale, G. (2026). The Surrender Loop: Archetypal Selection and Cognitive Convergence in Recursive Human-AI Interaction. SSRN 6228558.
 3. Chiriatti, M., et al. (2024). The case for human-AI interaction as system 0 thinking. *Nature Human Behaviour*, 8, 1829–1830.
 4. Clark, A., & Chalmers, D. (1998). The extended mind. *Analysis*, 58(1), 7–19.
-5. Dimant, E. (2026). On the Limits of Moral Surrender to AI. SSRN 6622458.
-6. Kim, T. W., Usman, U., & Garvey, A. (2026). From algorithm aversion to AI dependence. *Consumer Psychology*.
-7. Lee, H-P., et al. (2025). The impact of generative AI on critical thinking. *CHI 2025*.
-8. Mosier, K. L., & Skitka, L. J. (1996). Human decision makers and automated decision aids. In *Automation and human performance*.
-9. Parasuraman, R., & Manzey, D. H. (2010). Complacency and bias in human use of automation. *Human Factors*, 52(3), 381–410.
-10. Osmani, A. (2026). Cognitive Surrender. *addyosmani.com/blog*. https://addyosmani.com/blog/cognitive-surrender/
-11. Shaw, S. D., & Nave, G. (2026). Thinking—Fast, Slow, and Artificial: How AI is Reshaping Human Reasoning and the Rise of Cognitive Surrender. SSRN 6097646.
-12. Storey, M-A. (2026). From Technical Debt to Cognitive and Intent Debt. arXiv:2603.22106.
-13. Vagle, J. L. (2026). AI Agnotology, Cognitive Surrender, and Policing Accountability. *Stanford Law Review Online* (forthcoming).
-14. Van Valkenburg, Z. (2026). Cognitive Surrender v. Constitutive Delegation. SSRN 6536378.
-15. Vicente, L., & Matute, H. (2023). Humans inherit artificial intelligence biases. *Scientific Reports*, 13, 15737.
-16. Wegner, D. M. (1987). Transactive memory. In *Theories of Group Behavior*.
-17. Williams, M. (2026). Cognitive surrender — how AI is reshaping professional judgement at work. *Employee Feedback* blog.
-18. Castiello, M. (2026). From Dual-Process Models to the Quadripartite Theory. SSRN 6385700.
+5. Cognitive Agency Surrender (2026). Defending Epistemic Sovereignty via Scaffolded AI Friction. arXiv:2603.21735.
+6. Dimant, E. (2026). On the Limits of Moral Surrender to AI. SSRN 6622458.
+7. Kim, T. W., Usman, U., & Garvey, A. (2026). From algorithm aversion to AI dependence. *Consumer Psychology*.
+8. Kos'myna, N., et al. (2025). Your Brain on ChatGPT: Accumulation of Cognitive Debt when Using an AI Assistant for Essay Writing Task. MIT Media Lab. arXiv:2506.08872.
+9. Lee, H-P., et al. (2025). The impact of generative AI on critical thinking. *CHI 2025*.
+10. Mosier, K. L., & Skitka, L. J. (1996). Human decision makers and automated decision aids. In *Automation and human performance*.
+11. Parasuraman, R., & Manzey, D. H. (2010). Complacency and bias in human use of automation. *Human Factors*, 52(3), 381–410.
+12. Osmani, A. (2026). Cognitive Surrender. *addyosmani.com/blog*. https://addyosmani.com/blog/cognitive-surrender/
+13. Potkalitsky, N. (2026). We Don't Need Another Neologism. We Need Interventions. *Substack*.
+14. Shaw, S. D., & Nave, G. (2026). Thinking—Fast, Slow, and Artificial: How AI is Reshaping Human Reasoning and the Rise of Cognitive Surrender. SSRN 6097646.
+15. Storey, M-A. (2026). From Technical Debt to Cognitive and Intent Debt. arXiv:2603.22106.
+16. Vagle, J. L. (2026). AI Agnotology, Cognitive Surrender, and Policing Accountability. *Stanford Law Review Online* (forthcoming).
+17. Van Valkenburg, Z. (2026). Cognitive Surrender v. Constitutive Delegation. SSRN 6536378.
+18. Vicente, L., & Matute, H. (2023). Humans inherit artificial intelligence biases. *Scientific Reports*, 13, 15737.
+19. Wegner, D. M. (1987). Transactive memory. In *Theories of Group Behavior*.
+20. Williams, M. (2026). Cognitive surrender — how AI is reshaping professional judgement at work. *Employee Feedback* blog.
+21. Castiello, M. (2026). From Dual-Process Models to the Quadripartite Theory. SSRN 6385700.
