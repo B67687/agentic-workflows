@@ -77,9 +77,10 @@ addition from 12-factor-agents is the **XML-style custom context format** (using
 `<event_type>` tags instead of JSON messages), which can be more token-efficient
 and attention-efficient.
 
-**Gap:** We don't yet adopt custom XML-style context serialization in our
-context-retrieval system. Our `retrieve-context.sh` returns JSON — switching to
-a tagged format could improve token efficiency.
+**Addressed:** `scripts/retrieve-context.sh` now supports `--xml` flag for
+XML-style tagged output (more token- and attention-efficient than JSON).
+`scripts/prefetch-context.sh` provides deterministic pre-fetch of git state,
+session data, and tool registry in XML format. Both available since Slice 2.
 
 **Reference:** [12-factor-agents Factor 3](https://github.com/humanlayer/12-factor-agents/blob/main/content/factor-03-own-your-context-window.md)
 
@@ -125,8 +126,9 @@ status) from "business state" (what happened so far). One source of truth.
 it captures task state, context metrics, assumptions, and history in one file.
 The `immediateNextSteps` array in session-state is exactly the "next step" pattern.
 
-**Gap:** We could strengthen the event-sourcing pattern — explicitly model each
-work cycle as a sequence of events (similar to Thread in 12-factor-agents).
+**Addressed:** `session-state.json` now includes an `events` array for
+append-only event sourcing. Each checkpoint records: timestamp, type, milestone,
+summary, files changed, and verification. Available since Slice 2.
 
 **Reference:** [12-factor-agents Factor 5](https://github.com/humanlayer/12-factor-agents/blob/main/content/factor-05-unify-execution-state.md)
 
@@ -315,9 +317,10 @@ The thread is serializable, forkable, and resumable.
 **Alignment:** Good. Our checkpoint system is a reducer: read state, do work,
 write new state, commit. Session files are serializable and handoffable.
 
-**Gap:** Could strengthen the pure-reducer pattern. Our `session-state.json` still
-has mutable fields that change in-place rather than appending events. A pure
-event-sourced reducer would append-only.
+**Addressed:** `session-state.json` now has a `events` array — an append-only
+event log that records each work cycle. Combined with the existing mutable
+fields, this gives us both quick state access and replayable history.
+Available since Slice 2.
 
 **Reference:** [12-factor-agents Factor 12](https://github.com/humanlayer/12-factor-agents/blob/main/content/factor-12-stateless-reducer.md)
 
@@ -342,9 +345,10 @@ context window — saving round trips.
 **Alignment:** Good. Our startup chain IS pre-fetching. `retrieve-context.sh`
 pre-fetches relevant documents before the agent acts.
 
-**Gap:** We don't pre-fetch **tool-specific** data. If we know an agent will need
-git tags, issue lists, or deployment status, we should fetch those deterministically
-before the LLM turn — not make the LLM call a tool to discover them.
+**Addressed:** `scripts/prefetch-context.sh` deterministically gathers git state,
+session data, tool registry, and learnings before any LLM invocation.
+`scripts/retrieve-context.sh` supports `--prefetch` flag for built-in pre-fetch
+during context retrieval. Both available since Slice 2.
 
 **Reference:** [12-factor-agents Appendix 13](https://github.com/humanlayer/12-factor-agents/blob/main/content/appendix-13-pre-fetch.md)
 
@@ -392,17 +396,17 @@ contact channels address our primary gaps (Factors 7 and 11).
 |---|---|---|
 | F1 (NL→Tools) | Low | Explicit documentation |
 | F2 (Own prompts) | None | Fully implemented |
-| F3 (Own context) | Low | XML-style context formatting for token efficiency |
+| F3 (Own context) | ✅ Addressed | XML-style output (`--xml` flag) + pre-fetch (`--prefetch` flag) in retrieve-context.sh |
 | F4 (Tools = structured outputs) | Low | Explicit documentation |
-| F5 (Unify state) | Low | Pure event-sourced reducer pattern |
+| F5 (Unify state) | ✅ Addressed | `events` array in session-state.json for append-only event sourcing |
 | F6 (Launch/Pause/Resume) | Low | REST API surface for external systems |
 | **F7 (Contact humans)** | **High** | No human-in-the-loop at all |
 | **F8 (Own control flow)** | **Medium** | No interrupt-between-selection-and-execution |
 | **F9 (Compact errors)** | **Medium** | No error counter / self-healing + escalate pattern |
 | F10 (Small focused agents) | None | Fully implemented — this IS our architecture |
 | **F11 (Trigger anywhere)** | **Medium** | No contact channels (Slack, Email, SMS) |
-| F12 (Stateless reducer) | Low | Pure append-only event sourcing |
-| F13 (Pre-fetch context) | Low | Tool-specific pre-fetch |
+| F12 (Stateless reducer) | ✅ Addressed | `events` array in session-state.json + checkpoint commit cycle |
+| F13 (Pre-fetch context) | ✅ Addressed | `scripts/prefetch-context.sh` + `retrieve-context.sh --prefetch` |
 
 ---
 
@@ -411,7 +415,7 @@ contact channels address our primary gaps (Factors 7 and 11).
 | # | Milestone | Factors Addressed | Status |
 |---|---|---|---|
 | 1 | Foundation + Principles Map | All (documentation) | ✅ This doc |
-| 2 | Context Engineering Deepening | F3, F5, F12, F13 | Planned |
+| 2 | Context Engineering Deepening | F3, F5, F12, F13 | ✅ Complete (Slice 2) |
 | 3 | Human-in-the-Loop Integration | F7, F8, F11 | Planned |
 | 4 | Scaffolding & Templates | All (tooling) | Planned |
 | 5 | Error Handling & Control Flow | F8, F9 | Planned |
