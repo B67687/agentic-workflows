@@ -27,12 +27,12 @@
 <br>
 
 <p align="center">
-  <img src="docs/typing-animation.svg" width="100%" alt="Typing animation" style="max-width:760px;">
+  <img src="docs/typing-animation.svg?v=2" width="100%" alt="Typing animation" style="max-width:760px;">
 </p>
 
 <p align="center">
   <a href="docs/hub-architecture.svg">
-    <img src="docs/hub-architecture.svg" width="100%" alt="Hub Architecture Diagram" style="max-width:900px;">
+    <img src="docs/hub-architecture.svg?v=2" width="100%" alt="Hub Architecture Diagram" style="max-width:900px;">
   </a>
   <br>
   <sub>SVG architecture diagram --- <a href="docs/hub-architecture.svg">view full size</a></sub>
@@ -99,7 +99,7 @@ Then open **[`AGENTS.md`](AGENTS.md)** --- that's the operating contract. Every 
 <h2>🗺️ Orientation</h2>
 
 <p align="center">
-  <img src="docs/folder-structure.svg" width="100%" alt="Folder structure" style="max-width:720px;">
+  <img src="docs/folder-structure.svg?v=2" width="100%" alt="Folder structure" style="max-width:720px;">
 </p>
 
 | Quick Command | Action |
