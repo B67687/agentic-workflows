@@ -28,6 +28,22 @@ bulk traversal constrained by safety rails.
 └──────────────────────────────────────────────────┘
 ```
 
+## Directory Exclusion
+
+Always exclude noise directories from bash searches (especially `.git/`):
+
+```bash
+# Good: excludes .git/
+find . -name '*.py' -not -path './.git/*'
+grep -rn 'pattern' --include='*.py' .          # --include auto-excludes .git in most configs
+find . -name '*.py' -not -path './.git/*' | wc -l
+
+# Avoid: searches .git/ unnecessarily
+# find . -name '*.py' | wc -l                   # includes .git/
+```
+
+The companion `core/explore.py` script handles exclusion automatically via `_workspace_files.py`. When using ad-hoc bash, add `-not -path './.git/*'` explicitly.
+
 ## When to Use
 
 - **Starting exploration** of an unfamiliar codebase
