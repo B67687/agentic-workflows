@@ -9,10 +9,7 @@ handoffs: context-engineering (to set up context), using-agent-skills (to pick a
 
 ## Overview
 
-Modern LLMs know how to use Unix commands naturally --- `find`, `grep`, `cat`, `ls`,
-`wc`, `sort`, `head`, `tail`.  Letting the agent use bash for *discovery* and then
-switch to Read/Grep tools for *precision* gives the best of both approaches: fast
-bulk traversal constrained by safety rails.
+Modern LLMs know how to use Unix commands naturally. Bash is for *discovery*; Read/Grep tools are for *precision*. The hybrid approach keeps safety rails (audited commands, structured calls) while giving bash for bulk operations.
 
 **Principle:** Bash for breadth, tools for depth.
 **Sequence:** Bash discovery (find/grep/ls) → narrow to 1-5 files → Tool precision (Read/Grep/Glob) → Edit
@@ -90,16 +87,3 @@ python3 core/explore.py find-by-content 'pattern' --ext .py .ts
 python3 core/explore.py file-stats
 ```
 
-## Why Hybrid (Not Bash-Only)
-
-Pure bash exploration (like mini-SWE-agent) removes all guardrails:
-
-| Concern | Tool-Based | Bash-Only |
-|---------|-----------|-----------|
-| Safety | Commands are audited, scoped | Full shell access |
-| Cost | Tool calls show token usage | Bash runs invisibly |
-| Reproducibility | Tool calls are structured | Bash output varies |
-| Error handling | Structured error responses | Raw stderr |
-
-The hybrid approach keeps safety rails for dangerous operations while giving bash
-for the high-value bulk discovery operations that tools handle poorly.
