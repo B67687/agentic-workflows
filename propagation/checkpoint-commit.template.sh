@@ -6,7 +6,7 @@
 
 set -euo pipefail
 
-EXPECTED_IDENT="${EXPECTED_GIT_IDENT:-B67687 <111849193+B67687@users.noreply.github.com>}"
+EXPECTED_IDENT="${EXPECTED_GIT_IDENT:-Your Name <your@email.com>}"
 STAGE_ALL=true
 DRY_RUN=false
 SHOW_DIFF=false

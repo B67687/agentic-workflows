@@ -76,7 +76,7 @@ Every `.sh` script must have:
 
 - Heading hierarchy: H1 -> H2 -> H3, no skipping levels
 - Code blocks: fenced with ``` for clarity
-- Link format: `[Link text](relative/path.md)`
+- Link format: `[Link text](./relative/path.md)`
 
 ---
 

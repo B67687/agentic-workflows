@@ -121,7 +121,7 @@ GitHub's docs also state that agent instructions can use `AGENTS.md`, and mentio
 
 Keep one canonical library here:
 
-- [authoritative-agent-best-practices.md](authoritative-agent-best-practices.md)
+- `authoritative-agent-best-practices.md` (in archive/, local reference)
 - [daily-prompts.md](daily-prompts.md)
 - [prompt-templates.md](prompt-templates.md)
 
@@ -315,9 +315,7 @@ As of April 10, 2026, the most consistent official pattern is:
 - keep sessions focused
 - give agents concrete context and acceptance criteria
 
-For details, see:
-
-- [authoritative-agent-best-practices.md](authoritative-agent-best-practices.md)
+For details, see `authoritative-agent-best-practices.md` (in archive/, local reference).
 
 ## Cross-Project Memory Loop
 

@@ -2,9 +2,7 @@
 
 Use this file when the goal is lower total workflow cost, not just shorter prompts.
 
-For the shared principles behind it, start with:
-
-- [archive/superseded/core-agent-doctrine.md](archive/superseded/core-agent-doctrine.md)
+For the shared principles behind it, start with `AGENTS.md` in the repo root.
 
 ## Core Rule
 

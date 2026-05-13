@@ -83,8 +83,8 @@ For monorepos with multiple bounded contexts, use a `CONTEXT-MAP.md` at the root
 
 ## Contexts
 
-- [Ordering](./src/ordering/CONTEXT.md) --- receives and tracks customer orders
-- [Billing](./src/billing/CONTEXT.md) --- generates invoices and processes payments
+- `ordering/CONTEXT.md` --- receives and tracks customer orders
+- `billing/CONTEXT.md` --- generates invoices and processes payments
 
 ## Relationships
 

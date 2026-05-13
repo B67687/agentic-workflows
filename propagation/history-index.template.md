@@ -2,13 +2,13 @@
 <!-- Template: Topic Folder History Index -->
 # History Index
 
-> Quick reference for major phases and sessions. Full narratives live in [history-full-detailed.md](history-full-detailed.md).
+> Quick reference for major phases and sessions. Full narratives live in a separate `history-full-detailed.md`.
 
 ## How To Use
 
 - Add one short row per meaningful session or phase.
 - Keep this file compact and scannable.
-- Put the full narrative in `history-full-detailed.md`.
+- Put the full narrative in a companion `history-full-detailed.md` file.
 
 ## Index
 
