@@ -1,6 +1,6 @@
 ---
 name: tighten-loop
-description: Harvest course-corrections from the current conversation and convert them into durable fixes so the agent doesn't need the same steer next time. Use when someone says "tighten the loop", "debrief this session", "what should I update so next time you don't...", "what tripped you up", or at end of session when reflecting on agent friction. NOT for: repo readiness (→ loop-check), retros on past PRs/incidents (→ retrospective), or applying edits inline.
+description: "Harvest course-corrections from the current conversation and convert them into durable fixes so the agent doesn't need the same steer next time. Use when someone says tighten the loop, debrief this session, what should I update, what tripped you up. NOT for: repo readiness (→ loop-check), retros on past PRs/incidents (→ retrospective), or applying edits inline."
 trigger-phrases: tighten the loop, debrief this session, what should I update, what tripped you up, what slowed you down, session debrief
 handoffs: loop-check (for repo-level loop assessment), retrospective (for event-driven retro)
 companion-script: scripts/tighten-loop.sh

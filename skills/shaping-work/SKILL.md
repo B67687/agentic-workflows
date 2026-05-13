@@ -1,6 +1,6 @@
 ---
 name: shaping-work
-description: Shape rough ideas into clear, actionable work definitions — lighter than full specs, focused on acceptance criteria. Use when someone has an unstructured idea — feature requests, bug reports, Slack threads, customer feedback, vague "we should do X" statements. Trigger phrases: "shape this", "scope this", "write a PRD", "define this work", "turn this into a ticket", "flesh this out", "what should we build for X". NOT for: full specification (→ spec-driven-development), or implementation planning (→ implementation-planning).
+description: "Shape rough ideas into clear, actionable work definitions — lighter than full specs, focused on acceptance criteria. Use when someone has an unstructured idea — feature requests, bug reports, Slack threads, customer feedback. NOT for: full specification (→ spec-driven-development), or implementation planning (→ implementation-planning)."
 trigger-phrases: shape this, scope this, define this work, turn this into a ticket, flesh this out, what should we build, acceptance criteria
 handoffs: implementation-planning (to plan after shaping), product-discovery (to validate before committing)
 companion-script: scripts/shape-work.sh

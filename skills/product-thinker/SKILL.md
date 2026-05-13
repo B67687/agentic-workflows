@@ -1,6 +1,6 @@
 ---
 name: product-thinker
-description: Think like a senior product manager. Use for product decisions, build-vs-buy evaluation, UX analysis, competitive research, and strategy. Trigger when someone asks "should we build this?", "is it worth it?", "why are users dropping off?", "what do you think about this product/flow?", or for any product-level decision. NOT for: writing code, debugging, PR review, or technical implementation.
+description: "Think like a senior product manager. Use for product decisions, build-vs-buy evaluation, UX analysis, competitive research, and strategy. NOT for: writing code, debugging, PR review, or technical implementation."
 trigger-phrases: should we build, is it worth, why are users, build vs buy, product decision, UX review, competitive analysis, product strategy, what do you think about
 handoffs: shaping-work (to define the work), strategic-thinker (to dig into approach)
 companion-script: scripts/product-think.sh

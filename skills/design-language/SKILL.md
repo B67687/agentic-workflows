@@ -1,6 +1,6 @@
 ---
 name: design-language
-description: Capture and enforce a product's visual design language — principles and patterns that make it feel like itself. Two modes: Capture (distill design from Figma URLs, screenshots, or live URLs) and Review (check implementation against docs/design.md). NOT for: generating new UI (→ frontend-ui-engineering), accessibility audits, or token extraction.
+description: "Capture and enforce a product's visual design language — principles and patterns that make it feel like itself. Two modes: Capture (distill design from Figma URLs, screenshots, or live URLs) and Review (check implementation against docs/design.md). NOT for: generating new UI (→ frontend-ui-engineering), accessibility audits, or token extraction."
 trigger-phrases: capture this design, design language, design review, design fidelity, does this match our design, extract design direction, design principles
 handoffs: shaping-work (to shape drift into work items), implementation-planning (to plan design fixes), frontend-ui-engineering (to implement UI)
 companion-script: scripts/design-language.sh

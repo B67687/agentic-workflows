@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-
-set -euo pipefail
+# NOTE: No set -euo pipefail here — this file is sourced by propagate-to-all.sh
+# and would propagate shell options to the caller.
 
 PROPAGATION_CONTRACT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 PROPAGATION_TEMPLATES_DIR="${PROPAGATION_TEMPLATES_DIR:-$PROPAGATION_CONTRACT_ROOT/propagation}"

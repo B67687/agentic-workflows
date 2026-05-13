@@ -1,467 +1,460 @@
 #!/usr/bin/env python3
 """
-repo-map.py — Build a compact, ranked map of the workspace using tree-sitter.
+Repo Map — tree-sitter + PageRank codebase map generator.
+
+Generates a ranked, token-budgeted map of the codebase by:
+1. Parsing each file with tree-sitter to extract symbols (definitions, references)
+2. Building a dependency graph (file A → file B when A references B's symbols)
+3. Running PageRank to rank files by importance
+4. Rendering ranked files with key symbol context within a token budget
 
 Usage:
-    python3 repo-map.py [root-dir] [--max-tokens N]
-
-Scans text files via tree-sitter, extracts symbols (classes, functions, methods,
-types), builds a dependency graph, runs PageRank for importance, and outputs a
-compact, ranked map.
-
-Dependencies:
-    tree_sitter_language_pack  (installed automatically with grep_ast)
+  ./scripts/repo-map.py                   # Generate repo map (auto-detect)
+  ./scripts/repo-map.py --tokens 2048     # Custom token budget
+  ./scripts/repo-map.py --root /path      # Custom root
+  ./scripts/repo-map.py --chat file1.py   # Files currently in chat (higher rank)
+  ./scripts/repo-map.py --mention ident   # Mentioned identifiers (higher rank)
+  ./scripts/repo-map.py --refresh         # Force refresh all caches
+  ./scripts/repo-map.py --output          # Print to stdout
 """
 
+import argparse
 import json
-import math
 import os
-import re
+import sqlite3
 import sys
 import time
-from collections import defaultdict
+from collections import Counter, defaultdict
 from pathlib import Path
-from typing import NamedTuple
+from typing import Optional
 
-# ---- Shared utility ---------------------------------------------------------
-_SCRIPT = Path(__file__).resolve()
-sys.path.insert(0, str(_SCRIPT.parent))
-import _workspace_files  # noqa: E402
+try:
+    from tree_sitter import Language, Parser, Query
+    HAS_TS = True
+except ImportError:
+    HAS_TS = False
 
-# Tree-sitter language pack (provides process() for parsing)
-from tree_sitter_language_pack import process, ProcessConfig
-
-
-# ---- Data types -------------------------------------------------------------
-
-class Symbol(NamedTuple):
-    name: str
-    kind: str          # Function, Class, Method, Interface, TypeAlias, etc.
-    line: int
-    column: int
+try:
+    import networkx as nx
+    HAS_NX = True
+except ImportError:
+    HAS_NX = False
 
 
-# ---- Language support --------------------------------------------------------
+# Languages supported with tag queries
+LANGUAGE_QUERIES = {
+    "python": """
+        (function_definition name: (identifier) @name.definition.function)
+        (class_definition name: (identifier) @name.definition.class)
+        (decorated_definition name: (identifier) @name.definition.function)
+        (call function: (identifier) @name.reference.call)
+    """,
+    "javascript": """
+        (function_declaration name: (identifier) @name.definition.function)
+        (method_definition name: (property_identifier) @name.definition.method)
+        (arrow_function name: (identifier) @name.definition.function)
+        (class_declaration name: (identifier) @name.definition.class)
+        (call_expression function: (identifier) @name.reference.call)
+        (variable_declarator name: (identifier) @name.definition.variable)
+    """,
+    "typescript": """
+        (function_declaration name: (identifier) @name.definition.function)
+        (method_definition name: (property_identifier) @name.definition.method)
+        (class_declaration name: (identifier) @name.definition.class)
+        (interface_declaration name: (type_identifier) @name.definition.interface)
+        (type_alias_declaration name: (type_identifier) @name.definition.type)
+        (call_expression function: (identifier) @name.reference.call)
+    """,
+    "rust": """
+        (function_item name: (identifier) @name.definition.function)
+        (struct_item name: (type_identifier) @name.definition.struct)
+        (enum_item name: (type_identifier) @name.definition.enum)
+        (trait_item name: (type_identifier) @name.definition.trait)
+        (impl_item name: (type_identifier) @name.definition.impl)
+        (call_expression function: (identifier) @name.reference.call)
+    """,
+    "bash": """
+        (function_definition name: (word) @name.definition.function)
+        (command name: (command_name) @name.reference.call)
+    """,
+    "go": """
+        (function_declaration name: (identifier) @name.definition.function)
+        (method_declaration name: (field_identifier) @name.definition.method)
+        (type_declaration (type_spec name: (type_identifier) @name.definition.type))
+        (call_expression function: (identifier) @name.reference.call)
+    """,
+}
 
-# Languages supported by tree_sitter_language_pack
-# We use the `process()` function which auto-detects or takes a language name.
-TREE_SITTER_LANGS = {
+# File extension to language mapping
+EXTENSION_MAP = {
     ".py": "python",
     ".js": "javascript",
     ".jsx": "javascript",
     ".ts": "typescript",
     ".tsx": "typescript",
-    ".go": "go",
     ".rs": "rust",
-    ".java": "java",
-    ".kt": "kotlin",
-    ".cs": "c_sharp",
-    ".rb": "ruby",
-    ".php": "php",
-    ".swift": "swift",
-    ".c": "c",
-    ".cpp": "cpp",
-    ".h": "c",
-    ".hpp": "cpp",
     ".sh": "bash",
     ".bash": "bash",
-    ".zsh": "bash",
-    ".pyi": "python",
-    ".mjs": "javascript",
-    ".cjs": "javascript",
+    ".go": "go",
 }
 
-# Regex patterns for languages NOT in tree-sitter (fallback)
-# Captures function/class definitions from plain text
-SYMBOL_REGEX = [
-    re.compile(r"^\s*(?:export\s+)?(?:async\s+)?function\s+(\w+)\s*\("),
-    re.compile(r"^\s*(?:export\s+)?(?:class|interface|type|enum)\s+(\w+)"),
-    re.compile(r"^\s*(?:export\s+)?(?:default\s+)?(?:function|class)\s+(\w+)"),
-    re.compile(r"^\s*(?:def|class)\s+(\w+)\s*[\(:]"),
-    re.compile(r"^\s*func\s+(?:\([^)]+\)\s*)?(\w+)\s*\("),
-    re.compile(r"^\s*(?:pub\s+)?(?:async\s+)?fn\s+(\w+)\s*\("),
-    re.compile(r"^\s*(?:export\s+)?(?:const|let|var)\s+(\w+)\s*=\s*(?:async\s*)?\(?"),
-]
-
-# Import regex patterns for dependency graph
-IMPORT_REGEX = {
-    "python": [
-        re.compile(r"^\s*import\s+(\S+)"),
-        re.compile(r"^\s*from\s+(\S+)\s+import"),
-    ],
-    "javascript": [
-        re.compile(r"""^\s*import\s+(?:\{[^}]*\}\s+from\s+)?['\"]([^'\"]+)['\"]"""),
-        re.compile(r"""^\s*(?:const|let|var)\s+\w+\s*=\s*require\s*\(['\"]([^'\"]+)['\"]"""),
-    ],
-    "bash": [
-        re.compile(r"^\s*source\s+(\S+)"),
-        re.compile(r"^\s*\.\s+(\S+)"),
-    ],
+# Directories to always ignore
+IGNORE_DIRS = {
+    "node_modules", ".git", "__pycache__", ".venv", "venv",
+    "dist", "build", "target", ".cache", ".tap",
 }
 
 
-# ---- Helpers ----------------------------------------------------------------
+class RepoMap:
+    """Generates ranked codebase maps using tree-sitter + PageRank."""
 
-def _get_lang(ext: str) -> str | None:
-    """Map file extension to tree-sitter language name."""
-    return TREE_SITTER_LANGS.get(ext.lower())
+    def __init__(
+        self,
+        root: str = ".",
+        map_tokens: int = 1024,
+        refresh: bool = False,
+        chat_files: list[str] = None,
+        mentioned_idents: list[str] = None,
+    ):
+        self.root = Path(root).resolve()
+        self.max_map_tokens = map_tokens
+        self.refresh = refresh
+        self.chat_files = set(chat_files or [])
+        self.mentioned_idents = set(mentioned_idents or [])
+        self.cache_dir = self.root / ".repo-map.cache"
+        self.cache_db = self.cache_dir / "tags.db"
 
+        if HAS_TS:
+            self.init_parser()
 
-def _get_imports(text: str, ext: str) -> list[str]:
-    """Extract import paths from text using regex patterns."""
-    imports = []
-    for pat in IMPORT_REGEX.get("python" if ext == ".py" else
-                                "javascript" if ext in (".js", ".jsx", ".ts", ".tsx", ".mjs", ".cjs") else
-                                "bash" if ext in (".sh", ".bash", ".zsh") else
-                                ext, []):
-        for m in pat.finditer(text):
-            imports.append(m.group(1).strip())
-    return imports
+    def init_parser(self):
+        """Initialize tree-sitter parsers for supported languages."""
+        self.parsers = {}
+        self.languages = {}
 
+        for lang in LANGUAGE_QUERIES:
+            try:
+                # Try to load tree-sitter language
+                lang_module = __import__(f"tree_sitter_{lang}", fromlist=["language"])
+                language = Language(lang_module.language())
+                parser = Parser(language)
+                self.parsers[lang] = parser
+                self.languages[lang] = language
+            except ImportError:
+                pass  # Language not available, skip
 
-def _extract_symbols_tree_sitter(text: str, lang: str) -> list[Symbol]:
-    """Extract symbols using tree-sitter."""
-    symbols = []
-    try:
-        config = ProcessConfig(language=lang, structure=True, symbols=False)
-        result = process(text, config)
-        for item in result.structure:
-            kind_str = str(item.kind)
-            # Filter to relevant kinds
-            if kind_str in ("Function", "Class", "Method", "Interface",
-                            "TypeAlias", "Enum", "Struct", "Trait",
-                            "Module", "Decorator"):
-                symbols.append(Symbol(
-                    name=item.name or "",
-                    kind=kind_str,
-                    line=item.span.start_line,
-                    column=item.span.start_column,
-                ))
-    except Exception:
-        pass  # Fall through to regex
-    return symbols
+    def get_language(self, filepath: Path) -> Optional[str]:
+        """Detect language from file extension."""
+        return EXTENSION_MAP.get(filepath.suffix.lower())
 
+    def extract_tags(self, filepath: Path) -> list[tuple]:
+        """Extract tags (symbol definitions and references) from a file using tree-sitter."""
+        lang = self.get_language(filepath)
+        if not lang or lang not in self.parsers:
+            return []
 
-def _extract_symbols_regex(text: str) -> list[Symbol]:
-    """Extract symbols using regex (fallback)."""
-    symbols = []
-    lines = text.splitlines()
-    for idx, line in enumerate(lines, start=1):
-        for pattern in SYMBOL_REGEX:
-            m = pattern.match(line)
-            if m:
-                symbols.append(Symbol(
-                    name=m.group(1),
-                    kind="Function" if "function" in line.lower() or "def " in line or "fn " in line else "Class" if "class " in line else "Symbol",
-                    line=idx,
-                    column=line.index(m.group(1)),
-                ))
-                break
-    return symbols
-
-
-def _extract_headings(text: str) -> list[Symbol]:
-    """Extract markdown headings as pseudo-symbols."""
-    symbols = []
-    for i, line in enumerate(text.splitlines(), start=1):
-        if line.startswith("#"):
-            level = len(line) - len(line.lstrip("#"))
-            text_content = line.lstrip("#").strip()
-            if text_content:
-                symbols.append(Symbol(
-                    name=text_content,
-                    kind=f"H{level}",
-                    line=i,
-                    column=0,
-                ))
-    return symbols
-
-
-def _resolve_import(imp: str, source_file: Path, root: Path) -> Path | None:
-    """Try to resolve an import path to an actual file."""
-    # Normalize: strip quotes, handle relative paths
-    imp = imp.strip("'\"")
-    if imp.startswith("."):
-        # Relative import
-        base = source_file.parent
-    else:
-        base = root
-
-    candidates = [
-        base / imp,
-        base / imp / "__init__.py",
-        base / imp / "index.js",
-        base / imp / "index.ts",
-        Path(f"{base}/{imp}.py"),
-        Path(f"{base}/{imp}.js"),
-        Path(f"{base}/{imp}.ts"),
-        Path(f"{base}/{imp}.sh"),
-    ]
-    for c in candidates:
         try:
-            resolved = c.resolve()
-            if resolved.exists() and resolved.is_file():
-                return resolved
-        except OSError:
-            continue
-    return None
+            code = filepath.read_text(encoding="utf-8", errors="replace")
+        except Exception:
+            return []
 
+        parser = self.parsers[lang]
+        language = self.languages[lang]
 
-# ---- Cache ------------------------------------------------------------------
-
-CACHE_DIR_NAME = ".cache/repo-map-cache"
-
-
-def _load_cache(cache_dir: Path) -> dict:
-    cache_file = cache_dir / "symbols.json"
-    if cache_file.exists():
         try:
-            return json.loads(cache_file.read_text())
-        except (json.JSONDecodeError, OSError):
-            pass
-    return {}
+            tree = parser.parse(bytes(code, "utf-8"))
+            query = Query(language, LANGUAGE_QUERIES[lang])
+            captures = query.captures(tree.root_node)
+        except Exception:
+            return []
 
+        tags = []
+        for node, tag_name in captures:
+            try:
+                name = node.text.decode("utf-8")
+                line = node.start_point[0]
+                if tag_name.startswith("name.definition."):
+                    kind = "def"
+                elif tag_name.startswith("name.reference."):
+                    kind = "ref"
+                else:
+                    continue
+                tags.append((name, kind, line, str(filepath)))
+            except Exception:
+                continue
 
-def _save_cache(cache_dir: Path, cache: dict) -> None:
-    cache_dir.mkdir(parents=True, exist_ok=True)
-    (cache_dir / "symbols.json").write_text(json.dumps(cache, indent=2))
+        return tags
 
+    def walk_files(self) -> list[Path]:
+        """Walk repository and collect all source files."""
+        files = []
+        for ext in EXTENSION_MAP:
+            files.extend(self.root.rglob(f"*{ext}"))
 
-def _get_file_mtime(path: Path) -> float:
-    try:
-        return path.stat().st_mtime
-    except OSError:
-        return 0.0
+        # Filter ignored directories
+        filtered = []
+        for f in files:
+            parts = f.relative_to(self.root).parts
+            if any(d in parts for d in IGNORE_DIRS):
+                continue
+            if f.is_file():
+                filtered.append(f)
+        return sorted(filtered)
 
+    def get_tags_cached(self, filepath: Path) -> list[tuple]:
+        """Get tags with disk caching for performance."""
+        if self.refresh:
+            return self.extract_tags(filepath)
 
-# ---- PageRank ----------------------------------------------------------------
+        rel_path = str(filepath.relative_to(self.root))
+        mtime = filepath.stat().st_mtime
 
-def page_rank(
-    graph: dict[str, set[str]],
-    damping: float = 0.85,
-    max_iter: int = 100,
-    tol: float = 1e-6,
-) -> dict[str, float]:
-    """Compute PageRank over a directed graph of file paths."""
-    nodes = set(graph.keys()) | {n for v in graph.values() for n in v}
-    if not nodes:
-        return {}
+        if self.cache_db.exists():
+            try:
+                conn = sqlite3.connect(str(self.cache_db))
+                conn.row_factory = sqlite3.Row
+                cursor = conn.execute(
+                    "SELECT mtime, tags_json FROM tag_cache WHERE path = ?",
+                    (rel_path,),
+                )
+                row = cursor.fetchone()
+                conn.close()
 
-    n = len(nodes)
-    node_list = list(nodes)
-    idx = {node: i for i, node in enumerate(node_list)}
+                if row and row["mtime"] == mtime:
+                    return json.loads(row["tags_json"])
+            except Exception:
+                pass
 
-    # Build adjacency matrix (sparse: list of outgoing indices per node)
-    out_links = {i: [idx[neighbor] for neighbor in graph.get(node, set())
-                     if neighbor in idx]
-                 for i, node in enumerate(node_list)}
+        # Cache miss — extract and store
+        tags = self.extract_tags(filepath)
+        self.cache_dir.mkdir(parents=True, exist_ok=True)
 
-    # Handle dangling nodes (no outgoing links)
-    dangling = [i for i, links in out_links.items() if not links]
-    is_dangling = [i in dangling for i in range(n)]
-
-    # Initialize
-    rank = [1.0 / n] * n
-    teleport = (1.0 - damping) / n
-
-    for _ in range(max_iter):
-        prev = rank[:]
-        # Distribute dangling rank evenly
-        dangling_sum = sum(rank[i] for i in dangling) / n if dangling else 0
-
-        for i in range(n):
-            rank[i] = teleport + damping * (
-                dangling_sum +
-                sum(prev[j] / max(len(out_links[j]), 1)
-                    for j in range(n) if i in out_links[j])
+        try:
+            conn = sqlite3.connect(str(self.cache_db))
+            conn.execute(
+                """CREATE TABLE IF NOT EXISTS tag_cache
+                   (path TEXT PRIMARY KEY, mtime REAL, tags_json TEXT)"""
             )
+            conn.execute(
+                "INSERT OR REPLACE INTO tag_cache (path, mtime, tags_json) VALUES (?, ?, ?)",
+                (rel_path, mtime, json.dumps(tags)),
+            )
+            conn.commit()
+            conn.close()
+        except Exception:
+            pass
 
-        # Check convergence
-        diff = sum(abs(rank[i] - prev[i]) for i in range(n))
-        if diff < tol:
-            break
+        return tags
 
-    return {node_list[i]: rank[i] for i in range(n)}
+    def build_graph(self, files: list[Path]) -> tuple:
+        """Build a dependency graph and return ranked files."""
+        if not HAS_NX:
+            print("Warning: networkx not available, using frequency-based ranking", file=sys.stderr)
+            return self._rank_by_frequency(files)
 
+        defines = defaultdict(set)
+        references = defaultdict(list)
+        definitions = defaultdict(set)
 
-# ---- Main --------------------------------------------------------------------
+        rel_files = set()
+        for f in files:
+            rel = str(f.relative_to(self.root))
+            rel_files.add(rel)
 
-def main() -> None:
-    args = sys.argv[1:]
+            tags = self.get_tags_cached(f)
+            for name, kind, line, path in tags:
+                if kind == "def":
+                    defines[name].add(rel)
+                    definitions[(rel, name)].add((name, line, path))
+                elif kind == "ref":
+                    references[name].append(rel)
 
-    if any(a in ("--help", "-h") for a in args):
-        print("Usage: python3 repo-map.py [root-dir] [--max-tokens N] [--no-headings] [--no-symbols]")
-        print("  --max-tokens N    Token budget for output (default: 2048)")
-        print("  --no-headings     Skip markdown headings")
-        print("  --no-symbols      Skip code symbols")
-        sys.exit(0)
+        if not references:
+            references = dict((k, list(v)) for k, v in defines.items())
 
-    # Parse args
-    root = Path.cwd()
-    max_tokens = 2048
-    show_headings = True
-    show_symbols = True
+        idents = set(defines.keys()) & set(references.keys())
 
-    positional = []
-    skip_next = False
-    for i, a in enumerate(args):
-        if skip_next:
-            skip_next = False
-            continue
-        if a == "--no-headings":
-            show_headings = False
-        elif a == "--no-symbols":
-            show_symbols = False
-        elif a.startswith("--max-tokens="):
-            max_tokens = int(a.split("=", 1)[1])
-        elif a == "--max-tokens" and i + 1 < len(args):
-            max_tokens = int(args[i + 1])
-            skip_next = True
-        else:
-            positional.append(a)
+        G = nx.MultiDiGraph()
 
-    if positional:
-        root = Path(positional[0]).resolve()
+        for ident in idents:
+            definers = defines[ident]
+            mul = 1.0
 
-    t0 = time.time()
+            # Boost CamelCase and snake_case (likely significant symbols)
+            is_snake = "_" in ident and any(c.isalpha() for c in ident)
+            is_camel = any(c.isupper() for c in ident) and any(c.islower() for c in ident)
+            if ident in self.mentioned_idents:
+                mul *= 10
+            if (is_snake or is_camel) and len(ident) >= 6:
+                mul *= 2
+            if ident.startswith("_"):
+                mul *= 0.1
+            if len(defines[ident]) > 5:
+                mul *= 0.1
 
-    # 1. Discover files
-    files = _workspace_files.list_text_files(root)
-    print(f"Files scanned: {len(files)}", file=sys.stderr)
+            for referencer, num_refs in Counter(references[ident]).items():
+                for definer in definers:
+                    use_mul = mul
+                    if referencer in self.chat_files:
+                        use_mul *= 20
+                    num_refs_sqrt = num_refs ** 0.5
+                    G.add_edge(referencer, definer, weight=use_mul * num_refs_sqrt, ident=ident)
 
-    # 2. Extract symbols and build dependency graph
-    cache_dir = root / CACHE_DIR_NAME
-    cache = _load_cache(cache_dir)
+        # Personalization: boost chat files and mentioned idents
+        personalization = {}
+        personalization_val = 100.0 / max(len(rel_files), 1)
+        for rel_f in rel_files:
+            if rel_f in self.chat_files:
+                personalization[rel_f] = personalization_val
+            else:
+                # Check if any path component matches a mentioned ident
+                path_parts = set(Path(rel_f).parts)
+                basename = Path(rel_f).stem
+                if path_parts & self.mentioned_idents or basename in self.mentioned_idents:
+                    personalization[rel_f] = personalization_val
 
-    all_symbols: dict[str, list[Symbol]] = {}
-    import_pairs: list[tuple[str, str]] = []  # (source, target)
-    parsed_count = 0
-    cached_count = 0
+        if not G.nodes():
+            return self._rank_by_frequency(files)
 
-    for f in files:
-        rel = str(f.relative_to(root))
-        mtime = _get_file_mtime(f)
-        ext = f.suffix.lower()
-
-        # Check cache
-        cached = cache.get(rel)
-        if cached and cached.get("mtime") == mtime:
-            all_symbols[rel] = [Symbol(**s) for s in cached.get("symbols", [])]
-            # Collect cached imports too (for dep graph)
-            for imp in cached.get("imports", []):
-                resolved = _resolve_import(imp, f, root)
-                if resolved:
-                    target_rel = str(resolved.relative_to(root))
-                    import_pairs.append((rel, target_rel))
-            cached_count += 1
-            continue
-
-        # Read file
         try:
-            text = f.read_text("utf-8", errors="replace")
-        except OSError:
-            continue
+            if personalization:
+                ranked = nx.pagerank(G, weight="weight", personalization=personalization)
+            else:
+                ranked = nx.pagerank(G, weight="weight")
+        except (nx.PowerIterationFailedConvergence, ZeroDivisionError):
+            return self._rank_by_frequency(files)
 
-        # Extract symbols
-        symbols: list[Symbol] = []
-        lang = _get_lang(ext)
-        if lang:
-            symbols = _extract_symbols_tree_sitter(text, lang)
-        if not symbols:
-            symbols = _extract_symbols_regex(text)
-        if ext == ".md":
-            symbols = _extract_headings(text)
+        # Distribute rank from source nodes to definitions
+        ranked_defs = defaultdict(float)
+        for src in G.nodes:
+            src_rank = ranked.get(src, 0)
+            out_edges = list(G.out_edges(src, data=True))
+            total_weight = sum(d["weight"] for _, _, d in out_edges) or 1
+            for _, dst, d in out_edges:
+                ranked_defs[(dst, d["ident"])] += src_rank * d["weight"] / total_weight
 
-        all_symbols[rel] = symbols
+        # Sort definitions by rank
+        sorted_defs = sorted(ranked_defs.items(), key=lambda x: -x[1])
 
-        # Extract imports (for dep graph)
-        imports = _get_imports(text, ext)
-        for imp in imports:
-            resolved = _resolve_import(imp, f, root)
-            if resolved:
-                target_rel = str(resolved.relative_to(root))
-                import_pairs.append((rel, target_rel))
+        # Deduplicate tags
+        seen_tags = set()
+        ranked_tags = []
+        for (fname, _), rank in sorted_defs:
+            for tag in definitions.get((fname, _), []):
+                if tag not in seen_tags:
+                    seen_tags.add(tag)
+                    ranked_tags.append((fname, tag[0], tag[1]))
 
-        # Update cache
-        cache[rel] = {
-            "mtime": mtime,
-            "symbols": [s._asdict() for s in symbols],
-            "imports": imports,
-        }
-        parsed_count += 1
+        # Add files without tags
+        for fname in sorted(rel_files):
+            if not any(t[0] == fname for t in ranked_tags):
+                ranked_tags.append((fname, "", -1))
 
-    _save_cache(cache_dir, cache)
+        return ranked_tags
 
-    # 3. Build dependency graph
-    graph: dict[str, set[str]] = defaultdict(set)
-    for src, tgt in import_pairs:
-        graph[src].add(tgt)
+    def _rank_by_frequency(self, files: list[Path]) -> list:
+        """Fallback ranking using reference frequency."""
+        tag_counts = Counter()
+        file_tags = {}
 
-    # 4. PageRank
-    pr_scores = page_rank(graph)
-    if not pr_scores:
-        # Fallback: equal weight to all files with symbols
-        for rel in all_symbols:
-            if all_symbols[rel]:
-                pr_scores[rel] = 1.0
+        for f in files:
+            rel = str(f.relative_to(self.root))
+            tags = self.get_tags_cached(f)
+            file_tags[rel] = tags
+            tag_counts[rel] += len(tags)
 
-    # 5. Rank files by PageRank score, then by number of symbols
-    scored_files = []
-    for rel, symbols in all_symbols.items():
-        if not symbols:
-            continue
-        score = pr_scores.get(rel, 0)
-        scored_files.append((rel, score, symbols))
+        # Files in chat get boosted
+        ranked = []
+        for rel in sorted(tag_counts, key=lambda x: -tag_counts[x]):
+            boost = 10000 if rel in self.chat_files else 0
+            ranked.append((rel, "", -1))
 
-    scored_files.sort(key=lambda x: (-x[1], -len(x[2])))
+        # Add files without tags
+        all_rel = {str(f.relative_to(self.root)) for f in files}
+        for rel in sorted(all_rel):
+            if not any(r[0] == rel for r in ranked):
+                ranked.append((rel, "", -1))
 
-    # 6. Format output within token budget
-    output_lines: list[str] = []
-    output_lines.append(f"# Repo Map")
-    output_lines.append(f"")
-    output_lines.append(f"Root: {root}")
-    output_lines.append(f"Files indexed: {len(files)}")
-    output_lines.append(f"Symbols: {sum(len(s) for _, _, s in scored_files)}")
-    output_lines.append(f"")
+        return ranked
 
-    est_tokens = len("\n".join(output_lines)) // 4  # rough estimate
-    remaining = max_tokens - est_tokens
+    def render_tags(self, tags: list) -> str:
+        """Render ranked tags into a compact string."""
+        if not tags:
+            return ""
 
-    for rel, score, symbols in scored_files:
-        if remaining <= 0:
-            break
+        output_lines = []
+        current_file = None
+        file_tags_map = defaultdict(list)
 
-        # Score indicator
-        has_imports = rel in graph and graph[rel]
-        score_mark = "★" if score > 0.01 else "·"
-        imp_mark = " ⤴" if has_imports else ""
+        for tag in tags:
+            fname = tag[0]
+            if tag[1]:
+                file_tags_map[fname].append(f"{tag[1]}:{tag[2]}")
+            else:
+                if fname not in file_tags_map:
+                    file_tags_map[fname] = []
 
-        # File header
-        header = f"{score_mark} {rel}{imp_mark}"
-        header_tokens = len(header) // 4 + 1
-        if header_tokens > remaining:
-            break
-        output_lines.append(header)
-        remaining -= header_tokens
+        for fname, symbols in file_tags_map.items():
+            output_lines.append(fname)
+            for sym in symbols[:10]:  # Limit to 10 symbols per file
+                sym_name, sym_line = sym.split(":")
+                output_lines.append(f"  {sym_name} ({sym_line})")
+            output_lines.append("")
 
-        # Rank-ordered symbols for this file (limit to 5)
-        sym_lines = []
-        for sym in symbols[:8]:
-            kind_str = sym.kind.replace("H", "#")
-            sym_line = f"    {kind_str}: {sym.name}"
-            sym_tokens = len(sym_line) // 4 + 1
-            if sym_tokens <= remaining:
-                sym_lines.append(sym_line)
-                remaining -= sym_tokens
+        output = "\n".join(output_lines)
 
-        output_lines.extend(sym_lines)
+        # Truncate by token budget (rough: 4 chars ≈ 1 token)
+        max_chars = self.max_map_tokens * 4
+        if len(output) > max_chars:
+            output = output[:max_chars] + "\n... (truncated)"
 
-    # Print output
-    print("\n".join(output_lines))
+        return output
 
-    elapsed = time.time() - t0
-    print(f"\n# Map: {parsed_count} parsed, {cached_count} cached ({elapsed:.1f}s)",
-          file=sys.stderr)
+    def generate(self) -> str:
+        """Generate the repo map."""
+        files = self.walk_files()
+        if not files:
+            return ""
+
+        rel_chat = {str(Path(f)) for f in self.chat_files}
+        self.chat_files = rel_chat
+
+        ranked_tags = self.build_graph(files)
+        return self.render_tags(ranked_tags)
+
+
+def main():
+    parser = argparse.ArgumentParser(description="Generate a ranked codebase map")
+    parser.add_argument("--tokens", type=int, default=1024, help="Token budget")
+    parser.add_argument("--root", default=".", help="Repository root")
+    parser.add_argument("--chat", nargs="*", default=[], help="Files currently in chat")
+    parser.add_argument("--mention", nargs="*", default=[], help="Mentioned identifiers")
+    parser.add_argument("--refresh", action="store_true", help="Force refresh caches")
+    parser.add_argument("--output", action="store_true", help="Print to stdout")
+    args = parser.parse_args()
+
+    if not HAS_TS:
+        print(
+            "Warning: tree-sitter not installed. Install with:\n"
+            "  pip install tree-sitter\n\n"
+            "Falling back to file-listing mode (no dependency graph).",
+            file=sys.stderr,
+        )
+
+    mapper = RepoMap(
+        root=args.root,
+        map_tokens=args.tokens,
+        refresh=args.refresh,
+        chat_files=args.chat,
+        mentioned_idents=args.mention,
+    )
+
+    result = mapper.generate()
+    if args.output or True:
+        print(result)
+    else:
+        print(f"Generated repo map ({mapper.max_map_tokens} tokens)")
+        print(result[:200] + "..." if len(result) > 200 else result)
 
 
 if __name__ == "__main__":

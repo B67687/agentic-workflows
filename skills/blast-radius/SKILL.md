@@ -1,6 +1,6 @@
 ---
 name: blast-radius
-description: Analyze the impact surface of a PR or set of changes before merging. Maps what changed, what else is affected, what could break, assigns risk level, and generates a manual verification checklist. The human gate for mixed human-agent teams. NOT for: code review (→ code-review-and-quality), running tests, or suggesting code changes.
+description: "Analyze the impact surface of a PR or set of changes before merging. Maps what changed, what else is affected, what could break, assigns risk level, and generates a manual verification checklist. The human gate for mixed human-agent teams. NOT for: code review (→ code-review-and-quality), running tests, or suggesting code changes."
 trigger-phrases: blast radius, review this PR, what does this change affect, is this safe to merge, impact analysis, impact surface
 handoffs: code-review-and-quality (for code quality review), qa-test / browser-testing-with-devtools (for browser verification)
 companion-script: scripts/blast-radius.sh

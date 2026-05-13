@@ -1,6 +1,6 @@
 ---
 name: strategic-thinker
-description: Think like a senior architect — reason across levels, evaluate tradeoffs, pressure-test plans. Use when someone asks "what's the right approach?", "think about this", "sanity check", "what am I not seeing?", "tradeoffs", or for any cross-domain reasoning that spans product, architecture, and organization. NOT for: product/user decisions (→ product-thinker), work definition (→ shaping-work), file-level planning (→ implementation-planning), or writing code.
+description: "Think like a senior architect — reason across levels, evaluate tradeoffs, pressure-test plans. Use when someone asks what's the right approach, think about this, sanity check, what am I not seeing, tradeoffs, or for any cross-domain reasoning. NOT for: product/user decisions (→ product-thinker), work definition (→ shaping-work), file-level planning (→ implementation-planning), or writing code."
 trigger-phrases: what's the right approach, think about this, sanity check, tradeoffs, what am I not seeing, how should we tackle, approach selection, stress test
 handoffs: product-thinker (product angle), shaping-work (to define work), implementation-planning (to plan)
 companion-script: scripts/strategic-think.sh
