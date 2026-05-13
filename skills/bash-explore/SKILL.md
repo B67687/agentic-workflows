@@ -44,6 +44,15 @@ find . -name '*.py' -not -path './.git/*' | wc -l
 
 The companion `core/explore.py` script handles exclusion automatically via `_workspace_files.py`. When using ad-hoc bash, add `-not -path './.git/*'` explicitly.
 
+## If a Command Fails
+
+| Symptom | Fix |
+|---|---|
+| `Permission denied` errors | Add `2>/dev/null` to suppress: `find . -name '*.py' 2>/dev/null` |
+| No matches found | Broaden the search — remove `--include` filters, lower `-maxdepth`, or use a simpler pattern |
+| `command not found` | The tool isn't available in this environment. Fall back to **Grep** (content search) or **Glob** (file lookup) tools for this step. |
+| Output is too large | Pipe through `head -20` or `grep -v` to filter noise. Re-run with tighter constraints. |
+
 ## When to Use
 
 - **Starting exploration** of an unfamiliar codebase
