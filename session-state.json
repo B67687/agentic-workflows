@@ -1,12 +1,12 @@
 {
-  "session": 77,
+  "session": 78,
   "status": "implemented",
   "interruptedCount": 0,
   "contextPressure": "healthy",
   "currentTask": {
-    "name": "Extract personal-voice to managed topic folder",
+    "name": "Integrate cognitive surrender resistance into workflow",
     "status": "done",
-    "goal": "Move personal-voice/ out of the hub (so it doesn't ship with the published harness) to its own topic folder tracked by the propagation system."
+    "goal": "Research cognitive surrender comprehensively, identify solutions, and integrate resistance mechanisms into the agentic-workflows hub."
   },
   "environment": {
     "note": "Configure per-workspace in your OpenCode config at `$HOME/.config/opencode/opencode.jsonc`.",
@@ -15,56 +15,47 @@
     "topicFoldersPath": "Change to your topic folders parent"
   },
   "whatChanged": [
-    "P0: Agent Research Methodology \u2014 6-phase systematic research engine for any topic (replaced AI-topic-specific research prompt)",
-    "P0: Architecture Analysis specialization \u2014 best-practice research, gap analysis, transformation planning on top of macro-to-micro",
-    "P0: Macro-to-Micro Funnel linked to Research Methodology \u2014 Level 1 now references research/research-prompt.md for architectural analysis",
-    "P0: Default fix conduct \u2014 macro-to-micro funnel is now automatic default behavior in AGENTS.md Operating Contract + Key Rules",
-    "P0: Git bloat purge \u2014 filter-repo removed 10MB HTML + 6MB JSONL + archive/raw/ + .cache/ + course-guide.pdf from history. .git 22M\u21924.7M (91%)",
-    "P0: 13 new companion scripts \u2014 41/41 skills with scripts (was 5/27 = 19%)",
-    "P0: 4-layer governance \u2014 file classification (.gitignore tiers), skill completeness (detect-gaps Check 8), growth policy (Check 9), auto-healing (HEAL=1)",
-    "P0: Assumption expiry \u2014 scripts/assumption-expiry.sh, session-state.json assumptions[] with TTL",
-    "P0: Session health monitoring \u2014 context-pressure.sh --persist/--auto, cross-session trend tracking",
-    "P0: Structural governance \u2014 docs/structural-governance.md, inbox/ staging, detect-gaps Check 10",
-    "P1: AGENTS.md restructuring \u2014 numbering fixed (was 1-2-3-10-4-5...\u21921-2-3-4-...12), skill count corrected 28\u219241, Cost section removed, integration gaps closed (rules/, .tap/, agent-skills setup guides)",
-    "P1: MCP config \u2014 agentmemory + sequential-thinking ON by default, playwright removed from central config",
-    "P1: TAP skills integration (teambrilliant) \u2014 14 new skills with companion scripts, enhanced frontmatter, .tap/ project memory",
-    "P2: Ruflo evaluation \u2014 CLI-only model (0MB persistent cost), daemon stopped, MCP disabled (sql.js hangs on WSL2)",
-    "P2: System research \u2014 9 authoritative sources synthesized in research/well-maintained-system-research.md",
-    "P2: Cleanup \u2014 10 stale duplicate scripts removed, ghost agent/ dir removed, orphaned file links fixed, shell bug fixed",
-    "P2: research quality automation \u2014 research quality framework made automatic default (no /research or qualifiers needed)",
-    "P0: personal-voice extracted to managed topic folder \u2014 hub clean for publishing, voice system preserved as sibling topic folder"
+    "P0: Cognitive surrender resistance integrated at 3 levels: behavioral rule (AGENTS.md), anti-failure rules (docs/workflow.md), and phase-level heuristics (commands/implement.md, prompt-contract.md, research.md)",
+    "P0: 3 core heuristics codified: (1) construct expectation before output, (2) calibration check after output, (3) ask model to argue against itself for tradeoffs",
+    "P0: Full evidence synthesis: research/cognitive-surrender-research.md (400+ lines, 21 sources, all domains mapped)",
+    "P0: Web search gap closed \u2014 first full research cycle with websearch tool surfaced 4 major additions (MIT EEG, SCF framework, scholarly critique, expanded interventions)",
+    "P1: Anti-surrender rationalizations and red flags added to commands/implement.md and skills/incremental-implementation/SKILL.md",
+    "P1: Surrender check added to code-review-and-quality review template",
+    "P1: Expectation field and calibration check added to commands/prompt-contract.md",
+    "P1: Pre-research expectation comparison added to commands/research.md",
+    "P1: Reference links to cognitive-surrender-research.md added in AGENTS.md and docs/workflow.md"
   ],
   "filesTouched": [
-    "AGENTS.md (updated 3 references: high-signal table, read-voice rule, removed from working areas)",
-    "README.md (directory listing updated to ../personal-voice/)",
-    "docs/prompt-templates.md (voice matching path updated)",
-    "docs/quality-standards.md (directory listing + audit exclusions cleaned)",
-    "scripts/ws.sh (4 cleanups: exclusion line, roots array, special-case block, ripgrep glob)",
-    "scripts/repo-graph.sh (color mapping + legend entry removed)",
-    ".gitignore (stale personal-voice/samples/course-guide.pdf entry removed)",
-    "session-state.json (updated for session 77)",
-    "../personal-voice/ (new topic folder: AGENTS.md, VOICE-PROFILE.md, STYLE-INJECT.md, README.md, CORRECTIONS.log.md, samples/)"
+    "AGENTS.md (new Key Rule: resist cognitive surrender by default + reference link)",
+    "docs/workflow.md (3 new anti-failure rules: construct expectation, calibration check, counterargument)",
+    "commands/implement.md (construct-expectation step, calibration check, counterargument, 3 anti-rationalizations, 5 red flags)",
+    "commands/prompt-contract.md (expectation field in self-check output, calibration check note)",
+    "commands/research.md (pre-research expectation comparison step)",
+    "skills/incremental-implementation/SKILL.md (calibration check in increment checklist + checkbox, 3 anti-rationalizations, 4 red flags)",
+    "skills/code-review-and-quality/SKILL.md (surrender check in review template + anti-rationalization)",
+    "research/cognitive-surrender-research.md (full 400+ line evidence synthesis, updated with web search findings)",
+    "session-state.json (updated for session 78)"
   ],
   "verification": [
-    "5 files committed across 2 commits, all changes verified",
-    "Macro-to-Micro Funnel defined in 4 layers: Operating Contract \u2192 Key Rules \u2192 Anti-Failure Rules \u2192 Skill methodology + Red Flags",
-    "Research Methodology defined in 6 phases: Frame \u2192 Discover Local \u2192 Gather External \u2192 Triangulate \u2192 Apply \u2192 Preserve",
-    "Architecture Analysis specialization: current-state mapping, best-practice research, gap analysis, transformation planning"
+    "Research complete: 21 authoritative sources, all domains mapped, confidence levels per claim",
+    "7 workflow files modified with coherent anti-surrender heuristics (same 3 heuristics appear at every level)",
+    "6 commits across the cycle, all verified",
+    "Post-commit review confirmed SCF devil's advocate pattern already present in parley.md and implement.md",
+    "Web search confirmed no additional workflow integration needed beyond what was implemented"
   ],
   "keyLearnings": [
-    "Research quality belongs at the behavioral level (AGENTS.md), not behind a command invocation",
-    "The user should never need to add quality qualifiers \u2014 the framework is default, /research is just a phase gate",
-    "4-layer enforcement: behavioral rule (AGENTS.md) \u2192 workflow doc (docs/workflow.md) \u2192 command (commands/research.md) \u2192 keyword detection (prompt-contract.sh)",
-    "Macro-to-Micro Funnel needs 4-layer integration: Operating Contract \u2192 Key Rule \u2192 Methodology section in skill \u2192 Anti-Failure Rules + Red Flags",
-    "Agent research methodology must be domain-agnostic \u2014 6-phase approach works for architecture, code, or any topic"
+    "Web search vs webfetch: having search changes everything. URL-guessing missed 4+ major sources. The research quality gap was tooling, not methodology.",
+    "Cognitive surrender resistance is primarily about making the invisible visible: naming the concept, constructing expectations, and running calibration checks. The heavy machinery (phase gates, verification requirements, anti-rationalization tables) already exists.",
+    "The calibration question ('Am I forming an independent view or adopting wholesale?') is the most valuable single artifact from the entire research cycle.",
+    "Scholarly debate matters: the Potkalitsky critique ('we need interventions, not neologisms') correctly identifies that intervention research lags behind labeling.",
+    "SCF devil's advocate pattern was already present in the workflow (parley.md Skeptic agent, implement.md counterargument) before the research started \u2014 confirms the design was structurally sound."
   ],
-  "residualRisk": "agent-dispatch.sh only tested with pi (not codex/claude \u2014 not installed). Bubblewrap sandbox isolates network completely (no allowlist yet). Session health monitoring (P4) not implemented \u2014 context rot can still degrade agent quality silently. Learnings live in .learnings.jsonl but not yet semantic-searchable by direct bash (only via agentmemory MCP). Ruflo memory init (sql.js WASM) hangs on WSL2 \u2014 local vector DB not available as ruflo dependency.",
+  "residualRisk": "Cognitive surrender interventions have limited empirical backing outside Shaw & Nave Study 3 (incentives+feedback) and automation bias literature (Parasuraman & Manzey). The 3 heuristics integrated here are theoretically grounded but untested as a bundle. The SCF framework (arXiv 2603.21735) is unvalidated at the neurophysiological level. Cross-cultural surrender rates unknown. No longitudinal data on whether workflow-level heuristics durably reduce surrender.",
   "immediateNextSteps": [
-    "Install Codex CLI or Claude Code to test agent-dispatch with non-pi agents",
-    "Add semantic search over .learnings.jsonl to learnings-search.sh",
-    "P4: Session health monitoring \u2014 automated context pressure detection, compaction triggers, quality regression logging",
-    "Slice 2: systemd daemon + background workers \u2014 DONE",
-    "Slice 3: Plugin/skill bridge \u2014 SKIPPED (fundamentally different: markdown vs TypeScript)"
+    "Run task-retrospect.sh to capture insights from this cycle to agentmemory",
+    "Consider adding cognitive surrender as a permanent topic to the SwarmVault knowledge graph",
+    "If mmarseglia GitHub Claude prompts prove useful, consider integrating as system prompts",
+    "Longer-term: track whether the calibration heuristic changes agent behavior measurably"
   ],
   "resumeRules": [
     "Read session-state.json first on every resume",
@@ -87,8 +78,11 @@
     "Run retrospect after meaningful work: `bash ./scripts/task-retrospect.sh \"insight\" tags`",
     "Research quality is automatic by default \u2014 source triangulation, confidence levels, authority weighting applied to any research-adjacent task. Never reach for /research or quality qualifiers."
   ],
+  "doNotRepeat": [
+    "2026-05-13: Researched cognitive surrender using only webfetch (URL-guessing). Missed the #1 Google result (Addy Osmani's blog) and 4+ major scholarly sources. Lesson: research without web search tool is systematically blind. Use websearch first when available; when only webfetch is available, ask user for starting URLs rather than guessing."
+  ],
   "lastRetrospect": "2026-05-13T03:07:51Z",
-  "learningsCount": 14,
+  "learningsCount": 15,
   "assumptions": [
     {
       "id": "residualRisk",
