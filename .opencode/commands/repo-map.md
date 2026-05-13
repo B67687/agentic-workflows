@@ -11,13 +11,13 @@ Run:
 `bash ./scripts/repo-map.sh ${ARGUMENTS:-.}`
 
 Optional flags (appended to ARGUMENTS):
-- `--max-tokens N` — limit output to N tokens (default: 2048)
-- `--no-headings` — skip markdown heading extraction
-- `--no-symbols` — skip code symbol extraction
+- `--max-tokens N` --- limit output to N tokens (default: 2048)
+- `--no-headings` --- skip markdown heading extraction
+- `--no-symbols` --- skip code symbol extraction
 
 Examples:
-- `bash ./scripts/repo-map.sh` — default map
-- `bash ./scripts/repo-map.sh /path/to/project --max-tokens 1024` — compact map
+- `bash ./scripts/repo-map.sh` --- default map
+- `bash ./scripts/repo-map.sh /path/to/project --max-tokens 1024` --- compact map
 
 Then respond compactly with:
 - the highest-ranked files and their key symbols

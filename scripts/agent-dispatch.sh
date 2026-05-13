@@ -1,6 +1,6 @@
 #!/bin/bash
 # =============================================================================
-# agent-dispatch.sh — Async agent task dispatcher
+# agent-dispatch.sh --- Async agent task dispatcher
 #
 # Fire-and-forget tasks to external coding agents and collect results.
 # Supports pi-coding-agent (available now), with slots for codex/claude/gemini.
@@ -19,9 +19,9 @@
 #   bash ./scripts/agent-dispatch.sh log job-001
 #
 # Agent backends:
-#   pi       — pi-coding-agent (default, available now)
-#   codex    — Codex CLI (requires npm install -g @openai/codex)
-#   claude   — Claude Code (requires npm install -g @anthropic/claude-code)
+#   pi       --- pi-coding-agent (default, available now)
+#   codex    --- Codex CLI (requires npm install -g @openai/codex)
+#   claude   --- Claude Code (requires npm install -g @anthropic/claude-code)
 # =============================================================================
 set -euo pipefail
 

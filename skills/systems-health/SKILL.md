@@ -27,11 +27,11 @@ bash ./scripts/systems-health.sh report           # generate report
 
 Pull from available sources:
 ```
-git log --oneline --since="30 days ago"          → commit frequency
-git shortlog -sn --no-merges --since="30 days ago" → contributors
-gh pr list --state all --limit 50                → PR lifecycle
-gh run list --limit 20                           → CI pass/fail rate
-gh issue list --label bug --limit 50             → bug lifecycle
+git log --oneline --since="30 days ago"          -> commit frequency
+git shortlog -sn --no-merges --since="30 days ago" -> contributors
+gh pr list --state all --limit 50                -> PR lifecycle
+gh run list --limit 20                           -> CI pass/fail rate
+gh issue list --label bug --limit 50             -> bug lifecycle
 ```
 
 Also read: `.tap/tap-audit.md`, `.tap/system-health.md` (prior snapshot for trends).
@@ -53,8 +53,8 @@ Trend: ▲ growing / ▼ shrinking / ─ stable
 |------|---------|---------------|
 | Stories in | Issues created/week | Demand on system |
 | Stories out | PRs merged/week | Throughput |
-| Cycle time | PR open→merge (median) | How fast work moves |
-| Review time | PR open→review (median) | Bottleneck indicator |
+| Cycle time | PR open->merge (median) | How fast work moves |
+| Review time | PR open->review (median) | Bottleneck indicator |
 | Bug inflow | Bugs created/week | Quality signal |
 | Deploy frequency | Deploys/week | Delivery cadence |
 
@@ -84,10 +84,10 @@ Rx:        [cheapest intervention]
 ```
 
 Common diagnoses:
-- Stocks accumulating → find bottleneck flow
-- Slow cycle time → usually review or CI time
-- Broken feedback loop → who stopped responding to the signal?
-- No feedback loop → suggest creating one
+- Stocks accumulating -> find bottleneck flow
+- Slow cycle time -> usually review or CI time
+- Broken feedback loop -> who stopped responding to the signal?
+- No feedback loop -> suggest creating one
 
 ### 7. Write Output
 
@@ -95,7 +95,7 @@ Write to `.tap/system-health.md`. If prior exists, compare trends.
 
 ```
 `★ Systems Health ────────────────────────────────`
-[repo] — [Healthy / N problems / Backing up]
+[repo] --- [Healthy / N problems / Backing up]
   ├─ [most impactful finding]
   └─ [cheapest fix]
 `─────────────────────────────────────────────────`
@@ -103,7 +103,7 @@ Write to `.tap/system-health.md`. If prior exists, compare trends.
 
 ## Boundaries
 
-- Read-only — does NOT modify code, config, or process
-- Does NOT assess code quality (→ code-review-and-quality)
-- Does NOT assess agent readiness (→ tap-audit)
-- Data-driven — every claim backed by evidence from git/GitHub/CI
+- Read-only --- does NOT modify code, config, or process
+- Does NOT assess code quality (-> code-review-and-quality)
+- Does NOT assess agent readiness (-> tap-audit)
+- Data-driven --- every claim backed by evidence from git/GitHub/CI

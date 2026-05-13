@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-repo-graph.py — Generate a beautiful interactive knowledge graph for the repo.
+repo-graph.py --- Generate a beautiful interactive knowledge graph for the repo.
 Shows explicit links, propagation mirrors, and co-location clusters.
 Uses vis.js (forceAtlas2Based) for well-spaced, living-force layout.
 
@@ -217,7 +217,7 @@ def main():
             "label": info["display"],
             "title": (f"{info['filepath']}\n"
                       f"{info['lines']} lines · "
-                      f"{info['outgoing']}→{info['incoming']} links"),
+                      f"{info['outgoing']}->{info['incoming']} links"),
             "group": info["group"],
             "value": round(normalized, 1),
             "shape": "dot",
@@ -608,7 +608,7 @@ def main():
 </div>
 
 <div class="search-box">
-  <input type="text" id="search" placeholder="Search…" spellcheck="false" />
+  <input type="text" id="search" placeholder="Search..." spellcheck="false" />
 </div>
 
 <div class="info-panel" id="infoPanel">
@@ -717,7 +717,7 @@ def main():
     setTimeout(tickle, 2000);
   }});
 
-  // Hover highlight — scale hovered node, glow connected edges
+  // Hover highlight --- scale hovered node, glow connected edges
   var hoveredNodeId = null;
   network.on('hoverNode', function(params) {{
     hoveredNodeId = params.node;
@@ -820,7 +820,7 @@ def main():
     }}
   }});
 
-  // Legend → focus group
+  // Legend -> focus group
   document.querySelectorAll('.legend-item').forEach(function(item) {{
     item.addEventListener('click', function() {{
       const group = this.dataset.group;
@@ -846,7 +846,7 @@ def main():
     }}
   }});
 
-  // Double-click background → close panel
+  // Double-click background -> close panel
   network.on('doubleClick', function(params) {{
     if (params.nodes.length === 0) {{
       document.getElementById('infoPanel').classList.remove('visible');

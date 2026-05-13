@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # =============================================================================
-# migrate-plan.sh — Companion script for Deprecation and Migration
+# migrate-plan.sh --- Companion script for Deprecation and Migration
 #
 # Generates migration plan templates and phase-out checklists.
 #
@@ -24,7 +24,7 @@ case "$MODE" in
       exit 1
     fi
     cat << PLAN
-# Migration Plan: ${OLD} → ${NEW}
+# Migration Plan: ${OLD} -> ${NEW}
 
 ## Scope
 - **Removing:**

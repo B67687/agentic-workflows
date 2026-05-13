@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-search-index.py — Query a pre-built BM25 index.
+search-index.py --- Query a pre-built BM25 index.
 
 Usage:  python3 search-index.py <query> [root-dir] [--top-k N]
 
@@ -31,11 +31,11 @@ def _format_snippet(text: str, query_terms: list[str], width: int = 80) -> str:
             continue
         start = max(0, pos - width // 2)
         end = min(len(text), pos + len(term) + width // 2)
-        prefix = "…" if start > 0 else ""
-        suffix = "…" if end < len(text) else ""
+        prefix = "..." if start > 0 else ""
+        suffix = "..." if end < len(text) else ""
         raw = text[start:end].replace("\n", " ↵ ").strip()
         if len(raw) > width + 40:
-            raw = raw[:width] + "…"
+            raw = raw[:width] + "..."
         return f"{prefix}{raw}{suffix}"
     return text[:width].replace("\n", " ↵ ").strip()
 

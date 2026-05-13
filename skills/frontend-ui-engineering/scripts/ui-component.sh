@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # =============================================================================
-# ui-component.sh — Companion script for Frontend UI Engineering
+# ui-component.sh --- Companion script for Frontend UI Engineering
 #
 # Scaffolds common UI component patterns with production-quality structure.
 #
@@ -56,16 +56,16 @@ COMP
   pattern)
     case "${NAME}" in
       list)
-        echo "Pattern: List — loading → empty → items → pagination"
+        echo "Pattern: List --- loading -> empty -> items -> pagination"
         ;;
       form)
-        echo "Pattern: Form — validation → submission → error → success"
+        echo "Pattern: Form --- validation -> submission -> error -> success"
         ;;
       modal)
-        echo "Pattern: Modal — open → focus trap → close → cleanup"
+        echo "Pattern: Modal --- open -> focus trap -> close -> cleanup"
         ;;
       table)
-        echo "Pattern: Table — headers → rows → sort → filter → paginate"
+        echo "Pattern: Table --- headers -> rows -> sort -> filter -> paginate"
         ;;
       *)
         echo "Available patterns: list, form, modal, table"

@@ -1,4 +1,4 @@
-# agentic-workflows — Systems Engineering for AI Agents
+# agentic-workflows --- Systems Engineering for AI Agents
 
 Systems engineering applied to the agent domain: an agent harness for orchestrating,
 managing, and extending AI agents. Cross-repo orchestration, knowledge propagation,
@@ -8,19 +8,19 @@ and capability management.
 
 | I Want To... | Start With |
 |--------------|------------|
-| **Write better prompts** | [Daily Prompts](docs/daily-prompts.md) → [Prompt Library](docs/prompt-templates.md) |
-| **Set up AI agents in my project** | [Hub Quickstart](docs/hub-quickstart.md) → [Workflow](docs/workflow.md) → [AGENTS.md](AGENTS.md) |
-| **Build an AI product** | [AI Product Building](docs/ai-product-building.md) → [TDD with Agents](docs/tdd-with-agents.md) |
-| **Research a new AI topic** | [Research Methodology](research/research-prompt.md) → [Well-Maintained Systems](research/well-maintained-system-research.md) |
-| **Understand this whole system** | [Workflow](docs/workflow.md) → [Cross-Project Memory](docs/cross-project-memory-loop.md) |
-| **Resume interrupted work** | [Session State](session-state.json) → [AGENTS.md](AGENTS.md) |
+| **Write better prompts** | [Daily Prompts](docs/daily-prompts.md) -> [Prompt Library](docs/prompt-templates.md) |
+| **Set up AI agents in my project** | [Hub Quickstart](docs/hub-quickstart.md) -> [Workflow](docs/workflow.md) -> [AGENTS.md](AGENTS.md) |
+| **Build an AI product** | [AI Product Building](docs/ai-product-building.md) -> [TDD with Agents](docs/tdd-with-agents.md) |
+| **Research a new AI topic** | [Research Methodology](research/research-prompt.md) -> [Well-Maintained Systems](research/well-maintained-system-research.md) |
+| **Understand this whole system** | [Workflow](docs/workflow.md) -> [Cross-Project Memory](docs/cross-project-memory-loop.md) |
+| **Resume interrupted work** | [Session State](session-state.json) -> [AGENTS.md](AGENTS.md) |
 
 ## Structure
 
 ```
 / (root)
-|- AGENTS.md              # Operating contract — rules for working in this repo
-|- README.md              # This file — navigation and learning paths
+|- AGENTS.md              # Operating contract --- rules for working in this repo
+|- README.md              # This file --- navigation and learning paths
 |- docs/                  # Core knowledge base
 |- research/              # Active research campaigns
 |- scripts/               # Automation scripts
@@ -34,41 +34,41 @@ and capability management.
 ### Prompting Path
 For anyone who wants to write better prompts immediately.
 
-1. **[docs/daily-prompts.md](docs/daily-prompts.md)** — 5 reusable prompt shapes for common tasks
-2. **[docs/prompt-templates.md](docs/prompt-templates.md)** — Full copy-paste library index
-3. **[docs/token-efficient-prompting.md](docs/token-efficient-prompting.md)** — Reduce token burn without losing quality
+1. **[docs/daily-prompts.md](docs/daily-prompts.md)** --- 5 reusable prompt shapes for common tasks
+2. **[docs/prompt-templates.md](docs/prompt-templates.md)** --- Full copy-paste library index
+3. **[docs/token-efficient-prompting.md](docs/token-efficient-prompting.md)** --- Reduce token burn without losing quality
 
 ### Agent Setup Path
 For setting up agentic workflows in your projects.
 
 1. **[docs/hub-quickstart.md](docs/hub-quickstart.md)** - Fast orientation for the current system
-2. **[docs/fast-stable-delivery.md](docs/fast-stable-delivery.md)** — Why this system is structured around big goals, bounded bets, and small verified slices
-3. **[archive/superseded/agentic-workflows.md](archive/superseded/agentic-workflows.md)** — Routing ideas, fresh-context patterns, and execution lanes
-4. **[archive/superseded/core-agent-doctrine.md](archive/superseded/core-agent-doctrine.md)** — 10 principles that underpin the system
+2. **[docs/fast-stable-delivery.md](docs/fast-stable-delivery.md)** --- Why this system is structured around big goals, bounded bets, and small verified slices
+3. **[archive/superseded/agentic-workflows.md](archive/superseded/agentic-workflows.md)** --- Routing ideas, fresh-context patterns, and execution lanes
+4. **[archive/superseded/core-agent-doctrine.md](archive/superseded/core-agent-doctrine.md)** --- 10 principles that underpin the system
 5. **[AGENTS.md](AGENTS.md)** - Operating contract: rules, thresholds, coordination notes
-6. **[AGENTS.md](AGENTS.md)** + **[session-state.json](session-state.json)** — Runtime contract and resume state
+6. **[AGENTS.md](AGENTS.md)** + **[session-state.json](session-state.json)** --- Runtime contract and resume state
 
 ### Product Building Path
 For building products fast with AI agents.
 
-1. **[docs/ai-product-building.md](docs/ai-product-building.md)** — One-page spec, 6-week timeline, agent patterns
-2. **[docs/tdd-with-agents.md](docs/tdd-with-agents.md)** — Tests-first and red/green patterns
-3. **[archive/lessons/learning-while-building-with-agents.md](archive/lessons/learning-while-building-with-agents.md)** — Keep learning speed close to build speed
+1. **[docs/ai-product-building.md](docs/ai-product-building.md)** --- One-page spec, 6-week timeline, agent patterns
+2. **[docs/tdd-with-agents.md](docs/tdd-with-agents.md)** --- Tests-first and red/green patterns
+3. **[archive/lessons/learning-while-building-with-agents.md](archive/lessons/learning-while-building-with-agents.md)** --- Keep learning speed close to build speed
 
 ### Research Path
 For investigating AI topics authoritatively.
 
-1. **[archive/research/research-methodology.md](archive/research/research-methodology.md)** — Source hierarchy, verification, confidence levels
-2. **[archive/lessons/authoritative-agent-best-practices.md](archive/lessons/authoritative-agent-best-practices.md)** — Cross-tool guidance
-3. **[archive/research/research-findings.md](archive/research/research-findings.md)** — Durable discoveries from past research
-4. **[research/research-log.md](research/research-log.md)** — Active research campaigns
+1. **[archive/research/research-methodology.md](archive/research/research-methodology.md)** --- Source hierarchy, verification, confidence levels
+2. **[archive/lessons/authoritative-agent-best-practices.md](archive/lessons/authoritative-agent-best-practices.md)** --- Cross-tool guidance
+3. **[archive/research/research-findings.md](archive/research/research-findings.md)** --- Durable discoveries from past research
+4. **[research/research-log.md](research/research-log.md)** --- Active research campaigns
 
 ### System Path
 For understanding how this hub and its ecosystem work.
 
-1. **[docs/workflow.md](docs/workflow.md)** — Whole-system map
-2. **[docs/cross-project-memory-loop.md](docs/cross-project-memory-loop.md)** — How knowledge flows: topic folders ↔ hub
-3. **[scripts/propagate-to-all.sh](scripts/propagate-to-all.sh)** + **[docs/workflow.md](docs/workflow.md)** — How shared defaults propagate to topic folders
+1. **[docs/workflow.md](docs/workflow.md)** --- Whole-system map
+2. **[docs/cross-project-memory-loop.md](docs/cross-project-memory-loop.md)** --- How knowledge flows: topic folders ↔ hub
+3. **[scripts/propagate-to-all.sh](scripts/propagate-to-all.sh)** + **[docs/workflow.md](docs/workflow.md)** --- How shared defaults propagate to topic folders
 
 ## Quick Reference
 
@@ -87,11 +87,11 @@ For understanding how this hub and its ecosystem work.
 
 ## Research
 
-- **[research/research-log.md](research/research-log.md)** — Active research intake and campaign index
-- **[research/research-prompt.md](research/research-prompt.md)** — Reusable research prompt with analysis framework
-- **[research/integration-log.md](research/integration-log.md)** — Research-to-knowledge-base integration tracker
-- **[archive/research/research-findings.md](archive/research/research-findings.md)** — Durable validated discoveries
-- **[archive/research-log-2026-04.md](archive/research-log-2026-04.md)** — Full April 2026 pre-optimization research log.
+- **[research/research-log.md](research/research-log.md)** --- Active research intake and campaign index
+- **[research/research-prompt.md](research/research-prompt.md)** --- Reusable research prompt with analysis framework
+- **[research/integration-log.md](research/integration-log.md)** --- Research-to-knowledge-base integration tracker
+- **[archive/research/research-findings.md](archive/research/research-findings.md)** --- Durable validated discoveries
+- **[archive/research-log-2026-04.md](archive/research-log-2026-04.md)** --- Full April 2026 pre-optimization research log.
 
 ## Scripts
 
@@ -160,7 +160,7 @@ workflow concepts, or direct code references.
 ### Skills, Quality & Methodology
 | Repo | What it contributed |
 |------|-------------------|
-| [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills) | **Core skill framework** — 27 engineering skills + TAP methodology skills that this hub integrates |
+| [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills) | **Core skill framework** --- 27 engineering skills + TAP methodology skills that this hub integrates |
 | [donnemartin/system-design-primer](https://github.com/donnemartin/system-design-primer) | Systems engineering methodology |
 
 ### UI & Design Systems
@@ -242,7 +242,7 @@ Fast workflow:
 - keep the dream large, but only execute one verified slice at a time
 - type normally; serious requests route internally through `/route`
 - prompting best practices run internally through `/prompt-contract`
-- `/task your goal` — classify, grill, shape, slice, and intake any task
+- `/task your goal` --- classify, grill, shape, slice, and intake any task
 - `/counsel your decision` when a high-cost decision needs independent challenge
 - `/repo-map` when the folder is unfamiliar or the task is broad
 - `/research your task`

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # =============================================================================
-# quality-gate.sh — Pre-commit quality checks
+# quality-gate.sh --- Pre-commit quality checks
 # Runs before checkpoint-commit to catch common issues:
 #   - console.log in staged code files
 #   - Hardcoded secrets (API keys, tokens)
@@ -118,8 +118,41 @@ check_large_files() {
   done < <(check_staged 2>/dev/null || true)
 
   for file in "${large_files[@]}"; do
-    print_issue "WARN" "$file" "Large diff (>500KB) — consider splitting the commit"
+    print_issue "WARN" "$file" "Large diff (>500KB) --- consider splitting the commit"
   done
+}
+
+check_ascii() {
+  echo ":: Checking for non-ASCII characters in staged text files..."
+  local files
+  files=$(check_staged -- '*.md' '*.sh' '*.py' '*.json' '*.yaml' '*.yml' '*.txt' '*.toml' 2>/dev/null || true)
+  if [[ -z "$files" ]]; then
+    echo "   (no text files staged)"
+    return
+  fi
+
+  local norm_script="$(dirname "$0")/../normalize-ascii.py"
+  if [[ ! -f "$norm_script" ]]; then
+    echo "   (normalize-ascii.py not found, skipping)"
+    return
+  fi
+
+  # Check each staged file
+  local has_issues=false
+  while IFS= read -r file; do
+    [[ -z "$file" ]] && continue
+    if python3 "$norm_script" check --file "$file" >/dev/null 2>&1; then
+      : # clean
+    else
+      # Re-run to get visible output
+      python3 "$norm_script" check --file "$file" 2>&1 | grep -v "OK:" | head -3
+      has_issues=true
+    fi
+  done <<< "$files"
+
+  if [[ "$has_issues" == true ]]; then
+    print_issue "ERROR" "(staged files)" "Non-ASCII characters found. Run: python3 scripts/normalize-ascii.py fix"
+  fi
 }
 
 # ---- Main ----
@@ -133,12 +166,13 @@ check_console_log
 check_secrets
 check_todo_fixme
 check_large_files
+check_ascii
 
 echo ""
 echo "=========================================="
 
 if [[ "$FAILED" == true ]]; then
-  echo -e "${RED}✗ Quality gate FAILED — fix ERRORS before committing.${NC}"
+  echo -e "${RED}✗ Quality gate FAILED --- fix ERRORS before committing.${NC}"
   echo "  (WARN items are advisory, not blocking)"
   exit 1
 else

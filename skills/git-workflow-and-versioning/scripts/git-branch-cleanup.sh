@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # =============================================================================
-# git-branch-cleanup.sh — Companion script for Git Workflow and Versioning
+# git-branch-cleanup.sh --- Companion script for Git Workflow and Versioning
 #
 # Identifies stale, merged, and diverged branches. Designed for trunk-based
 # development with short-lived branches (1-3 days).

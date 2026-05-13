@@ -7,7 +7,7 @@ handoffs: implementation-planning (to plan), code-review-and-quality (to review)
 
 # API and Interface Design
 
-**Companion script:** `scripts/api-contract.sh` — REST endpoint contracts, module boundary templates, and design principles.
+**Companion script:** `scripts/api-contract.sh` --- REST endpoint contracts, module boundary templates, and design principles.
 ```bash
 bash ./scripts/api-contract.sh rest <name>     # REST endpoint contract
 bash ./scripts/api-contract.sh module <name>   # module boundary contract
@@ -32,7 +32,7 @@ Design stable, well-documented interfaces that are hard to misuse. Good interfac
 
 > With a sufficient number of users of an API, all observable behaviors of your system will be depended on by somebody, regardless of what you promise in the contract.
 
-This means: every public behavior — including undocumented quirks, error message text, timing, and ordering — becomes a de facto contract once users depend on it. Design implications:
+This means: every public behavior --- including undocumented quirks, error message text, timing, and ordering --- becomes a de facto contract once users depend on it. Design implications:
 
 - **Be intentional about what you expose.** Every observable behavior is a potential commitment.
 - **Don't leak implementation details.** If users can observe it, they will depend on it.
@@ -41,11 +41,11 @@ This means: every public behavior — including undocumented quirks, error messa
 
 ### The One-Version Rule
 
-Avoid forcing consumers to choose between multiple versions of the same dependency or API. Diamond dependency problems arise when different consumers need different versions of the same thing. Design for a world where only one version exists at a time — extend rather than fork.
+Avoid forcing consumers to choose between multiple versions of the same dependency or API. Diamond dependency problems arise when different consumers need different versions of the same thing. Design for a world where only one version exists at a time --- extend rather than fork.
 
 ### 1. Contract First
 
-Define the interface before implementing it. The contract is the spec — implementation follows.
+Define the interface before implementing it. The contract is the spec --- implementation follows.
 
 ```typescript
 // Define the contract first
@@ -59,10 +59,10 @@ interface TaskAPI {
   // Returns a single task or throws NotFoundError
   getTask(id: string): Promise<Task>;
 
-  // Partial update — only provided fields change
+  // Partial update --- only provided fields change
   updateTask(id: string, input: UpdateTaskInput): Promise<Task>;
 
-  // Idempotent delete — succeeds even if already deleted
+  // Idempotent delete --- succeeds even if already deleted
   deleteTask(id: string): Promise<void>;
 }
 ```
@@ -83,16 +83,16 @@ interface APIError {
 }
 
 // Status code mapping
-// 400 → Client sent invalid data
-// 401 → Not authenticated
-// 403 → Authenticated but not authorized
-// 404 → Resource not found
-// 409 → Conflict (duplicate, version mismatch)
-// 422 → Validation failed (semantically invalid)
-// 500 → Server error (never expose internal details)
+// 400 -> Client sent invalid data
+// 401 -> Not authenticated
+// 403 -> Authenticated but not authorized
+// 404 -> Resource not found
+// 409 -> Conflict (duplicate, version mismatch)
+// 422 -> Validation failed (semantically invalid)
+// 500 -> Server error (never expose internal details)
 ```
 
-**Don't mix patterns.** If some endpoints throw, others return null, and others return `{ error }` — the consumer can't predict behavior.
+**Don't mix patterns.** If some endpoints throw, others return null, and others return `{ error }` --- the consumer can't predict behavior.
 
 ### 3. Validate at Boundaries
 
@@ -147,8 +147,8 @@ interface CreateTaskInput {
 // Bad: Change existing field types or remove fields
 interface CreateTaskInput {
   title: string;
-  // description: string;  // Removed — breaks existing consumers
-  priority: number;         // Changed from string — breaks existing consumers
+  // description: string;  // Removed --- breaks existing consumers
+  priority: number;         // Changed from string --- breaks existing consumers
 }
 ```
 
@@ -167,14 +167,14 @@ interface CreateTaskInput {
 ### Resource Design
 
 ```
-GET    /api/tasks              → List tasks (with query params for filtering)
-POST   /api/tasks              → Create a task
-GET    /api/tasks/:id          → Get a single task
-PATCH  /api/tasks/:id          → Update a task (partial)
-DELETE /api/tasks/:id          → Delete a task
+GET    /api/tasks              -> List tasks (with query params for filtering)
+POST   /api/tasks              -> Create a task
+GET    /api/tasks/:id          -> Get a single task
+PATCH  /api/tasks/:id          -> Update a task (partial)
+DELETE /api/tasks/:id          -> Delete a task
 
-GET    /api/tasks/:id/comments → List comments for a task (sub-resource)
-POST   /api/tasks/:id/comments → Add a comment to a task
+GET    /api/tasks/:id/comments -> List comments for a task (sub-resource)
+POST   /api/tasks/:id/comments -> Add a comment to a task
 ```
 
 ### Pagination
@@ -207,7 +207,7 @@ GET /api/tasks?status=in_progress&assignee=user123&createdAfter=2025-01-01
 
 ### Partial Updates (PATCH)
 
-Accept partial objects — only update what's provided:
+Accept partial objects --- only update what's provided:
 
 ```typescript
 // Only title changes, everything else preserved

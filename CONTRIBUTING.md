@@ -24,7 +24,7 @@ By contributing, you agree that your contributions will be licensed under the
 
 - Keep contributions focused and scoped. One PR = one concern.
 - Avoid adding personal voice profiles, writing samples, or other identity-specific
-  content — this is a general-purpose harness.
+  content --- this is a general-purpose harness.
 - If you're adding a new skill, follow the pattern in `skills/<name>/SKILL.md`
   with its companion script in `skills/<name>/scripts/`.
 - All scripts should be POSIX-compatible (bash) unless the repo explicitly
@@ -32,5 +32,5 @@ By contributing, you agree that your contributions will be licensed under the
 
 ## Code of Conduct
 
-Be respectful and constructive. This is a systems engineering workspace —
+Be respectful and constructive. This is a systems engineering workspace ---
 disagreements should be about design, not people.

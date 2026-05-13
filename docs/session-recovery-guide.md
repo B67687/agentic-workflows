@@ -42,12 +42,12 @@ ORDER BY time_updated DESC;
 
 ### 3. Open and Browse
 1. Open SQLite Browser
-2. File → Open Database → select opencode.db
+2. File -> Open Database -> select opencode.db
 3. Go to "Browse Data" tab
 4. Select the `session` table
 
 ### 4. Find the Column
-- `time_archived` — NULL = active, has value = archived
+- `time_archived` --- NULL = active, has value = archived
 
 ### 5. To Restore
 1. Click on `time_archived` cell

@@ -1,10 +1,10 @@
 #!/bin/bash
 # =============================================================================
-# test-workflows.sh — Structural and cross-reference tests for workflows
+# test-workflows.sh --- Structural and cross-reference tests for workflows
 #
 # Validates that the Agent Research Methodology and Macro-to-Micro Funnel
 # documents are structurally complete, cross-referenced correctly, and free
-# of stale content. These are NOT tool smoke tests — they verify the workflow
+# of stale content. These are NOT tool smoke tests --- they verify the workflow
 # documentation itself is sound.
 #
 # Usage:
@@ -160,7 +160,7 @@ assert_file_not_contains "No SWE-bench reference" "$RPM" "SWE-bench"
 assert_file_not_contains "No BenchLM reference" "$RPM" "BenchLM"
 assert_file_not_contains "No model benchmarks" "$RPM" "Model Benchmark"
 
-# Count verification — exactly 6 phases
+# Count verification --- exactly 6 phases
 assert_section_count "Exactly 6 phases in research-prompt.md" "$RPM" "^### Phase [0-5]:" 6
 
 # Phase ordering (regression: no phase should be reordered or lost)
@@ -191,7 +191,7 @@ assert_file_contains "Level 1 references research-prompt.md" "$DBG" "research/re
 # Cross-reference to AGENTS.md
 assert_file_contains "Funnel references AGENTS.md" "$DBG" "AGENTS.md"
 
-# Count verification — exactly 4 levels
+# Count verification --- exactly 4 levels
 assert_section_count "Exactly 4 funnel levels" "$DBG" "^### Level [1-4]" 4
 
 # Level ordering (regression: no level should be reordered or lost)

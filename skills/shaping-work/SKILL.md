@@ -1,6 +1,6 @@
 ---
 name: shaping-work
-description: "Shape rough ideas into clear, actionable work definitions — lighter than full specs, focused on acceptance criteria. Use when someone has an unstructured idea — feature requests, bug reports, Slack threads, customer feedback. NOT for: full specification (→ spec-driven-development), or implementation planning (→ implementation-planning)."
+description: "Shape rough ideas into clear, actionable work definitions --- lighter than full specs, focused on acceptance criteria. Use when someone has an unstructured idea --- feature requests, bug reports, Slack threads, customer feedback. NOT for: full specification (-> spec-driven-development), or implementation planning (-> implementation-planning)."
 trigger-phrases: shape this, scope this, define this work, turn this into a ticket, flesh this out, what should we build, acceptance criteria
 handoffs: implementation-planning (to plan after shaping), product-discovery (to validate before committing)
 companion-script: scripts/shape-work.sh
@@ -20,18 +20,18 @@ bash ./scripts/shape-work.sh ac "<criterion>"               # check AC quality
 
 ## Principles
 
-- **No jargon** — write so anyone can understand
-- **Product-focused** — define *what*, not *how* to build it
-- **Right level of detail** — enough to act on, not a specification
-- **Flag unknowns with recommendations** — surface risks early, always propose a resolution
+- **No jargon** --- write so anyone can understand
+- **Product-focused** --- define *what*, not *how* to build it
+- **Right level of detail** --- enough to act on, not a specification
+- **Flag unknowns with recommendations** --- surface risks early, always propose a resolution
 
 ## Process
 
-1. **Understand the request** — Read the input. If intent is unclear, ask up to 3 targeted questions, then shape with stated assumptions.
-2. **Understand the context** — If handed off from product-thinker, use their context. Otherwise, read CLAUDE.md or README to understand the product.
-3. **Shape the work** — Write the definition. Pick the variant that fits.
-4. **Surface unknowns with recommendations** — Propose a resolution, list discarded alternatives with reasoning.
-5. **Save the document** — Save to `research/` with date prefix.
+1. **Understand the request** --- Read the input. If intent is unclear, ask up to 3 targeted questions, then shape with stated assumptions.
+2. **Understand the context** --- If handed off from product-thinker, use their context. Otherwise, read CLAUDE.md or README to understand the product.
+3. **Shape the work** --- Write the definition. Pick the variant that fits.
+4. **Surface unknowns with recommendations** --- Propose a resolution, list discarded alternatives with reasoning.
+5. **Save the document** --- Save to `research/` with date prefix.
 
 ## Output Format
 
@@ -39,7 +39,7 @@ Always open with a **Shaped View block**:
 
 ```
 `★ Shaped View ───────────────────────────────────`
-[problem] → [solution]
+[problem] -> [solution]
   ├─ [key flow or behavior 1]
   ├─ [key flow or behavior 2]
   └─ [key constraint or open question]
@@ -47,8 +47,8 @@ Always open with a **Shaped View block**:
 ```
 
 Rules:
-- One `[problem] → [solution]` line, then 2-4 tree branches
-- Fits in one screen — if you need to scroll, it's too long
+- One `[problem] -> [solution]` line, then 2-4 tree branches
+- Fits in one screen --- if you need to scroll, it's too long
 - ASCII tree characters for structure
 
 ### Feature work
@@ -72,7 +72,7 @@ Rules:
 ### Risks & Unknowns
 
 - **[Question or risk]**
-  Recommend: [option] — [why]
+  Recommend: [option] --- [why]
   Discarded: [option] ([why not])
 ```
 
@@ -132,7 +132,7 @@ These are consumed downstream by planning and QA:
 
 ```
 `★ Shaped View ───────────────────────────────────`
-[users can't see cart size] → [badge on cart icon]
+[users can't see cart size] -> [badge on cart icon]
   ├─ numeric badge on all pages
   ├─ hidden when cart is empty
   └─ updates immediately on add/remove
@@ -153,21 +153,21 @@ Display a badge on the cart icon so shoppers can see how many items are in their
 ### Risks & Unknowns
 
 - **Should the count persist across sessions for logged-out users?**
-  Recommend: Yes, use localStorage — users expect cart to survive tab close.
+  Recommend: Yes, use localStorage --- users expect cart to survive tab close.
   Discarded: Server-side session (adds auth dependency for anonymous users)
 - **Max display value for large carts?**
-  Recommend: Show "99+" — standard e-commerce pattern, avoids layout overflow.
+  Recommend: Show "99+" --- standard e-commerce pattern, avoids layout overflow.
   Discarded: Unlimited display (breaks layout at 4+ digits)
 ```
 
 ## Handoffs
 
-- Shaped work that is well-understood → `implementation-planning` for technical design
-- Shaped work with high uncertainty → `product-discovery` for validation before building
+- Shaped work that is well-understood -> `implementation-planning` for technical design
+- Shaped work with high uncertainty -> `product-discovery` for validation before building
 
 ## Boundaries
 
-- Does NOT specify technical implementation (→ `implementation-planning`)
-- Does NOT validate ideas (→ `product-discovery`)
-- Does NOT produce formal specs (→ `spec-driven-development`)
+- Does NOT specify technical implementation (-> `implementation-planning`)
+- Does NOT validate ideas (-> `product-discovery`)
+- Does NOT produce formal specs (-> `spec-driven-development`)
 - Does NOT produce code or tests

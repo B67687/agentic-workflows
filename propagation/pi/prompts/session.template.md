@@ -1,5 +1,5 @@
 ---
-description: Session lifecycle — checkpoint, handoff, boundary, close, and finish
+description: Session lifecycle --- checkpoint, handoff, boundary, close, and finish
 argument-hint: "[action] [phase-or-task]"
 ---
 ## Session Boundary (decide continue, checkpoint, or restart)

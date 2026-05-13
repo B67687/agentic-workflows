@@ -4,15 +4,15 @@
 
 ## The Core Insight
 
-The agentic framework (tools, permissions, subagent spawning) is **model-agnostic**. You can run the exact same orchestrator → explorer → worker system on free models. The free models available on OpenCode Zen are genuinely capable coding agents:
+The agentic framework (tools, permissions, subagent spawning) is **model-agnostic**. You can run the exact same orchestrator -> explorer -> worker system on free models. The free models available on OpenCode Zen are genuinely capable coding agents:
 
 | Model | SWE-bench Verified | Context | Best Role |
 |-------|-------------------|---------|-----------|
-| **MiniMax M2.5 Free** | **80.2%** | 1M | **Orchestrator** — Same coding benchmark as K2.6 |
-| **Hy3 Preview Free** | **74.4%** | 256K | **Worker** — Elite free coding, strong reasoning |
-| **Trinity Large Preview Free** | **63.2%** | 512K | **Long-context Worker** — Huge context for big docs |
+| **MiniMax M2.5 Free** | **80.2%** | 1M | **Orchestrator** --- Same coding benchmark as K2.6 |
+| **Hy3 Preview Free** | **74.4%** | 256K | **Worker** --- Elite free coding, strong reasoning |
+| **Trinity Large Preview Free** | **63.2%** | 512K | **Long-context Worker** --- Huge context for big docs |
 
-**M2.5 Free matches K2.6 on SWE-bench Verified.** This is not a "dumbed down" fallback — it's a legitimate coding agent.
+**M2.5 Free matches K2.6 on SWE-bench Verified.** This is not a "dumbed down" fallback --- it's a legitimate coding agent.
 
 ---
 
@@ -104,7 +104,7 @@ The JSON snippets below show the intent of each mode, not the recommended switch
 
 ### Rate Limits
 Free models may have lower requests-per-minute (RPM) limits than Go models. If you hit rate limits:
-- Switch to a different free model (M2.5 → Hy3 → Trinity)
+- Switch to a different free model (M2.5 -> Hy3 -> Trinity)
 - Add a small delay between rapid-fire requests
 - Fall back to Go models only for the blocked task
 
@@ -123,9 +123,9 @@ OpenCode states that free models "may collect data during the free period."
 - General tooling and automation
 
 ### Context Window vs. Quality
-- **M2.5 Free:** 1M context, 80.2% SWE-bench Verified — best benchmark, huge context
-- **Hy3 Preview Free:** 256K context, 74.4% SWE-bench Verified — slightly lower benchmark but stronger MoE architecture
-- **Trinity Large Free:** 512K context, 63.2% SWE-bench Verified — lower benchmark but massive context
+- **M2.5 Free:** 1M context, 80.2% SWE-bench Verified --- best benchmark, huge context
+- **Hy3 Preview Free:** 256K context, 74.4% SWE-bench Verified --- slightly lower benchmark but stronger MoE architecture
+- **Trinity Large Free:** 512K context, 63.2% SWE-bench Verified --- lower benchmark but massive context
 
 For most agentic coding, **M2.5 Free is the best free orchestrator.** Use Trinity only when you specifically need the 512K context.
 
@@ -179,7 +179,7 @@ Why these free models work for agentic coding:
 
 *Estimated. M2.5 Free is competitive with K2.6 on coding benchmarks. The gap is in math/reasoning, not coding.
 
-**Bottom line:** For agentic coding specifically (read files, edit code, run bash, spawn subagents), M2.5 Free and Hy3 Free are genuinely capable. The bottleneck is rarely model capability — it's usually rate limits or context management.
+**Bottom line:** For agentic coding specifically (read files, edit code, run bash, spawn subagents), M2.5 Free and Hy3 Free are genuinely capable. The bottleneck is rarely model capability --- it's usually rate limits or context management.
 
 ---
 
@@ -188,7 +188,7 @@ Why these free models work for agentic coding:
 | Mode | Orchestrator | Worker | Monthly Cost | Best For |
 |------|-------------|--------|-------------|----------|
 | Full Go | K2.6 | K2.6 | $10 | Maximum quality, no rate limit concerns |
-| **Hybrid** | **M2.5 Free** | **K2.6** | **~$3-5** | **Best balance — 90% free, 10% paid** |
+| **Hybrid** | **M2.5 Free** | **K2.6** | **~$3-5** | **Best balance --- 90% free, 10% paid** |
 | Full Free | M2.5 Free | Hy3 Free | $0 | Zero cost, occasional rate limits |
 
 **Recommendation:** Switch to Hybrid mode now. Set orchestrator to M2.5 Free. Keep K2.6 for worker only. You'll cut your Go credit burn by ~80% without losing agentic capability.

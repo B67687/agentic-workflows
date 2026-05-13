@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
-# NOTE: No set -euo pipefail here — this file is sourced by propagate-to-all.sh
+# NOTE: No set -euo pipefail here --- this file is sourced by propagate-to-all.sh
 # and would propagate shell options to the caller.
 
 PROPAGATION_CONTRACT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 PROPAGATION_TEMPLATES_DIR="${PROPAGATION_TEMPLATES_DIR:-$PROPAGATION_CONTRACT_ROOT/propagation}"
 MANAGED_MARKER="Managed-By: AI-Prompting-Library"
 
-# Auto-detected from repo root — dynamically handles any rename
+# Auto-detected from repo root --- dynamically handles any rename
 PROPAGATION_HUB_NAME="$(basename "$PROPAGATION_CONTRACT_ROOT")"
 PROPAGATION_PARENT_DIR="$(dirname "$PROPAGATION_CONTRACT_ROOT")"
 
@@ -155,7 +155,7 @@ propagation_template_path() {
 
 propagation_folder_excluded() {
   local folder_name="$1"
-  # Only exclude the hub itself — all siblings are valid topic folders
+  # Only exclude the hub itself --- all siblings are valid topic folders
   [[ "$folder_name" == "$PROPAGATION_HUB_NAME" ]] && return 0
   return 1
 }

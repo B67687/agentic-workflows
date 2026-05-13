@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # =============================================================================
-# security-scan.sh — Companion script for Security and Hardening
+# security-scan.sh --- Companion script for Security and Hardening
 #
 # Scans the current working tree for common security issues:
 #   - Hardcoded secrets in code
@@ -168,9 +168,9 @@ CHECKLIST
   *)
     echo "Usage: $0 {check|checklist|deps}"
     echo ""
-    echo "  check      — Full security scan of working tree"
-    echo "  checklist  — Output Three-Tier security checklist"
-    echo "  deps       — Dependency vulnerability audit"
+    echo "  check      --- Full security scan of working tree"
+    echo "  checklist  --- Output Three-Tier security checklist"
+    echo "  deps       --- Dependency vulnerability audit"
     exit 1
     ;;
 esac

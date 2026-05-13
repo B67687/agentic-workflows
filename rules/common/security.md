@@ -1,5 +1,5 @@
 ---
-description: Mandatory security checks before every commit — secrets, input validation, injection prevention, dependency auditing.
+description: Mandatory security checks before every commit --- secrets, input validation, injection prevention, dependency auditing.
 globs: []
 alwaysApply: true
 ---
@@ -52,7 +52,7 @@ Before every commit, verify:
 ## Rules
 
 1. Never suggest disabling security controls as a "fix"
-2. Never hardcode secrets — use environment variables or a secret manager
-3. Validate required secrets at startup — fail fast with a clear message
-4. Rotate exposed secrets immediately — then review the codebase for similar issues
-5. Apply least privilege — application users get minimum needed permissions
+2. Never hardcode secrets --- use environment variables or a secret manager
+3. Validate required secrets at startup --- fail fast with a clear message
+4. Rotate exposed secrets immediately --- then review the codebase for similar issues
+5. Apply least privilege --- application users get minimum needed permissions

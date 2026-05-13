@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Skill Processor — YAML frontmatter expansion + dynamic context injection.
+Skill Processor --- YAML frontmatter expansion + dynamic context injection.
 
 Reads skills from the skills/ directory, processes their YAML frontmatter,
 expands dynamic context injection (!`command` syntax), and generates a

@@ -1,13 +1,13 @@
 ---
 name: divergent-ideation
-description: Generates genuinely novel ideas using LLMs. Use when tackling open-ended problems, when existing approaches feel stale, or when you need originality over predictability. Also applies when the situation would benefit from exploration, creative play, or divergent thinking — even if the path forward seems clear, a detour into alternative approaches often reveals better solutions. Do NOT use for well-defined implementation tasks where correctness matters more than novelty.
+description: Generates genuinely novel ideas using LLMs. Use when tackling open-ended problems, when existing approaches feel stale, or when you need originality over predictability. Also applies when the situation would benefit from exploration, creative play, or divergent thinking --- even if the path forward seems clear, a detour into alternative approaches often reveals better solutions. Do NOT use for well-defined implementation tasks where correctness matters more than novelty.
 trigger-phrases: brainstorm, ideate, generate ideas, come up with, creative ideas, alternatives
 handoffs: idea-refine (to refine ideas), spec-driven-development (to spec)
 ---
 
 # Divergent Ideation
 
-**Companion script:** `scripts/ideate.sh` — structured ideation prompts and idea capture.
+**Companion script:** `scripts/ideate.sh` --- structured ideation prompts and idea capture.
 ```bash
 bash ./scripts/ideate.sh prompt "<topic>"   # generate ideation prompt
 bash ./scripts/ideate.sh capture "<idea>"   # capture an idea
@@ -22,10 +22,10 @@ Use when: open-ended problems, stale approaches, need for originality. Do NOT us
 A single LLM call converges to the most probable path. This skill forces divergence through **multiple methods** (not just one), then cross-pollinates across methods, evaluates, and converges.
 
 ```
-Warm-up → Diverge (3 methods) → Cross-pollinate → Evaluate → Converge
+Warm-up -> Diverge (3 methods) -> Cross-pollinate -> Evaluate -> Converge
 ```
 
-## Step 0: Warm-up — Play Mode
+## Step 0: Warm-up --- Play Mode
 
 Do this first. Playfulness directly predicts divergent thinking performance. Pick one, spend 1-2 minutes, no judgment:
 
@@ -34,12 +34,12 @@ Do this first. Playfulness directly predicts divergent thinking performance. Pic
 - **Reverse**: State the worst possible outcome, then invert each answer.
 - **Child**: What would someone with no domain knowledge build for fun?
 
-## Step 1: Diverge — Use at Least 2 Different Methods
+## Step 1: Diverge --- Use at Least 2 Different Methods
 
 Use the warm-up session's mode to run the actual divergence. If all ideas feel similar, you only used one method.
 
 ### A: Constrained Perspectives
-Generate 2-3 approaches, each from a distinct perspective with a unique constraint. The constraint forces divergence — not the label.
+Generate 2-3 approaches, each from a distinct perspective with a unique constraint. The constraint forces divergence --- not the label.
 
 Pick perspectives that pull in opposite directions along the problem's tensions:
 
@@ -59,10 +59,10 @@ Pick one technique to use alongside perspectives:
 
 | Technique | How |
 |---|---|
-| **Random entry** | Pick a random noun → force connection to the problem |
-| **Provocation** | State something impossible → treat it as real → derive ideas |
+| **Random entry** | Pick a random noun -> force connection to the problem |
+| **Provocation** | State something impossible -> treat it as real -> derive ideas |
 | **Challenge** | Question why things are done this way, even obvious things |
-| **Concept extraction** | Extract the core concept from an existing idea → apply it elsewhere |
+| **Concept extraction** | Extract the core concept from an existing idea -> apply it elsewhere |
 
 ### C: Cross-Domain Forcing
 Ask "How would this be solved in [domain]?" for at least 2 of:
@@ -99,7 +99,7 @@ Mark the most promising with ★. If nothing scores above 5 on novelty, rerun St
 Develop the ★ hybrid into a creative brief:
 
 1. **Concept:** One sentence
-2. **Core tension:** What makes this interesting (e.g. "fast but beautiful — those usually trade off")
+2. **Core tension:** What makes this interesting (e.g. "fast but beautiful --- those usually trade off")
 3. **One bet:** The single assumption that must be true
 4. **Smallest proof:** Cheapest way to test if it has merit
 5. **Risks:** What could go wrong
@@ -110,7 +110,7 @@ Output feeds into `spec-driven-development`.
 
 | Shortcut | Why It Fails |
 |---|---|
-| "Higher temperature will make it creative" | Temperature adds noise, not novel structure. The model still converges — just sloppily. |
+| "Higher temperature will make it creative" | Temperature adds noise, not novel structure. The model still converges --- just sloppily. |
 | "I generated N ideas, that's divergent" | N variations on one approach is not divergence. Use at least 2 different methods. |
 | "The first idea was the best" | The first idea is always the most probable path. Divergent thinking requires forcing past it. |
 | "I'll just ask the LLM to be creative" | Empty instruction. Without a binding constraint, the model produces the average of its training data. |
@@ -118,7 +118,7 @@ Output feeds into `spec-driven-development`.
 
 ## Red Flags
 
-- All ideas feel the same → you used only one method. Add a different one.
-- Warm-up produced better ideas than the main session → you converged too fast. Spend longer in Step 1.
-- You used only perspectives → perspectives are one method. You need at least two methods.
-- The final concept feels safe → divergent thinking stopped too early. Run Step 1 again with more extreme pairings.
+- All ideas feel the same -> you used only one method. Add a different one.
+- Warm-up produced better ideas than the main session -> you converged too fast. Spend longer in Step 1.
+- You used only perspectives -> perspectives are one method. You need at least two methods.
+- The final concept feels safe -> divergent thinking stopped too early. Run Step 1 again with more extreme pairings.

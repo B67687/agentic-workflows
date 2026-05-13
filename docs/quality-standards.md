@@ -1,6 +1,6 @@
 # Quality Standards
 
-This file documents the quality standards for this knowledge base. These standards ensure the folder itself follows best practices — the meta-quality principle.
+This file documents the quality standards for this knowledge base. These standards ensure the folder itself follows best practices --- the meta-quality principle.
 
 ## Purpose
 
@@ -53,10 +53,10 @@ This file documents the quality standards for this knowledge base. These standar
 
 Every `.sh` script must have:
 
-1. **Shebang** — `#!/usr/bin/env bash`
-2. **Usage/help block** — synopsis, options, examples
-3. **Safe shell flags** — `set -uo pipefail` at minimum
-4. **Explicit exit behavior** — non-zero exit on failure
+1. **Shebang** --- `#!/usr/bin/env bash`
+2. **Usage/help block** --- synopsis, options, examples
+3. **Safe shell flags** --- `set -uo pipefail` at minimum
+4. **Explicit exit behavior** --- non-zero exit on failure
 
 ### Best Practices
 
@@ -104,7 +104,7 @@ Every `.sh` script must have:
 - Concise: avoid unnecessary words
 - Specific: include file paths, commands, examples
 - Actionable: user can act on the advice
-- Scoped: don't ask for "everything" — be specific
+- Scoped: don't ask for "everything" --- be specific
 
 ---
 
@@ -112,7 +112,7 @@ Every `.sh` script must have:
 
 ### Structure
 
-- Heading hierarchy: H1 → H2 → H3, no skipping levels
+- Heading hierarchy: H1 -> H2 -> H3, no skipping levels
 - Consistent heading style: sentence-case or title-case (pick one)
 - Line length: soft-wrap at 100 chars for readability
 - Code blocks: fenced with ``` for clarity
@@ -140,10 +140,10 @@ Every `.sh` script must have:
 
 Every template must have:
 
-1. **Header** — description of what the template is for
-2. **Placeholders** — clearly marked with `[PLACEHOLDER]`
-3. **Usage** — how to use the template
-4. **Example** — filled-out example
+1. **Header** --- description of what the template is for
+2. **Placeholders** --- clearly marked with `[PLACEHOLDER]`
+3. **Usage** --- how to use the template
+4. **Example** --- filled-out example
 
 ### Template Naming
 
@@ -207,8 +207,8 @@ bash ./scripts/audit-folder-quality.sh
 
 ## Related Files
 
-- [../AGENTS.md](../AGENTS.md) — operating contract
-- [../README.md](../README.md) — navigation index
+- [../AGENTS.md](../AGENTS.md) --- operating contract
+- [../README.md](../README.md) --- navigation index
 
 ---
 
@@ -260,8 +260,8 @@ These are warning thresholds, not hard failures. Exceeding one means the file sh
 
 | Situation | Approach |
 |-----------|----------|
-| Research log → Integration | Extract key pattern, link to source |
-| Repo lessons → Knowledge base | Atomic note, source reference |
+| Research log -> Integration | Extract key pattern, link to source |
+| Repo lessons -> Knowledge base | Atomic note, source reference |
 | Doc update | Rewrite in own words, keep source |
 | Inline AGENTS.md | Core insight only, reference for deep-dive |
 
@@ -271,4 +271,4 @@ These are warning thresholds, not hard failures. Exceeding one means the file sh
 - When the full doc is needed for edge cases
 - When multiple related ideas need to stay together
 - When actionability matters more than compression
-- [../scripts/audit-folder-quality.sh](../scripts/audit-folder-quality.sh) — validates these standards
+- [../scripts/audit-folder-quality.sh](../scripts/audit-folder-quality.sh) --- validates these standards

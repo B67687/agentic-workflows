@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 # =============================================================================
-# doubt-adversarial.sh — Companion script for Doubt-Driven Development
+# doubt-adversarial.sh --- Companion script for Doubt-Driven Development
 #
 # Automates Steps 2-4 of the doubt cycle:
-#   Step 2: EXTRACT — format artifact + contract for review
-#   Step 3: DOUBT  — generate adversarial prompt, write to temp file
-#   Step 4: RECONCILE — structure findings classification
+#   Step 2: EXTRACT --- format artifact + contract for review
+#   Step 3: DOUBT  --- generate adversarial prompt, write to temp file
+#   Step 4: RECONCILE --- structure findings classification
 #
 # Usage:
 #   bash ./scripts/doubt-adversarial.sh prompt    # generate adversarial prompt
@@ -25,7 +25,7 @@ SCRIPT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 
 case "$MODE" in
   prompt)
-    # === Step 3: DOUBT — Generate adversarial prompt ===
+    # === Step 3: DOUBT --- Generate adversarial prompt ===
     # Expects ARTIFACT + CONTRACT via stdin heredoc or pipe.
     # Writes the adversarial prompt to stdout for piping or redirect.
 
@@ -75,11 +75,11 @@ PROMPT
     ;;
 
   reconcile)
-    # === Step 4: RECONCILE — Structured classification template ===
+    # === Step 4: RECONCILE --- Structured classification template ===
     # Outputs a blank RECONCILE template for filling in.
     # Each finding from the reviewer gets classified.
 
-    echo "# Doubt Cycle — Reconciliation"
+    echo "# Doubt Cycle --- Reconciliation"
     echo ""
     echo "## Review Source"
     echo "- Model: <model-or-tool>"
@@ -88,14 +88,14 @@ PROMPT
     echo "## Findings"
     echo ""
     echo "### Finding 1: <short description>"
-    echo "- [ ] **Contract misread** — contract was unclear or incomplete"
-    echo "  → Fix contract, re-classify on next cycle"
-    echo "- [ ] **Valid + actionable** — real issue requiring change"
-    echo "  → Change artifact, re-loop"
-    echo "- [ ] **Valid trade-off** — real but cost > benefit"
-    echo "  → Document explicitly for user"
-    echo "- [ ] **Noise** — correct under context reviewer lacked"
-    echo "  → Note it, move on. Would adding context to contract have prevented?"
+    echo "- [ ] **Contract misread** --- contract was unclear or incomplete"
+    echo "  -> Fix contract, re-classify on next cycle"
+    echo "- [ ] **Valid + actionable** --- real issue requiring change"
+    echo "  -> Change artifact, re-loop"
+    echo "- [ ] **Valid trade-off** --- real but cost > benefit"
+    echo "  -> Document explicitly for user"
+    echo "- [ ] **Noise** --- correct under context reviewer lacked"
+    echo "  -> Note it, move on. Would adding context to contract have prevented?"
     echo ""
     echo "### Finding 2: <short description>"
     echo "- [ ] Contract misread"
@@ -158,9 +158,9 @@ EOF
   *)
     echo "Usage: $0 {prompt|reconcile|full}"
     echo ""
-    echo "  prompt    — Generate adversarial prompt from stdin ARTIFACT+CONTRACT"
-    echo "  reconcile — Output blank RECONCILE template"
-    echo "  full      — Interactive full doubt cycle (EXTRACT → DOUBT → RECONCILE)"
+    echo "  prompt    --- Generate adversarial prompt from stdin ARTIFACT+CONTRACT"
+    echo "  reconcile --- Output blank RECONCILE template"
+    echo "  full      --- Interactive full doubt cycle (EXTRACT -> DOUBT -> RECONCILE)"
     exit 1
     ;;
 esac

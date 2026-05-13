@@ -21,5 +21,5 @@ paths:
 
 - Shell scripts: test via `scripts/test-smoke.sh` using assert patterns
 - Python: use pytest-style assertions
-- Keep tests fast — aim for under 30s total
+- Keep tests fast --- aim for under 30s total
 - Name tests descriptively: `test_<function>_<behavior>`

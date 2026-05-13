@@ -1,6 +1,6 @@
 #!/bin/bash
 # =============================================================================
-# browser.sh — Browser automation via Playwright
+# browser.sh --- Browser automation via Playwright
 #
 # Wraps common browser operations for agent use. Also supports Playwright MCP
 # (configured in opencode.jsonc) for richer interactive sessions.

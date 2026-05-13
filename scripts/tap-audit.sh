@@ -75,7 +75,7 @@ case "$cmd" in
     echo "Find 3-5 leverage points. Each answers:"
     echo "what's slowing delivery OR letting defects through?"
     echo ""
-    echo "### N. [Description] → [Consequence]"
+    echo "### N. [Description] -> [Consequence]"
     echo "- Symptom: [observable problem]"
     echo "- Why it costs: [concrete impact]"
     echo "- Fix: [cheapest intervention + effort]"
@@ -83,7 +83,7 @@ case "$cmd" in
     ;;
   report)
     echo "★ Audit View ────────────────────────────────────"
-    echo "[repo name] — [FULL/PARTIAL/MINIMAL]"
+    echo "[repo name] --- [FULL/PARTIAL/MINIMAL]"
     echo "  ├─ [top feedback loop finding]"
     echo "  ├─ [#1 leverage point]"
     echo "  └─ [cheapest fix to start with]"

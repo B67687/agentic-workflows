@@ -1,5 +1,5 @@
 ---
-description: Session lifecycle — checkpoint, handoff, boundary, close, and finish
+description: Session lifecycle --- checkpoint, handoff, boundary, close, and finish
 ---
 
 ## Session Fork (isolated worktree for parallel work)
@@ -123,7 +123,7 @@ Removes `.gstack-freeze`. Always confirm with the user before unfreezing if ther
 | Shortcut | Why It Fails |
 |---|---|
 | "I'll commit at the end" | Large commits hide bugs and make rollback impossible. Commit each verified phase. |
-| "No need to checkpoint — I'll remember" | Sessions degrade. session-state.json is the durable record. |
+| "No need to checkpoint --- I'll remember" | Sessions degrade. session-state.json is the durable record. |
 | "The task just faded out, no need to classify" | Unclassified tasks leave stale state. Always close or park explicitly. |
 | "I can hand off by summarizing in chat" | Chat summaries degrade over handoffs. Use the structured handoff packet. |
 </rationalizations>

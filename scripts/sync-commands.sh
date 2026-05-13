@@ -49,8 +49,8 @@ SOURCE_COUNT=$(find "$SOURCE" -maxdepth 1 -name '*.md' | wc -l)
 
 if [ "$DRY_RUN" = true ]; then
   echo "[DRY RUN] Would copy $SOURCE_COUNT files:"
-  echo "  $SOURCE → $TARGET_OPENCODE (all)"
-  echo "  $SOURCE → $TARGET_PI (all)"
+  echo "  $SOURCE -> $TARGET_OPENCODE (all)"
+  echo "  $SOURCE -> $TARGET_PI (all)"
   for f in "$SOURCE"/*.md; do
     base=$(basename "$f")
     echo "    $base"
@@ -69,8 +69,8 @@ cp "$SOURCE"/*.md "$TARGET_PI/"
 PI_COUNT=$(find "$TARGET_PI" -maxdepth 1 -name '*.md' | wc -l)
 
 echo "Synced $SOURCE_COUNT command files:"
-echo "  → $TARGET_OPENCODE ($OPENCODE_COUNT files)"
-echo "  → $TARGET_PI ($PI_COUNT files)"
+echo "  -> $TARGET_OPENCODE ($OPENCODE_COUNT files)"
+echo "  -> $TARGET_PI ($PI_COUNT files)"
 
 if [ "$VERBOSE" = true ]; then
   echo ""

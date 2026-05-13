@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-_workspace_files.py — Shared utility: list text files in a workspace.
+_workspace_files.py --- Shared utility: list text files in a workspace.
 
 Used by build-index.py, repo-map.py, and any other script that needs
 to discover text files to process. Respects a hardcoded ignore-dir set
@@ -69,7 +69,7 @@ def list_text_files(root: Path, respect_gitignore: bool = False) -> list[Path]:
     Walk *root* recursively and return sorted list of text files.
 
     Ignores directories in *ignore_dirs*.  Optionally also consults
-    ``.gitignore`` (expensive — do not enable for large trees on every
+    ``.gitignore`` (expensive --- do not enable for large trees on every
     build).
     """
     if not root.is_dir():

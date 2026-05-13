@@ -8,10 +8,10 @@ Without a shared language, agents and humans use 20 words where 1 will do. Every
 
 A domain glossary fixes this by:
 
-- **Reducing token usage** 20-30% per session — concise language replaces verbose descriptions
-- **Aligning naming** — files, functions, and variables use consistent terms
-- **Making codebases AI-navigable** — agents search for the right terms because they know what things are called
-- **Preventing re-derivation** — "the thing that processes orders" becomes "OrderProcessor" and stays that way
+- **Reducing token usage** 20-30% per session --- concise language replaces verbose descriptions
+- **Aligning naming** --- files, functions, and variables use consistent terms
+- **Making codebases AI-navigable** --- agents search for the right terms because they know what things are called
+- **Preventing re-derivation** --- "the thing that processes orders" becomes "OrderProcessor" and stays that way
 
 ## When to Create
 
@@ -31,7 +31,7 @@ Create `CONTEXT.md` when:
 ## Language
 
 **{Term}**:
-{A concise definition — one sentence max. Define what it IS, not what it does.}
+{A concise definition --- one sentence max. Define what it IS, not what it does.}
 _Avoid_: {synonyms that should NOT be used}
 
 **Invoice**:
@@ -50,11 +50,11 @@ _Avoid_: Client, buyer, account
 ## Example Dialogue
 
 > **Dev:** "When a **Customer** places an **Order**, do we create the **Invoice** immediately?"
-> **Expert:** "No — an **Invoice** is only generated once a **Fulfillment** is confirmed."
+> **Expert:** "No --- an **Invoice** is only generated once a **Fulfillment** is confirmed."
 
 ## Flagged Ambiguities
 
-- "account" was used to mean both **Customer** and **User** — resolved: these are distinct concepts.
+- "account" was used to mean both **Customer** and **User** --- resolved: these are distinct concepts.
 ```
 
 ## Rules
@@ -69,10 +69,10 @@ _Avoid_: Client, buyer, account
 
 ## Maintenance
 
-- **Add terms lazily** — only when a term comes up in conversation that needs defining
-- **Update when understanding shifts** — if a term's meaning evolves, update the glossary
-- **Review after significant features** — new features introduce new domain concepts
-- **Do not couple to implementation details** — the glossary is for domain experts, not code structure
+- **Add terms lazily** --- only when a term comes up in conversation that needs defining
+- **Update when understanding shifts** --- if a term's meaning evolves, update the glossary
+- **Review after significant features** --- new features introduce new domain concepts
+- **Do not couple to implementation details** --- the glossary is for domain experts, not code structure
 
 ## Multi-Context Repos
 
@@ -83,12 +83,12 @@ For monorepos with multiple bounded contexts, use a `CONTEXT-MAP.md` at the root
 
 ## Contexts
 
-- [Ordering](./src/ordering/CONTEXT.md) — receives and tracks customer orders
-- [Billing](./src/billing/CONTEXT.md) — generates invoices and processes payments
+- [Ordering](./src/ordering/CONTEXT.md) --- receives and tracks customer orders
+- [Billing](./src/billing/CONTEXT.md) --- generates invoices and processes payments
 
 ## Relationships
 
-- **Ordering → Billing**: Ordering emits `OrderPlaced` events; Billing consumes them
+- **Ordering -> Billing**: Ordering emits `OrderPlaced` events; Billing consumes them
 ```
 
 Each context has its own `CONTEXT.md` in its directory, and the map shows how they relate.
@@ -105,13 +105,13 @@ The domain glossary feeds into:
 
 | Artifact | Purpose | When |
 |---|---|---|
-| **CONTEXT.md** | What things ARE — the shared vocabulary | Created early, updated as terms surface |
-| **ADR** | Why decisions were made — the rationale | Created when a hard-to-reverse decision crystallizes |
+| **CONTEXT.md** | What things ARE --- the shared vocabulary | Created early, updated as terms surface |
+| **ADR** | Why decisions were made --- the rationale | Created when a hard-to-reverse decision crystallizes |
 
 The glossary names things. ADRs explain why things are the way they are.
 
 ## Related
 
-- `skills/documentation-and-adrs/SKILL.md` — Lightweight Architecture Decision Record format and workflow
-- `skills/grill-me/SKILL.md` — Structured requirements alignment
-- `skills/documentation-and-adrs/SKILL.md` — Documentation and ADR workflow
+- `skills/documentation-and-adrs/SKILL.md` --- Lightweight Architecture Decision Record format and workflow
+- `skills/grill-me/SKILL.md` --- Structured requirements alignment
+- `skills/documentation-and-adrs/SKILL.md` --- Documentation and ADR workflow

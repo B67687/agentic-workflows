@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # =============================================================================
-# skill-test.sh — Companion script for Skill Evaluator
+# skill-test.sh --- Companion script for Skill Evaluator
 #
 # Tests a skill's behavior: verifies trigger patterns, runs test cases,
 # and reports pass/fail for each scenario.

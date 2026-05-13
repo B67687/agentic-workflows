@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # =============================================================================
-# assumption-expiry.sh — Check and manage assumption staleness
+# assumption-expiry.sh --- Check and manage assumption staleness
 #
 # Implements the Assumption Expiry pattern (docs/assumption-expiry.md):
 # every non-verifiable claim in the workspace gets a TTL. Downstream ops
@@ -19,8 +19,8 @@
 #   bash ./scripts/assumption-expiry.sh init       # First-time: migrate residualRisk to assumptions
 #
 # Exit codes:
-#   0 — all assumptions current (none overdue)
-#   1 — at least one assumption overdue or expiring soon
+#   0 --- all assumptions current (none overdue)
+#   1 --- at least one assumption overdue or expiring soon
 # =============================================================================
 
 set -euo pipefail
@@ -131,7 +131,7 @@ if is_list:
         print('No assumptions found.')
     print(f'Summary: {len(active)} active, {len(expiring_soon)} expiring, {len(overdue)} overdue')
 else:
-    # check mode — structured output for agent consumption
+    # check mode --- structured output for agent consumption
     print('ASSESSMENT=check')
     print(f'ASSUMPTIONS={len(assumptions)}')
     print(f'ACTIVE={len(active)}')
@@ -252,7 +252,7 @@ data['assumptions'] = [{
 }]
 with open(state_file, 'w') as f:
     json.dump(data, f, indent=2, ensure_ascii=False)
-print(f'MIGRATED: residualRisk → assumptions[0] (status: overdue — needs review)')
+print(f'MIGRATED: residualRisk -> assumptions[0] (status: overdue --- needs review)')
 "
     ;;
 
@@ -261,8 +261,8 @@ print(f'MIGRATED: residualRisk → assumptions[0] (status: overdue — needs rev
     echo "" >&2
     echo "  check   Check all assumptions, exit 1 if any overdue" >&2
     echo "  list    Human-readable list of all assumptions" >&2
-    echo "  mark    <id> — Mark reviewed, reset TTL" >&2
-    echo "  dismiss <id> — Dismiss as no longer relevant" >&2
+    echo "  mark    <id> --- Mark reviewed, reset TTL" >&2
+    echo "  dismiss <id> --- Dismiss as no longer relevant" >&2
     echo "  init    First-time: migrate residualRisk to assumptions" >&2
     exit 1
     ;;

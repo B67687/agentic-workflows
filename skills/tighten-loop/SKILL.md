@@ -1,6 +1,6 @@
 ---
 name: tighten-loop
-description: "Harvest course-corrections from the current conversation and convert them into durable fixes so the agent doesn't need the same steer next time. Use when someone says tighten the loop, debrief this session, what should I update, what tripped you up. NOT for: repo readiness (→ loop-check), retros on past PRs/incidents (→ retrospective), or applying edits inline."
+description: "Harvest course-corrections from the current conversation and convert them into durable fixes so the agent doesn't need the same steer next time. Use when someone says tighten the loop, debrief this session, what should I update, what tripped you up. NOT for: repo readiness (-> loop-check), retros on past PRs/incidents (-> retrospective), or applying edits inline."
 trigger-phrases: tighten the loop, debrief this session, what should I update, what tripped you up, what slowed you down, session debrief
 handoffs: loop-check (for repo-level loop assessment), retrospective (for event-driven retro)
 companion-script: scripts/tighten-loop.sh
@@ -24,14 +24,14 @@ bash ./scripts/tighten-loop.sh template             # report table template
 
 Scan the conversation for moments where the user redirected the agent:
 
-- **Corrections** — "no", "stop", "don't", "instead", "actually", "that's wrong"
-- **Standing rules** — "always do X", "never do Y", "from now on..."
-- **Validated judgment calls** — when user accepts a non-obvious choice without pushback
-- **Repeated friction** — reminded of same thing twice (strongest signal)
+- **Corrections** --- "no", "stop", "don't", "instead", "actually", "that's wrong"
+- **Standing rules** --- "always do X", "never do Y", "from now on..."
+- **Validated judgment calls** --- when user accepts a non-obvious choice without pushback
+- **Repeated friction** --- reminded of same thing twice (strongest signal)
 
 Skip: tactical exchanges, one-off task pivots, personal orchestration style.
 
-If harvest is thin (≤2 steers after filtering), say so honestly. Empty harvest on a low-friction session is correct — don't pad.
+If harvest is thin (≤2 steers after filtering), say so honestly. Empty harvest on a low-friction session is correct --- don't pad.
 
 ### 2. Classify by Gap Type
 
@@ -59,7 +59,7 @@ Each finding routes to one intent:
 
 ```
 `★ Tighten Loop ──────────────────────────────────`
-[N] steers harvested — [N context] / [N harness] / [N feedback] / [N scope]
+[N] steers harvested --- [N context] / [N harness] / [N feedback] / [N scope]
   ├─ [most impactful finding]
   ├─ [second]
   └─ [top recommended fix]
@@ -75,17 +75,17 @@ Each finding routes to one intent:
 If `.tap/learnings.md` exists, append harvested findings:
 
 ```
-[YYYY-MM-DD] — session debrief
-- [steer] → [gap type] → [specific fix]
+[YYYY-MM-DD] --- session debrief
+- [steer] -> [gap type] -> [specific fix]
 ```
 
-Skip silently if file doesn't exist — don't create it here.
+Skip silently if file doesn't exist --- don't create it here.
 
 ## Boundaries
 
 - Does NOT scan the repo (that's `loop-check`)
 - Does NOT pull git/gh history (that's `retrospective`)
-- Does NOT apply edits itself — routes to the right fix method
-- Does NOT route to harness-local memory — only repo-portable fixes
+- Does NOT apply edits itself --- routes to the right fix method
+- Does NOT route to harness-local memory --- only repo-portable fixes
 - Does NOT create GitHub tickets
-- Does NOT auto-trigger — user invokes when ready
+- Does NOT auto-trigger --- user invokes when ready

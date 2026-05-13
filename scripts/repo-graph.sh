@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# repo-graph.sh — Generate an interactive repo knowledge graph (Obsidian-style)
+# repo-graph.sh --- Generate an interactive repo knowledge graph (Obsidian-style)
 # Usage: bash scripts/repo-graph.sh [output.html]
 # Default output: repo-graph.html
 

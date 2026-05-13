@@ -32,7 +32,7 @@ Return only the compressed recommendation, not all intermediate model chatter, u
 |---|---|
 | "I already know the answer" | Counsel surfaces blind spots one perspective always misses. |
 | "Counsel takes too long" | A wrong decision costs 10x the counsel time. Use the gate to decide if it's needed. |
-| "Only one model review is enough" | Divergent models catch different failure modes — that's the point. |
+| "Only one model review is enough" | Divergent models catch different failure modes --- that's the point. |
 
 </rationalizations>
 

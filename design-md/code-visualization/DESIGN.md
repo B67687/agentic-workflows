@@ -1,7 +1,7 @@
 ---
 version: alpha
 name: Code Visualization Design
-description: An educational visual language for explaining how programming languages work — AST trees, execution traces, memory layouts, control flow graphs, and code reading interfaces. Designed to maximize clarity at projection scale (slides, videos, docs) while remaining readable at screen scale. Inspired by craft conf, typescript book illustrations, and compiler explorer visualizations.
+description: An educational visual language for explaining how programming languages work --- AST trees, execution traces, memory layouts, control flow graphs, and code reading interfaces. Designed to maximize clarity at projection scale (slides, videos, docs) while remaining readable at screen scale. Inspired by craft conf, typescript book illustrations, and compiler explorer visualizations.
 
 colors:
   # ── Tokens (Lexer / Syntax Highlighting) ──
@@ -419,22 +419,22 @@ components:
 
 ## Overview
 
-This design system defines a visual language for **educational code and programming-language visualization** — explaining how compilers, interpreters, type systems, and runtime environments work. Every token, shape, and layout rule is chosen to maximize comprehension at projection scale (lectures, talk slides, video) while remaining readable at screen scale (documentation, blog posts, interactive tools).
+This design system defines a visual language for **educational code and programming-language visualization** --- explaining how compilers, interpreters, type systems, and runtime environments work. Every token, shape, and layout rule is chosen to maximize comprehension at projection scale (lectures, talk slides, video) while remaining readable at screen scale (documentation, blog posts, interactive tools).
 
 The system is built on a **three-layer hierarchy**:
 
-1. **Code Surface** — The annotated source code layer. Syntax-highlighted lines with inline annotations, highlight markers, and callout badges. This is the anchor — every visualization starts from code.
-2. **Tree/Graph Layer** — AST trees, control flow graphs, type constraint graphs. Structural diagrams that sit beside (or below) the code surface, connected by edge lines and node references.
-3. **Runtime Layer** — Call stacks, heap layouts, execution traces. Temporal or memory diagrams that show what happens *when* code runs.
+1. **Code Surface** --- The annotated source code layer. Syntax-highlighted lines with inline annotations, highlight markers, and callout badges. This is the anchor --- every visualization starts from code.
+2. **Tree/Graph Layer** --- AST trees, control flow graphs, type constraint graphs. Structural diagrams that sit beside (or below) the code surface, connected by edge lines and node references.
+3. **Runtime Layer** --- Call stacks, heap layouts, execution traces. Temporal or memory diagrams that show what happens *when* code runs.
 
 Each layer has its own color logic and shape grammar, but they share a unified typography system (JetBrains Mono for code/nodes, Inter for labels/body) and spacing grid.
 
 **Key Characteristics:**
-- Dual-theme: light (code readability, docs) and dark (presentation, video recording) — every token has a `-dark` variant
-- Token-type syntax highlighting follows the GitHub Primer color system — recognizable to any developer
+- Dual-theme: light (code readability, docs) and dark (presentation, video recording) --- every token has a `-dark` variant
+- Token-type syntax highlighting follows the GitHub Primer color system --- recognizable to any developer
 - Shape grammar maps to node semantics: ellipses for expressions, rectangles for statements, diamonds for decisions, pills for literals
 - Edge lines use arrow-terminated paths with semantic colors (blue for flow, green for true/return, red for error/false)
-- Code lines connect to AST nodes via subtle dashed reference lines — the viewer always knows *which code produced which tree*
+- Code lines connect to AST nodes via subtle dashed reference lines --- the viewer always knows *which code produced which tree*
 - Annotation-first: every diagram should have brief natural-language callouts explaining *why*, not just *what*
 
 ## Colors
@@ -461,7 +461,7 @@ The syntax highlighting system follows the GitHub Primer Dark/Light palette for 
 
 ### AST Node Colors
 
-Each AST node type has a distinct color role — the fill color is the primary recognition cue, supported by the shape grammar:
+Each AST node type has a distinct color role --- the fill color is the primary recognition cue, supported by the shape grammar:
 
 | Role | Fill | Stroke | Text | Shape |
 |---|---|---|---|---|
@@ -500,8 +500,8 @@ Each AST node type has a distinct color role — the fill color is the primary r
 
 Two faces carry the system:
 
-1. **JetBrains Mono** (or Fira Code / Cascadia Code) — all code surfaces, AST node labels, inline snippets, stack frames, type labels. Weight 450 (the "Retina" weight) provides excellent readability at small sizes without being too heavy. Ligatures enabled for presentation contexts, disabled for accuracy checking.
-2. **Inter** (or SF Pro) — all body text, section headings, annotations, toolbar labels, edge labels. The clean humanist sans pairs well with the mono face while remaining highly readable at projection scale.
+1. **JetBrains Mono** (or Fira Code / Cascadia Code) --- all code surfaces, AST node labels, inline snippets, stack frames, type labels. Weight 450 (the "Retina" weight) provides excellent readability at small sizes without being too heavy. Ligatures enabled for presentation contexts, disabled for accuracy checking.
+2. **Inter** (or SF Pro) --- all body text, section headings, annotations, toolbar labels, edge labels. The clean humanist sans pairs well with the mono face while remaining highly readable at projection scale.
 
 ### Hierarchy
 
@@ -529,7 +529,7 @@ Two faces carry the system:
 - **Line height 1.6 for code.** Tighter than markdown's 1.7+ but loose enough for inline annotations between lines.
 
 ### Note on Font Substitutes
-JetBrains Mono is open-source (SIL OFL). If unavailable: **Fira Code** or **Cascadia Code** at weight 450. For body: **Inter** (Google Fonts, variable) is the canonical substitute — weights 400/500/600 map directly.
+JetBrains Mono is open-source (SIL OFL). If unavailable: **Fira Code** or **Cascadia Code** at weight 450. For body: **Inter** (Google Fonts, variable) is the canonical substitute --- weights 400/500/600 map directly.
 
 ## Layout
 
@@ -567,7 +567,7 @@ Full-width code on top, full-width diagram below. Used when the diagram needs ho
 │  │  "This is what happens..."           │ │
 │  └──────────────────────────────────────┘ │
 │                                          │
-│  → Arrow pointing to the relevant line    │
+│  -> Arrow pointing to the relevant line    │
 └───────────────────────────────────────────┘
 ```
 Code fills the viewport with numbered lines. Annotations are positioned to the right (or below) as callout cards, connected by arrow lines to specific line ranges.
@@ -578,7 +578,7 @@ Code fills the viewport with numbered lines. Annotations are positioned to the r
 │  ┌───┐                                   │
 │  │ S │───┐                               │
 │  └───┘   │   ┌───┐                       │
-│           ├──→│ E │                       │
+│           ├──->│ E │                       │
 │  ┌───┐   │   └───┘                       │
 │  │ S │───┘                               │
 │  └───┘                                   │
@@ -596,22 +596,22 @@ The diagram fills the full canvas. Used for complex AST trees, large CFGs, or me
 ### Grid
 - **Code viewer gutter:** 32px left padding for line numbers (rendered in `{typography.code-sm}` at reduced opacity).
 - **Diagram container:** Flexible width, depends on layout mode. No max-width constraint (trees need room to breathe).
-- **Node grid:** AST nodes in a tree layout follow a top-down alternating grid — parent centered above children, children evenly spaced.
+- **Node grid:** AST nodes in a tree layout follow a top-down alternating grid --- parent centered above children, children evenly spaced.
 
 ### Whitespace Philosophy
-Code visualizations are information-dense by nature. Whitespace is used to **separate visual groups** (AST layers, stack frames, CFG blocks), not to decorate. Internal padding inside nodes is tight (`{spacing.xs}` 4px–`{spacing.sm}` 8px) so the tree remains compact enough to scan.
+Code visualizations are information-dense by nature. Whitespace is used to **separate visual groups** (AST layers, stack frames, CFG blocks), not to decorate. Internal padding inside nodes is tight (`{spacing.xs}` 4px--`{spacing.sm}` 8px) so the tree remains compact enough to scan.
 
 ## Elevation & Depth
 
 | Level | Treatment | Use |
 |---|---|---|
-| 0 — Flat | No shadow, 1px hairline border | Code viewer, surface elements |
-| 1 — Card | `0 1px 3px rgba(0,0,0,0.08)` | Annotation callouts, stack frames, node cards |
-| 2 — Popup | `0 4px 12px rgba(0,0,0,0.12)` | Active frame, hovered node, tooltip |
-| 3 — Modal | `0 8px 24px rgba(0,0,0,0.16)` | Detail panel, code inspection popup |
+| 0 --- Flat | No shadow, 1px hairline border | Code viewer, surface elements |
+| 1 --- Card | `0 1px 3px rgba(0,0,0,0.08)` | Annotation callouts, stack frames, node cards |
+| 2 --- Popup | `0 4px 12px rgba(0,0,0,0.12)` | Active frame, hovered node, tooltip |
+| 3 --- Modal | `0 8px 24px rgba(0,0,0,0.16)` | Detail panel, code inspection popup |
 
 ### Depth Philosophy
-The visualization system is intentionally **flat** — AST trees and execution traces have inherent visual hierarchy through their structure. Shadows are used sparingly to lift interactive elements (hovered nodes, annotation callouts) above the static surface. Code viewers have no shadow (they're the ground truth layer).
+The visualization system is intentionally **flat** --- AST trees and execution traces have inherent visual hierarchy through their structure. Shadows are used sparingly to lift interactive elements (hovered nodes, annotation callouts) above the static surface. Code viewers have no shadow (they're the ground truth layer).
 
 ## Shapes & Node Grammar
 
@@ -630,130 +630,130 @@ The shape grammar is the **primary semantic signal** for AST visualization. Ever
 
 | Edge Type | Style | Color | Arrow | Use |
 |---|---|---|---|---|
-| Parent-child | Solid | `{colors.hairline}` | → | AST tree edges |
-| Execution flow | Solid | `{colors.exec-arrow-flow}` | → | Sequential execution |
-| Branch-true | Solid | `{colors.cfg-branch-true}` | → | True branch in CFG |
-| Branch-false | Dashed | `{colors.cfg-branch-false}` | → | False branch in CFG |
+| Parent-child | Solid | `{colors.hairline}` | -> | AST tree edges |
+| Execution flow | Solid | `{colors.exec-arrow-flow}` | -> | Sequential execution |
+| Branch-true | Solid | `{colors.cfg-branch-true}` | -> | True branch in CFG |
+| Branch-false | Dashed | `{colors.cfg-branch-false}` | -> | False branch in CFG |
 | Loop back | Solid | `{colors.cfg-loop-back}` | ↻ | Loop back edge in CFG |
-| Return | Solid | `{colors.exec-arrow-return}` | → (hollow) | Return value flow |
-| Error | Solid (2px) | `{colors.exec-arrow-error}` | → | Exception/error propagation |
-| Reference | Dashed | `{colors.hairline}` | none | Code line → AST node reference |
-| Pointer | Solid | `{colors.exec-heap-pointer-line}` | → (open) | Stack → heap reference |
+| Return | Solid | `{colors.exec-arrow-return}` | -> (hollow) | Return value flow |
+| Error | Solid (2px) | `{colors.exec-arrow-error}` | -> | Exception/error propagation |
+| Reference | Dashed | `{colors.hairline}` | none | Code line -> AST node reference |
+| Pointer | Solid | `{colors.exec-heap-pointer-line}` | -> (open) | Stack -> heap reference |
 
 ## Components
 
 ### Code Viewer
 
-**`code-viewer`** — The primary code display surface. Light background with syntax highlighting.
+**`code-viewer`** --- The primary code display surface. Light background with syntax highlighting.
 - Background `{colors.canvas-code}`, text in `{colors.ink}` with token-level color highlighting.
 - Each line rendered in `{typography.code-md}` (14px). Line numbers in `{typography.code-sm}` aligned left in gutter.
-- Highlighted lines use `code-line-highlighted` — left border accent in the token color of the highlighted element.
+- Highlighted lines use `code-line-highlighted` --- left border accent in the token color of the highlighted element.
 - Code selection uses `{colors.selection-bg}`.
 
-**`code-viewer-dark`** — Dark variant for presentations and video.
+**`code-viewer-dark`** --- Dark variant for presentations and video.
 - Same structure, inverted colors. Background `{colors.canvas-code-dark}`, text `{colors.ink-dark}`.
 
-**`code-line-highlighted`** — A line in the code viewer that corresponds to a diagram element.
+**`code-line-highlighted`** --- A line in the code viewer that corresponds to a diagram element.
 - 3px left border in `{colors.token-keyword}`, background `{colors.highlight-line}`. Used to connect code to AST nodes.
 
 ### AST Nodes
 
-**`ast-expression`** — Expression nodes (BinaryExpression, CallExpression, MemberExpression, etc.)
+**`ast-expression`** --- Expression nodes (BinaryExpression, CallExpression, MemberExpression, etc.)
 - Fill `{colors.ast-expression-fill}`, stroke `{colors.ast-expression-stroke}`, rounded rect shape.
 - Label in `{typography.ast-node-label}` (11px mono 500).
 - Children connected below via solid hairline edges.
-- Semantic hint: expressions evaluate to values — the rounded shape signals "produces a value."
+- Semantic hint: expressions evaluate to values --- the rounded shape signals "produces a value."
 
-**`ast-statement`** — Statement nodes (IfStatement, WhileStatement, ReturnStatement, etc.)
+**`ast-statement`** --- Statement nodes (IfStatement, WhileStatement, ReturnStatement, etc.)
 - Fill `{colors.ast-statement-fill}`, stroke `{colors.ast-statement-stroke}`, sharp rect shape.
 - Sharp corners signal "performs an action" vs "produces a value."
 
-**`ast-declaration`** — Declaration nodes (VariableDeclaration, FunctionDeclaration, ClassDeclaration)
+**`ast-declaration`** --- Declaration nodes (VariableDeclaration, FunctionDeclaration, ClassDeclaration)
 - Fill `{colors.ast-declaration-fill}`, stroke `{colors.ast-declaration-stroke}`, rounded rect.
 
-**`ast-literal`** — Literal value nodes (NumberLiteral, StringLiteral, BooleanLiteral)
+**`ast-literal`** --- Literal value nodes (NumberLiteral, StringLiteral, BooleanLiteral)
 - Fill `{colors.ast-literal-fill}`, stroke `{colors.ast-literal-stroke}`, pill shape.
 - Pill shape distinguishes literals from all other node types at a glance.
 
 ### Execution Visualization
 
-**`stack-frame`** — A call stack frame in the execution trace.
+**`stack-frame`** --- A call stack frame in the execution trace.
 - Background `{colors.exec-stack-frame}`, 1px hairline border, `{typography.code-sm}` inside.
 - Shows: function name, arguments, return address (optional).
 - Stack grows downward. The active frame (`stack-frame-active`) gets a blue accent background + 2px border.
 
-**`heap-object`** — A heap-allocated object in memory diagrams.
+**`heap-object`** --- A heap-allocated object in memory diagrams.
 - Background `{colors.exec-heap-object}`, border `{colors.exec-heap-object-stroke}`, rounded md.
 - Shows: type name, field-value pairs in `{typography.code-sm}`.
 - Connected to stack frames via pointer arrows.
 
 ### Control Flow Graph
 
-**`cfg-block`** — A basic block in the control flow graph.
+**`cfg-block`** --- A basic block in the control flow graph.
 - Background `{colors.cfg-block-fill}`, border `{colors.cfg-block-stroke}`, rounded md.
 - Contains: one or more statements (non-branching), rendered in `{typography.code-sm}`.
 - Entry block (`cfg-block-entry`) has a 2px border and sits at the top.
 
-**`cfg-decision`** — A branch decision node (diamond shape).
+**`cfg-decision`** --- A branch decision node (diamond shape).
 - Diamond shape distinguishes decisions from regular blocks.
 - Two outgoing edges: true (green solid) and false (red dashed).
 
 ### Type Visualization
 
-**`type-primitive`** — Primitive type nodes (number, string, boolean, void).
-- Pill shape, light blue fill. Compact — just the type name.
+**`type-primitive`** --- Primitive type nodes (number, string, boolean, void).
+- Pill shape, light blue fill. Compact --- just the type name.
 
-**`type-composite`** — Composite type nodes (object types, structs, arrays).
+**`type-composite`** --- Composite type nodes (object types, structs, arrays).
 - Rounded rect, purple fill. Shows fields/members inside.
 
-**`type-generic`** — Generic type parameters/variables.
+**`type-generic`** --- Generic type parameters/variables.
 - Rounded rect, orange fill, label shows the generic name (T, K, V, etc.).
 - Dashed border to signal "abstract / not yet resolved."
 
-**`type-error`** — Type error nodes.
+**`type-error`** --- Type error nodes.
 - Red fill, 2px red border. Used to highlight type mismatches in type-checking visualizations.
 
 ### Annotations
 
-**`annotation-callout`** — A natural-language explanation card connected to a code line or diagram node.
+**`annotation-callout`** --- A natural-language explanation card connected to a code line or diagram node.
 - Background `{colors.annotation-bg}`, text `{colors.annotation-text}`, border `{colors.exec-heap-object-stroke}`.
 - Connected to the target via a dashed reference line.
 - Content: brief explanation (1-3 sentences) in `{typography.body-sm}`.
 - Positioned to the right of the code viewer in side-by-side mode, or floating near the relevant node in diagram mode.
 
-**`code-annotation-badge`** — An inline badge inside a code line.
+**`code-annotation-badge`** --- An inline badge inside a code line.
 - Background `{colors.annotation-bg}`, `{typography.code-annotation}` inside.
 - Used to label specific tokens or expressions with short notes ("this is the receiver", "type inferred as number").
 
 ### Toolbar & Tabs
 
-**`viz-toolbar`** — The visualization mode switcher.
+**`viz-toolbar`** --- The visualization mode switcher.
 - Background `{colors.canvas-off}`, `{typography.body-sm}`.
 - Contains: viz-tab items for switching between AST / CFG / Execution / Type views, plus controls for step-through (in execution traces).
 
-**`viz-tab`** / **`viz-tab-active`** — Individual tab in the toolbar.
+**`viz-tab`** / **`viz-tab-active`** --- Individual tab in the toolbar.
 - Inactive: white background, `{colors.ink}` text.
 - Active: filled with `{colors.token-type}`, white text. The active tab color matches the primary blue of the system.
 
 ## Do's and Don'ts
 
 ### Do
-- Connect every diagram element back to a specific code range — the viewer should always know *what code produced this node*.
+- Connect every diagram element back to a specific code range --- the viewer should always know *what code produced this node*.
 - Use the shape grammar consistently: expressions are rounded, statements are sharp, literals are pills, decisions are diamonds.
-- Include annotation callouts with every visualization — code diagrams without explanations teach only *what*, not *why*.
+- Include annotation callouts with every visualization --- code diagrams without explanations teach only *what*, not *why*.
 - Use the dark theme for projection (talks, videos, slides) and the light theme for documentation (docs, blogs, READMEs).
 - Render code at `{typography.code-lg}` (16px) for any visualization meant for projection. At screen-only, `{typography.code-md}` (14px) is fine.
-- Keep AST trees balanced — parent centered above children, children evenly spaced. Unbalanced trees are hard to read.
+- Keep AST trees balanced --- parent centered above children, children evenly spaced. Unbalanced trees are hard to read.
 - Use branch labels on CFG edges: "true" / "false" on decision branches, "next" on sequential edges.
 
 ### Don't
-- Don't mix shapes within the same semantic category — all expressions must use the same shape.
-- Don't render AST trees with more than 5 depth levels visible at once — deeper trees should be collapsible or paginated.
-- Don't use the code viewer background for diagram elements or vice versa — the code surface and diagram surface are visually distinct.
-- Don't use the annotation callout colors for nodes — annotations have a yellow tint that should not appear in the AST layer.
-- Don't render more than one visualization mode at full opacity — the active mode (AST, CFG, or Execution) is fully opaque; inactive modes can ghost at 30% opacity in the background.
-- Don't use solid reference lines for code-to-node connections — those are always dashed to distinguish them from tree edges.
-- Don't use gradient fills on any node — nodes must have flat fills for clarity at small sizes.
+- Don't mix shapes within the same semantic category --- all expressions must use the same shape.
+- Don't render AST trees with more than 5 depth levels visible at once --- deeper trees should be collapsible or paginated.
+- Don't use the code viewer background for diagram elements or vice versa --- the code surface and diagram surface are visually distinct.
+- Don't use the annotation callout colors for nodes --- annotations have a yellow tint that should not appear in the AST layer.
+- Don't render more than one visualization mode at full opacity --- the active mode (AST, CFG, or Execution) is fully opaque; inactive modes can ghost at 30% opacity in the background.
+- Don't use solid reference lines for code-to-node connections --- those are always dashed to distinguish them from tree edges.
+- Don't use gradient fills on any node --- nodes must have flat fills for clarity at small sizes.
 
 ## Responsive Behavior
 
@@ -762,8 +762,8 @@ The shape grammar is the **primary semantic signal** for AST visualization. Ever
 | Name | Width | Key Changes |
 |---|---|---|
 | Desktop | ≥ 1024px | Side-by-side layout (code 40%, diagram 60%). Full feature set. |
-| Tablet | 768–1023px | Stacked layout (code above, diagram below). Toolbar collapses to icon-only. |
-| Mobile | < 768px | Single-panel — toggle between code and diagram views via tabs. Nodes shrink to minimum padding. |
+| Tablet | 768--1023px | Stacked layout (code above, diagram below). Toolbar collapses to icon-only. |
+| Mobile | < 768px | Single-panel --- toggle between code and diagram views via tabs. Nodes shrink to minimum padding. |
 
 ### Interactive Elements
 - Node hover: subtle Level 2 shadow + 0.5px scale increase. Connected nodes in the tree highlight simultaneously.
@@ -777,9 +777,9 @@ The shape grammar is the **primary semantic signal** for AST visualization. Ever
 
 ## Iteration Guide
 
-1. Start with the **code surface** — syntax-highlighted code with correct token colors is the anchor.
-2. Add the **AST layer** — parse the code and render the tree using the shape grammar. Verify each node type gets the correct shape.
-3. Add **annotations** — explain the interesting nodes. "This is where the type is inferred," "This branch is always taken."
+1. Start with the **code surface** --- syntax-highlighted code with correct token colors is the anchor.
+2. Add the **AST layer** --- parse the code and render the tree using the shape grammar. Verify each node type gets the correct shape.
+3. Add **annotations** --- explain the interesting nodes. "This is where the type is inferred," "This branch is always taken."
 4. If explaining execution: add the **call stack and heap** visualization beneath the code.
 5. If explaining control flow: render the **CFG** from the AST, with true/false labels on branches.
 6. If explaining types: switch to the **type visualization** layer showing type constraints and unification.
@@ -787,7 +787,7 @@ The shape grammar is the **primary semantic signal** for AST visualization. Ever
 
 ## Known Gaps
 
-- Multi-file visualization (cross-module references, imports, namespace resolution) is not tokenized — the current system is single-file/single-scope.
-- Animation and transition timing tokens are not defined — step-through execution relies on numbered frames rather than interpolated animation.
+- Multi-file visualization (cross-module references, imports, namespace resolution) is not tokenized --- the current system is single-file/single-scope.
+- Animation and transition timing tokens are not defined --- step-through execution relies on numbered frames rather than interpolated animation.
 - Concurrent execution visualization (threads, async/await) needs additional token colors for distinct thread traces.
 - Error recovery visualization (how the parser recovers from errors) needs additional node types for error-recovery tokens.

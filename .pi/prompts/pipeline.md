@@ -1,10 +1,10 @@
 ---
-description: Subagent-driven pipeline — dispatch each plan task to an isolated @worker subagent
+description: Subagent-driven pipeline --- dispatch each plan task to an isolated @worker subagent
 ---
 
 ## When to use
 
-Use this when a plan has 3+ well-defined, independent tasks that can be implemented in isolation. Each task gets its own fresh subagent context. The pipeline orchestrates: dispatch → implement → review → integrate.
+Use this when a plan has 3+ well-defined, independent tasks that can be implemented in isolation. Each task gets its own fresh subagent context. The pipeline orchestrates: dispatch -> implement -> review -> integrate.
 
 Do NOT use for:
 - Single-file changes (just use `/implement` directly)

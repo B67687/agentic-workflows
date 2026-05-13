@@ -9,7 +9,7 @@ handoffs: context-engineering (to set up context), using-agent-skills (to pick a
 
 ## Overview
 
-Modern LLMs know how to use Unix commands naturally — `find`, `grep`, `cat`, `ls`,
+Modern LLMs know how to use Unix commands naturally --- `find`, `grep`, `cat`, `ls`,
 `wc`, `sort`, `head`, `tail`.  Letting the agent use bash for *discovery* and then
 switch to Read/Grep tools for *precision* gives the best of both approaches: fast
 bulk traversal constrained by safety rails.
@@ -18,13 +18,13 @@ bulk traversal constrained by safety rails.
 
 ```
 ┌──────────────────────────────────────────────────┐
-│  1. Bash Discovery (find, grep, ls, cat)         │ ← bulk, fast, flexible
-│     → "find . -name '*.py' | head -20"           │
-│     → "grep -rl 'class.*Handler' src/"           │
+│  1. Bash Discovery (find, grep, ls, cat)         │ <- bulk, fast, flexible
+│     -> "find . -name '*.py' | head -20"           │
+│     -> "grep -rl 'class.*Handler' src/"           │
 ├──────────────────────────────────────────────────┤
-│  2. Tool Precision (Read, Grep, Glob)            │ ← targeted, safe, auditable
-│     → Read the identified file                   │
-│     → Grep for specific patterns within it       │
+│  2. Tool Precision (Read, Grep, Glob)            │ <- targeted, safe, auditable
+│     -> Read the identified file                   │
+│     -> Grep for specific patterns within it       │
 └──────────────────────────────────────────────────┘
 ```
 
@@ -39,10 +39,10 @@ bulk traversal constrained by safety rails.
 
 ## When NOT to Bash (use tools instead)
 
-- **Editing files** — use Edit for precise, safe modifications
-- **Reading a known file** — use Read (syntax highlighting, line numbers)
-- **Small, targeted searches** — use Grep (pattern search with file context)
-- **Writing code** — use Write for structured output
+- **Editing files** --- use Edit for precise, safe modifications
+- **Reading a known file** --- use Read (syntax highlighting, line numbers)
+- **Small, targeted searches** --- use Grep (pattern search with file context)
+- **Writing code** --- use Write for structured output
 
 ## Exploration Patterns
 

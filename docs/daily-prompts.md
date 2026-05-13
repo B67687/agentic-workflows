@@ -275,4 +275,4 @@ If you had to explain this to someone who knows nothing about the domain, what w
 | Struggle is a feature, not a bug | "What could go wrong?" surfaces blind spots |
 | Testing > re-reading | "Verify" > "just do it" |
 
-This is the **prompting equivalent of retrieval practice** — forcing the model to retrieve and verify rather than just generate.
+This is the **prompting equivalent of retrieval practice** --- forcing the model to retrieve and verify rather than just generate.

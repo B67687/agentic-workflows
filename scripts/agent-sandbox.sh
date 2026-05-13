@@ -1,10 +1,10 @@
 #!/bin/bash
 # =============================================================================
-# agent-sandbox.sh — Run agent operations in an isolated environment
+# agent-sandbox.sh --- Run agent operations in an isolated environment
 #
 # Two modes:
-#   docker  — requires Docker, uses .devcontainer/Dockerfile (strongest isolation)
-#   bwrap   — uses bubblewrap (bwrap), works now on WSL2 (moderate isolation)
+#   docker  --- requires Docker, uses .devcontainer/Dockerfile (strongest isolation)
+#   bwrap   --- uses bubblewrap (bwrap), works now on WSL2 (moderate isolation)
 #
 # The sandbox restricts:
 #   - Network: only allowlisted hosts (prevents exfiltration)
@@ -29,7 +29,7 @@ REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 
 case "$MODE" in
   docker)
-    # Docker mode — requires docker installed
+    # Docker mode --- requires docker installed
     if ! command -v docker &>/dev/null; then
       echo "Docker not found. Install Docker for WSL2, or use 'bwrap' mode."
       echo "  https://docs.docker.com/engine/install/ubuntu/"
@@ -56,7 +56,7 @@ case "$MODE" in
     ;;
 
   bwrap)
-    # Bubblewrap mode — uses Linux namespaces
+    # Bubblewrap mode --- uses Linux namespaces
     if ! command -v bwrap &>/dev/null; then
       echo "bubblewrap (bwrap) not found. Install it:"
       echo "  sudo apt-get install bubblewrap"

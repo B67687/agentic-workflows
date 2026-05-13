@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """
-Repo Map — tree-sitter + PageRank codebase map generator.
+Repo Map --- tree-sitter + PageRank codebase map generator.
 
 Generates a ranked, token-budgeted map of the codebase by:
 1. Parsing each file with tree-sitter to extract symbols (definitions, references)
-2. Building a dependency graph (file A → file B when A references B's symbols)
+2. Building a dependency graph (file A -> file B when A references B's symbols)
 3. Running PageRank to rank files by importance
 4. Rendering ranked files with key symbol context within a token budget
 
@@ -225,7 +225,7 @@ class RepoMap:
             except Exception:
                 pass
 
-        # Cache miss — extract and store
+        # Cache miss --- extract and store
         tags = self.extract_tags(filepath)
         self.cache_dir.mkdir(parents=True, exist_ok=True)
 

@@ -1,6 +1,6 @@
 # AI Product Building with Agents
 
-How to build products fast using AI agents — grounded in this workspace's best practices and validated patterns from 2026.
+How to build products fast using AI agents --- grounded in this workspace's best practices and validated patterns from 2026.
 
 ## Executive Summary
 
@@ -25,10 +25,10 @@ A modern MVP is not a thin feature slice. It's a **learning machine** built arou
 
 What makes it different from traditional MVP:
 
-- **Instrumentation from day one** — events, funnels, session replays
-- **Basic monetization included** — Stripe, waitlist with intent signals, or manual invoice
-- **Hosted and stable** — users can actually reach it
-- **One clearly defined action** — not a kitchen sink
+- **Instrumentation from day one** --- events, funnels, session replays
+- **Basic monetization included** --- Stripe, waitlist with intent signals, or manual invoice
+- **Hosted and stable** --- users can actually reach it
+- **One clearly defined action** --- not a kitchen sink
 
 The goal: Learn whether people will pay before building more.
 
@@ -46,19 +46,19 @@ The goal: Learn whether people will pay before building more.
 
 ## One-Page Spec Method
 
-Skip the 40-page PRD. Your AI agent doesn't need it — and neither do you.
+Skip the 40-page PRD. Your AI agent doesn't need it --- and neither do you.
 
 **Template (300-500 words)**:
 
 ```
 ## Who is this for
-[Target user — be specific: "freelance designers" not "people"]
+[Target user --- be specific: "freelance designers" not "people"]
 
 ## What problem do they have
 [One sentence on the pain point]
 
 ## What the app does about it
-[How it solves the problem — one feature at a core]
+[How it solves the problem --- one feature at a core]
 
 ## How it makes money
 [Revenue model: subscription, one-time, etc.]
@@ -83,7 +83,7 @@ Treat AI agents like a small product team, not autocomplete:
 
 **Your role**: PM + tech lead. Write crisp prompts that look like tickets: clear outcome, constraints, examples, definition of done.
 
-**Workspace integration**: Use "Give Rich Evidence" — provide concrete logs, examples, configs to agents instead of vague instructions.
+**Workspace integration**: Use "Give Rich Evidence" --- provide concrete logs, examples, configs to agents instead of vague instructions.
 
 ## Build Sequence
 
@@ -91,14 +91,14 @@ Based on Idea to MVP's 6-week loop and AstroMVP's 5-step process:
 
 1. **Week 1**: Problem deep-dive, research, sharp spec
 2. **Week 2**: Scaffolding (backend, UI shell, auth)
-3. **Week 3**: Core feature — the one thing that makes your product different
+3. **Week 3**: Core feature --- the one thing that makes your product different
 4. **Week 4**: Instrumentation, analytics, dashboard
 5. **Week 5**: Private beta with 5-10 target users
 6. **Week 6**: Polish, pricing, launch
 
 **Key principle**: Build the core feature FIRST. Not the landing page, not the settings panel, not auth. The thing that makes your product different.
 
-**Workspace integration**: Use "Supply Missing Structure When Safe" — if the user hasn't defined verification criteria, add them proactively.
+**Workspace integration**: Use "Supply Missing Structure When Safe" --- if the user hasn't defined verification criteria, add them proactively.
 
 ## 5-User Validation Threshold
 
@@ -108,7 +108,7 @@ Don't ship to 500 users. Ship to 5 first.
 - Get real feedback before scaling
 - This is your validation gate before expanding
 
-**Workspace integration**: Aligns with "Define Done And Verification Early" — set the 5-user goal as explicit success criteria.
+**Workspace integration**: Aligns with "Define Done And Verification Early" --- set the 5-user goal as explicit success criteria.
 
 ## Guardrails
 
@@ -116,18 +116,18 @@ The dark side of "vibe coding": unmaintainable code, no tests, no clear domain m
 
 **Non-negotiable constraints**:
 
-- **Simple architecture** — one diagram is enough, document it
-- **Refactor after major changes** — use agents to add tests, not just generate code
-- **Basic design system** — lock it in so UI doesn't fragment
-- **Regular narration check** — ask agents to explain files in plain language; if it's hard to narrate, it's too complex
+- **Simple architecture** --- one diagram is enough, document it
+- **Refactor after major changes** --- use agents to add tests, not just generate code
+- **Basic design system** --- lock it in so UI doesn't fragment
+- **Regular narration check** --- ask agents to explain files in plain language; if it's hard to narrate, it's too complex
 
 **Workspace integration**: 
-- "Optimize For Quality, Not Output Volume" — generated code is cheap, good code is not
-- "Promote Repeated Work" — skill files and reusable prompts prevent reinvention
+- "Optimize For Quality, Not Output Volume" --- generated code is cheap, good code is not
+- "Promote Repeated Work" --- skill files and reusable prompts prevent reinvention
 
 ## Reliability Thresholds
 
-Based on Makebolt's framework — set BEFORE building, not after.
+Based on Makebolt's framework --- set BEFORE building, not after.
 
 **Workspace best practice integration**: This is "Define Done And Verification Early" applied to product building.
 
@@ -150,15 +150,15 @@ Don't ship to everyone on day one.
 
 **Phases**:
 
-1. **Internal users first** — test with team, catch failures
-2. **Narrow production cohort** — 10-50 users who match your target
-3. **Expand by workflow segment** — only after first lane is stable
+1. **Internal users first** --- test with team, catch failures
+2. **Narrow production cohort** --- 10-50 users who match your target
+3. **Expand by workflow segment** --- only after first lane is stable
 
 **Why it matters**: Expansion before stability multiplies failure modes and creates support load that buries the team. A smaller reliable lane generates better learning than broad unstable coverage.
 
 ## Weekly Iteration Rhythm
 
-Based on Makebolt's 90-day cadence — aligned with workspace "Plan When Ambiguity Is High"
+Based on Makebolt's 90-day cadence --- aligned with workspace "Plan When Ambiguity Is High"
 
 | Day | Focus |
 |-----|-------|
@@ -265,18 +265,18 @@ Based on research from April 2026, these tools are worth considering for product
 
 ### TypeScript Agent Framework (Deep Dive: VoltAgent)
 
-Based on research (7,993+ stars), VoltAgent is "the Next.js of AI agents" — TypeScript-first, batteries included:
+Based on research (7,993+ stars), VoltAgent is "the Next.js of AI agents" --- TypeScript-first, batteries included:
 
 **Core Features**:
-- **Type-safe tools** — Zod for parameter validation
-- **Persistent memory** — LibSQL/SQLite adapters, cross-conversation context
-- **Multi-agent orchestration** — Supervisor pattern for agent teams
-- **Workflow engine** — Multi-step automation with pause/resume
-- **RAG integration** — Pinecone, Postgres, Supabase vector stores
-- **Guardrails** — Runtime input/output validation
-- **Voice support** — TTS and STT capabilities
-- **MCP integration** — Connect to any MCP server as tool source
-- **VoltOps Console** — Built-in observability (tracing, debugging, monitoring)
+- **Type-safe tools** --- Zod for parameter validation
+- **Persistent memory** --- LibSQL/SQLite adapters, cross-conversation context
+- **Multi-agent orchestration** --- Supervisor pattern for agent teams
+- **Workflow engine** --- Multi-step automation with pause/resume
+- **RAG integration** --- Pinecone, Postgres, Supabase vector stores
+- **Guardrails** --- Runtime input/output validation
+- **Voice support** --- TTS and STT capabilities
+- **MCP integration** --- Connect to any MCP server as tool source
+- **VoltOps Console** --- Built-in observability (tracing, debugging, monitoring)
 
 **Why TypeScript Matters**: Python dominates AI tooling, but VoltAgent brings TypeScript best practices (type safety, IntelliSense, testing patterns) to agent development.
 
@@ -309,36 +309,36 @@ Based on research (7,993+ stars), VoltAgent is "the Next.js of AI agents" — Ty
 
 Based on research (April 2026):
 
-**[Deer-Flow](https://github.com/bytedance/deer-flow)** (62k stars) — ByteDance's long-horizon agent harness:
+**[Deer-Flow](https://github.com/bytedance/deer-flow)** (62k stars) --- ByteDance's long-horizon agent harness:
 - Sandboxes, memories, tools, skills, subagents
 - Designed for complex multi-agent research/coding tasks
 - Long-horizon task execution with built-in review loops
 
-**[AgentScope](https://github.com/agentscope-ai/agentscope)** (23.9k stars) — Multi-agent platform with visual debugging:
+**[AgentScope](https://github.com/agentscope-ai/agentscope)** (23.9k stars) --- Multi-agent platform with visual debugging:
 - "Agents you can see, understand and trust"
 - Visual debugging for multi-agent systems
 - Focus on transparency addresses production pain points
 
-**Why harnesses matter**: A harness is to agents what a framework is to libraries — it provides the execution environment, memory, tools, and coordination. Choose based on: debugging needs, scaling requirements, and integration points.
+**Why harnesses matter**: A harness is to agents what a framework is to libraries --- it provides the execution environment, memory, tools, and coordination. Choose based on: debugging needs, scaling requirements, and integration points.
 
 ### Memory Systems for Agents
 
 Memory is becoming a first-class concern in agent frameworks:
 
-**[MemPalace](https://github.com/MemPalace/mempalace)** (47k stars) — Best-benchmarked open-source memory:
+**[MemPalace](https://github.com/MemPalace/mempalace)** (47k stars) --- Best-benchmarked open-source memory:
 - Explicit benchmarking focus for memory evaluation
 - Addresses the gap: how do you evaluate if memory is working?
 
-**[MemOS](https://github.com/MemTensor/MemOS)** (8.4k stars) — AI memory OS:
+**[MemOS](https://github.com/MemTensor/MemOS)** (8.4k stars) --- AI memory OS:
 - Persistent skill memory across tasks
 - Cross-task skill reuse and evolution
 - Memory operating system concept
 
-**[OpenViking](https://github.com/volcengine/OpenViking)** (22.4k stars) — Context database:
+**[OpenViking](https://github.com/volcengine/OpenViking)** (22.4k stars) --- Context database:
 - Filesystem paradigm for context/memory/skills/resources
 - Could simplify agent architecture by modeling memory as files
 
-**Key insight**: Memory systems are maturing — expect benchmark-driven comparison like we have for models.
+**Key insight**: Memory systems are maturing --- expect benchmark-driven comparison like we have for models.
 
 ### Multi-Agent Memory Sharing (April 2026)
 
@@ -355,25 +355,25 @@ Memory is becoming a first-class concern in agent frameworks:
 - **MemOS** (8.4k): Memory OS with MemCube, cross-task skill reuse, graph + vector retrieval
 
 **Best Practices:**
-- Hierarchical retrieval: User → Session → Agent memory
+- Hierarchical retrieval: User -> Session -> Agent memory
 - Token-efficient: Mem0 uses 7K avg vs 25K+ for full context
 - Isolation + sharing balance: Per-agent memory isolation, skill sharing on demand
 
 ### Coding Agents (Beyond OpenClaw)
 
-**[crush](https://github.com/charmbracelet/crush)** (23.1k stars) — TUI-first "glamorous agentic coding":
+**[crush](https://github.com/charmbracelet/crush)** (23.1k stars) --- TUI-first "glamorous agentic coding":
 - Aesthetic focus for coding agents (TUI, not GUI)
 - Different UX paradigm than Cursor/OpenCode
 - From the Charm team (known for quality CLI tools)
 
-**[awesome-claude-code](https://github.com/hesreallyhim/awesome-claude-code)** (39.1k stars) — Claude Code ecosystem hub:
+**[awesome-claude-code](https://github.com/hesreallyhim/awesome-claude-code)** (39.1k stars) --- Claude Code ecosystem hub:
 - Curated list of skills, hooks, slash-commands
 - Central hub for Claude Code extensibility
 - Growing rapidly as Claude Code adoption increases
 
 ### New Paradigm: Vectorless RAG
 
-**[PageIndex](https://github.com/VectifyAI/PageIndex)** (25.4k stars) — Vectorless, reasoning-based RAG:
+**[PageIndex](https://github.com/VectifyAI/PageIndex)** (25.4k stars) --- Vectorless, reasoning-based RAG:
 - Challenges vector embedding orthodoxy
 - Uses reasoning instead of embeddings for retrieval
 - Represents a fundamental shift in how RAG might work
@@ -384,7 +384,7 @@ Memory is becoming a first-class concern in agent frameworks:
 
 ### Self-Improving Agents
 
-Based on [Hermes Agent](https://github.com/nousresearch/hermes-agent) (85k+ stars) — the only open-source agent with a built-in learning loop:
+Based on [Hermes Agent](https://github.com/nousresearch/hermes-agent) (85k+ stars) --- the only open-source agent with a built-in learning loop:
 
 **What Makes It Different**:
 - Creates skills from experience during use
@@ -399,25 +399,25 @@ Based on [Hermes Agent](https://github.com/nousresearch/hermes-agent) (85k+ star
 - Credential rotation, Camofox anti-detection
 - Self-evolution ecosystem using DSPy + GEPA
 
-**Why It Matters**: The agents that win in 2026 won't be the ones with the most tools — they'll be the ones that improve themselves. Hermes Agent represents this shift.
+**Why It Matters**: The agents that win in 2026 won't be the ones with the most tools --- they'll be the ones that improve themselves. Hermes Agent represents this shift.
 
 ### Local-First Privacy Agents
 
-Based on [OpenClaw](https://github.com/openclaw/openclaw) (349k stars) — became #1 GitHub repo, surpassing React:
+Based on [OpenClaw](https://github.com/openclaw/openclaw) (349k stars) --- became #1 GitHub repo, surpassing React:
 
 **Core Philosophy**: "Your own personal AI assistant. Any OS. Any Platform."
 
 **Key Features**:
-- **Local-first Gateway** — single control plane for sessions, channels, tools
-- **Multi-channel inbox** — WhatsApp, Telegram, Slack, Discord, Google Chat, Signal
-- **Multi-agent routing** — route to isolated agents (workspaces + sandboxes)
-- **Model Router** — unified BYOK interface (OpenAI, Anthropic, Google, DeepSeek)
-- **Docker sandboxes** — for non-main sessions
+- **Local-first Gateway** --- single control plane for sessions, channels, tools
+- **Multi-channel inbox** --- WhatsApp, Telegram, Slack, Discord, Google Chat, Signal
+- **Multi-agent routing** --- route to isolated agents (workspaces + sandboxes)
+- **Model Router** --- unified BYOK interface (OpenAI, Anthropic, Google, DeepSeek)
+- **Docker sandboxes** --- for non-main sessions
 
 **Privacy & Data Sovereignty**:
 - Every conversation stays on your infrastructure
 - No data flows to cloud servers (except optional anonymous metrics)
-- Complete auditability — review every line before deployment
+- Complete auditability --- review every line before deployment
 - 73% of enterprises rank data sovereignty as top-3 requirement (Gartner 2026)
 
 **Cost Comparison**:
@@ -431,7 +431,7 @@ Based on [OpenClaw](https://github.com/openclaw/openclaw) (349k stars) — becam
 
 ### Virtual Engineering Team Pattern
 
-Based on [gstack](https://github.com/garrytan/gstack) (72.7k stars) — Garry Tan's (YC President) setup for shipping 600K+ lines in 60 days:
+Based on [gstack](https://github.com/garrytan/gstack) (72.7k stars) --- Garry Tan's (YC President) setup for shipping 600K+ lines in 60 days:
 
 **The Core Insight**: Transform a single AI agent into a virtual team with specialized roles.
 
@@ -446,7 +446,7 @@ Based on [gstack](https://github.com/garrytan/gstack) (72.7k stars) — Garry Ta
 | `/ship` | Release Engineer | Sync main, run tests, push, open PR |
 | `/retro` | Eng Manager | Team-aware weekly retro, per-person breakdowns |
 
-**Sprint Workflow**: Think → Plan → Build → Review → Test → Ship → Reflect
+**Sprint Workflow**: Think -> Plan -> Build -> Review -> Test -> Ship -> Reflect
 
 Each skill feeds into the next: office-hours writes design doc that plan-ceo-review reads.
 
@@ -467,7 +467,7 @@ Based on [everything-claude-code](https://github.com/affaan-m/everything-claude-
 
 ## Agent Architecture Patterns
 
-Based on [Refactoring.Guru](https://refactoring.guru/) design patterns — directly applicable to AI agent architecture:
+Based on [Refactoring.Guru](https://refactoring.guru/) design patterns --- directly applicable to AI agent architecture:
 
 ### Behavioral Patterns
 
@@ -520,11 +520,11 @@ Based on [System Design Primer](https://github.com/donnemartin/system-design-pri
 
 ## Sources
 
-- [Idea to MVP (2026)](https://ideatomvp.ai/blog/idea-to-mvp-with-ai-agents-2026-playbook) — 6-week loop, agent team patterns
-- [AstroMVP](https://www.astromvp.com/blog/build-mvp-with-ai-agent) — 3-10 day builds, $110 cost
-- [Makebolt](https://makebolt.com/blog/ai-agent-mvp-2026-what-to-build-first) — reliability thresholds, phased launch
-- [GTA-2 Benchmark (arXiv:2604.15715)](https://arxiv.org/abs/2604.15715) — Hierarchical benchmark for General Tool Agents
-- [MemEvoBench (arXiv:2604.15774)](https://arxiv.org/abs/2604.15774) — Memory misevolution under adversarial conditions
+- [Idea to MVP (2026)](https://ideatomvp.ai/blog/idea-to-mvp-with-ai-agents-2026-playbook) --- 6-week loop, agent team patterns
+- [AstroMVP](https://www.astromvp.com/blog/build-mvp-with-ai-agent) --- 3-10 day builds, $110 cost
+- [Makebolt](https://makebolt.com/blog/ai-agent-mvp-2026-what-to-build-first) --- reliability thresholds, phased launch
+- [GTA-2 Benchmark (arXiv:2604.15715)](https://arxiv.org/abs/2604.15715) --- Hierarchical benchmark for General Tool Agents
+- [MemEvoBench (arXiv:2604.15774)](https://arxiv.org/abs/2604.15774) --- Memory misevolution under adversarial conditions
 
 ---
 
@@ -554,7 +554,7 @@ The GTA-2 benchmark (arXiv:2604.15715) tests General Tool Agents across:
 - ~25% on compositional tasks  
 - **14.39% on open workflows**
 
-**Implication**: Model quality alone is insufficient. Execution harness design — how agents plan, verify, and recover — matters more than raw capability.
+**Implication**: Model quality alone is insufficient. Execution harness design --- how agents plan, verify, and recover --- matters more than raw capability.
 
 ### Memory Contamination Risk
 
@@ -580,7 +580,7 @@ New MCP features enabling multi-agent coordination:
 
 | Mode | When to Use | Example |
 |------|-------------|---------|
-| **Sequential** | Tasks have dependencies | Research → Write → Review |
+| **Sequential** | Tasks have dependencies | Research -> Write -> Review |
 | **Parallel** | Independent tasks | Analyze 5 files simultaneously |
 
 ### Supervisor-Worker Patterns
@@ -610,10 +610,10 @@ New MCP features enabling multi-agent coordination:
 
 ### Key Principles
 
-1. **Tight scoping** — Narrowly defined tasks, not "do everything"
-2. **Rich context** — Provide concrete evidence: files, logs, configs
-3. **Defined acceptance** — "Done when" conditions explicit
-4. **Verification** — Agent self-checks before completing
+1. **Tight scoping** --- Narrowly defined tasks, not "do everything"
+2. **Rich context** --- Provide concrete evidence: files, logs, configs
+3. **Defined acceptance** --- "Done when" conditions explicit
+4. **Verification** --- Agent self-checks before completing
 
 ---
 
@@ -669,10 +669,10 @@ sequenceDiagram
 
 ### Why It Works
 
-1. **Diffs don't show behavior** — code diffs show what changed, not how the system behaves
-2. **Reviewers are context-poor** — diagrams close the gap faster than prose
-3. **Catches logic errors early** — if the diagram looks wrong, the code probably is
-4. **Living documentation** — the PR becomes a searchable architecture reference
+1. **Diffs don't show behavior** --- code diffs show what changed, not how the system behaves
+2. **Reviewers are context-poor** --- diagrams close the gap faster than prose
+3. **Catches logic errors early** --- if the diagram looks wrong, the code probably is
+4. **Living documentation** --- the PR becomes a searchable architecture reference
 
 ### Rule of Thumb
 
@@ -684,18 +684,18 @@ sequenceDiagram
 
 ### Async Coding Agents
 
-**[Open SWE](https://github.com/langchain-ai/Open-SWE)** (7,700+ stars) — LangChain's async coding agent framework:
+**[Open SWE](https://github.com/langchain-ai/Open-SWE)** (7,700+ stars) --- LangChain's async coding agent framework:
 
 **What Makes It Different**:
 - Cloud sandboxes run in background while you work
-- Three-agent architecture: Manager (routing) → Planner (analysis) → Programmer/Reviewer (execution)
-- Async execution — you don't wait in the IDE
+- Three-agent architecture: Manager (routing) -> Planner (analysis) -> Programmer/Reviewer (execution)
+- Async execution --- you don't wait in the IDE
 
 **Why It Matters**: Open SWE proves you don't need to wait in the IDE. Cloud sandboxes + background execution + mid-run feedback = new paradigm. This is the shift from "agent in your terminal" to "agent as background service."
 
 ### Memory Layer
 
-**[Mem0](https://github.com/mem0ai/mem0)** (52,047 stars) — Universal memory layer for AI agents:
+**[Mem0](https://github.com/mem0ai/mem0)** (52,047 stars) --- Universal memory layer for AI agents:
 
 **What It Does**: Persistent context across sessions, persistent memory across user interactions
 
@@ -711,17 +711,17 @@ sequenceDiagram
 ## 2026-04-18: Cursor Agent Best Practices
 
 ### Source
-[Cursor Blog: Best practices for coding with agents](https://cursor.com/blog/agent-best-practices) — Lee Robinson (Jan 2026)
+[Cursor Blog: Best practices for coding with agents](https://cursor.com/blog/agent-best-practices) --- Lee Robinson (Jan 2026)
 
 ### 8 Key Patterns Extracted
 
-1. **Plan Mode Before Coding** — Shift+Tab to toggle Plan Mode
+1. **Plan Mode Before Coding** --- Shift+Tab to toggle Plan Mode
    - Agent researches codebase first, asks clarifying questions
    - Creates implementation plan with file paths, waits for approval
    - Evidence: University of Chicago study found experienced developers more likely to plan before coding
    - *Workspace connection*: Integrate into "First run the tests" prompt pattern
 
-2. **Let Agent Find Context** — Don't over-tag files
+2. **Let Agent Find Context** --- Don't over-tag files
    - Agent has powerful grep + semantic search built in
    - Include exact file if known, otherwise let agent find it
    - Including irrelevant files confuses agent about what's important
@@ -731,23 +731,23 @@ sequenceDiagram
    - **Skills** (`SKILL.md`): Dynamic capabilities loaded when relevant
    - *Workspace connection*: Maps to "Supply missing structure when safe"
 
-4. **Long-Running Agent Loops** — Iterate until tests pass
+4. **Long-Running Agent Loops** --- Iterate until tests pass
    - Hooks that return `followup_message` to continue
    - Max iterations configurable (e.g., 5)
    - Works for: test-fixing, UI iteration, goal-oriented tasks
 
-5. **Parallel Agents** — Git worktrees for isolation
+5. **Parallel Agents** --- Git worktrees for isolation
    - Cursor auto-creates/manages worktrees
    - Multiple models attempt same problem simultaneously
    - Multi-model judging picks best result
-   - *Workspace connection*: "Choose lightest execution lane" — parallel exploration
+   - *Workspace connection*: "Choose lightest execution lane" --- parallel exploration
 
 6. **Evidence-Based Debug Mode**
    - Generates multiple hypotheses
    - Instruments code with logging statements
    - Analyzes actual runtime behavior
    - Makes targeted fixes based on evidence
-   - *Workspace connection*: "Verify aggressively" — testing effect applied to debugging
+   - *Workspace connection*: "Verify aggressively" --- testing effect applied to debugging
 
 7. **TDD with Agents** (documented pattern)
    - Write tests first, confirm fail
@@ -868,11 +868,11 @@ The core lesson: **provider selection should be data-driven, not hardcoded**. Wh
 #### 1. Model-Name Prefix Routing
 
 ```
-If model starts with "claude" → Anthropic
-If model starts with "grok" → xAI
-If model starts with "openai/" or "gpt-" → OpenAI-compatible
-If model starts with "qwen/" or "qwen-" → DashScope (Alibaba)
-Otherwise → fallback to ambient credential detection
+If model starts with "claude" -> Anthropic
+If model starts with "grok" -> xAI
+If model starts with "openai/" or "gpt-" -> OpenAI-compatible
+If model starts with "qwen/" or "qwen-" -> DashScope (Alibaba)
+Otherwise -> fallback to ambient credential detection
 ```
 
 This prevents accidental misrouting when multiple credentials exist in the environment.
@@ -895,12 +895,12 @@ Different auth shapes map to different HTTP headers:
 When a provider fails:
 ```
 Primary: Anthropic (claude-* models)
-  → 401 (wrong credential shape) → suggest correct env var
-  → 429 (rate limit) → try next provider in chain
-  → 5xx → fallback to backup model
+  -> 401 (wrong credential shape) -> suggest correct env var
+  -> 429 (rate limit) -> try next provider in chain
+  -> 5xx -> fallback to backup model
 Fallback: OpenAI-compatible (OpenRouter, Ollama, local)
-  → use ambient credentials if present
-  → fallback to hardcoded defaults
+  -> use ambient credentials if present
+  -> fallback to hardcoded defaults
 ```
 
 #### 4. Config Resolution Order
@@ -919,8 +919,8 @@ Cascade from global to local so per-project settings override user defaults:
 OpenAI-compatible endpoints serve Ollama, local servers, and custom gateways:
 
 ```
-ANTHROPIC_BASE_URL + ANTHROPIC_AUTH_TOKEN → Anthropic-compatible (e.g., LiteLLM)
-OPENAI_BASE_URL + OPENAI_API_KEY → OpenAI-compatible (Ollama, LM Studio, custom)
+ANTHROPIC_BASE_URL + ANTHROPIC_AUTH_TOKEN -> Anthropic-compatible (e.g., LiteLLM)
+OPENAI_BASE_URL + OPENAI_API_KEY -> OpenAI-compatible (Ollama, LM Studio, custom)
 ```
 
 **Pattern to adopt**:

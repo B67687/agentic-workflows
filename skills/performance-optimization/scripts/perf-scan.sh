@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # =============================================================================
-# perf-scan.sh — Companion script for Performance Optimization
+# perf-scan.sh --- Companion script for Performance Optimization
 #
-# Implements the MEASURE → IDENTIFY → FIX → VERIFY → GUARD workflow.
+# Implements the MEASURE -> IDENTIFY -> FIX -> VERIFY -> GUARD workflow.
 # Provides baseline measurement, bottleneck identification, and regression
 # guarding tools.
 #
@@ -186,8 +186,8 @@ case "$MODE" in
 | CLS (Cumulative Layout Shift) | ≤ 0.1 | ≤ 0.25 | > 0.25 |
 
 Measurement tools:
-- Chrome DevTools → Lighthouse
-- Chrome DevTools → Performance tab
+- Chrome DevTools -> Lighthouse
+- Chrome DevTools -> Performance tab
 - web-vitals library (RUM)
 - PageSpeed Insights
 - CrUX (Chrome User Experience Report)
@@ -202,10 +202,10 @@ CWV
   *)
     echo "Usage: $0 {check|baseline|guardian|cwv}"
     echo ""
-    echo "  check              — Quick performance health check"
-    echo "  baseline           — Generate baseline performance report"
-    echo "  guardian <cmd>     — Run command with timeout guard"
-    echo "  cwv                — Core Web Vitals reference table"
+    echo "  check              --- Quick performance health check"
+    echo "  baseline           --- Generate baseline performance report"
+    echo "  guardian <cmd>     --- Run command with timeout guard"
+    echo "  cwv                --- Core Web Vitals reference table"
     exit 1
     ;;
 esac

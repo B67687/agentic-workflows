@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # =============================================================================
-# session-start.sh — SessionStart lifecycle hook
+# session-start.sh --- SessionStart lifecycle hook
 # Prints orientation context at the beginning of every session:
 #   - Current branch and recent commits
 #   - session-state.json health
@@ -8,12 +8,12 @@
 #   - Index freshness
 #
 # Compatible with: Claude Code (via hooks.json), manual invocation, AGENTS.md
-# Output appears in conversation or terminal — informative, non-blocking.
+# Output appears in conversation or terminal --- informative, non-blocking.
 # =============================================================================
 
 set -euo pipefail
 
-echo "=== Session Start — Diagnostics ==="
+echo "=== Session Start --- Diagnostics ==="
 
 # ---- Worktree Detection ----
 GIT_DIR="$(git rev-parse --git-dir 2>/dev/null || true)"
@@ -56,7 +56,7 @@ if [ -f "$STATE_FILE" ]; then
     STATE_MTIME=$(stat -c %Y "$STATE_FILE" 2>/dev/null || echo 0)
     AGE_HOURS=$(( (NOW - STATE_MTIME) / 3600 ))
     if [ "$AGE_HOURS" -gt 24 ]; then
-        echo "⚠  session-state.json is $AGE_HOURS hours old — may be stale"
+        echo "⚠  session-state.json is $AGE_HOURS hours old --- may be stale"
     else
         echo "✓  session-state.json is current ($AGE_HOURS hours old)"
     fi
@@ -76,14 +76,14 @@ except: pass
         echo "$TASK_NAME"
     fi
 else
-    echo "⚠  session-state.json not found — create for context persistence"
+    echo "⚠  session-state.json not found --- create for context persistence"
 fi
 
 # ---- Session Health Check ----
 HEALTH_STATUS=$(bash "$(dirname "$0")/../context-pressure.sh" --check 2>/dev/null || true)
 if echo "$HEALTH_STATUS" | grep -q "CRITICAL"; then
     echo ""
-    echo "⚠  SESSION HEALTH: CRITICAL — run context-pressure.sh for details"
+    echo "⚠  SESSION HEALTH: CRITICAL --- run context-pressure.sh for details"
 fi
 
 # ---- Saved Context Snapshot ----
@@ -99,9 +99,9 @@ fi
 
 # ---- Session Status Overview ----
 bash "$(dirname "$0")/../session-status.sh" --compact 2>/dev/null || true
-echo "  bash ./scripts/tools.sh            — full tool list"
-echo "  bash ./scripts/test-smoke.sh       — 31-tool smoke test"
-echo "  bash ./scripts/session-status.sh   — this overview"
+echo "  bash ./scripts/tools.sh            --- full tool list"
+echo "  bash ./scripts/test-smoke.sh       --- 31-tool smoke test"
+echo "  bash ./scripts/session-status.sh   --- this overview"
 
 # ---- Worktree Fork Offer / Auto-Fork ----
 if [ "$IS_WORKTREE" = false ] && [ "$BRANCH" = "main" ]; then
@@ -125,9 +125,9 @@ except: pass
     else
       echo ""
       echo "ℹ  On main with a clean state."
-      echo "   Multi-file task? → bash ./scripts/session-fork.sh \"<task-name>\""
-      echo "   Quick fix (1-3 files)? → work directly on main"
-      echo "   bash ./scripts/session-fork.sh --list   — show active worktrees"
+      echo "   Multi-file task? -> bash ./scripts/session-fork.sh \"<task-name>\""
+      echo "   Quick fix (1-3 files)? -> work directly on main"
+      echo "   bash ./scripts/session-fork.sh --list   --- show active worktrees"
     fi
   fi
 elif [ "$IS_WORKTREE" = true ]; then
@@ -141,9 +141,9 @@ fi
 if command -v ruflo &>/dev/null; then
   echo ""
   echo "Ruflo CLI available (0MB persistent):"
-  echo "  bash ruflo hooks session-restore   — restore previous session context"
-  echo "  bash ruflo hooks route -t \"...\"    — route task via learned patterns"
-  echo "  bash ruflo hooks pretrain          — re-analyze repo for patterns"
+  echo "  bash ruflo hooks session-restore   --- restore previous session context"
+  echo "  bash ruflo hooks route -t \"...\"    --- route task via learned patterns"
+  echo "  bash ruflo hooks pretrain          --- re-analyze repo for patterns"
 fi
 
 echo "=== End Diagnostics ==="

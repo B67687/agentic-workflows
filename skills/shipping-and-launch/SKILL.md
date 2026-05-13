@@ -7,7 +7,7 @@ handoffs: ci-cd-and-automation (for pipeline), git-workflow-and-versioning (to t
 
 # Shipping and Launch
 
-**Companion script:** `scripts/launch-prep.sh` — pre-launch checklists and rollback plans.
+**Companion script:** `scripts/launch-prep.sh` --- pre-launch checklists and rollback plans.
 ```bash
 bash ./scripts/launch-prep.sh checklist "<version>"  # pre-launch checklist
 bash ./scripts/launch-prep.sh rollback "<version>"    # rollback plan template
@@ -15,7 +15,7 @@ bash ./scripts/launch-prep.sh rollback "<version>"    # rollback plan template
 
 ## Overview
 
-Ship with confidence. The goal is not just to deploy — it's to deploy safely, with monitoring in place, a rollback plan ready, and a clear understanding of what success looks like. Every launch should be reversible, observable, and incremental.
+Ship with confidence. The goal is not just to deploy --- it's to deploy safely, with monitoring in place, a rollback plan ready, and a clear understanding of what success looks like. Every launch should be reversible, observable, and incremental.
 
 ## When to Use
 
@@ -102,11 +102,11 @@ return null;
 **Feature flag lifecycle:**
 
 ```
-1. DEPLOY with flag OFF     → Code is in production but inactive
-2. ENABLE for team/beta     → Internal testing in production environment
-3. GRADUAL ROLLOUT          → 5% → 25% → 50% → 100% of users
-4. MONITOR at each stage    → Watch error rates, performance, user feedback
-5. CLEAN UP                 → Remove flag and dead code path after full rollout
+1. DEPLOY with flag OFF     -> Code is in production but inactive
+2. ENABLE for team/beta     -> Internal testing in production environment
+3. GRADUAL ROLLOUT          -> 5% -> 25% -> 50% -> 100% of users
+4. MONITOR at each stage    -> Watch error rates, performance, user feedback
+5. CLEAN UP                 -> Remove flag and dead code path after full rollout
 ```
 
 **Rules:**
@@ -275,7 +275,7 @@ Every deployment needs a rollback plan before it happens:
 
 ```
 `★ Shipping View ─────────────────────────────────`
-- [Feature/Release] — [environment]
+- [Feature/Release] --- [environment]
 - [Launch checklist: N/M complete]
 - [Top risk or rollback concern]
 `─────────────────────────────────────────────────`

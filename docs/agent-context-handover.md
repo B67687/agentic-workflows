@@ -58,13 +58,13 @@ Context: [only what MUST know]
 ```
 
 **Why this works:**
-- Models are stateless (input → output)
+- Models are stateless (input -> output)
 - Clear task = new model reasons from goal backward
 - Done/Next provides continuity without full history
 
 ### Proactive Context Handover (Self-Aware Checkpoint)
 
-The handover above is **reactive** — you ask for a switch, the model writes it. The improvement is a **proactive** checkpoint: the model recognizes pressure before it becomes critical and offers a handover unprompted.
+The handover above is **reactive** --- you ask for a switch, the model writes it. The improvement is a **proactive** checkpoint: the model recognizes pressure before it becomes critical and offers a handover unprompted.
 
 ### Why Models Can't See Token Counts
 
@@ -94,9 +94,9 @@ Before sending your response, assess:
 4. Would a fresh model context work better for the next step?
 
 If YES to 2 or more:
-→ Write a handover note FIRST (see template below)
-→ Deliver the handover as part of your response
-→ Flag: "I've written a handover below in case we need to switch models before the next step."
+-> Write a handover note FIRST (see template below)
+-> Deliver the handover as part of your response
+-> Flag: "I've written a handover below in case we need to switch models before the next step."
 ```
 
 ### The Proactive Handover Template
@@ -109,7 +109,7 @@ When the model recognizes pressure, it writes this at the end of its response (o
 **Why this was written**: I'm detecting context pressure signals. Continuing here risks losing important state before a clean handoff.
 
 ## Current Task
-[One line — what you're working on]
+[One line --- what you're working on]
 
 ## What's Done
 - [Completed item 1]
@@ -120,7 +120,7 @@ When the model recognizes pressure, it writes this at the end of its response (o
 - [Pending item 2]
 
 ## Key Context for Next Model
-[Only what MUST persist — decisions made, direction chosen, what's been ruled out]
+[Only what MUST persist --- decisions made, direction chosen, what's been ruled out]
 
 ## Current Direction
 [Why this approach was chosen]
@@ -146,7 +146,7 @@ Shall I continue with the next step, or would you like to start fresh with a new
 
 A session that runs until it hits the context limit loses everything at the end. A proactive handover at 80% context means the last 20% captures what matters, and the next model starts with a clean summary instead of fighting through noise.
 
-The handover is not failure — it's how smart agents manage continuity.
+The handover is not failure --- it's how smart agents manage continuity.
 
 ---
 
@@ -162,17 +162,17 @@ The handover is not failure — it's how smart agents manage continuity.
 
 ### Mid-Task vs Task-Start Switches
 
-**Task-Start** (easier): Goal/end state + constraints + approach → new model plans fresh
+**Task-Start** (easier): Goal/end state + constraints + approach -> new model plans fresh
 
 **Mid-Task** (harder): Add current step + what's in progress + what failed + why this approach
 
 ### Context Layers to Include
 
 ```
-System Layer     → Agent identity, capabilities
-Task Layer       → Specific instructions for current task  
-Tool Layer       → Tool descriptions and usage
-Memory Layer     → Historical context, learnings
+System Layer     -> Agent identity, capabilities
+Task Layer       -> Specific instructions for current task  
+Tool Layer       -> Tool descriptions and usage
+Memory Layer     -> Historical context, learnings
 ```
 
 ---

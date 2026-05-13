@@ -103,7 +103,7 @@
     "The quality gate runs as a pre-commit check via checkpoint-commit.sh (wired into the script directly).",
     "These hooks provide additional event-based enforcement for non-commit events (compaction, tool use).",
     "Hooks are implemented as bash scripts in scripts/hooks/ for simplicity and cross-platform compatibility.",
-    "OpenCode does not natively fire all hook lifecycle events — hooks.json serves as Claude Code compatibility layer.",
+    "OpenCode does not natively fire all hook lifecycle events --- hooks.json serves as Claude Code compatibility layer.",
     "In OpenCode, session-start and detect-gaps are invoked via AGENTS.md startup instructions.",
     "Audit logging is wired into subagent task prompts in opencode.jsonc."
   ]

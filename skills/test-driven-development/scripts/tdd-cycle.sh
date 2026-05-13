@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # =============================================================================
-# tdd-cycle.sh — Companion script for Test-Driven Development
+# tdd-cycle.sh --- Companion script for Test-Driven Development
 #
-# Walks through the RED → GREEN → REFACTOR cycle, running tests at each step
+# Walks through the RED -> GREEN -> REFACTOR cycle, running tests at each step
 # with clear pass/fail output and no noise.
 #
 # Usage:
@@ -42,10 +42,10 @@ TEST_CMD="${*:-}"
 if [ -z "$MODE" ] || [ -z "$TEST_CMD" ]; then
   echo "Usage: $0 {red|green|refactor|prove} <test-command>" >&2
   echo "" >&2
-  echo "  red       — Confirm RED: test MUST fail" >&2
-  echo "  green     — Confirm GREEN: test MUST pass" >&2
-  echo "  refactor  — Confirm refactor: all tests MUST pass" >&2
-  echo "  prove     — Prove-It pattern: bug reproduction test MUST fail" >&2
+  echo "  red       --- Confirm RED: test MUST fail" >&2
+  echo "  green     --- Confirm GREEN: test MUST pass" >&2
+  echo "  refactor  --- Confirm refactor: all tests MUST pass" >&2
+  echo "  prove     --- Prove-It pattern: bug reproduction test MUST fail" >&2
   exit 1
 fi
 
@@ -76,12 +76,12 @@ case "$MODE" in
     # Expected: test FAILS (exit non-zero)
     if [ "$TEST_EXIT" -ne 0 ]; then
       echo "TDD_RESULT=pass"
-      echo "TDD_VERDICT=✓ RED confirmed — test failed as expected"
+      echo "TDD_VERDICT=✓ RED confirmed --- test failed as expected"
       echo "TDD_DETAIL=${TDD_DETAIL}"
       exit 0
     else
       echo "TDD_RESULT=fail"
-      echo "TDD_VERDICT=✗ RED not confirmed — test passed when it should fail"
+      echo "TDD_VERDICT=✗ RED not confirmed --- test passed when it should fail"
       echo "TDD_DETAIL=${TDD_DETAIL}"
       exit 1
     fi
@@ -90,12 +90,12 @@ case "$MODE" in
     # Expected: test PASSES (exit zero)
     if [ "$TEST_EXIT" -eq 0 ]; then
       echo "TDD_RESULT=pass"
-      echo "TDD_VERDICT=✓ GREEN achieved — all tests passing"
+      echo "TDD_VERDICT=✓ GREEN achieved --- all tests passing"
       echo "TDD_DETAIL=${TDD_DETAIL}"
       exit 0
     else
       echo "TDD_RESULT=fail"
-      echo "TDD_VERDICT=✗ GREEN blocked — tests still failing"
+      echo "TDD_VERDICT=✗ GREEN blocked --- tests still failing"
       echo "TDD_DETAIL=${TDD_DETAIL}"
       exit 1
     fi

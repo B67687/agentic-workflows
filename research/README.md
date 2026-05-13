@@ -20,15 +20,15 @@ Use the prompt in research-prompt.md to research what's new, then add findings t
 
 ## What's Tracked
 
-1. **Revolutionary agents** — self-improving, memory systems, learning loops
-2. **Token efficiency** — prompt compression, KV cache, caching strategies  
-3. **Trending repos** — GitHub AI/agent/engineering hot repos
-4. **MCP ecosystem** — new servers, protocols, tools
+1. **Revolutionary agents** --- self-improving, memory systems, learning loops
+2. **Token efficiency** --- prompt compression, KV cache, caching strategies  
+3. **Trending repos** --- GitHub AI/agent/engineering hot repos
+4. **MCP ecosystem** --- new servers, protocols, tools
 
 ## Completed Research
 
-- [well-maintained-system-research.md](well-maintained-system-research.md) — 9-source synthesis on building enduring, high-productivity systems
-- [codebase-understanding-landscape-2026.md](codebase-understanding-landscape-2026.md) — Codebase understanding landscape analysis for LLM agents
+- [well-maintained-system-research.md](well-maintained-system-research.md) --- 9-source synthesis on building enduring, high-productivity systems
+- [codebase-understanding-landscape-2026.md](codebase-understanding-landscape-2026.md) --- Codebase understanding landscape analysis for LLM agents
 
 ## Workflow
 

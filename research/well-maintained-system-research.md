@@ -10,8 +10,8 @@ authoritative works that together define the complete pattern.
 
 ### 1. Building Evolutionary Architectures (Ford, Parsons, Kua, 2017)
 **Core idea:** An architecture that supports "guided, incremental change as a first
-principle across multiple dimensions." Fitness functions — automated verifiable
-criteria that protect architectural characteristics — continuously validate that
+principle across multiple dimensions." Fitness functions --- automated verifiable
+criteria that protect architectural characteristics --- continuously validate that
 the system hasn't drifted from its design goals.
 **Key for this workspace:** The `assumption-expiry.sh` + `detect-gaps.sh` pairing
 IS a fitness function for knowledge-base assumptions.
@@ -21,7 +21,7 @@ IS a fitness function for knowledge-base assumptions.
 Fragile systems break under shock. Robust systems resist shock. Antifragile
 systems get *better* under shock.
 **Key for this workspace:** The `doubt-driven-development` skill is an antifragile
-mechanism — it uses adversarial review (a stressor) to improve decisions. The
+mechanism --- it uses adversarial review (a stressor) to improve decisions. The
 assumption-expiry pattern uses time (inevitable decay) to trigger re-evaluation.
 
 ### 3. Technical Debt Quadrant (Fowler, 2009) + Debt Metaphor (Cunningham, 1992)
@@ -33,14 +33,14 @@ debt. The expiry mechanism ensures they don't cross into reckless territory.
 
 ### 4. Design by Contract (Meyer, 1986/1988)
 **Core idea:** Every component has preconditions, postconditions, and invariants.
-When a precondition is violated, "fail hard" — don't silently degrade.
+When a precondition is violated, "fail hard" --- don't silently degrade.
 **Key for this workspace:** The assumption-expiry check is a precondition
 verification that fires before downstream operations rely on stale data.
 
 ### 5. Lehman's Laws of Software Evolution (1974-1996)
 **Core idea:** "As an evolving program is continually changed, its complexity
 increases unless work is done to maintain or reduce it." This is the Second Law
-of software thermodynamics — entropy always increases without active work.
+of software thermodynamics --- entropy always increases without active work.
 **Key for this workspace:** The entire audit + cleanup cycle is active work
 against entropy. The `session-state.json` assumptions are treated as a program
 that evolves, not a static document.
@@ -62,7 +62,7 @@ that fixing quality issues now costs less than living with them.
 
 ### 8. DORA State of DevOps Reports (2014-present)
 **Core idea:** Elite teams ship many times a day WITH lower failure rates.
-The choice between speed and reliability is false — the best teams have both.
+The choice between speed and reliability is false --- the best teams have both.
 Measurable via: deployment frequency, lead time, change failure rate, recovery time.
 **Key for this workspace:** The 31/31 smoke tests + checkpoint-commit pattern
 enables the "ship fast, stay reliable" capability.
@@ -81,7 +81,7 @@ This workspace implements ALL nine sources in combination:
 | Source | Implementation |
 |--------|---------------|
 | Evolutionary Architecture | `assumption-expiry.sh` + `detect-gaps.sh` as fitness functions |
-| Antifragility | `doubt-adversarial.sh`, assumption expiry (stress → improvement) |
+| Antifragility | `doubt-adversarial.sh`, assumption expiry (stress -> improvement) |
 | Technical Debt Quadrant | `assumptions[]` TTL, `residualRisk` expiry tracking |
 | Design by Contract | `assumption-expiry.sh check` as precondition verification |
 | Lehman's Laws | Session audits, `context-pressure.sh`, entropy measurement |
@@ -95,7 +95,7 @@ This workspace implements ALL nine sources in combination:
 No single source covers "the whole system" because the domain spans:
 
 - Software engineering (Ford, Fowler, Meyer, Lehman)
-- Risk/mathematics (Taleb — convex responses, fat tails)
+- Risk/mathematics (Taleb --- convex responses, fat tails)
 - Management/operations (DORA, Google SRE, Pragmatic Programmer)
 
 A truly complete system requires combining insights from ALL of these.

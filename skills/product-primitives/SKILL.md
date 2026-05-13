@@ -8,7 +8,7 @@ companion-script: scripts/decompose-primitives.sh
 
 # Product Primitives
 
-Break complex systems into fundamental primitives — deep, information-hiding building blocks with clear boundaries and simple interfaces.
+Break complex systems into fundamental primitives --- deep, information-hiding building blocks with clear boundaries and simple interfaces.
 
 **Companion script:** `scripts/decompose-primitives.sh`
 ```bash
@@ -23,13 +23,13 @@ bash ./scripts/decompose-primitives.sh lens <type>            # apply a lens
 The quality of a decomposition depends on where you draw boundaries.
 
 ### Deep, not shallow
-Each primitive should have a simple interface hiding significant functionality. If a primitive's interface is as complex as what it does internally, it's not useful — it's indirection.
+Each primitive should have a simple interface hiding significant functionality. If a primitive's interface is as complex as what it does internally, it's not useful --- it's indirection.
 
 ### Information hiding
-Each primitive should encapsulate a design decision — a piece of knowledge nothing outside it needs to know. When you can change a primitive's internals without affecting anything else, the boundary is right.
+Each primitive should encapsulate a design decision --- a piece of knowledge nothing outside it needs to know. When you can change a primitive's internals without affecting anything else, the boundary is right.
 
 ### Split by knowledge, not by time
-Don't decompose by execution order. That's temporal decomposition — it leaks information because operations at different times often share knowledge. Instead ask: what distinct pieces of knowledge does this system need? Each piece becomes a primitive.
+Don't decompose by execution order. That's temporal decomposition --- it leaks information because operations at different times often share knowledge. Instead ask: what distinct pieces of knowledge does this system need? Each piece becomes a primitive.
 
 ### Bring together or split apart?
 - **Merge** when two pieces share information or are always used together
@@ -45,22 +45,22 @@ Each primitive should clearly belong to one layer:
 - **Function**: Logic (pure computation, decisions, orchestration)
 - **State**: Persistence (DB, caches, durable queues)
 
-A primitive mixing layers is a decomposition smell — split it.
+A primitive mixing layers is a decomposition smell --- split it.
 
 ## What Makes a Good Primitive
 
-- **Deep** — simple interface, powerful functionality behind it
-- **Encapsulating** — hides a design decision; internals can change without rippling outward
-- **Composable** — combines with other primitives through simple interfaces
-- **Transferable** — useful in multiple workflows, not one specific scenario
+- **Deep** --- simple interface, powerful functionality behind it
+- **Encapsulating** --- hides a design decision; internals can change without rippling outward
+- **Composable** --- combines with other primitives through simple interfaces
+- **Transferable** --- useful in multiple workflows, not one specific scenario
 
 ## Red Flags
 
-- **Shallow** — interface as complex as implementation
-- **Information leakage** — same knowledge in multiple primitives
-- **Temporal decomposition** — boundaries mirror execution order
-- **Pass-through** — does nothing but forward to another primitive
-- **Conjoined** — can't understand one without the other
+- **Shallow** --- interface as complex as implementation
+- **Information leakage** --- same knowledge in multiple primitives
+- **Temporal decomposition** --- boundaries mirror execution order
+- **Pass-through** --- does nothing but forward to another primitive
+- **Conjoined** --- can't understand one without the other
 
 ## Output Format
 
@@ -72,7 +72,7 @@ A primitive mixing layers is a decomposition smell — split it.
 ### 1. [Primitive Name]
 **Purpose**: What it does
 **Encapsulates**: What knowledge/decisions it hides
-**Interface**: What callers need to know (inputs → outputs)
+**Interface**: What callers need to know (inputs -> outputs)
 
 ### 2. [Next Primitive]
 ...
@@ -93,34 +93,34 @@ A primitive mixing layers is a decomposition smell — split it.
 ```
 ## System: E-commerce Marketing Automation
 
-Automate marketing campaigns for online stores — segment, create campaigns, schedule, measure.
+Automate marketing campaigns for online stores --- segment, create campaigns, schedule, measure.
 
 ## Primitives
 
 ### 1. Audience Segmentation
 **Purpose**: Group customers by behavior, demographics, or purchase history
 **Encapsulates**: Segment rule evaluation, membership caching, refresh scheduling
-**Interface**: (segment rules, customer data) → named segments with member lists
+**Interface**: (segment rules, customer data) -> named segments with member lists
 
 ### 2. Campaign Composition
 **Purpose**: Assemble campaign from template, audience, and schedule
 **Encapsulates**: Campaign state machine, validation, duplication logic
-**Interface**: (template + segment + schedule) → ready-to-send campaign
+**Interface**: (template + segment + schedule) -> ready-to-send campaign
 
 ### 3. Content Rendering
 **Purpose**: Produce personalized email/SMS from templates + product data
 **Encapsulates**: Template engine, personalization tokens, product data lookup
-**Interface**: (template + recipient + products) → rendered content
+**Interface**: (template + recipient + products) -> rendered content
 
 ### 4. Send Orchestration
 **Purpose**: Execute campaign delivery respecting rate limits and timing
 **Encapsulates**: Channel delivery, rate limiting, retry, bounce handling
-**Interface**: (campaign + recipients + content) → delivery receipts
+**Interface**: (campaign + recipients + content) -> delivery receipts
 
 ### 5. Performance Measurement
 **Purpose**: Track opens, clicks, conversions, revenue attribution
 **Encapsulates**: Event aggregation, attribution, metric computation
-**Interface**: (delivery events + interactions + orders) → campaign metrics
+**Interface**: (delivery events + interactions + orders) -> campaign metrics
 
 ## How They Fit Together
 
@@ -155,5 +155,5 @@ Automate marketing campaigns for online stores — segment, create campaigns, sc
 ## Boundaries
 
 - Does NOT produce implementation plans or code
-- Does NOT make final architectural decisions — proposes decompositions
-- Analysis only — human validates boundaries before building
+- Does NOT make final architectural decisions --- proposes decompositions
+- Analysis only --- human validates boundaries before building

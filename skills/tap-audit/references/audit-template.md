@@ -4,7 +4,7 @@
 **Readiness score:** [FULL / PARTIAL / MINIMAL]
 
 ## Environments
-- Local:      [command] → [url]
+- Local:      [command] -> [url]
 - Preview:    [url or "not configured"]
 - Staging:    [url or "not configured"]
 - Production: [url or "not configured"]
@@ -12,12 +12,12 @@
 ## Agent Harness Readiness
 
 ### Documentation
-- CLAUDE.md: [✓/✗] — [notes]
-- AGENTS.md: [✓/✗] — [notes]
-- ADRs: [✓/✗] — [notes]
+- CLAUDE.md: [✓/✗] --- [notes]
+- AGENTS.md: [✓/✗] --- [notes]
+- ADRs: [✓/✗] --- [notes]
 
 ### Strategic Context
-- `.tap/product.md`: [✓/✗] — [age, quality]
+- `.tap/product.md`: [✓/✗] --- [age, quality]
 
 ### MCP Servers
 - [server 1]: [what it enables]
@@ -60,7 +60,7 @@
 
 ## Leverage Points
 
-### 1. [Description] → [Consequence]
+### 1. [Description] -> [Consequence]
 - Symptom: [observable problem]
 - Why it costs: [concrete impact]
 - Fix: [cheapest intervention + effort]

@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 # =============================================================================
-# increment-slice.sh — Companion script for Incremental Implementation
+# increment-slice.sh --- Companion script for Incremental Implementation
 #
 # Validates change size, suggests slice decomposition, and runs the
-# implement → test → verify → commit cycle for one slice.
+# implement -> test -> verify -> commit cycle for one slice.
 #
 # Usage:
 #   bash ./scripts/increment-slice.sh check
@@ -13,7 +13,7 @@
 #     Suggest how to slice a task into thin vertical slices.
 #
 #   bash ./scripts/increment-slice.sh cycle <test-command>
-#     Run one increment cycle: test → verify → report.
+#     Run one increment cycle: test -> verify -> report.
 #     Exits 0 if slice passes verification.
 # =============================================================================
 
@@ -36,15 +36,15 @@ case "$MODE" in
     echo ""
     
     if [ "$CHANGED_FILES" -eq 0 ] 2>/dev/null; then
-      echo "  ✓ No uncommitted changes — workspace is clean."
+      echo "  ✓ No uncommitted changes --- workspace is clean."
       echo "  Next: implement one slice, then run 'check' again."
     elif [ "$TOTAL" -le 100 ] 2>/dev/null; then
-      echo "  ✓ Small slice (${TOTAL} lines) — good for one cycle."
+      echo "  ✓ Small slice (${TOTAL} lines) --- good for one cycle."
     elif [ "$TOTAL" -le 300 ] 2>/dev/null; then
-      echo "  ⚠  Medium slice (${TOTAL} lines) — acceptable but consider splitting."
+      echo "  ⚠  Medium slice (${TOTAL} lines) --- acceptable but consider splitting."
       echo "     Recommendation: break into 2 slices by logical concern."
     else
-      echo "  ✗ Large slice (${TOTAL} lines) — must decompose."
+      echo "  ✗ Large slice (${TOTAL} lines) --- must decompose."
       echo "     Max 100 lines per slice for reliable review."
       echo "     Recommendation: $0 suggest \"current task\""
     fi
@@ -63,7 +63,7 @@ Task: ${TASK}
 
 ## Slice 1: Data & Contracts
 - Define types, interfaces, schemas
-- No logic yet — just structure
+- No logic yet --- just structure
 - ~20-40 lines
 
 ## Slice 2: Core Logic
@@ -87,7 +87,7 @@ Task: ${TASK}
 - ~10-20 lines
 
 ## Ordering
-${TASK} → Slice 1 → Slice 2 → Slice 3 → ... → done
+${TASK} -> Slice 1 -> Slice 2 -> Slice 3 -> ... -> done
 
 Each slice must leave the system in a working state.
 Test after every slice.
@@ -104,7 +104,7 @@ SUGGEST
     fi
     
     echo "=== Increment Cycle ==="
-    echo "Phase: Test → Verify"
+    echo "Phase: Test -> Verify"
     echo "Command: ${TEST_CMD}"
     echo ""
     
@@ -126,7 +126,7 @@ SUGGEST
       echo "  Tests: PASS"
       echo ""
       echo "INCREMENT_STATUS=pass"
-      echo "INCREMENT_MESSAGE=Slice verified — ready to commit"
+      echo "INCREMENT_MESSAGE=Slice verified --- ready to commit"
       echo ""
       echo "Next step: bash ./scripts/checkpoint-commit.sh -m \"<describe this slice>\""
       exit 0
@@ -135,7 +135,7 @@ SUGGEST
       echo "$TEST_OUTPUT" | head -10
       echo ""
       echo "INCREMENT_STATUS=fail"
-      echo "INCREMENT_MESSAGE=Slice not verified — fix before committing"
+      echo "INCREMENT_MESSAGE=Slice not verified --- fix before committing"
       exit 1
     fi
     ;;
@@ -143,9 +143,9 @@ SUGGEST
   *)
     echo "Usage: $0 {check|suggest|cycle}"
     echo ""
-    echo "  check               — Validate current change size"
-    echo "  suggest \"<task>\"    — Suggest slice decomposition"
-    echo "  cycle \"<test-cmd>\"  — Run one increment cycle"
+    echo "  check               --- Validate current change size"
+    echo "  suggest \"<task>\"    --- Suggest slice decomposition"
+    echo "  cycle \"<test-cmd>\"  --- Run one increment cycle"
     exit 1
     ;;
 esac

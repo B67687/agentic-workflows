@@ -1,5 +1,5 @@
 ---
-description: Default intake for any task — classify, grill, shape, and slice as needed
+description: Default intake for any task --- classify, grill, shape, and slice as needed
 ---
 
 Use this as the default first command for any serious task. The user states the goal in normal language; this file tells you how to handle it internally.
@@ -34,7 +34,7 @@ Run:
 
 If the recommended lane is `grill`, challenge the assumptions:
 
-1. What is the real goal — not the stated request?
+1. What is the real goal --- not the stated request?
 2. Who is this for, and what does "done" look like?
 3. What constraints or boundaries are unstated?
 4. What would be the worst thing to get wrong?

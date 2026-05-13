@@ -1,6 +1,6 @@
 #!/bin/bash
 # =============================================================================
-# log-error.sh — Capture an error for agent triage.
+# log-error.sh --- Capture an error for agent triage.
 #
 # Feeds into the debugging-and-error-recovery skill's triage system.
 # Appends structured error records to .triage/errors.log so that

@@ -1,6 +1,6 @@
 #!/bin/bash
 # =============================================================================
-# tools.sh — Workspace tool registry
+# tools.sh --- Workspace tool registry
 # Lists all agent-callable tools in the workspace with descriptions.
 # Compact format (<400 tokens) designed for injection at session start.
 # =============================================================================
@@ -14,15 +14,15 @@ echo "=== Agent Tools ==="
 find "$REPO_ROOT/scripts" -maxdepth 1 -name '*.sh' -type f | sort | while read -r f; do
   name="$(basename "$f" .sh)"
   desc="$(head -5 "$f" | grep "^# " | grep -v "^# ===" | head -1 | sed 's/^# //' || true)"
-  echo "  script/$name  — ${desc:-(no description)}"
+  echo "  script/$name  --- ${desc:-(no description)}"
 done
 
-# 2. Commands (from commands/*.md — these are OpenCode slash commands)
+# 2. Commands (from commands/*.md --- these are OpenCode slash commands)
 if [ -d "$REPO_ROOT/commands" ]; then
   find "$REPO_ROOT/commands" -name '*.md' -type f | sort | while read -r f; do
     name="$(basename "$f" .md)"
     desc="$(head -5 "$f" | grep "^#" | head -1 | sed 's/^#* *//' || true)"
-    echo "  command/$name — ${desc:-(no description)}"
+    echo "  command/$name --- ${desc:-(no description)}"
   done
 fi
 
@@ -32,7 +32,7 @@ if [ -d "$HOME/.local/bin" ]; then
     file="$HOME/.local/bin/$name"
     if [ -x "$file" ] && [ ! -d "$file" ]; then
       desc="$(head -3 "$file" | grep "^# " | head -1 | sed 's/^# //' || true)"
-      echo "  bin/$name  — ${desc:-custom binary}"
+      echo "  bin/$name  --- ${desc:-custom binary}"
     fi
   done
 fi

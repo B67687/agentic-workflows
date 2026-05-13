@@ -285,7 +285,7 @@ Use when summarizing a PR, a batch of changes, or any review where showing the b
 |---|---|
 | `path/to/file` | Brief description |
 
-**Sequence Diagram** (Mermaid — only when a behavioral/user/runtime flow exists)
+**Sequence Diagram** (Mermaid --- only when a behavioral/user/runtime flow exists)
 ```mermaid
 sequenceDiagram
     participant User
@@ -298,9 +298,9 @@ sequenceDiagram
 ```
 
 **Dig Deeper**
-- `/review <file-path>` — review a specific file
-- `/chat <file-path> "<question>"` — ask about a decision
-- `/test <scenario>` — suggest a verification scenario
+- `/review <file-path>` --- review a specific file
+- `/chat <file-path> "<question>"` --- ask about a decision
+- `/test <scenario>` --- suggest a verification scenario
 
 ### Prompt
 

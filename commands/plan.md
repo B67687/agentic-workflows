@@ -36,7 +36,7 @@ Return a compact plan with:
 | "I know the codebase well enough" | Stale assumptions cause wrong file choices. Use /repo-map and /research first. |
 | "I can plan as I go" | Plans written mid-implementation skip dependency ordering and create rework. |
 | "The plan is obvious" | "Obvious" plans hide implicit assumptions that the plan guard would catch. |
-| "I already researched this" | Research notes aren't a plan — plans need exact file list, steps, and per-step verification.
+| "I already researched this" | Research notes aren't a plan --- plans need exact file list, steps, and per-step verification.
 </rationalizations>
 
 <red_flags>

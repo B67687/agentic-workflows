@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Blast radius — map the impact surface of changes before merging.
+# Blast radius --- map the impact surface of changes before merging.
 # Usage: bash ./scripts/blast-radius.sh <command> [args]
 set -euo pipefail
 
@@ -57,18 +57,18 @@ case "${1:-help}" in
     ;;
   checklist)
     echo "# Verification Checklist"
-    echo "□ [page/flow] — [what to verify] — [why it might break]"
+    echo "□ [page/flow] --- [what to verify] --- [why it might break]"
     echo ""
     echo "Include: happy paths, edge cases, regressions, blind spot items."
     ;;
   help|*)
     echo "Usage: $0 <command> [args]"
-    echo "  diff [pr]       — get the diff"
-    echo "  intent \"<text>\" — summarize intent"
-    echo "  map <files...>  — map impact surface"
-    echo "  risk <level>    — assess risk (low/medium/high)"
-    echo "  blindspots      — identify blind spots"
-    echo "  checklist       — verification checklist"
+    echo "  diff [pr]       --- get the diff"
+    echo "  intent \"<text>\" --- summarize intent"
+    echo "  map <files...>  --- map impact surface"
+    echo "  risk <level>    --- assess risk (low/medium/high)"
+    echo "  blindspots      --- identify blind spots"
+    echo "  checklist       --- verification checklist"
     exit 0
     ;;
 esac

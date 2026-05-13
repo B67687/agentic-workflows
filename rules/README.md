@@ -6,16 +6,16 @@ Always-follow guidelines for AI agent behavior, organized into language-agnostic
 
 ```
 rules/
-  README.md           — This file
-  common/             — Language-agnostic: install these everywhere
-    coding-style.md   — Immutability, file organization, naming conventions
-    git-workflow.md   — Commit format, branch strategy, PR process
-    testing.md        — Test expectations, coverage targets, TDD enforcement
-    security.md       — Mandatory security checks before commits
-  typescript/         — TypeScript and JavaScript specific patterns
-    patterns.md       — TS/JS patterns, tooling, and idioms
-  python/             — Python specific patterns
-    patterns.md       — Python patterns, tooling, and idioms
+  README.md           --- This file
+  common/             --- Language-agnostic: install these everywhere
+    coding-style.md   --- Immutability, file organization, naming conventions
+    git-workflow.md   --- Commit format, branch strategy, PR process
+    testing.md        --- Test expectations, coverage targets, TDD enforcement
+    security.md       --- Mandatory security checks before commits
+  typescript/         --- TypeScript and JavaScript specific patterns
+    patterns.md       --- TS/JS patterns, tooling, and idioms
+  python/             --- Python specific patterns
+    patterns.md       --- Python patterns, tooling, and idioms
 ```
 
 ## How to use
@@ -30,4 +30,4 @@ cp -r rules/common /path/to/project/
 cp -r rules/typescript /path/to/project/
 ```
 
-Do not copy all language packs — only the one(s) you actively use in that project.
+Do not copy all language packs --- only the one(s) you actively use in that project.

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # =============================================================================
-# pre-compact.sh — PreCompact lifecycle hook
+# pre-compact.sh --- PreCompact lifecycle hook
 # Captures working context to .cache/session-snapshot.json before conversation
 # compaction. Ensures critical state survives summarization so post-compact.sh
 # can restore it.
@@ -61,7 +61,7 @@ snap = {
     'files_changed': '${FILES_CHANGED}'.split(';') if '${FILES_CHANGED}' else [],
     'task_name': '$TASK_NAME',
     'task_status': '$TASK_STATUS',
-    'note': 'Session snapshot before compaction — restore with post-compact.sh'
+    'note': 'Session snapshot before compaction --- restore with post-compact.sh'
 }
 print(json.dumps(snap, indent=2))
 " 2>/dev/null || echo '{"error": "failed to build snapshot"}')

@@ -1,10 +1,10 @@
-# Structural Governance — Keeping the Workspace Clean Over Time
+# Structural Governance --- Keeping the Workspace Clean Over Time
 
 A recurring pattern: new things get added to the workspace, but without a consistent placement
 strategy they end up in slightly-wrong places, requiring refactoring later.
 
-This document defines a **structural governance system** — a small set of rules, a
-classification guide, and a feedback loop — so new additions land in the right place
+This document defines a **structural governance system** --- a small set of rules, a
+classification guide, and a feedback loop --- so new additions land in the right place
 from day one.
 
 ## What This Workspace Is
@@ -13,7 +13,7 @@ from day one.
 Systems Engineering                       (the macro discipline)
   └── Agent Harness Engineering           (the specific application)
         ├── Knowledge Base                (docs, skills, wiki content)
-        ├── Propagation Engine            (workflows → downstream repos)
+        ├── Propagation Engine            (workflows -> downstream repos)
         ├── Agent Tooling                 (scripts, commands, dispatch)
         ├── Monitoring & Health           (context pressure, assumption expiry)
         ├── Session Management            (checkpoints, state, forks)
@@ -49,7 +49,7 @@ A new file should be obviously classifiable into exactly one of these roles.
 ### 3. Package Principles (Robert C. Martin, 1996)
 
 - **Common Closure Principle (CCP):** Things that change together should be together.
-  A skill and its companion script change together — they belong in the same directory.
+  A skill and its companion script change together --- they belong in the same directory.
 - **Common Reuse Principle (CRP):** Things that are used together should be together.
   All files related to a skill belong in that skill's directory.
 - **Reuse-Release Equivalence (REP):** The granularity of reuse is the same as the
@@ -61,7 +61,7 @@ A new file should be obviously classifiable into exactly one of these roles.
 
 A staging area for unclassified content prevents premature placement decisions.
 New content lands in `inbox/` and gets classified later. This reduces the cost of
-getting it "wrong" — it's not wrong, it's just not yet classified.
+getting it "wrong" --- it's not wrong, it's just not yet classified.
 
 ## The Governance System
 
@@ -89,21 +89,21 @@ When adding something new to this workspace, answer one question:
 
 ```
 Is this a process with steps users follow?
-  → YES → skills/<name>/ (create SKILL.md + optional companion script)
-  → NO Is this a reference the agent reads?
-    → YES → docs/<name>.md
-    → NO Is this a tool the agent runs?
-      → YES Is it specific to one skill?
-        → YES → skills/<name>/scripts/
-        → NO → scripts/
-      → NO Is this a config or rule?
-        → YES → rules/ or .gitignore
-        → NO → inbox/
+  -> YES -> skills/<name>/ (create SKILL.md + optional companion script)
+  -> NO Is this a reference the agent reads?
+    -> YES -> docs/<name>.md
+    -> NO Is this a tool the agent runs?
+      -> YES Is it specific to one skill?
+        -> YES -> skills/<name>/scripts/
+        -> NO -> scripts/
+      -> NO Is this a config or rule?
+        -> YES -> rules/ or .gitignore
+        -> NO -> inbox/
 ```
 
 ### The Inbox
 
-The `inbox/` directory exists for exactly this purpose — a temporary holding area
+The `inbox/` directory exists for exactly this purpose --- a temporary holding area
 for content that hasn't been classified yet.
 
 Rules:
@@ -121,18 +121,18 @@ When `detect-gaps.sh` runs at session start, it checks:
 
 Without governance:
 ```
-Add file: workflows/security-checklist.md  →  Wrong place (no "workflows/" dir)
-                                       →  Needs refactoring later
+Add file: workflows/security-checklist.md  ->  Wrong place (no "workflows/" dir)
+                                       ->  Needs refactoring later
 ```
 
 With governance:
 ```
 I want to add a security auditing skill.
-→ Is this a process with steps? YES → skills/<name>/
-→ Create skills/security-and-hardening/SKILL.md
-→ Add companion script if needed: skills/security-and-hardening/scripts/audit.sh
-→ Update skills/manifest.json
-→ Done. No refactoring needed.
+-> Is this a process with steps? YES -> skills/<name>/
+-> Create skills/security-and-hardening/SKILL.md
+-> Add companion script if needed: skills/security-and-hardening/scripts/audit.sh
+-> Update skills/manifest.json
+-> Done. No refactoring needed.
 ```
 
 ## Verification

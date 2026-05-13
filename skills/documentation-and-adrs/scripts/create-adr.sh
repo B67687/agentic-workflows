@@ -1,6 +1,6 @@
 #!/bin/bash
 # =============================================================================
-# create-adr.sh — Create a new Architecture Decision Record.
+# create-adr.sh --- Create a new Architecture Decision Record.
 #
 # Companion script for the documentation-and-adrs skill.
 # Creates a sequentially-numbered ADR in docs/decisions/ using the

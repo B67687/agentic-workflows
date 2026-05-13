@@ -1,6 +1,6 @@
 ---
 name: blast-radius
-description: "Analyze the impact surface of a PR or set of changes before merging. Maps what changed, what else is affected, what could break, assigns risk level, and generates a manual verification checklist. The human gate for mixed human-agent teams. NOT for: code review (→ code-review-and-quality), running tests, or suggesting code changes."
+description: "Analyze the impact surface of a PR or set of changes before merging. Maps what changed, what else is affected, what could break, assigns risk level, and generates a manual verification checklist. The human gate for mixed human-agent teams. NOT for: code review (-> code-review-and-quality), running tests, or suggesting code changes."
 trigger-phrases: blast radius, review this PR, what does this change affect, is this safe to merge, impact analysis, impact surface
 handoffs: code-review-and-quality (for code quality review), qa-test / browser-testing-with-devtools (for browser verification)
 companion-script: scripts/blast-radius.sh
@@ -24,9 +24,9 @@ bash ./scripts/blast-radius.sh checklist         # verification checklist
 
 ### 1. Get the Diff
 
-- PR number → `gh pr diff <number>`
-- Branch → `git diff main...<branch>`
-- Nothing → `git diff main...HEAD`
+- PR number -> `gh pr diff <number>`
+- Branch -> `git diff main...<branch>`
+- Nothing -> `git diff main...HEAD`
 
 ### 2. Summarize Intent
 
@@ -57,22 +57,22 @@ In 1-2 sentences, state what the change is TRYING to do.
 
 | Level | When |
 |-------|------|
-| **LOW** — Merge confidently | Cosmetic, isolated leaf, new code, full coverage |
-| **MEDIUM** — Test specific flows | Shared utilities, API routes, 3+ files, partial coverage |
-| **HIGH** — Test everything | Auth/payments, DB migrations, API contracts, zero coverage |
+| **LOW** --- Merge confidently | Cosmetic, isolated leaf, new code, full coverage |
+| **MEDIUM** --- Test specific flows | Shared utilities, API routes, 3+ files, partial coverage |
+| **HIGH** --- Test everything | Auth/payments, DB migrations, API contracts, zero coverage |
 
 ### 5. Identify Blind Spots (MEDIUM/HIGH only)
 
 Surface what static analysis CAN'T see:
 
-- **Obscurity** — env vars, feature flags, runtime values, conditional logic by external state
-- **Hidden dependencies** — event emitters, pub/sub, webhooks, dynamic dispatch, reflection
-- **Change amplification** — external API consumers, shared DB tables, unknown subscribers
+- **Obscurity** --- env vars, feature flags, runtime values, conditional logic by external state
+- **Hidden dependencies** --- event emitters, pub/sub, webhooks, dynamic dispatch, reflection
+- **Change amplification** --- external API consumers, shared DB tables, unknown subscribers
 
 ### 6. Generate Verification Checklist
 
 ```
-□ [page/flow] — [what to verify] — [why it might break]
+□ [page/flow] --- [what to verify] --- [why it might break]
 ```
 
 Include: happy paths, edge cases, regressions, blind spot items.
@@ -99,8 +99,8 @@ Intent: [1-2 sentence summary]
 
 ## Boundaries
 
-- Read-only analysis — does NOT modify code
-- Does NOT run tests (→ test scripts or qa-test)
-- Does NOT assess code quality or style (→ code-review-and-quality)
+- Read-only analysis --- does NOT modify code
+- Does NOT run tests (-> test scripts or qa-test)
+- Does NOT assess code quality or style (-> code-review-and-quality)
 - Does NOT re-implement or suggest code changes
 - Only maps impact and helps humans decide

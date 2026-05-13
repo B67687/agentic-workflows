@@ -1,6 +1,6 @@
 #!/bin/bash
 # =============================================================================
-# task-retrospect.sh — Structured post-task reflection
+# task-retrospect.sh --- Structured post-task reflection
 #
 # Hermes-style self-improvement loop for our workspace.
 # After meaningful work, captures what was learned so the next session benefits.
@@ -13,14 +13,14 @@
 #   bash ./scripts/task-retrospect.sh --help                  # this help
 #
 # Stores to:
-#   1. .learnings.jsonl  — always (persistent, searchable)
-#   2. buglog.json       — only when --type bug or "bug" in tags
-#   3. agentmemory       — if MCP available (enables cross-session semantic search)
+#   1. .learnings.jsonl  --- always (persistent, searchable)
+#   2. buglog.json       --- only when --type bug or "bug" in tags
+#   3. agentmemory       --- if MCP available (enables cross-session semantic search)
 #
 # Exit codes:
-#   0 — insight captured
-#   0 — nothing to learn (exit silently)
-#   1 — bad args
+#   0 --- insight captured
+#   0 --- nothing to learn (exit silently)
+#   1 --- bad args
 # =============================================================================
 set -euo pipefail
 
@@ -127,7 +127,7 @@ with open('$WC_TMP') as f:
 m = re.search(r'\n# 2026-05-', content)
 insert_at = m.start() + 1 if m else len(content)
 
-new_entry = '\n\n# $DATE_ONLY — $SESSION_TITLE\n\n**Session end:** $TIMESTAMP\n**Commits since last entry:** $HIST_COMMITS\n\n' + wc + '\n'
+new_entry = '\n\n# $DATE_ONLY --- $SESSION_TITLE\n\n**Session end:** $TIMESTAMP\n**Commits since last entry:** $HIST_COMMITS\n\n' + wc + '\n'
 
 new_content = content[:insert_at] + new_entry + content[insert_at:]
 with open('$HIST_FILE', 'w') as f:
@@ -254,7 +254,7 @@ fi
 # === 4. Try agentmemory (best-effort, don't fail) ===
 # Check if the MCP server is running by looking for node agentmemory
 if command -v npx &>/dev/null && npx --yes @agentmemory/mcp --help &>/dev/null 2>&1; then
-  # Save via memory_save — can't call MCP from bash directly
+  # Save via memory_save --- can't call MCP from bash directly
   # Instead note it in the learnings file for the next agent to pick up
   echo "  ℹ  Run 'agentmemory memory_save' with content from .learnings.jsonl to persist cross-session"
 fi

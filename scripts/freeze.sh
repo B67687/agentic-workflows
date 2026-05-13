@@ -18,7 +18,7 @@ if [[ "$TARGET" != /* ]]; then
   TARGET="$(cd "$(git rev-parse --show-toplevel 2>/dev/null || echo ".")" && pwd)/$TARGET"
 fi
 
-# Normalize — remove trailing slash
+# Normalize --- remove trailing slash
 TARGET="${TARGET%/}"
 
 # Verify the directory exists

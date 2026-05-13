@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Subagent Runner — spawns isolated worker processes from agent definitions.
+Subagent Runner --- spawns isolated worker processes from agent definitions.
 
 Reads agent personas from agents/, spawns isolated sub-processes with
 tool restrictions, and collects results.

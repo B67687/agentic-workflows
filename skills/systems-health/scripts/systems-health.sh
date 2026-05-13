@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Systems health — measure development system health from git/GitHub data.
+# Systems health --- measure development system health from git/GitHub data.
 # Usage: bash ./scripts/systems-health.sh <command> [dir]
 set -euo pipefail
 
@@ -38,7 +38,7 @@ case "${1:-help}" in
     echo "|------|---------|-----------|"
     echo "| Stories in | Issues created/week | gh issue list --since=\"$SINCE\" |"
     echo "| Stories out | PRs merged/week | gh pr list --state merged --limit 20 |"
-    echo "| Cycle time | PR open→merge (median) | gh pr view <number> |"
+    echo "| Cycle time | PR open->merge (median) | gh pr view <number> |"
     echo "| Bug inflow | Bugs created/week | gh issue list --label bug |"
     echo ""
     echo "Note: Requires GitHub CLI (gh) for full data"
@@ -104,13 +104,13 @@ case "${1:-help}" in
     ;;
   help|*)
     echo "Usage: $0 <command> [since]"
-    echo "  collect [since]  — collect data from git"
-    echo "  stocks           — measure stocks"
-    echo "  flows            — measure flows"
-    echo "  feedback         — assess feedback loops"
-    echo "  complexity       — complexity signals"
-    echo "  diagnose         — diagnose and prescribe"
-    echo "  report           — generate report"
+    echo "  collect [since]  --- collect data from git"
+    echo "  stocks           --- measure stocks"
+    echo "  flows            --- measure flows"
+    echo "  feedback         --- assess feedback loops"
+    echo "  complexity       --- complexity signals"
+    echo "  diagnose         --- diagnose and prescribe"
+    echo "  report           --- generate report"
     echo ""
     echo "  [since] defaults to '30 days ago'"
     exit 0

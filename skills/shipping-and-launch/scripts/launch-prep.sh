@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # =============================================================================
-# launch-prep.sh — Companion script for Shipping and Launch
+# launch-prep.sh --- Companion script for Shipping and Launch
 #
 # Generates pre-launch checklists and rollback plans.
 #

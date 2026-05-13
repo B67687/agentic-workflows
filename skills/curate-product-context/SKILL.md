@@ -1,6 +1,6 @@
 ---
 name: curate-product-context
-description: "Curate and maintain `.tap/product.md` — a compressed, agent-readable product-context file (what we build, audience, current focus, bets, non-goals). Auto-detects interview / review / refresh mode. One file, five sections, ≤ 80 lines, principle-driven. NOT for: tech stack (CLAUDE.md), architecture decisions (.tap/architecture.md), or feature roadmaps."
+description: "Curate and maintain `.tap/product.md` --- a compressed, agent-readable product-context file (what we build, audience, current focus, bets, non-goals). Auto-detects interview / review / refresh mode. One file, five sections, ≤ 80 lines, principle-driven. NOT for: tech stack (CLAUDE.md), architecture decisions (.tap/architecture.md), or feature roadmaps."
 trigger-phrases: curate product context, update product context, product vision in repo, what are we building, product direction, install product context
 handoffs: tap-audit (to assess readiness after product context), tech-roadmap (to build roadmap from context)
 companion-script: scripts/curate-product-context.sh
@@ -8,7 +8,7 @@ companion-script: scripts/curate-product-context.sh
 
 # Curate Product Context
 
-**Companion script:** `scripts/curate-product-context.sh` — generate `.tap/product.md` skeleton with product vision, focus, and non-goals.
+**Companion script:** `scripts/curate-product-context.sh` --- generate `.tap/product.md` skeleton with product vision, focus, and non-goals.
 ```bash
 bash ./scripts/curate-product-context.sh init "<product>"   # initialize product context
 ```
@@ -36,9 +36,9 @@ Check for `.tap/product.md`. Age determines mode.
 
 | Condition | Mode |
 |-----------|------|
-| File missing | **Interview** — walk all five sections |
-| Exists, < 90 days | **Review** — prune-first, diff, confirm |
-| Exists, ≥ 90 days | **Refresh** — capture shifts, then review |
+| File missing | **Interview** --- walk all five sections |
+| Exists, < 90 days | **Review** --- prune-first, diff, confirm |
+| Exists, ≥ 90 days | **Refresh** --- capture shifts, then review |
 
 ### 2. Read Inputs
 
@@ -50,11 +50,11 @@ Check: CLAUDE.md, README.md, `.tap/tap-audit.md`, `.tap/system-health.md`, `.tap
 
 Walk five sections:
 
-**Section 1 — What we build**: 1-3 sentences: the product + who it's for
-**Section 2 — Audience & pain**: Who are the users? What pain? Principle line
-**Section 3 — Current focus**: Problem this quarter, insight, success signal
-**Section 4 — Bets**: 2-4 bets: what + why it'll work
-**Section 5 — Non-goals**: What you're NOT doing + principle why
+**Section 1 --- What we build**: 1-3 sentences: the product + who it's for
+**Section 2 --- Audience & pain**: Who are the users? What pain? Principle line
+**Section 3 --- Current focus**: Problem this quarter, insight, success signal
+**Section 4 --- Bets**: 2-4 bets: what + why it'll work
+**Section 5 --- Non-goals**: What you're NOT doing + principle why
 
 For Principle lines (sections 2, 5), use coaching:
 > A Principle is the underlying belief that shapes decisions.
@@ -63,11 +63,11 @@ For Principle lines (sections 2, 5), use coaching:
 
 #### Review (file exists, fresh)
 
-Prune-first: read each section → "Still true?" → "Anything new?"
+Prune-first: read each section -> "Still true?" -> "Anything new?"
 
 #### Refresh (file exists, stale)
 
-Capture top-line shifts first → then run Review protocol.
+Capture top-line shifts first -> then run Review protocol.
 
 ### 4. Show Diff
 
@@ -110,8 +110,8 @@ On yes: write to `.tap/product.md`. Confirm + line count.
 
 ## Handoffs
 
-- First run → recommend `tap-audit` next
-- Major shift surfaced → recommend `systems-health` or re-audit
+- First run -> recommend `tap-audit` next
+- Major shift surfaced -> recommend `systems-health` or re-audit
 
 ## Boundaries
 

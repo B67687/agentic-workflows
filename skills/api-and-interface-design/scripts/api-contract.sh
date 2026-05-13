@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # =============================================================================
-# api-contract.sh — Companion script for API and Interface Design
+# api-contract.sh --- Companion script for API and Interface Design
 #
 # Generates API contract templates and validates interface design consistency.
 # Covers REST endpoints, GraphQL schemas, and module boundaries.
@@ -88,7 +88,7 @@ CONTRACT
     cat << PRIN
 === API Design Principles ===
 
-1. Hyrum's Law — all observable behaviors become de facto contracts
+1. Hyrum's Law --- all observable behaviors become de facto contracts
 2. Make the right thing easy, the wrong thing hard
 3. Be intentional about what you expose
 4. Fail fast with clear error messages

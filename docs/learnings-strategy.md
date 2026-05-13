@@ -6,9 +6,9 @@ Three storage formats serve different purposes. This doc explains the boundaries
 
 | Store | Format | Purpose | Created by | When to read |
 |-------|--------|---------|------------|--------------|
-| `buglog.json` | JSON (structured) | Track bugs and their root causes | Agent debugging | Before fixing a bug — check for same error |
-| `.learnings.jsonl` | JSONL (append) | Durable cross-session insights, patterns, decisions | `learnings-save.sh` | At session start — recall prior context |
-| `.tap/learnings.md` | Markdown (append) | Retrospective learnings focused on agent autonomy | `retrospective` skill | Before starting work in a repo — check past failures |
+| `buglog.json` | JSON (structured) | Track bugs and their root causes | Agent debugging | Before fixing a bug --- check for same error |
+| `.learnings.jsonl` | JSONL (append) | Durable cross-session insights, patterns, decisions | `learnings-save.sh` | At session start --- recall prior context |
+| `.tap/learnings.md` | Markdown (append) | Retrospective learnings focused on agent autonomy | `retrospective` skill | Before starting work in a repo --- check past failures |
 
 ## Boundary Rules
 
@@ -24,5 +24,5 @@ Three storage formats serve different purposes. This doc explains the boundaries
 
 - Do NOT duplicate entries across stores
 - Do NOT write to `.tap/learnings.md` from the `tighten-loop` skill (it only appends if the file already exists)
-- Do NOT overwrite any of these files — all three are append-only
+- Do NOT overwrite any of these files --- all three are append-only
 - Do NOT create `.tap/learnings.md` from outside the `retrospective` skill

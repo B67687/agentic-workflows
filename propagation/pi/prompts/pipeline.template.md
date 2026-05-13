@@ -1,5 +1,5 @@
 ---
-description: Subagent-driven pipeline — dispatch each plan task to an isolated @worker subagent
+description: Subagent-driven pipeline --- dispatch each plan task to an isolated @worker subagent
 argument-hint: "<plan-title> task1 task2 ..."
 ---
 
@@ -17,7 +17,7 @@ Do NOT use for: single-file changes, tightly coupled tasks, exploration, or rese
 
 **Step 2: Loop per task**
 
-1. `bash ./pipeline-run.sh next <id>` — get next pending task
+1. `bash ./pipeline-run.sh next <id>` --- get next pending task
 2. Dispatch to `@worker` subagent via `task` tool
 3. Review worker output
 4. `bash ./pipeline-run.sh update <id> <task> done|failed "notes"`

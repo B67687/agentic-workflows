@@ -8,7 +8,7 @@ companion-script: scripts/git-branch-cleanup.sh
 
 # Git Workflow and Versioning
 
-**Companion script:** `scripts/git-branch-cleanup.sh` — scans branches for staleness, merge status, and divergence. Run from the skill directory:
+**Companion script:** `scripts/git-branch-cleanup.sh` --- scans branches for staleness, merge status, and divergence. Run from the skill directory:
 ```bash
 bash ./scripts/git-branch-cleanup.sh scan              # all branches
 bash ./scripts/git-branch-cleanup.sh stale 5           # branches >5 days old
@@ -28,15 +28,15 @@ Always. Every code change flows through git.
 
 ### Trunk-Based Development (Recommended)
 
-Keep `main` always deployable. Work in short-lived feature branches that merge back within 1-3 days. Long-lived development branches are hidden costs — they diverge, create merge conflicts, and delay integration. DORA research consistently shows trunk-based development correlates with high-performing engineering teams.
+Keep `main` always deployable. Work in short-lived feature branches that merge back within 1-3 days. Long-lived development branches are hidden costs --- they diverge, create merge conflicts, and delay integration. DORA research consistently shows trunk-based development correlates with high-performing engineering teams.
 
 ```
-main ──●──●──●──●──●──●──●──●──●──  (always deployable)
+main ──*──*──*──*──*──*──*──*──*──  (always deployable)
         ╲      ╱  ╲    ╱
-         ●──●─╱    ●──╱    ← short-lived feature branches (1-3 days)
+         *──*─╱    *──╱    <- short-lived feature branches (1-3 days)
 ```
 
-This is the recommended default. Teams using gitflow or long-lived branches can adapt the principles (atomic commits, small changes, descriptive messages) to their branching model — the commit discipline matters more than the specific branching strategy.
+This is the recommended default. Teams using gitflow or long-lived branches can adapt the principles (atomic commits, small changes, descriptive messages) to their branching model --- the commit discipline matters more than the specific branching strategy.
 
 - **Dev branches are costs.** Every day a branch lives, it accumulates merge risk.
 - **Release branches are acceptable.** When you need to stabilize a release while main moves forward.
@@ -48,10 +48,10 @@ Each successful increment gets its own commit. Don't accumulate large uncommitte
 
 ```
 Work pattern:
-  Implement slice → Test → Verify → Commit → Next slice
+  Implement slice -> Test -> Verify -> Commit -> Next slice
 
 Not this:
-  Implement everything → Hope it works → Giant commit
+  Implement everything -> Hope it works -> Giant commit
 ```
 
 Commits are save points. If the next change breaks something, you can revert to the last known-good state instantly.
@@ -97,16 +97,16 @@ update auth.ts
 ```
 
 **Types:**
-- `feat` — New feature
-- `fix` — Bug fix
-- `refactor` — Code change that neither fixes a bug nor adds a feature
-- `test` — Adding or updating tests
-- `docs` — Documentation only
-- `chore` — Tooling, dependencies, config
+- `feat` --- New feature
+- `fix` --- Bug fix
+- `refactor` --- Code change that neither fixes a bug nor adds a feature
+- `test` --- Adding or updating tests
+- `docs` --- Documentation only
+- `chore` --- Tooling, dependencies, config
 
 ### 4. Keep Concerns Separate
 
-Don't combine formatting changes with behavior changes. Don't combine refactors with features. Each type of change should be a separate commit — and ideally a separate PR:
+Don't combine formatting changes with behavior changes. Don't combine refactors with features. Each type of change should be a separate commit --- and ideally a separate PR:
 
 ```
 # Good: Separate concerns
@@ -117,16 +117,16 @@ git commit -m "feat: add phone number validation to registration"
 git commit -m "refactor validation and add phone number field"
 ```
 
-**Separate refactoring from feature work.** A refactoring change and a feature change are two different changes — submit them separately. This makes each change easier to review, revert, and understand in history. Small cleanups (renaming a variable) can be included in a feature commit at reviewer discretion.
+**Separate refactoring from feature work.** A refactoring change and a feature change are two different changes --- submit them separately. This makes each change easier to review, revert, and understand in history. Small cleanups (renaming a variable) can be included in a feature commit at reviewer discretion.
 
 ### 5. Size Your Changes
 
 Target ~100 lines per commit/PR. Changes over ~1000 lines should be split. See the splitting strategies in `code-review-and-quality` for how to break down large changes.
 
 ```
-~100 lines  → Easy to review, easy to revert
-~300 lines  → Acceptable for a single logical change
-~1000 lines → Split into smaller changes
+~100 lines  -> Easy to review, easy to revert
+~300 lines  -> Acceptable for a single logical change
+~1000 lines -> Split into smaller changes
 ```
 
 ## Branching Strategy
@@ -136,23 +136,23 @@ Target ~100 lines per commit/PR. Changes over ~1000 lines should be split. See t
 ```
 main (always deployable)
   │
-  ├── feature/task-creation    ← One feature per branch
-  ├── feature/user-settings    ← Parallel work
-  └── fix/duplicate-tasks      ← Bug fixes
+  ├── feature/task-creation    <- One feature per branch
+  ├── feature/user-settings    <- Parallel work
+  └── fix/duplicate-tasks      <- Bug fixes
 ```
 
 - Branch from `main` (or the team's default branch)
-- Keep branches short-lived (merge within 1-3 days) — long-lived branches are hidden costs
+- Keep branches short-lived (merge within 1-3 days) --- long-lived branches are hidden costs
 - Delete branches after merge
 - Prefer feature flags over long-lived branches for incomplete features
 
 ### Branch Naming
 
 ```
-feature/<short-description>   → feature/task-creation
-fix/<short-description>       → fix/duplicate-tasks
-chore/<short-description>     → chore/update-deps
-refactor/<short-description>  → refactor/auth-module
+feature/<short-description>   -> feature/task-creation
+fix/<short-description>       -> fix/duplicate-tasks
+chore/<short-description>     -> chore/update-deps
+refactor/<short-description>  -> refactor/auth-module
 ```
 
 ## Working with Worktrees
@@ -167,9 +167,9 @@ git worktree add ../project-feature-b feature/user-settings
 # Each worktree is a separate directory with its own branch
 # Agents can work in parallel without interfering
 ls ../
-  project/              ← main branch
-  project-feature-a/    ← task-creation branch
-  project-feature-b/    ← user-settings branch
+  project/              <- main branch
+  project-feature-a/    <- task-creation branch
+  project-feature-b/    <- user-settings branch
 
 # When done, merge and clean up
 git worktree remove ../project-feature-a
@@ -178,7 +178,7 @@ git worktree remove ../project-feature-a
 Benefits:
 - Multiple agents can work on different features simultaneously
 - No branch switching needed (each directory has its own branch)
-- If one experiment fails, delete the worktree — nothing is lost
+- If one experiment fails, delete the worktree --- nothing is lost
 - Changes are isolated until explicitly merged
 
 ## The Save Point Pattern
@@ -187,14 +187,14 @@ Benefits:
 Agent starts work
     │
     ├── Makes a change
-    │   ├── Test passes? → Commit → Continue
-    │   └── Test fails? → Revert to last commit → Investigate
+    │   ├── Test passes? -> Commit -> Continue
+    │   └── Test fails? -> Revert to last commit -> Investigate
     │
     ├── Makes another change
-    │   ├── Test passes? → Commit → Continue
-    │   └── Test fails? → Revert to last commit → Investigate
+    │   ├── Test passes? -> Commit -> Continue
+    │   └── Test fails? -> Revert to last commit -> Investigate
     │
-    └── Feature complete → All commits form a clean history
+    └── Feature complete -> All commits form a clean history
 ```
 
 This pattern means you never lose more than one increment of work. If an agent goes off the rails, `git reset --hard HEAD` takes you back to the last successful state.
@@ -213,11 +213,11 @@ THINGS I DIDN'T TOUCH (intentionally):
 - src/middleware/error.ts: Error format could be improved (separate task)
 
 POTENTIAL CONCERNS:
-- The Zod schema is strict — rejects extra fields. Confirm this is desired.
-- Added zod as a dependency (72KB gzipped) — already in package.json
+- The Zod schema is strict --- rejects extra fields. Confirm this is desired.
+- Added zod as a dependency (72KB gzipped) --- already in package.json
 ```
 
-This pattern catches wrong assumptions early and gives reviewers a clear map of the change. The "DIDN'T TOUCH" section is especially important — it shows you exercised scope discipline and didn't go on an unsolicited renovation.
+This pattern catches wrong assumptions early and gives reviewers a clear map of the change. The "DIDN'T TOUCH" section is especially important --- it shows you exercised scope discipline and didn't go on an unsolicited renovation.
 
 ## Pre-Commit Hygiene
 
@@ -285,7 +285,7 @@ git log --grep="validation" --oneline
 | "I'll commit when the feature is done" | One giant commit is impossible to review, debug, or revert. Commit each slice. |
 | "The message doesn't matter" | Messages are documentation. Future you (and future agents) will need to understand what changed and why. |
 | "I'll squash it all later" | Squashing destroys the development narrative. Prefer clean incremental commits from the start. |
-| "Branches add overhead" | Short-lived branches are free and prevent conflicting work from colliding. Long-lived branches are the problem — merge within 1-3 days. |
+| "Branches add overhead" | Short-lived branches are free and prevent conflicting work from colliding. Long-lived branches are the problem --- merge within 1-3 days. |
 | "I'll split this change later" | Large changes are harder to review, riskier to deploy, and harder to revert. Split before submitting, not after. |
 | "I don't need a .gitignore" | Until `.env` with production secrets gets committed. Set it up immediately. |
 

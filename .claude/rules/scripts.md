@@ -26,6 +26,6 @@ paths:
 ## Safety
 
 - Never `rm -rf` without validation guards
-- Never hardcode paths — use `$(dirname "${BASH_SOURCE[0]}")` patterns
+- Never hardcode paths --- use `$(dirname "${BASH_SOURCE[0]}")` patterns
 - Never `curl | bash` patterns in committed scripts
 - Use `mktemp` for temporary files

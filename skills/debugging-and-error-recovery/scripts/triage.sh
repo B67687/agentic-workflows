@@ -1,6 +1,6 @@
 #!/bin/bash
 # =============================================================================
-# triage.sh — Capture failure context for agent-driven debugging.
+# triage.sh --- Capture failure context for agent-driven debugging.
 #
 # Companion script for the debugging-and-error-recovery skill.
 # Collects structured evidence about the most recent failure into a JSON

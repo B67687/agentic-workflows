@@ -2,7 +2,7 @@
 
 ## The Problem
 
-LLMs have finite context windows (128K–2M tokens). Codebases are large (10K–1M+ files).
+LLMs have finite context windows (128K--2M tokens). Codebases are large (10K--1M+ files).
 No single technique can fit an entire codebase into context. The question is:
 **What combination of techniques gives the best approximation of "full codebase understanding"?**
 
@@ -26,7 +26,7 @@ No single technique can fit an entire codebase into context. The question is:
 - Very cheap (tokens: 1K default, expandable to ~4K)
 - Gives LLM a high-level map of the entire repo
 - LLM can use the map to decide which files to read in detail
-- Caches in SQLite with mtime checking — fast incremental updates
+- Caches in SQLite with mtime checking --- fast incremental updates
 
 **Weaknesses:**
 - Only shows symbols, not implementations
@@ -59,7 +59,7 @@ SWE-agent (19K stars, NeurIPS 2024)
 
 **Weaknesses:**
 - Expensive (many turns of exploration)
-- No pre-computed index — each session starts from scratch
+- No pre-computed index --- each session starts from scratch
 - Can miss things the LLM doesn't think to search for
 - Long exploration chains in large repos
 - Relies entirely on the LM's search strategy, which varies
@@ -95,9 +95,9 @@ needed. The LM can figure out how to use bash to do what it wants."
 - Requires infrastructure (vector DB, embedding service)
 - 5-7% retrieval failure rate even with best techniques
 
-**Key refinement — Anthropic Contextual Retrieval (Sep 2024):**
+**Key refinement --- Anthropic Contextual Retrieval (Sep 2024):**
 - Prepend chunk-specific context to each chunk before embedding
-- "This is from ACME Corp's Q2 2023 SEC filing..." →
+- "This is from ACME Corp's Q2 2023 SEC filing..." ->
   reduces retrieval failures by 49%
 - Adding Cohere reranker: 67% reduction in failures
 - Cost: ~$1.02 per million document tokens (with prompt caching)
@@ -195,7 +195,7 @@ Claude Code (delegation)
 
 ## The "Reasonably Perfect" Solution
 
-**There is no single perfect solution** — the problem is fundamentally constrained by
+**There is no single perfect solution** --- the problem is fundamentally constrained by
 the finite context window. However, the **combination of all techniques in a layered
 architecture** approximates it well.
 
@@ -204,34 +204,34 @@ architecture** approximates it well.
 ```
 ┌─────────────────────────────────────────────────┐
 │ Layer 1: Static Repo Map (always in base prompt) │
-│  • Tree-sitter → symbols + signatures           │
-│  • PageRank on dep graph → ranked importance    │
-│  • Fits into 1-4K token budget                  │
-│  • Gives the LLM a "table of contents"          │
+│  * Tree-sitter -> symbols + signatures           │
+│  * PageRank on dep graph -> ranked importance    │
+│  * Fits into 1-4K token budget                  │
+│  * Gives the LLM a "table of contents"          │
 ├─────────────────────────────────────────────────┤
 │ Layer 2: Hybrid Retrieval (on demand)           │
-│  • BM25 for exact matches (fast, precise)       │
-│  • Embedding search for semantic matches        │
-│  • Anthropic-style contextual enrichment        │
-│  • Optional: reranking via Cohere/Voyage        │
-│  • Returns top-20 chunks to context             │
+│  * BM25 for exact matches (fast, precise)       │
+│  * Embedding search for semantic matches        │
+│  * Anthropic-style contextual enrichment        │
+│  * Optional: reranking via Cohere/Voyage        │
+│  * Returns top-20 chunks to context             │
 ├─────────────────────────────────────────────────┤
 │ Layer 3: Agentic Exploration (autonomous)       │
-│  • Bash-only approach (mini-swe-agent style)    │
-│  • LM uses find/grep/cat to explore             │
-│  • Directed by repo map + retrieval results     │
-│  • Docker sandboxed for safety                  │
+│  * Bash-only approach (mini-swe-agent style)    │
+│  * LM uses find/grep/cat to explore             │
+│  * Directed by repo map + retrieval results     │
+│  * Docker sandboxed for safety                  │
 ├─────────────────────────────────────────────────┤
 │ Layer 4: Context Management (runtime)           │
-│  • Sliding window of recent file reads          │
-│  • Token budget enforcement                     │
-│  • Compaction/summarization of old context      │
-│  • Prompt caching for repeated documents        │
+│  * Sliding window of recent file reads          │
+│  * Token budget enforcement                     │
+│  * Compaction/summarization of old context      │
+│  * Prompt caching for repeated documents        │
 ├─────────────────────────────────────────────────┤
 │ Layer 5: Subagent Dispatch (parallel)           │
-│  • Fresh context for large tasks                │
-│  • Separation of concerns (reader vs writer)    │
-│  • Parallel exploration + implementation        │
+│  * Fresh context for large tasks                │
+│  * Separation of concerns (reader vs writer)    │
+│  * Parallel exploration + implementation        │
 └─────────────────────────────────────────────────┘
 ```
 
@@ -239,7 +239,7 @@ architecture** approximates it well.
 
 From mini-SWE-agent's breakthrough: **The simpler the agent interface, the more
 capable the model feels.** Complex custom tool interfaces (file_surfer, str_replace_editor,
-etc.) are being replaced by bash-only approaches. The LM already knows how to use bash —
+etc.) are being replaced by bash-only approaches. The LM already knows how to use bash ---
 let it.
 
 ### Practical Constraints for agentic-workflows
@@ -268,7 +268,7 @@ let it.
 | File read batching | 3 at a time | Smart retrieval-based selection |
 | Agent exploration | Tool-based (explore, Read, Grep) | Could be more bash-driven |
 
-**Key insight:** The main limitation in our hub isn't the tool restrictions per se —
+**Key insight:** The main limitation in our hub isn't the tool restrictions per se ---
 it's the **lack of a pre-computed, searchable index** that provides instant retrieval.
 The "3 at a time" file read limit is a symptom, not the cause. Even with unlimited
 reads, a dumb sequential scan is inferior to a ranked retrieval.
@@ -279,7 +279,7 @@ If we could make ONE improvement for maximum impact, it would be:
 
 **Implement a lightweight BM25 index** (no GPU, no vector DB) over the workspace
 that lets file searches reach any file instantly, ranked by relevance to the current
-query. This doesn't need embeddings — BM25 alone captures keyword/symbol matching
+query. This doesn't need embeddings --- BM25 alone captures keyword/symbol matching
 which covers most code search needs. Tree-sitter AST data can boost it further.
 
 ---
@@ -301,7 +301,7 @@ which covers most code search needs. Tree-sitter AST data can boost it further.
 
 ## Conclusion
 
-**Yes, the restrictions exist because of model limitations** — finite context windows,
+**Yes, the restrictions exist because of model limitations** --- finite context windows,
 imperfect retrieval, and the quadratic cost of attention over long sequences.
 
 **No, there isn't a single "perfect" solution**, but the layered architecture

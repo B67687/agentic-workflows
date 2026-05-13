@@ -4,7 +4,7 @@ Split from docs/prompt-templates.md during the 2026-04 optimization pass.
 
 ## 27. Generate Excalidraw Diagram
 
-Use when explaining systems, architectures, flows, or relationships — a diagram makes the explanation concrete and editable.
+Use when explaining systems, architectures, flows, or relationships --- a diagram makes the explanation concrete and editable.
 
 ### When to Offer a Diagram
 
@@ -19,7 +19,7 @@ Offer when explaining:
 
 **Step 1**: Extract structured information from your explanation:
 - Entities/nodes (name + optional description)
-- Relationships (from → to, with label)
+- Relationships (from -> to, with label)
 - Sequential steps or decision points
 
 **Step 2**: Create the `.excalidraw` JSON structure:
@@ -53,11 +53,11 @@ Offer when explaining:
 ```
 
 **Step 3**: Use these element types:
-- `rectangle` — boxes for entities, steps, concepts
-- `ellipse` — alternative for emphasis
-- `diamond` — decision points
-- `arrow` — directional connections (set `points` array for start/end)
-- `text` — labels and annotations (must use `fontFamily: 5`)
+- `rectangle` --- boxes for entities, steps, concepts
+- `ellipse` --- alternative for emphasis
+- `diamond` --- decision points
+- `arrow` --- directional connections (set `points` array for start/end)
+- `text` --- labels and annotations (must use `fontFamily: 5`)
 
 **Step 4**: Output the complete JSON as a codeblock named `diagram-name.excalidraw`.
 
@@ -89,7 +89,7 @@ Keep diagrams under 15 elements. If the explanation is complex:
 
 1. Go to [https://excalidraw.com](https://excalidraw.com)
 2. Click "Open" or drag-and-drop the file
-3. The diagram is fully editable — user can move, relabel, annotate
+3. The diagram is fully editable --- user can move, relabel, annotate
 
 ### Example Use
 

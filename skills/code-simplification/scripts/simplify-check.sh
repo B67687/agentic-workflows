@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # =============================================================================
-# simplify-check.sh — Companion script for Code Simplification
+# simplify-check.sh --- Companion script for Code Simplification
 #
 # Analyzes code complexity and suggests simplification targets.
 # Uses line count, nesting depth, and structural heuristics.
@@ -41,12 +41,12 @@ case "$MODE" in
     LONG_LINES=$(awk 'length > 100 {count++} END {print count}' "$TARGET")
     echo "--- Line length ---"
     if [ "$LONG_LINES" -gt 0 ]; then
-      echo "  ⚠  $LONG_LINES line(s) over 100 chars — consider breaking up"
+      echo "  ⚠  $LONG_LINES line(s) over 100 chars --- consider breaking up"
     else
       echo "  ✓  No lines over 100 chars"
     fi
     
-    # Check 2: Function/class size (heuristic — count blocks between braces)
+    # Check 2: Function/class size (heuristic --- count blocks between braces)
     LARGE_BLOCKS=$(grep -c '^\s*\(function\|class\|def\b\)' "$TARGET" 2>/dev/null || echo 0)
     echo "--- Structure ---"
     echo "  $LARGE_BLOCKS function/class definitions found"
@@ -86,12 +86,12 @@ case "$MODE" in
     echo ""
     echo "--- Summary ---"
     if [ "$TOTAL_LINES" -gt 300 ] || [ "$MAX_DEPTH" -gt 8 ] || [ "$LONG_LINES" -gt 10 ]; then
-      echo "  COMPLEXITY: High — consider refactoring"
+      echo "  COMPLEXITY: High --- consider refactoring"
       echo "  Recommended: review with code-simplification skill"
     elif [ "$TOTAL_LINES" -gt 100 ] || [ "$MAX_DEPTH" -gt 5 ] || [ "$LONG_LINES" -gt 3 ]; then
-      echo "  COMPLEXITY: Moderate — could benefit from simplification"
+      echo "  COMPLEXITY: Moderate --- could benefit from simplification"
     else
-      echo "  COMPLEXITY: Low — file looks manageable"
+      echo "  COMPLEXITY: Low --- file looks manageable"
     fi
     ;;
 
@@ -136,7 +136,7 @@ case "$MODE" in
 === The Five Principles of Code Simplification ===
 
 1. Preserve Behavior Exactly
-   Don't change what the code does — only how it expresses it.
+   Don't change what the code does --- only how it expresses it.
    All inputs, outputs, side effects, error behavior, and edge cases
    must remain identical.
 
@@ -147,8 +147,8 @@ case "$MODE" in
 
 3. Name Things Once, Name Things Well
    A name that needs a comment to explain is a bad name.
-   Magic numbers → named constants.
-   Boolean flags → enums or separate functions.
+   Magic numbers -> named constants.
+   Boolean flags -> enums or separate functions.
 
 4. One Thing Per Function
    If a function does more than one thing at the same level of
@@ -165,9 +165,9 @@ PRIN
   *)
     echo "Usage: $0 {check|compare|principles}"
     echo ""
-    echo "  check <file>              — Analyze file complexity"
-    echo "  compare <a> <b>           — Compare complexity changes"
-    echo "  principles                — Five principles reference"
+    echo "  check <file>              --- Analyze file complexity"
+    echo "  compare <a> <b>           --- Compare complexity changes"
+    echo "  principles                --- Five principles reference"
     exit 1
     ;;
 esac

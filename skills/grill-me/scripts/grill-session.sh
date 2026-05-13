@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # =============================================================================
-# grill-session.sh — Companion script for Grill Me
+# grill-session.sh --- Companion script for Grill Me
 #
 # Structures the decision-tree walkthrough: setup framing, question format,
 # and closure summary. Complements the structured-questioning skill.
@@ -44,7 +44,7 @@ For each question:
 - One question at a time
 - I recommend; you decide
 - Pending questions are tracked until answered
-- When all branches are resolved: plan → implement
+- When all branches are resolved: plan -> implement
 
 ## Decision Tree
 Start: ${TOPIC}
@@ -78,7 +78,7 @@ Q
 
   close)
     cat << CLOSE
-# Grill Session — Closure Summary
+# Grill Session --- Closure Summary
 
 ## Decisions Made
 | Decision | Choice | Rationale |
@@ -104,9 +104,9 @@ CLOSE
   *)
     echo "Usage: $0 {start|question|close}"
     echo ""
-    echo "  start \"<topic>\"       — Begin a grill session"
-    echo "  question \"<q>\" \"<r>\"  — Format a question"
-    echo "  close                 — Output closure summary"
+    echo "  start \"<topic>\"       --- Begin a grill session"
+    echo "  question \"<q>\" \"<r>\"  --- Format a question"
+    echo "  close                 --- Output closure summary"
     exit 1
     ;;
 esac

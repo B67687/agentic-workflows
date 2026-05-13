@@ -1,5 +1,5 @@
 ---
-description: Git operations — probe state before editing, create worktrees for parallel work
+description: Git operations --- probe state before editing, create worktrees for parallel work
 ---
 
 ## Probe (check branch state before editing)
@@ -21,7 +21,7 @@ Return: created branch name, created path, what kind of work should happen there
 <rationalizations>
 | Shortcut | Why It Fails |
 |---|---|
-| "I don't need to probe — I just started" | Branch state may be surprising (detached HEAD, dirty tree, ahead of remote). Always probe. |
+| "I don't need to probe --- I just started" | Branch state may be surprising (detached HEAD, dirty tree, ahead of remote). Always probe. |
 | "I'll work directly on main, it's safe" | Direct-to-main work blocks other changes and makes reverts harder. Use a branch or worktree. |
 | "Worktrees are overkill for one file" | Isolated work prevents accidental cross-contamination between tasks. |
 </rationalizations>

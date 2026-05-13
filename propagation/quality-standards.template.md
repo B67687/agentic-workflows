@@ -2,7 +2,7 @@
 <!-- Template: Quality-Standards -->
 # Quality Standards
 
-This file documents the quality standards for this knowledge base. These standards ensure the folder itself follows best practices — the meta-quality principle.
+This file documents the quality standards for this knowledge base. These standards ensure the folder itself follows best practices --- the meta-quality principle.
 
 ## Purpose
 
@@ -38,10 +38,10 @@ This file documents the quality standards for this knowledge base. These standar
 
 Every `.sh` script must have:
 
-1. **Shebang** — `#!/usr/bin/env bash`
-2. **Usage/help block** — synopsis, options, examples
-3. **Safe shell flags** — `set -uo pipefail` at minimum
-4. **Idempotent** — safe to run multiple times
+1. **Shebang** --- `#!/usr/bin/env bash`
+2. **Usage/help block** --- synopsis, options, examples
+3. **Safe shell flags** --- `set -uo pipefail` at minimum
+4. **Idempotent** --- safe to run multiple times
 
 ### Best Practices
 
@@ -74,7 +74,7 @@ Every `.sh` script must have:
 
 ### Structure
 
-- Heading hierarchy: H1 → H2 → H3, no skipping levels
+- Heading hierarchy: H1 -> H2 -> H3, no skipping levels
 - Code blocks: fenced with ``` for clarity
 - Link format: `[Link text](relative/path.md)`
 

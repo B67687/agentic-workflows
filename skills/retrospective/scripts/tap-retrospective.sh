@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Retrospective — reflect on what happened and improve agent autonomy.
+# Retrospective --- reflect on what happened and improve agent autonomy.
 # Usage: bash ./scripts/tap-retrospective.sh <command> [args]
 set -euo pipefail
 
@@ -80,12 +80,12 @@ case "${1:-help}" in
     ;;
   help|*)
     echo "Usage: $0 <command> [args]"
-    echo "  identify              — identify the trigger"
-    echo "  gather \"<trigger>\"    — gather evidence"
-    echo "  analyze               — analyze through autonomy lens"
-    echo "  capture \"<finding>\"   — capture a learning"
-    echo "  ticket \"<learning>\"   — create improvement ticket"
-    echo "  append \"<learning>\"   — append to .tap/learnings.md"
+    echo "  identify              --- identify the trigger"
+    echo "  gather \"<trigger>\"    --- gather evidence"
+    echo "  analyze               --- analyze through autonomy lens"
+    echo "  capture \"<finding>\"   --- capture a learning"
+    echo "  ticket \"<learning>\"   --- create improvement ticket"
+    echo "  append \"<learning>\"   --- append to .tap/learnings.md"
     exit 0
     ;;
 esac

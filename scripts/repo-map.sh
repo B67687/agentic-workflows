@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # =============================================================================
-# repo-map.sh — Build a compact, ranked map of the workspace (tree-sitter)
+# repo-map.sh --- Build a compact, ranked map of the workspace (tree-sitter)
 # =============================================================================
 # Usage: bash ./scripts/repo-map.sh [root-dir]
 #

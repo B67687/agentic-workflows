@@ -10,7 +10,7 @@ companion-script: scripts/create-adr.sh
 
 ## Overview
 
-Document decisions, not just code. The most valuable documentation captures the *why* — the context, constraints, and trade-offs that led to a decision. Code shows *what* was built; documentation explains *why it was built this way* and *what alternatives were considered*. This context is essential for future humans and agents working in the codebase.
+Document decisions, not just code. The most valuable documentation captures the *why* --- the context, constraints, and trade-offs that led to a decision. Code shows *what* was built; documentation explains *why it was built this way* and *what alternatives were considered*. This context is essential for future humans and agents working in the codebase.
 
 ## When to Use
 
@@ -70,7 +70,7 @@ shapes the dashboard needs. Trade-off: eventual consistency between write and
 read models (~500ms lag), which is acceptable per ADR-007.
 ```
 
-**That's it.** The value is in recording *that* a decision was made and *why* — not in filling out sections.
+**That's it.** The value is in recording *that* a decision was made and *why* --- not in filling out sections.
 
 Only expand to the full format when:
 - The decision had multiple serious alternatives worth remembering
@@ -81,9 +81,9 @@ Only expand to the full format when:
 
 All three of these must be true:
 
-1. **Hard to reverse** — the cost of changing your mind later is meaningful
-2. **Surprising without context** — a future reader will look at the code and wonder "why did they do it this way?"
-3. **The result of a real trade-off** — there were genuine alternatives and you picked one for specific reasons
+1. **Hard to reverse** --- the cost of changing your mind later is meaningful
+2. **Surprising without context** --- a future reader will look at the code and wonder "why did they do it this way?"
+3. **The result of a real trade-off** --- there were genuine alternatives and you picked one for specific reasons
 
 If any is missing, skip the ADR.
 
@@ -137,7 +137,7 @@ Use PostgreSQL with Prisma ORM.
 ### ADR Lifecycle
 
 ```
-PROPOSED → ACCEPTED → (SUPERSEDED or DEPRECATED)
+PROPOSED -> ACCEPTED -> (SUPERSEDED or DEPRECATED)
 ```
 
 - **Don't delete old ADRs.** They capture historical context.
@@ -155,7 +155,7 @@ Comment the *why*, not the *what*:
 counter += 1;
 
 // GOOD: Explains non-obvious intent
-// Rate limit uses a sliding window — reset counter at window boundary,
+// Rate limit uses a sliding window --- reset counter at window boundary,
 // not on a fixed schedule, to prevent burst attacks at window edges
 if (now - windowStart > WINDOW_SIZE_MS) {
   counter = 0;
@@ -172,10 +172,10 @@ function calculateTotal(items: CartItem[]): number {
 }
 
 // Don't leave TODO comments for things you should just do now
-// TODO: add error handling  ← Just add it
+// TODO: add error handling  <- Just add it
 
 // Don't leave commented-out code
-// const oldImplementation = () => { ... }  ← Delete it, git has history
+// const oldImplementation = () => { ... }  <- Delete it, git has history
 ```
 
 ### Document Known Gotchas
@@ -295,10 +295,10 @@ For shipped features:
 
 Special consideration for AI agent context:
 
-- **CLAUDE.md / rules files** — Document project conventions so agents follow them
-- **Spec files** — Keep specs updated so agents build the right thing
-- **ADRs** — Help agents understand why past decisions were made (prevents re-deciding)
-- **Inline gotchas** — Prevent agents from falling into known traps
+- **CLAUDE.md / rules files** --- Document project conventions so agents follow them
+- **Spec files** --- Keep specs updated so agents build the right thing
+- **ADRs** --- Help agents understand why past decisions were made (prevents re-deciding)
+- **Inline gotchas** --- Prevent agents from falling into known traps
 
 ## Common Rationalizations
 
@@ -308,7 +308,7 @@ Special consideration for AI agent context:
 | "We'll write docs when the API stabilizes" | APIs stabilize faster when you document them. The doc is the first test of the design. |
 | "Nobody reads docs" | Agents do. Future engineers do. Your 3-months-later self does. |
 | "ADRs are overhead" | A 10-minute ADR prevents a 2-hour debate about the same decision six months later. |
-| "Comments get outdated" | Comments on *why* are stable. Comments on *what* get outdated — that's why you only write the former. |
+| "Comments get outdated" | Comments on *why* are stable. Comments on *what* get outdated --- that's why you only write the former. |
 
 ## Red Flags
 

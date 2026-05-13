@@ -8,7 +8,7 @@ companion-script: scripts/ci-check.sh
 
 # CI/CD and Automation
 
-**Companion script:** `scripts/ci-check.sh` — CI configuration scanning, pipeline templates, and quality gate checklists.
+**Companion script:** `scripts/ci-check.sh` --- CI configuration scanning, pipeline templates, and quality gate checklists.
 ```bash
 bash ./scripts/ci-check.sh check                  # scan for CI config
 bash ./scripts/ci-check.sh template gh-actions    # GitHub Actions workflow
@@ -18,9 +18,9 @@ bash ./scripts/ci-check.sh gates                  # quality gate checklist
 
 ## Overview
 
-Automate quality gates so that no change reaches production without passing tests, lint, type checking, and build. CI/CD is the enforcement mechanism for every other skill — it catches what humans and agents miss, and it does so consistently on every single change.
+Automate quality gates so that no change reaches production without passing tests, lint, type checking, and build. CI/CD is the enforcement mechanism for every other skill --- it catches what humans and agents miss, and it does so consistently on every single change.
 
-**Shift Left:** Catch problems as early in the pipeline as possible. A bug caught in linting costs minutes; the same bug caught in production costs hours. Move checks upstream — static analysis before tests, tests before staging, staging before production.
+**Shift Left:** Catch problems as early in the pipeline as possible. A bug caught in linting costs minutes; the same bug caught in production costs hours. Move checks upstream --- static analysis before tests, tests before staging, staging before production.
 
 **Faster is Safer:** Smaller batches and more frequent releases reduce risk, not increase it. A deployment with 3 changes is easier to debug than one with 30. Frequent releases build confidence in the release process itself.
 
@@ -42,19 +42,19 @@ Pull Request Opened
     ▼
 ┌─────────────────┐
 │   LINT CHECK     │  eslint, prettier
-│   ↓ pass         │
+│   v pass         │
 │   TYPE CHECK     │  tsc --noEmit
-│   ↓ pass         │
+│   v pass         │
 │   UNIT TESTS     │  jest/vitest
-│   ↓ pass         │
+│   v pass         │
 │   BUILD          │  npm run build
-│   ↓ pass         │
+│   v pass         │
 │   INTEGRATION    │  API/DB tests
-│   ↓ pass         │
+│   v pass         │
 │   E2E (optional) │  Playwright/Cypress
-│   ↓ pass         │
+│   v pass         │
 │   SECURITY AUDIT │  npm audit
-│   ↓ pass         │
+│   v pass         │
 │   BUNDLE SIZE    │  bundlesize check
 └─────────────────┘
     │
@@ -62,7 +62,7 @@ Pull Request Opened
   Ready for review
 ```
 
-**No gate can be skipped.** If lint fails, fix lint — don't disable the rule. If a test fails, fix the code — don't skip the test.
+**No gate can be skipped.** If lint fails, fix lint --- don't disable the rule. If a test fails, fix the code --- don't skip the test.
 
 ## GitHub Actions Configuration
 
@@ -189,16 +189,16 @@ Feed it to the agent:
 Fix the issue and verify locally before pushing again."
     │
     ▼
-Agent fixes → pushes → CI runs again
+Agent fixes -> pushes -> CI runs again
 ```
 
 **Key patterns:**
 
 ```
-Lint failure → Agent runs `npm run lint --fix` and commits
-Type error  → Agent reads the error location and fixes the type
-Test failure → Agent follows debugging-and-error-recovery skill
-Build error → Agent checks config and dependencies
+Lint failure -> Agent runs `npm run lint --fix` and commits
+Type error  -> Agent reads the error location and fixes the type
+Test failure -> Agent follows debugging-and-error-recovery skill
+Build error -> Agent checks config and dependencies
 ```
 
 ## Deployment Strategies
@@ -235,7 +235,7 @@ if (featureFlags.isEnabled('new-checkout-flow', { userId })) {
 return renderLegacyCheckout();
 ```
 
-**Flag lifecycle:** Create → Enable for testing → Canary → Full rollout → Remove the flag and dead code. Flags that live forever become technical debt — set a cleanup date when you create them.
+**Flag lifecycle:** Create -> Enable for testing -> Canary -> Full rollout -> Remove the flag and dead code. Flags that live forever become technical debt --- set a cleanup date when you create them.
 
 ### Staged Rollouts
 
@@ -251,8 +251,8 @@ PR merged to main
     ▼
   Monitor for errors (15-minute window)
     │
-    ├── Errors detected → Rollback
-    └── Clean → Done
+    ├── Errors detected -> Rollback
+    └── Clean -> Done
 ```
 
 ### Rollback Plan
@@ -282,11 +282,11 @@ jobs:
 ## Environment Management
 
 ```
-.env.example       → Committed (template for developers)
-.env                → NOT committed (local development)
-.env.test           → Committed (test environment, no real secrets)
-CI secrets          → Stored in GitHub Secrets / vault
-Production secrets  → Stored in deployment platform / vault
+.env.example       -> Committed (template for developers)
+.env                -> NOT committed (local development)
+.env.test           -> Committed (test environment, no real secrets)
+CI secrets          -> Stored in GitHub Secrets / vault
+Production secrets  -> Stored in deployment platform / vault
 ```
 
 CI should never have production secrets. Use separate secrets for CI testing.
@@ -308,7 +308,7 @@ updates:
 
 ### Build Cop Role
 
-Designate someone responsible for keeping CI green. When the build breaks, the Build Cop's job is to fix or revert — not the person whose change caused the break. This prevents broken builds from accumulating while everyone assumes someone else will fix it.
+Designate someone responsible for keeping CI green. When the build breaks, the Build Cop's job is to fix or revert --- not the person whose change caused the break. This prevents broken builds from accumulating while everyone assumes someone else will fix it.
 
 ### PR Checks
 
@@ -372,7 +372,7 @@ jobs:
 
 ```
 `★ CI/CD View ────────────────────────────────────`
-- [Pipeline name] — [status]
+- [Pipeline name] --- [status]
 - [Top finding or recommendation]
 `─────────────────────────────────────────────────`
 ```

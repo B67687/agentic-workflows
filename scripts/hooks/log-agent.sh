@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # =============================================================================
-# log-agent.sh — SubagentStart lifecycle hook
+# log-agent.sh --- SubagentStart lifecycle hook
 # Logs subagent invocations to .cache/agent-audit.log for debugging and
 # understanding usage patterns.
 #

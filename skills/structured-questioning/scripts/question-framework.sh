@@ -1,18 +1,18 @@
 #!/usr/bin/env bash
-# question-framework.sh — Structured Question Decomposition
+# question-framework.sh --- Structured Question Decomposition
 #
 # Companion script for the structured-questioning skill.
 # Automates the 5W+H checklist, Socratic self-probe, and ACI formatting.
 #
 # INTERACTIVE modes (for human use):
-#   bash question-framework.sh checklist "question"  — guided 5W+H fill-in
-#   bash question-framework.sh socratic "question"   — guided Socratic probe
-#   bash question-framework.sh full "question"       — both phases
+#   bash question-framework.sh checklist "question"  --- guided 5W+H fill-in
+#   bash question-framework.sh socratic "question"   --- guided Socratic probe
+#   bash question-framework.sh full "question"       --- both phases
 #
-# NON-INTERACTIVE modes (for AI auto-call — no stdin needed):
-#   bash question-framework.sh analyze "question"    — JSON analysis of missing 5W+H dimensions
-#   bash question-framework.sh probe "question"      — structured probe questions per gap
-#   bash question-framework.sh aci "question"        — outputs an ACI-optimized version
+# NON-INTERACTIVE modes (for AI auto-call --- no stdin needed):
+#   bash question-framework.sh analyze "question"    --- JSON analysis of missing 5W+H dimensions
+#   bash question-framework.sh probe "question"      --- structured probe questions per gap
+#   bash question-framework.sh aci "question"        --- outputs an ACI-optimized version
 
 set -euo pipefail
 
@@ -48,14 +48,14 @@ if [[ "$MODE" == "help" || "$MODE" == "--help" || "$MODE" == "-h" ]]; then
     echo "  bash question-framework.sh full \"question\"      # interactive"
     echo ""
     echo "Non-interactive modes (for AI auto-call):"
-    echo "  analyze  — JSON output of which 5W+H dimensions are present/missing"
-    echo "  probe    — Structured probe questions per missing dimension"
-    echo "  aci      — ACI-optimized rewrite of your question"
+    echo "  analyze  --- JSON output of which 5W+H dimensions are present/missing"
+    echo "  probe    --- Structured probe questions per missing dimension"
+    echo "  aci      --- ACI-optimized rewrite of your question"
     echo ""
     echo "Interactive modes (for human use):"
-    echo "  checklist  — Prompt you through the 5W+H pre-flight scan"
-    echo "  socratic   — Generate Socratic probe questions"
-    echo "  full       — Run both phases in sequence"
+    echo "  checklist  --- Prompt you through the 5W+H pre-flight scan"
+    echo "  socratic   --- Generate Socratic probe questions"
+    echo "  full       --- Run both phases in sequence"
     exit 0
 fi
 
@@ -74,7 +74,7 @@ do_analyze() {
         local q_lower
         q_lower=$(echo "$q" | tr '[:upper:]' '[:lower:]')
 
-        # These are simple heuristics — the AI should use judgment
+        # These are simple heuristics --- the AI should use judgment
         local found=false
         case "$field_lower" in
             who)
@@ -100,17 +100,17 @@ do_analyze() {
         fi
     done
 
-    # Don't try to use true JSON with bash — output structured text
+    # Don't try to use true JSON with bash --- output structured text
     echo ""
     echo "=== ANALYSIS ==="
     echo "Question: $q"
     echo "Dimensions present: $present/6"
     if (( missing > 0 )); then
         echo "Dimensions missing: $missing_list"
-        echo "Verdict: INCOMPLETE — probe before proceeding"
+        echo "Verdict: INCOMPLETE --- probe before proceeding"
     else
         echo "Dimensions missing: (none)"
-        echo "Verdict: COMPLETE — ready for action"
+        echo "Verdict: COMPLETE --- ready for action"
     fi
     echo "=== END ==="
 }
@@ -138,7 +138,7 @@ do_probe() {
         echo ""
         echo "---"
         echo "Q: What exactly is needed? (deliverable, output, format)"
-        echo "Context: 'What' is the most critical dimension — the actual ask."
+        echo "Context: 'What' is the most critical dimension --- the actual ask."
         echo "Recommended: A specific deliverable (code, doc, analysis, etc.)"
         echo "Impact on answer: Different deliverables = completely different approaches."
     fi
@@ -223,7 +223,7 @@ do_checklist() {
         echo -e "  ${YELLOW}${label}${NC}: ${prompt}"
         read -r answer
         if [[ -z "$answer" ]]; then
-            echo -e "  ${RED}  ⚠ Left blank — consider if this matters${NC}"
+            echo -e "  ${RED}  ⚠ Left blank --- consider if this matters${NC}"
             missing=$((missing + 1))
         fi
         echo ""
@@ -265,7 +265,7 @@ do_socratic() {
         echo -e "  ${text}"
         read -r answer
         if [[ -n "$answer" ]]; then
-            echo -e "  ${GREEN}→${NC} $answer"
+            echo -e "  ${GREEN}->${NC} $answer"
         fi
         echo ""
     done
@@ -275,7 +275,7 @@ do_socratic() {
     if [[ -n "$revised" ]]; then
         echo -e "  ${GREEN}Revised:${NC} $revised"
     else
-        echo -e "  ${YELLOW}(no revision — question unchanged)${NC}"
+        echo -e "  ${YELLOW}(no revision --- question unchanged)${NC}"
     fi
 }
 

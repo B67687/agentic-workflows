@@ -71,20 +71,20 @@ The model guide now encodes the main durable lesson: benchmark rank is not enoug
 
 238 starred repos clustered into 12 groups. AI agent tooling (~45 repos) dominates. Key patterns:
 
-1. **Token efficiency is multi-dimensional** — output compression (caveman 65-75%), input compression (caveman-compress 46%), context rotation (get-shit-done fresh 200k/plan), learned skill compression (hermes-agent, everything-claude-code)
+1. **Token efficiency is multi-dimensional** --- output compression (caveman 65-75%), input compression (caveman-compress 46%), context rotation (get-shit-done fresh 200k/plan), learned skill compression (hermes-agent, everything-claude-code)
 
-2. **Context rotation is the central engineering problem** — three solutions: rotation (fresh subagent contexts), compression (keep essentials), search (retrieve on demand)
+2. **Context rotation is the central engineering problem** --- three solutions: rotation (fresh subagent contexts), compression (keep essentials), search (retrieve on demand)
 
-3. **Multi-agent team pattern** — gstack (23 roles via slash commands), agency-agents (144 agents, 12 divisions), MetaGPT (role-SOP with message passing)
+3. **Multi-agent team pattern** --- gstack (23 roles via slash commands), agency-agents (144 agents, 12 divisions), MetaGPT (role-SOP with message passing)
 
-4. **Self-improvement is emerging** — hermes-agent creates skills from experience, everything-claude-code evolves instincts with confidence scoring
+4. **Self-improvement is emerging** --- hermes-agent creates skills from experience, everything-claude-code evolves instincts with confidence scoring
 
-5. **hermes-agent is the most mature self-improving agent** — skill creation loop, FTS5 cross-session search, model-agnostic, persistent memory
+5. **hermes-agent is the most mature self-improving agent** --- skill creation loop, FTS5 cross-session search, model-agnostic, persistent memory
 
 ### Updates Made
 
-- `archive/starred-repos-2026-04-22.md`: Full Phase 1 — 238-repo table, cluster analysis, top 30 candidates
-- `archive/starred-repos-phase2-2026-04-22.md`: Phase 2-3 — top 10 deep dives, cross-cutting patterns, integration recommendations mapped to 5 docs
+- `archive/starred-repos-2026-04-22.md`: Full Phase 1 --- 238-repo table, cluster analysis, top 30 candidates
+- `archive/starred-repos-phase2-2026-04-22.md`: Phase 2-3 --- top 10 deep dives, cross-cutting patterns, integration recommendations mapped to 5 docs
 
 ### Knowledge Base Impact
 
@@ -108,9 +108,9 @@ Daily research cycle completed. Key findings:
 
 ### ERROR CORRECTION (2026-04-19-later)
 
-**Error**: GPT-5.3 Codex listed as "open-weight" — **INCORRECT**
+**Error**: GPT-5.3 Codex listed as "open-weight" --- **INCORRECT**
 
-**What happened**: BenchLM showed GPT-5.3 Codex as "top open-weight coding model" in benchmark comparison. I assumed weights were publicly available. They are not — it's a closed API model.
+**What happened**: BenchLM showed GPT-5.3 Codex as "top open-weight coding model" in benchmark comparison. I assumed weights were publicly available. They are not --- it's a closed API model.
 
 **Impact**:
 - model-selection-guide.md had wrong info in Quick Decision Matrix and OpenRouter sections
@@ -153,14 +153,14 @@ Claude Mythos Preview should be the default for production coding. GLM-5.1 is ac
 User requested manual research on 3 URLs: system-design-primer (343k stars), OWASP Top Ten (security), Cursor agent best practices.
 
 **Cursor patterns extracted** (8 key patterns):
-1. Plan Mode before coding — forces clear thinking
-2. Let agent find context — don't over-tag files  
-3. Rules (static) + Skills (dynamic) — context management
-4. Long-running loops — iterate until tests pass
-5. Parallel agents with git worktrees — isolation + multi-model judging
-6. Evidence-based Debug Mode — hypothesis testing
-7. TDD with agents — write tests, confirm fail, then code
-8. Git workflows as commands — reusable automations
+1. Plan Mode before coding --- forces clear thinking
+2. Let agent find context --- don't over-tag files  
+3. Rules (static) + Skills (dynamic) --- context management
+4. Long-running loops --- iterate until tests pass
+5. Parallel agents with git worktrees --- isolation + multi-model judging
+6. Evidence-based Debug Mode --- hypothesis testing
+7. TDD with agents --- write tests, confirm fail, then code
+8. Git workflows as commands --- reusable automations
 
 **Model benchmarks updated**: Claude Opus 4.7 leads SWE-bench at 87.6%. MiniMax M2.7 (new) ~81%.
 
@@ -189,23 +189,23 @@ Cursor patterns are **directly actionable** and should integrate into:
 
 Researched 5 external sources for AI agent engineering:
 
-1. **Refactoring.Guru** (22 design patterns) — Direct application to agent architecture
-2. **OWASP Top 10:2025** — Security risks for AI agents (prompt injection, access control)
-3. **IBM AI Agent Security** — Agent-specific threat model and mitigation
-4. **System Design Primer** — Scalability, CAP, distributed systems for agents
-5. **OpenMAIC** — Multi-agent orchestration patterns
+1. **Refactoring.Guru** (22 design patterns) --- Direct application to agent architecture
+2. **OWASP Top 10:2025** --- Security risks for AI agents (prompt injection, access control)
+3. **IBM AI Agent Security** --- Agent-specific threat model and mitigation
+4. **System Design Primer** --- Scalability, CAP, distributed systems for agents
+5. **OpenMAIC** --- Multi-agent orchestration patterns
 
 ### Updates Made
 
-- **core-agent-doctrine.md**: Added "Security-First Agent Design" section based on OWASP + IBM research — covers prompt injection, excessive agency, memory poisoning, RBAC, guardrails, security checklist
+- **core-agent-doctrine.md**: Added "Security-First Agent Design" section based on OWASP + IBM research --- covers prompt injection, excessive agency, memory poisoning, RBAC, guardrails, security checklist
 
-- **ai-product-building.md**: Added "Agent Architecture Patterns" section based on Refactoring.Guru — covers behavioral patterns (Strategy, Command, Observer, State, Mediator), structural patterns (Adapter, Builder, Facade, Proxy), SOLID principles for agents, system design for agents (from System Design Primer)
+- **ai-product-building.md**: Added "Agent Architecture Patterns" section based on Refactoring.Guru --- covers behavioral patterns (Strategy, Command, Observer, State, Mediator), structural patterns (Adapter, Builder, Facade, Proxy), SOLID principles for agents, system design for agents (from System Design Primer)
 
 ### Knowledge Base Impact
 
 - Core doctrine now includes security as a first-class principle
 - Product building guide now includes design patterns for agent architecture
-- Research integration is actively working — external sources analyzed and integrated within same session
+- Research integration is actively working --- external sources analyzed and integrated within same session
 
 ### Next Steps
 
@@ -222,13 +222,13 @@ Researched 5 external sources for AI agent engineering:
 
 After reviewing research entries from Apr 14-15, two significant patterns emerged:
 
-1. **Token efficiency breakthroughs** (LLMLingua, TurboQuant) directly improve the token-efficient-prompting.md doc — these are production-ready techniques that can reduce costs 30-90%.
+1. **Token efficiency breakthroughs** (LLMLingua, TurboQuant) directly improve the token-efficient-prompting.md doc --- these are production-ready techniques that can reduce costs 30-90%.
 
-2. **Tool landscape is shifting** — Visual builders (Langflow, Dify) and TypeScript frameworks (VoltAgent) are gaining significant traction. The ai-product-building.md needs a "Trending Tools" section to help builders make informed choices.
+2. **Tool landscape is shifting** --- Visual builders (Langflow, Dify) and TypeScript frameworks (VoltAgent) are gaining significant traction. The ai-product-building.md needs a "Trending Tools" section to help builders make informed choices.
 
 ### Updates Made
 
-- **token-efficient-prompting.md**: Added "2026 Research Updates" section with LLMLingua, LongLLMLingua, and TurboQuant — the three major token efficiency breakthroughs from April 2026 research.
+- **token-efficient-prompting.md**: Added "2026 Research Updates" section with LLMLingua, LongLLMLingua, and TurboQuant --- the three major token efficiency breakthroughs from April 2026 research.
 
 - **ai-product-building.md**: Added "2026 Research: Trending Tools" section with:
   - Visual/No-Code Builders table (Langflow, Dify, n8n, Flowise)
@@ -244,7 +244,7 @@ After reviewing research entries from Apr 14-15, two significant patterns emerge
 
 ### Next Steps
 
-- Monitor VoltAgent (TypeScript, growing fast) — may warrant deeper analysis in future cycles
+- Monitor VoltAgent (TypeScript, growing fast) --- may warrant deeper analysis in future cycles
 - Track Hermes Agent for self-improving patterns (noted in Apr 14 research)
 
 ---
@@ -255,26 +255,26 @@ After reviewing research entries from Apr 14-15, two significant patterns emerge
 
 User provided 5 additional repos to analyze. Key findings:
 
-1. **andrej-karpathy-skills** (36.3k stars): Four principles addressing LLM failure modes — directly improves prompting
-2. **gstack** (72.7k stars): Virtual engineering team with 23 specialized skills — transforms single agent to team
+1. **andrej-karpathy-skills** (36.3k stars): Four principles addressing LLM failure modes --- directly improves prompting
+2. **gstack** (72.7k stars): Virtual engineering team with 23 specialized skills --- transforms single agent to team
 3. **everything-claude-code** (156k stars): Complete agent harness optimization across 12 languages
 4. **MetaGPT** (67.1k stars): Multi-agent framework simulating software company
-5. **coconut** (1.6k stars): Facebook Research — more research than practical, skip
+5. **coconut** (1.6k stars): Facebook Research --- more research than practical, skip
 
 ### Updates Made
 
-- **core-agent-doctrine.md**: Added "2026 Research: LLM Coding Pitfalls (Andrej Karpathy)" section with four principles (Think Before Coding, Simplicity First, Surgical Changes, Goal-Driven Execution) — directly maps to existing doctrine principles
+- **core-agent-doctrine.md**: Added "2026 Research: LLM Coding Pitfalls (Andrej Karpathy)" section with four principles (Think Before Coding, Simplicity First, Surgical Changes, Goal-Driven Execution) --- directly maps to existing doctrine principles
 
 - **ai-product-building.md**: Added:
-  - "Virtual Engineering Team Pattern" section based on gstack — 23 specialized skills, sprint workflow
-  - "Complete Agent Harness Systems" section based on everything-claude-code — 38 agents, 156 skills, cross-harness
+  - "Virtual Engineering Team Pattern" section based on gstack --- 23 specialized skills, sprint workflow
+  - "Complete Agent Harness Systems" section based on everything-claude-code --- 38 agents, 156 skills, cross-harness
   - "Integration: Which Tool for What" decision table
 
 ### Knowledge Base Impact
 
 - Core agent doctrine now has practical prompting guidance from Karpathy's observations
 - Product building guide now has comprehensive tool comparison (gstack, everything-claude-code, MetaGPT)
-- Research integration is actively working — user-provided repos analyzed and integrated same day
+- Research integration is actively working --- user-provided repos analyzed and integrated same day
 
 ### Next Steps
 
@@ -287,14 +287,14 @@ User provided 5 additional repos to analyze. Key findings:
 
 ### Synthesized Findings
 
-Research into how humans maintain cognitive abilities while AI tools accelerate. Key finding: the gap between tool velocity (exponential) and human cognition (linear) creates four threats — cognitive atrophy, illusion of knowledge, self-reinforcing dependency, and lost situational awareness. Each has strong empirical evidence.
+Research into how humans maintain cognitive abilities while AI tools accelerate. Key finding: the gap between tool velocity (exponential) and human cognition (linear) creates four threats --- cognitive atrophy, illusion of knowledge, self-reinforcing dependency, and lost situational awareness. Each has strong empirical evidence.
 
 ### Updates Made
 
 - **cognitive-identity.md**: Added five research-backed sections:
-  - "Research-Backed Risks" — Desirable Difficulty, Cognitive Offloading, Deskilling Evidence, Digital Amnesia, The Four Threats
-  - "Product Design: Building AI That Amplifies, Not Replaces" — Augmentation vs. Replacement framework, design principles table, product building applied section
-  - "The Co-Evolution Principle" — Miton & Jackson (2026) framework
+  - "Research-Backed Risks" --- Desirable Difficulty, Cognitive Offloading, Deskilling Evidence, Digital Amnesia, The Four Threats
+  - "Product Design: Building AI That Amplifies, Not Replaces" --- Augmentation vs. Replacement framework, design principles table, product building applied section
+  - "The Co-Evolution Principle" --- Miton & Jackson (2026) framework
   - Full Sources section with 13 academic citations
 
 ### Knowledge Base Impact
@@ -316,16 +316,16 @@ Research into how humans maintain cognitive abilities while AI tools accelerate.
 
 Re-researched repos that were documented before the integration system was established. Found three significant patterns that warrant integration:
 
-1. **Hermes Agent** — Self-improving agent paradigm (85k+ stars)
-2. **OpenClaw** — Local-first privacy agent (349k stars)
-3. **VoltAgent** — TypeScript-first framework (7,993+ stars)
+1. **Hermes Agent** --- Self-improving agent paradigm (85k+ stars)
+2. **OpenClaw** --- Local-first privacy agent (349k stars)
+3. **VoltAgent** --- TypeScript-first framework (7,993+ stars)
 
 ### Updates Made
 
 - **ai-product-building.md**: Added three new deep-dive sections:
-  - **"Self-Improving Agents"** — Hermes Agent details, self-evolution ecosystem, why "agents that improve themselves" matters
-  - **"Local-First Privacy Agents"** — OpenClaw details, privacy/data sovereignty, cost comparison table
-  - **"TypeScript Agent Framework (Deep Dive: VoltAgent)"** — VoltAgent features, TypeScript value proposition, use cases
+  - **"Self-Improving Agents"** --- Hermes Agent details, self-evolution ecosystem, why "agents that improve themselves" matters
+  - **"Local-First Privacy Agents"** --- OpenClaw details, privacy/data sovereignty, cost comparison table
+  - **"TypeScript Agent Framework (Deep Dive: VoltAgent)"** --- VoltAgent features, TypeScript value proposition, use cases
 
 ### Knowledge Base Impact
 
@@ -334,7 +334,7 @@ Re-researched repos that were documented before the integration system was estab
 
 ### Next Steps
 
-- These three patterns represent major shifts in agent thinking — worth noting for ongoing monitoring
+- These three patterns represent major shifts in agent thinking --- worth noting for ongoing monitoring
 - Consider: How would product building change when using self-improving agents vs static agents?
 
 ---
@@ -345,11 +345,11 @@ Re-researched repos that were documented before the integration system was estab
 
 Researched 16 trending repos from April 2026. Key findings:
 
-1. **Memory systems are maturing** — MemPalace (47k stars) brings benchmarking to memory evaluation
-2. **Type safety coming to agents** — Pydantic-AI brings software engineering practices to agent dev
-3. **Context engineering becoming discipline** — get-shit-done (53.9k stars) codifies meta-prompting
-4. **Vectorless RAG emerging** — PageIndex challenges vector embedding orthodoxy
-5. **MCP becoming standard** — Dify and n8n now MCP-native
+1. **Memory systems are maturing** --- MemPalace (47k stars) brings benchmarking to memory evaluation
+2. **Type safety coming to agents** --- Pydantic-AI brings software engineering practices to agent dev
+3. **Context engineering becoming discipline** --- get-shit-done (53.9k stars) codifies meta-prompting
+4. **Vectorless RAG emerging** --- PageIndex challenges vector embedding orthodoxy
+5. **MCP becoming standard** --- Dify and n8n now MCP-native
 
 ### Updates Made
 
@@ -384,26 +384,26 @@ Researched 16 trending repos from April 2026. Key findings:
 
 Identified 9 gaps in cognitive-identity.md during earlier research. Completed the remaining 6 gaps:
 
-1. ✅ Daily habits (specific practices) — Added Daily and Weekly Practices section with specific 15-min routines
-2. ✅ Team dimension — Added Team Cognitive Identity section covering shared patterns and team practices
-3. ✅ Emotional/psychological — Added section covering acceleration anxiety, imposter syndrome, dependency shame
-4. ✅ Concrete benchmarks — Added 5 testable benchmarks with tracking table
-5. ✅ "AI first" beginner trap — Added section explaining the pattern and remediation path
-6. ✅ Practical prompts — Added prompts for critical thinking, learning, decision-making, skill maintenance
+1. ✅ Daily habits (specific practices) --- Added Daily and Weekly Practices section with specific 15-min routines
+2. ✅ Team dimension --- Added Team Cognitive Identity section covering shared patterns and team practices
+3. ✅ Emotional/psychological --- Added section covering acceleration anxiety, imposter syndrome, dependency shame
+4. ✅ Concrete benchmarks --- Added 5 testable benchmarks with tracking table
+5. ✅ "AI first" beginner trap --- Added section explaining the pattern and remediation path
+6. ✅ Practical prompts --- Added prompts for critical thinking, learning, decision-making, skill maintenance
 
 ### Updates Made
 
 - **cognitive-identity.md**: Added 6 new sections:
-  - **"Daily and Weekly Practices"** — Minimum viable practice (15 min/day), practice stack tables
-  - **"Team Cognitive Identity"** — Signs of team-level atrophy, team practices for cognitive health
-  - **"Emotional and Psychological Dimensions"** — Anxiety, imposter syndrome, dependency shame, recovery path
-  - **"Concrete Benchmarks"** — 5 testable benchmarks (Debugging, Explanation, Prediction, Solo Hour, Teaching) with pass/fail criteria
-  - **"The 'AI First' Beginner Trap"** — Pattern explanation, Foundation First Principle, remediation path
-  - **"Practical Prompts for Maintaining Cognitive Identity"** — Specific prompts for critical thinking, learning, decision-making, skill maintenance
+  - **"Daily and Weekly Practices"** --- Minimum viable practice (15 min/day), practice stack tables
+  - **"Team Cognitive Identity"** --- Signs of team-level atrophy, team practices for cognitive health
+  - **"Emotional and Psychological Dimensions"** --- Anxiety, imposter syndrome, dependency shame, recovery path
+  - **"Concrete Benchmarks"** --- 5 testable benchmarks (Debugging, Explanation, Prediction, Solo Hour, Teaching) with pass/fail criteria
+  - **"The 'AI First' Beginner Trap"** --- Pattern explanation, Foundation First Principle, remediation path
+  - **"Practical Prompts for Maintaining Cognitive Identity"** --- Specific prompts for critical thinking, learning, decision-making, skill maintenance
 
 ### Knowledge Base Impact
 
-- cognitive-identity.md is now comprehensive — all 9 identified gaps have been addressed
+- cognitive-identity.md is now comprehensive --- all 9 identified gaps have been addressed
 - Document now covers: risks, framework, practices, team, emotions, benchmarks, traps, and practical tools
 - Ready for promotion to other repos via propagate templates
 
@@ -419,17 +419,17 @@ Identified 9 gaps in cognitive-identity.md during earlier research. Completed th
 
 Researched human learning science and its application to AI prompting:
 
-1. **Cognitive Load Theory** — Working memory limits apply to context windows; CLT principles map to prompt design
-2. **Retrieval Practice / Testing Effect** — "Verify your answer" prompts improve AI reasoning the same way testing improves human learning
-3. **Spaced Repetition** — Iterative prompting, curriculum learning
-4. **Active Recall** — Chain-of-thought is the AI equivalent
+1. **Cognitive Load Theory** --- Working memory limits apply to context windows; CLT principles map to prompt design
+2. **Retrieval Practice / Testing Effect** --- "Verify your answer" prompts improve AI reasoning the same way testing improves human learning
+3. **Spaced Repetition** --- Iterative prompting, curriculum learning
+4. **Active Recall** --- Chain-of-thought is the AI equivalent
 
-Key insight: **No existing literature connects cognitive science to prompting** — this is a synthesis opportunity.
+Key insight: **No existing literature connects cognitive science to prompting** --- this is a synthesis opportunity.
 
 ### Updates Made
 
-- **token-efficient-prompting.md**: Added "Cognitive Load Theory for Prompts" section — maps CLT principles (intrinsic/extraneous/germane load, chunking, worked examples) to prompt design
-- **daily-prompts.md**: Added "Retrievation Practice for AI (Testing Effect)" section — verification prompts that leverage the testing effect
+- **token-efficient-prompting.md**: Added "Cognitive Load Theory for Prompts" section --- maps CLT principles (intrinsic/extraneous/germane load, chunking, worked examples) to prompt design
+- **daily-prompts.md**: Added "Retrievation Practice for AI (Testing Effect)" section --- verification prompts that leverage the testing effect
 
 ### Knowledge Base Impact
 

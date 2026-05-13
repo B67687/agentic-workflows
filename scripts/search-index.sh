@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # =============================================================================
-# search-index.sh — Query the workspace BM25 index
+# search-index.sh --- Query the workspace BM25 index
 # =============================================================================
 # Usage: bash ./scripts/search-index.sh <query> [root-dir] [--top-k N]
 #

@@ -1,6 +1,6 @@
 ---
 name: design-language
-description: "Capture and enforce a product's visual design language — principles and patterns that make it feel like itself. Two modes: Capture (distill design from Figma URLs, screenshots, or live URLs) and Review (check implementation against docs/design.md). NOT for: generating new UI (→ frontend-ui-engineering), accessibility audits, or token extraction."
+description: "Capture and enforce a product's visual design language --- principles and patterns that make it feel like itself. Two modes: Capture (distill design from Figma URLs, screenshots, or live URLs) and Review (check implementation against docs/design.md). NOT for: generating new UI (-> frontend-ui-engineering), accessibility audits, or token extraction."
 trigger-phrases: capture this design, design language, design review, design fidelity, does this match our design, extract design direction, design principles
 handoffs: shaping-work (to shape drift into work items), implementation-planning (to plan design fixes), frontend-ui-engineering (to implement UI)
 companion-script: scripts/design-language.sh
@@ -8,16 +8,16 @@ companion-script: scripts/design-language.sh
 
 # Design Language
 
-**Companion script:** `scripts/design-language.sh` — capture design principles, review implementation.
+**Companion script:** `scripts/design-language.sh` --- capture design principles, review implementation.
 ```bash
 bash ./scripts/design-language.sh capture "<product>"   # capture design language
 bash ./scripts/design-language.sh review "<product>"    # review implementation
 ```
 
-Capture and enforce a product's visual language — principles + patterns that make it feel like itself. Two modes, one skill.
+Capture and enforce a product's visual language --- principles + patterns that make it feel like itself. Two modes, one skill.
 
-- **Capture** — given an external source (Figma URL, screenshot, live URL), distill novel design decisions and propose a diff to `docs/design.md`.
-- **Review** — given a component or screenshot plus existing `docs/design.md`, check fidelity and produce a structured critique.
+- **Capture** --- given an external source (Figma URL, screenshot, live URL), distill novel design decisions and propose a diff to `docs/design.md`.
+- **Review** --- given a component or screenshot plus existing `docs/design.md`, check fidelity and produce a structured critique.
 
 **Companion script:** `scripts/design-language.sh`
 ```bash
@@ -49,23 +49,23 @@ Stage a durable copy. For URLs, capture a screenshot. For local paths, copy to a
 Extract design observations. Focus on what's novel/product-shaping, not generic truths.
 
 Reference vocabulary:
-- **Hierarchy** — how elements signal importance through size, weight, color, position
-- **Density & Rhythm** — spacing patterns, density of information
-- **Motion** — animation personality, transitions, micro-interactions
-- **Chrome** — UI chrome (navigation, headers, chrome) vs content area
-- **Color** — palette role and usage, not just hex values
+- **Hierarchy** --- how elements signal importance through size, weight, color, position
+- **Density & Rhythm** --- spacing patterns, density of information
+- **Motion** --- animation personality, transitions, micro-interactions
+- **Chrome** --- UI chrome (navigation, headers, chrome) vs content area
+- **Color** --- palette role and usage, not just hex values
 
 ### Step 3: Consolidate Before Adding (Anti-inflation)
 
-- Does an existing principle in `docs/design.md` cover this? → Tighten it, don't add
-- Does it contradict? → Flag in Divergences, don't silently add
+- Does an existing principle in `docs/design.md` cover this? -> Tighten it, don't add
+- Does it contradict? -> Flag in Divergences, don't silently add
 - Only add if genuinely novel and uncovered
 
 ### Step 4: Propose the Diff
 
 Include: edits to existing entries, new entries (justified), divergences, captures log entry.
 
-Do NOT write to `docs/design.md` directly — produce the diff; user commits.
+Do NOT write to `docs/design.md` directly --- produce the diff; user commits.
 
 ## Mode 2: Review
 
@@ -79,7 +79,7 @@ Prefer code over screenshots. Code gives truth; vision is unreliable for measure
 
 ### Step 3: Critique
 
-Walk against: Principles → Anti-principles → Functional patterns → Perceptual patterns → Heuristics
+Walk against: Principles -> Anti-principles -> Functional patterns -> Perceptual patterns -> Heuristics
 
 Every finding must:
 - Name the principle/heuristic by number/ID
@@ -99,7 +99,7 @@ Every finding must:
 
 ## Boundaries
 
-- Does NOT write to docs/design.md directly — advisory only
-- Does NOT generate new UI (→ frontend-ui-engineering)
+- Does NOT write to docs/design.md directly --- advisory only
+- Does NOT generate new UI (-> frontend-ui-engineering)
 - Does NOT audit accessibility
 - Does NOT extract or manage design tokens

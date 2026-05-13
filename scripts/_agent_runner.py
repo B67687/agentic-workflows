@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
 """
-_agent_runner.py — Background job runner for agent-dispatch.sh
+_agent_runner.py --- Background job runner for agent-dispatch.sh
 
 Receives job parameters via environment variables and executes the agent
 command. Avoids all shell quoting issues by using subprocess with a
 proper argument list.
 
 Environment variables:
-  _RUNNER_WORKDIR    — Working directory to cd into before running
-  _RUNNER_JOBS_DIR   — Directory for job files (.log and .json)
-  _RUNNER_JOB_ID     — Job identifier (e.g. job-20260512-001)
-  _CMD_ARGS_JSON     — JSON array of command arguments (e.g. ["pi", "-p", "task"])
+  _RUNNER_WORKDIR    --- Working directory to cd into before running
+  _RUNNER_JOBS_DIR   --- Directory for job files (.log and .json)
+  _RUNNER_JOB_ID     --- Job identifier (e.g. job-20260512-001)
+  _CMD_ARGS_JSON     --- JSON array of command arguments (e.g. ["pi", "-p", "task"])
 """
 
 import json

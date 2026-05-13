@@ -7,7 +7,7 @@ handoffs: test-driven-development (to verify), documentation-and-adrs (to docume
 
 # Source-Driven Development
 
-**Companion script:** `scripts/source-verify.sh` — detects project stack, extracts versions, generates source verification prompts.
+**Companion script:** `scripts/source-verify.sh` --- detects project stack, extracts versions, generates source verification prompts.
 ```bash
 bash ./scripts/source-verify.sh detect             # scan dependency files
 bash ./scripts/source-verify.sh prompt "<p>" "<u>"  # verification prompt
@@ -16,7 +16,7 @@ bash ./scripts/source-verify.sh check               # quick dependency listing
 
 ## Overview
 
-Every framework-specific code decision must be backed by official documentation. Don't implement from memory — verify, cite, and let the user see your sources. Training data goes stale, APIs get deprecated, best practices evolve. This skill ensures the user gets code they can trust because every pattern traces back to an authoritative source they can check.
+Every framework-specific code decision must be backed by official documentation. Don't implement from memory --- verify, cite, and let the user see your sources. Training data goes stale, APIs get deprecated, best practices evolve. This skill ensures the user gets code they can trust because every pattern traces back to an authoritative source they can check.
 
 ## When to Use
 
@@ -36,7 +36,7 @@ Every framework-specific code decision must be backed by official documentation.
 ## The Process
 
 ```
-DETECT ──→ FETCH ──→ IMPLEMENT ──→ CITE
+DETECT ──-> FETCH ──-> IMPLEMENT ──-> CITE
   │          │           │            │
   ▼          ▼           ▼            ▼
  What       Get the    Follow the   Show your
@@ -49,12 +49,12 @@ DETECT ──→ FETCH ──→ IMPLEMENT ──→ CITE
 Read the project's dependency file to identify exact versions:
 
 ```
-package.json    → Node/React/Vue/Angular/Svelte
-composer.json   → PHP/Symfony/Laravel
-requirements.txt / pyproject.toml → Python/Django/Flask
-go.mod          → Go
-Cargo.toml      → Rust
-Gemfile         → Ruby/Rails
+package.json    -> Node/React/Vue/Angular/Svelte
+composer.json   -> PHP/Symfony/Laravel
+requirements.txt / pyproject.toml -> Python/Django/Flask
+go.mod          -> Go
+Cargo.toml      -> Rust
+Gemfile         -> Ruby/Rails
 ```
 
 State what you found explicitly:
@@ -64,14 +64,14 @@ STACK DETECTED:
 - React 19.1.0 (from package.json)
 - Vite 6.2.0
 - Tailwind CSS 4.0.3
-→ Fetching official docs for the relevant patterns.
+-> Fetching official docs for the relevant patterns.
 ```
 
-If versions are missing or ambiguous, **ask the user**. Don't guess — the version determines which patterns are correct.
+If versions are missing or ambiguous, **ask the user**. Don't guess --- the version determines which patterns are correct.
 
 ### Step 2: Fetch Official Documentation
 
-Fetch the specific documentation page for the feature you're implementing. Not the homepage, not the full docs — the relevant page.
+Fetch the specific documentation page for the feature you're implementing. Not the homepage, not the full docs --- the relevant page.
 
 **Source hierarchy (in order of authority):**
 
@@ -82,12 +82,12 @@ Fetch the specific documentation page for the feature you're implementing. Not t
 | 3 | Web standards references | MDN, web.dev, html.spec.whatwg.org |
 | 4 | Browser/runtime compatibility | caniuse.com, node.green |
 
-**Not authoritative — never cite as primary sources:**
+**Not authoritative --- never cite as primary sources:**
 
 - Stack Overflow answers
 - Blog posts or tutorials (even popular ones)
 - AI-generated documentation or summaries
-- Your own training data (that is the whole point — verify it)
+- Your own training data (that is the whole point --- verify it)
 
 **Be precise with what you fetch:**
 
@@ -121,9 +121,9 @@ but React 19 docs recommend useActionState for this pattern.
 (Source: react.dev/reference/react/useActionState)
 
 Options:
-A) Use the modern pattern (useActionState) — consistent with current docs
-B) Match existing code (useState) — consistent with codebase
-→ Which approach do you prefer?
+A) Use the modern pattern (useActionState) --- consistent with current docs
+B) Match existing code (useState) --- consistent with codebase
+-> Which approach do you prefer?
 ```
 
 Surface the conflict. Don't silently pick one.
@@ -155,7 +155,7 @@ pending states automatically"
 **Citation rules:**
 
 - Full URLs, not shortened
-- Prefer deep links with anchors where possible (e.g. `/useActionState#usage` over `/useActionState`) — anchors survive doc restructuring better than top-level pages
+- Prefer deep links with anchors where possible (e.g. `/useActionState#usage` over `/useActionState`) --- anchors survive doc restructuring better than top-level pages
 - Quote the relevant passage when it supports a non-obvious decision
 - Include browser/runtime support data when recommending platform features
 - If you cannot find documentation for a pattern, say so explicitly:
@@ -174,7 +174,7 @@ Honesty about what you couldn't verify is more valuable than false confidence.
 |---|---|
 | "I'm confident about this API" | Confidence is not evidence. Training data contains outdated patterns that look correct but break against current versions. Verify. |
 | "Fetching docs wastes tokens" | Hallucinating an API wastes more. The user debugs for an hour, then discovers the function signature changed. One fetch prevents hours of rework. |
-| "The docs won't have what I need" | If the docs don't cover it, that's valuable information — the pattern may not be officially recommended. |
+| "The docs won't have what I need" | If the docs don't cover it, that's valuable information --- the pattern may not be officially recommended. |
 | "I'll just mention it might be outdated" | A disclaimer doesn't help. Either verify and cite, or clearly flag it as unverified. Hedging is the worst option. |
 | "This is a simple task, no need to check" | Simple tasks with wrong patterns become templates. The user copies your deprecated form handler into ten components before discovering the modern approach exists. |
 

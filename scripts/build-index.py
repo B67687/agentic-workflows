@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-build-index.py — Build BM25 index of workspace text files.
+build-index.py --- Build BM25 index of workspace text files.
 
 Usage:  python3 build-index.py [root-dir]
 
@@ -49,7 +49,7 @@ def main() -> None:
     t0 = time.time()
 
     # 1. Discover text files ------------------------------------------------
-    print(f"Scanning  {root} …")
+    print(f"Scanning  {root} ...")
     files = _workspace_files.list_text_files(root)
     print(f"  Found  {len(files)} text files")
 

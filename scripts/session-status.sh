@@ -1,9 +1,9 @@
 #!/bin/bash
 # =============================================================================
-# session-status.sh — Compact workspace orientation (one-shot)
+# session-status.sh --- Compact workspace orientation (one-shot)
 #
 # Combines health, tools, git state, and test status into <20 lines.
-# Designed for session resumes — run this to orient quickly.
+# Designed for session resumes --- run this to orient quickly.
 #
 # Usage:
 #   bash ./scripts/session-status.sh
@@ -56,9 +56,9 @@ else
   git log --oneline -3 2>/dev/null | sed 's/^/  /'
   echo ""
   echo "Commands:"
-  echo "  bash ./scripts/tools.sh              — full tool list"
-  echo "  bash ./scripts/test-smoke.sh         — full smoke test"
-  echo "  bash ./scripts/context-pressure.sh   — health details"
-  echo "  bash ./scripts/checkpoint-commit.sh  — checkpoint"
+  echo "  bash ./scripts/tools.sh              --- full tool list"
+  echo "  bash ./scripts/test-smoke.sh         --- full smoke test"
+  echo "  bash ./scripts/context-pressure.sh   --- health details"
+  echo "  bash ./scripts/checkpoint-commit.sh  --- checkpoint"
   echo "========================================"
 fi

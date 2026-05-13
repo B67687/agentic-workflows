@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # =============================================================================
-# source-verify.sh — Companion script for Source-Driven Development
+# source-verify.sh --- Companion script for Source-Driven Development
 #
 # Detects project dependencies, extracts versions, and generates a structured
 # source verification prompt for verifying patterns against official docs.
@@ -66,7 +66,7 @@ try:
     for dep in deps:
         print(f'  {dep}')
 except:
-    print('  (could not parse — need Python 3.11+ or tomli)')
+    print('  (could not parse --- need Python 3.11+ or tomli)')
 " 2>/dev/null || echo "  (could not parse)"
       echo ""
     fi
@@ -149,7 +149,7 @@ ${PATTERN}
 ${SOURCE_URL}
 
 ## Stack Context
-${STACK_INFO:-$(echo "  (no dependency file detected — specify manually)")}
+${STACK_INFO:-$(echo "  (no dependency file detected --- specify manually)")}
 
 ## Verification Checklist
 - [ ] Is this the official source? (check domain, docs.github.com/docs.gitlab.com etc)
@@ -166,18 +166,18 @@ ${STACK_INFO:-$(echo "  (no dependency file detected — specify manually)")}
 <!-- After verification, fill this in -->
 - Verified against: <source>
 - Source version: <version>
-- Status: [ ] Current — pattern matches latest docs
-         [ ] Deprecated — find updated source
-         [ ] Version mismatch — adjust to match project version
+- Status: [ ] Current --- pattern matches latest docs
+         [ ] Deprecated --- find updated source
+         [ ] Version mismatch --- adjust to match project version
 PROMPT
     ;;
 
   *)
     echo "Usage: $0 {detect|prompt|check}"
     echo ""
-    echo "  detect          — Scan project for dependency files and versions"
-    echo "  prompt <p> <u>  — Generate source verification prompt"
-    echo "  check           — Quick dependency file listing"
+    echo "  detect          --- Scan project for dependency files and versions"
+    echo "  prompt <p> <u>  --- Generate source verification prompt"
+    echo "  check           --- Quick dependency file listing"
     exit 1
     ;;
 esac

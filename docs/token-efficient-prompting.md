@@ -228,9 +228,9 @@ Default to terse output. Escalate depth only when complexity demands it.
 ### Trigger Phrases
 
 When you need full depth, say:
-- "Explain fully" — overrides brevity
-- "Teach me" — enters teaching mode
-- "Walk through" — step-by-step detail
+- "Explain fully" --- overrides brevity
+- "Teach me" --- enters teaching mode
+- "Walk through" --- step-by-step detail
 
 Default behavior without trigger: **terse and action-first**.
 
@@ -346,7 +346,7 @@ Keep this high-signal and token-efficient: use only the context needed for the d
 
 ## Cognitive Load Theory for Prompts
 
-Based on learning science (Sweller, 1988 — *Cognitive Load Theory*, Springer, 370k+ accesses):
+Based on learning science (Sweller, 1988 --- *Cognitive Load Theory*, Springer, 370k+ accesses):
 
 ### The Core Parallel
 
@@ -359,16 +359,16 @@ Based on learning science (Sweller, 1988 — *Cognitive Load Theory*, Springer, 
 
 ### Three Types of Cognitive Load
 
-1. **Intrinsic** — Complexity of the task itself (unavoidable)
-2. **Extraneous** — How information is presented (avoidable)
-3. **Germane** — Effort to build schemas (desirable)
+1. **Intrinsic** --- Complexity of the task itself (unavoidable)
+2. **Extraneous** --- How information is presented (avoidable)
+3. **Germane** --- Effort to build schemas (desirable)
 
 **Prompt implication**: Reduce extraneous load (irrelevant context), manage intrinsic load (chunk complex tasks), maximize germane load (meaningful examples).
 
 ### Evidence
 
-- Ollie Lovell (2020): *Sweller's Cognitive Load Theory In Action* — Best practical guide
-- Kalyuga & Plass (2025): *Rethinking Cognitive Load Theory* — Oxford UP
+- Ollie Lovell (2020): *Sweller's Cognitive Load Theory In Action* --- Best practical guide
+- Kalyuga & Plass (2025): *Rethinking Cognitive Load Theory* --- Oxford UP
 - Dunlosky et al. (2013): Practice testing & distributed practice = only "high utility" techniques
 
 ### Prompt Design Principles
@@ -389,9 +389,9 @@ Based on learning science (Sweller, 1988 — *Cognitive Load Theory*, Springer, 
 
 - **TurboQuant** (Google): 6x KV cache compression with zero accuracy loss, 8x speedup on H100. [ICLR 2026](https://www.danilchenko.dev/posts/2026-03-27-google-turboquant-llm-compression-6x-zero-accuracy-loss/)
 - **LMCache** (8k stars): Fastest KV cache layer with AMD/ROCm support. [GitHub](https://github.com/LMCache/LMCache)
-- **MIT Fast KV Compaction** (2026): 50x compression in seconds via Attention Matching — closed-form linear algebra vs multi-hour optimization
-- **AttentionPredictor**: Learning-based attention prediction — 13x KV compression, 5.6x speedup in cache offloading
-- **LongFlow**: KV compression for reasoning models — 11.8x throughput improvement with 80% compression
+- **MIT Fast KV Compaction** (2026): 50x compression in seconds via Attention Matching --- closed-form linear algebra vs multi-hour optimization
+- **AttentionPredictor**: Learning-based attention prediction --- 13x KV compression, 5.6x speedup in cache offloading
+- **LongFlow**: KV compression for reasoning models --- 11.8x throughput improvement with 80% compression
 
 ### Model Token Inflation (April 2026)
 
@@ -413,7 +413,7 @@ Based on learning science (Sweller, 1988 — *Cognitive Load Theory*, Springer, 
 | OpenAI | 50-90% | 70% lower |
 | Google | 50-80% | 60% lower |
 
-Break-even at 1.4-2 cache hits — these numbers are directly applicable to prompt design.
+Break-even at 1.4-2 cache hits --- these numbers are directly applicable to prompt design.
 
 ### Prompt Compression
 
@@ -466,7 +466,7 @@ Source:
 
 ## Reasoning Effort Selection
 
-For models that support configurable reasoning effort (`low`, `medium`, `high`, `xhigh`), choosing the right level is a token efficiency lever — higher effort costs more tokens but catches harder problems early.
+For models that support configurable reasoning effort (`low`, `medium`, `high`, `xhigh`), choosing the right level is a token efficiency lever --- higher effort costs more tokens but catches harder problems early.
 
 ### The Ladder
 
@@ -497,7 +497,7 @@ This ladder is adapted from the detailed analysis in `codex-reasoning-guide.md`,
 
 ## Context Pressure Monitoring
 
-Context pressure is not about knowing your exact token count — it's about recognizing behavioral symptoms that mean the context is degrading.
+Context pressure is not about knowing your exact token count --- it's about recognizing behavioral symptoms that mean the context is degrading.
 
 ### The Asymmetry
 
@@ -519,13 +519,13 @@ LLMs don't have introspection into remaining context. But they CAN recognize:
 
 ### The Checkpoint Rule
 
-For sessions longer than 20-30 minutes of work, write a handover checkpoint before continuing. This is not failure — it's continuity management. A proactive checkpoint at 80% context means the next model gets a clean summary, and nothing critical is lost when the limit hits.
+For sessions longer than 20-30 minutes of work, write a handover checkpoint before continuing. This is not failure --- it's continuity management. A proactive checkpoint at 80% context means the next model gets a clean summary, and nothing critical is lost when the limit hits.
 
 See [agent-context-handover.md](agent-context-handover.md) for the full proactive checkpoint trigger and template.
 
 ### Hierarchical Memory Pattern
 
-The Mem0 memory architecture (User → Session → Agent) models this well: don't hold everything in the model's context, progressively offload to external memory.
+The Mem0 memory architecture (User -> Session -> Agent) models this well: don't hold everything in the model's context, progressively offload to external memory.
 
 For complex sessions:
 1. Write key decisions and state to a session artifact
@@ -534,4 +534,4 @@ For complex sessions:
 4. Use the handover template proactively, not just when asked
 
 Source:
-- [Mem0 v3](https://github.com/mem0ai/mem0) — hierarchical memory for AI agents (53k stars)
+- [Mem0 v3](https://github.com/mem0ai/mem0) --- hierarchical memory for AI agents (53k stars)

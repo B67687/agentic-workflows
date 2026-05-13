@@ -1,4 +1,4 @@
-# Assumption Expiry — Upwards Management Pattern
+# Assumption Expiry --- Upwards Management Pattern
 
 A mechanism for preventing stale assumptions from silently degrading agent quality by giving
 every non-verifiable claim an expiry date and providing a downstream challenge process.
@@ -7,7 +7,7 @@ every non-verifiable claim an expiry date and providing a downstream challenge p
 
 This pattern synthesises four established principles in software engineering:
 
-### 1. Technical Debt Quadrant — Martin Fowler (2009)
+### 1. Technical Debt Quadrant --- Martin Fowler (2009)
 
 > Fowler classifies debt as **prudent/reckless** × **deliberate/inadvertent**.
 > The "prudent-inadvertent" quadrant is the key insight: even the best teams
@@ -18,10 +18,10 @@ This pattern synthesises four established principles in software engineering:
 > Source: [martinfowler.com/bliki/TechnicalDebtQuadrant.html](https://martinfowler.com/bliki/TechnicalDebtQuadrant.html)
 
 Applied here: every `residualRisk` entry, every rule in AGENTS.md, and every
-assumption in session-state.json is a **prudent-inadvertent debt** — correct when
+assumption in session-state.json is a **prudent-inadvertent debt** --- correct when
 written, but with a half-life that depends on how fast the environment changes.
 
-### 2. Lehman's Laws of Software Evolution — Manny Lehman (1974)
+### 2. Lehman's Laws of Software Evolution --- Manny Lehman (1974)
 
 > Lehman's Second Law (Increasing Complexity): "As an evolving program is
 > continually changed, its complexity, reflecting deteriorating structure,
@@ -30,10 +30,10 @@ written, but with a half-life that depends on how fast the environment changes.
 > Source: Program Evolution: Processes of Software Change, Academic Press (1985)
 
 Applied here: agent knowledge bases undergo the same entropy. The `session-state.json`,
-AGENTS.md, and rule files must be treated as evolving programs — not static documents.
+AGENTS.md, and rule files must be treated as evolving programs --- not static documents.
 Without active maintenance, their assumptions decay.
 
-### 3. Software Rot / Active Rot — Wikipedia
+### 3. Software Rot / Active Rot --- Wikipedia
 
 > Software that is being continuously modified may lose its integrity over time.
 > Assumptions made by the original designers may be invalidated, thereby
@@ -46,18 +46,18 @@ Applied here: separate *dormant rot* (unused assumptions that quietly decay) fro
 Detect-gaps.sh already tracks dormant rot (missing indexes). Assumption expiry
 adds active-rot detection.
 
-### 4. Design by Contract — Bertrand Meyer (1986)
+### 4. Design by Contract --- Bertrand Meyer (1986)
 
 > Preconditions, postconditions, and invariants define a contract between
 > client and supplier. The contract's assertions can be verified at runtime.
-> The "fail hard" principle: when a precondition is violated, stop and report —
+> The "fail hard" principle: when a precondition is violated, stop and report ---
 > do not silently degrade.
 >
 > Source: Object-Oriented Software Construction, Prentice Hall (1988, 1997)
 
 Applied here: `residualRisk` entries are **preconditions** that downstream operations
 depend on. When a downstream operation (a new session, a `/implement` command) encounters
-an expired assumption, it should "fail hard" — flag it, don't silently accept it.
+an expired assumption, it should "fail hard" --- flag it, don't silently accept it.
 
 ## The Pattern
 
@@ -90,7 +90,7 @@ the operation:
 
 ### Implementation
 
-#### 1. `session-state.json` — Add expiry metadata
+#### 1. `session-state.json` --- Add expiry metadata
 
 ```json
 {
@@ -115,7 +115,7 @@ If `expiresAt` is absent, defaults to:
 - P2 entries older than 60 days: prompted for review
 - P1 entries older than 90 days: prompted for review
 
-#### 2. `scripts/assumption-expiry.sh` — The checker script
+#### 2. `scripts/assumption-expiry.sh` --- The checker script
 
 ```
 Usage:
@@ -127,13 +127,13 @@ Usage:
 
 Output format:
 ```
-OVERDUE: residualRisk (expired 2026-06-01) — "agent-dispatch.sh only tested with pi..."
-  → Source: session-73
-  → Action: re-evaluate, update, or dismiss
+OVERDUE: residualRisk (expired 2026-06-01) --- "agent-dispatch.sh only tested with pi..."
+  -> Source: session-73
+  -> Action: re-evaluate, update, or dismiss
 
-EXPIRING SOON: assumptions[0] (expires 2026-07-12) — "Bubblewrap sandbox..."
-  → Source: session-73
-  → Action: plan for review
+EXPIRING SOON: assumptions[0] (expires 2026-07-12) --- "Bubblewrap sandbox..."
+  -> Source: session-73
+  -> Action: plan for review
 ```
 
 #### 3. `detect-gaps.sh` integration
@@ -180,6 +180,6 @@ After implementing:
 2. Lehman, M.M. (1985). *Program Evolution: Processes of Software Change*. Academic Press.
 3. Meyer, B. (1988). *Object-Oriented Software Construction*. Prentice Hall.
 4. Cunningham, W. (1992). "The WyCash Portfolio Management System." OOPSLA.
-5. Wikipedia. "Software rot." — Active rot vs dormant rot classification.
-6. This workspace: `doubt-driven-development` skill — adversarial review pattern.
-7. This workspace: `docs/session-checkpoint.md` — context pressure management.
+5. Wikipedia. "Software rot." --- Active rot vs dormant rot classification.
+6. This workspace: `doubt-driven-development` skill --- adversarial review pattern.
+7. This workspace: `docs/session-checkpoint.md` --- context pressure management.

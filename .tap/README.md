@@ -14,7 +14,7 @@ This directory stores durable, cross-session project knowledge optimized for age
 
 ## Conventions
 
-- Files are compact — optimized for agent context windows, not human prose
+- Files are compact --- optimized for agent context windows, not human prose
 - Append-only for learnings (never overwrite)
 - Architecture decisions: 2-4 lines per decision, capture the principle
 - Product context: max 80 lines, refreshed when stale

@@ -26,7 +26,7 @@ case "$cmd" in
     desc="${2:-}"
     cat <<EOF
 ★ Shaped View ───────────────────────────────────
-[problem] → [solution]
+[problem] -> [solution]
   ├─ [key flow or behavior 1]
   ├─ [key flow or behavior 2]
   └─ [key constraint or open question]
@@ -50,7 +50,7 @@ N/A
 ### Risks & Unknowns
 
 - **[Question or risk]**
-  Recommend: [option] — [why]
+  Recommend: [option] --- [why]
   Discarded: [option] ([why not])
 EOF
     ;;
@@ -59,7 +59,7 @@ EOF
     desc="${2:-}"
     cat <<EOF
 ★ Shaped View ───────────────────────────────────
-[bug] → [expected behavior]
+[bug] -> [expected behavior]
   ├─ [what breaks]
   └─ [root cause area]
 ─────────────────────────────────────────────────
@@ -80,7 +80,7 @@ $desc
 ### Risks & Unknowns
 
 - **[Question or risk]**
-  Recommend: [option] — [why]
+  Recommend: [option] --- [why]
   Discarded: [option] ([why not])
 EOF
     ;;
@@ -89,7 +89,7 @@ EOF
     desc="${2:-}"
     cat <<EOF
 ★ Shaped View ───────────────────────────────────
-[current state] → [desired state]
+[current state] -> [desired state]
   ├─ [what's wrong today]
   └─ [what it should look like]
 ─────────────────────────────────────────────────
@@ -103,12 +103,12 @@ $desc
 
 ### Acceptance Criteria
 
-- [Measurable outcomes — what changes for user or system]
+- [Measurable outcomes --- what changes for user or system]
 
 ### Risks & Unknowns
 
 - **[Migration concerns, backwards compatibility]**
-  Recommend: [option] — [why]
+  Recommend: [option] --- [why]
   Discarded: [option] ([why not])
 EOF
     ;;

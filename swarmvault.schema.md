@@ -5,7 +5,7 @@ Edit this file to teach SwarmVault how this vault should be organized and mainta
 ## Vault Purpose
 
 - **Domain:** AI agent workflows, prompt engineering, tool-building for coding agents
-- **Audience:** The orchestration agent (OpenCode) and its operator — both need fast, grounded answers about what tools exist, how they work, and how they fit together
+- **Audience:** The orchestration agent (OpenCode) and its operator --- both need fast, grounded answers about what tools exist, how they work, and how they fit together
 - **Key questions the vault should answer:**
   - What scripts/tools are available in the workspace and what do they do?
   - What skills are installed and what companion scripts do they ship?
@@ -28,25 +28,25 @@ Edit this file to teach SwarmVault how this vault should be organized and mainta
 
 ## Categories
 
-- **script** — Executable scripts in `scripts/` (agent-dispatch.sh, context-pressure.sh, browser.sh, etc.)
-- **command** — Slash commands in `commands/` (pipeline.md, session.md, task.md, etc.)
-- **skill** — Agent skills in `skills/*/SKILL.md`
-- **mcp_server** — MCP servers configured in opencode.jsonc (playwright, sequential-thinking, agentmemory)
-- **sandbox** — Isolation mechanisms (.devcontainer/, agent-sandbox.sh)
-- **pipeline** — Pipeline state management and task orchestration
-- **health_monitor** — Session health and context pressure detection
-- **test** — Smoke tests and verification scripts
+- **script** --- Executable scripts in `scripts/` (agent-dispatch.sh, context-pressure.sh, browser.sh, etc.)
+- **command** --- Slash commands in `commands/` (pipeline.md, session.md, task.md, etc.)
+- **skill** --- Agent skills in `skills/*/SKILL.md`
+- **mcp_server** --- MCP servers configured in opencode.jsonc (playwright, sequential-thinking, agentmemory)
+- **sandbox** --- Isolation mechanisms (.devcontainer/, agent-sandbox.sh)
+- **pipeline** --- Pipeline state management and task orchestration
+- **health_monitor** --- Session health and context pressure detection
+- **test** --- Smoke tests and verification scripts
 
 ## Relationship Types
 
-- **uses** — A skill uses a script, a tool uses an MCP server
-- **configures** — opencode.jsonc configures an MCP server
-- **ships_with** — A skill ships a companion script
-- **dispatches_to** — Pipeline dispatches to an agent (pi, codex, claude)
-- **monitors** — Health monitor checks session state
-- **tests** — Smoke test verifies a tool
-- **sandboxes** — Sandbox isolates an agent operation
-- **supersedes** — A new tool supersedes an old approach
+- **uses** --- A skill uses a script, a tool uses an MCP server
+- **configures** --- opencode.jsonc configures an MCP server
+- **ships_with** --- A skill ships a companion script
+- **dispatches_to** --- Pipeline dispatches to an agent (pi, codex, claude)
+- **monitors** --- Health monitor checks session state
+- **tests** --- Smoke test verifies a tool
+- **sandboxes** --- Sandbox isolates an agent operation
+- **supersedes** --- A new tool supersedes an old approach
 - Depends on
 
 ## Grounding Rules

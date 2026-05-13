@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Installed by hub propagation — guards against destructive commands
+# Installed by hub propagation --- guards against destructive commands
 set -euo pipefail
 
 INPUT=$(cat)

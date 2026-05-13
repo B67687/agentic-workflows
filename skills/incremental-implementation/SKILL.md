@@ -8,7 +8,7 @@ companion-script: scripts/increment-slice.sh
 
 # Incremental Implementation
 
-**Companion script:** `scripts/increment-slice.sh` — change size validation, slice decomposition, one-cycle runner.
+**Companion script:** `scripts/increment-slice.sh` --- change size validation, slice decomposition, one-cycle runner.
 ```bash
 bash ./scripts/increment-slice.sh check                # validate slice size
 bash ./scripts/increment-slice.sh suggest "<task>"     # suggest slices
@@ -17,7 +17,7 @@ bash ./scripts/increment-slice.sh cycle "<test-cmd>"   # run one cycle
 
 ## Overview
 
-Build in thin vertical slices — implement one piece, test it, verify it, then expand. Avoid implementing an entire feature in one pass. Each increment should leave the system in a working, testable state. This is the execution discipline that makes large features manageable.
+Build in thin vertical slices --- implement one piece, test it, verify it, then expand. Avoid implementing an entire feature in one pass. Each increment should leave the system in a working, testable state. This is the execution discipline that makes large features manageable.
 
 ## When to Use
 
@@ -33,7 +33,7 @@ Build in thin vertical slices — implement one piece, test it, verify it, then 
 ```
 ┌──────────────────────────────────────┐
 │                                      │
-│   Implement ──→ Test ──→ Verify ──┐  │
+│   Implement ──-> Test ──-> Verify ──┐  │
 │       ▲                           │  │
 │       └───── Commit ◄─────────────┘  │
 │              │                       │
@@ -46,10 +46,10 @@ Build in thin vertical slices — implement one piece, test it, verify it, then 
 For each slice:
 
 1. **Implement** the smallest complete piece of functionality
-2. **Test** — run the test suite (or write a test if none exists)
-3. **Verify** — confirm the slice works as expected (tests pass, build succeeds, manual check)
+2. **Test** --- run the test suite (or write a test if none exists)
+3. **Verify** --- confirm the slice works as expected (tests pass, build succeeds, manual check)
 4. **Commit** -- save your progress with a descriptive message (see `git-workflow-and-versioning` for atomic commit guidance)
-5. **Move to the next slice** — carry forward, don't restart
+5. **Move to the next slice** --- carry forward, don't restart
 
 ## Slicing Strategies
 
@@ -59,16 +59,16 @@ Build one complete path through the stack:
 
 ```
 Slice 1: Create a task (DB + API + basic UI)
-    → Tests pass, user can create a task via the UI
+    -> Tests pass, user can create a task via the UI
 
 Slice 2: List tasks (query + API + UI)
-    → Tests pass, user can see their tasks
+    -> Tests pass, user can see their tasks
 
 Slice 3: Edit a task (update + API + UI)
-    → Tests pass, user can modify tasks
+    -> Tests pass, user can modify tasks
 
 Slice 4: Delete a task (delete + API + UI + confirmation)
-    → Tests pass, full CRUD complete
+    -> Tests pass, full CRUD complete
 ```
 
 Each slice delivers working end-to-end functionality.
@@ -133,13 +133,13 @@ Do NOT:
 - Add features not in the spec because they "seem useful"
 - Modernize syntax in files you're only reading
 
-If you notice something worth improving outside your task scope, note it — don't fix it:
+If you notice something worth improving outside your task scope, note it --- don't fix it:
 
 ```
 NOTICED BUT NOT TOUCHING:
 - src/utils/format.ts has an unused import (unrelated to this task)
 - The auth middleware could use better error messages (separate task)
-→ Want me to create tasks for these?
+-> Want me to create tasks for these?
 ```
 
 ### Rule 1: One Thing at a Time
@@ -148,7 +148,7 @@ Each increment changes one logical thing. Don't mix concerns:
 
 **Bad:** One commit that adds a new component, refactors an existing one, and updates the build config.
 
-**Good:** Three separate commits — one for each change.
+**Good:** Three separate commits --- one for each change.
 
 ### Rule 2: Keep It Compilable
 
@@ -188,7 +188,7 @@ Each increment should be independently revertable:
 - Additive changes (new files, new functions) are easy to revert
 - Modifications to existing code should be minimal and focused
 - Database migrations should have corresponding rollback migrations
-- Avoid deleting something in one commit and replacing it in the same commit — separate them
+- Avoid deleting something in one commit and replacing it in the same commit --- separate them
 
 ## Working with Agents
 
@@ -198,7 +198,7 @@ When directing an agent to implement incrementally:
 "Let's implement Task 3 from the plan.
 
 Start with just the database schema change and the API endpoint.
-Don't touch the UI yet — we'll do that in the next increment.
+Don't touch the UI yet --- we'll do that in the next increment.
 
 After implementing, run `npm test` and `npm run build` to verify
 nothing is broken."
@@ -218,7 +218,7 @@ After each increment, verify:
 - [ ] The new functionality works as expected
 - [ ] The change is committed with a descriptive message
 
-**Note:** Run each verification command after a change that could affect it. After a successful run, don't repeat the same command unless the code has changed since — re-running on unchanged code adds no information.
+**Note:** Run each verification command after a change that could affect it. After a successful run, don't repeat the same command unless the code has changed since --- re-running on unchanged code adds no information.
 
 ## Common Rationalizations
 

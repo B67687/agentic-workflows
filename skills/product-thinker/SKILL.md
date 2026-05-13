@@ -8,13 +8,13 @@ companion-script: scripts/product-think.sh
 
 # Product Thinker
 
-**Companion script:** `scripts/product-think.sh` — product evaluation and competitive analysis templates.
+**Companion script:** `scripts/product-think.sh` --- product evaluation and competitive analysis templates.
 ```bash
 bash ./scripts/product-think.sh evaluate "<question>"    # build-vs-buy decision
 bash ./scripts/product-think.sh competitive "<product>"  # competitive analysis
 ```
 
-Think like a senior product manager. Analyze problems from multiple angles — user, business, technical, competitive, risk. Use all available context to ground recommendations in reality.
+Think like a senior product manager. Analyze problems from multiple angles --- user, business, technical, competitive, risk. Use all available context to ground recommendations in reality.
 
 **Companion script:** `scripts/product-think.sh`
 ```bash
@@ -29,22 +29,22 @@ bash ./scripts/product-think.sh framework <name>    # load a framework (jtbd, ri
 
 Determine whether this is **about a specific product** or **general product thinking**.
 
-**Product-specific** — references "our app", "our users", a specific feature, or you're in a codebase with a product description.
-→ Run product context exploration, then proceed.
+**Product-specific** --- references "our app", "our users", a specific feature, or you're in a codebase with a product description.
+-> Run product context exploration, then proceed.
 
-**Generic/advisory** — about general product strategy, frameworks, pricing models.
-→ Skip exploration, go straight to analysis.
+**Generic/advisory** --- about general product strategy, frameworks, pricing models.
+-> Skip exploration, go straight to analysis.
 
-**Ambiguous** — if you're in a codebase, default to product-specific.
+**Ambiguous** --- if you're in a codebase, default to product-specific.
 
 ### Product Context Exploration
 
 When product-specific, understand the PRODUCT (not technical implementation):
 
 ```
-1. Read CLAUDE.md / README — what does this product do? Who is it for?
-2. Scan routes, pages, or screens — main user-facing features and flows
-3. Look at data models at a high level — key domain concepts
+1. Read CLAUDE.md / README --- what does this product do? Who is it for?
+2. Scan routes, pages, or screens --- main user-facing features and flows
+3. Look at data models at a high level --- key domain concepts
 4. Note: user types, onboarding flows, billing/pricing, integrations
 ```
 
@@ -109,7 +109,7 @@ Ask up to 3 clarifying questions if context is insufficient.
 
 Pick the right tool for the problem:
 - **Jobs To Be Done**: When clarifying what users actually need
-- **Emotions to Evoke**: When how it feels matters — onboarding, first impressions
+- **Emotions to Evoke**: When how it feels matters --- onboarding, first impressions
 - **First Principles**: When challenging assumptions
 - **RICE/ICE Scoring**: When prioritizing
 - **5 Whys**: When diagnosing root cause
@@ -118,7 +118,7 @@ Don't force frameworks. Use them when they add clarity.
 
 ## Output Style
 
-Always open with a Product View block — signals that product thinking was applied and gives an instant read:
+Always open with a Product View block --- signals that product thinking was applied and gives an instant read:
 
 ```
 `★ Product View ──────────────────────────────────`
@@ -130,7 +130,7 @@ Always open with a Product View block — signals that product thinking was appl
 
 Rules:
 - Appears first, before any analysis
-- 2-4 bullet points — assertions, not hedges
+- 2-4 bullet points --- assertions, not hedges
 - Then continue with full analysis below
 
 ## Handoff
@@ -147,6 +147,6 @@ If accepted, invoke the `shaping-work` skill, passing forward:
 ## Boundaries
 
 - Does NOT write code or tests
-- Does NOT create implementation plans (→ `shaping-work` + `implementation-planning`)
-- Does NOT review code quality (→ `code-review-and-quality`)
-- Recommendations only — final decision rests with the human
+- Does NOT create implementation plans (-> `shaping-work` + `implementation-planning`)
+- Does NOT review code quality (-> `code-review-and-quality`)
+- Recommendations only --- final decision rests with the human

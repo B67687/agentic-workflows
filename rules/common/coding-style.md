@@ -1,5 +1,5 @@
 ---
-description: Universal coding style principles — immutability, file organization, naming, error handling. Always apply regardless of programming language.
+description: Universal coding style principles --- immutability, file organization, naming, error handling. Always apply regardless of programming language.
 globs: []
 alwaysApply: true
 ---
@@ -25,13 +25,13 @@ state.count += 1;
 - **Many small files over few large files.** 100-300 lines per file is typical; 500 max.
 - **Organize by feature/domain, not by type.** Group related code together, not all utilities in one file.
 - **Each file should have one clear responsibility.** If a file's purpose can't be summarized in one sentence, split it.
-- **Name files after their primary export.** `user-service.ts` → exports `UserService`.
+- **Name files after their primary export.** `user-service.ts` -> exports `UserService`.
 
 ## Naming
 
-- **Functions and methods:** verb or verb phrase — `getUser()`, `calculateTotal()`, `handleError()`
-- **Classes and types:** noun or noun phrase — `User`, `PaymentGateway`, `ValidationResult`
-- **Booleans:** prefix with `is`, `has`, `can`, `should` — `isActive`, `hasPermission`, `canEdit`
+- **Functions and methods:** verb or verb phrase --- `getUser()`, `calculateTotal()`, `handleError()`
+- **Classes and types:** noun or noun phrase --- `User`, `PaymentGateway`, `ValidationResult`
+- **Booleans:** prefix with `is`, `has`, `can`, `should` --- `isActive`, `hasPermission`, `canEdit`
 - **Constants:** `SCREAMING_SNAKE_CASE` for true constants (known at compile time)
 - **Avoid abbreviations** unless universally understood (`id`, `url`, `html`)
 - **Avoid single-letter names** except in loop indices and math

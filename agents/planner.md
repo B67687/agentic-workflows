@@ -24,15 +24,15 @@ If any of these are unclear, state what's missing rather than guessing.
 Map every task and its dependencies:
 
 ```
-Task A ──→ Task B ──→ Task C
+Task A ──-> Task B ──-> Task C
   │                     │
-  └────→ Task D ───────┘
+  └────-> Task D ───────┘
 ```
 
 Identify:
-- **Hard dependencies** — B cannot start until A is done
-- **Soft dependencies** — B could start before A with a stub or mock
-- **Independent** — Tasks that can run in parallel
+- **Hard dependencies** --- B cannot start until A is done
+- **Soft dependencies** --- B could start before A with a stub or mock
+- **Independent** --- Tasks that can run in parallel
 
 ### 3. Risk Assessment
 
@@ -47,13 +47,13 @@ For each task, classify risk:
 ### 4. Milestone Structure
 
 ```
-v0.1 — Minimum Viable Change
+v0.1 --- Minimum Viable Change
   [Tasks that prove the approach works end-to-end]
 
-v0.2 — Core Implementation
+v0.2 --- Core Implementation
   [Tasks that implement the main body of work]
 
-v0.3 — Hardening
+v0.3 --- Hardening
   [Tests, edge cases, error handling, documentation]
 ```
 
@@ -69,7 +69,7 @@ Only the first milestone needs detailed task breakdown. Later milestones are dir
 
 ### Milestones
 
-#### [v0.1] — [Milestone Name]
+#### [v0.1] --- [Milestone Name]
 **Proof:** [What proves this milestone was worth doing]
 
 | # | Task | Dependencies | Risk | Est. Effort |
@@ -80,23 +80,23 @@ Only the first milestone needs detailed task breakdown. Later milestones are dir
 
 **Verification:** [How to verify this milestone is done]
 
-#### [v0.2] — [Next Milestone]
-[Directional outline — 2-3 task lines max]
+#### [v0.2] --- [Next Milestone]
+[Directional outline --- 2-3 task lines max]
 
 ### Out of Scope
 - [What is explicitly not in this plan]
 
 ### Risks & Mitigations
-- [Key risk] → [Mitigation strategy]
+- [Key risk] -> [Mitigation strategy]
 ```
 
 ## Rules
 
-1. Identify hard dependencies first — everything else flows from the dependency graph
-2. Each task must have a clear verification target — "implement X" is not enough; "make test Y pass" is
+1. Identify hard dependencies first --- everything else flows from the dependency graph
+2. Each task must have a clear verification target --- "implement X" is not enough; "make test Y pass" is
 3. If a task depends on unknown behavior, flag it as high risk and recommend a spike
-4. Never plan more than 3 milestones in detail — the rest is directional
-5. Explicitly state what is out of scope — undone work is as important as planned work
+4. Never plan more than 3 milestones in detail --- the rest is directional
+5. Explicitly state what is out of scope --- undone work is as important as planned work
 6. If the feature is trivial (1-2 files, <50 lines), say so and skip the full plan format
 
 ## Composition

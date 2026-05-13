@@ -9,15 +9,15 @@ handoffs: code-review-and-quality (to review), debugging-and-error-recovery (to 
 
 ```
 `★ Security View ─────────────────────────────────`
-- [Component] — [risk level: LOW/MEDIUM/HIGH/CRITICAL]
-- [Top finding] — [severity]
+- [Component] --- [risk level: LOW/MEDIUM/HIGH/CRITICAL]
+- [Top finding] --- [severity]
 - [Recommendation]
 `─────────────────────────────────────────────────`
 ```
 
 # Security and Hardening
 
-**Companion script:** `scripts/security-scan.sh` — scans working tree for secrets, SQL risks, dangerous patterns, and dependency vulnerabilities.
+**Companion script:** `scripts/security-scan.sh` --- scans working tree for secrets, SQL risks, dangerous patterns, and dependency vulnerabilities.
 ```bash
 bash ./scripts/security-scan.sh check       # full security scan
 bash ./scripts/security-scan.sh checklist   # Three-Tier Boundary checklist
@@ -26,7 +26,7 @@ bash ./scripts/security-scan.sh deps        # dependency vulnerability audit
 
 ## Overview
 
-Security-first development practices for web applications. Treat every external input as hostile, every secret as sacred, and every authorization check as mandatory. Security isn't a phase — it's a constraint on every line of code that touches user data, authentication, or external systems.
+Security-first development practices for web applications. Treat every external input as hostile, every secret as sacred, and every authorization check as mandatory. Security isn't a phase --- it's a constraint on every line of code that touches user data, authentication, or external systems.
 
 ## When to Use
 
@@ -42,7 +42,7 @@ Security-first development practices for web applications. Treat every external 
 ### Always Do (No Exceptions)
 
 - **Validate all external input** at the system boundary (API routes, form handlers)
-- **Parameterize all database queries** — never concatenate user input into SQL
+- **Parameterize all database queries** --- never concatenate user input into SQL
 - **Encode output** to prevent XSS (use framework auto-escaping, don't bypass it)
 - **Use HTTPS** for all external communication
 - **Hash passwords** with bcrypt/scrypt/argon2 (never store plaintext)
@@ -161,7 +161,7 @@ app.use(helmet.contentSecurityPolicy({
   },
 }));
 
-// CORS — restrict to known origins
+// CORS --- restrict to known origins
 app.use(cors({
   origin: process.env.ALLOWED_ORIGINS?.split(',') || 'http://localhost:3000',
   credentials: true,
@@ -228,7 +228,7 @@ function validateUpload(file: UploadedFile) {
   if (file.size > MAX_SIZE) {
     throw new ValidationError('File too large (max 5MB)');
   }
-  // Don't trust the file extension — check magic bytes if critical
+  // Don't trust the file extension --- check magic bytes if critical
 }
 ```
 
@@ -283,9 +283,9 @@ app.use('/api/auth/', rateLimit({
 
 ```
 .env files:
-  ├── .env.example  → Committed (template with placeholder values)
-  ├── .env          → NOT committed (contains real secrets)
-  └── .env.local    → NOT committed (local overrides)
+  ├── .env.example  -> Committed (template with placeholder values)
+  ├── .env          -> NOT committed (contains real secrets)
+  └── .env.local    -> NOT committed (local overrides)
 
 .gitignore must include:
   .env

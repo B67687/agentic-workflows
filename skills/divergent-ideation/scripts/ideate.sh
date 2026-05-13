@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # =============================================================================
-# ideate.sh — Companion script for Divergent Ideation
+# ideate.sh --- Companion script for Divergent Ideation
 #
 # Generates structured ideation prompts and captures output.
 #

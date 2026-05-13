@@ -25,11 +25,11 @@ case "$cmd" in
   identify)
     echo "★ Trigger Identification ────────────────────────"
     echo ""
-    echo "• Feature shipped → analyze full cycle: ticket to merge"
-    echo "• Incident → what broke, detected, fixed"
-    echo "• Agent failure pattern → rejected PRs, rework cycles"
-    echo "• Project wrap → full engagement"
-    echo "• Ad hoc → user specifies what to reflect on"
+    echo "* Feature shipped -> analyze full cycle: ticket to merge"
+    echo "* Incident -> what broke, detected, fixed"
+    echo "* Agent failure pattern -> rejected PRs, rework cycles"
+    echo "* Project wrap -> full engagement"
+    echo "* Ad hoc -> user specifies what to reflect on"
     echo "─────────────────────────────────────────────────"
     ;;
   gather)
@@ -62,9 +62,9 @@ case "$cmd" in
   capture)
     finding="${1:-}"
     echo "★ Learning ──────────────────────────────────────"
-    echo "[$(date +%F)] — [trigger]"
+    echo "[$(date +%F)] --- [trigger]"
     echo "- $finding"
-    echo "  → [root cause category] → [specific fix]"
+    echo "  -> [root cause category] -> [specific fix]"
     echo "─────────────────────────────────────────────────"
     ;;
   ticket)
@@ -80,8 +80,8 @@ case "$cmd" in
     ;;
   append)
     echo "★ Append to .tap/learnings.md ───────────────────"
-    echo "[$(date +%F)] — [trigger]"
-    echo "- [what happened] → [gap type] → [specific fix]"
+    echo "[$(date +%F)] --- [trigger]"
+    echo "- [what happened] -> [gap type] -> [specific fix]"
     echo "─────────────────────────────────────────────────"
     ;;
   help|*)

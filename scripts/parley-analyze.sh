@@ -146,7 +146,7 @@ analyze_positions() {
     
     # Check if position evolved
     if [[ "$first_msg" != "$last_msg" ]]; then
-      echo "→ **Evolution detected**"
+      echo "-> **Evolution detected**"
     fi
     echo ""
   done
@@ -314,7 +314,7 @@ if [[ "$run_all" == true ]]; then
   analyze_consensus
   analyze_timeline
 else
-  # Single analysis — run and collect output
+  # Single analysis --- run and collect output
   analysis_output_file="$SESSION_DIR/analysis.md"
   {
     echo "# Parley Analysis ($ANALYSIS): $TOPIC"

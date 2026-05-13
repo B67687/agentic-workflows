@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # =============================================================================
-# log-agent-stop.sh — SubagentStop lifecycle hook
+# log-agent-stop.sh --- SubagentStop lifecycle hook
 # Logs subagent completion to .cache/agent-audit.log.
 #
 # Input: JSON via stdin (Claude Code SubagentStop schema) or empty

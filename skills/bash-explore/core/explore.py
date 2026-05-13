@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """
-explore.py — Structured file discovery for bash-hybrid exploration.
+explore.py --- Structured file discovery for bash-hybrid exploration.
 
 Companion script for the bash-explore skill. Provides reusable,
 structured operations for codebase exploration. Use when you need
 to programmatically discover files, count patterns, or assess
-directory structure — avoids ad-hoc `find`/`grep` parsing errors.
+directory structure --- avoids ad-hoc `find`/`grep` parsing errors.
 
 Usage from SKILL.md examples:
     python3 core/explore.py find-by-name '*handler*'

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # =============================================================================
-# build-index.sh — Build BM25 text index for the workspace
+# build-index.sh --- Build BM25 text index for the workspace
 # =============================================================================
 # Usage: bash ./scripts/build-index.sh [root-dir]
 #

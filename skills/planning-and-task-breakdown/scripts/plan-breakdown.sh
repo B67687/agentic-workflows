@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # =============================================================================
-# plan-breakdown.sh — Companion script for Planning and Task Breakdown
+# plan-breakdown.sh --- Companion script for Planning and Task Breakdown
 #
 # Generates ordered task breakdowns with dependencies and acceptance criteria.
 # Follows the skill's Step 2 (Dependency Graph) and Step 3 (Task Decomposition).
@@ -57,7 +57,7 @@ case "$MODE" in
 
 ## Ordering
 <!-- Execution order based on dependency graph -->
-1. Task 1 (no deps — start here)
+1. Task 1 (no deps --- start here)
 2. Task 2 (depends on Task 1)
 3. Task 3 (depends on Task 1, Task 2)
 
@@ -90,9 +90,9 @@ TEMPLATE
       echo "  Too large for a single review. Must split."
       echo "  Recommendation: 3-5 tasks, each with independent review."
       echo "  Split strategies:"
-      echo "    → Stack (sequential deps)"
-      echo "    → By file group (per-module)"
-      echo "    → Vertical (thin slices through the stack)"
+      echo "    -> Stack (sequential deps)"
+      echo "    -> By file group (per-module)"
+      echo "    -> Vertical (thin slices through the stack)"
     else
       echo "  Size: VERY LARGE (${LINES} lines)"
       echo "  Must be decomposed before work begins."
@@ -131,7 +131,7 @@ else: print('Milestone-level review required')
     echo "- **Acceptance criteria:**"
     echo "  - [ ] Data structures defined"
     echo "  - [ ] Types/interfaces exported"
-    echo "  - [ ] No logic yet — just contracts"
+    echo "  - [ ] No logic yet --- just contracts"
     echo "- **Size:** small"
     echo "- **Depends on:** (none)"
     echo ""
@@ -178,9 +178,9 @@ else: print('Milestone-level review required')
   *)
     echo "Usage: $0 {template|size|decompose}"
     echo ""
-    echo "  template                 — Output blank task breakdown template"
-    echo "  size <lines>             — Sizing guidance for change scope"
-    echo "  decompose \"<desc>\"       — Generate task breakdown from description"
+    echo "  template                 --- Output blank task breakdown template"
+    echo "  size <lines>             --- Sizing guidance for change scope"
+    echo "  decompose \"<desc>\"       --- Generate task breakdown from description"
     exit 1
     ;;
 esac

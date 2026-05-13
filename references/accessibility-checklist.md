@@ -128,8 +128,8 @@ npx axe-core          # Programmatic accessibility testing
 npx pa11y             # CLI accessibility checker
 
 # In browser
-# Chrome DevTools → Lighthouse → Accessibility
-# Chrome DevTools → Elements → Accessibility tree
+# Chrome DevTools -> Lighthouse -> Accessibility
+# Chrome DevTools -> Elements -> Accessibility tree
 
 # Screen reader testing
 # macOS: VoiceOver (Cmd + F5)

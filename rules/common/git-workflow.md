@@ -1,5 +1,5 @@
 ---
-description: Git workflow conventions — commit format, branch strategy, PR process, and safety rules.
+description: Git workflow conventions --- commit format, branch strategy, PR process, and safety rules.
 globs: []
 alwaysApply: true
 ---
@@ -13,7 +13,7 @@ Use conventional commits:
 ```
 <type>: <short description>
 
-<optional body — why this change was made, not what it does>
+<optional body --- why this change was made, not what it does>
 ```
 
 **Types:**
@@ -31,17 +31,17 @@ Use conventional commits:
 
 ## Branch Strategy
 
-- **Main branch** is `main` — always deployable
-- **Feature branches:** `feat/<short-description>` — for new features
-- **Fix branches:** `fix/<short-description>` — for bug fixes
-- **Chore branches:** `chore/<short-description>` — for tooling, config, cleanup
+- **Main branch** is `main` --- always deployable
+- **Feature branches:** `feat/<short-description>` --- for new features
+- **Fix branches:** `fix/<short-description>` --- for bug fixes
+- **Chore branches:** `chore/<short-description>` --- for tooling, config, cleanup
 
 ## Safety Rules
 
 - **Never force push to `main`** or any shared branch
-- **Never commit secrets** — check for API keys, tokens, passwords before every commit
-- **Never commit large binary files** (>1MB) — use Git LFS or exclude them
-- **Never commit `node_modules/`, `.next/`, `dist/`, `build/`** — these are in `.gitignore`
+- **Never commit secrets** --- check for API keys, tokens, passwords before every commit
+- **Never commit large binary files** (>1MB) --- use Git LFS or exclude them
+- **Never commit `node_modules/`, `.next/`, `dist/`, `build/`** --- these are in `.gitignore`
 - **Never rewrite published history** on shared branches
 
 ## PR Process

@@ -1,6 +1,6 @@
 #!/bin/bash
 # =============================================================================
-# context-pressure.sh — Session health monitor
+# context-pressure.sh --- Session health monitor
 #
 # Measures signals that indicate context degradation or session rot:
 #   - Session duration (from session-state.json)
@@ -65,34 +65,34 @@ RECOMMENDATIONS=()
 # Signal 1: Session age
 if [ "$SESSION_AGE_HOURS" -gt 4 ]; then
     SCORE=$((SCORE + 2))
-    RECOMMENDATIONS+=("Session is ${SESSION_AGE_HOURS}h old — consider checkpoint + fresh session")
+    RECOMMENDATIONS+=("Session is ${SESSION_AGE_HOURS}h old --- consider checkpoint + fresh session")
 elif [ "$SESSION_AGE_HOURS" -gt 2 ]; then
     SCORE=$((SCORE + 1))
-    RECOMMENDATIONS+=("Session is ${SESSION_AGE_HOURS}h old — approaching context rot threshold")
+    RECOMMENDATIONS+=("Session is ${SESSION_AGE_HOURS}h old --- approaching context rot threshold")
 fi
 
 # Signal 2: Dirty files
 if [ "$DIRTY_COUNT" -gt 20 ]; then
     SCORE=$((SCORE + 2))
-    RECOMMENDATIONS+=("$DIRTY_COUNT uncommitted files — checkpoint before they grow stale")
+    RECOMMENDATIONS+=("$DIRTY_COUNT uncommitted files --- checkpoint before they grow stale")
 elif [ "$DIRTY_COUNT" -gt 10 ]; then
     SCORE=$((SCORE + 1))
-    RECOMMENDATIONS+=("$DIRTY_COUNT uncommitted files — consider checkpointing")
+    RECOMMENDATIONS+=("$DIRTY_COUNT uncommitted files --- consider checkpointing")
 fi
 
-# Signal 3: Commits (proxy for turn count — lots of commits = long session)
+# Signal 3: Commits (proxy for turn count --- lots of commits = long session)
 if [ "$COMMITS_TODAY" -gt 15 ]; then
     SCORE=$((SCORE + 1))
-    RECOMMENDATIONS+=("$COMMITS_TODAY commits today — high activity, context may be fragmented")
+    RECOMMENDATIONS+=("$COMMITS_TODAY commits today --- high activity, context may be fragmented")
 fi
 
 # Signal 4: Context pressure from state file
 if [ "$CONTEXT_PRESSURE" = "high" ]; then
     SCORE=$((SCORE + 3))
-    RECOMMENDATIONS+=("Context pressure is HIGH — compact immediately (bash ./scripts/hooks/pre-compact.sh then ask agent to compact)")
+    RECOMMENDATIONS+=("Context pressure is HIGH --- compact immediately (bash ./scripts/hooks/pre-compact.sh then ask agent to compact)")
 elif [ "$CONTEXT_PRESSURE" = "medium" ]; then
     SCORE=$((SCORE + 1))
-    RECOMMENDATIONS+=("Context pressure is medium — prepare to compact soon")
+    RECOMMENDATIONS+=("Context pressure is medium --- prepare to compact soon")
 fi
 
 # --- Determine health status ---
@@ -200,7 +200,7 @@ print(json.dumps({
     ;;
   --check)
     if [ "$STATUS" = "CRITICAL" ]; then
-        echo "[health] CRITICAL — context pressure needs action"
+        echo "[health] CRITICAL --- context pressure needs action"
         exit 1
     fi
     echo "[health] $STATUS"
@@ -216,7 +216,7 @@ print(json.dumps({
         auto_compact
         exit 1
     fi
-    echo "[health] $STATUS — context pressure manageable"
+    echo "[health] $STATUS --- context pressure manageable"
     exit 0
     ;;
   *)
@@ -231,7 +231,7 @@ print(json.dumps({
     if [ ${#RECOMMENDATIONS[@]} -gt 0 ]; then
         echo "Recommendations:"
         for rec in "${RECOMMENDATIONS[@]}"; do
-            echo "  → $rec"
+            echo "  -> $rec"
         done
         echo ""
     fi

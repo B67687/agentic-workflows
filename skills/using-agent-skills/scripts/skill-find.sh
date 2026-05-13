@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # =============================================================================
-# skill-find.sh — Companion script for Using Agent Skills
+# skill-find.sh --- Companion script for Using Agent Skills
 #
 # Discovers and lists skills, their trigger phrases, and companion scripts.
 #
@@ -28,7 +28,7 @@ case "$MODE" in
         [ ! -f "$SKILL" ] && continue
         if grep -qi "$QUERY" "$SKILL" 2>/dev/null; then
             desc=$(grep -m1 'description:' "$SKILL" | sed 's/.*: //; s/^"//; s/"$//' 2>/dev/null | head -c 100)
-            echo "  $name — ${desc:-}"
+            echo "  $name --- ${desc:-}"
         fi
     done
     ;;
@@ -52,7 +52,7 @@ for s in b.get('skills', []):
             name=$(basename "$d")
             has_script=$(find "$d" -type f -not -name 'SKILL.md' -not -name 'manifest.json' 2>/dev/null | head -1 | xargs -I{} echo "✓" || echo " ")
             trig=$(grep -m1 'trigger-phrases' "$d/SKILL.md" 2>/dev/null | sed 's/.*: //' | head -c 60)
-            echo "  [${has_script}] $name — ${trig:-}"
+            echo "  [${has_script}] $name --- ${trig:-}"
         done
     fi
     ;;

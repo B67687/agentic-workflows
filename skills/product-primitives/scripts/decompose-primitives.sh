@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # =============================================================================
-# decompose-primitives.sh — Product Primitives companion
+# decompose-primitives.sh --- Product Primitives companion
 #
 # Decompose complex systems into fundamental building blocks.
 # Supports multiple analytical lenses.

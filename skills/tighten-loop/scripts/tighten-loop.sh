@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Tighten loop — harvest course-corrections into durable changes.
+# Tighten loop --- harvest course-corrections into durable changes.
 # Usage: bash ./scripts/tighten-loop.sh harvest "<insight>"
 set -euo pipefail
 case "${1:-harvest}" in

@@ -4,8 +4,8 @@ Append-only file. Each entry records what blocked agent autonomy and the fix.
 
 ## Format
 ```
-[YYYY-MM-DD] — [trigger event]
-- [what happened] → [gap type] → [specific fix]
+[YYYY-MM-DD] --- [trigger event]
+- [what happened] -> [gap type] -> [specific fix]
 ```
 
 ## Gap Types
@@ -21,5 +21,5 @@ Append-only file. Each entry records what blocked agent autonomy and the fix.
 
 ## Entries
 
-[YYYY-MM-DD] — [trigger]
-- [finding] → [gap type] → [fix action]
+[YYYY-MM-DD] --- [trigger]
+- [finding] -> [gap type] -> [fix action]

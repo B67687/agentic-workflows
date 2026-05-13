@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # =============================================================================
-# product-think.sh — Product Thinker companion
+# product-think.sh --- Product Thinker companion
 #
 # Structured product decision framework. Covers build-vs-buy, UX analysis,
 # and competitive research.

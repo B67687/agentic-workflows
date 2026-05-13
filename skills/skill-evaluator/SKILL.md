@@ -7,7 +7,7 @@ handoffs: using-agent-skills (to discover skills), context-engineering (to refin
 
 # Skill Evaluator
 
-**Companion script:** `scripts/skill-test.sh` — discover skills, verify structure, check completeness.
+**Companion script:** `scripts/skill-test.sh` --- discover skills, verify structure, check completeness.
 ```bash
 bash ./scripts/skill-test.sh discover         # list all skills with triggers
 bash ./scripts/skill-test.sh check <name>     # verify skill completeness
@@ -39,17 +39,17 @@ Actual behavior:      Started coding immediately, no spec produced
 
 For each test case:
 
-1. **Load the skill** — use `skill` tool to read the SKILL.md
-2. **Simulate the scenario** — evaluate whether the skill's description matches the user's intent
-3. **Check triggering** — would the skill auto-trigger on the test prompt?
-4. **Verify the workflow** — would the skill's instructions produce correct output?
+1. **Load the skill** --- use `skill` tool to read the SKILL.md
+2. **Simulate the scenario** --- evaluate whether the skill's description matches the user's intent
+3. **Check triggering** --- would the skill auto-trigger on the test prompt?
+4. **Verify the workflow** --- would the skill's instructions produce correct output?
 
 Document each test result:
 
 ```
 TEST: "I want to build a login system"
-  TRIGGER: spec-driven-development — ✅ (it's about building a new feature)
-  WORKFLOW: Spec → Plan → Build — ✅ (matches user's needs)
+  TRIGGER: spec-driven-development --- ✅ (it's about building a new feature)
+  WORKFLOW: Spec -> Plan -> Build --- ✅ (matches user's needs)
   NOTES: Description could add "Also triggers on vague feature requests"
 ```
 
@@ -68,10 +68,10 @@ Common failure patterns:
 
 After diagnosing, propose specific changes:
 
-1. **Description fix** — rewrite the `description` field in SKILL.md frontmatter
-2. **Workflow fix** — clarify steps, add decision logic, fix ordering
-3. **Add red flags** — add "Red Flags" section for what the skill MUST NOT do
-4. **Add examples** — add concrete before/after examples
+1. **Description fix** --- rewrite the `description` field in SKILL.md frontmatter
+2. **Workflow fix** --- clarify steps, add decision logic, fix ordering
+3. **Add red flags** --- add "Red Flags" section for what the skill MUST NOT do
+4. **Add examples** --- add concrete before/after examples
 
 Apply the fix, then re-run the test. Repeat until all test cases pass.
 

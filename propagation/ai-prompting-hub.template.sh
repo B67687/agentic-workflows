@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Managed-By: AI-Prompting-Library
 #
-# Hub resolver — finds the hub directory using:
+# Hub resolver --- finds the hub directory using:
 #   1. $AI_PROMPTING_HUB env var (runtime override)
 #   2. Walk up from start_dir looking for a sibling named $HUB_FOLDER_NAME
 #

@@ -4,16 +4,16 @@
 **Intent:** [1-2 sentence summary of what this change tries to do]
 
 ## Changed Files
-- [file1] — [what changed]
-- [file2] — [what changed]
+- [file1] --- [what changed]
+- [file2] --- [what changed]
 
 ## Impact Surface
 
 ### Direct Changes
-- [function/component] — [behavioral change]
+- [function/component] --- [behavioral change]
 
 ### Dependents
-- [caller/importer] — [ripple effect]
+- [caller/importer] --- [ripple effect]
 
 ### Shared State
 - [✓/✗] DB schema changes
@@ -24,12 +24,12 @@
 
 ## Verification Checklist
 
-- [ ] [page/flow] — [what to verify] — [why it might break]
-- [ ] [page/flow] — [what to verify] — [why it might break]
-- [ ] [page/flow] — [what to verify] — [why it might break]
+- [ ] [page/flow] --- [what to verify] --- [why it might break]
+- [ ] [page/flow] --- [what to verify] --- [why it might break]
+- [ ] [page/flow] --- [what to verify] --- [why it might break]
 
 ## Blind Spots (MEDIUM/HIGH only)
-- [hidden dependency] — [why it matters]
+- [hidden dependency] --- [why it matters]
 
 ## Suspicious Patterns
 - [✓/✗] Scope creep

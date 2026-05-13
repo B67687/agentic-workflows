@@ -107,9 +107,9 @@ case "$cmd" in
   checklist)
     echo "★ Verification Checklist ────────────────────────"
     echo ""
-    echo "□ [page/flow] — [what to verify] — [why it might break]"
-    echo "□ [page/flow] — [what to verify] — [why it might break]"
-    echo "□ [page/flow] — [what to verify] — [why it might break]"
+    echo "□ [page/flow] --- [what to verify] --- [why it might break]"
+    echo "□ [page/flow] --- [what to verify] --- [why it might break]"
+    echo "□ [page/flow] --- [what to verify] --- [why it might break]"
     echo ""
     echo "Prioritize: most likely to break first, most damaging if broken second."
     echo "─────────────────────────────────────────────────"

@@ -8,7 +8,7 @@ companion-script: scripts/grill-session.sh
 
 # Grill Me
 
-**Companion script:** `scripts/grill-session.sh` — session framing, question formatting, and closure summary.
+**Companion script:** `scripts/grill-session.sh` --- session framing, question formatting, and closure summary.
 ```bash
 bash ./scripts/grill-session.sh start "<topic>"       # open a grill session
 bash ./scripts/grill-session.sh question "<q>" "<r>"   # format a question
@@ -28,13 +28,13 @@ When a task is broad, ambiguous, or expensive to get wrong, stop and grill befor
 
 ## Phases
 
-### Phase 1 — Set the Stage
+### Phase 1 --- Set the Stage
 
 State what you're about to do:
 
 > "I'm going to interview you about this plan until we reach shared understanding on every branch of the decision tree. I'll go one question at a time. For each question, I'll provide a recommended answer. If a question can be answered by exploring the codebase, I'll explore instead of asking."
 
-### Phase 2 — Walk the Decision Tree
+### Phase 2 --- Walk the Decision Tree
 
 Ask questions **one at a time**. Wait for the user's answer before continuing.
 
@@ -46,14 +46,14 @@ Each question should:
 Example flow:
 
 ```
-Q1: "Who is the primary user of this feature — an end customer or an admin?"
+Q1: "Who is the primary user of this feature --- an end customer or an admin?"
     Recommended: "End customer, same as the existing checkout flow."
 
 Q2: "Should this handle guest users (no account) or require authentication?"
     Recommended: "Guest users, since the current cart flow supports guest checkout."
 ```
 
-### Phase 3 — Stress-Test with Scenarios
+### Phase 3 --- Stress-Test with Scenarios
 
 Once the outline is clear, probe edge cases with concrete scenarios:
 
@@ -62,9 +62,9 @@ Once the outline is clear, probe edge cases with concrete scenarios:
 > 2. Retry the inventory update and reconcile later
 > 3. Show a success page with a warning banner
 >
-> Recommended: Option 2 — we already have a reconciliation worker pattern."
+> Recommended: Option 2 --- we already have a reconciliation worker pattern."
 
-### Phase 4 — Confirm Shared Understanding
+### Phase 4 --- Confirm Shared Understanding
 
 Summarize the agreed plan in 3-5 bullets. Ask:
 
@@ -105,7 +105,7 @@ Use `/grill-with-docs` instead when the project has a CONTEXT.md domain language
 - Starting implementation with unanswered questions about the design
 - Assuming requirements without confirming
 - Skipping edge cases because they're "unlikely"
-- The user saying "I don't know" — that means the branch needs more thought, not that it should be skipped
+- The user saying "I don't know" --- that means the branch needs more thought, not that it should be skipped
 
 ## Verification
 

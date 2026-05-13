@@ -1,5 +1,5 @@
 ---
-description: Git operations — probe state before editing, create worktrees for parallel work
+description: Git operations --- probe state before editing, create worktrees for parallel work
 argument-hint: "[probe|worktree] [branch-name]"
 ---
 ## Probe (check branch state before editing)

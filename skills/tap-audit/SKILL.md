@@ -35,23 +35,23 @@ If `.tap/tap-audit.md` exists, read it first:
 | Condition | Action |
 |-----------|--------|
 | `--force` flag | Full re-run |
-| < 30 days, no key config changes | **Summary mode** — print score + leverage points. Stop. |
-| < 30 days, key config changed | **Delta mode** — reassess only affected dimensions |
+| < 30 days, no key config changes | **Summary mode** --- print score + leverage points. Stop. |
+| < 30 days, key config changed | **Delta mode** --- reassess only affected dimensions |
 | >= 30 days, significant activity | Recommend full re-run, ask first |
-| >= 30 days, low activity | **Summary mode** — likely still accurate. Stop. |
+| >= 30 days, low activity | **Summary mode** --- likely still accurate. Stop. |
 
 ### 1. Scan the Repo
 
 ```
-.claude/settings.json           → permissions
-.claude/settings.local.json     → local overrides
-.mcp.json                       → MCP servers
-CLAUDE.md                       → coding instructions
-AGENTS.md                       → agent boundaries
-package.json / Cargo.toml       → stack + scripts
-tsconfig.json / biome.json      → tooling config
-.github/workflows/              → CI/CD setup
-.tap/                           → existing project memory
+.claude/settings.json           -> permissions
+.claude/settings.local.json     -> local overrides
+.mcp.json                       -> MCP servers
+CLAUDE.md                       -> coding instructions
+AGENTS.md                       -> agent boundaries
+package.json / Cargo.toml       -> stack + scripts
+tsconfig.json / biome.json      -> tooling config
+.github/workflows/              -> CI/CD setup
+.tap/                           -> existing project memory
 ```
 
 Also run: `git log --oneline -20`, `git shortlog -sn --no-merges --since="90 days ago"`, `gh run list --limit 5` if tools available.
@@ -60,7 +60,7 @@ Also run: `git log --oneline -20`, `git shortlog -sn --no-merges --since="90 day
 
 #### Environments
 ```
-- Local:      [command] → [url]
+- Local:      [command] -> [url]
 - Preview:    [url or "not configured"]
 - Staging:    [url or "not configured"]
 - Production: [url or "not configured"]
@@ -124,7 +124,7 @@ Flag what's MISSING that causes agent rework:
 Find 3-5. Each answers: what's slowing delivery OR letting defects through?
 
 ```
-### N. [Short description] → [consequence]
+### N. [Short description] -> [consequence]
 - Symptom: [observable problem]
 - Why it costs: [concrete impact on speed or quality]
 - Fix: [cheapest intervention + estimated effort]
@@ -148,7 +148,7 @@ Write each decision in 2-4 lines. Capture the **principle** behind the decision.
 
 ```
 `★ Audit View ────────────────────────────────────`
-[repo name] — [readiness score]
+[repo name] --- [readiness score]
   ├─ [top feedback loop finding]
   ├─ [#1 leverage point]
   └─ [cheapest fix to start with]
@@ -163,4 +163,4 @@ Write each decision in 2-4 lines. Capture the **principle** behind the decision.
 
 - Does NOT describe the tech stack (CLAUDE.md's job)
 - Does NOT set coding conventions (CLAUDE.md's job)
-- Does NOT modify any code or config — read-only assessment
+- Does NOT modify any code or config --- read-only assessment

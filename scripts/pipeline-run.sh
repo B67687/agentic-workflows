@@ -140,7 +140,7 @@ EOF
       jq '.status = "complete"' "$FILE" > "$FILE.tmp" && mv "$FILE.tmp" "$FILE"
       echo "Pipeline complete: $PIPELINE_ID"
     else
-      echo "Task $TASK_ID → $STATUS"
+      echo "Task $TASK_ID -> $STATUS"
     fi
     ;;
     
@@ -241,11 +241,11 @@ EOF
         jq --arg id "$TASK_ID" --arg jid "$JOB_ID" '
           (.tasks[] | select(.id == ($id | tonumber))) |= (.status = "dispatched" | .agent_job_id = $jid)
         ' "$FILE" > "$FILE.tmp" && mv "$FILE.tmp" "$FILE"
-        echo "  → $JOB_ID"
+        echo "  -> $JOB_ID"
         DISPATCHED=$((DISPATCHED + 1))
       else
-        echo "  → FAILED to dispatch"
-        echo "  → $JOB_RESULT" | head -3
+        echo "  -> FAILED to dispatch"
+        echo "  -> $JOB_RESULT" | head -3
       fi
     done
 
@@ -300,27 +300,27 @@ EOF
           jq --arg id "$TASK_ID" '
             (.tasks[] | select(.id == ($id | tonumber))) |= (.status = "done")
           ' "$FILE" > "$FILE.tmp" && mv "$FILE.tmp" "$FILE"
-          echo "  → DONE (exit: $EXIT_CODE)"
+          echo "  -> DONE (exit: $EXIT_CODE)"
           COMPLETED=$((COMPLETED + 1))
           ;;
         failed)
           jq --arg id "$TASK_ID" '
             (.tasks[] | select(.id == ($id | tonumber))) |= (.status = "failed")
           ' "$FILE" > "$FILE.tmp" && mv "$FILE.tmp" "$FILE"
-          echo "  → FAILED (exit: $EXIT_CODE)"
+          echo "  -> FAILED (exit: $EXIT_CODE)"
           COMPLETED=$((COMPLETED + 1))
           ;;
         running)
-          echo "  → still running"
+          echo "  -> still running"
           ;;
         cancelled)
           jq --arg id "$TASK_ID" '
             (.tasks[] | select(.id == ($id | tonumber))) |= (.status = "pending" | .agent_job_id = null)
           ' "$FILE" > "$FILE.tmp" && mv "$FILE.tmp" "$FILE"
-          echo "  → was CANCELLED, reset to pending"
+          echo "  -> was CANCELLED, reset to pending"
           ;;
         *)
-          echo "  → unknown status: $JOB_STATUS"
+          echo "  -> unknown status: $JOB_STATUS"
           ;;
       esac
     done

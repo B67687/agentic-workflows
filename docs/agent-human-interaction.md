@@ -1,22 +1,22 @@
 # Agent-Human Interaction Patterns
 
-How agents and humans should interact — grounded in the A2A protocol's interrupted states
+How agents and humans should interact --- grounded in the A2A protocol's interrupted states
 (`INPUT_REQUIRED`, `AUTH_REQUIRED`), Anthropic's agent loop guidelines, and
 Socratic questioning principles.
 
 ## The Core Pattern
 
 ```
-Human gives task → Agent works independently → Agent hits decision point
-                                                     ↓
+Human gives task -> Agent works independently -> Agent hits decision point
+                                                     v
                               ┌────────────────────────────────┐
-                              │ Can proceed → continue working │
-                              │ Needs input → PAUSE, ask once  │
-                              │ Ambiguous → SELF-PROBE first    │
-                              │ Can't resolve → ESCALATE       │
+                              │ Can proceed -> continue working │
+                              │ Needs input -> PAUSE, ask once  │
+                              │ Ambiguous -> SELF-PROBE first    │
+                              │ Can't resolve -> ESCALATE       │
                               └────────────────────────────────┘
-                                                     ↓
-                              Agent resumes or reports → Human reviews
+                                                     v
+                              Agent resumes or reports -> Human reviews
 ```
 
 The key insight from Anthropic's "Building Effective Agents" (Dec 2024):
@@ -28,7 +28,7 @@ The key insight from Anthropic's "Building Effective Agents" (Dec 2024):
 
 The agent has sufficient context, tools, and authority to proceed.
 
-**Pattern:** Agent works → Agent delivers result
+**Pattern:** Agent works -> Agent delivers result
 
 **Guardrails:**
 - Authority must be explicitly delegated (not assumed)
@@ -39,7 +39,7 @@ The agent has sufficient context, tools, and authority to proceed.
 
 The agent has hit a decision point where human context or preference is needed.
 
-**Pattern:** Agent works → Agent hits fork → Agent PAUSES → Agent asks structured question → Human answers → Agent continues
+**Pattern:** Agent works -> Agent hits fork -> Agent PAUSES -> Agent asks structured question -> Human answers -> Agent continues
 
 **Best practice (from structured-questioning skill):**
 - Decompose the question first (5W+H)
@@ -55,7 +55,7 @@ The agent has hit a decision point where human context or preference is needed.
 
 The agent needs credentials, permissions, or escalation approval.
 
-**Pattern:** Agent works → Agent hits auth gate → Agent PAUSES → Agent states what's needed → Human authorizes → Agent continues
+**Pattern:** Agent works -> Agent hits auth gate -> Agent PAUSES -> Agent states what's needed -> Human authorizes -> Agent continues
 
 **Rules:**
 - State exactly what operation requires auth
@@ -67,7 +67,7 @@ The agent needs credentials, permissions, or escalation approval.
 
 The agent cannot resolve the task with available tools, context, or authority.
 
-**Pattern:** Agent works → Agent hits unrecoverable → Agent PAUSES → Agent summarizes what was tried → Human decides to repair, redirect, or abort
+**Pattern:** Agent works -> Agent hits unrecoverable -> Agent PAUSES -> Agent summarizes what was tried -> Human decides to repair, redirect, or abort
 
 **Examples:**
 - Tool returned unexpected error after 3 retries
@@ -92,7 +92,7 @@ When an agent needs to ask a human something, the question should follow this st
 **Good:**
 > "I'm generating the report and found that the November data has a 3-day gap.
 > Options: (a) fill with projected averages, (b) leave as null with a footnote,
-> (c) exclude November entirely. I recommend (a) — it's what we did last quarter
+> (c) exclude November entirely. I recommend (a) --- it's what we did last quarter
 > and the discrepancy was under 2%. The report is due Friday. If I don't hear back
 > by Thursday EOD, I'll proceed with (a)."
 
@@ -100,10 +100,10 @@ When an agent needs to ask a human something, the question should follow this st
 
 When a human needs to ask an agent, apply the structured-questioning skill:
 
-1. **Run the 5W+H checklist** — ensure all dimensions are covered
-2. **Frame in ACI-optimized language** — give the agent room to think
-3. **Specify success criteria** — what does a good answer look like?
-4. **Set boundaries** — what's out of scope?
+1. **Run the 5W+H checklist** --- ensure all dimensions are covered
+2. **Frame in ACI-optimized language** --- give the agent room to think
+3. **Specify success criteria** --- what does a good answer look like?
+4. **Set boundaries** --- what's out of scope?
 
 ## Integration with This Workspace
 
@@ -120,14 +120,14 @@ When a human needs to ask an agent, apply the structured-questioning skill:
 Use this when the agent needs human input mid-task:
 
 ```
-1. STOP — do not continue past the decision point
-2. SELF-PROBE — can I resolve this without the human?
+1. STOP --- do not continue past the decision point
+2. SELF-PROBE --- can I resolve this without the human?
    - Check docs, check cache, check tools
    - If yes: resolve silently, log the decision
-3. FORMULATE — create the structured question
-   - Context → Fork → Recommendation → Impact → Urgency
-4. SEND — deliver the question
-5. WAIT — with timeout. If timeout expires, re-ask once with urgency bump.
+3. FORMULATE --- create the structured question
+   - Context -> Fork -> Recommendation -> Impact -> Urgency
+4. SEND --- deliver the question
+5. WAIT --- with timeout. If timeout expires, re-ask once with urgency bump.
 6. If second timeout: execute recommendation as default.
 ```
 
@@ -144,8 +144,8 @@ Use this when the agent needs human input mid-task:
 
 ## References
 
-1. A2A Protocol Specification v1.0 — `INPUT_REQUIRED`, `AUTH_REQUIRED` task states
-2. Anthropic, "Building Effective Agents" (Dec 2024) — agent loop, human-in-loop patterns
-3. OpenAI Agents SDK — Guardrails and human review patterns
-4. Aristotle, *Nicomachean Ethics* III — the *Septem Circumstantiae* (5W+H origins)
-5. This workspace: `skills/structured-questioning/SKILL.md` — structured question formulation
+1. A2A Protocol Specification v1.0 --- `INPUT_REQUIRED`, `AUTH_REQUIRED` task states
+2. Anthropic, "Building Effective Agents" (Dec 2024) --- agent loop, human-in-loop patterns
+3. OpenAI Agents SDK --- Guardrails and human review patterns
+4. Aristotle, *Nicomachean Ethics* III --- the *Septem Circumstantiae* (5W+H origins)
+5. This workspace: `skills/structured-questioning/SKILL.md` --- structured question formulation

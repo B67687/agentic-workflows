@@ -1,14 +1,14 @@
-# DESIGN.md Pattern — Visual Language Specification
+# DESIGN.md Pattern --- Visual Language Specification
 
-A `DESIGN.md` is a Markdown file that defines how a project should look and feel. It lives at the project root alongside `AGENTS.md` and serves as the canonical reference for visual design — readable by humans and AI agents alike.
+A `DESIGN.md` is a Markdown file that defines how a project should look and feel. It lives at the project root alongside `AGENTS.md` and serves as the canonical reference for visual design --- readable by humans and AI agents alike.
 
 ## Why
 
 Without a design spec, AI agents default to generic UI patterns: purple/indigo gradients, rounded everything, and stock card grids. A `DESIGN.md` tells the agent exactly what colors, typography, components, and layout rules to use, producing consistent, brand-aligned output in one shot.
 
 ```
-Without DESIGN.md:  "Build me a landing page" → generic AI aesthetic
-With DESIGN.md:     "Build me a landing page that matches DESIGN.md" → brand-aligned UI
+Without DESIGN.md:  "Build me a landing page" -> generic AI aesthetic
+With DESIGN.md:     "Build me a landing page that matches DESIGN.md" -> brand-aligned UI
 ```
 
 ## When to Create
@@ -24,7 +24,7 @@ Create `DESIGN.md` when:
 
 A DESIGN.md has two parts: **YAML frontmatter** (structured tokens) and **Markdown body** (narrative).
 
-### YAML Frontmatter — Design Tokens
+### YAML Frontmatter --- Design Tokens
 
 ```yaml
 ---
@@ -83,27 +83,27 @@ Tokens reference each other using `{section.key}` syntax:
 | `{spacing.lg}` | `24px` |
 | `{component.button-primary}` | Button spec block |
 
-This makes the file self-referencing and AI-friendly — the agent resolves tokens when generating code.
+This makes the file self-referencing and AI-friendly --- the agent resolves tokens when generating code.
 
-### Markdown Body — Narrative
+### Markdown Body --- Narrative
 
 After the frontmatter, provide rich markdown that an AI agent can read for context:
 
 **Required sections:**
 
-1. **Overview** — Visual philosophy, mood, design approach, key characteristics
-2. **Colors** — Brand colors, surface colors, text colors, semantic colors. For each: hex value, role description, usage rules
-3. **Typography** — Font families, hierarchy table (token, size, weight, line-height, letter-spacing, use-case), font principles
-4. **Layout** — Spacing system, grid, container widths, whitespace philosophy
-5. **Elevation & Depth** — Shadow levels, surface hierarchy, decorative depth
-6. **Shapes** — Border radius scale, image geometry
-7. **Components** — Buttons, cards, inputs, navigation, signature components. Each with: appearance, states, token references
-8. **Do's and Don'ts** — Design guardrails and anti-patterns
-9. **Responsive Behavior** — Breakpoints, collapsing strategy, touch targets
+1. **Overview** --- Visual philosophy, mood, design approach, key characteristics
+2. **Colors** --- Brand colors, surface colors, text colors, semantic colors. For each: hex value, role description, usage rules
+3. **Typography** --- Font families, hierarchy table (token, size, weight, line-height, letter-spacing, use-case), font principles
+4. **Layout** --- Spacing system, grid, container widths, whitespace philosophy
+5. **Elevation & Depth** --- Shadow levels, surface hierarchy, decorative depth
+6. **Shapes** --- Border radius scale, image geometry
+7. **Components** --- Buttons, cards, inputs, navigation, signature components. Each with: appearance, states, token references
+8. **Do's and Don'ts** --- Design guardrails and anti-patterns
+9. **Responsive Behavior** --- Breakpoints, collapsing strategy, touch targets
 
 **Optional sections:**
-- Iteration Guide — how to extend the design system
-- Known Gaps — what wasn't captured
+- Iteration Guide --- how to extend the design system
+- Known Gaps --- what wasn't captured
 
 ## Rules
 
@@ -142,13 +142,13 @@ The DESIGN.md feeds into:
 ## Examples
 
 See `design-md/` in this repo:
-- `design-md/code-visualization/DESIGN.md` — Programming language visualization design
-- `design-md/presentation/DESIGN.md` — Slide deck design for presentations
+- `design-md/code-visualization/DESIGN.md` --- Programming language visualization design
+- `design-md/presentation/DESIGN.md` --- Slide deck design for presentations
 
-External collection: [awesome-design-md](https://github.com/VoltAgent/awesome-design-md) — 73 brand design systems.
+External collection: [awesome-design-md](https://github.com/VoltAgent/awesome-design-md) --- 73 brand design systems.
 
 ## Related
 
-- `AGENTS.md` — Project operating contract
-- `skills/frontend-ui-engineering/SKILL.md` — UI building skill
-- `design-md/README.md` — Collection overview
+- `AGENTS.md` --- Project operating contract
+- `skills/frontend-ui-engineering/SKILL.md` --- UI building skill
+- `design-md/README.md` --- Collection overview

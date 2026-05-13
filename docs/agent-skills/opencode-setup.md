@@ -65,10 +65,10 @@ The agent evaluates every request and maps it to the appropriate skill.
 
 Examples:
 
-- "build a feature" → `incremental-implementation` + `test-driven-development`
-- "design a system" → `spec-driven-development`
-- "fix a bug" → `debugging-and-error-recovery`
-- "review this code" → `code-review-and-quality`
+- "build a feature" -> `incremental-implementation` + `test-driven-development`
+- "design a system" -> `spec-driven-development`
+- "fix a bug" -> `debugging-and-error-recovery`
+- "review this code" -> `code-review-and-quality`
 
 The user does **not** need to explicitly request skills.
 
@@ -76,12 +76,12 @@ The user does **not** need to explicitly request skills.
 
 The development lifecycle is encoded implicitly:
 
-- DEFINE → `spec-driven-development`
-- PLAN → `planning-and-task-breakdown`
-- BUILD → `incremental-implementation` + `test-driven-development`
-- VERIFY → `debugging-and-error-recovery`
-- REVIEW → `code-review-and-quality`
-- SHIP → `shipping-and-launch`
+- DEFINE -> `spec-driven-development`
+- PLAN -> `planning-and-task-breakdown`
+- BUILD -> `incremental-implementation` + `test-driven-development`
+- VERIFY -> `debugging-and-error-recovery`
+- REVIEW -> `code-review-and-quality`
+- SHIP -> `shipping-and-launch`
 
 This replaces slash commands like `/spec`, `/plan`, etc.
 
@@ -113,7 +113,7 @@ This endpoint is returning 500 errors
 
 Agent behavior:
 - Invokes `debugging-and-error-recovery`
-- Reproduces → localizes → fixes → adds guards
+- Reproduces -> localizes -> fixes -> adds guards
 
 ---
 

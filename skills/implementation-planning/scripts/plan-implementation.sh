@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 # =============================================================================
-# plan-implementation.sh — Companion script for Implementation Planning
+# plan-implementation.sh --- Companion script for Implementation Planning
 #
 # Structures implementation plans with phases, file changes, and verification.
-# Complements the planning-and-task-breakdown skill (task→level decomposition).
+# Complements the planning-and-task-breakdown skill (task->level decomposition).
 #
 # Usage:
 #   bash ./scripts/plan-implementation.sh plan "<title>"

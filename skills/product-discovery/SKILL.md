@@ -1,6 +1,6 @@
 ---
 name: product-discovery
-description: Validate whether a product idea is worth building before committing engineering investment. Use when someone says "should we build this", "validate this idea", "run an experiment", "test this hypothesis", "is this worth building", or when you sense high uncertainty about a feature. Sits between product-thinker (should we?) and shaping-work (what exactly?) — answers "will this actually work?" with evidence gates.
+description: Validate whether a product idea is worth building before committing engineering investment. Use when someone says "should we build this", "validate this idea", "run an experiment", "test this hypothesis", "is this worth building", or when you sense high uncertainty about a feature. Sits between product-thinker (should we?) and shaping-work (what exactly?) --- answers "will this actually work?" with evidence gates.
 trigger-phrases: should we build, validate this idea, run an experiment, test this hypothesis, is this worth building, feasibility check, discovery
 handoffs: shaping-work (to define after validation), product-thinker (to analyze before discovery)
 companion-script: scripts/product-discover.sh
@@ -8,7 +8,7 @@ companion-script: scripts/product-discover.sh
 
 # Product Discovery
 
-**Companion script:** `scripts/product-discover.sh` — hypothesis definition with evidence gates.
+**Companion script:** `scripts/product-discover.sh` --- hypothesis definition with evidence gates.
 ```bash
 bash ./scripts/product-discover.sh hypothesis "<idea>"    # define discovery hypothesis
 ```
@@ -115,7 +115,7 @@ Output a structured plan. Save to `research/` with date prefix.
 ## Relationship to Other Skills
 
 ```
-product-thinker → product-discovery → shaping-work → implementation-planning
+product-thinker -> product-discovery -> shaping-work -> implementation-planning
 "should we?"      "will it work?"     "what exactly?"  "how technically?"
 ```
 
@@ -125,12 +125,12 @@ product-thinker → product-discovery → shaping-work → implementation-planni
 
 ## What This Skill Does NOT Do
 
-- Does NOT make the build/kill decision — presents evidence, team decides
+- Does NOT make the build/kill decision --- presents evidence, team decides
 - Does NOT produce implementation plans
 - Does NOT design the full solution
-- Does NOT run the experiments — plans them for execution
-- Does NOT replace talking to customers — strongly recommends it
+- Does NOT run the experiments --- plans them for execution
+- Does NOT replace talking to customers --- strongly recommends it
 
 ## Test Responsibly
 
-For established companies with existing customers: protect revenue, reputation, and customers. Use conservative techniques — smaller samples, internal users first, feature flags.
+For established companies with existing customers: protect revenue, reputation, and customers. Use conservative techniques --- smaller samples, internal users first, feature flags.

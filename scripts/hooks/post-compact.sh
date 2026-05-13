@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # =============================================================================
-# post-compact.sh — PostCompact lifecycle hook
+# post-compact.sh --- PostCompact lifecycle hook
 # Fires after conversation compaction to remind the agent to restore working
 # context from session-state.json and the snapshot saved by pre-compact.sh.
 #
@@ -36,15 +36,15 @@ except Exception as e:
     print(f'  (failed to parse: {e})')
 " 2>/dev/null || echo "  (snapshot unreadable)"
     echo ""
-    echo "➡  Read session-state.json to restore full working context."
+    echo "->  Read session-state.json to restore full working context."
     echo "   Then re-read any files being actively worked on."
 else
     echo ""
     echo "  No pre-compaction snapshot found."
     if [ -f "$STATE_FILE" ]; then
-        echo "  ➡  Read session-state.json to recover context."
+        echo "  ->  Read session-state.json to recover context."
     else
-        echo "  ➡  No session-state.json either — start fresh."
+        echo "  ->  No session-state.json either --- start fresh."
     fi
 fi
 

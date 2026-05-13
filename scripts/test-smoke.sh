@@ -1,6 +1,6 @@
 #!/bin/bash
 # =============================================================================
-# test-smoke.sh — Smoke test suite for all agentic-workflows scripts
+# test-smoke.sh --- Smoke test suite for all agentic-workflows scripts
 #
 # Tests P0-P4 and pipeline integration scripts. Each test is fast, safe,
 # self-contained, and gives a clear pass/fail signal.

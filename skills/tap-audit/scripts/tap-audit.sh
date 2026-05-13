@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# TAP audit — assess repo readiness for autonomous agent work.
+# TAP audit --- assess repo readiness for autonomous agent work.
 # Usage: bash ./scripts/tap-audit.sh <command>
 set -euo pipefail
 
@@ -77,20 +77,20 @@ case "${1:-help}" in
     if [ "$pct" -ge 80 ]; then
       echo "Assessment: Ready for autonomous work"
     elif [ "$pct" -ge 50 ]; then
-      echo "Assessment: Needs setup — see gaps above"
+      echo "Assessment: Needs setup --- see gaps above"
     else
-      echo "Assessment: Early stage — significant setup needed"
+      echo "Assessment: Early stage --- significant setup needed"
     fi
     ;;
   leverage)
     echo "# Leverage Points"
     echo ""
     echo "Highest-impact improvements:"
-    echo "1. Documentation (CLAUDE.md + AGENTS.md) — agent context"
-    echo "2. MCP server config — agent capabilities"
-    echo "3. Test suite — agent feedback loop"
-    echo "4. CI/CD pipeline — quality gate"
-    echo "5. Skill definitions — agent workflows"
+    echo "1. Documentation (CLAUDE.md + AGENTS.md) --- agent context"
+    echo "2. MCP server config --- agent capabilities"
+    echo "3. Test suite --- agent feedback loop"
+    echo "4. CI/CD pipeline --- quality gate"
+    echo "5. Skill definitions --- agent workflows"
     ;;
   report)
     report_file="$TAP_DIR/tap-audit.md"
@@ -119,12 +119,12 @@ case "${1:-help}" in
     ;;
   help|*)
     echo "Usage: $0 <command>"
-    echo "  check-existing  — check if existing audit is current"
-    echo "  scan            — scan for key config files"
-    echo "  dimensions      — assess harness dimensions"
-    echo "  score           — calculate readiness score"
-    echo "  leverage        — identify leverage points"
-    echo "  report          — generate report"
+    echo "  check-existing  --- check if existing audit is current"
+    echo "  scan            --- scan for key config files"
+    echo "  dimensions      --- assess harness dimensions"
+    echo "  score           --- calculate readiness score"
+    echo "  leverage        --- identify leverage points"
+    echo "  report          --- generate report"
     exit 0
     ;;
 esac

@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 # =============================================================================
-# spec-generator.sh — Companion script for Spec-Driven Development
+# spec-generator.sh --- Companion script for Spec-Driven Development
 #
 # Scaffolds structured specification documents. Follows the gated workflow:
-# SPECIFY → PLAN → TASKS → IMPLEMENT (with human review between phases).
+# SPECIFY -> PLAN -> TASKS -> IMPLEMENT (with human review between phases).
 #
 # Usage:
 #   bash ./scripts/spec-generator.sh spec "<name>" "<description>"
@@ -91,8 +91,8 @@ ${DESC}
 <!-- Test strategy, key scenarios -->
 \`\`\`
 # Test scenarios
-1. Scenario A: expected → result
-2. Scenario B: expected → result
+1. Scenario A: expected -> result
+2. Scenario B: expected -> result
 \`\`\`
 
 ### Edge Cases
@@ -135,19 +135,19 @@ ASSUMPTION
     cat << "CHECKLIST"
 === Spec-Driven Development: Gate Review Checklist ===
 
-## Phase 1 → Phase 2 Gate (SPECIFY → PLAN)
+## Phase 1 -> Phase 2 Gate (SPECIFY -> PLAN)
 Ask the human:
 - [ ] Does the spec match what you want?
 - [ ] Is anything missing from scope?
 - [ ] Are the success criteria correct?
 
-## Phase 2 → Phase 3 Gate (PLAN → TASKS)
+## Phase 2 -> Phase 3 Gate (PLAN -> TASKS)
 Before task breakdown:
 - [ ] Architecture decisions documented?
 - [ ] Trade-offs acknowledged?
 - [ ] Dependencies identified?
 
-## Phase 3 → Phase 4 Gate (TASKS → IMPLEMENT)
+## Phase 3 -> Phase 4 Gate (TASKS -> IMPLEMENT)
 Before writing code:
 - [ ] Tasks ordered by dependency?
 - [ ] Each task independently verifiable?
@@ -163,9 +163,9 @@ CHECKLIST
   *)
     echo "Usage: $0 {spec|assumptions|checklist}"
     echo ""
-    echo "  spec \"<name>\" \"<desc>\"   — Generate full spec document"
-    echo "  assumptions \"<claim>\"     — Format assumption for spec"
-    echo "  checklist                  — Gate review checklist"
+    echo "  spec \"<name>\" \"<desc>\"   --- Generate full spec document"
+    echo "  assumptions \"<claim>\"     --- Format assumption for spec"
+    echo "  checklist                  --- Gate review checklist"
     exit 1
     ;;
 esac

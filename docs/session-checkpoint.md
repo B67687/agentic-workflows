@@ -6,7 +6,7 @@ Any multi-step task in this workspace hits a recurring wall:
 
 1. Complex task starts
 2. Hits context limit mid-execution
-3. Has to resume — re-reads the world (~110k tokens)
+3. Has to resume --- re-reads the world (~110k tokens)
 4. Hits limit again faster
 5. Repeat
 
@@ -16,7 +16,7 @@ Session state file + proactive checkpointing breaks this cycle.
 
 ## The Solution: Two-Part System
 
-### Part A — Session State File (`session-state.json`)
+### Part A --- Session State File (`session-state.json`)
 
 **On every resume**: Read `session-state.json` first. Always. Before touching any other file.
 
@@ -32,7 +32,7 @@ The state file tells you:
 - Files created/modified
 - Decisions made
 
-### Part B — Proactive Checkpointing
+### Part B --- Proactive Checkpointing
 
 **Rule**: Before starting any multi-phase task OR any operation that generates large context (bulk fetches, large analyses):
 
@@ -49,8 +49,8 @@ Checkpoint (update `session-state.json`) when:
 | Before multi-phase task | Ensures recovery point exists |
 | Before bulk fetches (5+ parallel) | Fetches are high-context; interrupts are likely |
 | After completing any phase | Marks progress recoverable |
-| At 50% context estimate | Proactive — before you feel pressure |
-| After interrupt | Don't skip — state is now stale |
+| At 50% context estimate | Proactive --- before you feel pressure |
+| After interrupt | Don't skip --- state is now stale |
 | **Every 10 turns** | **Prevent quadratic token growth in long threads** |
 | **Topic shift detected** | **Fresh context for new domain** |
 
@@ -97,9 +97,9 @@ When the Orchestrator detects a subtask:
 
 ### Why This Works
 
-- **Prevents degradation** — Fresh context each subtask
+- **Prevents degradation** --- Fresh context each subtask
 - **Saves tokens** - Fresh packets avoid replaying stale context
-- **Maintains momentum** — Compressed summary preserves continuity
+- **Maintains momentum** --- Compressed summary preserves continuity
 
 ---
 
@@ -155,12 +155,12 @@ For long or automated work, also record:
 3. Write updated `session-state.json` (checkpoint)
 4. Start work
 5. Update `session-state.json` after each phase
-6. BEFORE any heavy operation → write state
+6. BEFORE any heavy operation -> write state
 
 ### After an Interrupt
 
 1. Read `session-state.json` FIRST (not AGENTS.md, not docs)
-2. Review state — understand where work stopped
+2. Review state --- understand where work stopped
 3. Update status + interrupted_count
 4. Continue from next_action
 
@@ -168,7 +168,7 @@ For long or automated work, also record:
 
 1. Update `session-state.json` with final status
 2. Add any durable learnings to key_context
-3. Leave status as "complete" — next session sees it and starts fresh
+3. Leave status as "complete" --- next session sees it and starts fresh
 
 ### Closure Classification
 
@@ -244,7 +244,7 @@ The point is to preserve fast iteration. Planning is there to unblock execution,
 | Starting multi-phase work | Write state BEFORE |
 | After each phase | Update state |
 | At 50% context | Update state |
-| After interrupt | Read state → update status → continue |
+| After interrupt | Read state -> update status -> continue |
 | Session done | Write final state |
 | Lost / confused | Read session-state.json |
 
@@ -262,8 +262,8 @@ Even without token counts, these signal rising pressure:
 **Checkpoint trigger**: Write state at medium. Heavy operations only after writing state.
 
 **Recovery shortcut**: Instead of re-reading many files, run:
-- `bash ./scripts/search-index.sh "task keywords"` — ranked retrieval of relevant docs
-- `bash ./scripts/repo-map.sh --max-tokens 512` — quick orientation map
+- `bash ./scripts/search-index.sh "task keywords"` --- ranked retrieval of relevant docs
+- `bash ./scripts/repo-map.sh --max-tokens 512` --- quick orientation map
 
 ---
 
@@ -279,7 +279,7 @@ Even without token counts, these signal rising pressure:
 ## Template: Session State Update
 
 ```
-## Session State Update — YYYY-MM-DD HH:MM
+## Session State Update --- YYYY-MM-DD HH:MM
 
 **Task**: [brief name]
 **Phase**: [phase X of Y]
@@ -302,5 +302,5 @@ Even without token counts, these signal rising pressure:
 
 ## Files
 
-- `session-state.json` — active session state (always exists during work)
-- `workflow/session-state.template.json` — blank template for new sessions
+- `session-state.json` --- active session state (always exists during work)
+- `workflow/session-state.template.json` --- blank template for new sessions

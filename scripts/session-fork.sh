@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # =============================================================================
-# session-fork.sh — Fork current session into an isolated worktree branch
+# session-fork.sh --- Fork current session into an isolated worktree branch
 #
 # Creates ../.worktrees/<repo>/<branch>/ with a new branch off HEAD,
 # copies session-state.json, and reports the path. Run this when starting
@@ -42,12 +42,12 @@
 #   Each session branch is independent. When done:
 #     bash ./scripts/session-fork.sh --merge   (from worktree)
 #
-#   Which does: fetch main → checkout main → merge branch → push → cleanup
+#   Which does: fetch main -> checkout main -> merge branch -> push -> cleanup
 #
 #   If conflicts arise, resolve in the main checkout, then close manually.
 #
 #   If branches overlap (same files changed in two sessions), the second merge
-#   will have conflicts. Resolve the same way — git marks conflict, you pick.
+#   will have conflicts. Resolve the same way --- git marks conflict, you pick.
 # =============================================================================
 
 set -euo pipefail
@@ -121,7 +121,7 @@ list_worktrees() {
     | awk '/^worktree /{wt=$2} /^branch refs\/heads\//{sub("refs/heads/",""); print wt"  "$2}' \
     | while read -r wt_path branch; do
         if echo "$branch" | grep -q "^s[0-9]"; then
-          echo "  $branch  →  $wt_path"
+          echo "  $branch  ->  $wt_path"
         fi
       done
 }
@@ -137,7 +137,7 @@ close_worktree() {
     local common
     common="$(git rev-parse --git-common-dir 2>/dev/null || true)"
     if [ "$common" = "$(git rev-parse --git-dir)" ]; then
-      echo "Not in a worktree — run this from inside a session worktree."
+      echo "Not in a worktree --- run this from inside a session worktree."
       exit 1
     fi
   else
@@ -173,9 +173,9 @@ close_worktree() {
   # Push if remote exists
   if git rev-parse --abbrev-ref '@{upstream}' >/dev/null 2>&1; then
     echo "Pushing branch..."
-    git push --quiet || echo "  (push skipped — no remote or offline)"
+    git push --quiet || echo "  (push skipped --- no remote or offline)"
   else
-    echo "  (no upstream — not pushing)"
+    echo "  (no upstream --- not pushing)"
   fi
 
   # Remove worktree (can't remove from inside itself)
@@ -208,7 +208,7 @@ merge_worktree() {
   git_dir="$(git rev-parse --git-dir)"
   git_common_dir="$(git rev-parse --git-common-dir)"
   if [ "$git_dir" = "$git_common_dir" ]; then
-    echo "Not in a worktree — run --merge from inside a session worktree."
+    echo "Not in a worktree --- run --merge from inside a session worktree."
     exit 1
   fi
 
@@ -263,7 +263,7 @@ merge_worktree() {
   echo "Merging '$branch' into main..."
   if git merge --no-ff "$branch" -m "Merge $branch into main"; then
     echo "✓ Merge successful"
-    git push origin main 2>/dev/null || echo "  (push skipped — no remote or offline)"
+    git push origin main 2>/dev/null || echo "  (push skipped --- no remote or offline)"
   else
     echo ""
     echo "✗ CONFLICT. Fix in the main checkout ($main_wt):"
@@ -316,7 +316,7 @@ rename_branch() {
     return
   fi
 
-  echo "Renaming: $old_branch → $new_branch"
+  echo "Renaming: $old_branch -> $new_branch"
   git branch -m "$new_branch"
 
   # Update worktree if in one
@@ -340,7 +340,7 @@ cleanup_worktrees() {
   echo "Checking for merged session branches..."
   for branch in $(git branch --list 's*' --format='%(refname:short)'); do
     if git merge-base --is-ancestor "$branch" HEAD 2>/dev/null; then
-      echo "  Branch '$branch' is merged — removing worktree if exists..."
+      echo "  Branch '$branch' is merged --- removing worktree if exists..."
       local wt_path="$WORKTREE_ROOT/$branch"
       if [ -d "$wt_path" ]; then
         git worktree remove "$wt_path" 2>/dev/null || true

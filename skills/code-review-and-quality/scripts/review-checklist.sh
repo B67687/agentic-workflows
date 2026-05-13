@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # =============================================================================
-# review-checklist.sh — Companion script for Code Review and Quality
+# review-checklist.sh --- Companion script for Code Review and Quality
 #
 # Generates a structured multi-axis review template. Use before any merge.
 # Covers the five axes: correctness, readability, architecture, security,
@@ -92,9 +92,9 @@ case "$MODE" in
 | FYI | | |
 
 **Severity guide:**
-- *(no prefix)* = Required change — must address before merge
-- **Critical:** = Blocks merge — security, data loss, broken functionality
-- **Nit:** = Minor — formatting, style preferences
+- *(no prefix)* = Required change --- must address before merge
+- **Critical:** = Blocks merge --- security, data loss, broken functionality
+- **Nit:** = Minor --- formatting, style preferences
 - **Consider:** = Suggestion worth considering
 - **FYI** = Informational only
 
@@ -105,9 +105,9 @@ case "$MODE" in
 - [ ] Screenshots attached (for UI changes)
 
 ## Verdict
-- [ ] Approve — improves overall code health
-- [ ] Changes requested — address findings before merge
-- [ ] Blocked — critical issues must be resolved
+- [ ] Approve --- improves overall code health
+- [ ] Changes requested --- address findings before merge
+- [ ] Blocked --- critical issues must be resolved
 TEMPLATE
     ;;
 
@@ -201,9 +201,9 @@ TEMPLATE
 Quality check reference for code-review-and-quality skill:
 
 Skill dependencies for deeper analysis:
-  security-and-hardening   → security/  skill
-  performance-optimization → performance/ skill
-  code-simplification      → simplify/  skill
+  security-and-hardening   -> security/  skill
+  performance-optimization -> performance/ skill
+  code-simplification      -> simplify/  skill
 
 Quick checks:
   Static analysis:  grep -rn "TODO\|FIXME\|HACK\|XXX" src/
@@ -216,9 +216,9 @@ HELP
   *)
     echo "Usage: $0 {template|diff|check} [target]"
     echo ""
-    echo "  template          — Output blank review template"
-    echo "  diff <range>      — Generate review from git diff"
-    echo "  check             — Quick quality check reference"
+    echo "  template          --- Output blank review template"
+    echo "  diff <range>      --- Generate review from git diff"
+    echo "  check             --- Quick quality check reference"
     exit 1
     ;;
 esac

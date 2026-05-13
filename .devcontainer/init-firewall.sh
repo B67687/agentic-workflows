@@ -1,6 +1,6 @@
 #!/bin/bash
 # =============================================================================
-# init-firewall.sh — Sandbox network filtering
+# init-firewall.sh --- Sandbox network filtering
 # Sets up iptables rules to allow egress only to trusted hosts.
 # Blocks exfiltration by prompt injection attacks.
 #
@@ -22,7 +22,7 @@ if [ "${BLOCK_ALL:-0}" = "1" ]; then
 fi
 
 if [ "${ALLOW_ALL:-0}" = "1" ]; then
-    echo "[firewall] Allow all mode — unrestricted egress."
+    echo "[firewall] Allow all mode --- unrestricted egress."
     exec "$@"
     exit 0
 fi
@@ -48,7 +48,7 @@ for host in pypi.org files.pythonhosted.org pythonhosted.org \
     iptables -A OUTPUT -d "$host" -j ACCEPT 2>/dev/null || true
 done
 
-# OpenCode API endpoints — detect from config if available
+# OpenCode API endpoints --- detect from config if available
 OPENCODE_CONFIG="${HOME}/.config/opencode/opencode.jsonc"
 if [ -f "$OPENCODE_CONFIG" ]; then
     # Extract API domains from provider configurations

@@ -8,7 +8,7 @@ companion-script: scripts/plan-breakdown.sh
 
 # Planning and Task Breakdown
 
-**Companion script:** `scripts/plan-breakdown.sh` — task breakdown templates, sizing guidance, and structured decomposition.
+**Companion script:** `scripts/plan-breakdown.sh` --- task breakdown templates, sizing guidance, and structured decomposition.
 ```bash
 bash ./scripts/plan-breakdown.sh template               # blank breakdown
 bash ./scripts/plan-breakdown.sh size <lines>            # sizing guidance
@@ -66,7 +66,7 @@ Implementation order follows the dependency graph bottom-up: build foundations f
 
 ### Step 3: Slice Vertically
 
-Instead of building all the database, then all the API, then all the UI — build one complete feature path at a time:
+Instead of building all the database, then all the API, then all the UI --- build one complete feature path at a time:
 
 **Bad (horizontal slicing):**
 ```
@@ -140,7 +140,7 @@ Add explicit checkpoints:
 | **S** | 1-2 | One component or endpoint | Add a new API endpoint |
 | **M** | 3-5 | One feature slice | User registration flow |
 | **L** | 5-8 | Multi-component feature | Search with filtering and pagination |
-| **XL** | 8+ | **Too large — break it down further** | — |
+| **XL** | 8+ | **Too large --- break it down further** | --- |
 
 If a task is L or larger, it should be broken into smaller tasks. An agent performs best on S and M tasks.
 

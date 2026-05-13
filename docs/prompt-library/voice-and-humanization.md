@@ -84,7 +84,7 @@ A real beginner wouldn't think to ask:
 A real beginner WOULD ask:
 - "Can I just [basic approach]?"
 - "Why does [expert technique] work when [naive expectation] seems right?"
-- "Wait, I thought [misconception] — what did I miss?"
+- "Wait, I thought [misconception] --- what did I miss?"
 
 Then work through [task] using these genuine beginner questions as your guide.
 ```
@@ -102,7 +102,7 @@ Make these characteristic beginner mistakes in your reasoning:
 - [Logic] Assume "or" means exclusive or
 - [General] Overgeneralize from one example
 
-These are not bugs — they are the authentic reasoning of someone learning.
+These are not bugs --- they are the authentic reasoning of someone learning.
 ```
 
 ### Key Insight
@@ -132,8 +132,8 @@ Write in a way that sounds human, not AI-generated.
 Humanize the output:
 - Vary sentence length intentionally: mix 5-word fragments with 25-word sentences
 - Add controlled "imperfections": informal contractions, em dashes mid-thought, occasional fragments
-- Use false starts: "The thing is — and this took me a while to see — ..."
-- Break structural symmetry: don't always do intro → 3 points → conclusion
+- Use false starts: "The thing is --- and this took me a while to see --- ..."
+- Break structural symmetry: don't always do intro -> 3 points -> conclusion
 - Include a ramble or apparent digression that still connects thematically
 - Add rhetorical questions: "But why does this matter?"
 - Use opinionated statements, not just balanced hedging
@@ -142,7 +142,7 @@ Avoid AI vocabulary. Do NOT use:
 - "delve", "tapestry", "nuanced", "comprehensive", "multifaceted"
 - "It's worth noting...", "Furthermore", "In conclusion", "Moreover"
 - "First/Second/Third" lists when a natural paragraph would work
-- Perfect grammar throughout — humans make small errors
+- Perfect grammar throughout --- humans make small errors
 
 Include specific concrete details (named examples, dates) instead of vague generalities.
 ```
@@ -168,7 +168,7 @@ Analyze these samples and extract my specific patterns:
 - My typical paragraph structure
 
 Then write [the assignment] in MY voice, not in generic AI voice.
-Match my patterns exactly. Do not improve the writing — match the style.
+Match my patterns exactly. Do not improve the writing --- match the style.
 ```
 
 ### 17C. Personal Voice Training (Ongoing)
@@ -209,7 +209,7 @@ Add these human characteristics:
 - One opinionated claim (not just balanced "on the other hand...")
 - Slight informality in 1-2 places
 
-AVOID: Em-dashes (—) and semicolons (;) — humans rarely use these because keyboards don't make them easy. Use commas or just split into two sentences instead.
+AVOID: Em-dashes (---) and semicolons (;) --- humans rarely use these because keyboards don't make them easy. Use commas or just split into two sentences instead.
 
 Do NOT add these if they would be grammatically wrong in context.
 ```
@@ -220,7 +220,7 @@ Humans rarely use certain punctuation marks naturally:
 
 | Avoid | Why Humans Don't Use It |
 |-------|--------------------------|
-| Em-dashes (—) | Keyboard awkwardness, just use commas or two sentences |
+| Em-dashes (---) | Keyboard awkwardness, just use commas or two sentences |
 | Semicolons (;) | Almost nobody uses them except academic writers |
 | Colons mid-sentence | Formally reserved, rare in casual writing |
 | Perfect ellipsis placement | Humans trail off irregularly |
@@ -270,7 +270,7 @@ Humans rarely use certain punctuation marks naturally:
 - Digression that circles back
 - "But", "So", "And" as sentence starters
 - Natural contractions (don't/it's/I'm)
-- Irregular punctuation — not formulaic placement
+- Irregular punctuation --- not formulaic placement
 
 **Key insight**: The absence of typos and errors is itself a detection signal. Humans make 2-5 errors per 100 words in casual typing. Perfect grammar is suspicious.
 
@@ -334,13 +334,13 @@ Humans rarely use certain punctuation marks naturally:
 - Mix 5-word sentences with 30-word sentences
 - Add rhetorical questions
 - Use fragments ("Crazy, right?")
-- Start with "But", "So", "And" — humans do this 15-20% of the time
+- Start with "But", "So", "And" --- humans do this 15-20% of the time
 
 **3. Break lexical patterns**
 - Vary vocabulary range (don't reuse same words)
 - Use colloquialisms naturally
 - Add context-specific informal language
-- Avoid "delve", "tapestry", "nuanced" — AI vocabulary detectors hate these
+- Avoid "delve", "tapestry", "nuanced" --- AI vocabulary detectors hate these
 
 **4. Use contractions naturally**
 - Humans use contractions ~80-90% in casual writing
@@ -371,7 +371,7 @@ Humans rarely use certain punctuation marks naturally:
 - Break sentence uniformity
 - Use creative transitions (not "first, second, third")
 - Add irregular punctuation
-- GPTZero's "Paraphraser Shield" catches heavy paraphrasing — need authentic human variation
+- GPTZero's "Paraphraser Shield" catches heavy paraphrasing --- need authentic human variation
 
 **Against Copyleaks:**
 - Vary syllable patterns
@@ -379,7 +379,7 @@ Humans rarely use certain punctuation marks naturally:
 - Don't use overly consistent parts-of-speech patterns
 
 **Against Originality.ai:**
-- Hardest to evade — trained on adversarial datasets
+- Hardest to evade --- trained on adversarial datasets
 - Use "elevate with literary language" trick: ask AI to add metaphor, sensory details, rhetorical devices
 - Mixed human/AI composition works best
 
@@ -430,7 +430,7 @@ Based on Stanford, Weber-Wulff, and MAGE benchmark research:
 | Method | Result | Source |
 |--------|--------|--------|
 | "Elevate text with literary language" prompt | Near 0% detection | Liang et al. 2023 |
-| Undetectable.ai paraphrasing | 91% → 28% detection | Taloni et al. 2023 |
+| Undetectable.ai paraphrasing | 91% -> 28% detection | Taloni et al. 2023 |
 | Mixed human/AI composition | Most detectors miss partial AI | Multiple studies |
 | Heavy semantic restructuring | Breaks detection signatures | Weber-Wulff 2023 |
 
@@ -438,17 +438,17 @@ Based on Stanford, Weber-Wulff, and MAGE benchmark research:
 - Minor edits (spacing, punctuation only)
 - Single-word synonym swaps
 - Automatic "humanizing" tools (often detected themselves)
-- Homoglyph attacks (Cyrillic swaps — easily caught)
+- Homoglyph attacks (Cyrillic swaps --- easily caught)
 
 ---
 
 ## 23. Critical Warnings
 
-1. **No detector is 100% accurate** — all have significant error rates
-2. **All detectors bias against ESL writers** — serious equity concern (Stanford: 61.3% false positive for non-native writers)
-3. **Detection degrades rapidly with paraphrasing** — easy to bypass but changes voice
-4. **Universities increasingly skeptical** — Cambridge, UT Austin rejected Turnitin AI detection
-5. **All commercial tools lack transparency** — proprietary, unverifiable claims
+1. **No detector is 100% accurate** --- all have significant error rates
+2. **All detectors bias against ESL writers** --- serious equity concern (Stanford: 61.3% false positive for non-native writers)
+3. **Detection degrades rapidly with paraphrasing** --- easy to bypass but changes voice
+4. **Universities increasingly skeptical** --- Cambridge, UT Austin rejected Turnitin AI detection
+5. **All commercial tools lack transparency** --- proprietary, unverifiable claims
 
 **Best defense**: Combine humanizing techniques + personal voice training + specific tool-aware modifications
 
@@ -467,7 +467,7 @@ Based on Stanford, Weber-Wulff, and MAGE benchmark research:
 | ; | ； | Full-width semicolon (rarely used naturally) |
 | : | ： | Full-width colon |
 | " " | " " | Full-width quotes |
-| — | —— | Em-dash equivalent (used differently) |
+| --- | ------ | Em-dash equivalent (used differently) |
 
 **AI fingerprint in Chinese**: Over-regular punctuation. Humans are more irregular.
 
@@ -499,8 +499,8 @@ Based on Stanford, Weber-Wulff, and MAGE benchmark research:
 ### How to Sound Human in Chinese
 
 ```
-✓ Mix sentence lengths — short and long
-✓ Vary punctuation — sometimes end without 。 
+✓ Mix sentence lengths --- short and long
+✓ Vary punctuation --- sometimes end without 。 
 ✓ Use colloquial expressions in informal contexts
 ✓ Drop subjects in appropriate contexts (Chinese allows this)
 ✓ Use idioms sparingly, organically, not in clusters
@@ -528,7 +528,7 @@ Based on Stanford, Weber-Wulff, and MAGE benchmark research:
 - Mix formal and informal register
 - Add specific personal details
 - Use idioms sparingly
-- Don't punctuate perfectly — humans don't
+- Don't punctuate perfectly --- humans don't
 
 ---
 
@@ -539,7 +539,7 @@ Based on Stanford, Weber-Wulff, and MAGE benchmark research:
 ### The Core Problem
 
 ```
-School teaches:   Structured patterns → Good grades
+School teaches:   Structured patterns -> Good grades
 AI trained on:    Lots of academic/school text
 Detectors learn:  "Structured" = AI-like
 Result:           School-trained writers flagged as AI
@@ -571,8 +571,8 @@ Both face the same problem:
 
 ### The Irony
 
-- ESL writes correctly → flagged as AI
-- Native speakers write casually with errors → pass detection
+- ESL writes correctly -> flagged as AI
+- Native speakers write casually with errors -> pass detection
 
 ### How to Fix It
 

@@ -1,6 +1,6 @@
 ---
 name: retrospective
-description: Just-in-time retrospective focused on improving agent autonomy. Event-driven — not calendar-driven. Analyzes what happened, identifies what blocked agent autonomy, and produces concrete improvements (learnings + tickets). Use when someone says "retro", "retrospective", "what did we learn", "what went wrong", or after a feature ships, an incident resolves, or any event worth reflecting on. Outputs to .tap/learnings.md.
+description: Just-in-time retrospective focused on improving agent autonomy. Event-driven --- not calendar-driven. Analyzes what happened, identifies what blocked agent autonomy, and produces concrete improvements (learnings + tickets). Use when someone says "retro", "retrospective", "what did we learn", "what went wrong", or after a feature ships, an incident resolves, or any event worth reflecting on. Outputs to .tap/learnings.md.
 trigger-phrases: retro, retrospective, what did we learn, what went wrong, post-mortem, incident review
 handoffs: tap-audit (to reassess readiness after improvements), tighten-loop (for conversation-level steers)
 companion-script: scripts/tap-retrospective.sh
@@ -41,9 +41,9 @@ bash ./scripts/tap-retrospective.sh append "<learning>"  # append to .tap/learni
 ### 2. Gather Evidence
 
 ```
-git log --since="[period]"           → what was committed
-gh pr list --state merged --search    → PRs in scope
-gh pr list --state closed --search    → rejected PRs (signal!)
+git log --since="[period]"           -> what was committed
+gh pr list --state merged --search    -> PRs in scope
+gh pr list --state closed --search    -> rejected PRs (signal!)
 ```
 
 Also read: `.tap/system-health.md`, `.tap/tap-audit.md`, `.tap/learnings.md`, PR review comments.
@@ -63,22 +63,22 @@ Also read: `.tap/system-health.md`, `.tap/tap-audit.md`, `.tap/learnings.md`, PR
 ### 4. Capture Learnings
 
 ```
-[date] — [trigger]
-- [what happened] → [root cause category] → [specific fix]
+[date] --- [trigger]
+- [what happened] -> [root cause category] -> [specific fix]
 ```
 
 **Good learnings are specific and actionable:**
-- "Agent used raw SQL instead of Drizzle → context gap → add data access pattern to CLAUDE.md"
-- "Agent couldn't test payment flow → harness gap → configure Stripe test MCP"
+- "Agent used raw SQL instead of Drizzle -> context gap -> add data access pattern to CLAUDE.md"
+- "Agent couldn't test payment flow -> harness gap -> configure Stripe test MCP"
 
 **Bad learnings are vague:** "Agent needs to be more careful" (not actionable)
 
 ### 5. Create Improvement Tickets
 
 Categorize by impact:
-- **Raises readiness score** — add MCP, test infra, AGENTS.md, ADRs
-- **Prevents repeat failures** — update CLAUDE.md, add tests
-- **Reduces design complexity** — split god file, collapse pass-through
+- **Raises readiness score** --- add MCP, test infra, AGENTS.md, ADRs
+- **Prevents repeat failures** --- update CLAUDE.md, add tests
+- **Reduces design complexity** --- split god file, collapse pass-through
 
 ### 6. Write to .tap/learnings.md
 
@@ -88,8 +88,8 @@ Agents read `.tap/learnings.md` before starting work. This prevents same mistake
 
 ## Boundaries
 
-- Does NOT edit CLAUDE.md or AGENTS.md (creates tickets — human decides)
+- Does NOT edit CLAUDE.md or AGENTS.md (creates tickets --- human decides)
 - Does NOT assign blame or assess team performance
-- Does NOT follow a calendar — runs when there's something to learn
+- Does NOT follow a calendar --- runs when there's something to learn
 - ONLY analyzes events, captures learnings, creates improvement tickets
 - Goal is always: increase agent autonomy for next time

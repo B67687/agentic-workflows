@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # =============================================================================
-# context-budget.sh — Companion script for Context Engineering
+# context-budget.sh --- Companion script for Context Engineering
 #
 # Estimates token usage for files and directories, flags budget risks,
 # and provides compaction recommendations.
@@ -90,9 +90,9 @@ case "$MODE" in
 
   *)
     echo "Usage: $0 {estimate|check|compact}"
-    echo "  estimate <file>   — Estimate tokens for a file"
-    echo "  check [dir]       — Check directory context budget"
-    echo "  compact \"<sum>\"   — Format compact handoff"
+    echo "  estimate <file>   --- Estimate tokens for a file"
+    echo "  check [dir]       --- Check directory context budget"
+    echo "  compact \"<sum>\"   --- Format compact handoff"
     exit 1
     ;;
 esac

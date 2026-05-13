@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # =============================================================================
-# detect-gaps.sh — SessionStart lifecycle hook
+# detect-gaps.sh --- SessionStart lifecycle hook
 # Detects common workspace hygiene gaps:
-#   1. BM25 index stale or missing → auto-heals if HEAL=1
+#   1. BM25 index stale or missing -> auto-heals if HEAL=1
 #   2. session-state.json stale or missing
 #   3. Uncommitted work that should be checkpointed
 #   4. Propagation sync drift
@@ -12,7 +12,7 @@
 #   8. Skill completeness gaps
 #   9. Archive file size thresholds
 #
-# Non-blocking — reports findings, exits 0.
+# Non-blocking --- reports findings, exits 0.
 # Set HEAL=1 to auto-fix regeneratable artifacts (BM25 index).
 #   Example: HEAL=1 bash ./scripts/hooks/detect-gaps.sh
 # Compatible with: Claude Code (via hooks.json), manual invocation, AGENTS.md
@@ -43,7 +43,7 @@ if [ -d "$INDEX_DIR" ]; then
     NEWEST_INDEX=$(find "$INDEX_DIR" -type f -exec stat -c %Y {} + 2>/dev/null | sort -rn | head -1 || echo 0)
     if [ "$NEWEST_FILE" -gt "$NEWEST_INDEX" ] 2>/dev/null; then
         if [ "${HEAL:-0}" = "1" ]; then
-            echo "  ⚡  BM25 index stale — auto-rebuilding..."
+            echo "  ⚡  BM25 index stale --- auto-rebuilding..."
             bash ./scripts/build-index.sh 2>/dev/null && echo "  ✓  BM25 index rebuilt" || echo "  ⚠  BM25 index rebuild failed (run: bash ./scripts/build-index.sh)"
         else
             report_gap "WARN" "BM25 index is stale. Run: HEAL=1 bash ./scripts/hooks/detect-gaps.sh"
@@ -53,7 +53,7 @@ if [ -d "$INDEX_DIR" ]; then
     fi
 else
     if [ "${HEAL:-0}" = "1" ]; then
-        echo "  ⚡  BM25 index missing — auto-building..."
+        echo "  ⚡  BM25 index missing --- auto-building..."
         bash ./scripts/build-index.sh 2>/dev/null && echo "  ✓  BM25 index created" || echo "  ⚠  BM25 index build failed (run: bash ./scripts/build-index.sh)"
     else
         report_gap "WARN" "BM25 index missing. Run: HEAL=1 bash ./scripts/hooks/detect-gaps.sh"
@@ -67,7 +67,7 @@ if [ -f "$STATE_FILE" ]; then
     STATE_MTIME=$(stat -c %Y "$STATE_FILE" 2>/dev/null || echo 0)
     AGE_HOURS=$(( (NOW - STATE_MTIME) / 3600 ))
     if [ "$AGE_HOURS" -gt 24 ]; then
-        report_gap "WARN" "session-state.json is $AGE_HOURS hours old — may be stale"
+        report_gap "WARN" "session-state.json is $AGE_HOURS hours old --- may be stale"
     fi
     # Check if interruptedCount suggests a crashed session
     INTERRUPTED=$(python3 -c "
@@ -78,7 +78,7 @@ try:
 except: print(0)
 " 2>/dev/null || echo 0)
     if [ "$INTERRUPTED" -gt 0 ] && [ "$INTERRUPTED" -lt 3 ]; then
-        report_gap "ℹ" "session-state.json has $INTERRUPTED interruption(s) — may need attention"
+        report_gap "ℹ" "session-state.json has $INTERRUPTED interruption(s) --- may need attention"
     fi
 else
     report_gap "WARN" "session-state.json not found"
@@ -146,7 +146,7 @@ print(overdue)
     if [ "$OVERDUE" -gt 0 ]; then
         report_gap "WARN" "$OVERDUE assumption(s) expired. Run: bash ./scripts/assumption-expiry.sh check"
     else
-        echo "  ℹ   Assumption expiry check — all current"
+        echo "  ℹ   Assumption expiry check --- all current"
     fi
 fi
 
@@ -168,7 +168,7 @@ print(f'{s}|{t}|{h}')
     PRESS_COUNT=$(echo "$PRESS_STATUS" | cut -d'|' -f3)
     
     if [ "$PRESS_STATUS_VAL" = "critical" ]; then
-        report_gap "WARN" "Context pressure CRITICAL — run: bash ./scripts/context-pressure.sh --auto"
+        report_gap "WARN" "Context pressure CRITICAL --- run: bash ./scripts/context-pressure.sh --auto"
     elif [ "$PRESS_STATUS_VAL" = "warning" ]; then
         echo "  ℹ   Context pressure: WARNING (trend: $PRESS_TREND, $PRESS_COUNT measurements)"
     else
@@ -197,7 +197,7 @@ if [ "$SKILL_COUNT" -gt 0 ]; then
 fi
 
 # ---- Check 9: Hot-path File Size Budget ----
-# Archive files are intentionally cold storage — excluded.
+# Archive files are intentionally cold storage --- excluded.
 # Only hot-path files (read on every session) need a budget.
 HOTPATH_THRESHOLD_KB=300
 for f in AGENTS.md docs/workflow.md session-state.json; do
@@ -224,8 +224,8 @@ fi
 # ---- Summary ----
 echo ""
 if [ "$FOUND_GAP" = true ]; then
-    echo "Gaps detected — address as needed. None are blocking."
+    echo "Gaps detected --- address as needed. None are blocking."
 else
-    echo "✓  No gaps detected — workspace is healthy."
+    echo "✓  No gaps detected --- workspace is healthy."
 fi
 echo "=== End Gap Detection ==="

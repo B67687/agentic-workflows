@@ -1,9 +1,9 @@
 ---
-description: Run the research phase — frame, discover, gather, synthesize, apply, preserve
+description: Run the research phase --- frame, discover, gather, synthesize, apply, preserve
 ---
 
 This is research mode. The methodology below applies **automatically by default** to any
-research-adjacent task — even without calling `/research`. See `AGENTS.md` "Default
+research-adjacent task --- even without calling `/research`. See `AGENTS.md` "Default
 Research Conduct" and `research/research-prompt.md` for the full methodology.
 
 ## The Agent Research Methodology (Default)
@@ -11,12 +11,12 @@ Research Conduct" and `research/research-prompt.md` for the full methodology.
 Research follows 6 phases. Each phase produces a clear output before advancing.
 
 ```
-Phase 0: Frame the Question  →  Sharpened scope + "done" criteria
-Phase 1: Discover Local      →  What's already known + gaps
-Phase 2: Gather External     →  Raw claims with source URLs + dates
-Phase 3: Triangulate         →  Coherent model with confidence per claim
-Phase 4: Apply to Problem    →  What changes, what must be true
-Phase 5: Preserve            →  Memory saved, docs updated, learnings logged
+Phase 0: Frame the Question  ->  Sharpened scope + "done" criteria
+Phase 1: Discover Local      ->  What's already known + gaps
+Phase 2: Gather External     ->  Raw claims with source URLs + dates
+Phase 3: Triangulate         ->  Coherent model with confidence per claim
+Phase 4: Apply to Problem    ->  What changes, what must be true
+Phase 5: Preserve            ->  Memory saved, docs updated, learnings logged
 ```
 
 **Read the full methodology:** `research/research-prompt.md`
@@ -31,7 +31,7 @@ Phase 5: Preserve            →  Memory saved, docs updated, learnings logged
 2. If the topic is unfamiliar, run the repo map first:
    `bash ./scripts/repo-map.sh .`
 
-3. Frame the research question using `skill` → `structured-questioning` (5W+H)
+3. Frame the research question using `skill` -> `structured-questioning` (5W+H)
 
 ---
 
@@ -42,7 +42,7 @@ Phase 5: Preserve            →  Memory saved, docs updated, learnings logged
 For understanding, analyzing, or improving an architecture or system design:
 
 1. Map the current system using the **macro-to-micro funnel**:
-   - Level 1 (System): Components, connections, data flow — `repo-map`, `docs/`
+   - Level 1 (System): Components, connections, data flow --- `repo-map`, `docs/`
    - Level 2 (Domain): Affected subsystem boundaries
    - Level 3 (Module): Key files and code paths
    - Level 4 (Root Cause / Analysis): Specific gaps or defects
@@ -52,7 +52,7 @@ For understanding, analyzing, or improving an architecture or system design:
    - Official docs and specs for relevant technologies
    - Industry standards and recommendations
 
-3. Gap analysis: current → best practice with impact and effort
+3. Gap analysis: current -> best practice with impact and effort
 
 4. Transformation plan: phased, minimal viable step first
 
@@ -94,8 +94,8 @@ Return a structured research note with:
 
 - **Do not edit files yet.** Research is research, implementation is implementation.
 - **Cite all sources** with URLs and authority ratings.
-- **Flag all uncertainties** — unlabeled claims are silently treated as CONFIRMED.
-- **Know when to stop** — see Scope Control in `research/research-prompt.md`.
+- **Flag all uncertainties** --- unlabeled claims are silently treated as CONFIRMED.
+- **Know when to stop** --- see Scope Control in `research/research-prompt.md`.
 - **Preserve durable findings** to memory and docs (Phase 5 of the methodology).
 
 <rationalizations>

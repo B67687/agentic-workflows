@@ -5,9 +5,9 @@ Safe YOLO-mode execution for agent operations.
 ## Problem
 
 Agents running arbitrary commands (YOLO mode) risk:
-- **Data loss** — bad `rm`, `mv`, or `dd` commands
-- **Exfiltration** — prompt injection steals files via network
-- **System corruption** — agent modifies system configuration
+- **Data loss** --- bad `rm`, `mv`, or `dd` commands
+- **Exfiltration** --- prompt injection steals files via network
+- **System corruption** --- agent modifies system configuration
 
 ## Solution: Sandboxed Agent
 
