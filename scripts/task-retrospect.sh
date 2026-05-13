@@ -157,6 +157,23 @@ with open('$HIST_FILE', 'w') as f:
     echo "  ✓ Prepended Phase ${NEXT_PHASE} to archive/history-index.md"
   fi
   
+  # ---- RTK Savings Snapshot ----
+  if command -v rtk &>/dev/null; then
+    RTK_SNAPSHOT_DIR=".bench-runs"
+    RTK_SNAPSHOT="$RTK_SNAPSHOT_DIR/rtk-savings-${DATE_ONLY}.json"
+    rtk gain --json 2>/dev/null > "$RTK_SNAPSHOT" && echo "  ✓ RTK savings snapshot saved to $RTK_SNAPSHOT" || true
+  fi
+
+  # ---- RTK Learn: Auto-detect CLI mistakes from session ----
+  if command -v rtk &>/dev/null; then
+    RTK_RULES=$(rtk learn --min-confidence 80 --min-occurrences 2 2>/dev/null || true)
+    if [ -n "$RTK_RULES" ]; then
+      mkdir -p .claude/rules 2>/dev/null || true
+      echo "$RTK_RULES" >> .claude/rules/cli-corrections.md 2>/dev/null || true
+      echo "  ✓ rtk learn: CLI correction rules appended to .claude/rules/cli-corrections.md"
+    fi
+  fi
+
   echo "  Done. Session documented."
   exit 0
 fi

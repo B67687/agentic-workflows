@@ -103,6 +103,12 @@ echo "  bash ./scripts/tools.sh            --- full tool list"
 echo "  bash ./scripts/test-smoke.sh       --- 31-tool smoke test"
 echo "  bash ./scripts/session-status.sh   --- this overview"
 
+# ---- RTK Status (if installed) ----
+if command -v rtk &>/dev/null; then
+  RTK_GAIN=$(rtk gain --quiet 2>/dev/null | head -1 || echo "gathering data")
+  echo "  rtk: ${RTK_GAIN}  (rtk discover to find missed savings)"
+fi
+
 # ---- Worktree Fork Offer / Auto-Fork ----
 if [ "$IS_WORKTREE" = false ] && [ "$BRANCH" = "main" ]; then
   DIRTY=$(git status --short 2>/dev/null | wc -l | tr -d ' ')

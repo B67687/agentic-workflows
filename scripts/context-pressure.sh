@@ -95,6 +95,22 @@ elif [ "$CONTEXT_PRESSURE" = "medium" ]; then
     RECOMMENDATIONS+=("Context pressure is medium --- prepare to compact soon")
 fi
 
+# Signal 5: RTK token savings
+RTK_SAVED=0
+if command -v rtk &>/dev/null; then
+    RTK_JSON=$(rtk gain --json 2>/dev/null || echo "{}")
+    RTK_SAVED=$(echo "$RTK_JSON" | python3 -c "
+import json,sys
+try:
+    d=json.load(sys.stdin)
+    print(d.get('saved_tokens', d.get('total_saved_tokens', 0)))
+except: print(0)
+" 2>/dev/null || echo "0")
+    if [ "$RTK_SAVED" -gt 0 ]; then
+        RECOMMENDATIONS+=("RTK saved ~${RTK_SAVED} tokens this session  (rtk gain for details)")
+    fi
+fi
+
 # --- Determine health status ---
 if [ $SCORE -ge 4 ]; then
     STATUS="CRITICAL"
@@ -119,7 +135,8 @@ metrics = {
         'dirty_count': $DIRTY_COUNT,
         'dirty_new': $DIRTY_NEW,
         'dirty_modified': $DIRTY_MODIFIED,
-        'context_pressure': '$CONTEXT_PRESSURE'
+        'context_pressure': '$CONTEXT_PRESSURE',
+        'rtk_tokens_saved': $RTK_SAVED
     },
     'timestamp': $NOW
 }
@@ -192,7 +209,8 @@ print(json.dumps({
         'dirty_count': $DIRTY_COUNT,
         'dirty_new': $DIRTY_NEW,
         'dirty_modified': $DIRTY_MODIFIED,
-        'context_pressure': '$CONTEXT_PRESSURE'
+        'context_pressure': '$CONTEXT_PRESSURE',
+        'rtk_tokens_saved': $RTK_SAVED
     },
     'recommendations': $(printf '%s\n' "${RECOMMENDATIONS[@]:-}" | python3 -c "import sys,json; print(json.dumps([l.strip() for l in sys.stdin if l.strip()]))" 2>/dev/null || echo '[]')
 }, indent=2))
@@ -227,6 +245,7 @@ print(json.dumps({
     echo "  Commits today: $COMMITS_TODAY"
     echo "  Dirty files:   $DIRTY_COUNT ($DIRTY_NEW new, $DIRTY_MODIFIED modified)"
     echo "  contextPressure: $CONTEXT_PRESSURE (from session-state.json)"
+    echo "  RTK tokens saved: $RTK_SAVED (since tracking started)"
     echo ""
     if [ ${#RECOMMENDATIONS[@]} -gt 0 ]; then
         echo "Recommendations:"

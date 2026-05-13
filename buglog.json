@@ -30,6 +30,18 @@
       "summary": "Built the Agent Research Methodology --- a 6-phase (Frame -> Discover Local -> Gather External -> Triangulate -> Apply -> Preserve) general-purpose research engine for agents. Replaced AI-topic-specific research prompt. Added architecture analysis specialization with current-state mapping, best-practice research, gap analysis, and transformation planning. Integrated with macro-to-micro funnel so Level 1 can now research architecture beyond just fixing. This is now the automatic default for any research task.\n",
       "tags": "research-methodology, agent-research, 6-phase, architecture-analysis, macro-to-micro,bug",
       "source": "retrospect"
+    },
+    {
+      "ts": "2026-05-13T11:18:23Z",
+      "summary": "12-factor-agents integration: our ~80% implicit alignment means the integration is primarily about documentation + filling the 3 gaps (human-in-the-loop, control flow interrupts, error counter). The A2H protocol draft and workshop walkthrough are gold mines for the next slices.\n",
+      "tags": "12-factor-agents, humanlayer, integration, context-engineering,bug",
+      "source": "retrospect"
+    },
+    {
+      "ts": "2026-05-13T11:36:58Z",
+      "summary": "Slice 5: error-counter.sh with increment/check/reset/context/list. Auto-escalates to human via A2H after N consecutive failures. Combined with log-error.sh (capture) and a2h-contact.sh (escalate) forms a complete therapeutic pipeline: capture \u2192 count \u2192 context \u2192 escalate. All 5 integration milestones now complete.\n",
+      "tags": "12-factor-agents, error-counter, self-healing, escalation, factor-9,bug",
+      "source": "retrospect"
     }
   ]
 }
