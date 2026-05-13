@@ -1,77 +1,82 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 440" style="max-width:720px; font-family:ui-monospace,'Cascadia Code','Fira Code',monospace; background:#0d1117; border-radius:10px;">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 400" style="max-width:700px; font-family:ui-monospace,'Cascadia Code','Fira Code',monospace; background:#0d1117; border-radius:10px;">
   <defs>
-    <filter id="glow">
-      <feDropShadow dx="0" dy="1" stdDeviation="3" flood-color="#58a6ff" flood-opacity="0.2"/>
-    </filter>
+    <linearGradient id="blueBox" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#16213e"/>
+      <stop offset="100%" stop-color="#0f3460"/>
+    </linearGradient>
+    <linearGradient id="greenBox" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#16213e"/>
+      <stop offset="100%" stop-color="#1a3a1a"/>
+    </linearGradient>
+    <linearGradient id="mutedBox" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#161b22"/>
+      <stop offset="100%" stop-color="#0d1117"/>
+    </linearGradient>
   </defs>
 
   <!-- Title -->
-  <text x="360" y="30" fill="#58a6ff" font-size="14" font-weight="bold" text-anchor="middle" letter-spacing="1">PROJECT STRUCTURE</text>
-  <line x1="120" y1="40" x2="600" y2="40" stroke="#58a6ff" stroke-width="1" opacity="0.2"/>
+  <text x="350" y="35" fill="#58a6ff" font-size="14" font-weight="bold" text-anchor="middle" letter-spacing="1">agentic-workflows /</text>
+  <text x="350" y="52" fill="#8b949e" font-size="11" text-anchor="middle">Agent orchestration harness</text>
 
-  <!-- Root node -->
-  <rect x="260" y="55" width="200" height="36" rx="6" fill="#1a1a2e" stroke="#58a6ff" stroke-width="1.5" filter="url(#glow)"/>
-  <text x="360" y="72" fill="#58a6ff" font-size="12" font-weight="bold" text-anchor="middle">agentic-workflows /</text>
+  <!-- Core column -->
+  <text x="30" y="82" fill="#58a6ff" font-size="10" font-weight="bold" letter-spacing="1">CORE</text>
+  <line x1="30" y1="88" x2="160" y2="88" stroke="#58a6ff" stroke-width="1" opacity="0.3"/>
 
-  <!-- Tree trunk -->
-  <line x1="360" y1="91" x2="360" y2="395" stroke="#30363d" stroke-width="1.5"/>
+  <rect x="30" y="98" width="300" height="44" rx="6" fill="url(#blueBox)" stroke="#58a6ff" stroke-width="1.5"/>
+  <text x="48" y="117" fill="#58a6ff" font-size="12" font-weight="bold">AGENTS.md</text>
+  <text x="160" y="117" fill="#8b949e" font-size="10">Operating contract (read first)</text>
+  <text x="48" y="132" fill="#8b949e" font-size="10">Shared rules, conventions, escalation paths</text>
 
-  <!-- Horizontal branch lines -->
-  <line x1="140" y1="130" x2="580" y2="130" stroke="#30363d" stroke-width="1"/>
-  <line x1="360" y1="130" x2="140" y2="130" stroke="#30363d" stroke-width="1"/>
-  <line x1="140" y1="210" x2="700" y2="210" stroke="#30363d" stroke-width="1"/>
-  <line x1="140" y1="250" x2="700" y2="250" stroke="#30363d" stroke-width="1"/>
+  <rect x="30" y="152" width="300" height="44" rx="6" fill="url(#blueBox)" stroke="#0ea5e9" stroke-width="1"/>
+  <text x="48" y="171" fill="#0ea5e9" font-size="12" font-weight="bold">commands/</text>
+  <text x="148" y="171" fill="#8b949e" font-size="10">Slash commands (/task, /plan, /research...)</text>
+  <text x="48" y="186" fill="#8b949e" font-size="10">14 commands for session, pipeline, git, research</text>
 
-  <!-- ROW 1: AGENTS.md (highlighted) -->
-  <rect x="30" y="115" width="190" height="36" rx="6" fill="#0f3460" stroke="#58a6ff" stroke-width="1.5" filter="url(#glow)"/>
-  <text x="45" y="137" fill="#58a6ff" font-size="12" font-weight="bold" text-anchor="start">AGENTS.md</text>
-  <text x="145" y="137" fill="#8b949e" font-size="10" text-anchor="start">Operating contract</text>
+  <rect x="30" y="206" width="300" height="44" rx="6" fill="url(#blueBox)" stroke="#0ea5e9" stroke-width="1"/>
+  <text x="48" y="225" fill="#0ea5e9" font-size="12" font-weight="bold">scripts/</text>
+  <text x="128" y="225" fill="#8b949e" font-size="10">83 automation scripts + lifecycle hooks</text>
+  <text x="48" y="240" fill="#8b949e" font-size="10">Error handling, a2h contact, session management</text>
 
-  <!-- ROW 1: commands/ -->
-  <rect x="250" y="155" width="100" height="34" rx="5" fill="#16213e" stroke="#0ea5e9" stroke-width="1"/>
-  <text x="263" y="176" fill="#0ea5e9" font-size="11" font-weight="bold" text-anchor="start">commands/</text>
-  <line x1="300" y1="189" x2="300" y2="200" stroke="#30363d" stroke-width="1"/>
+  <rect x="30" y="260" width="300" height="44" rx="6" fill="url(#blueBox)" stroke="#0ea5e9" stroke-width="1"/>
+  <text x="48" y="279" fill="#0ea5e9" font-size="12" font-weight="bold">docs/</text>
+  <text x="118" y="279" fill="#8b949e" font-size="10">Quickstart, workflow, quality standards</text>
+  <text x="48" y="294" fill="#8b949e" font-size="10">Hub quickstart, session checkpoints, ADRs</text>
 
-  <!-- ROW 1: docs/ -->
-  <rect x="370" y="155" width="100" height="34" rx="5" fill="#16213e" stroke="#0ea5e9" stroke-width="1"/>
-  <text x="383" y="176" fill="#0ea5e9" font-size="11" font-weight="bold" text-anchor="start">docs/</text>
-  <line x1="420" y1="189" x2="420" y2="200" stroke="#30363d" stroke-width="1"/>
+  <!-- Skills column -->
+  <text x="370" y="82" fill="#3fb950" font-size="10" font-weight="bold" letter-spacing="1">SKILLS &amp; TOOLING</text>
+  <line x1="370" y1="88" x2="560" y2="88" stroke="#3fb950" stroke-width="1" opacity="0.3"/>
 
-  <!-- ROW 1: scripts/ -->
-  <rect x="490" y="155" width="100" height="34" rx="5" fill="#16213e" stroke="#0ea5e9" stroke-width="1"/>
-  <text x="503" y="176" fill="#0ea5e9" font-size="11" font-weight="bold" text-anchor="start">scripts/</text>
-  <line x1="540" y1="189" x2="540" y2="200" stroke="#30363d" stroke-width="1"/>
+  <rect x="370" y="98" width="300" height="44" rx="6" fill="url(#greenBox)" stroke="#3fb950" stroke-width="1"/>
+  <text x="388" y="117" fill="#3fb950" font-size="12" font-weight="bold">skills/</text>
+  <text x="458" y="117" fill="#8b949e" font-size="10">42 engineering skills</text>
+  <text x="388" y="132" fill="#8b949e" font-size="10">Debug, review, ship, document patterns</text>
 
-  <!-- ROW 2: skills/ -->
-  <rect x="30" y="195" width="190" height="34" rx="5" fill="#16213e" stroke="#3fb950" stroke-width="1"/>
-  <text x="45" y="218" fill="#3fb950" font-size="11" font-weight="bold" text-anchor="start">skills/</text>
-  <text x="115" y="218" fill="#8b949e" font-size="10" text-anchor="start">42 engineering skills</text>
+  <rect x="370" y="152" width="300" height="44" rx="6" fill="url(#greenBox)" stroke="#3fb950" stroke-width="1"/>
+  <text x="388" y="171" fill="#3fb950" font-size="12" font-weight="bold">propagation/</text>
+  <text x="488" y="171" fill="#8b949e" font-size="10">Template engine for topic folders</text>
+  <text x="388" y="186" fill="#8b949e" font-size="10">39 templates, change once replicate everywhere</text>
 
-  <!-- ROW 2: propagation/ -->
-  <rect x="250" y="195" width="190" height="34" rx="5" fill="#16213e" stroke="#3fb950" stroke-width="1"/>
-  <text x="265" y="218" fill="#3fb950" font-size="11" font-weight="bold" text-anchor="start">propagation/</text>
-  <text x="350" y="218" fill="#8b949e" font-size="10" text-anchor="start">Templates</text>
-  <line x1="345" y1="229" x2="345" y2="240" stroke="#30363d" stroke-width="1"/>
+  <rect x="370" y="206" width="300" height="44" rx="6" fill="url(#greenBox)" stroke="#3fb950" stroke-width="1"/>
+  <text x="388" y="225" fill="#3fb950" font-size="12" font-weight="bold">research/</text>
+  <text x="478" y="225" fill="#8b949e" font-size="10">Active research campaigns</text>
+  <text x="388" y="240" fill="#8b949e" font-size="10">6-phase systematic methodology</text>
 
-  <!-- ROW 2: research/ -->
-  <rect x="460" y="195" width="110" height="34" rx="5" fill="#16213e" stroke="#3fb950" stroke-width="1"/>
-  <text x="473" y="218" fill="#3fb950" font-size="11" font-weight="bold" text-anchor="start">research/</text>
-  <line x1="515" y1="229" x2="515" y2="240" stroke="#30363d" stroke-width="1"/>
+  <rect x="370" y="260" width="300" height="44" rx="6" fill="url(#greenBox)" stroke="#3fb950" stroke-width="1"/>
+  <text x="388" y="279" fill="#3fb950" font-size="12" font-weight="bold">wiki/</text>
+  <text x="448" y="279" fill="#8b949e" font-size="10">SwarmVault knowledge graph</text>
+  <text x="388" y="294" fill="#8b949e" font-size="10">Compiled knowledge from 50+ sources</text>
 
-  <!-- ROW 2: wiki/ -->
-  <rect x="590" y="195" width="110" height="34" rx="5" fill="#16213e" stroke="#3fb950" stroke-width="1"/>
-  <text x="603" y="218" fill="#3fb950" font-size="11" font-weight="bold" text-anchor="start">wiki/</text>
-  <line x1="645" y1="229" x2="645" y2="240" stroke="#30363d" stroke-width="1"/>
+  <!-- Runtime column -->
+  <text x="30" y="325" fill="#8b949e" font-size="10" font-weight="bold" letter-spacing="1">RUNTIME</text>
+  <line x1="30" y1="331" x2="160" y2="331" stroke="#30363d" stroke-width="1" opacity="0.5"/>
 
-  <!-- ROW 3: .runtime/ -->
-  <rect x="30" y="235" width="190" height="34" rx="5" fill="#161b22" stroke="#30363d" stroke-width="1"/>
-  <text x="45" y="258" fill="#8b949e" font-size="11" font-weight="bold" text-anchor="start">.runtime/</text>
-  <text x="120" y="258" fill="#8b949e" font-size="10" text-anchor="start">Generated state</text>
+  <rect x="30" y="340" width="300" height="44" rx="6" fill="url(#mutedBox)" stroke="#30363d" stroke-width="1"/>
+  <text x="48" y="359" fill="#8b949e" font-size="12" font-weight="bold">.runtime/</text>
+  <text x="140" y="359" fill="#8b949e" font-size="10">A2H, error-counter, agent-jobs</text>
+  <text x="48" y="374" fill="#8b949e" font-size="10">Generated state (gitignored)</text>
 
-  <!-- ROW 3: swarmvault.schema.md -->
-  <rect x="250" y="235" width="190" height="34" rx="5" fill="#161b22" stroke="#30363d" stroke-width="1"/>
-  <text x="265" y="258" fill="#8b949e" font-size="11" font-weight="bold" text-anchor="start">swarmvault.schema.md</text>
-
-  <!-- Footer -->
-  <text x="360" y="415" fill="#30363d" font-size="11" text-anchor="middle" font-style="italic">Hub code and config at root . Generated state in .runtime/ . Your work stays in topic folders</text>
+  <rect x="370" y="340" width="300" height="44" rx="6" fill="url(#mutedBox)" stroke="#30363d" stroke-width="1"/>
+  <text x="388" y="359" fill="#8b949e" font-size="12" font-weight="bold">swarmvault.schema.md</text>
+  <text x="560" y="359" fill="#8b949e" font-size="10">Graph schema</text>
+  <text x="388" y="374" fill="#8b949e" font-size="10">Knowledge graph structure</text>
 </svg>
