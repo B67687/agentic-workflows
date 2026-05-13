@@ -36,27 +36,7 @@ and modern ACI (Agent-Computer Interface) principles from Anthropic's agent rese
 
 ## Framework Overview
 
-```
-                   ┌─────────────────────────┐
-                   │  1. Pre-Flight Checklist │
-                   │  (5W+H --- one-pass scan) │
-                   └──────────┬──────────────┘
-                              │
-                   ┌──────────▼──────────────┐
-                   │  2. Socratic Iteration   │
-                   │  (probe, don't assume)   │
-                   └──────────┬──────────────┘
-                              │
-                   ┌──────────▼──────────────┐
-                   │  3. ACI Optimization     │
-                   │  (agent-ready framing)   │
-                   └──────────┬──────────────┘
-                              │
-                   ┌──────────▼──────────────┐
-                   │  4. Self-Verification    │
-                   │  (did I get what I need?)│
-                   └─────────────────────────┘
-```
+**Sequence:** 5W+H → Socratic probes → ACI optimization → Self-verification.
 
 ## Phase 1 --- Pre-Flight Checklist (5W+H)
 
