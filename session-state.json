@@ -1,12 +1,12 @@
 {
-  "session": 76,
+  "session": 77,
   "status": "implemented",
   "interruptedCount": 0,
   "contextPressure": "healthy",
   "currentTask": {
-    "name": "Agent Research Methodology + Macro-to-Micro Funnel integration",
+    "name": "Extract personal-voice to managed topic folder",
     "status": "done",
-    "goal": "Build a general-purpose agent research methodology (6-phase: frame → discover → gather → triangulate → apply → preserve), integrate with macro-to-micro funnel, add architecture analysis specialization."
+    "goal": "Move personal-voice/ out of the hub (so it doesn't ship with the published harness) to its own topic folder tracked by the propagation system."
   },
   "environment": {
     "note": "This workspace runs on Debian/WSL2. Global OpenCode runtime config at /home/namikaz/.config/opencode/opencode.jsonc. WSL now has 8GB RAM and 8 cores.",
@@ -31,15 +31,19 @@
     "P2: Ruflo evaluation — CLI-only model (0MB persistent cost), daemon stopped, MCP disabled (sql.js hangs on WSL2)",
     "P2: System research — 9 authoritative sources synthesized in research/well-maintained-system-research.md",
     "P2: Cleanup — 10 stale duplicate scripts removed, ghost agent/ dir removed, orphaned file links fixed, shell bug fixed",
-    "P2: research quality automation — research quality framework made automatic default (no /research or qualifiers needed)"
+    "P2: research quality automation — research quality framework made automatic default (no /research or qualifiers needed)",
+    "P0: personal-voice extracted to managed topic folder — hub clean for publishing, voice system preserved as sibling topic folder"
   ],
   "filesTouched": [
-    "AGENTS.md (added Default Fix Conduct — macro-to-micro funnel + Key Rule, expanded Default Research Conduct to reference methodology)",
-    "commands/research.md (added Quality Framework section, clarified automatic application)",
-    "docs/workflow.md (Research section notes quality is default no qualifiers needed)",
-    "research/research-prompt.md (full rewrite — general Agent Research Methodology replacing AI-specific content)",
-    "skills/debugging-and-error-recovery/SKILL.md (added Macro-to-Micro Funnel section, updated Rationalizations/Red Flags/Verification)",
-    "session-state.json (updated for session 76)"
+    "AGENTS.md (updated 3 references: high-signal table, read-voice rule, removed from working areas)",
+    "README.md (directory listing updated to ../personal-voice/)",
+    "docs/prompt-templates.md (voice matching path updated)",
+    "docs/quality-standards.md (directory listing + audit exclusions cleaned)",
+    "scripts/ws.sh (4 cleanups: exclusion line, roots array, special-case block, ripgrep glob)",
+    "scripts/repo-graph.sh (color mapping + legend entry removed)",
+    ".gitignore (stale personal-voice/samples/course-guide.pdf entry removed)",
+    "session-state.json (updated for session 77)",
+    "../personal-voice/ (new topic folder: AGENTS.md, VOICE-PROFILE.md, STYLE-INJECT.md, README.md, CORRECTIONS.log.md, samples/)"
   ],
   "verification": [
     "5 files committed across 2 commits, all changes verified",
