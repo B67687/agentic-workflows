@@ -192,6 +192,50 @@ EOF
     echo "After worker returns:"
     echo "  bash ./scripts/pipeline-run.sh update $PIPELINE_ID $TASK_ID done|failed \"notes\""
     echo "  bash ./scripts/pipeline-run.sh next $PIPELINE_ID"
+    echo ""
+    echo "For high-stakes tasks:"
+    echo "  bash ./scripts/pipeline-run.sh human-checkpoint $PIPELINE_ID $TASK_ID"
+    ;;
+    
+  human-checkpoint|checkpoint)
+    # Pause pipeline for human approval (12-factor F7)
+    PIPELINE_ID="${2:-}"
+    TASK_ID="${3:-}"
+    
+    [ -z "$PIPELINE_ID" ] && echo "Usage: pipeline-run.sh human-checkpoint <pipeline-id> [task-id]" && exit 1
+    
+    FILE="$PIPELINE_DIR/$PIPELINE_ID.json"
+    [ ! -f "$FILE" ] && echo "Pipeline not found: $PIPELINE_ID" && exit 1
+    
+    if [ -z "$TASK_ID" ]; then
+      # No task specified — show current task
+      TASK_ID=$(jq -r '.current_task // empty' "$FILE" 2>/dev/null)
+      [ -z "$TASK_ID" ] && echo "No current task. Specify a task ID." && exit 1
+    fi
+    
+    # Get task description
+    TASK_DESC=$(jq -r --arg id "$TASK_ID" '.tasks[] | select(.id == ($id | tonumber)) | .description // "?"' "$FILE" 2>/dev/null)
+    [ -z "$TASK_DESC" ] || [ "$TASK_DESC" = "?" ] && echo "Task $TASK_ID not found." && exit 1
+    
+    echo "=== Human Checkpoint: Task $TASK_ID ==="
+    echo "Task: $TASK_DESC"
+    echo ""
+    
+    # Request human approval via A2H protocol
+    APPROVAL_ID=$(bash "$REPO_ROOT/scripts/a2h-contact.sh" approve \
+      "pipeline: $TASK_DESC" \
+      "{\"pipeline\": \"$PIPELINE_ID\", \"task\": $TASK_ID}" \
+      --urgency high --channel cli 2>&1 | tail -1 || echo "")
+    
+    # Mark task as waiting-human
+    jq --arg id "$TASK_ID" \
+      '(.tasks[] | select(.id == ($id | tonumber))) |= (.status = "waiting-human")' \
+      "$FILE" > "$FILE.tmp" && mv "$FILE.tmp" "$FILE"
+    
+    echo ""
+    echo "Pipeline paused at task $TASK_ID."
+    echo "Run: bash ./scripts/a2h-contact.sh list --pending"
+    echo "After human response: bash ./scripts/pipeline-run.sh next $PIPELINE_ID"
     ;;
     
   dispatch)
@@ -347,6 +391,7 @@ EOF
     echo "  status  [pipeline-id]          Show pipeline status"
     echo "  update  <id> <task> <s> [n]    Update task status (done/failed/pending)"
     echo "  next    <pipeline-id>          Show next uncompleted task"
+    echo "  human-checkpoint <id> [task]   Pause for human approval (12-factor F7)"
     echo "  dispatch <id> [agent]          Dispatch pending tasks to agent asynchronously"
     echo "  collect <id>                   Collect results from dispatched tasks"
     echo ""

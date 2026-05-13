@@ -16,6 +16,25 @@ If `Implement decision: block`, do not implement. Send the task back exactly one
 
 If `Implement decision: caution`, fix the checkout state first or move the work into a worktree before implementing.
 
+### Human-in-the-Loop Gate (12-Factor F7/F8)
+
+For high-risk operations (production data, destructive commands, billing actions),
+the preflight supports a `--risk high` flag that triggers a human approval gate:
+
+```
+bash ./scripts/implement-preflight.sh "$ARGUMENTS" --risk high
+```
+
+When `--risk high` is set, the preflight invokes `scripts/a2h-contact.sh approve`
+to request deterministic human approval before allowing implementation. This
+implements the **interrupt-between-selection-and-execution** pattern — the
+tool is selected but does not execute until a human explicitly approves.
+
+If no human is available (non-interactive mode), the approval gate warns and
+logs the request to `.a2h/` and `.notifications/` for later processing.
+
+See: `scripts/a2h-contact.sh`, `scripts/notify.sh`
+
 Keep the active context narrow. Execute in small verified slices. Review each change before moving to the next.
 
 **Before each slice: construct the expectation.** State (even briefly) what you expect the output to contain — the structure, the approach, the key decisions. When the AI output matches your expectation, you are calibrated. When it does not, you have a real decision to make: is your expectation wrong, or is the output wrong? That decision is the thing cognitive surrender skips.

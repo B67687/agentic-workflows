@@ -153,6 +153,29 @@ elif [[ "$SAFE_TO_EDIT" == "caution" ]]; then
   IMPLEMENT_NEXT="resolve the safety note from task intake, then rerun preflight"
 fi
 
+# --- Human-in-the-loop approval gate for high-risk operations (12-factor F7) ---
+if [[ "$RISK" == "high" ]]; then
+  APPROVAL_OUTPUT=$(bash "$SCRIPT_DIR/a2h-contact.sh" approve \
+    "implement: $TASK" \
+    "{\"size\": \"$SIZE\", \"risk\": \"$RISK\", \"clarity\": \"$CLARITY\"}" \
+    --urgency high --channel cli 2>&1 || true)
+
+  # Check if approval was granted (exit code 0 from approve with CLI = granted)
+  if echo "$APPROVAL_OUTPUT" | grep -q "approved: true"; then
+    IMPLEMENT_DECISION="allow"
+    IMPLEMENT_REASON="human approved high-risk operation"
+    IMPLEMENT_NEXT="proceed with implementation"
+  elif echo "$APPROVAL_OUTPUT" | grep -q "Approved: True"; then
+    IMPLEMENT_DECISION="allow"
+    IMPLEMENT_REASON="human approved high-risk operation"
+    IMPLEMENT_NEXT="proceed with implementation"
+  elif echo "$APPROVAL_OUTPUT" | grep -q "pending"; then
+    IMPLEMENT_DECISION="block"
+    IMPLEMENT_REASON="high-risk operation awaiting human approval — check .a2h/ for pending approvals"
+    IMPLEMENT_NEXT="run: bash scripts/a2h-contact.sh list --pending"
+  fi
+fi
+
 printf '%s\n' "$INTAKE_OUTPUT"
 printf '%s\n' "$GATE_OUTPUT"
 echo "Implement decision: $IMPLEMENT_DECISION"

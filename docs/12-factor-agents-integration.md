@@ -177,12 +177,17 @@ control flow breaks out of the loop to wait for the response.
 | `scripts/counsel-run.sh` | Runs counsel with model selection |
 | `scripts/parley.sh` | Runs parley conversations |
 
-**Gap:** This is the **primary gap** in our system. Our counsel/parley system is
-model-to-model, not agent-to-human. We don't have:
-- A `require_approval` gate for high-stakes operations
-- Contact channels (Slack, Email, SMS) for human notifications
-- An A2H (Agent-to-Human) protocol implementation
-- Interrupt-between-tool-selection-and-execution pattern
+**Addressed (Slice 3):** We now have a working A2H protocol implementation:
+- `scripts/a2h-contact.sh` — Agent-to-Human contact protocol with `contact`,
+  `approve`, `respond`, and `list` commands. Implements the spec from
+  `drafts/a2h-spec.md`: HumanContact and FunctionCall objects, contact channels.
+- `scripts/notify.sh` — Multi-channel notification dispatcher. Supports Slack
+  webhook (SLACK_WEBHOOK_URL), CLI output, and file-based delivery.
+- `commands/implement.md` — Added `--risk high` approval gate that triggers
+  deterministic human approval before implementation.
+- `scripts/implement-preflight.sh` — Handles `--risk high` by invoking
+  `a2h-contact.sh approve` for the interrupt-between-selection-and-execution
+  pattern.
 
 **Reference:** [A2H Protocol Draft](https://github.com/humanlayer/12-factor-agents/blob/main/drafts/a2h-spec.md),
 [HumanLayer SDK](https://github.com/humanlayer/humanlayer),
@@ -400,8 +405,8 @@ contact channels address our primary gaps (Factors 7 and 11).
 | F4 (Tools = structured outputs) | Low | Explicit documentation |
 | F5 (Unify state) | ✅ Addressed | `events` array in session-state.json for append-only event sourcing |
 | F6 (Launch/Pause/Resume) | Low | REST API surface for external systems |
-| **F7 (Contact humans)** | **High** | No human-in-the-loop at all |
-| **F8 (Own control flow)** | **Medium** | No interrupt-between-selection-and-execution |
+| **F7 (Contact humans)** | ✅ Addressed | `scripts/a2h-contact.sh` + `scripts/notify.sh` — full A2H protocol |
+| **F8 (Own control flow)** | ✅ Addressed | `--risk high` flag triggers approval gate in implement-preflight.sh |
 | **F9 (Compact errors)** | **Medium** | No error counter / self-healing + escalate pattern |
 | F10 (Small focused agents) | None | Fully implemented — this IS our architecture |
 | **F11 (Trigger anywhere)** | **Medium** | No contact channels (Slack, Email, SMS) |
@@ -416,7 +421,7 @@ contact channels address our primary gaps (Factors 7 and 11).
 |---|---|---|---|
 | 1 | Foundation + Principles Map | All (documentation) | ✅ This doc |
 | 2 | Context Engineering Deepening | F3, F5, F12, F13 | ✅ Complete (Slice 2) |
-| 3 | Human-in-the-Loop Integration | F7, F8, F11 | Planned |
+| 3 | Human-in-the-Loop Integration | F7, F8, F11 | ✅ Complete (Slice 3) |
 | 4 | Scaffolding & Templates | All (tooling) | Planned |
 | 5 | Error Handling & Control Flow | F8, F9 | Planned |
 
