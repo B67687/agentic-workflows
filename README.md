@@ -98,18 +98,9 @@ Then open **[`AGENTS.md`](AGENTS.md)** --- that's the operating contract. Every 
 
 <h2>🗺️ Orientation</h2>
 
-```
-agentic-workflows/
-├── AGENTS.md         Operating contract (read first)
-├── commands/         Slash commands (/task, /plan, /research...)
-├── docs/             Quickstart, quality, workflow docs
-├── scripts/          83 automation scripts + hooks
-├── skills/           42 engineering skills with companion scripts
-├── propagation/      Templates synced across 15+ topic folders
-├── research/         Active research campaigns
-├── .runtime/         Generated state (A2H, jobs, logs, sessions)
-└── wiki/             Knowledge graph output
-```
+<p align="center">
+  <img src="docs/folder-structure.svg" width="100%" alt="Folder structure" style="max-width:720px;">
+</p>
 
 | Quick Command | Action |
 |---|---|
