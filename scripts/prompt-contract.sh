@@ -62,9 +62,15 @@ constraints="assume-light"
 examples="optional"
 verification="define"
 ask_policy="proceed-with-assumptions"
+rigor="standard"
 
 if [[ "$task_lower" =~ (maybe|idk|not\ sure|somehow|whatever|thing|stuff|vague|help\ me\ figure) ]]; then
   outcome="unclear"
+fi
+
+if [[ "$task_lower" =~ (authoritative|extensive|comprehensive|thorough|deep\ research|deep\ dive|wide\ research|rigorous|in\ depth|exhaustive|wide\ and\ deep) ]]; then
+  rigor="high"
+  constraints="present"
 fi
 
 if [[ "$task_lower" =~ (exactly|1:1|one\ to\ one|recreate|clone|same\ as|like|style|feel|experience|nostalgia|ui|visual|gameplay|behavior) ]]; then
@@ -107,5 +113,7 @@ echo "Context: $context"
 echo "Constraints: $constraints"
 echo "Examples: $examples"
 echo "Verification: $verification"
+echo "Rigor: $rigor"
 echo "Ask policy: $ask_policy"
 echo "Self-prompt: State the intended outcome, use only relevant context, name constraints, request examples only when they change the result, define verification, then proceed unless a missing answer would materially change the work."
+echo "If rigor is high: apply the research quality framework (source triangulation, confidence levels, authority weighting) to every finding by default — no need to be asked."
