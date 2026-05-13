@@ -3,6 +3,7 @@ name: divergent-ideation
 description: Generates genuinely novel ideas using LLMs. Use when tackling open-ended problems, when existing approaches feel stale, or when you need originality over predictability. Also applies when the situation would benefit from exploration, creative play, or divergent thinking --- even if the path forward seems clear, a detour into alternative approaches often reveals better solutions. Do NOT use for well-defined implementation tasks where correctness matters more than novelty.
 trigger-phrases: brainstorm, ideate, generate ideas, come up with, creative ideas, alternatives
 handoffs: idea-refine (to refine ideas), spec-driven-development (to spec)
+companion-script: scripts/ideate.sh
 ---
 
 # Divergent Ideation

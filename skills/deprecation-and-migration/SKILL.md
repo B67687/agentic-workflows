@@ -3,6 +3,7 @@ name: deprecation-and-migration
 description: Manages deprecation and migration. Use when removing old systems, APIs, or features. Use when migrating users from one implementation to another. Use when deciding whether to maintain or sunset existing code.
 trigger-phrases: deprecate, migrate, sunset, remove, phase out, migration plan, backwards compatibility
 handoffs: documentation-and-adrs (to document), shipping-and-launch (to ship)
+companion-script: scripts/migrate-plan.sh
 ---
 
 # Deprecation and Migration

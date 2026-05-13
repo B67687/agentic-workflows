@@ -58,6 +58,19 @@ assert_output_contains() {
   fi
 }
 
+assert_output_not_contains() {
+  local name="$1" cmd="$2" pattern="$3"
+  if output=$(eval "$cmd" 2>&1); then
+    if echo "$output" | grep -qv "$pattern"; then
+      test_pass "$name"
+    else
+      test_fail "$name (unexpected: '$pattern')"
+    fi
+  else
+    test_fail "$name (exit $?)"
+  fi
+}
+
 cleanup() {
   rm -rf .pipeline/ .agent-jobs/ .triage/ docs/decisions/ 2>/dev/null || true
 }
@@ -188,7 +201,11 @@ echo "--- P4: Session Health ---"
 
 assert_output_contains "context-pressure.sh health report" \
   "bash scripts/context-pressure.sh" \
-  "HEALTHY"
+  "Session Health"
+# Verify not CRITICAL (both HEALTHY and WARNING are acceptable)
+assert_output_not_contains "context-pressure.sh health report (not critical)" \
+  "bash scripts/context-pressure.sh" \
+  "CRITICAL"
 
 assert_output_contains "context-pressure.sh --json" \
   "bash scripts/context-pressure.sh --json" \

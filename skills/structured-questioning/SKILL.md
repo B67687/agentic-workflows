@@ -8,6 +8,7 @@ description: >-
   whenever you sense you might not be asking the right question.
 trigger-phrases: ask a question, formulate question, how to ask, what should I ask, structured question, probe
 handoffs: grill-me (to probe requirements), idea-refine (to explore)
+companion-script: scripts/question-framework.sh
 ---
 
 # Structured Questioning

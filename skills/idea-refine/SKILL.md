@@ -3,6 +3,7 @@ name: idea-refine
 description: Refines ideas iteratively. Refine ideas through structured divergent and convergent thinking. Use "idea-refine" or "ideate" to trigger.
 trigger-phrases: refine this idea, iterate on this, develop this concept, convergent thinking, divergent thinking
 handoffs: spec-driven-development (to spec), grill-me (to clarify)
+companion-script: scripts/idea-refine.sh
 ---
 
 # Idea Refine

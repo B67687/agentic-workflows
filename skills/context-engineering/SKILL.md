@@ -3,6 +3,7 @@ name: context-engineering
 description: Optimizes agent context setup. Use when starting a new session, when agent output quality degrades, when switching between tasks, or when you need to configure rules files and context for a project.
 trigger-phrases: context management, session setup, optimize context, context budget, reduce context, compact context
 handoffs: using-agent-skills (to pick a skill), bash-explore (to explore codebase)
+companion-script: scripts/context-budget.sh
 ---
 
 # Context Engineering
