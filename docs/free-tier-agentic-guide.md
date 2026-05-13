@@ -18,7 +18,7 @@ The agentic framework (tools, permissions, subagent spawning) is **model-agnosti
 
 ## Quick Toggle: Three Modes
 
-Switch profiles with the helper instead of hand-editing `/home/namikaz/.config/opencode/opencode.jsonc`:
+Switch profiles with the helper instead of hand-editing `$HOME/.config/opencode/opencode.jsonc`:
 
 ```bash
 bash scripts/opencode-model-profile.sh sustainable-go

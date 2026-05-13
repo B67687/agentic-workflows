@@ -103,3 +103,6 @@ repo-graph.html
 # ------------------------------------------------------------------
 # archive/
 # research/
+# Generated workflow state (personal paths)
+workflow/cross-domain-candidates.md
+workflow/harvested-topic-insights.md

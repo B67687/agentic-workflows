@@ -54,6 +54,6 @@ Use conventional commits:
 
 ## Tooling
 
-- Use `/home/namikaz/.local/bin/git-safe-commit` instead of raw `git commit`
-- Use `/home/namikaz/.local/bin/git-safe-push` instead of raw `git push`
-- Use `/home/namikaz/.local/bin/gh-safe-pr-create` instead of raw `gh pr create`
+- Use `$HOME/.local/bin/git-safe-commit` (or equivalent) instead of raw `git commit`
+- Use `$HOME/.local/bin/git-safe-push` (or equivalent) instead of raw `git push`
+- Use `$HOME/.local/bin/gh-safe-pr-create` (or equivalent) instead of raw `gh pr create`

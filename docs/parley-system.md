@@ -9,7 +9,7 @@ or have free-form conversations that are recorded for analysis.
 ## Quick Start
 
 ```bash
-python3 /home/namikaz/projects/dev/agentic-workflows/agent-concourse/web/server.py
+python3 ./agent-concourse/web/server.py
 # Open http://localhost:8080
 ```
 
