@@ -27,7 +27,7 @@
 <br>
 
 <p align="center">
-  <img src="https://readme-svg-typing-generator.vercel.app/api?lines=Systems+engineering+for+AI+agents.;Operating+contract.+Workflow+discipline.+Knowledge+propagation.;One+hub.+One+contract.+N+repos.;Shared+knowledge+flows+both+ways.&animation=neon&color=58a6ff&background=00000000&size=18&width=760&height=120&center=true&vCenter=true&multiline=true&repeat=true&pause=3000" alt="Typing animation">
+  <img src="docs/typing-animation.svg" width="100%" alt="Typing animation" style="max-width:760px;">
 </p>
 
 <p align="center">

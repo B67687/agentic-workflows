@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 115" style="background:transparent; font-family:ui-monospace,'Cascadia Code','Fira Code',monospace;">
+  <defs>
+    <style>
+      @keyframes fadeIn1 {
+        0%   { opacity: 0; transform: translateY(6px); }
+        8%   { opacity: 0; transform: translateY(6px); }
+        20%  { opacity: 1; transform: translateY(0); }
+        100% { opacity: 1; transform: translateY(0); }
+      }
+      @keyframes fadeIn2 {
+        0%   { opacity: 0; transform: translateY(6px); }
+        28%  { opacity: 0; transform: translateY(6px); }
+        40%  { opacity: 1; transform: translateY(0); }
+        100% { opacity: 1; transform: translateY(0); }
+      }
+      @keyframes fadeIn3 {
+        0%   { opacity: 0; transform: translateY(6px); }
+        48%  { opacity: 0; transform: translateY(6px); }
+        60%  { opacity: 1; transform: translateY(0); }
+        100% { opacity: 1; transform: translateY(0); }
+      }
+      @keyframes fadeIn4 {
+        0%   { opacity: 0; transform: translateY(6px); }
+        68%  { opacity: 0; transform: translateY(6px); }
+        80%  { opacity: 1; transform: translateY(0); }
+        100% { opacity: 1; transform: translateY(0); }
+      }
+      @keyframes finalFlash {
+        0%, 83% { opacity: 0; }
+        85%, 87% { opacity: 0.6; }
+        89%, 91% { opacity: 0; }
+        93%, 95% { opacity: 0.4; }
+        97%, 100% { opacity: 0; }
+      }
+      .l1 { animation: fadeIn1 12s ease-out infinite; }
+      .l2 { animation: fadeIn2 12s ease-out infinite; }
+      .l3 { animation: fadeIn3 12s ease-out infinite; }
+      .l4 { animation: fadeIn4 12s ease-out infinite; }
+      .flash { animation: finalFlash 12s ease-in-out infinite; }
+    </style>
+  </defs>
+
+  <g class="l1">
+    <line x1="120" y1="37" x2="640" y2="37" stroke="#58a6ff" stroke-width="1" opacity="0.15"/>
+    <text x="380" y="32" fill="#58a6ff" font-size="18" text-anchor="middle">Systems engineering for AI agents.</text>
+  </g>
+
+  <g class="l2">
+    <line x1="120" y1="62" x2="640" y2="62" stroke="#58a6ff" stroke-width="1" opacity="0.15"/>
+    <text x="380" y="57" fill="#58a6ff" font-size="18" text-anchor="middle">Operating contract. Workflow discipline.</text>
+  </g>
+
+  <g class="l3">
+    <line x1="120" y1="87" x2="640" y2="87" stroke="#58a6ff" stroke-width="1" opacity="0.15"/>
+    <text x="380" y="82" fill="#58a6ff" font-size="18" text-anchor="middle">Knowledge propagation. Shared context.</text>
+  </g>
+
+  <g class="l4">
+    <text x="380" y="109" fill="#58a6ff" font-size="18" font-weight="bold" text-anchor="middle">One hub. One contract. N repos. Shared knowledge flows both ways.</text>
+  </g>
+
+  <!-- Flash pulse overlay — shows all lines together at end of cycle -->
+  <rect x="50" y="8" width="660" height="110" rx="8" class="flash" fill="none" stroke="#58a6ff" stroke-width="3"/>
+  <rect x="55" y="13" width="650" height="100" rx="6" class="flash" fill="#58a6ff" opacity="0.08"/>
+</svg>
