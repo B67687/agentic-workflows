@@ -94,29 +94,12 @@ Once bash has isolated the relevant files, switch to tools for precision:
 
 ## Companion Script: `core/explore.py`
 
-This skill ships with a reusable Python script that wraps common discovery
-operations. It handles edge cases, large trees, and structured output
-that ad-hoc bash commands often get wrong.
+Wraps common discovery with edge case and noise handling. Auto-excludes `.git/` and known noise directories.
 
 ```bash
-# Find files matching a name pattern
-python3 core/explore.py find-by-name '*handler*'
-
-# Find files containing a regex (with extension filtering)
-python3 core/explore.py find-by-content 'def handle_' --ext .py .ts
-
-# Count files by extension across the workspace
+python3 core/explore.py find-by-content 'pattern' --ext .py .ts
 python3 core/explore.py file-stats
-
-# Largest files (by line count) for a given extension
-python3 core/explore.py largest-files --ext .py --top 10
-
-# Directory tree structure
-python3 core/explore.py dir-tree --max-depth 3
 ```
-
-The script integrates with `scripts/_workspace_files.py` for
-consistent ignore-dir logic across the workspace.
 
 ## Why Hybrid (Not Bash-Only)
 
