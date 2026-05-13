@@ -69,69 +69,28 @@ The companion `core/explore.py` script handles exclusion automatically via `_wor
 - **Small, targeted searches** --- use Grep (pattern search with file context)
 - **Writing code** --- use Write for structured output
 
-## Exploration Patterns
+## Quick Reference
 
-### 1. Directory Structure
+| Goal | Command |
+|---|---|
+| Count files by extension | `find . -name '*.ext' -not -path './.git/*' \| wc -l` |
+| Find files by name | `find . -name '*pattern*' -not -path './.git/*'` |
+| Find content in files | `grep -rn 'pattern' --include='*.ext' .` |
+| Find function/class defs | `grep -rn '^def \|^func \|^class \|^export function' --include='*.ext' .` |
+| Find references to a symbol | `grep -rn 'symbol' --include='*.ext' .` |
+| Largest files by line count | `find . -name '*.ext' -exec wc -l {} + \| sort -rn \| head -10` |
+| Directory tree (top 2 levels) | `find . -maxdepth 2 -type d \| sort` |
 
-```bash
-# Top-level shape
-ls -la
-find . -maxdepth 2 -type d | sort
-
-# File counts by extension
-find . -name '*.py' | wc -l
-find . -name '*.ts' -o -name '*.tsx' | wc -l
-```
-
-### 2. Find Specific Files
-
-```bash
-# By name
-find . -name '*handler*'
-find . -name '*test*' -type f
-
-# By content
-grep -rl 'def handle_' --include='*.py' .
-grep -rl 'interface.*Props' --include='*.ts' .
-```
-
-### 3. Find Key Symbols
-
-```bash
-# Functions/classes
-grep -rn '^func ' --include='*.go' .
-grep -rn '^class ' --include='*.py' .
-grep -rn '^export function' --include='*.ts' .
-```
-
-### 4. Find References
-
-```bash
-# Who calls this function?
-grep -rn 'findUser(' --include='*.py' .
-
-# Who imports this module?
-grep -rn 'from mymodule import' --include='*.py' .
-```
-
-### 5. Size Assessment
-
-```bash
-# Largest files
-find . -name '*.py' -exec wc -l {} + | sort -rn | head -10
-
-# Total lines of code
-find . -name '*.py' -exec cat {} + | wc -l
-```
+Replace `.ext` with the target extension (`.py`, `.ts`, `.go`, etc.). For multiple extensions, pass multiple `--include` or use `-o` with find. Always add `-not -path './.git/*'` to exclude .git/ from find results.
 
 ## After Bash Discovery
 
-Once bash has identified the relevant file(s), switch to tools for precision:
+Once bash has isolated the relevant files, switch to tools for precision:
 
-1. `Read` the identified file for full context
-2. `Grep` within it for specific patterns
-3. `Glob` to verify file existence
-4. `Edit` for modifications
+1. **Read** the identified file for full context
+2. **Grep** within it for specific patterns
+3. **Glob** to verify file existence
+4. **Edit** for modifications
 
 ## Companion Script: `core/explore.py`
 
