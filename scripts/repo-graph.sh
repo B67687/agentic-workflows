@@ -3,11 +3,12 @@
 # Usage: bash scripts/repo-graph.sh [output.html]
 # Default output: repo-graph.html
 
-set -uo pipefail
+set -euo pipefail
+trap 'echo "[ERROR] $BASH_SOURCE:$LINENO"' ERR
 
 OUTPUT="${1:-repo-graph.html}"
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-cd "$REPO_ROOT"
+cd "$REPO_ROOT" || { echo "ERROR: cannot cd to $REPO_ROOT"; exit 1; }
 
 echo "🔍 Scanning repo for markdown files and links..."
 

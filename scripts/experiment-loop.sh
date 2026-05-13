@@ -16,6 +16,7 @@
 # =============================================================================
 
 set -euo pipefail
+trap 'echo "[ERROR] $BASH_SOURCE:$LINENO"' ERR
 
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 EXPERIMENTS_DIR="$REPO_ROOT/.experiments"

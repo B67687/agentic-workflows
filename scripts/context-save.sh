@@ -2,7 +2,7 @@
 # Save working context (git state, decisions, remaining work) for resume.
 # Usage: bash ./scripts/context-save.sh "optional summary of current state"
 
-set -e
+set -euo pipefail
 
 SUMMARY="${1:-}"
 TIMESTAMP=$(date -u +%Y-%m-%dT%H:%M:%SZ)

@@ -51,6 +51,7 @@
 # =============================================================================
 
 set -euo pipefail
+trap 'echo "[ERROR] $BASH_SOURCE:$LINENO"' ERR
 
 MODE="create"
 BASE_REF=""

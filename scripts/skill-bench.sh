@@ -197,7 +197,7 @@ MEOF
 # Checks the agent's output in RUN_DIR against expected criteria.
 set -euo pipefail
 RUN_DIR="$RUN_DIR"
-cd "$REPO_ROOT"
+cd "$REPO_ROOT" || { echo "ERROR: cannot cd to $REPO_ROOT"; exit 1; }
 $VERIFY_SCRIPT
 VEOF
       chmod +x "$RUN_DIR/verify.sh"

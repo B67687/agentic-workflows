@@ -3,7 +3,7 @@
 # Fallback when agentmemory MCP is unavailable.
 # Usage: bash ./scripts/learnings-save.sh "insight text" [tag1,tag2]
 
-set -e
+set -euo pipefail
 
 INSIGHT="${1:-}"
 TAGS="${2:-general}"

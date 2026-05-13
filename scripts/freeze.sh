@@ -3,7 +3,7 @@
 # Creates .gstack-freeze at repo root with the given path.
 # Usage: bash ./scripts/freeze.sh <allowed-path>
 
-set -e
+set -euo pipefail
 
 TARGET="${1:-}"
 

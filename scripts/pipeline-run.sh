@@ -10,7 +10,8 @@
 #   bash ./scripts/pipeline-run.sh update <pipeline-id> <task-id> <status> [note]
 #   bash ./scripts/pipeline-run.sh next <pipeline-id>
 
-set -e
+set -euo pipefail
+trap 'echo "[ERROR] $BASH_SOURCE:$LINENO"' ERR
 
 REPO_ROOT=$(git rev-parse --show-toplevel 2>/dev/null || echo ".")
 PIPELINE_DIR="$REPO_ROOT/.pipeline"

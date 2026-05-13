@@ -3,7 +3,7 @@
 # Fallback when agentmemory MCP is unavailable.
 # Usage: bash ./scripts/learnings-search.sh [query]
 
-set -e
+set -euo pipefail
 
 QUERY="${1:-}"
 REPO_ROOT=$(git rev-parse --show-toplevel 2>/dev/null || echo ".")

@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -euo pipefail
 
 # This script helps initialize the ideas directory for the idea-refine skill.
 

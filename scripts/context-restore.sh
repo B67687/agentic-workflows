@@ -3,7 +3,7 @@
 # Usage: bash ./scripts/context-restore.sh [context-id]
 #   Without context-id, lists available contexts.
 
-set -e
+set -euo pipefail
 
 REPO_ROOT=$(git rev-parse --show-toplevel 2>/dev/null || echo ".")
 CONTEXT_DIR="$REPO_ROOT/.context"
