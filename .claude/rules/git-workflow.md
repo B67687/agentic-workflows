@@ -10,8 +10,8 @@ paths:
 
 - Commit after every meaningful change automatically
 - Use `bash ./scripts/checkpoint-commit.sh -m "summary"` --- never raw `git commit`
-- For push: use `/home/namikaz/.local/bin/git-safe-push`
-- For PR creation: use `/home/namikaz/.local/bin/gh-safe-pr-create`
+- For push: use `$HOME/.local/bin/git-safe-push` (or equivalent)
+- For PR creation: use `$HOME/.local/bin/gh-safe-pr-create` (or equivalent)
 
 ## Branch strategy
 
