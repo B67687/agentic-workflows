@@ -63,14 +63,27 @@ Treat `session-state.json`, `topic-insights.md`, `.cleanup-protect`, and archive
 
 ```
 [Topic-Folder]/
-|- AGENTS.md                    (this file)
-|- archive/superseded/workspace-system-overview.md (quick orientation)
-|- topic-insights.md            (your lessons - update when you learn)
+|- AGENTS.md                    (this file --- operating contract)
+|- CLAUDE.md                    (Claude Code compatibility shim)
 |- session-state.json           (current work state)
-|- [folder-name]-content/        (YOUR WORK - hub never touches)
-|- meta/                        (YOUR custom content - never touched)
+|- buglog.json                  (bug memory across sessions)
+|- propagated/                  (HUB-MANAGED --- all hub-propagated scripts and docs)
+|   |- checkpoint-commit.sh     (safe commit wrapper)
+|   |- a2h-contact.sh           (agent-to-human contact protocol)
+|   |- error-counter.sh         (error counting with escalation)
+|   |- ...                      (other hub-managed tools)
+|   |- quality-standards.md     (quality reference)
+|   |- git-github-best-practices.md (git reference)
+|- commands/                    (slash command files --- hub-managed)
+|- .opencode/commands/          (OpenCode command mirrors --- hub-managed)
+|- .pi/prompts/                 (Pi prompt mirrors --- hub-managed)
+|- [folder-name]-content/        (YOUR WORK --- hub never touches)
+|- meta/                        (YOUR custom content --- never touched)
 |- archive/                     (session history)
 ```
+
+**Note:** Files in `propagated/` are managed by the agentic-workflows hub. They may be
+overwritten on propagation. Do not edit them directly in the topic folder.
 
 ---
 
@@ -98,8 +111,8 @@ For complex tasks, prompt yourself until plateau:
 
 - Session state -> `session-state.json`
 - Topic insights -> `topic-insights.md`
-- Quality standards -> `quality-standards.md`
-- Git practices -> `git-github-best-practices.md`
+- Quality standards -> `propagated/quality-standards.md`
+- Git practices -> `propagated/git-github-best-practices.md`
 
 ## Engineering Skills
 

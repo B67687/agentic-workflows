@@ -21,23 +21,22 @@ This file bridges Claude Code with the project's operating contract.
 |------|---------|
 | `session-state.json` | Active session state, current task, verification status |
 | `AGENTS.md` | Canonical operating contract --- read this for full rules |
-| `docs/workflow.md` | Compact workflow summary (if exists) |
 | `buglog.json` | Past bugs and fixes across sessions |
-| `scripts/tools.sh` | Tool registry --- all agent-callable tools |
-| `scripts/search-index.sh` | BM25 search across all text files |
+| `propagated/tools.sh` | Tool registry --- all agent-callable tools |
+| `propagated/search-index.sh` | BM25 search across all text files |
 
 ## Quick Commands
 ```bash
-bash ./scripts/tools.sh                   # Tool registry
-bash ./scripts/session-status.sh          # Workspace orientation
-bash ./scripts/search-index.sh "query"    # BM25 search
-bash ./scripts/checkpoint-commit.sh -m "msg"  # Safe commit
+bash ./propagated/tools.sh                   # Tool registry
+bash ./propagated/session-status.sh          # Workspace orientation
+bash ./propagated/search-index.sh "query"    # BM25 search
+bash ./propagated/checkpoint-commit.sh -m "msg"  # Safe commit
 ```
 
 ## Commit Protocol
 After any meaningful change, run:
 ```bash
-bash ./scripts/checkpoint-commit.sh -m "summary of changes"
+bash ./propagated/checkpoint-commit.sh -m "summary of changes"
 ```
 
 Never leave verified work uncommitted.
