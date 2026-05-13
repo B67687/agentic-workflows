@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-CONFIG="${OPENCODE_CONFIG:-/home/namikaz/.config/opencode/opencode.jsonc}"
+CONFIG="${OPENCODE_CONFIG:-$HOME/.config/opencode/opencode.jsonc}"
 
 usage() {
   cat <<'USAGE'

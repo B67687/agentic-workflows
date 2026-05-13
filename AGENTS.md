@@ -135,7 +135,7 @@ For SwarmVault graph queries, read `wiki/graph/report.md` first (falls back to `
 
 ## Governance Rules
 
-- Runtime authority: global OpenCode config at `/home/namikaz/.config/opencode/opencode.jsonc`.
+- Runtime authority: global OpenCode config at `$HOME/.config/opencode/opencode.jsonc`.
 - Repo authority: `session-state.json` → `AGENTS.md` → `docs/workflow.md`.
 - Do not create repo-local `opencode.json` or workspace-level `.opencode/` directories, except for `.opencode/commands/` command files.
 - After tool, model, OS, or app-variant changes, scan and update stale runtime assumptions before resuming work.
