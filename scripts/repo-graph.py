@@ -37,7 +37,6 @@ DIR_COLORS = {
     "root":           {"bg": "#95A5A6", "border": "#7F8C8D", "label": "Root Files"},
     "prompt-library": {"bg": "#E91E63", "border": "#C2185B", "label": "Prompt Library"},
     "agent-skills":   {"bg": "#00BCD4", "border": "#0097A7", "label": "Agent Skills"},
-    "personal-voice": {"bg": "#FF7043", "border": "#E64A19", "label": "Personal Voice"},
     "other":          {"bg": "#78909C", "border": "#546E7A", "label": "Other"},
 }
 
