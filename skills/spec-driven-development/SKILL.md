@@ -75,69 +75,15 @@ Don't silently fill in ambiguous requirements. The spec's entire purpose is to s
 
 **Write a spec document covering these six core areas:**
 
-1. **Objective** --- What are we building and why? Who is the user? What does success look like?
+> See `assets/spec-template.md` (L3) for the fill-in-the-blank template with objective,
+> tech stack, commands, project structure, code style, testing strategy, boundaries,
+> success criteria, and open questions sections. Load with:
+> `bash ./scripts/skill-toolset.sh resource spec-driven-development assets/spec-template.md`
 
-2. **Commands** --- Full executable commands with flags, not just tool names.
-   ```
-   Build: npm run build
-   Test: npm test -- --coverage
-   Lint: npm run lint --fix
-   Dev: npm run dev
-   ```
-
-3. **Project Structure** --- Where source code lives, where tests go, where docs belong.
-   ```
-   src/           -> Application source code
-   src/components -> React components
-   src/lib        -> Shared utilities
-   tests/         -> Unit and integration tests
-   e2e/           -> End-to-end tests
-   docs/          -> Documentation
-   ```
-
-4. **Code Style** --- One real code snippet showing your style beats three paragraphs describing it. Include naming conventions, formatting rules, and examples of good output.
-
-5. **Testing Strategy** --- What framework, where tests live, coverage expectations, which test levels for which concerns.
-
-6. **Boundaries** --- Three-tier system:
-   - **Always do:** Run tests before commits, follow naming conventions, validate inputs
-   - **Ask first:** Database schema changes, adding dependencies, changing CI config
-   - **Never do:** Commit secrets, edit vendor directories, remove failing tests without approval
-
-**Spec template:**
-
-```markdown
-# Spec: [Project/Feature Name]
-
-## Objective
-[What we're building and why. User stories or acceptance criteria.]
-
-## Tech Stack
-[Framework, language, key dependencies with versions]
-
-## Commands
-[Build, test, lint, dev --- full commands]
-
-## Project Structure
-[Directory layout with descriptions]
-
-## Code Style
-[Example snippet + key conventions]
-
-## Testing Strategy
-[Framework, test locations, coverage requirements, test levels]
-
-## Boundaries
-- Always: [...]
-- Ask first: [...]
-- Never: [...]
-
-## Success Criteria
-[How we'll know this is done --- specific, testable conditions]
-
-## Open Questions
-[Anything unresolved that needs human input]
-```
+The six core areas are: **Objective** (what/why/who/success), **Commands** (full
+build/test/lint/dev commands), **Project Structure** (directory layout), **Code Style**
+(convention example), **Testing Strategy** (framework, coverage, test levels), and
+**Boundaries** (Always / Ask First / Never).
 
 **Reframe instructions as success criteria.** When receiving vague requirements, translate them into concrete conditions:
 
