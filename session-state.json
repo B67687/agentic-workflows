@@ -1,12 +1,12 @@
 {
-  "session": 79,
+  "session": 80,
   "status": "verified-phase",
-  "interruptedCount": 1,
+  "interruptedCount": 0,
   "contextPressure": "healthy",
   "currentTask": {
-    "name": "Integrate 12-factor-agents framework \u2014 Slice 5: Error Handling & Control Flow",
+    "name": "Integrate Google ADK 5 Agent Skill Design Patterns",
     "status": "done",
-    "goal": "Create error-counter.sh with human escalation --- complete therapeutic pipeline"
+    "goal": "Formalize 5 patterns, add progressive disclosure, refactor 6 skills, create self-extending harness, ecosystem updates"
   },
   "environment": {
     "note": "Configure per-workspace in your agent runtime config (e.g., OpenCode at `$HOME/.config/opencode/opencode.jsonc`, Claude Code at `.claude/settings.json`).",
@@ -15,55 +15,80 @@
     "topicFoldersPath": "Change to your topic folders parent"
   },
   "whatChanged": [
-    "P0: Badge QA for README \"Works with\" compat claims --- audited 30+ files across repo",
-    "P0: Fixed AGENTS.md --- skills section is now tool-agnostic (skill tool OR read SKILL.md directly)",
-    "P0: Fixed AGENTS.md governance --- runtime authority lists all tools, not just OpenCode",
-    "P1: Added Pi badge to README --- repo has real pi integration (.pi/ dir, tested dispatch)",
-    "P1: Enhanced .codex/hooks.json with session-start + detect-gaps hooks",
-    "P1: Created .codex/rules/agentic-workflows.md --- Codex CLI startup instructions",
-    "P1: Fixed .gitignore --- now tracks .claude/, .cursor/, .codex/, CLAUDE.md so they ship in clones",
-    "P1: Fixed docs/workflow.md harness tracks --- added Claude Code, Cursor, Codex CLI rows",
-    "P1: Fixed docs/hub-quickstart.md --- tool-agnostic command discovery, OpenCode-specific sections labeled",
-    "P1: Fixed propagation/AGENTS.template.md --- tool-agnostic runtime config language",
-    "P1: Fixed scripts/sync-commands.sh --- documented why Claude Code/Cursor have no sync target",
-    "P1: Fixed session-state.json env note --- cites all runtime configs",
-    "P2: Fixed pre-existing Unicode chars blocking quality gate (23 chars in README + workflow.md)"
+    "P0: Documented 5 ADK skill design patterns --- Tool Wrapper, Generator, Reviewer, Inversion, Pipeline",
+    "P0: Created docs/skill-design-patterns.md --- maps patterns to 20+ existing skills with composition rules",
+    "P0: Migrated all 41 skill frontmatters to agentskills.io spec-compliant format (compatibility, allowed-tools, metadata)",
+    "P0: Added progressive disclosure (L1/L2/L3) via scripts/skill-toolset.sh -- 41 skills at ~4K tokens L1 vs ~200K monolithic",
+    "P0: Created skill-creator meta-skill --- self-extending harness, agent can generate new skills at runtime",
+    "P0: Refactored 6 skills --- moved 354 lines of checklists/templates into references/ and assets/ for on-demand L3 loading",
+    "P1: Updated AGENTS.md with progressive disclosure section in Engineering Skills",
+    "P1: Updated using-agent-skills with toolset commands and L1/L2/L3 reference",
+    "P1: Updated skill-evaluator with pattern compliance checks (7-item checklist per pattern)",
+    "P1: Updated skill-find.sh to delegate to skill-toolset and show pattern/bundle info",
+    "P1: Created scripts/validate-skill-frontmatter.py --- validates all skills against agentskills.io spec",
+    "P1: Created scripts/migrate-skill-frontmatter.py --- mechanical frontmatter migration, idempotent",
+    "P1: Updated manifest.json to include skill-creator in meta bundle",
+    "P2: Fixed idea-refine structural anomaly --- moved loose .md files into references/",
+    "P2: Updated docs/workflow.md deep references table with skill-design-patterns and skill-toolset"
   ],
   "filesTouched": [
-    "AGENTS.md (skills section tool-agnostic, governance lists all tools, worktree wording generic)",
-    "README.md (added Pi badge, Unicode-normalized --- ~18 chars fixed)",
-    "docs/workflow.md (added Claude Code, Cursor, Codex CLI to harness tracks, Unicode-fixed)",
-    "docs/hub-quickstart.md (tool-agnostic command discovery section)",
-    "session-state.json (env note cites all tools, updated event log)",
-    "propagation/AGENTS.template.md (tool-agnostic runtime config language)",
-    "scripts/sync-commands.sh (design scope comment)",
-    ".gitignore (removed .claude/.cursor/.codex/CLAUDE.md from ignore --- configs now ship)",
-    ".codex/hooks.json (NEW --- enhanced with session-start + detect-gaps hooks)",
-    ".codex/rules/agentic-workflows.md (NEW --- Codex CLI startup instructions)"
+    "docs/skill-design-patterns.md (NEW --- 5 patterns mapped to skills, composition rules)",
+    "scripts/skill-toolset.py (NEW --- L1 list / L2 load / L3 resource progressive disclosure)",
+    "scripts/skill-toolset.sh (NEW --- bash wrapper)",
+    "scripts/validate-skill-frontmatter.py (NEW --- agentskills.io spec validation)",
+    "scripts/migrate-skill-frontmatter.py (NEW --- frontmatter migration, idempotent)",
+    "skills/skill-creator/SKILL.md (NEW --- self-extending meta-skill)",
+    "skills/skill-creator/references/agentskills-spec.md (NEW --- L3 spec resource)",
+    "skills/skill-creator/references/example-skill.md (NEW --- L3 example resource)",
+    "skills/code-review-and-quality/references/review-checklist.md (NEW --- L3 checklist)",
+    "skills/code-simplification/references/simplification-principles.md (NEW --- L3 principles)",
+    "skills/documentation-and-adrs/assets/adr-template.md (NEW --- L3 template)",
+    "skills/security-and-hardening/references/owasp-top-10.md (NEW --- L3 reference)",
+    "skills/security-and-hardening/references/security-checklist.md (NEW --- L3 checklist)",
+    "skills/performance-optimization/references/performance-budget.md (NEW --- L3 budget)",
+    "skills/spec-driven-development/assets/spec-template.md (NEW --- L3 template)",
+    "AGENTS.md (added progressive disclosure section)",
+    "docs/workflow.md (added skill-design-patterns and skill-toolset to deep references)",
+    "skills/manifest.json (added skill-creator to meta bundle)",
+    "skills/using-agent-skills/SKILL.md (added progressive disclosure + toolset commands)",
+    "skills/skill-evaluator/SKILL.md (added pattern compliance checks, pattern field)",
+    "skills/using-agent-skills/scripts/skill-find.sh (delegates to toolset, shows patterns)",
+    "skills/code-review-and-quality/SKILL.md (moved 5-axis criteria to L3 reference)",
+    "skills/code-simplification/SKILL.md (moved principles to L3 reference)",
+    "skills/documentation-and-adrs/SKILL.md (moved ADR template to L3 asset)",
+    "skills/performance-optimization/SKILL.md (moved CWV + budget to L3 reference)",
+    "skills/security-and-hardening/SKILL.md (moved OWASP + checklist to L3 references)",
+    "skills/spec-driven-development/SKILL.md (moved spec template to L3 asset)",
+    "skills/idea-refine/SKILL.md (updated paths to references/)",
+    "skills/idea-refine/examples.md (moved to references/)",
+    "skills/idea-refine/frameworks.md (moved to references/)",
+    "skills/idea-refine/refinement-criteria.md (moved to references/)"
   ],
   "verification": [
-    "Zero hard OpenCode-only references remain in AGENTS.md (grep confirms clean)",
-    "Quality gate passes: no problematic Unicode chars in any text file",
-    ".codex/ and .cursor/ now tracked in git --- new clones get full agent configs",
-    "All 13 files committed across 2 commits, 355 lines changed",
-    "Badge matrix: Claude Code (full), Pi (full), Cursor (full), OpenCode (full), Codex CLI (defensible), Any AGENTS.md AI (true)"
+    "All 42 skills pass frontmatter validation --- 0 errors, 0 warnings",
+    "skill-toolset list shows all 42 skills with pattern and bundle tags",
+    "L2 loading works for all skills (skill-toolset load)",
+    "L3 resources load on demand for 6 refactored skills + skill-creator",
+    "skill-find.sh delegates correctly to toolset for L1 listing",
+    "skill-evaluator has pattern compliance checks for all 5 patterns",
+    "Migration idempotent --- running migrate-skill-frontmatter.py again changes nothing",
+    "All 4 commits pushed, 72 files changed, ~2180 lines total"
   ],
   "keyLearnings": [
-    "Web search vs webfetch: having search changes everything. URL-guessing missed 4+ major sources. The research quality gap was tooling, not methodology.",
-    "Cognitive surrender resistance is primarily about making the invisible visible: naming the concept, constructing expectations, and running calibration checks. The heavy machinery (phase gates, verification requirements, anti-rationalization tables) already exists.",
-    "The calibration question ('Am I forming an independent view or adopting wholesale?') is the most valuable single artifact from the entire research cycle.",
-    "Scholarly debate matters: the Potkalitsky critique ('we need interventions, not neologisms') correctly identifies that intervention research lags behind labeling.",
-    "SCF devil's advocate pattern was already present in the workflow (parley.md Skeptic agent, implement.md counterargument) before the research started \u2014 confirms the design was structurally sound.",
-    "Our repo implements ~80% of the 12-factor-agents principles implicitly. The primary gaps are (1) human-in-the-loop contact channels, (2) interrupt-between-selection-and-execution control flow, (3) error-counter self-healing patterns, (4) XML-style context formatting.",
-    "The A2H protocol draft (a2h-spec.md) defines the exact REST API we need for agent-to-human communication \u2014 POST /human_contacts, POST /function_calls, GET /humans. This is the scaffolding for Milestone 3.",
-    "The 12-factor-agents workshop walkthrough provides a complete reference implementation (TypeScript + BAML) that goes from hello-world to HumanLayer email integration. Valuable as a template for our scaffolding work."
+    "The 5 ADK patterns already existed implicitly in the repo --- naming them was the highest-leverage change. Pattern language turns implicit architecture into explicit contract.",
+    "Progressive disclosure (L1/L2/L3) is the key enabler for scale. 41 skills monolithic = ~200K tokens. Same skills progressive = ~4K tokens L1. Without this architecture, more skills mean worse performance.",
+    "The meta-skill pattern (skill-creator embedding its own spec as L3 reference) closes the self-improvement loop. The harness can grow its own capabilities without direct human authorship.",
+    "Frontmatter migration is a mechanical transformation but must handle edge cases (--- in description text, YAML quoting, multi-line strings). A robust YAML parser is essential; naive string splitting breaks on '---' inside quoted strings.",
+    "Content refactoring (inline to L3) changes how a skill reads. SKILL.md becomes a thin orchestrator ('load X, then Y') instead of a wall of text. This is a better authoring pattern regardless of progressive disclosure.",
+    "The agentskills.io specification is intentionally minimal (6 fields, 3 optional dirs). The value is in what you build on top of it --- pattern language, composition rules, tooling, validation."
   ],
-  "residualRisk": "Cognitive surrender interventions have limited empirical backing outside Shaw & Nave Study 3 (incentives+feedback) and automation bias literature (Parasuraman & Manzey). The 3 heuristics integrated here are theoretically grounded but untested as a bundle. The SCF framework (arXiv 2603.21735) is unvalidated at the neurophysiological level. Cross-cultural surrender rates unknown. No longitudinal data on whether workflow-level heuristics durably reduce surrender.",
+  "residualRisk": "Skill-creator generates spec-compliant frontmatter but hasn't been tested end-to-end with a live agent generating a real skill. The generated skill's description quality depends on the agent's understanding of the domain --- ambiguous descriptions still lead to poor L1 triggering. 21 of 42 skills have no pattern tag (they don't fit the 5 patterns neatly). Some large skills (ci-cd, frontend-ui, testing) still have heavy inline content that could benefit from L3 extraction.",
   "immediateNextSteps": [
-    "Run task-retrospect.sh to capture insights about the badge QA cycle",
-    "The quality gate now passes -- no more Unicode bypass needed",
-    "Consider whether Codex CLI dispatch should be tested (+session-state.json assumption updated)",
-    "Clean up stale content dirs: bus-hop/bus-app-content (empty), scenic-fetch/wall-you-content (empty) -- leftovers from renames"
+    "Run task-retrospect.sh to capture learnings from the ADK 5-patterns integration cycle",
+    "Test skill-creator end-to-end: ask agent to generate a new skill, verify output",
+    "Consider extracting inline content from the remaining large skills (ci-cd, frontend-ui, tdd, browser-testing)",
+    "Clean up stale content dirs: bus-hop/bus-app-content (empty), scenic-fetch/wall-you-content (empty)",
+    "Propagate AGENTS.md updates and new skill-toolset to topic folders via propagate-to-all.sh"
   ],
   "resumeRules": [
     "Read session-state.json first on every resume",
@@ -89,8 +114,8 @@
   "doNotRepeat": [
     "2026-05-13: Researched cognitive surrender using only webfetch (URL-guessing). Missed the #1 Google result (Addy Osmani's blog) and 4+ major scholarly sources. Lesson: research without web search tool is systematically blind. Use websearch first when available; when only webfetch is available, ask user for starting URLs rather than guessing."
   ],
-  "lastRetrospect": "2026-05-13T11:36:58Z",
-  "learningsCount": 20,
+  "lastRetrospect": "2026-05-13T15:07:16Z",
+  "learningsCount": 22,
   "assumptions": [
     {
       "id": "residualRisk",
@@ -161,69 +186,75 @@
   },
   "events": [
     {
-      "timestamp": "2026-05-13T11:00:00Z",
+      "timestamp": "2026-05-13T13:00:00Z",
       "type": "checkpoint",
-      "milestone": "slice-1-foundation",
-      "summary": "Created 12-factor-agents-integration.md principles map, added cross-references to README, AGENTS.md, workflow.md",
+      "milestone": "slice-1-pattern-foundation",
+      "summary": "Created docs/skill-design-patterns.md, migrated all 41 frontmatters to spec-compliant format, created validate/migrate scripts",
       "filesChanged": [
-        "README.md",
+        "docs/skill-design-patterns.md (NEW)",
+        "scripts/validate-skill-frontmatter.py (NEW)",
+        "scripts/migrate-skill-frontmatter.py (NEW)",
+        "skills/*/SKILL.md (41 files, frontmatter migration)",
+        "skills/idea-refine/* (moved to references/)",
+        "AGENTS.md, docs/workflow.md"
+      ],
+      "verification": "0 errors, 0 warnings from validation. Migration idempotent. All 41 skills spec-compliant."
+    },
+    {
+      "timestamp": "2026-05-13T14:00:00Z",
+      "type": "checkpoint",
+      "milestone": "slice-2-progressive-disclosure",
+      "summary": "Created scripts/skill-toolset.sh/.py for L1/L2/L3 loading. Updated using-agent-skills, AGENTS.md, workflow.md with progressive disclosure references.",
+      "filesChanged": [
+        "scripts/skill-toolset.py (NEW)",
+        "scripts/skill-toolset.sh (NEW)",
+        "skills/using-agent-skills/SKILL.md",
         "AGENTS.md",
-        "docs/workflow.md",
-        "docs/12-factor-agents-integration.md"
+        "docs/workflow.md"
       ],
-      "verification": "31 references across 4 files, all 12 factors mapped to concrete paths"
+      "verification": "skill-toolset list/load/resource/find/info all work. L1 = ~4K tokens for 41 skills."
     },
     {
-      "timestamp": "2026-05-13T12:00:00Z",
+      "timestamp": "2026-05-13T15:00:00Z",
       "type": "checkpoint",
-      "milestone": "slice-2-context-engineering",
-      "summary": "Added XML-style context output, deterministic pre-fetch script, and events array to session-state.json",
+      "milestone": "slice-3-content-refactoring",
+      "summary": "Extracted 354 lines of inline content from 6 skills into L3 resources (references/ + assets/). Templates and checklists now load on demand.",
       "filesChanged": [
-        "scripts/retrieve-context.sh",
-        "scripts/prefetch-context.sh",
-        "session-state.json",
-        "docs/12-factor-agents-integration.md"
+        "skills/code-review-and-quality/references/review-checklist.md (NEW)",
+        "skills/code-simplification/references/simplification-principles.md (NEW)",
+        "skills/documentation-and-adrs/assets/adr-template.md (NEW)",
+        "skills/performance-optimization/references/performance-budget.md (NEW)",
+        "skills/security-and-hardening/references/owasp-top-10.md (NEW)",
+        "skills/security-and-hardening/references/security-checklist.md (NEW)",
+        "skills/spec-driven-development/assets/spec-template.md (NEW)",
+        "6 SKILL.md files (content replaced with L3 references)"
       ],
-      "verification": "Scripts execute, XML output parses, events array populated"
+      "verification": "L3 loads correctly via skill-toolset resource. SKILL.md bodies reduced by 354 lines. Validation 0/0."
     },
     {
-      "timestamp": "2026-05-13T12:27:00Z",
+      "timestamp": "2026-05-13T16:00:00Z",
       "type": "checkpoint",
-      "milestone": "slice-3-human-in-the-loop",
-      "summary": "Created A2H protocol contact script, notification dispatcher, approval gate, and pipeline checkpoint",
+      "milestone": "slice-4-self-extending-harness",
+      "summary": "Created skills/skill-creator/ meta-skill with agentskills.io spec and example skill as L3 references. Updated manifest.json.",
       "filesChanged": [
-        "scripts/a2h-contact.sh",
-        "scripts/notify.sh",
-        "commands/implement.md",
-        "scripts/implement-preflight.sh",
-        "scripts/pipeline-run.sh",
-        "docs/12-factor-agents-integration.md"
+        "skills/skill-creator/SKILL.md (NEW)",
+        "skills/skill-creator/references/agentskills-spec.md (NEW)",
+        "skills/skill-creator/references/example-skill.md (NEW)",
+        "skills/manifest.json"
       ],
-      "verification": "All scripts execute, A2H contact/approve/respond/list flow works, notification dispatch works, pipeline human-checkpoint registered"
+      "verification": "skill-creator validates, discovers, and loads L3 resources correctly. 42 skills total."
     },
     {
-      "timestamp": "2026-05-13T12:33:00Z",
+      "timestamp": "2026-05-13T17:00:00Z",
       "type": "checkpoint",
-      "milestone": "slice-4-scaffolding",
-      "summary": "Created create-hl-agent.sh scaffold and propagation/12-factor-agent.template.sh",
+      "milestone": "slice-5-ecosystem-updates",
+      "summary": "Regenerated .skill-index.json with pattern/bundle fields, updated skill-evaluator with pattern compliance checks, updated skill-find.sh to show patterns.",
       "filesChanged": [
-        "scripts/create-hl-agent.sh",
-        "propagation/12-factor-agent.template.sh",
-        "docs/12-factor-agents-integration.md"
+        "skills/.skill-index.json (regenerated with pattern+bundle)",
+        "skills/skill-evaluator/SKILL.md (pattern compliance section)",
+        "skills/using-agent-skills/scripts/skill-find.sh (delegates to toolset)"
       ],
-      "verification": "create-hl-agent.sh scaffolds a working agent project with scripts, checkpoint.sh runs correctly, propagation template creates skeleton"
-    },
-    {
-      "timestamp": "2026-05-13T12:36:00Z",
-      "type": "checkpoint",
-      "milestone": "slice-5-error-handling",
-      "summary": "Created error-counter.sh with human escalation --- complete therapeutic pipeline: capture -> count -> context -> escalate",
-      "filesChanged": [
-        "scripts/error-counter.sh",
-        "commands/implement.md",
-        "docs/12-factor-agents-integration.md"
-      ],
-      "verification": "error-counter.sh inc/check/reset/context/list all work, escalation fires at threshold, XML context output parses correctly"
+      "verification": "All 42 skills have bundle tags, 21 have pattern tags. Evaluation now checks structural compliance per pattern."
     }
   ]
 }
