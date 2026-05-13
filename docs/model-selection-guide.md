@@ -33,12 +33,9 @@ Known from this workspace. Verify inside the actual product before relying on ex
 | **GPT-5.2 Codex** | 400k | Coding-heavy workflows if 5.3 is not available |
 | **GPT-5.4** | 400k | Broad tool-heavy work, long-context professional tasks |
 
-## Access-Aware Routing For This Setup
+## Access-Aware Routing For Your Setup
 
-Local scan on 2026-04-21 confirmed:
-- GitHub CLI is logged in as `B67687`.
-- OpenCode has credentials for OpenRouter, GitHub Copilot, OpenCode Go, and Google.
-- `opencode models` could not be enumerated because OpenCode hit a local SQLite WAL checkpoint error. Treat provider access as confirmed, but check `/models` in the TUI after the local DB issue is cleared.
+Run `bash ./scripts/opencode-auth-profile.sh status` to check which providers are available. The model selector will auto-detect based on configured credentials.
 
 The practical answer:
 
