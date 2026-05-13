@@ -9,7 +9,7 @@
     "goal": "Create error-counter.sh with human escalation --- complete therapeutic pipeline"
   },
   "environment": {
-    "note": "Configure per-workspace in your OpenCode config at `$HOME/.config/opencode/opencode.jsonc`.",
+    "note": "Configure per-workspace in your agent runtime config (e.g., OpenCode at `$HOME/.config/opencode/opencode.jsonc`, Claude Code at `.claude/settings.json`).",
     "primaryTerminal": "Change to your terminal environment",
     "workspacePath": "Change to your workspace root",
     "topicFoldersPath": "Change to your topic folders parent"

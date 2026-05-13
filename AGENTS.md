@@ -136,9 +136,9 @@ For SwarmVault graph queries, read `wiki/graph/report.md` first (falls back to `
 
 ## Governance Rules
 
-- Runtime authority: global OpenCode config at `$HOME/.config/opencode/opencode.jsonc`.
+- Runtime authority: your agent runtime config (e.g., OpenCode at `$HOME/.config/opencode/opencode.jsonc`, Claude Code at `.claude/settings.json`, Codex CLI at `.codex/hooks.json`).
 - Repo authority: `session-state.json` -> `AGENTS.md` -> `docs/workflow.md`.
-- Do not create repo-local `opencode.json` or workspace-level `.opencode/` directories, except for `.opencode/commands/` command files.
+- Do not create tool-specific runtime configs repo-locally (e.g., `opencode.json`, `.claude/settings.json` override). Keep runtime config in your global tool config. Exception: `.opencode/commands/` command files are repo-local and hub-managed.
 - After tool, model, OS, or app-variant changes, scan and update stale runtime assumptions before resuming work.
 - Propagation ownership split is defined in `scripts/propagation-contract.sh`.
 
@@ -185,12 +185,15 @@ This hub integrates **[agent-skills](https://github.com/addyosmani/agent-skills)
 
 ### How Skills Work
 
-Skills are structured workflows with steps, verification gates, and anti-rationalization tables. The OpenCode `skill` tool loads and executes them by name.
+Skills are structured workflows with steps, verification gates, and anti-rationalization tables.
+
+- **If your agent has a `skill` tool (OpenCode):** invoke skills via it. The tool loads `SKILL.md` and executes the workflow.
+- **If your agent does not have a `skill` tool (Claude Code, Cursor, Codex CLI, etc.):** read the `SKILL.md` file in `skills/<skill-name>/` directly and follow its workflow steps manually.
+- **Never implement directly without consulting the skill first** --- skills encode hard-won patterns and anti-rationalization tables that prevent common mistakes.
 
 <rules>
-- If a task matches a skill, you MUST invoke it via the `skill` tool
+- If a task matches a skill, invoke it via the `skill` tool if available, OR read `skills/<skill-name>/SKILL.md` directly
 - Skills are located in `skills/<skill-name>/SKILL.md`
-- Never implement directly if a skill applies --- use it first
 - Follow the skill workflow exactly (do not partially apply)
 
 ### Bundle Overview
@@ -363,7 +366,7 @@ Before starting a multi-file task while on `main`, call `session-fork.sh`:
 bash ./scripts/session-fork.sh "<task-name>"
 ```
 
-This creates an isolated git worktree on a new branch so parallel sessions don't conflict. Tell the user to `cd` to the worktree path and start a new OpenCode session there.
+This creates an isolated git worktree on a new branch so parallel sessions don't conflict. Tell the user to `cd` to the worktree path and start a new agent session there (OpenCode, Claude Code, etc.).
 
 **When NOT to fork (the 21% case):**
 

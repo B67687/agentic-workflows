@@ -224,11 +224,14 @@ Pre-flight sub-agent -> compact summary -> main thread acts on summary
 ## Harness Tracks
 
 | Harness | Role |
-|---|---|
+|---|---|---|
 | **OpenCode** | Stable daily harness. All commands live in `commands/`, synced to `.opencode/commands/`. |
 | **Pi** | Parallel harness with project prompts, session storage, and a workflow guard. Same command source, synced to `.pi/prompts/`. |
+| **Claude Code** | Uses `CLAUDE.md` → `AGENTS.md` delegation, `.claude/hooks/` for lifecycle hooks, `.claude/rules/` for project rules. Invoke commands as `bash scripts/<name>.sh`. |
+| **Cursor** | Uses `.cursor/rules/` for project rules (startup order, key contract). Invoke commands as `bash scripts/<name>.sh`. |
+| **Codex CLI** | Uses `.codex/hooks.json` for hook events, `.codex/rules/` for startup instructions. Invoke commands as `bash scripts/<name>.sh`. |
 
-Commands are edited once in `commands/` and synced to both harnesses via `scripts/sync-commands.sh`. No manual mirroring.
+Commands are authored once in `commands/` and invoked as `bash scripts/<name>.sh` across all tools. OpenCode and Pi have additional command-mirror targets for slash-command support.
 
 ---
 

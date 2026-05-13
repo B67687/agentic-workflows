@@ -51,9 +51,10 @@ flowchart LR
 <p align="center">
   <b>Works with</b>&ensp;
   <img src="https://img.shields.io/badge/Claude_Code-CC5A9C?style=flat-square&logo=anthropic&logoColor=white" alt="Claude Code">
-  <img src="https://img.shields.io/badge/Codex_CLI-000000?style=flat-square&logo=openai&logoColor=white" alt="Codex CLI">
+  <img src="https://img.shields.io/badge/Pi-777777?style=flat-square" alt="Pi">
   <img src="https://img.shields.io/badge/Cursor-6C47FF?style=flat-square&logo=cursor&logoColor=white" alt="Cursor">
   <img src="https://img.shields.io/badge/OpenCode-333333?style=flat-square" alt="OpenCode">
+  <img src="https://img.shields.io/badge/Codex_CLI-000000?style=flat-square&logo=openai&logoColor=white" alt="Codex CLI">
   <img src="https://img.shields.io/badge/Any_AGENTS.md_AI-555555?style=flat-square" alt="AGENTS.md compatible">
 </p>
 

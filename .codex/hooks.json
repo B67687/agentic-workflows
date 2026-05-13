@@ -1,0 +1,37 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node .codex/hooks/swarmvault-graph-first.js session-start"
+          },
+          {
+            "type": "command",
+            "command": "bash ./scripts/hooks/session-start.sh",
+            "description": "Print branch, recent commits, state health",
+            "timeout": 10
+          },
+          {
+            "type": "command",
+            "command": "bash ./scripts/hooks/detect-gaps.sh",
+            "description": "Detect stale indexes, missing state, propagation drift",
+            "timeout": 15
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node .codex/hooks/swarmvault-graph-first.js pre-tool-use"
+          }
+        ]
+      }
+    ]
+  }
+}

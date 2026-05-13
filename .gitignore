@@ -64,13 +64,15 @@ wiki/
 state/
 
 # ------------------------------------------------------------------
-# Tier 3 --- Generated Agent Integrations (claude, codex, cursor, gemini)
+# Tier 3 --- Agent-Generated Runtime Data (ignore transient, track config)
 # ------------------------------------------------------------------
-.claude/
+# .claude/, .cursor/, .codex/ config files are tracked in git so cloned
+# repos get hooks, rules, and settings. Only ignore auto-generated data.
 .claude-flow/
-.codex/
-.cursor/
-CLAUDE.md
+.next/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
 GEMINI.md
 
 # ------------------------------------------------------------------

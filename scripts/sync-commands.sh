@@ -5,6 +5,10 @@
 # Single source of truth: commands/*.md
 # Generated mirrors:     .opencode/commands/ (all), .pi/prompts/ (subset)
 #
+# Claude Code and Cursor do not have a native slash-command system that
+# maps to command files --- those tools invoke commands as bash scripts
+# directly (bash scripts/<name>.sh). No sync targets needed.
+#
 # Run this after creating, renaming, or modifying any file in commands/.
 
 set -euo pipefail

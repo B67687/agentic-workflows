@@ -6,7 +6,7 @@ Read this first on every resume. Everything else is linked.
 
 - **Session:** Check root `session-state.json` for the active task
 - **System:** Phase-based direct workflow with deterministic intake, slicing, preflight, and checkpoint helpers
-- **Main AI:** DeepSeek V4 Pro (OpenCode Go) for hard daily work; switch to DeepSeek V4 Flash when you need sustainable volume
+- **Main AI (OpenCode):** DeepSeek V4 Pro for hard daily work; DeepSeek V4 Flash for sustainable volume
 - **Pi layer:** Project-local `.pi/` prompts, sessions, and workflow guard are now propagated across topic folders
 - **Goal:** One main AI for 90% of work. Spawn subagents only for fresh context or bulk search.
 
@@ -32,8 +32,10 @@ Read this first on every resume. Everything else is linked.
 - Topic work: inside `[topic-name]-content/`, resume from root `session-state.json`
 - Propagate shared defaults: `bash scripts/propagate-to-all.sh --apply`
 - Fast phase commands: `/route`, `/prompt-contract`, `/start-task`, `/shape-product`, `/counsel`, `/counsel-run`, `/task-tree`, `/north-star`, `/shape-milestone`, `/slice-task`, `/grill`, `/repo-map`, `/research`, `/plan`, `/implement`, `/optimize`, `/query`, `/session-boundary`, `/handoff`, `/checkpoint`, `/close-task`, `/finish-task`, `/git-start`, `/git-worktree`
-- OpenCode command discovery should use `.opencode/commands/`; commands are edited in `commands/` and synced via `scripts/sync-commands.sh`
-- Pi prompt discovery should use `.pi/prompts/`; Pi session data should stay in `.pi/sessions/`
+- **OpenCode** command discovery: `.opencode/commands/` (synced from `commands/` via `scripts/sync-commands.sh`)
+- **Pi** prompt discovery: `.pi/prompts/`; Pi session data stays in `.pi/sessions/`
+- **Claude Code** and **Cursor** / **Codex CLI**: invoke commands as `bash scripts/<name>.sh` or read `commands/*.md` directly
+- Commands are authored once in `commands/` and work the same way regardless of tool
 - Phase gate: `bash scripts/phase-gate.sh implement --research-done --plan-done --scope-bounded --verification-known`
 - Git repo probe: `bash scripts/git-session-start.sh`
 - Normal-language router: `bash scripts/workflow-router.sh "task"`

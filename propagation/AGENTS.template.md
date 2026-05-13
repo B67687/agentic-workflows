@@ -54,7 +54,7 @@ Default resume order:
 2. `AGENTS.md`
 3. `archive/superseded/workspace-system-overview.md`
 
-Do not create repo-local OpenCode runtime config or workspace-level `.opencode/` directories.
+Do not create tool-specific runtime configs repo-locally (e.g., `opencode.json`, `.claude/settings.json` override). Keep runtime config in your global tool config.
 Treat `session-state.json`, `topic-insights.md`, `.cleanup-protect`, and archive history files as repo-owned after bootstrap.
 
 ---
