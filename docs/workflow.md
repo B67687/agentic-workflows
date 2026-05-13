@@ -64,6 +64,8 @@ Expected output: exact files involved, relevant flow, main risks and edge cases,
 
 Use: `commands/research.md`
 
+**Quality is default:** Every research action applies source triangulation, confidence levels, authority weighting, and cited sources — automatically. No need to say "authoritative" or "thorough" or "deep." See `research/research-prompt.md` for the full framework.
+
 ### Route (default intake)
 When the user types a task in normal language without naming a command, route it to the correct lane — research, grill, shape, or direct implementation.
 

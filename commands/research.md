@@ -2,7 +2,7 @@
 description: Run the research phase only, with no file edits
 ---
 
-This is research mode only.
+This is research mode. The quality framework below also applies **automatically by default** to any research-adjacent task (exploring, investigating, comparing, learning, understanding a system) — even without calling `/research`. See AGENTS.md "Default Research Conduct."
 
 ## Quality Framework (Default — Always Apply)
 
@@ -16,7 +16,7 @@ Every research action applies the quality standards from `research/research-prom
 6. **Cite Sources** — Full URLs, deep links with anchors where possible, relevant quote for non-obvious decisions
 7. **Error Impact Audit** — If a wrong claim would affect safety/cost/legal/license, flag as NEEDS_VERIFICATION
 
-**No need to say "authoritative" or "thorough" or "deep" — this is already how research works here.**
+**Do not wait for `/research` or quality qualifiers like "authoritative" or "thorough" — those are redundant; this is already how research works here.**
 
 ## Before Starting
 
