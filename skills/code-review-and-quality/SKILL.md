@@ -87,28 +87,7 @@ For detailed profiling and optimization, see `performance-optimization`. Does th
 
 ## Change Sizing
 
-Small, focused changes are easier to review, faster to merge, and safer to deploy. Target these sizes:
-
-```
-~100 lines changed   -> Good. Reviewable in one sitting.
-~300 lines changed   -> Acceptable if it's a single logical change.
-~1000 lines changed  -> Too large. Split it.
-```
-
-**What counts as "one change":** A single self-contained modification that addresses one thing, includes related tests, and keeps the system functional after submission. One part of a feature --- not the whole feature.
-
-**Splitting strategies when a change is too large:**
-
-| Strategy | How | When |
-|----------|-----|------|
-| **Stack** | Submit a small change, start the next one based on it | Sequential dependencies |
-| **By file group** | Separate changes for groups needing different reviewers | Cross-cutting concerns |
-| **Horizontal** | Create shared code/stubs first, then consumers | Layered architecture |
-| **Vertical** | Break into smaller full-stack slices of the feature | Feature work |
-
-**When large changes are acceptable:** Complete file deletions and automated refactoring where the reviewer only needs to verify intent, not every line.
-
-**Separate refactoring from feature work.** A change that refactors existing code and adds new behavior is two changes --- submit them separately. Small cleanups (variable renaming) can be included at reviewer discretion.
+Small, focused changes are easier to review. Target ~100 lines; split anything over 300. Keep refactoring and feature work in separate changes.
 
 ## Review Process
 
@@ -173,31 +152,9 @@ Check the author's verification story:
 - Is there a before/after comparison?
 ```
 
-## Multi-Model Review Pattern
+## Multi-Model Pattern
 
-Use different models for different review perspectives:
-
-```
-Model A writes the code
-    │
-    ▼
-Model B reviews for correctness and architecture
-    │
-    ▼
-Model A addresses the feedback
-    │
-    ▼
-Human makes the final call
-```
-
-This catches issues that a single model might miss --- different models have different blind spots.
-
-**Example prompt for a review agent:**
-```
-Review this code change for correctness, security, and adherence to
-our project conventions. The spec says [X]. The change should [Y].
-Flag any issues as Critical, Important, or Suggestion.
-```
+For critical reviews: one model writes, another reviews (correctness + architecture), human makes the final call.
 
 ## Dead Code Hygiene
 
