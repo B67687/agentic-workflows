@@ -122,12 +122,94 @@ bash ./scripts/checkpoint-commit.sh -m "checkpoint summary"
 - Topic folders create `[folder-name]-content/` for normal project work
 - Run the smoke test after changing `propagate-to-all.sh`, `check-sync-status.sh`, `sync-from-hub.template.sh`, or `propagation-contract.sh`
 
-## Archive
+## Acknowledgments
 
-- **[archive/README.md](archive/README.md)** — Archive conventions
-- **[archive/history-index.md](archive/history-index.md)** — Quick archive index
-- **[archive/history-full-detailed.md](archive/history-full-detailed.md)** — Full historical narrative
-- **[archive/early-history.md](archive/early-history.md)** — Sessions 1–11 (awaiting user input)
+This harness was built by studying, referencing, and integrating patterns from the
+following open-source projects. Each contributed ideas, architecture patterns,
+workflow concepts, or direct code references.
+
+### Agent Frameworks & SDKs
+| Repo | What it contributed |
+|------|-------------------|
+| [microsoft/autogen](https://github.com/microsoft/autogen) | Multi-agent conversation patterns |
+| [crewAIInc/crewAI](https://github.com/crewAIInc/crewAI) | Role-based agent orchestration |
+| [openai/openai-agents-python](https://github.com/openai/openai-agents-python) | Agent loop and handoff design |
+| [google/adk-python](https://github.com/google/adk-python) | Agent Development Kit patterns |
+| [anthropics/claude-agent-sdk](https://github.com/anthropics/claude-agent-sdk) | Agent lifecycle and tool use |
+| [pydantic/pydantic-ai](https://github.com/pydantic/pydantic-ai) | Type-safe agent definitions |
+| [Significant-Gravitas/AutoGPT](https://github.com/Significant-Gravitas/AutoGPT) | Autonomous agent loop concepts |
+| [1024lab/MetaGPT](https://github.com/1024lab/MetaGPT) | Role-based software team simulation |
+| [a2aproject/A2A](https://github.com/a2aproject/A2A) | Agent-to-agent protocol |
+| [nousresearch/hermes-agent](https://github.com/nousresearch/hermes-agent) | Research agent architecture |
+| [agentscope-ai/agentscope](https://github.com/agentscope-ai/agentscope) | Distributed agent platform |
+| [langchain-ai/Open-SWE](https://github.com/langchain-ai/Open-SWE) | Software engineering agent patterns |
+
+### Agent CLIs & Developer Tools
+| Repo | What it contributed |
+|------|-------------------|
+| [anthropics/claude-code](https://github.com/anthropics/claude-code) | Agentic coding workflow patterns |
+| [anthropics/claude-plugins-official](https://github.com/anthropics/claude-plugins-official) | Plugin/skill integration patterns |
+| [Aider-AI/aider](https://github.com/Aider-AI/aider) | Pair-programming agent patterns |
+| [SWE-agent/mini-SWE-agent](https://github.com/SWE-agent/mini-SWE-agent) | Lightweight agent architecture |
+| [garrytan/gstack](https://github.com/garrytan/gstack) | Git workflow and stack management |
+| [browser-use/browser-use](https://github.com/browser-use/browser-use) | Browser automation patterns |
+| [bytedance/UI-TARS-desktop](https://github.com/bytedance/UI-TARS-desktop) | UI agent interaction patterns |
+| [bytedance/deer-flow](https://github.com/bytedance/deer-flow) | Workflow-based agent coordination |
+| [GitHub Copilot](https://github.com/features/copilot) | Agentic coding assistant concepts |
+
+### Skills, Quality & Methodology
+| Repo | What it contributed |
+|------|-------------------|
+| [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills) | **Core skill framework** — 27 engineering skills + TAP methodology skills that this hub integrates |
+| [donnemartin/system-design-primer](https://github.com/donnemartin/system-design-primer) | Systems engineering methodology |
+
+### UI & Design Systems
+| Repo | What it contributed |
+|------|-------------------|
+| [VoltAgent/awesome-design-md](https://github.com/VoltAgent/awesome-design-md) | Visual language specification patterns |
+| [voltagent/voltagent](https://github.com/voltagent/voltagent) | Agent design system concepts |
+| [charmbracelet/crush](https://github.com/charmbracelet/crush) | TUI design inspiration |
+
+### Memory & Knowledge Management
+| Repo | What it contributed |
+|------|-------------------|
+| [mem0ai/mem0](https://github.com/mem0ai/mem0) | Memory layer patterns |
+| [LMCache/LMCache](https://github.com/LMCache/LMCache) | LLM context caching patterns |
+| [MemPalace/mempalace](https://github.com/MemPalace/mempalace) | Memory palace architecture |
+| [MemTensor/MemOS](https://github.com/MemTensor/MemOS) | Memory operating system concepts |
+| [VectifyAI/PageIndex](https://github.com/VectifyAI/PageIndex) | Knowledge indexing patterns |
+| [HKUDS/RAG-Anything](https://github.com/HKUDS/RAG-Anything) | RAG pipeline patterns |
+
+### Workflow & Automation Platforms
+| Repo | What it contributed |
+|------|-------------------|
+| [n8n-io/n8n](https://github.com/n8n-io/n8n) | Workflow automation patterns |
+| [FlowiseAI/Flowise](https://github.com/FlowiseAI/Flowise) | Visual workflow builder concepts |
+| [langflow-ai/langflow](https://github.com/langflow-ai/langflow) | LangChain-based workflow patterns |
+| [langgenius/dify](https://github.com/langgenius/dify) | LLM application platform patterns |
+| [mnfst/manifest](https://github.com/mnfst/manifest) | Backend-as-code workflow concepts |
+| [Infisical/infisical](https://github.com/Infisical/infisical) | Secrets management patterns |
+
+### Learning Resources & Inspirations
+| Repo | What it contributed |
+|------|-------------------|
+| [alexzhang13/rlm](https://github.com/alexzhang13/rlm) | Research on language model patterns |
+| [affaan-m/everything-claude-code](https://github.com/affaan-m/everything-claude-code) | Comprehensive Claude Code resource |
+| [hesreallyhim/awesome-claude-code](https://github.com/hesreallyhim/awesome-claude-code) | Claude Code tooling collection |
+| [selopo-ec/my-awesome-copilot](https://github.com/selopo-ec/my-awesome-copilot) | Copilot workflow patterns |
+| [sansan0/TrendRadar](https://github.com/sansan0/TrendRadar) | AI trend tracking methodology |
+| [thunderbird/thunderbolt](https://github.com/thunderbird/thunderbolt) | Architecture documentation patterns |
+| [vercel-labs/portless](https://github.com/vercel-labs/portless) | Serverless agent patterns |
+| [zilliztech/claude-context](https://github.com/zilliztech/claude-context) | Context engineering patterns |
+
+### Also Referenced
+- [OpenViking (volcengine/OpenViking)](https://github.com/volcengine/OpenViking)
+- [OpenClaw / Pen](https://github.com/openclaw/pen)
+- [VoltAgent/awesome-design-md](https://github.com/VoltAgent/awesome-design-md)
+- [RLM (alexzhang13/rlm)](https://github.com/alexzhang13/rlm)
+
+If you are a maintainer of any project listed here and would prefer a different
+attribution or removal, please open an issue.
 
 ## Maintenance Rule
 
