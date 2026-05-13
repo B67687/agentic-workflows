@@ -64,7 +64,7 @@ Report completion summary with files created/modified, verification results, and
 
 ## State management
 
-Pipeline state lives in `.pipeline/<pipeline-id>.json`. Commands:
+Pipeline state lives in `.runtime/pipeline/<pipeline-id>.json`. Commands:
 
 | Command | Function |
 |---|---|

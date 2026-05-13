@@ -12,7 +12,7 @@ set -euo pipefail
 echo "=== Context Restored After Compaction ==="
 
 STATE_FILE="session-state.json"
-SNAPSHOT_FILE=".cache/session-snapshot.json"
+SNAPSHOT_FILE=".runtime/session-snapshot.json"
 
 # --- Restore from snapshot ---
 if [ -f "$SNAPSHOT_FILE" ]; then

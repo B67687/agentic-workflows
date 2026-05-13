@@ -26,7 +26,7 @@
 set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-JOBS_DIR="$REPO_ROOT/.agent-jobs"
+JOBS_DIR="$REPO_ROOT/.runtime/agent-jobs"
 mkdir -p "$JOBS_DIR"
 
 CMD="${1:-help}"

@@ -158,7 +158,7 @@ For critical reviews: one model writes, another reviews (correctness + architect
 
 ## Dead Code Hygiene
 
-After refactoring, check for orphaned code. Identify it, list it, and ask before deleting — but don't leave dead code behind.
+After refactoring, check for orphaned code. Identify it, list it, and ask before deleting --- but don't leave dead code behind.
 
 ## Review Speed
 
@@ -209,7 +209,7 @@ Key review axes to verify: correctness (spec match, edge cases, error paths), re
 | "We'll clean it up later" | Later never comes. The review is the quality gate --- use it. Require cleanup before merge, not after. |
 | "AI-generated code is probably fine" | AI code needs more scrutiny, not less. It's confident and plausible, even when wrong. |
 | "The tests pass, so it's good" | Tests are necessary but not sufficient. They don't catch architecture problems, security issues, or readability concerns. |
-| "I read the diff, it looks fine" | Reading surface tokens is not reviewing. Read the diff like a junior engineer wrote it — would you approve it on the strength of "looks right"? If you did not evaluate correctness, edge cases, architecture, and security independently, you ratified, not reviewed. |
+| "I read the diff, it looks fine" | Reading surface tokens is not reviewing. Read the diff like a junior engineer wrote it --- would you approve it on the strength of "looks right"? If you did not evaluate correctness, edge cases, architecture, and security independently, you ratified, not reviewed. |
 
 ## Red Flags
 

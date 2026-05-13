@@ -218,7 +218,7 @@ def format_ranked_text(grouped: dict[str, list[tuple[int, str]]]) -> str:
 
 
 def format_xml(grouped: dict[str, list[tuple[int, str]]]) -> str:
-    """XML-style tagged output — token-efficient, attention-friendly (factor 3)."""
+    """XML-style tagged output --- token-efficient, attention-friendly (factor 3)."""
     ranked = sorted(grouped.items(), key=lambda item: (-score(item[0]), item[0]))
     parts: list[str] = []
 

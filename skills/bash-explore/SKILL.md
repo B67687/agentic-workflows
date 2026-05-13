@@ -12,7 +12,7 @@ handoffs: context-engineering (to set up context), using-agent-skills (to pick a
 Modern LLMs know how to use Unix commands naturally. Bash is for *discovery*; Read/Grep tools are for *precision*. The hybrid approach keeps safety rails (audited commands, structured calls) while giving bash for bulk operations.
 
 **Principle:** Bash for breadth, tools for depth.
-**Sequence:** Bash discovery (find/grep/ls) → narrow to 1-5 files → Tool precision (Read/Grep/Glob) → Edit
+**Sequence:** Bash discovery (find/grep/ls) -> narrow to 1-5 files -> Tool precision (Read/Grep/Glob) -> Edit
 
 ## Directory Exclusion
 
@@ -35,7 +35,7 @@ The companion `core/explore.py` script handles exclusion automatically via `_wor
 | Symptom | Fix |
 |---|---|
 | `Permission denied` errors | Add `2>/dev/null` to suppress: `find . -name '*.py' 2>/dev/null` |
-| No matches found | Broaden the search — remove `--include` filters, lower `-maxdepth`, or use a simpler pattern |
+| No matches found | Broaden the search --- remove `--include` filters, lower `-maxdepth`, or use a simpler pattern |
 | `command not found` | The tool isn't available in this environment. Fall back to **Grep** (content search) or **Glob** (file lookup) tools for this step. |
 | Output is too large | Pipe through `head -20` or `grep -v` to filter noise. Re-run with tighter constraints. |
 

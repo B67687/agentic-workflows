@@ -12,7 +12,7 @@
 #
 # Principle: "If you know what tools the model will need, call them
 # deterministically before the LLM invocation and include their results."
-#   — 12-Factor Agents, Appendix 13
+#   --- 12-Factor Agents, Appendix 13
 # =============================================================================
 
 set -euo pipefail
@@ -112,7 +112,7 @@ PY
   exit 0
 
 else
-  # XML-style output (default) — token-efficient, attention-friendly
+  # XML-style output (default) --- token-efficient, attention-friendly
   cat <<XMLHEADER
 <prefetched_context>
   <git_state>

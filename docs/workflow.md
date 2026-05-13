@@ -328,6 +328,6 @@ Do not read archive, research, or deep reference docs unless the task explicitly
 | MCP architecture reference | `docs/mcp-architecture.md` |
 | Cross-repo propagation | `docs/cross-project-memory-loop.md` |
 | TDD with agents | `docs/tdd-with-agents.md` |
-| Cognitive surrender — full evidence | `research/cognitive-surrender-research.md` |
+| Cognitive surrender --- full evidence | `research/cognitive-surrender-research.md` |
 | 12-Factor Agents integration | `docs/12-factor-agents-integration.md` |
 | A2H (Agent-to-Human) protocol reference | [humanlayer/12-factor-agents drafts](https://github.com/humanlayer/12-factor-agents/tree/main/drafts) |

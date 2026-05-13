@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # =============================================================================
-# skill-bench.sh — Benchmark runner for agent skills
+# skill-bench.sh --- Benchmark runner for agent skills
 #
 # Prepares and verifies benchmark runs for skill optimization experiments.
 # Inspired by karpathy/autoresearch: fixed-budget experiments with a single
@@ -12,17 +12,17 @@
 #   bash ./scripts/skill-bench.sh verify --run <dir>
 #
 # Lifecycle:
-#   1. list       — see which benchmarks apply to a skill
-#   2. prepare    — creates a run directory with worker prompt + verify script
+#   1. list       --- see which benchmarks apply to a skill
+#   2. prepare    --- creates a run directory with worker prompt + verify script
 #   3. [agent executes the task using the skill, writes output to run dir]
-#   4. verify     — runs verification checks, writes result.json
+#   4. verify     --- runs verification checks, writes result.json
 # =============================================================================
 
 set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 BENCHMARKS_DIR="$REPO_ROOT/benchmarks"
-RUNS_DIR="$REPO_ROOT/.bench-runs"
+RUNS_DIR="$REPO_ROOT/.runtime/bench-runs"
 SKILLS_DIR="$REPO_ROOT/skills"
 
 # ── Helpers ──────────────────────────────────────────────────────────────────
@@ -274,7 +274,7 @@ PROMPT
     # Check if output exists
     SUCCESS=false
     if [ ! -f "$OUTPUT_FILE" ]; then
-      log "  WARN: output.md not found — task may not have completed"
+      log "  WARN: output.md not found --- task may not have completed"
       OUTPUT_EXISTS=false
     else
       OUTPUT_EXISTS=true
@@ -295,7 +295,7 @@ PROMPT
         log "  Verification: FAIL"
       fi
     else
-      log "  WARN: no verify.sh in run directory — using output existence as signal"
+      log "  WARN: no verify.sh in run directory --- using output existence as signal"
       VERIFY_PASSED="$OUTPUT_EXISTS"
     fi
 
@@ -356,14 +356,14 @@ REOF
     echo "    Verify a completed benchmark run. Runs verification checks, writes result.json."
     echo ""
     echo "Lifecycle:"
-    echo "  1. list     → pick a benchmark for your skill"
-    echo "  2. prepare  → creates run directory with worker prompt"
+    echo "  1. list     -> pick a benchmark for your skill"
+    echo "  2. prepare  -> creates run directory with worker prompt"
     echo "  3. [spawn a worker agent with the prompt, let it execute]"
-    echo "  4. verify   → runs checks, produces result.json"
+    echo "  4. verify   -> runs checks, produces result.json"
     echo ""
     echo "Examples:"
     echo "  bash ./scripts/skill-bench.sh list --skill bash-explore"
     echo "  bash ./scripts/skill-bench.sh prepare --skill bash-explore --benchmark benchmarks/generic/search-todo.md"
-    echo "  bash ./scripts/skill-bench.sh verify --run .bench-runs/bash-explore-search-todo-20260513-120000"
+    echo "  bash ./scripts/skill-bench.sh verify --run .runtime/bench-runs/bash-explore-search-todo-20260513-120000"
     ;;
 esac

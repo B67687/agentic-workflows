@@ -72,7 +72,7 @@ assert_output_not_contains() {
 }
 
 cleanup() {
-  rm -rf .pipeline/ .agent-jobs/ .triage/ docs/decisions/ 2>/dev/null || true
+  rm -rf .runtime/pipeline/ .runtime/agent-jobs/ .runtime/triage/ docs/decisions/ 2>/dev/null || true
 }
 trap cleanup EXIT
 cleanup
@@ -147,9 +147,9 @@ rm -rf docs/decisions/ 2>/dev/null || true
 assert_exit "log-error.sh captures error" \
   "echo 'simulated failure' | bash scripts/log-error.sh 'test command'"
 assert_output_contains "log-error.sh creates error log" \
-  "cat .triage/errors.log 2>/dev/null || echo 'no log'" \
+  "cat .runtime/triage/errors.log 2>/dev/null || echo 'no log'" \
   "test command"
-rm -rf .triage/ 2>/dev/null || true
+rm -rf .runtime/triage/ 2>/dev/null || true
 
 # ===========================================================================
 echo ""

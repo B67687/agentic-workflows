@@ -1,10 +1,10 @@
-# 12-Factor Agents — Integration Map
+# 12-Factor Agents --- Integration Map
 
 Maps [humanlayer/12-factor-agents](https://github.com/humanlayer/12-factor-agents) principles
 to this repository's concrete patterns, commands, scripts, and skills.
 
 **Why this matters:** The 12-factor-agents framework (19.8k ★) codifies what makes
-LLM-powered software reliable, scalable, and maintainable — coining the term
+LLM-powered software reliable, scalable, and maintainable --- coining the term
 "context engineering" along the way. This hub built similar patterns independently.
 This doc makes the alignment explicit, documents gaps, and guides future integration.
 
@@ -22,7 +22,7 @@ picks up the payload and acts on it.
 | Component | How it implements Factor 1 |
 |---|---|
 | `commands/route.md` | Routes natural-language task descriptions to the correct execution lane |
-| `commands/task.md` | Classifies, grills, shapes, and slices tasks — translating vague intent to structured action |
+| `commands/task.md` | Classifies, grills, shapes, and slices tasks --- translating vague intent to structured action |
 | `commands/implement.md` | Executes verified slices from a structured plan |
 | `scripts/workflow-router.sh` | Routes task requests to the appropriate handler |
 
@@ -40,15 +40,15 @@ first-class code with testing, evals, and iteration.
 
 | Component | How it implements Factor 2 |
 |---|---|
-| `commands/prompt-contract.md` | Builds a compact self-prompt contract before non-trivial work — covers outcome, context, constraints, verification |
-| `AGENTS.md` | The operating contract — the first prompt every agent reads |
+| `commands/prompt-contract.md` | Builds a compact self-prompt contract before non-trivial work --- covers outcome, context, constraints, verification |
+| `AGENTS.md` | The operating contract --- the first prompt every agent reads |
 | `skills/spec-driven-development/SKILL.md` | Spec-driven prompts as code |
 | `scripts/prompt-contract.sh` | Automation for prompt contract generation |
 | `docs/daily-prompts.md` | Most-used prompt templates |
 | `docs/prompt-templates.md` | Prompt library index with cross-references |
 
 **Alignment:** Excellent. Our prompt-contract system is a concrete implementation of
-"prompts as code." No framework hides our prompts — every instruction is explicit.
+"prompts as code." No framework hides our prompts --- every instruction is explicit.
 
 **Reference:** [12-factor-agents Factor 2](https://github.com/humanlayer/12-factor-agents/blob/main/content/factor-02-own-your-prompts.md)
 
@@ -57,16 +57,16 @@ first-class code with testing, evals, and iteration.
 ### Factor 3: Own Your Context Window
 
 **Principle:** The context window is your primary interface with the LLM. Customize
-how you structure and present information — don't rely on standard message formats.
+how you structure and present information --- don't rely on standard message formats.
 
 **Our implementation:**
 
 | Component | How it implements Factor 3 |
 |---|---|
-| `session-state.json` | Active session context — the first thing every agent reads on resume |
-| `AGENTS.md` | The operating contract — shared rules and conventions |
-| `docs/workflow.md` | Fast orientation — replaces multi-file startup |
-| Startup order: session-state.json → AGENTS.md → workflow.md | Engineered retrieval chain — each file builds on the last |
+| `session-state.json` | Active session context --- the first thing every agent reads on resume |
+| `AGENTS.md` | The operating contract --- shared rules and conventions |
+| `docs/workflow.md` | Fast orientation --- replaces multi-file startup |
+| Startup order: session-state.json -> AGENTS.md -> workflow.md | Engineered retrieval chain --- each file builds on the last |
 | `scripts/retrieve-context.sh` | Scored retrieval: only high-signal local files, ranked by relevance |
 | `scripts/search-index.sh` | BM25 search across all text files |
 | `scripts/context-pressure.sh` | Monitors context health (age, dirt, commit count) |
@@ -95,14 +95,14 @@ JSON output from the LLM that triggers deterministic code via a switch statement
 
 | Component | How it implements Factor 4 |
 |---|---|
-| `commands/` (14 command files) | Each command is a "tool" — structured markdown with frontmatter metadata |
-| `scripts/tools.sh` | Tool registry — lists all agent-callable tools with descriptions |
-| `commands/implement.md` switch/case flow | The switch statement pattern: `if intent == X → do Y` |
+| `commands/` (14 command files) | Each command is a "tool" --- structured markdown with frontmatter metadata |
+| `scripts/tools.sh` | Tool registry --- lists all agent-callable tools with descriptions |
+| `commands/implement.md` switch/case flow | The switch statement pattern: `if intent == X -> do Y` |
 | `skills/` manifest + index | Each skill is a structured "tool" with verification gates |
 
 **Alignment:** Good. Every command file is a structured output definition with
 metadata (description, arguments, expected output). The route system dispatches
-to the right handler based on the intent — exactly the switch-statement pattern.
+to the right handler based on the intent --- exactly the switch-statement pattern.
 
 **Reference:** [12-factor-agents Factor 4](https://github.com/humanlayer/12-factor-agents/blob/main/content/factor-04-tools-are-structured-outputs.md)
 
@@ -118,11 +118,11 @@ status) from "business state" (what happened so far). One source of truth.
 | Component | How it implements Factor 5 |
 |---|---|
 | `session-state.json` | Single JSON file tracks currentTask, whatChanged, filesTouched, verification, keyLearnings, residualRisk |
-| `scripts/session-status.sh` | Workspace orientation — reads session state + branch + health |
+| `scripts/session-status.sh` | Workspace orientation --- reads session state + branch + health |
 | `scripts/checkpoint-commit.sh` | Commits session state + code changes atomically |
 | `scripts/checkpoint-review.sh` | Reviews state before committing |
 
-**Alignment:** Good. `session-state.json` is our unified event sourcing —
+**Alignment:** Good. `session-state.json` is our unified event sourcing ---
 it captures task state, context metrics, assumptions, and history in one file.
 The `immediateNextSteps` array in session-state is exactly the "next step" pattern.
 
@@ -144,12 +144,12 @@ integration.
 
 | Component | How it implements Factor 6 |
 |---|---|
-| `scripts/session-fork.sh` | Creates isolated worktree on a new branch — clean launch |
+| `scripts/session-fork.sh` | Creates isolated worktree on a new branch --- clean launch |
 | `scripts/session-status.sh` | Probe session state before resuming |
-| `scripts/checkpoint-commit.sh` | Commits state + code — enables clean resume |
+| `scripts/checkpoint-commit.sh` | Commits state + code --- enables clean resume |
 | `scripts/context-save.sh` / `context-restore.sh` | Serialize/deserialize session context |
-| `session-state.json` resume protocol | Resume reads: session-state → AGENTS.md → workflow.md |
-| `scripts/pipeline-run.sh` | Pipeline lifecycle: init → dispatch → collect — each task is launchable/pausable |
+| `session-state.json` resume protocol | Resume reads: session-state -> AGENTS.md -> workflow.md |
+| `scripts/pipeline-run.sh` | Pipeline lifecycle: init -> dispatch -> collect --- each task is launchable/pausable |
 
 **Alignment:** Strong. Our fork + checkpoint + resume chain is a concrete
 implementation of launch/pause/resume. `pipeline-run.sh` provides the API surface
@@ -165,27 +165,27 @@ sessions. Our launch/pause/resume is file-system-based, not API-based.
 ### Factor 7: Contact Humans with Tool Calls
 
 **Principle:** Treat human contact as a tool call. The LLM can request a human
-response or human approval with the same mechanism as any other tool — and the
+response or human approval with the same mechanism as any other tool --- and the
 control flow breaks out of the loop to wait for the response.
 
 **Our implementation:**
 
 | Component | How it implements Factor 7 |
 |---|---|
-| `commands/counsel.md` | Multi-perspective model review — not human-in-the-loop, but similar multi-participant pattern |
-| `commands/parley.md` | Multi-agent conversation between free AI agents — structured debate |
+| `commands/counsel.md` | Multi-perspective model review --- not human-in-the-loop, but similar multi-participant pattern |
+| `commands/parley.md` | Multi-agent conversation between free AI agents --- structured debate |
 | `scripts/counsel-run.sh` | Runs counsel with model selection |
 | `scripts/parley.sh` | Runs parley conversations |
 
 **Addressed (Slice 3):** We now have a working A2H protocol implementation:
-- `scripts/a2h-contact.sh` — Agent-to-Human contact protocol with `contact`,
+- `scripts/a2h-contact.sh` --- Agent-to-Human contact protocol with `contact`,
   `approve`, `respond`, and `list` commands. Implements the spec from
   `drafts/a2h-spec.md`: HumanContact and FunctionCall objects, contact channels.
 - File-based notification logging is built into `scripts/a2h-contact.sh` directly
   (writes to `.notifications/` for audit trail, prints to CLI for visibility).
-- `commands/implement.md` — Added `--risk high` approval gate that triggers
+- `commands/implement.md` --- Added `--risk high` approval gate that triggers
   deterministic human approval before implementation.
-- `scripts/implement-preflight.sh` — Handles `--risk high` by invoking
+- `scripts/implement-preflight.sh` --- Handles `--risk high` by invoking
   `a2h-contact.sh approve` for the interrupt-between-selection-and-execution
   pattern.
 
@@ -197,23 +197,23 @@ control flow breaks out of the loop to wait for the response.
 
 ### Factor 8: Own Your Control Flow
 
-**Principle:** Build your own control structures — summarization, caching,
+**Principle:** Build your own control structures --- summarization, caching,
 LLM-as-judge, context compaction, rate limiting, durable sleep, pause-for-event.
 
 **Our implementation:**
 
 | Component | How it implements Factor 8 |
 |---|---|
-| `docs/workflow.md` phase system | Question Gate → Research → Plan → Implement → Verify → Checkpoint |
-| `commands/implement.md` | Preflight → execute slice → verify → commit loop |
+| `docs/workflow.md` phase system | Question Gate -> Research -> Plan -> Implement -> Verify -> Checkpoint |
+| `commands/implement.md` | Preflight -> execute slice -> verify -> commit loop |
 | `commands/pipeline.md` | Multi-task dispatch with isolated workers |
-| `scripts/phase-gate.sh` | Gate between phases — prevents skipping |
-| `scripts/implement-preflight.sh` | Pre-implementation checks — blocks if conditions aren't met |
-| `scripts/checkpoint-commit.sh` | Verifies before committing — quality gate |
+| `scripts/phase-gate.sh` | Gate between phases --- prevents skipping |
+| `scripts/implement-preflight.sh` | Pre-implementation checks --- blocks if conditions aren't met |
+| `scripts/checkpoint-commit.sh` | Verifies before committing --- quality gate |
 | `scripts/context-pressure.sh` | Monitors context health and suggests compaction |
 
 **Alignment:** Very strong. Our entire phase system IS owning control flow.
-The preflight → implement → verify → commit loop is exactly the pattern.
+The preflight -> implement -> verify -> commit loop is exactly the pattern.
 
 **Gap:** Missing the **interrupt-between-selection-and-execution** pattern.
 When a tool is selected but before it executes, there's no hook for human review
@@ -242,7 +242,7 @@ N consecutive failures.
 | `skills/debugging-and-error-recovery/SKILL.md` | Systematic debugging workflow |
 
 **Alignment:** Very strong. We have error logging, triage, bug tracking, and
-assumption expiry — all feeding back into the working context.
+assumption expiry --- all feeding back into the working context.
 
 **Addressed (Slice 5):** `scripts/error-counter.sh` implements the full error
 counter pattern: tracks consecutive failures per operation, outputs compact XML
@@ -250,7 +250,7 @@ error context for LLM consumption (self-healing), and auto-escalates to a human
 via A2H protocol after N consecutive failures (default: 3, configurable via
 `ERROR_THRESHOLD`). Combined with `scripts/log-error.sh` (capture) and
 `scripts/a2h-contact.sh` (escalation), this completes the therapeutic pipeline:
-capture → count → context → escalate.
+capture -> count -> context -> escalate.
 
 **Reference:** [12-factor-agents Factor 9](https://github.com/humanlayer/12-factor-agents/blob/main/content/factor-09-compact-errors.md)
 
@@ -259,18 +259,18 @@ capture → count → context → escalate.
 ### Factor 10: Small, Focused Agents
 
 **Principle:** Rather than monolithic agents, build small focused agents that do
-one thing well. Keep context windows manageable — 3-10, maybe 20 steps max.
+one thing well. Keep context windows manageable --- 3-10, maybe 20 steps max.
 
 **Our implementation:**
 
 | Component | How it implements Factor 10 |
 |---|---|
-| `skills/` (43 skills) | Each skill is a focused pattern for one domain — debug, test, review, ship |
-| `commands/` (14 commands) | Each command is a focused tool — task, plan, implement, research |
+| `skills/` (43 skills) | Each skill is a focused pattern for one domain --- debug, test, review, ship |
+| `commands/` (14 commands) | Each command is a focused tool --- task, plan, implement, research |
 | `scripts/` (78 scripts) | Each script does one thing well |
 | `skills/manifest.json` | Skill bundles: define, build, verify, ship, meta |
-| `skills/bash-explore/` | Read-only bulk discovery — focused exploration |
-| `skills/debugging-and-error-recovery/` | Systematic debugging — one problem domain |
+| `skills/bash-explore/` | Read-only bulk discovery --- focused exploration |
+| `skills/debugging-and-error-recovery/` | Systematic debugging --- one problem domain |
 | Agent dispatch: `scripts/agent-dispatch.sh` | Each agent type has a focused role |
 
 **Alignment:** **Beautiful alignment.** This is our core architecture. Our entire
@@ -284,7 +284,7 @@ well-defined scope, inputs, outputs, and verification gates.
 
 ### Factor 11: Trigger from Anywhere, Meet Users Where They Are
 
-**Principle:** Enable triggering agents from Slack, email, SMS, webhooks, cron —
+**Principle:** Enable triggering agents from Slack, email, SMS, webhooks, cron ---
 any channel. Agents respond through the same channels.
 
 **Our implementation:**
@@ -320,14 +320,14 @@ The thread is serializable, forkable, and resumable.
 | Component | How it implements Factor 12 |
 |---|---|
 | `session-state.json` | Serialized state that can be checkpointed and resumed |
-| `scripts/checkpoint-commit.sh` | Reducer pattern: state → action → new state → commit |
+| `scripts/checkpoint-commit.sh` | Reducer pattern: state -> action -> new state -> commit |
 | `scripts/context-save.sh` / `context-restore.sh` | Save/restore the full context |
 | `session-state.json` events array | `whatChanged` + `filesTouched` + `verification` form an event log |
 
 **Alignment:** Good. Our checkpoint system is a reducer: read state, do work,
 write new state, commit. Session files are serializable and handoffable.
 
-**Addressed:** `session-state.json` now has a `events` array — an append-only
+**Addressed:** `session-state.json` now has a `events` array --- an append-only
 event log that records each work cycle. Combined with the existing mutable
 fields, this gives us both quick state access and replayable history.
 Available since Slice 2.
@@ -340,13 +340,13 @@ Available since Slice 2.
 
 **Principle:** If you know what tools the model will need, execute them
 deterministically before the LLM invocation and include their results in the
-context window — saving round trips.
+context window --- saving round trips.
 
 **Our implementation:**
 
 | Component | How it implements Factor 13 |
 |---|---|
-| Startup order: session-state → AGENTS.md → workflow.md | Pre-fetches the most critical context before any LLM call |
+| Startup order: session-state -> AGENTS.md -> workflow.md | Pre-fetches the most critical context before any LLM call |
 | `scripts/retrieve-context.sh` | Pre-fetches relevant local context based on query |
 | `scripts/search-index.sh` | Pre-fetches BM25 search results |
 | `scripts/context-restore.sh` | Restores saved context on resume |
@@ -388,12 +388,12 @@ of the integration plan.
 The [HumanLayer SDK](https://github.com/humanlayer/humanlayer) (10.8k ★) provides:
 
 - `require_approval` decorator for high-stakes function calls
-- `human_as_tool` pattern — humans treated as tool calls in the agent loop
+- `human_as_tool` pattern --- humans treated as tool calls in the agent loop
 - Contact channels: Slack, Email, CLI, web
-- `hlyr` — TypeScript CLI with MCP server
-- `hld` — Go daemon coordinating approvals + Claude Code sessions
-- `humanlayer-wui` — Web UI for approval management
-- `claudecode-go` — Go SDK for programmatic Claude Code sessions
+- `hlyr` --- TypeScript CLI with MCP server
+- `hld` --- Go daemon coordinating approvals + Claude Code sessions
+- `humanlayer-wui` --- Web UI for approval management
+- `claudecode-go` --- Go SDK for programmatic Claude Code sessions
 
 **Status:** Referenced. Not yet integrated. The `require_approval` pattern and
 contact channels address our primary gaps (Factors 7 and 11).
@@ -404,17 +404,17 @@ contact channels address our primary gaps (Factors 7 and 11).
 
 | Factor | Gap Severity | What's Missing |
 |---|---|---|
-| F1 (NL→Tools) | ✅ Addressed | `commands/` routing system + `route.md` — natural language to structured tool calls |
+| F1 (NL->Tools) | ✅ Addressed | `commands/` routing system + `route.md` --- natural language to structured tool calls |
 | F2 (Own prompts) | None | Fully implemented |
 | F3 (Own context) | ✅ Addressed | XML-style output (`--xml` flag) + pre-fetch (`--prefetch` flag) in retrieve-context.sh |
-| F4 (Tools = structured outputs) | ✅ Addressed | `commands/` (14 commands) — each is a structured tool with metadata |
+| F4 (Tools = structured outputs) | ✅ Addressed | `commands/` (14 commands) --- each is a structured tool with metadata |
 | F5 (Unify state) | ✅ Addressed | `events` array in session-state.json for append-only event sourcing |
-| F6 (Launch/Pause/Resume) | ✅ Addressed | `session-fork.sh` + `checkpoint-commit.sh` + `context-save.sh` — file-system-based launch/pause/resume |
-| **F7 (Contact humans)** | ✅ Addressed | `scripts/a2h-contact.sh` — full A2H protocol (contact, approve, respond, list) |
+| F6 (Launch/Pause/Resume) | ✅ Addressed | `session-fork.sh` + `checkpoint-commit.sh` + `context-save.sh` --- file-system-based launch/pause/resume |
+| **F7 (Contact humans)** | ✅ Addressed | `scripts/a2h-contact.sh` --- full A2H protocol (contact, approve, respond, list) |
 | **F8 (Own control flow)** | ✅ Addressed | `--risk high` flag triggers approval gate in implement-preflight.sh |
-| **F9 (Compact errors)** | ✅ Addressed | error-counter.sh + log-error.sh + a2h-contact.sh — capture → count → context → escalate |
-| F10 (Small focused agents) | None | Fully implemented — this IS our architecture |
-| **F11 (Trigger anywhere)** | **Not implemented** | Notifications logged to `.notifications/` for audit. Inbound triggers (Slack, email, webhooks) require external service integration — out of scope for private workspace |
+| **F9 (Compact errors)** | ✅ Addressed | error-counter.sh + log-error.sh + a2h-contact.sh --- capture -> count -> context -> escalate |
+| F10 (Small focused agents) | None | Fully implemented --- this IS our architecture |
+| **F11 (Trigger anywhere)** | **Not implemented** | Notifications logged to `.notifications/` for audit. Inbound triggers (Slack, email, webhooks) require external service integration --- out of scope for private workspace |
 | F12 (Stateless reducer) | ✅ Addressed | `events` array in session-state.json + checkpoint commit cycle |
 | F13 (Pre-fetch context) | ✅ Addressed | `scripts/prefetch-context.sh` + `retrieve-context.sh --prefetch` |
 
@@ -434,9 +434,9 @@ contact channels address our primary gaps (Factors 7 and 11).
 
 ## References
 
-- [12-Factor Agents — Full Guide](https://github.com/humanlayer/12-factor-agents)
+- [12-Factor Agents --- Full Guide](https://github.com/humanlayer/12-factor-agents)
 - [A2H Protocol Specification](https://github.com/humanlayer/12-factor-agents/blob/main/drafts/a2h-spec.md)
 - [HumanLayer SDK + CodeLayer IDE](https://github.com/humanlayer/humanlayer)
 - [12-Factor Agents Workshop Walkthrough](https://github.com/humanlayer/12-factor-agents/tree/main/workshops)
-- [got-agents/agents — OSS implementations](https://github.com/got-agents/agents)
+- [got-agents/agents --- OSS implementations](https://github.com/got-agents/agents)
 - [Context Engineering Cheat Sheet (@lenadroid)](https://x.com/lenadroid/status/1943685060785524824)

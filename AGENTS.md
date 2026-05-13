@@ -122,7 +122,7 @@ For SwarmVault graph queries, read `wiki/graph/report.md` first (falls back to `
 - **Probe repo before edits**: check branch, divergence, dirt, upstream state. Use worktrees for risky or parallel tasks.
 - **Batch file reads to 3 at a time**: avoid dispatching 6+ parallel reads mixed with a long-running build --- memory pressure on 4GB WSL2 can interrupt tool execution.
 - **Use `gradle-build` for Gradle projects**: instead of bare `./gradlew`. The wrapper runs the build then stops the daemon, freeing ~600MB--1.8GB RSS.
-- **Resist cognitive surrender by default**: Cognitive surrender is adopting AI output without forming an independent view. The calibration question is: *"Am I forming my own understanding of this output, or adopting the agent's answer wholesale?"* These feel identical from the inside. Before every generative action (research summary, plan, code, review), construct an expectation of what the output should contain before running the tool. After the output, verify independently — don't let "looks right" replace "I know this is right." For decisions with tradeoffs, ask the model to argue against its own answer. This is not optional for high-verification work; it is the difference between offloading (strategic delegation with oversight) and surrender (uncritical adoption). See `research/cognitive-surrender-research.md` for the full evidence.
+- **Resist cognitive surrender by default**: Cognitive surrender is adopting AI output without forming an independent view. The calibration question is: *"Am I forming my own understanding of this output, or adopting the agent's answer wholesale?"* These feel identical from the inside. Before every generative action (research summary, plan, code, review), construct an expectation of what the output should contain before running the tool. After the output, verify independently --- don't let "looks right" replace "I know this is right." For decisions with tradeoffs, ask the model to argue against its own answer. This is not optional for high-verification work; it is the difference between offloading (strategic delegation with oversight) and surrender (uncritical adoption). See `research/cognitive-surrender-research.md` for the full evidence.
 </rules>
 
 ## Structure Rules
@@ -512,11 +512,11 @@ supported APIs.
 | Retrieval policy | `docs/retrieval-policy.md` |
 | 12-Factor Agents principles map | `docs/12-factor-agents-integration.md` |
 | A2H (Agent-to-Human) protocol | `drafts/a2h-spec.md` in [humanlayer/12-factor-agents](https://github.com/humanlayer/12-factor-agents) |
-| Agent-to-Human contact tool | `scripts/a2h-contact.sh` — contact, approve, respond, list |
-| Error counter with escalation | `scripts/error-counter.sh` — inc, check, reset, context, list |
-| Deterministic context pre-fetch | `scripts/prefetch-context.sh` — XML, JSON, compact modes |
-| XML-style context retrieval | `scripts/retrieve-context.sh --xml` — token-efficient context output |
-| 12-factor agent scaffold | `scripts/create-hl-agent.sh` — creates a complete 12-factor agent project |
+| Agent-to-Human contact tool | `scripts/a2h-contact.sh` --- contact, approve, respond, list |
+| Error counter with escalation | `scripts/error-counter.sh` --- inc, check, reset, context, list |
+| Deterministic context pre-fetch | `scripts/prefetch-context.sh` --- XML, JSON, compact modes |
+| XML-style context retrieval | `scripts/retrieve-context.sh --xml` --- token-efficient context output |
+| 12-factor agent scaffold | `scripts/create-hl-agent.sh` --- creates a complete 12-factor agent project |
 | Learnings strategy (three-store system) | `docs/learnings-strategy.md` |
 | Hub quickstart (full index) | `docs/hub-quickstart.md` |
 | Cognitive surrender research and evidence | `research/cognitive-surrender-research.md` |

@@ -43,12 +43,12 @@ KeyError: 'SUMMER2026'
 
 Apply the macro-to-micro funnel (4 levels):
 
-**Level 1 — System:** How does the order processing system work? What are the components, data flows, and boundaries? Before looking at code, describe the system architecture.
+**Level 1 --- System:** How does the order processing system work? What are the components, data flows, and boundaries? Before looking at code, describe the system architecture.
 
-**Level 2 — Domain:** Which subsystem or domain is affected? Narrow your focus to the relevant area.
+**Level 2 --- Domain:** Which subsystem or domain is affected? Narrow your focus to the relevant area.
 
-**Level 3 — Module:** Which specific file or code path contains the error? Identify the exact function and line.
+**Level 3 --- Module:** Which specific file or code path contains the error? Identify the exact function and line.
 
-**Level 4 — Root Cause:** What specific logic failure caused the bug? What's the fix?
+**Level 4 --- Root Cause:** What specific logic failure caused the bug? What's the fix?
 
 Output all 4 levels. Output to `output.md`.

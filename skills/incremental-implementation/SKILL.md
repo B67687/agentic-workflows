@@ -235,7 +235,7 @@ After each increment, verify:
 | "Let me run the build command again just to be sure" | After a successful run, repeating the same command adds nothing unless the code has changed since. Run it again after subsequent edits, not as reassurance. |
 | "The output looks right, I can skip the calibration check" | "Looks right" is the surrender posture. If you cannot reconstruct the reasoning, you did not verify; you ratified. The calibration check exists because cognitive surrender feels identical to calibration from the inside. |
 | "I'll understand it when I need to" | Comprehension debt compounds. Each surrendered slice makes the next harder to evaluate. The interest gets paid when something breaks and you cannot reconstruct the system from first principles. |
-| "This design decision is obvious — no need to ask for a counterargument" | The most confident-sounding answers are the most dangerous for cognitive surrender. For any tradeoff decision, ask the model to argue against itself. If you cannot reason about which side is right, you have found a surrender point. |
+| "This design decision is obvious --- no need to ask for a counterargument" | The most confident-sounding answers are the most dangerous for cognitive surrender. For any tradeoff decision, ask the model to argue against itself. If you cannot reason about which side is right, you have found a surrender point. |
 
 ## Red Flags
 

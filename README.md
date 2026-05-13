@@ -1,7 +1,7 @@
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://img.shields.io/badge/agentic–workflows-121212?style=for-the-badge&logo=github&logoColor=white">
-    <img alt="agentic-workflows" src="https://img.shields.io/badge/agentic–workflows-000000?style=for-the-badge&logo=github&logoColor=white">
+    <source media="(prefers-color-scheme: dark)" srcset="https://img.shields.io/badge/agentic--workflows-121212?style=for-the-badge&logo=github&logoColor=white">
+    <img alt="agentic-workflows" src="https://img.shields.io/badge/agentic--workflows-000000?style=for-the-badge&logo=github&logoColor=white">
   </picture>
 </p>
 
@@ -26,7 +26,7 @@
 
 AI agents are powerful, but they lack structure. Without an operating contract, every session starts from scratch. Without knowledge propagation, each repo reinvents the wheel. Without workflow discipline, context degrades and quality drops.
 
-**agentic-workflows** solves this by applying systems engineering to the agent domain — giving agents a shared contract, a memory system, and a propagation layer that keeps knowledge flowing across repositories.
+**agentic-workflows** solves this by applying systems engineering to the agent domain --- giving agents a shared contract, a memory system, and a propagation layer that keeps knowledge flowing across repositories.
 
 ## Quick Start
 
@@ -42,18 +42,18 @@ bash ./scripts/test-smoke.sh
 bash ./scripts/session-status.sh
 ```
 
-Then open `AGENTS.md` — that's your operating contract. Every agent reads it first.
+Then open `AGENTS.md` --- that's your operating contract. Every agent reads it first.
 
 ## Features
 
 | | Area | What it gives you |
 |---|---|---|
-| 🧠 | **Operating Contract** | `AGENTS.md` — shared rules, conventions, and escalation paths that every agent reads first |
-| 📚 | **Skill System** | 41 production-grade engineering skills with companion scripts — debug, test, review, ship |
+| 🧠 | **Operating Contract** | `AGENTS.md` --- shared rules, conventions, and escalation paths that every agent reads first |
+| 📚 | **Skill System** | 41 production-grade engineering skills with companion scripts --- debug, test, review, ship |
 | 🔄 | **Knowledge Propagation** | Cross-repo sync: one change in the hub propagates to all topic folders |
-| 💾 | **Persistent Memory** | agentmemory + learnings system — agents remember what they learned across sessions |
-| 🧪 | **Workflow Discipline** | Checkpoint, handoff, session management — structured phases, not chaotic chats |
-| 🔍 | **Research Methodology** | 6-phase systematic research engine — source triangulation, confidence levels, authority weighting |
+| 💾 | **Persistent Memory** | agentmemory + learnings system --- agents remember what they learned across sessions |
+| 🧪 | **Workflow Discipline** | Checkpoint, handoff, session management --- structured phases, not chaotic chats |
+| 🔍 | **Research Methodology** | 6-phase systematic research engine --- source triangulation, confidence levels, authority weighting |
 | 🛡️ | **Quality Guardrails** | Assumption expiry, context pressure monitoring, debug triage, pre-push hooks |
 | 🌐 | **Multi-Repo** | Propagate templates and shared knowledge to 25+ topic folders from one hub |
 
@@ -61,13 +61,13 @@ Then open `AGENTS.md` — that's your operating contract. Every agent reads it f
 
 ```
 agentic-workflows/
-├── AGENTS.md              ← Read this first — the operating contract
-├── commands/              ← Slash commands (/task, /plan, /research, etc.)
-├── docs/                  ← Core documentation
-├── scripts/               ← Automation and tooling
-├── skills/                ← 41 production-grade engineering skills
-├── propagation/           ← Templates synced across topic folders
-└── research/              ← Active research campaigns
+├── AGENTS.md              <- Read this first --- the operating contract
+├── commands/              <- Slash commands (/task, /plan, /research, etc.)
+├── docs/                  <- Core documentation
+├── scripts/               <- Automation and tooling
+├── skills/                <- 41 production-grade engineering skills
+├── propagation/           <- Templates synced across topic folders
+└── research/              <- Active research campaigns
 ```
 
 ## Documentation
@@ -151,8 +151,8 @@ the following open-source projects.
 
 | Repo | Influence |
 |---|---|
-| [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills) | **Core skill framework** — 27 engineering skills + 14 TAP methodology skills |
-| [humanlayer/12-factor-agents](https://github.com/humanlayer/12-factor-agents) | **12-factor principles** for reliable LLM applications — context engineering, small focused agents, own your prompts |
+| [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills) | **Core skill framework** --- 27 engineering skills + 14 TAP methodology skills |
+| [humanlayer/12-factor-agents](https://github.com/humanlayer/12-factor-agents) | **12-factor principles** for reliable LLM applications --- context engineering, small focused agents, own your prompts |
 | [donnemartin/system-design-primer](https://github.com/donnamartin/system-design-primer) | Systems engineering methodology |
 | [tree-sitter/tree-sitter](https://github.com/tree-sitter/tree-sitter) | Repo-map generation |
 | [promptfoo/promptfoo](https://github.com/promptfoo/promptfoo) | Prompt testing patterns |

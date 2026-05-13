@@ -87,7 +87,7 @@ if echo "$HEALTH_STATUS" | grep -q "CRITICAL"; then
 fi
 
 # ---- Saved Context Snapshot ----
-SNAPSHOT=".cache/session-snapshot.json"
+SNAPSHOT=".runtime/session-snapshot.json"
 if [ -f "$SNAPSHOT" ]; then
     SNAP_AGE=$(( ($(date +%s) - $(stat -c %Y "$SNAPSHOT" 2>/dev/null || echo 0)) / 60 ))
     if [ "$SNAP_AGE" -lt 120 ]; then

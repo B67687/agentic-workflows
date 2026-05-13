@@ -171,7 +171,7 @@ if [[ "$RISK" == "high" ]]; then
     IMPLEMENT_NEXT="proceed with implementation"
   elif echo "$APPROVAL_OUTPUT" | grep -q "pending"; then
     IMPLEMENT_DECISION="block"
-    IMPLEMENT_REASON="high-risk operation awaiting human approval — check .a2h/ for pending approvals"
+    IMPLEMENT_REASON="high-risk operation awaiting human approval --- check .runtime/a2h/ for pending approvals"
     IMPLEMENT_NEXT="run: bash scripts/a2h-contact.sh list --pending"
   fi
 fi

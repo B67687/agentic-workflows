@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # =============================================================================
-# experiment-loop.sh — Experiment state manager for skill optimization
+# experiment-loop.sh --- Experiment state manager for skill optimization
 #
 # Manages state, baselines, and logging for autonomous skill experiments.
 # Part of the experiment loop system (pattern from karpathy/autoresearch).
@@ -19,7 +19,7 @@ set -euo pipefail
 trap 'echo "[ERROR] $BASH_SOURCE:$LINENO"' ERR
 
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-EXPERIMENTS_DIR="$REPO_ROOT/.experiments"
+EXPERIMENTS_DIR="$REPO_ROOT/.runtime/experiments"
 TSV_FILE="$REPO_ROOT/experiments.tsv"
 BENCH_RUNNER="$REPO_ROOT/scripts/skill-bench.sh"
 
@@ -36,7 +36,7 @@ experiment_dir() {
 # Returns the path to the result.json
 run_single_benchmark() {
   local skill="$1" bench_file="$2" run_id="$3"
-  local run_dir="$REPO_ROOT/.bench-runs/$run_id"
+  local run_dir="$REPO_ROOT/.runtime/bench-runs/$run_id"
 
   bash "$BENCH_RUNNER" prepare --skill "$skill" --benchmark "$bench_file" --out "$run_dir" > /dev/null 2>&1
 
@@ -527,12 +527,12 @@ for i, exp in enumerate(exps[-5:], 1):
     echo "           List all active experiment sessions."
     echo ""
     echo "Lifecycle:"
-    echo "  1. init       → creates experiment state"
-    echo "  2. baseline   → establishes baseline metrics"
-    echo "  3. propose    → (you) generate a change proposal"
-    echo "  4. apply      → (you) modify the skill"
-    echo "  5. benchmark  → skill-bench.sh prepare + verify"
-    echo "  6. log        → record result (keep/discard)"
+    echo "  1. init       -> creates experiment state"
+    echo "  2. baseline   -> establishes baseline metrics"
+    echo "  3. propose    -> (you) generate a change proposal"
+    echo "  4. apply      -> (you) modify the skill"
+    echo "  5. benchmark  -> skill-bench.sh prepare + verify"
+    echo "  6. log        -> record result (keep/discard)"
     echo "  7. repeat 3-6"
     echo ""
     echo "Examples:"

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # =============================================================================
-# a2h-contact.sh — Agent-to-Human contact protocol (12-factor F7, A2H spec)
+# a2h-contact.sh --- Agent-to-Human contact protocol (12-factor F7, A2H spec)
 #
 # Implements the core A2H pattern: agents contact humans as a tool call.
 # Supports human contacts (questions) and function approvals (authorization).
@@ -22,14 +22,14 @@
 #
 # Principle: "Contact humans with tool calls. The LLM can request a human
 # response or human approval with the same mechanism as any other tool."
-#   — 12-Factor Agents, Factor 7
+#   --- 12-Factor Agents, Factor 7
 # =============================================================================
 
 set -euo pipefail
 trap 'echo "[ERROR] $BASH_SOURCE:$LINENO"' ERR
 
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-A2H_DIR="$REPO_ROOT/.a2h"
+A2H_DIR="$REPO_ROOT/.runtime/a2h"
 mkdir -p "$A2H_DIR"
 
 CMD="${1:-help}"
@@ -68,7 +68,7 @@ notify() {
   notify_id="a2h-notify-$(date -u +%Y%m%d%H%M%S)-$RANDOM"
   local timestamp
   timestamp=$(date -u +%Y-%m-%dT%H:%M:%SZ)
-  local notify_dir="$REPO_ROOT/.notifications"
+  local notify_dir="$REPO_ROOT/.runtime/notifications"
   mkdir -p "$notify_dir"
 
   cat > "$notify_dir/$notify_id.json" << EOF
@@ -186,7 +186,7 @@ EOF
   echo "Operation: $operation"
   echo "Details: $details"
 
-  notify "[A2H] Approval needed: $operation — $details" "$urgency" "$channel"
+  notify "[A2H] Approval needed: $operation --- $details" "$urgency" "$channel"
 
   # If channel is cli, prompt for approval interactively
   if [ "$channel" = "cli" ] || [ "$channel" = "all" ]; then

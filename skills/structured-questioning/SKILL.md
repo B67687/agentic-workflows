@@ -36,7 +36,7 @@ and modern ACI (Agent-Computer Interface) principles from Anthropic's agent rese
 
 ## Framework Overview
 
-**Sequence:** 5W+H → Socratic probes → ACI optimization → Self-verification.
+**Sequence:** 5W+H -> Socratic probes -> ACI optimization -> Self-verification.
 
 ## Phase 1 --- Pre-Flight Checklist (5W+H)
 

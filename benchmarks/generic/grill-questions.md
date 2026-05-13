@@ -25,10 +25,10 @@ You are using the **grill-me** skill to interview a stakeholder about adding a *
 
 Use the grill-me approach:
 
-1. **Set the stage** — explain what you're about to do
-2. **Walk the decision tree** — ask detailed questions, one per topic
-3. **Stress-test with scenarios** — ask about edge cases
-4. **Confirm shared understanding** — summarize the agreed direction
+1. **Set the stage** --- explain what you're about to do
+2. **Walk the decision tree** --- ask detailed questions, one per topic
+3. **Stress-test with scenarios** --- ask about edge cases
+4. **Confirm shared understanding** --- summarize the agreed direction
 
 Generate ALL questions you would ask in a single session. Each question must end with `?`. After each question, include your recommended answer.
 

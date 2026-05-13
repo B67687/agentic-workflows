@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # =============================================================================
-# create-hl-agent.sh — Scaffold a new 12-factor agent project
+# create-hl-agent.sh --- Scaffold a new 12-factor agent project
 #
 # Creates a ready-to-use agent project with all 12-factor-agent patterns:
 #   - Operating contract (F2: own your prompts)
@@ -68,12 +68,12 @@ echo ""
 # --- Create directory structure ---
 mkdir -p "$TARGET_PATH/scripts"
 mkdir -p "$TARGET_PATH/docs"
-mkdir -p "$TARGET_PATH/.a2h"
-mkdir -p "$TARGET_PATH/.notifications"
+mkdir -p "$TARGET_PATH/.runtime/a2h"
+mkdir -p "$TARGET_PATH/.runtime/notifications"
 
 # --- AGENTS.md (Factor 2: Own your prompts) ---
 cat > "$TARGET_PATH/AGENTS.md" <<AGENTSEOF
-# $AGENT_NAME — 12-Factor Agent
+# $AGENT_NAME --- 12-Factor Agent
 
 <!-- 12-Factor Agent: Own your prompts (F2), Own your context (F3) -->
 
@@ -82,28 +82,28 @@ cat > "$TARGET_PATH/AGENTS.md" <<AGENTSEOF
 This agent follows the [12-Factor Agents](https://github.com/humanlayer/12-factor-agents)
 methodology:
 
-1. **Natural Language → Tool Calls** — Routes requests to structured handlers
-2. **Own Your Prompts** — This file is your first prompt. Every tool is documented.
-3. **Own Your Context Window** — session-state.json tracks state. AGENTS.md provides rules.
-4. **Tools Are Structured Outputs** — Each script is a tool with documented inputs/outputs.
-5. **Unify Execution + Business State** — session-state.json is the single source of truth.
-6. **Launch/Pause/Resume** — session-state.json + git checkpoints enable clean resume.
-7. **Contact Humans with Tools** — scripts/a2h-contact.sh for agent-to-human communication.
-8. **Own Your Control Flow** — scripts/ define the execution flow explicitly.
-9. **Compact Errors** — Error logs feed back into context for self-healing.
-10. **Small, Focused Agents** — Each script does one thing well.
-11. **Trigger from Anywhere** — (inbound triggers pending implementation)
-12. **Stateless Reducer** — state = reducer(state, event). session-state.json is append-only.
-13. **Pre-Fetch All Context** — scripts/prefetch-context.sh fetches deterministically.
+1. **Natural Language -> Tool Calls** --- Routes requests to structured handlers
+2. **Own Your Prompts** --- This file is your first prompt. Every tool is documented.
+3. **Own Your Context Window** --- session-state.json tracks state. AGENTS.md provides rules.
+4. **Tools Are Structured Outputs** --- Each script is a tool with documented inputs/outputs.
+5. **Unify Execution + Business State** --- session-state.json is the single source of truth.
+6. **Launch/Pause/Resume** --- session-state.json + git checkpoints enable clean resume.
+7. **Contact Humans with Tools** --- scripts/a2h-contact.sh for agent-to-human communication.
+8. **Own Your Control Flow** --- scripts/ define the execution flow explicitly.
+9. **Compact Errors** --- Error logs feed back into context for self-healing.
+10. **Small, Focused Agents** --- Each script does one thing well.
+11. **Trigger from Anywhere** --- (inbound triggers pending implementation)
+12. **Stateless Reducer** --- state = reducer(state, event). session-state.json is append-only.
+13. **Pre-Fetch All Context** --- scripts/prefetch-context.sh fetches deterministically.
 
 ## Key Scripts
 
 | Tool | Description |
 |------|-------------|
-| \`scripts/a2h-contact.sh\` | Contact humans (F7) — contact, approve, respond, list |
-| \`scripts/error-counter.sh\` | Error counter (F9) — increment, check, reset, context, escalate |
-| \`scripts/prefetch-context.sh\` | Deterministic pre-fetch (F13) — XML, JSON, compact |
-| \`scripts/checkpoint.sh\` | Save state (F5, F12) — commit session + changes |
+| \`scripts/a2h-contact.sh\` | Contact humans (F7) --- contact, approve, respond, list |
+| \`scripts/error-counter.sh\` | Error counter (F9) --- increment, check, reset, context, escalate |
+| \`scripts/prefetch-context.sh\` | Deterministic pre-fetch (F13) --- XML, JSON, compact |
+| \`scripts/checkpoint.sh\` | Save state (F5, F12) --- commit session + changes |
 
 ## Rules
 
@@ -127,7 +127,7 @@ cat > "$TARGET_PATH/session-state.json" <<SESSIONEOF
   "filesTouched": [],
   "verification": [],
   "immediateNextSteps": [
-    "Review AGENTS.md — the operating contract",
+    "Review AGENTS.md --- the operating contract",
     "Run: bash scripts/prefetch-context.sh --compact"
   ],
   "events": []
@@ -149,7 +149,7 @@ chmod +x "$TARGET_PATH/scripts/prefetch-context.sh"
 # --- scripts/checkpoint.sh (Factor 5/12: State management) ---
 cat > "$TARGET_PATH/scripts/checkpoint.sh" << 'CHECKPOINTEOF'
 #!/usr/bin/env bash
-# checkpoint.sh — Save agent state (12-factor F5/F12)
+# checkpoint.sh --- Save agent state (12-factor F5/F12)
 # Usage: bash ./scripts/checkpoint.sh <summary>
 set -euo pipefail
 
@@ -173,7 +173,7 @@ print('Checkpoint recorded: ' + event['timestamp'])
 CHECKPOINTEOF
 chmod +x "$TARGET_PATH/scripts/checkpoint.sh"
 
-# --- docs/README.md — Project overview ---
+# --- docs/README.md --- Project overview ---
 cat > "$TARGET_PATH/README.md" <<READMEEOF
 # $AGENT_NAME
 
@@ -199,15 +199,15 @@ bash ./scripts/a2h-contact.sh approve "deploy" '{"env":"production"}' --urgency 
 
 \`\`\`
 $AGENT_NAME/
-├── AGENTS.md              ← Operating contract (read first)
-├── session-state.json     ← Unified state (events array for replay)
+├── AGENTS.md              <- Operating contract (read first)
+├── session-state.json     <- Unified state (events array for replay)
 ├── scripts/
-│   ├── a2h-contact.sh     ← Contact humans (question + approval)
-│   ├── error-counter.sh   ← Error counter + escalation
-│   ├── prefetch-context.sh ← Deterministic context pre-fetch
-│   └── checkpoint.sh      ← State checkpoint
-├── .a2h/                  ← A2H contact queue
-├── .notifications/        ← Notification log
+│   ├── a2h-contact.sh     <- Contact humans (question + approval)
+│   ├── error-counter.sh   <- Error counter + escalation
+│   ├── prefetch-context.sh <- Deterministic context pre-fetch
+│   └── checkpoint.sh      <- State checkpoint
+├── .runtime/a2h/          <- A2H contact queue
+├── .runtime/notifications/ <- Notification log
 └── README.md
 \`\`\`
 
@@ -217,7 +217,7 @@ See \`AGENTS.md\` for the full principles reference.
 
 | Factor | Local Implementation |
 |--------|---------------------|
-| F1 (NL→Tools) | This README + AGENTS.md |
+| F1 (NL->Tools) | This README + AGENTS.md |
 | F2 (Own prompts) | AGENTS.md |
 | F3 (Own context) | session-state.json |
 | F4 (Tools = structured outputs) | scripts/ |
@@ -234,8 +234,8 @@ See \`AGENTS.md\` for the full principles reference.
 READMEEOF
 
 # --- .gitkeep files for empty dirs ---
-touch "$TARGET_PATH/.a2h/.gitkeep"
-touch "$TARGET_PATH/.notifications/.gitkeep"
+touch "$TARGET_PATH/.runtime/a2h/.gitkeep"
+touch "$TARGET_PATH/.runtime/notifications/.gitkeep"
 
 echo ""
 echo "✅ 12-factor agent created: $AGENT_NAME"

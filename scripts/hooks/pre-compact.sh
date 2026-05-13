@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # =============================================================================
 # pre-compact.sh --- PreCompact lifecycle hook
-# Captures working context to .cache/session-snapshot.json before conversation
+# Captures working context to .runtime/session-snapshot.json before conversation
 # compaction. Ensures critical state survives summarization so post-compact.sh
 # can restore it.
 #
@@ -10,7 +10,7 @@
 
 set -euo pipefail
 
-SNAPSHOT_DIR=".cache"
+SNAPSHOT_DIR=".runtime"
 SNAPSHOT_FILE="$SNAPSHOT_DIR/session-snapshot.json"
 mkdir -p "$SNAPSHOT_DIR"
 

@@ -25,11 +25,11 @@ verification: |
 Review the file `benchmarks/generic/review-sample.py` using the **code-review-and-quality** skill.
 
 Use the five-axis review approach:
-1. **Correctness** — bugs, edge cases, error handling
-2. **Readability & Simplicity** — naming, structure, comments
-3. **Architecture** — design patterns, separation of concerns
-4. **Security** — injection, data exposure, unsafe patterns
-5. **Performance** — inefficiencies, unnecessary work
+1. **Correctness** --- bugs, edge cases, error handling
+2. **Readability & Simplicity** --- naming, structure, comments
+3. **Architecture** --- design patterns, separation of concerns
+4. **Security** --- injection, data exposure, unsafe patterns
+5. **Performance** --- inefficiencies, unnecessary work
 
 List at least 3 findings. Each finding should include severity (HIGH/MEDIUM/LOW), what's wrong, and how to fix it.
 

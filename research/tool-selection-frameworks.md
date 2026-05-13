@@ -15,10 +15,10 @@ After researching 7 established decision frameworks across operations research, 
 
 | Criterion | Strengths | Blind Spots | Overlaps With |
 |-----------|-----------|-------------|---------------|
-| **High quality** | Anchors on fitness for purpose | "Quality" is ambiguous — does it mean correctness, coverage, reliability, or user experience? Without unpacking, it's a black box. | Contains all other criteria implicitly (a low-resource tool can be high quality in resource-constrained contexts) |
-| **Local** | Eliminates network dependencies, API keys, service disruptions | Overlooks total cost of ownership — a local solution that requires heavy setup/config is "local" but not practical. Confuses *where it runs* with *what it depends on*. | Partially conflicts with "simplest" (local often requires more infrastructure) |
-| **Simplest implementation** | Good instinct — aligns with Occam's razor and Gall's law | "Simple" for whom? Simple to write vs simple to use vs simple to maintain are *different* kinds of simplicity. A script is simple to write but may be fragile to maintain. | Most aligned with Occam's razor; can conflict with "high quality" (the highest quality tool may not be the simplest) |
-| **Lowest resource** | Practical for constrained environments (4GB WSL2) | Resource usage is context-dependent — idle RSS vs peak CPU vs install size vs runtime overhead are different metrics. Pure bash wins this until you need structured output. | |
+| **High quality** | Anchors on fitness for purpose | "Quality" is ambiguous --- does it mean correctness, coverage, reliability, or user experience? Without unpacking, it's a black box. | Contains all other criteria implicitly (a low-resource tool can be high quality in resource-constrained contexts) |
+| **Local** | Eliminates network dependencies, API keys, service disruptions | Overlooks total cost of ownership --- a local solution that requires heavy setup/config is "local" but not practical. Confuses *where it runs* with *what it depends on*. | Partially conflicts with "simplest" (local often requires more infrastructure) |
+| **Simplest implementation** | Good instinct --- aligns with Occam's razor and Gall's law | "Simple" for whom? Simple to write vs simple to use vs simple to maintain are *different* kinds of simplicity. A script is simple to write but may be fragile to maintain. | Most aligned with Occam's razor; can conflict with "high quality" (the highest quality tool may not be the simplest) |
+| **Lowest resource** | Practical for constrained environments (4GB WSL2) | Resource usage is context-dependent --- idle RSS vs peak CPU vs install size vs runtime overhead are different metrics. Pure bash wins this until you need structured output. | |
 
 ### The Fundamental Problem
 
@@ -28,13 +28,13 @@ The 4 criteria are **not orthogonal**. They trade off against each other, and th
 
 ## 2. Established Frameworks Surveyed
 
-### 2.1 ATAM (Architecture Tradeoff Analysis Method) — SEI/Carnegie Mellon
+### 2.1 ATAM (Architecture Tradeoff Analysis Method) --- SEI/Carnegie Mellon
 
 **Origin:** Software Engineering Institute, Carnegie Mellon University (1990s)
-**Core idea:** Evaluate architectural decisions against *utility trees* — a prioritized hierarchy of quality attributes with explicit scenarios.
+**Core idea:** Evaluate architectural decisions against *utility trees* --- a prioritized hierarchy of quality attributes with explicit scenarios.
 
 **Key concepts:**
-- **Utility tree:** Root → Quality attribute → Attribute refinement → Scenario (with importance & difficulty ratings)
+- **Utility tree:** Root -> Quality attribute -> Attribute refinement -> Scenario (with importance & difficulty ratings)
 - **Sensitivity points:** Where a parameter variation measurably affects a quality attribute
 - **Tradeoff points:** Where improving one attribute degrades another
 
@@ -48,7 +48,7 @@ The 4 criteria are **not orthogonal**. They trade off against each other, and th
 - Requires domain expertise to build good utility trees
 - Less suited to single-tool evaluation than to architecture comparison
 
-**Relevance: ⭐⭐⭐⭐** — The utility tree pattern is the best way to replace the flat 4-criteria list with a weighted, context-sensitive framework.
+**Relevance: ⭐⭐⭐⭐** --- The utility tree pattern is the best way to replace the flat 4-criteria list with a weighted, context-sensitive framework.
 
 ### 2.2 MCDA/MCDM (Multi-Criteria Decision Analysis)
 
@@ -56,7 +56,7 @@ The 4 criteria are **not orthogonal**. They trade off against each other, and th
 **Core idea:** Explicitly evaluate multiple conflicting criteria using structured methods (weighted sum, AHP, PROMETHEE, TOPSIS, etc.)
 
 **Key variants:**
-- **AHP (Analytic Hierarchy Process):** Pairwise comparison → weights → scores
+- **AHP (Analytic Hierarchy Process):** Pairwise comparison -> weights -> scores
 - **Weighted Sum Model:** Assign weights to criteria, score options, sum
 - **PROMETHEE/ELECTRE:** Outranking methods (French school)
 
@@ -70,7 +70,7 @@ The 4 criteria are **not orthogonal**. They trade off against each other, and th
 - False precision: weights look objective but are usually subjective
 - Overkill for 2-3 option decisions
 
-**Relevance: ⭐⭐⭐** — The weighted-score approach is useful but the formality is excessive for most tool decisions in this workspace. The *principle* (weight criteria, score options) is valuable.
+**Relevance: ⭐⭐⭐** --- The weighted-score approach is useful but the formality is excessive for most tool decisions in this workspace. The *principle* (weight criteria, score options) is valuable.
 
 ### 2.3 Occam's Razor / Principle of Parsimony
 
@@ -89,10 +89,10 @@ The 4 criteria are **not orthogonal**. They trade off against each other, and th
 
 **Weaknesses:**
 - Only applies when explanatory power is *equal* (rare in practice)
-- "Simple" is subjective — what's simple in syntax may be complex in semantics
+- "Simple" is subjective --- what's simple in syntax may be complex in semantics
 - Anti-razors exist (Leibniz's plenitude, Menger's law) for good reason
 
-**Relevance: ⭐⭐⭐⭐** — Essential as a pruning heuristic, but requires the "equal power" caveat to be useful. Best combined with a quality-first evaluation, then parsimony to break ties.
+**Relevance: ⭐⭐⭐⭐** --- Essential as a pruning heuristic, but requires the "equal power" caveat to be useful. Best combined with a quality-first evaluation, then parsimony to break ties.
 
 ### 2.4 Gall's Law
 
@@ -105,11 +105,11 @@ The 4 criteria are **not orthogonal**. They trade off against each other, and th
 - Directly supports the "simplest implementation" criterion
 
 **Weaknesses:**
-- Descriptive, not prescriptive — doesn't tell you *how* to find the simple system
+- Descriptive, not prescriptive --- doesn't tell you *how* to find the simple system
 - Can be used to justify underspecification
 - Doesn't account for systems that *must* be complex (safety-critical, etc.)
 
-**Relevance: ⭐⭐⭐** — A useful cautionary principle but not a decision framework by itself.
+**Relevance: ⭐⭐⭐** --- A useful cautionary principle but not a decision framework by itself.
 
 ### 2.5 The UNIX Philosophy / Rule of Least Power
 
@@ -132,16 +132,16 @@ The 4 criteria are **not orthogonal**. They trade off against each other, and th
 - "Least power" can lead to overly constrained implementations
 - The modern answer to "spit and duct tape" interfaces (the UNIX way) is structured MCP schemas
 
-**Relevance: ⭐⭐⭐⭐** — The Rule of Least Power is directly applicable to the "simplest" criterion, but critically reframes it.
+**Relevance: ⭐⭐⭐⭐** --- The Rule of Least Power is directly applicable to the "simplest" criterion, but critically reframes it.
 
 ### 2.6 The Iron Triangle (Good, Fast, Cheap)
 
 **Origin:** Project management (classic)
 **Core idea:** Pick two: good, fast, cheap. The third is impossible.
 
-**Paraphrased for tool selection:** **Quality, Simplicity, Resource-efficiency — pick the minimum viable combination, then iterate.**
+**Paraphrased for tool selection:** **Quality, Simplicity, Resource-efficiency --- pick the minimum viable combination, then iterate.**
 
-**Relevance: ⭐⭐** — Too simplistic to be useful alone but captures the unavoidable tension in the 4-criteria heuristic.
+**Relevance: ⭐⭐** --- Too simplistic to be useful alone but captures the unavoidable tension in the 4-criteria heuristic.
 
 ### 2.7 Essential vs Accidental Complexity (Brooks)
 
@@ -150,14 +150,14 @@ The 4 criteria are **not orthogonal**. They trade off against each other, and th
 
 **Strengths:**
 - Distinguishes between necessary and unnecessary complexity
-- Directly applicable to "simplest implementation" — simplify the accidental, accept the essential
+- Directly applicable to "simplest implementation" --- simplify the accidental, accept the essential
 - Explains why some "simple" solutions are actually complex (they try to reduce essential complexity that can't be reduced)
 
 **Weaknesses:**
 - The line between essential and accidental is often unclear until after implementation
 - Requires domain understanding to apply correctly
 
-**Relevance: ⭐⭐⭐⭐** — The most important distinction missing from the 4-criteria heuristic.
+**Relevance: ⭐⭐⭐⭐** --- The most important distinction missing from the 4-criteria heuristic.
 
 ---
 
@@ -178,8 +178,8 @@ The 4 criteria are **not orthogonal**. They trade off against each other, and th
 | **Maintainability** | A simple script you don't understand is worse than a documented tool | ATAM |
 | **Friction-to-adopt** | Setup time, API key signup, learning curve | ATAM utility tree |
 | **Composability** | Does the tool work with others? | UNIX philosophy |
-| **Time horizon** | Quick fix vs sustained tool — different criteria apply | ATAM scenario |
-| **Weighting/prioritization** | Not all criteria are equal — depends on context | ATAM utility tree, MCDA |
+| **Time horizon** | Quick fix vs sustained tool --- different criteria apply | ATAM scenario |
+| **Weighting/prioritization** | Not all criteria are equal --- depends on context | ATAM utility tree, MCDA |
 
 ### Why "Local" Is Tricky
 
@@ -199,7 +199,7 @@ A bash script calling Brave Search API is "local" in sense 1 but not sense 2. A 
 
 Before any tool decision, answer:
 
-1. **What job must it do?** (Functional requirement — not "search the web" but "return ranked results with titles, URLs, and snippets from a free web search")
+1. **What job must it do?** (Functional requirement --- not "search the web" but "return ranked results with titles, URLs, and snippets from a free web search")
 2. **What context constraints apply?** (Time pressure? API keys available? Internet? Resource limits?)
 3. **What is the time horizon?** (One-off research? Repeated workspace tool? Production deployment?)
 
@@ -256,11 +256,11 @@ Root: Solution fitness
 
 The 4-criteria heuristic ("high quality + local + simplest + lowest resource") is **a reasonable starting instinct but an incomplete framework.** Its main problems:
 
-1. **"Quality" is overloaded** — it tries to carry correctness, coverage, reliability, and user experience in one word
-2. **"Local" conflates code location with dependency profile** — a script that needs a cloud API key is not more "local" than an MCP server in terms of self-containment
-3. **The criteria are not weighted** — treating them as equal when context demands prioritization
-4. **Missing criteria** — maintainability, friction-to-adopt, essential vs accidental complexity
-5. **No time horizon** — what's right for a one-shot script differs from what's right for a permanent tool
+1. **"Quality" is overloaded** --- it tries to carry correctness, coverage, reliability, and user experience in one word
+2. **"Local" conflates code location with dependency profile** --- a script that needs a cloud API key is not more "local" than an MCP server in terms of self-containment
+3. **The criteria are not weighted** --- treating them as equal when context demands prioritization
+4. **Missing criteria** --- maintainability, friction-to-adopt, essential vs accidental complexity
+5. **No time horizon** --- what's right for a one-shot script differs from what's right for a permanent tool
 
 **The better approach for this workspace:** Replace the flat 4-criteria list with a lightweight **context-weighted utility tree** that captures the same instincts but forces explicit weighting based on the specific decision context. The tree above covers the same values (quality, simplicity, local-ness, resource consciousness) but adds maintainability and adoption friction, and makes tradeoffs visible rather than hidden.
 

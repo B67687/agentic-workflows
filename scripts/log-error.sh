@@ -3,7 +3,7 @@
 # log-error.sh --- Capture an error for agent triage.
 #
 # Feeds into the debugging-and-error-recovery skill's triage system.
-# Appends structured error records to .triage/errors.log so that
+# Appends structured error records to .runtime/triage/errors.log so that
 # `bash skills/debugging-and-error-recovery/scripts/triage.sh` can
 # include recent errors in its analysis.
 #
@@ -17,7 +17,7 @@
 set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-TRIAGE_DIR="$REPO_ROOT/.triage"
+TRIAGE_DIR="$REPO_ROOT/.runtime/triage"
 mkdir -p "$TRIAGE_DIR"
 
 COMMAND="${1:-unknown}"

@@ -6,7 +6,7 @@
   "currentTask": {
     "name": "Integrate 12-factor-agents framework \u2014 Slice 5: Error Handling & Control Flow",
     "status": "done",
-    "goal": "Create error-counter.sh with human escalation — complete therapeutic pipeline"
+    "goal": "Create error-counter.sh with human escalation --- complete therapeutic pipeline"
   },
   "environment": {
     "note": "Configure per-workspace in your OpenCode config at `$HOME/.config/opencode/opencode.jsonc`.",
@@ -206,7 +206,7 @@
       "timestamp": "2026-05-13T12:36:00Z",
       "type": "checkpoint",
       "milestone": "slice-5-error-handling",
-      "summary": "Created error-counter.sh with human escalation — complete therapeutic pipeline: capture -> count -> context -> escalate",
+      "summary": "Created error-counter.sh with human escalation --- complete therapeutic pipeline: capture -> count -> context -> escalate",
       "filesChanged": [
         "scripts/error-counter.sh",
         "commands/implement.md",

@@ -15,7 +15,7 @@ The full library is split into focused files under `docs/prompt-library/` so thi
 | Match user voice or reduce AI fingerprints | [prompt-library/voice-and-humanization.md](prompt-library/voice-and-humanization.md) |
 | Generate editable diagrams | [prompt-library/visualization.md](prompt-library/visualization.md) |
 
-(Pre-split copy preserved at `archive/prompt-templates-2026-04-pre-split.md` — local only.)
+(Pre-split copy preserved at `archive/prompt-templates-2026-04-pre-split.md` --- local only.)
 
 ## Highest-Use Short Prompts
 

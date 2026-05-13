@@ -226,7 +226,7 @@ Use `-IncludeSource` only when the curated index misses source-level context and
 
 ## Tool Selection Framework (Utility Tree)
 
-When choosing between tooling approaches, a flat criteria list hides tradeoffs. Use this **context-weighted utility tree** (adapted from ATAM — Architecture Tradeoff Analysis Method, SEI/CMU):
+When choosing between tooling approaches, a flat criteria list hides tradeoffs. Use this **context-weighted utility tree** (adapted from ATAM --- Architecture Tradeoff Analysis Method, SEI/CMU):
 
 ```
 Root: Solution fitness for this context

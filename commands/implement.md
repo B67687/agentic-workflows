@@ -27,11 +27,11 @@ bash ./scripts/implement-preflight.sh "$ARGUMENTS" --risk high
 
 When `--risk high` is set, the preflight invokes `scripts/a2h-contact.sh approve`
 to request deterministic human approval before allowing implementation. This
-implements the **interrupt-between-selection-and-execution** pattern — the
+implements the **interrupt-between-selection-and-execution** pattern --- the
 tool is selected but does not execute until a human explicitly approves.
 
 If no human is available (non-interactive mode), the approval gate warns and
-logs the request to `.a2h/` and `.notifications/` for later processing.
+logs the request to `.runtime/a2h/` and `.runtime/notifications/` for later processing.
 
 See: `scripts/a2h-contact.sh`
 
@@ -61,7 +61,7 @@ This implements the **compact errors into context window** pattern:
 2. Counter tracks consecutive failures (error-counter.sh)
 3. Error context fed back into LLM for self-healing (context command)
 4. After N failures (default: 3), an A2H approval request is created
-5. All errors are logged to `.triage/errors.log` for cross-session reference
+5. All errors are logged to `.runtime/triage/errors.log` for cross-session reference
 
 Set the escalation threshold via environment:
 ```
@@ -72,7 +72,7 @@ See: `scripts/error-counter.sh`, `scripts/log-error.sh`
 
 Keep the active context narrow. Execute in small verified slices. Review each change before moving to the next.
 
-**Before each slice: construct the expectation.** State (even briefly) what you expect the output to contain — the structure, the approach, the key decisions. When the AI output matches your expectation, you are calibrated. When it does not, you have a real decision to make: is your expectation wrong, or is the output wrong? That decision is the thing cognitive surrender skips.
+**Before each slice: construct the expectation.** State (even briefly) what you expect the output to contain --- the structure, the approach, the key decisions. When the AI output matches your expectation, you are calibrated. When it does not, you have a real decision to make: is your expectation wrong, or is the output wrong? That decision is the thing cognitive surrender skips.
 
 **After each slice: run the calibration check.** Before committing, ask: *"Can I reconstruct this change's reasoning without the AI's help?"* If you cannot explain what changed and why, you did not review it; you ratified it. Do not commit verified-but-not-understood code. Go back and rebuild the mental model before proceeding.
 
@@ -92,7 +92,7 @@ After each verified phase:
 | "I'll clean up adjacent code while I'm here" | Scope creep is the #1 cause of regressions. Note it, don't fix it. |
 | "I'll commit everything at the end" | Large commits hide bugs and make rollback impossible. Commit each verified slice. |
 | "The tests can wait until I'm done" | Untested code is unverified code. Tests written after the fact miss the intent. |
-| "I don't need to construct an expectation — I'll know if it's wrong" | Cognitive surrender feels identical to calibration from the inside. Without an explicit expectation, you have nothing to compare against. "Looks right" replaces "I know this is right." |
+| "I don't need to construct an expectation --- I'll know if it's wrong" | Cognitive surrender feels identical to calibration from the inside. Without an explicit expectation, you have nothing to compare against. "Looks right" replaces "I know this is right." |
 | "The output looks right, it must be correct" | Surface correctness is not systemic correctness. The gap between them is exactly where surrender hides. Verify independently. |
 | "I can reconstruct the reasoning later if I need to" | Comprehension debt compounds. Each surrendered slice makes the next harder to evaluate. Reconstruct the understanding now or pay the interest later. |
 </rationalizations>
@@ -104,9 +104,9 @@ After each verified phase:
 - Skipping the checkpoint commit after a verified phase
 - Scope silently expanding during implementation ("while I'm here I'll also...")
 - Running a generative action without stating what you expect the output to contain
-- Saying "I'll review it after" — that is the surrender posture
+- Saying "I'll review it after" --- that is the surrender posture
 - Approving output because it "looks right" without being able to explain why
 - Accepting a confident-sounding answer for a design tradeoff without asking the model to argue against itself
 - Committing code you cannot reconstruct the reasoning for
-- Adding a complex solution when a simpler one would work — consider: does this change make the system simpler or more complex? If the latter, the improvement must be proportional. (Simplicity criterion from karpathy/autoresearch.)
+- Adding a complex solution when a simpler one would work --- consider: does this change make the system simpler or more complex? If the latter, the improvement must be proportional. (Simplicity criterion from karpathy/autoresearch.)
 </red_flags>

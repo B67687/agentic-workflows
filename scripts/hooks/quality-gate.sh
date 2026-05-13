@@ -196,7 +196,7 @@ check_shellcheck() {
 
         # Show errors inline for visibility
         echo "$output" | grep 'error:' | head -3 | while IFS= read -r line; do
-          echo "         → $line"
+          echo "         -> $line"
         done
       elif [[ "$warn_count" -gt 5 ]]; then
         print_issue "WARN" "$file" "shellcheck: $warn_count warnings (consider reviewing)"

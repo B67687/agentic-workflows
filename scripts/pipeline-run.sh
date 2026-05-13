@@ -14,7 +14,7 @@ set -euo pipefail
 trap 'echo "[ERROR] $BASH_SOURCE:$LINENO"' ERR
 
 REPO_ROOT=$(git rev-parse --show-toplevel 2>/dev/null || echo ".")
-PIPELINE_DIR="$REPO_ROOT/.pipeline"
+PIPELINE_DIR="$REPO_ROOT/.runtime/pipeline"
 mkdir -p "$PIPELINE_DIR"
 
 CMD="${1:-help}"
@@ -208,7 +208,7 @@ EOF
     [ ! -f "$FILE" ] && echo "Pipeline not found: $PIPELINE_ID" && exit 1
     
     if [ -z "$TASK_ID" ]; then
-      # No task specified — show current task
+      # No task specified --- show current task
       TASK_ID=$(jq -r '.current_task // empty' "$FILE" 2>/dev/null)
       [ -z "$TASK_ID" ] && echo "No current task. Specify a task ID." && exit 1
     fi
@@ -333,9 +333,9 @@ EOF
 
       # Check agent job status
       JOB_STATUS="unknown"
-      if [ -f "$REPO_ROOT/.agent-jobs/$JOB_ID.json" ]; then
-        JOB_STATUS=$(jq -r '.status' "$REPO_ROOT/.agent-jobs/$JOB_ID.json" 2>/dev/null || echo "unknown")
-        EXIT_CODE=$(jq -r '.exit_code // "null"' "$REPO_ROOT/.agent-jobs/$JOB_ID.json" 2>/dev/null || echo "null")
+      if [ -f "$REPO_ROOT/.runtime/agent-jobs/$JOB_ID.json" ]; then
+        JOB_STATUS=$(jq -r '.status' "$REPO_ROOT/.runtime/agent-jobs/$JOB_ID.json" 2>/dev/null || echo "unknown")
+        EXIT_CODE=$(jq -r '.exit_code // "null"' "$REPO_ROOT/.runtime/agent-jobs/$JOB_ID.json" 2>/dev/null || echo "null")
       fi
 
       echo "[$((i+1))/$DISPATCHED_COUNT] Task $TASK_ID: ${TASK_DESC:0:50}..."

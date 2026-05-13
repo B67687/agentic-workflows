@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # =============================================================================
-# error-counter.sh — Error counter with human escalation (12-factor F9)
+# error-counter.sh --- Error counter with human escalation (12-factor F9)
 #
 # Tracks consecutive failures per operation and escalates to a human after
 # N failed attempts. Implements the "compact errors into context window"
@@ -29,14 +29,14 @@
 #
 # Principle: "Add error counters to prevent infinite retry loops. Escalate
 # to humans after N consecutive failures."
-#   — 12-Factor Agents, Factor 9
+#   --- 12-Factor Agents, Factor 9
 # =============================================================================
 
 set -euo pipefail
 trap 'echo "[ERROR] $BASH_SOURCE:$LINENO"' ERR
 
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-COUNTER_DIR="$REPO_ROOT/.error-counter"
+COUNTER_DIR="$REPO_ROOT/.runtime/error-counter"
 mkdir -p "$COUNTER_DIR"
 
 THRESHOLD="${ERROR_THRESHOLD:-3}"
@@ -109,7 +109,7 @@ escalate() {
   fi
 
   # Always write escalation notice
-  local escalation_dir="$REPO_ROOT/.error-counter/escalations"
+  local escalation_dir="$REPO_ROOT/.runtime/error-counter/escalations"
   mkdir -p "$escalation_dir"
   local timestamp
   timestamp=$(date -u +%Y-%m-%dT%H:%M:%SZ)

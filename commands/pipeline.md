@@ -77,7 +77,7 @@ When all tasks are done or resolved, report the completion summary with:
 
 ## State management
 
-Pipeline state lives in `.pipeline/<pipeline-id>.json`. Use these commands:
+Pipeline state lives in `.runtime/pipeline/<pipeline-id>.json`. Use these commands:
 
 | Command | Function |
 |---|---|

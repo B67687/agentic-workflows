@@ -137,7 +137,7 @@ Try these in roughly this order:
 4. **Replay a captured trace** (network request, event log) through the code path in isolation.
 5. **Log analysis loop** for intermittent production bugs: add tagged instrumentation, deploy, collect, iterate.
 
-Treat the loop as a product — make it faster, sharper, more deterministic. A 2-second deterministic loop is a debugging superpower. For non-deterministic bugs, focus on raising the reproduction rate until it's debuggable. If you genuinely cannot build a loop, say so explicitly and ask for access, artifacts, or permission to instrument.
+Treat the loop as a product --- make it faster, sharper, more deterministic. A 2-second deterministic loop is a debugging superpower. For non-deterministic bugs, focus on raising the reproduction rate until it's debuggable. If you genuinely cannot build a loop, say so explicitly and ask for access, artifacts, or permission to instrument.
 
 ## The Triage Checklist
 
@@ -186,7 +186,7 @@ git bisect run npm test -- --grep "failing test"
 
 ### Step 3: Reduce
 
-Create the minimal failing case — remove unrelated code, simplify input, strip the test to bare minimum. A minimal reproduction makes the root cause obvious.
+Create the minimal failing case --- remove unrelated code, simplify input, strip the test to bare minimum. A minimal reproduction makes the root cause obvious.
 
 ### Step 4: Fix the Root Cause
 

@@ -159,7 +159,7 @@ with open('$HIST_FILE', 'w') as f:
   
   # ---- RTK Savings Snapshot ----
   if command -v rtk &>/dev/null; then
-    RTK_SNAPSHOT_DIR=".bench-runs"
+    RTK_SNAPSHOT_DIR=".runtime/bench-runs"
     RTK_SNAPSHOT="$RTK_SNAPSHOT_DIR/rtk-savings-${DATE_ONLY}.json"
     rtk gain --json 2>/dev/null > "$RTK_SNAPSHOT" && echo "  ✓ RTK savings snapshot saved to $RTK_SNAPSHOT" || true
   fi

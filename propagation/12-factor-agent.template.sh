@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # =============================================================================
-# 12-factor-agent.template.sh — Scaffold a new 12-factor agent project
+# 12-factor-agent.template.sh --- Scaffold a new 12-factor agent project
 #
 # Propagation template: Run this in an empty directory to create a new agent.
 # Adapted from scripts/create-hl-agent.sh for propagation system.
@@ -40,11 +40,11 @@ echo "Creating 12-factor agent: $AGENT_NAME"
 echo ""
 
 # Directory structure
-mkdir -p "$TARGET_DIR/scripts" "$TARGET_DIR/docs" "$TARGET_DIR/.a2h" "$TARGET_DIR/.notifications"
+mkdir -p "$TARGET_DIR/scripts" "$TARGET_DIR/docs" "$TARGET_DIR/.runtime/a2h" "$TARGET_DIR/.runtime/notifications"
 
 # AGENTS.md (F2)
 cat > "$TARGET_DIR/AGENTS.md" << 'EOF'
-# {{AGENT_NAME}} — 12-Factor Agent
+# {{AGENT_NAME}} --- 12-Factor Agent
 
 ## Operating Contract
 
@@ -53,19 +53,19 @@ methodology for building reliable LLM applications.
 
 ### Principles
 
-1. **Natural Language → Tool Calls** — Route requests to structured handlers
-2. **Own Your Prompts** — This file is your first prompt. Own it.
-3. **Own Your Context Window** — session-state.json is your state. AGENTS.md is your rules.
-4. **Tools Are Structured Outputs** — Every script is a documented tool.
-5. **Unify Execution + Business State** — One source of truth: session-state.json
-6. **Launch/Pause/Resume** — Checkpoints enable clean resume anywhere.
-7. **Contact Humans with Tools** — a2h-contact.sh for human-in-the-loop.
-8. **Own Your Control Flow** — scripts/ define explicit execution paths.
-9. **Compact Errors** — Log errors, add them to context, self-heal.
-10. **Small, Focused Agents** — Each script does one thing well.
-11. **Trigger from Anywhere** — (inbound triggers pending implementation)
-12. **Stateless Reducer** — state = reducer(state, event). Events are append-only.
-13. **Pre-Fetch All Context** — prefetch-context.sh runs before LLM turns.
+1. **Natural Language -> Tool Calls** --- Route requests to structured handlers
+2. **Own Your Prompts** --- This file is your first prompt. Own it.
+3. **Own Your Context Window** --- session-state.json is your state. AGENTS.md is your rules.
+4. **Tools Are Structured Outputs** --- Every script is a documented tool.
+5. **Unify Execution + Business State** --- One source of truth: session-state.json
+6. **Launch/Pause/Resume** --- Checkpoints enable clean resume anywhere.
+7. **Contact Humans with Tools** --- a2h-contact.sh for human-in-the-loop.
+8. **Own Your Control Flow** --- scripts/ define explicit execution paths.
+9. **Compact Errors** --- Log errors, add them to context, self-heal.
+10. **Small, Focused Agents** --- Each script does one thing well.
+11. **Trigger from Anywhere** --- (inbound triggers pending implementation)
+12. **Stateless Reducer** --- state = reducer(state, event). Events are append-only.
+13. **Pre-Fetch All Context** --- prefetch-context.sh runs before LLM turns.
 
 ### Available Tools
 
@@ -97,21 +97,21 @@ cat > "$TARGET_DIR/session-state.json" << 'EOF'
   "filesTouched": [],
   "verification": [],
   "immediateNextSteps": [
-    "Read AGENTS.md — the operating contract"
+    "Read AGENTS.md --- the operating contract"
   ],
   "events": []
 }
 EOF
 
-echo "  [F2] AGENTS.md — operating contract"
-echo "  [F5/F12] session-state.json — unified state + events"
+echo "  [F2] AGENTS.md --- operating contract"
+echo "  [F5/F12] session-state.json --- unified state + events"
 
 # Replace placeholder
 sed -i "s/{{AGENT_NAME}}/$AGENT_NAME/g" "$TARGET_DIR/AGENTS.md" 2>/dev/null || true
 sed -i "s/{{AGENT_NAME}}/$AGENT_NAME/g" "$TARGET_DIR/session-state.json" 2>/dev/null || true
 
-touch "$TARGET_DIR/.a2h/.gitkeep" "$TARGET_DIR/.notifications/.gitkeep"
-echo "  [F7] .a2h/ — A2H contact queue directory"
+touch "$TARGET_DIR/.runtime/a2h/.gitkeep" "$TARGET_DIR/.runtime/notifications/.gitkeep"
+echo "  [F7] .runtime/a2h/ --- A2H contact queue directory"
 
 echo ""
 echo "✅ 12-factor agent created: $AGENT_NAME"
