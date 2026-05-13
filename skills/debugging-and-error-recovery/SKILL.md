@@ -156,39 +156,9 @@ Can you reproduce the failure?
     └── If truly non-reproducible, document conditions and monitor
 ```
 
-**When a bug is non-reproducible:**
+**When a bug is non-reproducible:** check if it's timing-dependent (add delays, run under load), environment-dependent (compare versions, data, CI), state-dependent (leaked state between tests), or truly random (add logging, set up alert).
 
-```
-Cannot reproduce on demand:
-├── Timing-dependent?
-│   ├── Add timestamps to logs around the suspected area
-│   ├── Try with artificial delays (setTimeout, sleep) to widen race windows
-│   └── Run under load or concurrency to increase collision probability
-├── Environment-dependent?
-│   ├── Compare Node/browser versions, OS, environment variables
-│   ├── Check for differences in data (empty vs populated database)
-│   └── Try reproducing in CI where the environment is clean
-├── State-dependent?
-│   ├── Check for leaked state between tests or requests
-│   ├── Look for global variables, singletons, or shared caches
-│   └── Run the failing scenario in isolation vs after other operations
-└── Truly random?
-    ├── Add defensive logging at the suspected location
-    ├── Set up an alert for the specific error signature
-    └── Document the conditions observed and revisit when it recurs
-```
-
-For test failures:
-```bash
-# Run the specific failing test
-npm test -- --grep "test name"
-
-# Run with verbose output
-npm test -- --verbose
-
-# Run in isolation (rules out test pollution)
-npm test -- --testPathPattern="specific-file" --runInBand
-```
+For test failures: run the specific test (`--grep`), then in isolation (`--runInBand`), then with verbose output (`--verbose`).
 
 ### Step 2: Localize
 
@@ -216,13 +186,7 @@ git bisect run npm test -- --grep "failing test"
 
 ### Step 3: Reduce
 
-Create the minimal failing case:
-
-- Remove unrelated code/config until only the bug remains
-- Simplify the input to the smallest example that triggers the failure
-- Strip the test to the bare minimum that reproduces the issue
-
-A minimal reproduction makes the root cause obvious and prevents fixing symptoms instead of causes.
+Create the minimal failing case — remove unrelated code, simplify input, strip the test to bare minimum. A minimal reproduction makes the root cause obvious.
 
 ### Step 4: Fix the Root Cause
 
@@ -243,37 +207,11 @@ Ask: "Why does this happen?" until you reach the actual cause, not just where it
 
 ### Step 5: Guard Against Recurrence
 
-Write a test that catches this specific failure:
+Write a regression test that fails without the fix and passes with it. Name it after the specific bug scenario so future readers understand what it prevents.
 
-```typescript
-// The bug: task titles with special characters broke the search
-it('finds tasks with special characters in title', async () => {
-  await createTask({ title: 'Fix "quotes" & <brackets>' });
-  const results = await searchTasks('quotes');
-  expect(results).toHaveLength(1);
-  expect(results[0].title).toBe('Fix "quotes" & <brackets>');
-});
-```
+### Step 6: Verify
 
-This test will prevent the same bug from recurring. It should fail without the fix and pass with it.
-
-### Step 6: Verify End-to-End
-
-After fixing, verify the complete scenario:
-
-```bash
-# Run the specific test
-npm test -- --grep "specific test"
-
-# Run the full test suite (check for regressions)
-npm test
-
-# Build the project (check for type/compilation errors)
-npm run build
-
-# Manual spot check if applicable
-npm run dev  # Verify in browser
-```
+Run the specific test, then the full suite, then build. Spot-check manually if applicable.
 
 ## Error-Specific Patterns
 
