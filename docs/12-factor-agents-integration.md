@@ -181,8 +181,8 @@ control flow breaks out of the loop to wait for the response.
 - `scripts/a2h-contact.sh` — Agent-to-Human contact protocol with `contact`,
   `approve`, `respond`, and `list` commands. Implements the spec from
   `drafts/a2h-spec.md`: HumanContact and FunctionCall objects, contact channels.
-- `scripts/notify.sh` — Multi-channel notification dispatcher. Supports Slack
-  webhook (SLACK_WEBHOOK_URL), CLI output, and file-based delivery.
+- File-based notification logging is built into `scripts/a2h-contact.sh` directly
+  (writes to `.notifications/` for audit trail, prints to CLI for visibility).
 - `commands/implement.md` — Added `--risk high` approval gate that triggers
   deterministic human approval before implementation.
 - `scripts/implement-preflight.sh` — Handles `--risk high` by invoking
@@ -301,13 +301,10 @@ any channel. Agents respond through the same channels.
 but we lack explicit contact channels (Slack, Email, SMS) for agent-to-human
 communication.
 
-**Addressed (outbound):** `scripts/notify.sh` dispatches agent notifications to
-Slack (via webhook), CLI output, and file-based logs. Supports urgency levels
-and structured notification objects.
-
-**Remaining (inbound):** We still lack Slack commands, email-to-agent, and
-webhook receivers for activating agents from external channels. Our trigger
-surface is limited to the file system and harness commands.
+**Not implemented.** Trigger-from-anywhere requires inbound service integration
+(Slack commands, email-to-agent, webhook receivers) which is out of scope for
+this private workspace. Notifications are logged to `.notifications/` for audit
+trail. Our trigger surface remains the file system and harness commands.
 
 **Reference:** [12-factor-agents Factor 11](https://github.com/humanlayer/12-factor-agents/blob/main/content/factor-11-trigger-from-anywhere.md)
 
@@ -413,11 +410,11 @@ contact channels address our primary gaps (Factors 7 and 11).
 | F4 (Tools = structured outputs) | ✅ Addressed | `commands/` (14 commands) — each is a structured tool with metadata |
 | F5 (Unify state) | ✅ Addressed | `events` array in session-state.json for append-only event sourcing |
 | F6 (Launch/Pause/Resume) | ✅ Addressed | `session-fork.sh` + `checkpoint-commit.sh` + `context-save.sh` — file-system-based launch/pause/resume |
-| **F7 (Contact humans)** | ✅ Addressed | `scripts/a2h-contact.sh` + `scripts/notify.sh` — full A2H protocol |
+| **F7 (Contact humans)** | ✅ Addressed | `scripts/a2h-contact.sh` — full A2H protocol (contact, approve, respond, list) |
 | **F8 (Own control flow)** | ✅ Addressed | `--risk high` flag triggers approval gate in implement-preflight.sh |
 | **F9 (Compact errors)** | ✅ Addressed | error-counter.sh + log-error.sh + a2h-contact.sh — capture → count → context → escalate |
 | F10 (Small focused agents) | None | Fully implemented — this IS our architecture |
-| **F11 (Trigger anywhere)** | ⚡ Partial (outbound) | `scripts/notify.sh` dispatches to Slack/CLI/file. **Inbound triggers** (Slack commands, email-to-agent, webhooks) still missing |
+| **F11 (Trigger anywhere)** | **Not implemented** | Notifications logged to `.notifications/` for audit. Inbound triggers (Slack, email, webhooks) require external service integration — out of scope for private workspace |
 | F12 (Stateless reducer) | ✅ Addressed | `events` array in session-state.json + checkpoint commit cycle |
 | F13 (Pre-fetch context) | ✅ Addressed | `scripts/prefetch-context.sh` + `retrieve-context.sh --prefetch` |
 

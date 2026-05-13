@@ -58,14 +58,37 @@ generate_id() {
   echo "a2h-$(date -u +%Y%m%d%H%M%S)-$RANDOM"
 }
 
-# --- Dispatch notification via configured channels ---
+# --- Write notification to file (audit trail) ---
 notify() {
   local message="$1"
   local urgency="${2:-medium}"
   local channel="${3:-all}"
 
-  bash "$REPO_ROOT/scripts/notify.sh" "$message" \
-    --urgency "$urgency" --channel "$channel" 2>/dev/null || true
+  local notify_id
+  notify_id="a2h-notify-$(date -u +%Y%m%d%H%M%S)-$RANDOM"
+  local timestamp
+  timestamp=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+  local notify_dir="$REPO_ROOT/.notifications"
+  mkdir -p "$notify_dir"
+
+  cat > "$notify_dir/$notify_id.json" << EOF
+{
+  "id": "$notify_id",
+  "timestamp": "$timestamp",
+  "urgency": "$urgency",
+  "channel": "$channel",
+  "message": $(echo "$message" | python3 -c "import json,sys; print(json.dumps(sys.stdin.read()))" 2>/dev/null || echo "\"\"")
+}
+EOF
+
+  # Also print to CLI for visibility
+  local prefix=""
+  case "$urgency" in
+    high)   prefix="[HIGH] " ;;
+    medium) prefix="[MED]  " ;;
+    low)    prefix="[LOW]  " ;;
+  esac
+  echo "[a2h] ${prefix}${message}" >&2
 }
 
 # --- Handle contact creation ---

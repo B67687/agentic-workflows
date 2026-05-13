@@ -513,7 +513,6 @@ supported APIs.
 | 12-Factor Agents principles map | `docs/12-factor-agents-integration.md` |
 | A2H (Agent-to-Human) protocol | `drafts/a2h-spec.md` in [humanlayer/12-factor-agents](https://github.com/humanlayer/12-factor-agents) |
 | Agent-to-Human contact tool | `scripts/a2h-contact.sh` — contact, approve, respond, list |
-| Multi-channel notifications | `scripts/notify.sh` — Slack webhook, CLI, file |
 | Error counter with escalation | `scripts/error-counter.sh` — inc, check, reset, context, list |
 | Deterministic context pre-fetch | `scripts/prefetch-context.sh` — XML, JSON, compact modes |
 | XML-style context retrieval | `scripts/retrieve-context.sh --xml` — token-efficient context output |

@@ -13,7 +13,7 @@
 #   F3: session-state.json context management
 #   F5/F12: Unified state + stateless reducer (events array)
 #   F7: a2h-contact.sh human contact protocol
-#   F11: notify.sh multi-channel notifications
+#   F11: (inbound triggers pending)
 #   F13: prefetch-context.sh deterministic pre-fetch
 # =============================================================================
 
@@ -63,7 +63,7 @@ methodology for building reliable LLM applications.
 8. **Own Your Control Flow** — scripts/ define explicit execution paths.
 9. **Compact Errors** — Log errors, add them to context, self-heal.
 10. **Small, Focused Agents** — Each script does one thing well.
-11. **Trigger from Anywhere** — notify.sh dispatches to Slack, CLI, file.
+11. **Trigger from Anywhere** — (inbound triggers pending implementation)
 12. **Stateless Reducer** — state = reducer(state, event). Events are append-only.
 13. **Pre-Fetch All Context** — prefetch-context.sh runs before LLM turns.
 
@@ -72,7 +72,6 @@ methodology for building reliable LLM applications.
 | Tool | Purpose |
 |------|---------|
 | `scripts/a2h-contact.sh` | Contact humans (questions + approvals) |
-| `scripts/notify.sh` | Multi-channel notifications |
 | `scripts/prefetch-context.sh` | Deterministic context pre-fetch |
 | `scripts/checkpoint.sh` | Save state checkpoint |
 
@@ -123,7 +122,6 @@ echo "  cat AGENTS.md         # read the operating contract"
 echo ""
 echo "Add these scripts from the hub to complete the setup:"
 echo "  cp ../scripts/a2h-contact.sh scripts/"
-echo "  cp ../scripts/notify.sh scripts/"
 echo "  cp ../scripts/error-counter.sh scripts/"
 echo "  cp ../scripts/prefetch-context.sh scripts/"
 echo "  chmod +x scripts/*.sh"

@@ -33,7 +33,7 @@ tool is selected but does not execute until a human explicitly approves.
 If no human is available (non-interactive mode), the approval gate warns and
 logs the request to `.a2h/` and `.notifications/` for later processing.
 
-See: `scripts/a2h-contact.sh`, `scripts/notify.sh`
+See: `scripts/a2h-contact.sh`
 
 ### Error Counter & Self-Healing (12-Factor F9)
 

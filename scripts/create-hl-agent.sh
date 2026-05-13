@@ -92,7 +92,7 @@ methodology:
 8. **Own Your Control Flow** — scripts/ define the execution flow explicitly.
 9. **Compact Errors** — Error logs feed back into context for self-healing.
 10. **Small, Focused Agents** — Each script does one thing well.
-11. **Trigger from Anywhere** — scripts/notify.sh dispatches to Slack, CLI, file.
+11. **Trigger from Anywhere** — (inbound triggers pending implementation)
 12. **Stateless Reducer** — state = reducer(state, event). session-state.json is append-only.
 13. **Pre-Fetch All Context** — scripts/prefetch-context.sh fetches deterministically.
 
@@ -101,7 +101,6 @@ methodology:
 | Tool | Description |
 |------|-------------|
 | \`scripts/a2h-contact.sh\` | Contact humans (F7) — contact, approve, respond, list |
-| \`scripts/notify.sh\` | Notification dispatch (F11) — Slack, CLI, file |
 | \`scripts/error-counter.sh\` | Error counter (F9) — increment, check, reset, context, escalate |
 | \`scripts/prefetch-context.sh\` | Deterministic pre-fetch (F13) — XML, JSON, compact |
 | \`scripts/checkpoint.sh\` | Save state (F5, F12) — commit session + changes |
@@ -138,10 +137,6 @@ SESSIONEOF
 # --- scripts/a2h-contact.sh (Factor 7: Contact humans with tools) ---
 cp "$REPO_ROOT/scripts/a2h-contact.sh" "$TARGET_PATH/scripts/a2h-contact.sh"
 chmod +x "$TARGET_PATH/scripts/a2h-contact.sh"
-
-# --- scripts/notify.sh (Factor 11: Trigger from anywhere) ---
-cp "$REPO_ROOT/scripts/notify.sh" "$TARGET_PATH/scripts/notify.sh"
-chmod +x "$TARGET_PATH/scripts/notify.sh"
 
 # --- scripts/error-counter.sh (Factor 9: Compact errors + escalate) ---
 cp "$REPO_ROOT/scripts/error-counter.sh" "$TARGET_PATH/scripts/error-counter.sh"
@@ -208,7 +203,6 @@ $AGENT_NAME/
 ├── session-state.json     ← Unified state (events array for replay)
 ├── scripts/
 │   ├── a2h-contact.sh     ← Contact humans (question + approval)
-│   ├── notify.sh          ← Multi-channel notifications
 │   ├── error-counter.sh   ← Error counter + escalation
 │   ├── prefetch-context.sh ← Deterministic context pre-fetch
 │   └── checkpoint.sh      ← State checkpoint
@@ -234,7 +228,7 @@ See \`AGENTS.md\` for the full principles reference.
 | F9 (Compact errors) | scripts/error-counter.sh |
 | F10 (Small focused) | Each script does one thing |
 | F10 (Small focused) | Each script does one thing |
-| F11 (Trigger anywhere) | scripts/notify.sh |
+| F11 (Trigger anywhere) | (inbound pending) |
 | F12 (Stateless reducer) | session-state.json events |
 | F13 (Pre-fetch context) | scripts/prefetch-context.sh |
 READMEEOF
