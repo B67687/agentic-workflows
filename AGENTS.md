@@ -510,6 +510,8 @@ supported APIs.
 | TDD with agents | `docs/tdd-with-agents.md` |
 | MCP architecture reference | `docs/mcp-architecture.md` |
 | Retrieval policy | `docs/retrieval-policy.md` |
+| 12-Factor Agents principles map | `docs/12-factor-agents-integration.md` |
+| A2H (Agent-to-Human) protocol | `drafts/a2h-spec.md` in [humanlayer/12-factor-agents](https://github.com/humanlayer/12-factor-agents) |
 | Learnings strategy (three-store system) | `docs/learnings-strategy.md` |
 | Hub quickstart (full index) | `docs/hub-quickstart.md` |
 | Cognitive surrender research and evidence | `research/cognitive-surrender-research.md` |

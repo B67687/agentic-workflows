@@ -142,6 +142,7 @@ the following open-source projects.
 | [Aider-AI/aider](https://github.com/Aider-AI/aider) | Pair-programming agent patterns |
 | [SWE-agent/mini-SWE-agent](https://github.com/SWE-agent/mini-SWE-agent) | Lightweight agent architecture |
 | [garrytan/gstack](https://github.com/garrytan/gstack) | Git workflow and stack management |
+| [humanlayer/humanlayer](https://github.com/humanlayer/humanlayer) | **CodeLayer IDE** + human-in-the-loop SDK for coding agent orchestration |
 | [browser-use/browser-use](https://github.com/browser-use/browser-use) | Browser automation patterns |
 | [bytedance/UI-TARS-desktop](https://github.com/bytedance/UI-TARS-desktop) | UI agent interaction patterns |
 | [bytedance/deer-flow](https://github.com/bytedance/deer-flow) | Workflow-based agent coordination |
@@ -151,7 +152,8 @@ the following open-source projects.
 | Repo | Influence |
 |---|---|
 | [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills) | **Core skill framework** — 27 engineering skills + 14 TAP methodology skills |
-| [donnemartin/system-design-primer](https://github.com/donnemartin/system-design-primer) | Systems engineering methodology |
+| [humanlayer/12-factor-agents](https://github.com/humanlayer/12-factor-agents) | **12-factor principles** for reliable LLM applications — context engineering, small focused agents, own your prompts |
+| [donnemartin/system-design-primer](https://github.com/donnamartin/system-design-primer) | Systems engineering methodology |
 | [tree-sitter/tree-sitter](https://github.com/tree-sitter/tree-sitter) | Repo-map generation |
 | [promptfoo/promptfoo](https://github.com/promptfoo/promptfoo) | Prompt testing patterns |
 
