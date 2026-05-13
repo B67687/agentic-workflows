@@ -1,12 +1,12 @@
 {
-  "session": 78,
+  "session": 79,
   "status": "verified-phase",
   "interruptedCount": 1,
   "contextPressure": "healthy",
   "currentTask": {
-    "name": "Audit: detect stale artifacts from folder renames",
+    "name": "Integrate 12-factor-agents framework — Slice 1: Foundation + Principles Map",
     "status": "done",
-    "goal": "Check if folder renames (bus-app→bus-hop, wall-you→scenic-fetch) left stale references or orphaned content dirs."
+    "goal": "Research humanlayer/humanlayer + humanlayer/12-factor-agents, scan our repo, map all 12 factors to our patterns, create integration doc."
   },
   "environment": {
     "note": "Configure per-workspace in your OpenCode config at `$HOME/.config/opencode/opencode.jsonc`.",
@@ -15,40 +15,35 @@
     "topicFoldersPath": "Change to your topic folders parent"
   },
   "whatChanged": [
-    "P0: Cognitive surrender resistance integrated at 3 levels: behavioral rule (AGENTS.md), anti-failure rules (docs/workflow.md), and phase-level heuristics (commands/implement.md, prompt-contract.md, research.md)",
-    "P0: 3 core heuristics codified: (1) construct expectation before output, (2) calibration check after output, (3) ask model to argue against itself for tradeoffs",
-    "P0: Full evidence synthesis: research/cognitive-surrender-research.md (400+ lines, 21 sources, all domains mapped)",
-    "P0: Web search gap closed \u2014 first full research cycle with websearch tool surfaced 4 major additions (MIT EEG, SCF framework, scholarly critique, expanded interventions)",
-    "P1: Anti-surrender rationalizations and red flags added to commands/implement.md and skills/incremental-implementation/SKILL.md",
-    "P1: Surrender check added to code-review-and-quality review template",
-    "P1: Expectation field and calibration check added to commands/prompt-contract.md",
-    "P1: Pre-research expectation comparison added to commands/research.md",
-    "P1: Reference links to cognitive-surrender-research.md added in AGENTS.md and docs/workflow.md"
+    "P0: Full research of humanlayer/humanlayer (CodeLayer IDE + HumanLayer SDK, 10.8k ★) — architecture, patterns, A2H protocol",
+    "P0: Full research of humanlayer/12-factor-agents (19.8k ★) — all 12 factors + appendix 13 + workshops + drafts",
+    "P0: Full scan of our repo — confirmed ~80% implicit alignment with 12-factor patterns",
+    "P0: Created docs/12-factor-agents-integration.md — maps every factor to our concrete files, documents 3 high/medium gaps",
+    "P0: Added cross-references in README.md, AGENTS.md, docs/workflow.md",
+    "P1: Recursive integration plan — 5 milestones, each independently verifiable, gated on previous"
   ],
   "filesTouched": [
-    "AGENTS.md (new Key Rule: resist cognitive surrender by default + reference link)",
-    "docs/workflow.md (3 new anti-failure rules: construct expectation, calibration check, counterargument)",
-    "commands/implement.md (construct-expectation step, calibration check, counterargument, 3 anti-rationalizations, 5 red flags)",
-    "commands/prompt-contract.md (expectation field in self-check output, calibration check note)",
-    "commands/research.md (pre-research expectation comparison step)",
-    "skills/incremental-implementation/SKILL.md (calibration check in increment checklist + checkbox, 3 anti-rationalizations, 4 red flags)",
-    "skills/code-review-and-quality/SKILL.md (surrender check in review template + anti-rationalization)",
-    "research/cognitive-surrender-research.md (full 400+ line evidence synthesis, updated with web search findings)",
-    "session-state.json (updated for session 78)"
+    "README.md (added humanlayer/humanlayer and humanlayer/12-factor-agents to acknowledgments)",
+    "AGENTS.md (added 12-factor and A2H references under deep references)",
+    "docs/workflow.md (added 12-factor integration + A2H to related docs table)",
+    "docs/12-factor-agents-integration.md (NEW — full 130+ line principles map, all factors, gaps documented)",
+    "session-state.json (updated for session 79)"
   ],
   "verification": [
-    "Research complete: 21 authoritative sources, all domains mapped, confidence levels per claim",
-    "7 workflow files modified with coherent anti-surrender heuristics (same 3 heuristics appear at every level)",
-    "6 commits across the cycle, all verified",
-    "Post-commit review confirmed SCF devil's advocate pattern already present in parley.md and implement.md",
-    "Web search confirmed no additional workflow integration needed beyond what was implemented"
+    "grep for '12-factor|humanlayer' returns 31 matches across 4 files — all expected references present",
+    "All 12 factors + appendix 13 + A2H protocol mapped to our concrete file paths",
+    "First slice committed: 4 files, +435 lines, verified",
+    "Gaps clearly documented with severity levels (3 high/medium gaps identified)"
   ],
   "keyLearnings": [
     "Web search vs webfetch: having search changes everything. URL-guessing missed 4+ major sources. The research quality gap was tooling, not methodology.",
     "Cognitive surrender resistance is primarily about making the invisible visible: naming the concept, constructing expectations, and running calibration checks. The heavy machinery (phase gates, verification requirements, anti-rationalization tables) already exists.",
     "The calibration question ('Am I forming an independent view or adopting wholesale?') is the most valuable single artifact from the entire research cycle.",
     "Scholarly debate matters: the Potkalitsky critique ('we need interventions, not neologisms') correctly identifies that intervention research lags behind labeling.",
-    "SCF devil's advocate pattern was already present in the workflow (parley.md Skeptic agent, implement.md counterargument) before the research started \u2014 confirms the design was structurally sound."
+    "SCF devil's advocate pattern was already present in the workflow (parley.md Skeptic agent, implement.md counterargument) before the research started \u2014 confirms the design was structurally sound.",
+    "Our repo implements ~80% of the 12-factor-agents principles implicitly. The primary gaps are (1) human-in-the-loop contact channels, (2) interrupt-between-selection-and-execution control flow, (3) error-counter self-healing patterns, (4) XML-style context formatting.",
+    "The A2H protocol draft (a2h-spec.md) defines the exact REST API we need for agent-to-human communication — POST /human_contacts, POST /function_calls, GET /humans. This is the scaffolding for Milestone 3.",
+    "The 12-factor-agents workshop walkthrough provides a complete reference implementation (TypeScript + BAML) that goes from hello-world to HumanLayer email integration. Valuable as a template for our scaffolding work."
   ],
   "residualRisk": "Cognitive surrender interventions have limited empirical backing outside Shaw & Nave Study 3 (incentives+feedback) and automation bias literature (Parasuraman & Manzey). The 3 heuristics integrated here are theoretically grounded but untested as a bundle. The SCF framework (arXiv 2603.21735) is unvalidated at the neurophysiological level. Cross-cultural surrender rates unknown. No longitudinal data on whether workflow-level heuristics durably reduce surrender.",
   "immediateNextSteps": [
