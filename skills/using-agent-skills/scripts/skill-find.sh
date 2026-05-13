@@ -46,14 +46,21 @@ for s in b.get('skills', []):
     print(f'  {s}')
 " 2>/dev/null || echo "  Unknown bundle: ${QUERY}. Available: $(python3 -c "import json; m=json.load(open('skills/manifest.json')); print(' '.join(m.get('bundles',{}).keys()))")"
     else
-        echo "=== All Skills ==="
-        for d in skills/*/; do
-            [ -f "$d/SKILL.md" ] || continue
-            name=$(basename "$d")
-            has_script=$(find "$d" -type f -not -name 'SKILL.md' -not -name 'manifest.json' 2>/dev/null | head -1 | xargs -I{} echo "✓" || echo " ")
-            trig=$(grep -m1 'trigger-phrases' "$d/SKILL.md" 2>/dev/null | sed 's/.*: //' | head -c 60)
-            echo "  [${has_script}] $name --- ${trig:-}"
-        done
+        echo "=== All Skills (pattern/bundle) ==="
+        # Delegate to skill-toolset for L1 listing with pattern/bundle info
+        if [ -x "$(dirname "$0")/../../scripts/skill-toolset.sh" ]; then
+            exec "$(dirname "$0")/../../scripts/skill-toolset.sh" list
+        fi
+        # Fallback: show from .skill-index.json
+        python3 -c "
+import json
+idx = json.load(open('skills/.skill-index.json'))
+for s in idx['skills']:
+    pat = f'[{s[\"pattern\"]}]' if s.get('pattern') else ''
+    bun = f'({s[\"bundle\"]})' if s.get('bundle') else ''
+    desc = s['description'][:60]
+    print(f'  {s[\"name\"]:40s} {pat:14s} {bun:10s} {desc}')
+" 2>/dev/null
     fi
     ;;
 

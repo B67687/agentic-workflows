@@ -6,8 +6,9 @@ compatibility: claude-code, cursor, opencode, gemini-cli, codex-cli
 allowed-tools: bash, read, grep, glob
 metadata:
   companion-script: scripts/skill-test.sh
-  handoffs: using-agent-skills (to discover skills), context-engineering (to refine)
-  trigger-phrases: evaluate skill, test skill, benchmark skill, improve skill, skill quality, optimize skill
+  handoffs: using-agent-skills (to discover skills), context-engineering (to refine), skill-creator (to generate new skills)
+  trigger-phrases: evaluate skill, test skill, benchmark skill, improve skill, skill quality, optimize skill, pattern compliance, design pattern check
+  pattern: reviewer
   bundle: meta
 ---
 # Skill Evaluator
@@ -89,9 +90,35 @@ After the skill works for the initial test cases:
 - Add integration cases (workflows spanning multiple skills)
 - Document the test suite in `skills/<name>/tests/` if applicable
 
-### 6. Optimize Description
+### 6. Check Pattern Compliance
 
-After the skill works correctly, optionally optimize the skill's `description` field for better auto-detection:
+After basic testing, evaluate whether the skill follows its intended design pattern
+from `docs/skill-design-patterns.md`. Each pattern has specific structural requirements:
+
+| Pattern | Required Directories | SKILL.md Should Orchestrate |
+|---------|---------------------|---------------------------|
+| **tool-wrapper** | `references/` with API/lib conventions | Load reference only when topic is relevant |
+| **generator** | `assets/` with output template, `references/` with style guide | Load template and style guide, populate, output |
+| **reviewer** | `references/` with rubric/checklist | Load checklist, score items by severity |
+| **inversion** | `references/` with question bank | Refuse output until interview is complete |
+| **pipeline** | `references/` per step, `scripts/` for gates | Enforce sequential steps with Gate: PASS/FAIL |
+
+**Checklist for each evaluation:**
+
+- [ ] Does the skill's `metadata.pattern` match its actual structure?
+- [ ] Does the skill have the recommended directories for its pattern?
+- [ ] Does the SKILL.md orchestrate L3 resources instead of embedding them?
+- [ ] Are gate conditions explicit for pipeline patterns?
+- [ ] Is the "refuse to generate" behavior explicit for inversion patterns?
+- [ ] Are templates in `assets/` and checklists in `references/` (not inline in SKILL.md)?
+- [ ] Can the skill compose naturally with its `handoffs` skills? (e.g., generator outputs feed into pipeline steps)
+
+If a skill claims a pattern but doesn't follow its structure, either fix the
+structure or change the `metadata.pattern` to `""` (unpatterned).
+
+### 7. Optimize Description
+
+After the skill works correctly and its pattern is verified, optionally optimize the skill's `description` field for better auto-detection:
 
 **Before:** "Use when starting a new project, feature, or significant change and no specification exists yet"
 **After:** "Creates specs before coding. Use when requirements are unclear, ambiguous, or only exist as a vague idea. Triggers on: new features, unclear requirements, missing specifications. Does NOT trigger on: bug fixes, trivial changes, or when a spec already exists."
