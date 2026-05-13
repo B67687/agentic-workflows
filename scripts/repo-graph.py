@@ -212,6 +212,7 @@ def main():
     for key, info in node_map.items():
         color = DIR_COLORS.get(info["group"], DIR_COLORS["other"])
         normalized = 12 + (info["raw_size"] - min_size) / size_range * 40
+        font_size = max(9, min(18, 8 + normalized * 0.15))
         nodes_json.append({
             "id": key,
             "label": info["display"],
@@ -226,9 +227,21 @@ def main():
                 "border": color["border"],
                 "highlight": {"background": color["bg"], "border": "#FFFFFF"},
             },
+            "shadow": {
+                "enabled": True,
+                "size": 10,
+                "color": "rgba(0,0,0,0.5)",
+                "x": 2,
+                "y": 2,
+            },
+            "borderWidth": 1,
+            "borderWidthSelected": 3,
             "font": {
-                "size": max(9, min(18, 8 + normalized * 0.15)),
+                "size": font_size,
                 "face": "Inter, system-ui, sans-serif",
+                "strokeWidth": font_size * 0.35,
+                "strokeColor": "rgba(0,0,0,0.65)",
+                "color": "#f0f2f5",
             },
             "filepath": info["filepath"],
             "lines": info["lines"],
@@ -252,6 +265,13 @@ def main():
                 "color": {"color": EXPLICIT_COLOR, "highlight": "#FFFFFF"},
                 "width": 1.8 if is_bi else 1.0,
                 "smooth": {"type": "curvedCW", "roundness": 0.08},
+                "shadow": {
+                    "enabled": True,
+                    "size": 4,
+                    "color": "rgba(0,0,0,0.2)",
+                    "x": 1,
+                    "y": 1,
+                },
             })
 
     for e in mirror_edges:
@@ -265,6 +285,11 @@ def main():
                 "width": 0.6,
                 "smooth": {"type": "curvedCW", "roundness": 0.12},
                 "dashes": True,
+                "shadow": {
+                    "enabled": True,
+                    "size": 3,
+                    "color": "rgba(0,0,0,0.15)",
+                },
             })
 
     for e in colocation_edges:
@@ -664,81 +689,69 @@ def main():
     network.setOptions({{
       physics: {{
         forceAtlas2Based: {{
-          gravitationalConstant: -8,
-          centralGravity: 0.001,
-          springLength: 220,
-          springConstant: 0.008,
-          damping: 0.75,
+          gravitationalConstant: -10,
+          centralGravity: 0.0015,
+          springLength: 240,
+          springConstant: 0.006,
+          damping: 0.8,
         }},
-        minVelocity: 0.01,
-        maxVelocity: 3,
+        minVelocity: 0.001,
+        maxVelocity: 2,
       }}
     }});
     network.fit({{ animation: true, duration: 500 }});
 
-    /* Gentle drift: move a few nodes slowly, let physics absorb naturally */
-    var animatingNodes = {{}};
-    function easedMove(nodeId, targetX, targetY, duration) {{
-      if (animatingNodes[nodeId]) return;
-      animatingNodes[nodeId] = true;
-
-      var startPos = network.getPosition(nodeId);
-      var startX = startPos.x;
-      var startY = startPos.y;
-      var startTime = Date.now();
-      /* NO physics disable — let springs pull back naturally during the move */
-
-      function animate() {{
-        var elapsed = Date.now() - startTime;
-        var t = Math.min(elapsed / duration, 1);
-        var ease = 1 - Math.pow(1 - t, 3);
-        network.moveNode(nodeId,
-          startX + (targetX - startX) * ease,
-          startY + (targetY - startY) * ease
-        );
-        if (t < 1) {{
-          requestAnimationFrame(animate);
-        }} else {{
-          delete animatingNodes[nodeId];
-        }}
-      }}
-      animate();
-    }}
-
-    /* Occasional gentle pushes — sparse, large, slow */
-    setInterval(function() {{
+    /* Fluid suspension: one tiny nudge at a random interval */
+    /* Single node, ±0.75px, every 2-5 seconds. No rhythm. No pulse. */
+    function tickle() {{
       if (!physicsFrozen) {{
         var positions = network.getPositions();
         var ids = Object.keys(positions);
-        for (var i = 0; i < ids.length; i++) {{
-          if (Math.random() < 0.015) {{
-            easedMove(ids[i],
-              positions[ids[i]].x + (Math.random() - 0.5) * 30,
-              positions[ids[i]].y + (Math.random() - 0.5) * 30,
-              1500
-            );
-          }}
-        }}
+        var id = ids[Math.floor(Math.random() * ids.length)];
+        network.moveNode(id,
+          positions[id].x + (Math.random() - 0.5) * 1.5,
+          positions[id].y + (Math.random() - 0.5) * 1.5
+        );
       }}
-    }}, 600);
+      setTimeout(tickle, 2000 + Math.random() * 3000);
+    }}
+    setTimeout(tickle, 2000);
   }});
 
-  // Hover highlight
+  // Hover highlight — scale hovered node, glow connected edges
+  var hoveredNodeId = null;
   network.on('hoverNode', function(params) {{
-    const connected = network.getConnectedEdges(params.node);
+    hoveredNodeId = params.node;
+    var connected = network.getConnectedEdges(params.node);
+
+    // Scale up hovered node
+    var orig = NODES.find(n => n.id === params.node);
+    data.nodes.update({{ id: params.node, value: orig.value * 1.5, borderWidth: 3 }});
+
+    // Glow connected edges, fade disconnected
     EDGES.forEach(function(e, i) {{
       if (!e._origColor) e._origColor = JSON.parse(JSON.stringify(e.color));
-      const isConnected = connected.indexOf(i) !== -1;
+      if (!e._origWidth) e._origWidth = e.width;
+      var isConnected = connected.indexOf(i) !== -1;
       e.color = isConnected
-        ? {{ color: (e._origColor.color || 'rgba(200,200,200,0.35)').replace(/[\\d.]+(?=\\))/, '0.6') }}
-        : {{ color: 'rgba(255,255,255,0.03)' }};
+        ? {{ color: (e._origColor.color || 'rgba(200,200,200,0.35)').replace(/[\\d.]+(?=\\))/, '0.8') }}
+        : {{ color: 'rgba(255,255,255,0.02)' }};
+      e.width = isConnected ? (e._origWidth || 1) * 2.0 : 0.2;
     }});
     data.edges.update(EDGES);
   }});
 
   network.on('blurNode', function() {{
+    if (!hoveredNodeId) return;
+    // Restore hovered node
+    var orig = NODES.find(n => n.id === hoveredNodeId);
+    data.nodes.update({{ id: hoveredNodeId, value: orig.value, borderWidth: 1 }});
+    hoveredNodeId = null;
+
+    // Restore edges
     EDGES.forEach(function(e) {{
       if (e._origColor) e.color = JSON.parse(JSON.stringify(e._origColor));
+      if (e._origWidth) e.width = e._origWidth;
     }});
     data.edges.update(EDGES);
   }});
