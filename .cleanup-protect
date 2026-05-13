@@ -3,7 +3,6 @@
 
 ## Protected Files (Hub Root)
 AGENTS.md
-workspace-system-overview.md
 session-state.json
 propagation/
 
@@ -17,5 +16,3 @@ workflow/
 archive/
 research/
 personal-voice/
-prompts/
-.opencode/

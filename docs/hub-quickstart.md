@@ -88,7 +88,7 @@ Read this first on every resume. Everything else is linked.
 ```
 [Topic]/
 |- AGENTS.md                         (hub-owned managed core)
-|- .ai-prompting-hub.sh              (hub-owned managed core; change HUB_FOLDER_NAME in it on rename)
+|- scripts/.ai-prompting-hub.sh              (hub-owned managed core; change HUB_FOLDER_NAME in it on rename)
 |- archive/superseded/workspace-system-overview.md (hub-owned managed core)
 |- git-github-best-practices.md      (hub-owned managed core)
 |- quality-standards.md              (hub-owned managed core)
