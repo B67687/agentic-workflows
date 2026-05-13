@@ -15,19 +15,19 @@
     },
     {
       "ts": "2026-05-12T12:48:17Z",
-      "summary": "Slice 3 complete: ruflo plugin marketplace evaluated \u2014 20 plugins via IPFS/Pinata, 7s+ fetch latency. Plugins are TypeScript npm packages (src/index.ts, hooks.ts) \u2014 fundamentally different from our markdown skills with companion scripts. Plugin create command appears to have a scaffolding bug (no files written). Conclusion: propagate-to-all.sh is superior for our skill distribution \u2014 instant, local, no rewrite, no IPFS dependency. SKIP plugin bridge.\n",
+      "summary": "Slice 3 complete: ruflo plugin marketplace evaluated — 20 plugins via IPFS/Pinata, 7s+ fetch latency. Plugins are TypeScript npm packages (src/index.ts, hooks.ts) — fundamentally different from our markdown skills with companion scripts. Plugin create command appears to have a scaffolding bug (no files written). Conclusion: propagate-to-all.sh is superior for our skill distribution — instant, local, no rewrite, no IPFS dependency. SKIP plugin bridge.\n",
       "tags": "ruflo,plugins,evaluation,skills,bug",
       "source": "retrospect"
     },
     {
       "ts": "2026-05-13T02:28:44Z",
-      "summary": "Macro-to-Micro Funnel \u2014 researched systematic debugging methodologies (top-down design, Wolf fence, delta debugging, Cynefin) and integrated as default fix conduct across 3 files. Now automatic: every fix starts at system architecture, drills to root cause. No need to say 'start from architectural/systemic/macro to micro' anymore.\n",
+      "summary": "Macro-to-Micro Funnel — researched systematic debugging methodologies (top-down design, Wolf fence, delta debugging, Cynefin) and integrated as default fix conduct across 3 files. Now automatic: every fix starts at system architecture, drills to root cause. No need to say 'start from architectural/systemic/macro to micro' anymore.\n",
       "tags": "macro-to-micro, debugging, methodology, default-conduct,bug",
       "source": "retrospect"
     },
     {
       "ts": "2026-05-13T02:34:27Z",
-      "summary": "Built the Agent Research Methodology \u2014 a 6-phase (Frame \u2192 Discover Local \u2192 Gather External \u2192 Triangulate \u2192 Apply \u2192 Preserve) general-purpose research engine for agents. Replaced AI-topic-specific research prompt. Added architecture analysis specialization with current-state mapping, best-practice research, gap analysis, and transformation planning. Integrated with macro-to-micro funnel so Level 1 can now research architecture beyond just fixing. This is now the automatic default for any research task.\n",
+      "summary": "Built the Agent Research Methodology — a 6-phase (Frame → Discover Local → Gather External → Triangulate → Apply → Preserve) general-purpose research engine for agents. Replaced AI-topic-specific research prompt. Added architecture analysis specialization with current-state mapping, best-practice research, gap analysis, and transformation planning. Integrated with macro-to-micro funnel so Level 1 can now research architecture beyond just fixing. This is now the automatic default for any research task.\n",
       "tags": "research-methodology, agent-research, 6-phase, architecture-analysis, macro-to-micro,bug",
       "source": "retrospect"
     }
