@@ -38,7 +38,6 @@ DIR_COLORS = {
     "root":            {"bg": "#95A5A6", "border": "#7F8C8D", "group": "root"},
     "prompt-library":  {"bg": "#E91E63", "border": "#C2185B", "group": "prompt-library"},
     "agent-skills":    {"bg": "#00BCD4", "border": "#0097A7", "group": "agent-skills"},
-    "personal-voice":  {"bg": "#FF7043", "border": "#E64A19", "group": "personal-voice"},
     "other":           {"bg": "#78909C", "border": "#546E7A", "group": "other"},
 }
 
@@ -518,7 +517,7 @@ async function init() {
         'docs': '#4A90D9', 'commands': '#50B86C', 'scripts': '#E8A838',
         'propagation': '#9B59B6', 'research': '#1ABC9C', 'workflow': '#E74C3C',
         'root': '#95A5A6', 'prompt-library': '#E91E63', 'agent-skills': '#00BCD4',
-        'personal-voice': '#FF7043', 'other': '#78909C'
+        'other': '#78909C'
       };
       const count = nodes.filter(n => n.group === group).length;
       const item = document.createElement('div');

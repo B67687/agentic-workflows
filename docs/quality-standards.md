@@ -42,7 +42,7 @@ This file documents the quality standards for this knowledge base. These standar
 |- research/               # Research logs and integration notes
 |- archive/                # Preserved reference material
 |- propagation/    # Reusable propagation templates
-`- personal-voice/         # User voice profile and samples
+- ../personal-voice/         # User voice profile (topic folder)
 ```
 
 ---
@@ -189,14 +189,11 @@ Default audit scope:
 - `research/`
 - `scripts/`
 - `propagation/`
-- personal-voice root files
-
 Default exclusions:
 
 - `archive/`
 - `archive/raw/`
 - generated workflow snapshots
-- `personal-voice/samples/`
 
 Use `-IncludeArchive` or `-IncludeGenerated` for wider scans.
 

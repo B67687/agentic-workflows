@@ -54,7 +54,7 @@ For SwarmVault graph queries, read `wiki/graph/report.md` first (falls back to `
 | `docs/repo-quality-analysis-protocol.md` | Compression, deletion, and redundancy protocol |
 | `docs/daily-prompts.md` | Most-used prompts |
 | `docs/prompt-templates.md` | Prompt library index |
-| `personal-voice/VOICE-PROFILE.md` | User voice patterns; read before writing in the user's voice |
+| `../personal-voice/VOICE-PROFILE.md` | User voice patterns (topic folder); read before writing in the user's voice |
 | `swarmvault.schema.md` | SwarmVault schema — read before compile/query/lint operations |
 | `wiki/index.md` | SwarmVault wiki index — read before broad file searching |
 | `scripts/tools.sh` | Tool registry — lists all agent-callable tools with descriptions |
@@ -99,7 +99,7 @@ For SwarmVault graph queries, read `wiki/graph/report.md` first (falls back to `
 - **Update workspace knowledge** when a durable pattern appears.
 - **Integrate research into docs/ within 3 days** — do not leave insights in research/ or archive/.
 - **Use relative links** inside repo.
-- **Read personal voice** before writing for the user: `personal-voice/VOICE-PROFILE.md`.
+- **Read personal voice** before writing for the user: `../personal-voice/VOICE-PROFILE.md` (topic folder).
 - **Session state on every resume**: read `session-state.json` first.
 - **Checkpoint before heavy ops** (multi-phase work, bulk fetches, large analysis). Commit after verified phases.
 - **Commit after every meaningful change automatically.** After a verified edit, checkpoint, or completed slice, run `bash ./scripts/checkpoint-commit.sh -m "summary"` immediately. Do not ask for permission. Do not leave verified work uncommitted. If the commit fails, fix the issue and retry — do not move on with uncommitted changes.
@@ -126,7 +126,7 @@ For SwarmVault graph queries, read `wiki/graph/report.md` first (falls back to `
 
 ## Structure Rules
 
-- This hub's working areas are `commands/` (source of truth), `docs/`, `research/`, `scripts/` (includes `scripts/hooks/`), `workflow/`, `propagation/`, `archive/`, `personal-voice/`, `skills/`, `agents/`, `references/`, `rules/`, `agent-concourse/`, `hooks/`, `raw/`, `state/`, `wiki/`, `design-md/`, and `inbox/`.
+- This hub's working areas are `commands/` (source of truth), `docs/`, `research/`, `scripts/` (includes `scripts/hooks/`), `workflow/`, `propagation/`, `archive/`, `skills/`, `agents/`, `references/`, `rules/`, `agent-concourse/`, `hooks/`, `raw/`, `state/`, `wiki/`, `design-md/`, and `inbox/`.
 - Hub commands live in `commands/` (14 files: task, plan, implement, pipeline, research, session, git, counsel, route, optimize, parley, prompt-contract, repo-map, query). The old `command/` directory is deprecated — do not use it.
 - Do not move hub content into `agentic-workflows-content/` unless the whole hub is intentionally redesigned.
 - In propagated project folders, normal work belongs in `[folder-name]-content/`.

@@ -79,7 +79,6 @@ is_excluded_file() {
   local rel="$1"
 
   [[ "$rel" == .git/* ]] && return 0
-  [[ "$rel" == personal-voice/samples/* ]] && return 0
   [[ "$rel" == archive/raw/* && "$include_generated" -eq 0 ]] && return 0
   [[ "$rel" == archive/* && "$include_archive" -eq 0 && "$include_generated" -eq 0 ]] && return 0
 
@@ -94,7 +93,7 @@ is_excluded_file() {
 }
 
 list_active_files() {
-  local roots=(docs research scripts propagation personal-voice)
+  local roots=(docs research scripts propagation)
   [[ "$include_archive" -eq 1 || "$include_generated" -eq 1 ]] && roots+=(archive)
   [[ "$include_generated" -eq 1 ]] && roots+=(workflow)
 
@@ -104,11 +103,7 @@ list_active_files() {
     local root
     for root in "${roots[@]}"; do
       [[ -d "$root" ]] || continue
-      if [[ "$root" == "personal-voice" ]]; then
-        find "$root" -maxdepth 1 -type f -print
-      else
-        find "$root" -type f -print
-      fi
+      find "$root" -type f -print
     done
   ) | sed 's#^\./##' | while IFS= read -r rel; do
     if ! is_excluded_file "$rel"; then
@@ -191,7 +186,7 @@ run_search() {
     exit 127
   fi
 
-  local args=(--line-number --hidden --glob '!.git/**' --glob '!personal-voice/samples/**')
+  local args=(--line-number --hidden --glob '!.git/**')
   if [[ "$include_archive" -eq 0 && "$include_generated" -eq 0 ]]; then
     args+=(--glob '!archive/**')
   elif [[ "$include_archive" -eq 1 && "$include_generated" -eq 0 ]]; then

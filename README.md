@@ -28,7 +28,7 @@ and capability management.
 |- workflow/              # Session state, sync logs, registries
 |- propagation/   # Templates synced to 25 topic folders
 |- archive/               # Preserved historical material
-`- personal-voice/        # User voice profile and samples
+`- ../personal-voice/      # User voice profile (topic folder, not embedded)
 ```
 
 ## Learning Paths

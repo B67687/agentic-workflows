@@ -65,7 +65,7 @@ Full versions: [debugging-and-verification.md](prompt-library/debugging-and-veri
 
 ```text
 Write in my personal voice.
-Read personal-voice/VOICE-PROFILE.md first.
+Read ../personal-voice/VOICE-PROFILE.md first.
 Match my sentence length, transitions, formality, quirks, uncertainty, and natural imperfections.
 Avoid generic AI phrasing.
 ```
