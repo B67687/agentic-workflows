@@ -1,11 +1,16 @@
 ---
 name: documentation-and-adrs
-description: Records decisions and documentation. Use when making architectural decisions, changing public APIs, shipping features, or when you need to record context that future engineers and agents will need to understand the codebase.
-trigger-phrases: document this, adr, architecture decision, write docs, decision record, documentation
-handoffs: code-review-and-quality (to review), shipping-and-launch (to ship)
-companion-script: scripts/create-adr.sh
+description: Records decisions and documentation. Use when making architectural decisions, changing public APIs, shipping features, or when you need to record context that future engineers and agents will
+  need to understand the codebase.
+compatibility: claude-code, cursor, opencode, gemini-cli, codex-cli
+allowed-tools: bash, read, write, grep
+metadata:
+  companion-script: scripts/create-adr.sh
+  handoffs: code-review-and-quality (to review), shipping-and-launch (to ship)
+  trigger-phrases: document this, adr, architecture decision, write docs, decision record, documentation
+  pattern: generator
+  bundle: ship
 ---
-
 # Documentation and ADRs
 
 ## Overview

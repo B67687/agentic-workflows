@@ -1,11 +1,16 @@
 ---
 name: retrospective
-description: Just-in-time retrospective focused on improving agent autonomy. Event-driven --- not calendar-driven. Analyzes what happened, identifies what blocked agent autonomy, and produces concrete improvements (learnings + tickets). Use when someone says "retro", "retrospective", "what did we learn", "what went wrong", or after a feature ships, an incident resolves, or any event worth reflecting on. Outputs to .tap/learnings.md.
-trigger-phrases: retro, retrospective, what did we learn, what went wrong, post-mortem, incident review
-handoffs: tap-audit (to reassess readiness after improvements), tighten-loop (for conversation-level steers)
-companion-script: scripts/tap-retrospective.sh
+description: Just-in-time retrospective focused on improving agent autonomy. Event-driven --- not calendar-driven. Analyzes what happened, identifies what blocked agent autonomy, and produces concrete improvements
+  (learnings + tickets). Use when someone says "retro", "retrospective", "what did we learn", "what went wrong", or after a feature ships, an incident resolves, or any event worth reflecting on. Outputs
+  to .tap/learnings.md.
+compatibility: claude-code, cursor, opencode, gemini-cli, codex-cli
+allowed-tools: bash, read, grep, glob
+metadata:
+  companion-script: scripts/tap-retrospective.sh
+  handoffs: tap-audit (to reassess readiness after improvements), tighten-loop (for conversation-level steers)
+  trigger-phrases: retro, retrospective, what did we learn, what went wrong, post-mortem, incident review
+  bundle: assess
 ---
-
 # Retrospective
 
 Reflect on what happened. Identify what blocked agent autonomy. Produce concrete improvements so the system gets better.

@@ -324,6 +324,8 @@ Do not read archive, research, or deep reference docs unless the task explicitly
 | For deep reference on | Read |
 |---|---|
 | Session checkpoint protocol | `docs/session-checkpoint.md` |
+| Skill design patterns | `docs/skill-design-patterns.md` |
+| Skill progressive loading | `scripts/skill-toolset.sh` |
 | Model selection full guide | `docs/model-selection-guide.md` |
 | Context/token efficiency | `docs/token-efficient-prompting.md` |
 | Git best practices | `git-github-best-practices.md` |

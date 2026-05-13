@@ -1,11 +1,16 @@
 ---
 name: performance-optimization
-description: Optimizes application performance. Use when performance requirements exist, when you suspect performance regressions, or when Core Web Vitals or load times need improvement. Use when profiling reveals bottlenecks that need fixing.
-trigger-phrases: optimize performance, slow, bottleneck, profiling, speed up, performance issue, lazy load
-handoffs: code-review-and-quality (to review), debugging-and-error-recovery (to debug issues)
-companion-script: scripts/perf-scan.sh
+description: Optimizes application performance. Use when performance requirements exist, when you suspect performance regressions, or when Core Web Vitals or load times need improvement. Use when profiling
+  reveals bottlenecks that need fixing.
+compatibility: claude-code, cursor, opencode, gemini-cli, codex-cli
+allowed-tools: bash, read, grep, glob, edit
+metadata:
+  companion-script: scripts/perf-scan.sh
+  handoffs: code-review-and-quality (to review), debugging-and-error-recovery (to debug issues)
+  trigger-phrases: optimize performance, slow, bottleneck, profiling, speed up, performance issue, lazy load
+  pattern: reviewer
+  bundle: verify
 ---
-
 # Performance Optimization
 
 **Companion script:** `scripts/perf-scan.sh` --- health checks, baseline generation, and time guardians for CI.

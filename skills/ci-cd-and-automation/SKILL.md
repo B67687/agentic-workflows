@@ -1,11 +1,16 @@
 ---
 name: ci-cd-and-automation
-description: Automates CI/CD pipeline setup. Use when setting up or modifying build and deployment pipelines. Use when you need to automate quality gates, configure test runners in CI, or establish deployment strategies.
-trigger-phrases: ci/cd, pipeline, automation, github actions, deploy pipeline, build pipeline
-handoffs: shipping-and-launch (to ship), git-workflow-and-versioning (for versioning)
-companion-script: scripts/ci-check.sh
+description: Automates CI/CD pipeline setup. Use when setting up or modifying build and deployment pipelines. Use when you need to automate quality gates, configure test runners in CI, or establish deployment
+  strategies.
+compatibility: claude-code, cursor, opencode, gemini-cli, codex-cli
+allowed-tools: bash, read, grep, glob, write, edit
+metadata:
+  companion-script: scripts/ci-check.sh
+  handoffs: shipping-and-launch (to ship), git-workflow-and-versioning (for versioning)
+  trigger-phrases: ci/cd, pipeline, automation, github actions, deploy pipeline, build pipeline
+  pattern: pipeline
+  bundle: ship
 ---
-
 # CI/CD and Automation
 
 **Companion script:** `scripts/ci-check.sh` --- CI configuration scanning, pipeline templates, and quality gate checklists.

@@ -1,11 +1,16 @@
 ---
 name: security-and-hardening
-description: Hardens code against vulnerabilities. Use when handling user input, authentication, data storage, or external integrations. Use when building any feature that accepts untrusted data, manages user sessions, or interacts with third-party services.
-trigger-phrases: security review, harden, vulnerability, secure this, auth, permissions, input validation, xss, sql injection
-handoffs: code-review-and-quality (to review), debugging-and-error-recovery (to fix issues)
-companion-script: scripts/security-scan.sh
+description: Hardens code against vulnerabilities. Use when handling user input, authentication, data storage, or external integrations. Use when building any feature that accepts untrusted data, manages
+  user sessions, or interacts with third-party services.
+compatibility: claude-code, cursor, opencode, gemini-cli, codex-cli
+allowed-tools: bash, read, grep, glob
+metadata:
+  companion-script: scripts/security-scan.sh
+  handoffs: code-review-and-quality (to review), debugging-and-error-recovery (to fix issues)
+  trigger-phrases: security review, harden, vulnerability, secure this, auth, permissions, input validation, xss, sql injection
+  pattern: tool-wrapper
+  bundle: verify
 ---
-
 ## Presentation
 
 ```

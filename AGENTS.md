@@ -59,6 +59,7 @@ For SwarmVault graph queries, read `wiki/graph/report.md` first (falls back to `
 | `wiki/index.md` | SwarmVault wiki index --- read before broad file searching |
 | `scripts/tools.sh` | Tool registry --- lists all agent-callable tools with descriptions |
 | `scripts/search-index.sh` | Query BM25 index --- ranked results across all text files |
+| `scripts/skill-toolset.sh` | Progressive skill loading (L1 list / L2 load / L3 resource) |
 | `scripts/agent-sandbox.sh` | Isolated sandbox for safe YOLO-mode agent operations (bwrap + Docker) |
 | `scripts/assumption-expiry.sh` | Check and manage assumption staleness (enforce TTL on non-verifiable claims) |
 | `docs/assumption-expiry.md` | Assumption expiry pattern --- upwards management for stale assumptions |
@@ -190,6 +191,28 @@ Skills are structured workflows with steps, verification gates, and anti-rationa
 - **If your agent has a `skill` tool (OpenCode):** invoke skills via it. The tool loads `SKILL.md` and executes the workflow.
 - **If your agent does not have a `skill` tool (Claude Code, Cursor, Codex CLI, etc.):** read the `SKILL.md` file in `skills/<skill-name>/` directly and follow its workflow steps manually.
 - **Never implement directly without consulting the skill first** --- skills encode hard-won patterns and anti-rationalization tables that prevent common mistakes.
+
+### Progressive Disclosure (L1/L2/L3)
+
+Skills use a three-tier loading model to keep context windows efficient. Instead of
+loading 41 full skill files, load progressively:
+
+| Level | What | Tokens | When |
+|-------|------|--------|------|
+| **L1** | Skill names + descriptions + patterns | ~100/skill | Session start |
+| **L2** | Full SKILL.md instructions | ~1-5K | On skill activation |
+| **L3** | Reference files, assets, scripts | Variable | On demand |
+
+```bash
+bash ./scripts/skill-toolset.sh list           # L1 — browse 41 skills
+bash ./scripts/skill-toolset.sh load <name>    # L2 — full instructions
+bash ./scripts/skill-toolset.sh resource <name> <path>  # L3 — specific file
+bash ./scripts/skill-toolset.sh find <query>   # Search by name/pattern
+```
+
+Every 41-skill L1 scan costs ~4K tokens. Full monolithic loading of all 41 would
+cost ~200K tokens. Progressive disclosure makes the difference between "I can have
+many skills" and "I can't afford to know they exist."
 
 <rules>
 - If a task matches a skill, invoke it via the `skill` tool if available, OR read `skills/<skill-name>/SKILL.md` directly
@@ -502,6 +525,8 @@ supported APIs.
 | Requirements alignment | `skills/grill-me/SKILL.md` |
 | Structured questioning | `skills/structured-questioning/SKILL.md` |
 | Brand design systems | `design-md/README.md` (links to awesome-design-md) |
+| Skill design patterns | `docs/skill-design-patterns.md` |
+| Skill progressive loading | `scripts/skill-toolset.sh` (L1 list / L2 load / L3 resource) |
 | Bash-hybrid exploration | `skills/bash-explore/SKILL.md` |
 | BM25 workspace search | `scripts/search-index.sh` |
 | Repo map (tree-sitter) | `scripts/repo-map.sh` |

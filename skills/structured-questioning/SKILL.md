@@ -1,16 +1,17 @@
 ---
 name: structured-questioning
-description: >-
-  Formulate complete, well-structured questions by applying the Five Ws framework (Aristotle),
-  the Socratic method (Plato), and ACI (Agent-Computer Interface) principles.
-  Use when you need to ask a question --- of a human, an agent, or yourself --- and want to ensure
-  nothing essential is missed. Use before starting a research task, before asking for help, or
-  whenever you sense you might not be asking the right question.
-trigger-phrases: ask a question, formulate question, how to ask, what should I ask, structured question, probe
-handoffs: grill-me (to probe requirements), idea-refine (to explore)
-companion-script: scripts/question-framework.sh
+description: Formulate complete, well-structured questions by applying the Five Ws framework (Aristotle), the Socratic method (Plato), and ACI (Agent-Computer Interface) principles. Use when you need to
+  ask a question --- of a human, an agent, or yourself --- and want to ensure nothing essential is missed. Use before starting a research task, before asking for help, or whenever you sense you might not
+  be asking the right question.
+compatibility: claude-code, cursor, opencode, gemini-cli, codex-cli
+allowed-tools: bash, read
+metadata:
+  companion-script: scripts/question-framework.sh
+  handoffs: grill-me (to probe requirements), idea-refine (to explore)
+  trigger-phrases: ask a question, formulate question, how to ask, what should I ask, structured question, probe
+  pattern: inversion
+  bundle: define
 ---
-
 # Structured Questioning
 
 A skill for asking better questions --- grounded in three authoritative traditions:

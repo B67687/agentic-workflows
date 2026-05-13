@@ -1,11 +1,16 @@
 ---
 name: source-driven-development
-description: Grounds every implementation decision in official documentation. Use when you want authoritative, source-cited code free from outdated patterns. Use when building with any framework or library where correctness matters.
-trigger-phrases: check the docs, source of truth, official docs, verify against docs, is this correct per docs
-handoffs: test-driven-development (to verify), documentation-and-adrs (to document)
-companion-script: scripts/source-verify.sh
+description: Grounds every implementation decision in official documentation. Use when you want authoritative, source-cited code free from outdated patterns. Use when building with any framework or library
+  where correctness matters.
+compatibility: claude-code, cursor, opencode, gemini-cli, codex-cli
+allowed-tools: bash, read, grep, glob
+metadata:
+  companion-script: scripts/source-verify.sh
+  handoffs: test-driven-development (to verify), documentation-and-adrs (to document)
+  trigger-phrases: check the docs, source of truth, official docs, verify against docs, is this correct per docs
+  pattern: tool-wrapper
+  bundle: build
 ---
-
 # Source-Driven Development
 
 **Companion script:** `scripts/source-verify.sh` --- detects project stack, extracts versions, generates source verification prompts.

@@ -1,11 +1,16 @@
 ---
 name: api-and-interface-design
-description: Guides stable API and interface design. Use when designing APIs, module boundaries, or any public interface. Use when creating REST or GraphQL endpoints, defining type contracts between modules, or establishing boundaries between frontend and backend.
-trigger-phrases: api design, interface design, module boundary, contract, endpoint design, type contract
-handoffs: implementation-planning (to plan), code-review-and-quality (to review)
-companion-script: scripts/api-contract.sh
+description: Guides stable API and interface design. Use when designing APIs, module boundaries, or any public interface. Use when creating REST or GraphQL endpoints, defining type contracts between modules,
+  or establishing boundaries between frontend and backend.
+compatibility: claude-code, cursor, opencode, gemini-cli, codex-cli
+allowed-tools: bash, read, grep, glob
+metadata:
+  companion-script: scripts/api-contract.sh
+  handoffs: implementation-planning (to plan), code-review-and-quality (to review)
+  trigger-phrases: api design, interface design, module boundary, contract, endpoint design, type contract
+  pattern: tool-wrapper
+  bundle: build
 ---
-
 # API and Interface Design
 
 **Companion script:** `scripts/api-contract.sh` --- REST endpoint contracts, module boundary templates, and design principles.

@@ -1,11 +1,15 @@
 ---
 name: skill-evaluator
-description: "Test, evaluate, and iteratively improve skills. Use when: creating a new skill and need to verify it works; an existing skill fails to trigger or produces wrong results; benchmarking skill performance across test cases; optimizing skill descriptions for better auto-detection. Do NOT use for routine implementation work."
-trigger-phrases: evaluate skill, test skill, benchmark skill, improve skill, skill quality, optimize skill
-handoffs: using-agent-skills (to discover skills), context-engineering (to refine)
-companion-script: scripts/skill-test.sh
+description: 'Test, evaluate, and iteratively improve skills. Use when: creating a new skill and need to verify it works; an existing skill fails to trigger or produces wrong results; benchmarking skill
+  performance across test cases; optimizing skill descriptions for better auto-detection. Do NOT use for routine implementation work.'
+compatibility: claude-code, cursor, opencode, gemini-cli, codex-cli
+allowed-tools: bash, read, grep, glob
+metadata:
+  companion-script: scripts/skill-test.sh
+  handoffs: using-agent-skills (to discover skills), context-engineering (to refine)
+  trigger-phrases: evaluate skill, test skill, benchmark skill, improve skill, skill quality, optimize skill
+  bundle: meta
 ---
-
 # Skill Evaluator
 
 **Companion script:** `scripts/skill-test.sh` --- discover skills, verify structure, check completeness.

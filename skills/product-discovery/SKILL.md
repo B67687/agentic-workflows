@@ -1,11 +1,16 @@
 ---
 name: product-discovery
-description: Validate whether a product idea is worth building before committing engineering investment. Use when someone says "should we build this", "validate this idea", "run an experiment", "test this hypothesis", "is this worth building", or when you sense high uncertainty about a feature. Sits between product-thinker (should we?) and shaping-work (what exactly?) --- answers "will this actually work?" with evidence gates.
-trigger-phrases: should we build, validate this idea, run an experiment, test this hypothesis, is this worth building, feasibility check, discovery
-handoffs: shaping-work (to define after validation), product-thinker (to analyze before discovery)
-companion-script: scripts/product-discover.sh
+description: Validate whether a product idea is worth building before committing engineering investment. Use when someone says "should we build this", "validate this idea", "run an experiment", "test this
+  hypothesis", "is this worth building", or when you sense high uncertainty about a feature. Sits between product-thinker (should we?) and shaping-work (what exactly?) --- answers "will this actually work?"
+  with evidence gates.
+compatibility: claude-code, cursor, opencode, gemini-cli, codex-cli
+allowed-tools: bash, read, grep, glob
+metadata:
+  companion-script: scripts/product-discover.sh
+  handoffs: shaping-work (to define after validation), product-thinker (to analyze before discovery)
+  trigger-phrases: should we build, validate this idea, run an experiment, test this hypothesis, is this worth building, feasibility check, discovery
+  bundle: product
 ---
-
 # Product Discovery
 
 **Companion script:** `scripts/product-discover.sh` --- hypothesis definition with evidence gates.

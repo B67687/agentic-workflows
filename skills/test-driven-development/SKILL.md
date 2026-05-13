@@ -1,11 +1,16 @@
 ---
 name: test-driven-development
-description: Drives development with tests. Use when implementing any logic, fixing any bug, or changing any behavior. Use when you need to prove that code works, when a bug report arrives, or when you're about to modify existing functionality.
-trigger-phrases: write tests, tdd, test first, add tests, unit test, integration test, test coverage
-handoffs: incremental-implementation (to build), debugging-and-error-recovery (to fix failures)
-companion-script: scripts/tdd-cycle.sh
+description: Drives development with tests. Use when implementing any logic, fixing any bug, or changing any behavior. Use when you need to prove that code works, when a bug report arrives, or when you're
+  about to modify existing functionality.
+compatibility: claude-code, cursor, opencode, gemini-cli, codex-cli
+allowed-tools: bash, read, grep, glob, write, edit
+metadata:
+  companion-script: scripts/tdd-cycle.sh
+  handoffs: incremental-implementation (to build), debugging-and-error-recovery (to fix failures)
+  trigger-phrases: write tests, tdd, test first, add tests, unit test, integration test, test coverage
+  pattern: pipeline
+  bundle: build
 ---
-
 # Test-Driven Development
 
 **Companion script:** `scripts/tdd-cycle.sh` --- runs tests and validates each TDD phase (RED/GREEN/REFACTOR) with structured output. Run from the skill directory:

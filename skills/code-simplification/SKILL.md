@@ -1,11 +1,16 @@
 ---
 name: code-simplification
-description: Simplifies code for clarity. Use when refactoring code for clarity without changing behavior. Use when code works but is harder to read, maintain, or extend than it should be. Use when reviewing code that has accumulated unnecessary complexity.
-trigger-phrases: simplify this, refactor, clean up, reduce complexity, make this simpler, technical debt
-handoffs: code-review-and-quality (to review), test-driven-development (to add tests)
-companion-script: scripts/simplify-check.sh
+description: Simplifies code for clarity. Use when refactoring code for clarity without changing behavior. Use when code works but is harder to read, maintain, or extend than it should be. Use when reviewing
+  code that has accumulated unnecessary complexity.
+compatibility: claude-code, cursor, opencode, gemini-cli, codex-cli
+allowed-tools: bash, read, grep, glob, edit
+metadata:
+  companion-script: scripts/simplify-check.sh
+  handoffs: code-review-and-quality (to review), test-driven-development (to add tests)
+  trigger-phrases: simplify this, refactor, clean up, reduce complexity, make this simpler, technical debt
+  pattern: reviewer
+  bundle: verify
 ---
-
 # Code Simplification
 
 **Companion script:** `scripts/simplify-check.sh` --- complexity analysis, file comparison, five principles reference.

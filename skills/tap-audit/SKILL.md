@@ -1,11 +1,16 @@
 ---
 name: tap-audit
-description: Assess how ready a repository is for autonomous agent work. Scans documentation, MCP servers, CLI tools, permissions, test infrastructure, environments, and processes to produce a readiness assessment with actionable leverage points. Use when someone says "audit this repo", "how ready is this codebase", "assess this project", or when an agent enters an unfamiliar codebase and needs to understand it before working. Outputs to .tap/tap-audit.md.
-trigger-phrases: audit this repo, tap audit, how ready is this codebase, assess this project, repo readiness, autonomous readiness
-handoffs: systems-health (for ongoing health monitoring), retrospective (for event-driven learnings)
-companion-script: scripts/tap-audit.sh
+description: Assess how ready a repository is for autonomous agent work. Scans documentation, MCP servers, CLI tools, permissions, test infrastructure, environments, and processes to produce a readiness
+  assessment with actionable leverage points. Use when someone says "audit this repo", "how ready is this codebase", "assess this project", or when an agent enters an unfamiliar codebase and needs to understand
+  it before working. Outputs to .tap/tap-audit.md.
+compatibility: claude-code, cursor, opencode, gemini-cli, codex-cli
+allowed-tools: bash, read, grep, glob
+metadata:
+  companion-script: scripts/tap-audit.sh
+  handoffs: systems-health (for ongoing health monitoring), retrospective (for event-driven learnings)
+  trigger-phrases: audit this repo, tap audit, how ready is this codebase, assess this project, repo readiness, autonomous readiness
+  bundle: assess
 ---
-
 # TAP Audit
 
 Assess how autonomous an agent can be in this repo right now. Produces a structured assessment at `.tap/tap-audit.md`.

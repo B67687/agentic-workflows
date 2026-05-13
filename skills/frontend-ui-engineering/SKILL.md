@@ -1,11 +1,15 @@
 ---
 name: frontend-ui-engineering
-description: Builds production-quality UIs. Use when building or modifying user-facing interfaces. Use when creating components, implementing layouts, managing state, or when the output needs to look and feel production-quality rather than AI-generated.
-trigger-phrases: build ui, frontend, component, layout, user interface, react component, design implementation
-handoffs: design-language (for design review), browser-testing-with-devtools (for QA)
-companion-script: scripts/ui-component.sh
+description: Builds production-quality UIs. Use when building or modifying user-facing interfaces. Use when creating components, implementing layouts, managing state, or when the output needs to look and
+  feel production-quality rather than AI-generated.
+compatibility: claude-code, cursor, opencode, gemini-cli, codex-cli
+allowed-tools: bash, read, grep, glob
+metadata:
+  companion-script: scripts/ui-component.sh
+  handoffs: design-language (for design review), browser-testing-with-devtools (for QA)
+  trigger-phrases: build ui, frontend, component, layout, user interface, react component, design implementation
+  bundle: build
 ---
-
 # Frontend UI Engineering
 
 **Companion script:** `scripts/ui-component.sh` --- component scaffolding and UI patterns.

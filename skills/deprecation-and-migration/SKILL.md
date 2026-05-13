@@ -1,11 +1,16 @@
 ---
 name: deprecation-and-migration
-description: Manages deprecation and migration. Use when removing old systems, APIs, or features. Use when migrating users from one implementation to another. Use when deciding whether to maintain or sunset existing code.
-trigger-phrases: deprecate, migrate, sunset, remove, phase out, migration plan, backwards compatibility
-handoffs: documentation-and-adrs (to document), shipping-and-launch (to ship)
-companion-script: scripts/migrate-plan.sh
+description: Manages deprecation and migration. Use when removing old systems, APIs, or features. Use when migrating users from one implementation to another. Use when deciding whether to maintain or sunset
+  existing code.
+compatibility: claude-code, cursor, opencode, gemini-cli, codex-cli
+allowed-tools: bash, read, grep, glob, write, edit
+metadata:
+  companion-script: scripts/migrate-plan.sh
+  handoffs: documentation-and-adrs (to document), shipping-and-launch (to ship)
+  trigger-phrases: deprecate, migrate, sunset, remove, phase out, migration plan, backwards compatibility
+  pattern: pipeline
+  bundle: ship
 ---
-
 # Deprecation and Migration
 
 **Companion script:** `scripts/migrate-plan.sh` --- migration plan templates and deprecation checklists.

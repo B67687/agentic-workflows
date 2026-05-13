@@ -1,11 +1,15 @@
 ---
 name: product-thinker
-description: "Think like a senior product manager. Use for product decisions, build-vs-buy evaluation, UX analysis, competitive research, and strategy. NOT for: writing code, debugging, PR review, or technical implementation."
-trigger-phrases: should we build, is it worth, why are users, build vs buy, product decision, UX review, competitive analysis, product strategy, what do you think about
-handoffs: shaping-work (to define the work), strategic-thinker (to dig into approach)
-companion-script: scripts/product-think.sh
+description: 'Think like a senior product manager. Use for product decisions, build-vs-buy evaluation, UX analysis, competitive research, and strategy. NOT for: writing code, debugging, PR review, or technical
+  implementation.'
+compatibility: claude-code, cursor, opencode, gemini-cli, codex-cli
+allowed-tools: bash, read, grep, glob
+metadata:
+  companion-script: scripts/product-think.sh
+  handoffs: shaping-work (to define the work), strategic-thinker (to dig into approach)
+  trigger-phrases: should we build, is it worth, why are users, build vs buy, product decision, UX review, competitive analysis, product strategy, what do you think about
+  bundle: product
 ---
-
 # Product Thinker
 
 **Companion script:** `scripts/product-think.sh` --- product evaluation and competitive analysis templates.

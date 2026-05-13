@@ -1,11 +1,15 @@
 ---
 name: planning-and-task-breakdown
-description: Breaks work into ordered tasks. Use when you have a spec or clear requirements and need to break work into implementable tasks. Use when a task feels too large to start, when you need to estimate scope, or when parallel work is possible.
-trigger-phrases: plan this, break this down, task breakdown, decompose work, estimate effort, work breakdown
-handoffs: incremental-implementation (to build), implementation-planning (for technical design)
-companion-script: scripts/plan-breakdown.sh
+description: Breaks work into ordered tasks. Use when you have a spec or clear requirements and need to break work into implementable tasks. Use when a task feels too large to start, when you need to estimate
+  scope, or when parallel work is possible.
+compatibility: claude-code, cursor, opencode, gemini-cli, codex-cli
+allowed-tools: bash, read, grep, glob
+metadata:
+  companion-script: scripts/plan-breakdown.sh
+  handoffs: incremental-implementation (to build), implementation-planning (for technical design)
+  trigger-phrases: plan this, break this down, task breakdown, decompose work, estimate effort, work breakdown
+  bundle: define
 ---
-
 # Planning and Task Breakdown
 
 **Companion script:** `scripts/plan-breakdown.sh` --- task breakdown templates, sizing guidance, and structured decomposition.

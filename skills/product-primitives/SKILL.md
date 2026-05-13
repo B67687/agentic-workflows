@@ -1,11 +1,15 @@
 ---
 name: product-primitives
-description: Break down complex products, features, or systems into fundamental primitives and building blocks from a software creator's perspective. Use when starting a new application, designing a large feature, or understanding a complex system's moving parts before building. Complements product-thinker (user perspective) with the builder's perspective (system-level connections).
-trigger-phrases: break down, decompose this, what are the primitives, building blocks, map the architecture, what are the moving parts, analyze this system
-handoffs: shaping-work (to shape individual primitives as work items), product-thinker (for user-perspective analysis alongside)
-companion-script: scripts/decompose-primitives.sh
+description: Break down complex products, features, or systems into fundamental primitives and building blocks from a software creator's perspective. Use when starting a new application, designing a large
+  feature, or understanding a complex system's moving parts before building. Complements product-thinker (user perspective) with the builder's perspective (system-level connections).
+compatibility: claude-code, cursor, opencode, gemini-cli, codex-cli
+allowed-tools: bash, read, grep, glob
+metadata:
+  companion-script: scripts/decompose-primitives.sh
+  handoffs: shaping-work (to shape individual primitives as work items), product-thinker (for user-perspective analysis alongside)
+  trigger-phrases: break down, decompose this, what are the primitives, building blocks, map the architecture, what are the moving parts, analyze this system
+  bundle: product
 ---
-
 # Product Primitives
 
 Break complex systems into fundamental primitives --- deep, information-hiding building blocks with clear boundaries and simple interfaces.

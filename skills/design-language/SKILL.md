@@ -1,11 +1,15 @@
 ---
 name: design-language
-description: "Capture and enforce a product's visual design language --- principles and patterns that make it feel like itself. Two modes: Capture (distill design from Figma URLs, screenshots, or live URLs) and Review (check implementation against docs/design.md). NOT for: generating new UI (-> frontend-ui-engineering), accessibility audits, or token extraction."
-trigger-phrases: capture this design, design language, design review, design fidelity, does this match our design, extract design direction, design principles
-handoffs: shaping-work (to shape drift into work items), implementation-planning (to plan design fixes), frontend-ui-engineering (to implement UI)
-companion-script: scripts/design-language.sh
+description: 'Capture and enforce a product''s visual design language --- principles and patterns that make it feel like itself. Two modes: Capture (distill design from Figma URLs, screenshots, or live
+  URLs) and Review (check implementation against docs/design.md). NOT for: generating new UI (-> frontend-ui-engineering), accessibility audits, or token extraction.'
+compatibility: claude-code, cursor, opencode, gemini-cli, codex-cli
+allowed-tools: bash, read, grep, glob
+metadata:
+  companion-script: scripts/design-language.sh
+  handoffs: shaping-work (to shape drift into work items), implementation-planning (to plan design fixes), frontend-ui-engineering (to implement UI)
+  trigger-phrases: capture this design, design language, design review, design fidelity, does this match our design, extract design direction, design principles
+  bundle: product
 ---
-
 # Design Language
 
 **Companion script:** `scripts/design-language.sh` --- capture design principles, review implementation.

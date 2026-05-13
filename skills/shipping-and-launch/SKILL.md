@@ -1,11 +1,16 @@
 ---
 name: shipping-and-launch
-description: Prepares production launches. Use when preparing to deploy to production. Use when you need a pre-launch checklist, when setting up monitoring, when planning a staged rollout, or when you need a rollback strategy.
-trigger-phrases: ship this, launch, deploy to production, release, go live, production deploy, rollout
-handoffs: ci-cd-and-automation (for pipeline), git-workflow-and-versioning (to tag)
-companion-script: scripts/launch-prep.sh
+description: Prepares production launches. Use when preparing to deploy to production. Use when you need a pre-launch checklist, when setting up monitoring, when planning a staged rollout, or when you need
+  a rollback strategy.
+compatibility: claude-code, cursor, opencode, gemini-cli, codex-cli
+allowed-tools: bash, read, grep, glob, write, edit
+metadata:
+  companion-script: scripts/launch-prep.sh
+  handoffs: ci-cd-and-automation (for pipeline), git-workflow-and-versioning (to tag)
+  trigger-phrases: ship this, launch, deploy to production, release, go live, production deploy, rollout
+  pattern: pipeline
+  bundle: ship
 ---
-
 # Shipping and Launch
 
 **Companion script:** `scripts/launch-prep.sh` --- pre-launch checklists and rollback plans.

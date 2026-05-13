@@ -1,11 +1,16 @@
 ---
 name: browser-testing-with-devtools
-description: Tests in real browsers. Use when building or debugging anything that runs in a browser. Use when you need to inspect the DOM, capture console errors, analyze network requests, profile performance, or verify visual output with real runtime data via Chrome DevTools MCP.
-trigger-phrases: browser test, qa in browser, devtools, inspect element, console error, network request, screenshot
-handoffs: debugging-and-error-recovery (to debug failures), code-review-and-quality (to review)
-companion-script: scripts/browser.sh
+description: Tests in real browsers. Use when building or debugging anything that runs in a browser. Use when you need to inspect the DOM, capture console errors, analyze network requests, profile performance,
+  or verify visual output with real runtime data via Chrome DevTools MCP.
+compatibility: claude-code, cursor, opencode, gemini-cli, codex-cli
+allowed-tools: bash, read, grep, glob
+metadata:
+  companion-script: scripts/browser.sh
+  handoffs: debugging-and-error-recovery (to debug failures), code-review-and-quality (to review)
+  trigger-phrases: browser test, qa in browser, devtools, inspect element, console error, network request, screenshot
+  pattern: tool-wrapper
+  bundle: verify
 ---
-
 # Browser Testing with DevTools
 
 ## Companion Tools

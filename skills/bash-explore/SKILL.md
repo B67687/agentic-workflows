@@ -1,10 +1,14 @@
 ---
 name: bash-explore
-description: Use bash (find, grep, cat) for codebase exploration before falling back to Read/Grep tools. For bulk discovery bash is faster and more flexible. Switch to tools only after bash has narrowed the target.
-trigger-phrases: find files, search codebase, explore repo, look for, where is, grep for, find in files
-handoffs: context-engineering (to set up context), using-agent-skills (to pick a skill)
+description: Use bash (find, grep, cat) for codebase exploration before falling back to Read/Grep tools. For bulk discovery bash is faster and more flexible. Switch to tools only after bash has narrowed
+  the target.
+compatibility: claude-code, cursor, opencode, gemini-cli, codex-cli
+allowed-tools: bash, read, grep, glob
+metadata:
+  handoffs: context-engineering (to set up context), using-agent-skills (to pick a skill)
+  trigger-phrases: find files, search codebase, explore repo, look for, where is, grep for, find in files
+  bundle: meta
 ---
-
 # Bash-Hybrid Exploration
 
 ## Overview

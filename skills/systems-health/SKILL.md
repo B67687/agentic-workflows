@@ -1,11 +1,15 @@
 ---
 name: systems-health
-description: Measure the health of a software development system using stocks, flows, and feedback loops. Pulls data from git, GitHub, and CI to diagnose what's working and what's broken. Use when someone says "systems health", "how's the project going", "health check", "are we shipping fast enough", "what's slowing us down". Outputs to .tap/system-health.md.
-trigger-phrases: systems health, how's the project going, health check, are we shipping fast enough, what's slowing us down, measure our process
-handoffs: retrospective (to capture learnings from problems found), tap-audit (for full repo readiness)
-companion-script: scripts/systems-health.sh
+description: Measure the health of a software development system using stocks, flows, and feedback loops. Pulls data from git, GitHub, and CI to diagnose what's working and what's broken. Use when someone
+  says "systems health", "how's the project going", "health check", "are we shipping fast enough", "what's slowing us down". Outputs to .tap/system-health.md.
+compatibility: claude-code, cursor, opencode, gemini-cli, codex-cli
+allowed-tools: bash, read, grep, glob
+metadata:
+  companion-script: scripts/systems-health.sh
+  handoffs: retrospective (to capture learnings from problems found), tap-audit (for full repo readiness)
+  trigger-phrases: systems health, how's the project going, health check, are we shipping fast enough, what's slowing us down, measure our process
+  bundle: assess
 ---
-
 # Systems Health
 
 Diagnose the development system. Measure stocks, flows, and feedback loops. Find what's sick and prescribe the cheapest fix.

@@ -1,11 +1,15 @@
 ---
 name: context-engineering
-description: Optimizes agent context setup. Use when starting a new session, when agent output quality degrades, when switching between tasks, or when you need to configure rules files and context for a project.
-trigger-phrases: context management, session setup, optimize context, context budget, reduce context, compact context
-handoffs: using-agent-skills (to pick a skill), bash-explore (to explore codebase)
-companion-script: scripts/context-budget.sh
+description: Optimizes agent context setup. Use when starting a new session, when agent output quality degrades, when switching between tasks, or when you need to configure rules files and context for a
+  project.
+compatibility: claude-code, cursor, opencode, gemini-cli, codex-cli
+allowed-tools: bash, read, grep, glob
+metadata:
+  companion-script: scripts/context-budget.sh
+  handoffs: using-agent-skills (to pick a skill), bash-explore (to explore codebase)
+  trigger-phrases: context management, session setup, optimize context, context budget, reduce context, compact context
+  bundle: meta
 ---
-
 # Context Engineering
 
 **Companion script:** `scripts/context-budget.sh` --- estimates context token usage, flags budget risks, and recommends compaction.

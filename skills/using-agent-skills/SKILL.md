@@ -1,11 +1,15 @@
 ---
 name: using-agent-skills
-description: Discovers and invokes agent skills. Use when starting a session or when you need to discover which skill applies to the current task. This is the meta-skill that governs how all other skills are discovered and invoked.
-trigger-phrases: which skill, what skill, how to, find a skill, skill for this, I need to...
-handoffs: all other skills (this is the meta-skill dispatcher)
-companion-script: scripts/skill-find.sh
+description: Discovers and invokes agent skills. Use when starting a session or when you need to discover which skill applies to the current task. This is the meta-skill that governs how all other skills
+  are discovered and invoked.
+compatibility: claude-code, cursor, opencode, gemini-cli, codex-cli
+allowed-tools: bash, read, grep, glob
+metadata:
+  companion-script: scripts/skill-find.sh
+  handoffs: all other skills (this is the meta-skill dispatcher)
+  trigger-phrases: which skill, what skill, how to, find a skill, skill for this, I need to...
+  bundle: meta
 ---
-
 # Using Agent Skills
 
 **Companion script:** `scripts/skill-find.sh` --- discover, search, and list skills with statistics.
@@ -14,6 +18,31 @@ bash ./scripts/skill-find.sh find "<query>"     # search skills
 bash ./scripts/skill-find.sh list [bundle]      # list skills
 bash ./scripts/skill-find.sh stats              # coverage stats
 ```
+
+## Progressive Disclosure (L1/L2/L3)
+
+Skills use the **Agent Skills progressive disclosure** model to keep context efficient.
+Instead of loading all 41 skills fully, you load only what you need, when you need it:
+
+| Level | What | Tokens | When |
+|-------|------|--------|------|
+| **L1** | Skill name + description + pattern | ~100/skill | Session start (always loaded) |
+| **L2** | Full SKILL.md instructions | ~1-5K | When a task matches a skill |
+| **L3** | Reference files, assets, scripts | Variable | When instructions call for them |
+
+**Use the toolset to navigate progressively:**
+
+```bash
+bash ./scripts/skill-toolset.sh list                     # L1 — browse all 41 skills (compact)
+bash ./scripts/skill-toolset.sh load <name>               # L2 — load a skill's full instructions
+bash ./scripts/skill-toolset.sh resource <name> <path>    # L3 — load a file (references/, assets/)
+bash ./scripts/skill-toolset.sh find <query>              # search by name/pattern/bundle
+bash ./scripts/skill-toolset.sh info <name>               # all metadata for one skill
+```
+
+The L1 list shows each skill with its **design pattern** in `[brackets]` and
+**lifecycle bundle** in `(parentheses)`. Use these tags to quickly identify
+which skills are relevant to your current task.
 
 ## Overview
 

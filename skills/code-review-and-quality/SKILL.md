@@ -1,11 +1,16 @@
 ---
 name: code-review-and-quality
-description: Conducts multi-axis code review. Use before merging any change. Use when reviewing code written by yourself, another agent, or a human. Use when you need to assess code quality across multiple dimensions before it enters the main branch.
-trigger-phrases: review this, code review, quality check, review my code, is this good, check for issues
-handoffs: debugging-and-error-recovery (to fix issues), code-simplification (to simplify)
-companion-script: scripts/review-checklist.sh
+description: Conducts multi-axis code review. Use before merging any change. Use when reviewing code written by yourself, another agent, or a human. Use when you need to assess code quality across multiple
+  dimensions before it enters the main branch.
+compatibility: claude-code, cursor, opencode, gemini-cli, codex-cli
+allowed-tools: bash, read, grep, glob, edit
+metadata:
+  companion-script: scripts/review-checklist.sh
+  handoffs: debugging-and-error-recovery (to fix issues), code-simplification (to simplify)
+  trigger-phrases: review this, code review, quality check, review my code, is this good, check for issues
+  pattern: reviewer
+  bundle: verify
 ---
-
 # Code Review and Quality
 
 Companion script: `scripts/review-checklist.sh`

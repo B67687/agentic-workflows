@@ -1,11 +1,16 @@
 ---
 name: debugging-and-error-recovery
-description: Guides systematic root-cause debugging. Use when tests fail, builds break, behavior doesn't match expectations, or you encounter any unexpected error. Use when you need a systematic approach to finding and fixing the root cause rather than guessing.
-trigger-phrases: debug this, fix this, why is this broken, error, test failure, build failure, root cause, bug
-handoffs: test-driven-development (to write tests), code-review-and-quality (to review fix)
-companion-script: scripts/triage.sh
+description: Guides systematic root-cause debugging. Use when tests fail, builds break, behavior doesn't match expectations, or you encounter any unexpected error. Use when you need a systematic approach
+  to finding and fixing the root cause rather than guessing.
+compatibility: claude-code, cursor, opencode, gemini-cli, codex-cli
+allowed-tools: bash, read, grep, glob, write, edit
+metadata:
+  companion-script: scripts/triage.sh
+  handoffs: test-driven-development (to write tests), code-review-and-quality (to review fix)
+  trigger-phrases: debug this, fix this, why is this broken, error, test failure, build failure, root cause, bug
+  pattern: pipeline
+  bundle: verify
 ---
-
 # Debugging and Error Recovery
 
 ## Overview

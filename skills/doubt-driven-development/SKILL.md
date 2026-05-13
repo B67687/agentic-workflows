@@ -1,11 +1,15 @@
 ---
 name: doubt-driven-development
-description: Subjects every non-trivial decision to a fresh-context adversarial review before it stands. Use when correctness matters more than speed, when working in unfamiliar code, when stakes are high (production, security-sensitive logic, irreversible operations), or any time a confident output would be cheaper to verify now than to debug later.
-trigger-phrases: doubt this, adversarial review, stress test this, is this right, challenge this, pressure test
-handoffs: code-review-and-quality (to review), debugging-and-error-recovery (to fix issues)
-companion-script: scripts/doubt-adversarial.sh
+description: Subjects every non-trivial decision to a fresh-context adversarial review before it stands. Use when correctness matters more than speed, when working in unfamiliar code, when stakes are high
+  (production, security-sensitive logic, irreversible operations), or any time a confident output would be cheaper to verify now than to debug later.
+compatibility: claude-code, cursor, opencode, gemini-cli, codex-cli
+allowed-tools: bash, read, grep, glob
+metadata:
+  companion-script: scripts/doubt-adversarial.sh
+  handoffs: code-review-and-quality (to review), debugging-and-error-recovery (to fix issues)
+  trigger-phrases: doubt this, adversarial review, stress test this, is this right, challenge this, pressure test
+  bundle: meta
 ---
-
 # Doubt-Driven Development
 
 **Companion script:** `scripts/doubt-adversarial.sh` --- automates prompt generation, EXTRACT formatting, and RECONCILE templating. Run from the skill directory:

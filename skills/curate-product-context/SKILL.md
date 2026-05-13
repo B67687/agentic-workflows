@@ -1,11 +1,15 @@
 ---
 name: curate-product-context
-description: "Curate and maintain `.tap/product.md` --- a compressed, agent-readable product-context file (what we build, audience, current focus, bets, non-goals). Auto-detects interview / review / refresh mode. One file, five sections, ≤ 80 lines, principle-driven. NOT for: tech stack (CLAUDE.md), architecture decisions (.tap/architecture.md), or feature roadmaps."
-trigger-phrases: curate product context, update product context, product vision in repo, what are we building, product direction, install product context
-handoffs: tap-audit (to assess readiness after product context), tech-roadmap (to build roadmap from context)
-companion-script: scripts/curate-product-context.sh
+description: 'Curate and maintain `.tap/product.md` --- a compressed, agent-readable product-context file (what we build, audience, current focus, bets, non-goals). Auto-detects interview / review / refresh
+  mode. One file, five sections, ≤ 80 lines, principle-driven. NOT for: tech stack (CLAUDE.md), architecture decisions (.tap/architecture.md), or feature roadmaps.'
+compatibility: claude-code, cursor, opencode, gemini-cli, codex-cli
+allowed-tools: bash, read, grep, glob
+metadata:
+  companion-script: scripts/curate-product-context.sh
+  handoffs: tap-audit (to assess readiness after product context), tech-roadmap (to build roadmap from context)
+  trigger-phrases: curate product context, update product context, product vision in repo, what are we building, product direction, install product context
+  bundle: assess
 ---
-
 # Curate Product Context
 
 **Companion script:** `scripts/curate-product-context.sh` --- generate `.tap/product.md` skeleton with product vision, focus, and non-goals.

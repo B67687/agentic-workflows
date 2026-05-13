@@ -1,11 +1,15 @@
 ---
 name: loop-check
-description: "Assess what's needed to make feedback loops autonomous in a repo. Use when someone says loop check, what do I need to work autonomously, what's manual here, can an agent iterate here, or before starting work in an unfamiliar repo. NOT for: full repo audits (-> tap-audit), coding, test writing, or implementation."
-trigger-phrases: loop check, what do I need to work autonomously, what's manual here, can an agent iterate, what should I automate, feedback loops
-handoffs: tap-audit (for full repo audit), tighten-loop (for conversation-level steers)
-companion-script: scripts/loop-check.sh
+description: 'Assess what''s needed to make feedback loops autonomous in a repo. Use when someone says loop check, what do I need to work autonomously, what''s manual here, can an agent iterate here, or
+  before starting work in an unfamiliar repo. NOT for: full repo audits (-> tap-audit), coding, test writing, or implementation.'
+compatibility: claude-code, cursor, opencode, gemini-cli, codex-cli
+allowed-tools: bash, read, grep, glob
+metadata:
+  companion-script: scripts/loop-check.sh
+  handoffs: tap-audit (for full repo audit), tighten-loop (for conversation-level steers)
+  trigger-phrases: loop check, what do I need to work autonomously, what's manual here, can an agent iterate, what should I automate, feedback loops
+  bundle: assess
 ---
-
 # Loop Check
 
 **Companion script:** `scripts/loop-check.sh` --- assess feedback loops, identify gaps and leverage points.

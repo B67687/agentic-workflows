@@ -1,11 +1,17 @@
 ---
 name: implementation-planning
-description: "Create technical implementation plans with phases, file changes, and verification steps. Use when a ticket, shaped work, or technical challenge needs a concrete implementation strategy before coding begins. Complements planning-and-task-breakdown (which decomposes into tasks) by producing the technical design --- file-by-file plans with complete code snippets. NOT for: task breakdown (-> planning-and-task-breakdown), or executing code (-> incremental-implementation)."
-trigger-phrases: create a plan, plan this ticket, how should we implement, technical design, architect this, design the approach, refactor plan, implementation strategy
-handoffs: incremental-implementation (to execute phase by phase), planning-and-task-breakdown (for task-level decomposition)
-companion-script: scripts/plan-implementation.sh
+description: 'Create technical implementation plans with phases, file changes, and verification steps. Use when a ticket, shaped work, or technical challenge needs a concrete implementation strategy before
+  coding begins. Complements planning-and-task-breakdown (which decomposes into tasks) by producing the technical design --- file-by-file plans with complete code snippets. NOT for: task breakdown (-> planning-and-task-breakdown),
+  or executing code (-> incremental-implementation).'
+compatibility: claude-code, cursor, opencode, gemini-cli, codex-cli
+allowed-tools: bash, read, grep, glob, write, edit
+metadata:
+  companion-script: scripts/plan-implementation.sh
+  handoffs: incremental-implementation (to execute phase by phase), planning-and-task-breakdown (for task-level decomposition)
+  trigger-phrases: create a plan, plan this ticket, how should we implement, technical design, architect this, design the approach, refactor plan, implementation strategy
+  pattern: pipeline
+  bundle: plan-technical
 ---
-
 # Implementation Planning
 
 Take a ticket, shaped work, or technical challenge and create a detailed implementation plan that any developer or agent can follow.

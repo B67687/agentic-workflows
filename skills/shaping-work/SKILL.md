@@ -1,11 +1,15 @@
 ---
 name: shaping-work
-description: "Shape rough ideas into clear, actionable work definitions --- lighter than full specs, focused on acceptance criteria. Use when someone has an unstructured idea --- feature requests, bug reports, Slack threads, customer feedback. NOT for: full specification (-> spec-driven-development), or implementation planning (-> implementation-planning)."
-trigger-phrases: shape this, scope this, define this work, turn this into a ticket, flesh this out, what should we build, acceptance criteria
-handoffs: implementation-planning (to plan after shaping), product-discovery (to validate before committing)
-companion-script: scripts/shape-work.sh
+description: 'Shape rough ideas into clear, actionable work definitions --- lighter than full specs, focused on acceptance criteria. Use when someone has an unstructured idea --- feature requests, bug reports,
+  Slack threads, customer feedback. NOT for: full specification (-> spec-driven-development), or implementation planning (-> implementation-planning).'
+compatibility: claude-code, cursor, opencode, gemini-cli, codex-cli
+allowed-tools: bash, read, grep, glob
+metadata:
+  companion-script: scripts/shape-work.sh
+  handoffs: implementation-planning (to plan after shaping), product-discovery (to validate before committing)
+  trigger-phrases: shape this, scope this, define this work, turn this into a ticket, flesh this out, what should we build, acceptance criteria
+  bundle: product
 ---
-
 # Shaping Work
 
 Shape ambiguous ideas into clear work definitions. Focus on clarity, not process theater.

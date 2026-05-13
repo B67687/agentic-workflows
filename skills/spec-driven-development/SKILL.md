@@ -1,11 +1,16 @@
 ---
 name: spec-driven-development
-description: Creates specs before coding. Use when starting a new project, feature, or significant change and no specification exists yet. Use when requirements are unclear, ambiguous, or only exist as a vague idea.
-trigger-phrases: write a spec, specification, define requirements, scope this, what are we building, requirements doc
-handoffs: planning-and-task-breakdown (to decompose), grill-me (to clarify)
-companion-script: scripts/spec-generator.sh
+description: Creates specs before coding. Use when starting a new project, feature, or significant change and no specification exists yet. Use when requirements are unclear, ambiguous, or only exist as
+  a vague idea.
+compatibility: claude-code, cursor, opencode, gemini-cli, codex-cli
+allowed-tools: bash, read, write, grep
+metadata:
+  companion-script: scripts/spec-generator.sh
+  handoffs: planning-and-task-breakdown (to decompose), grill-me (to clarify)
+  trigger-phrases: write a spec, specification, define requirements, scope this, what are we building, requirements doc
+  pattern: generator
+  bundle: define
 ---
-
 ## Presentation
 
 ```

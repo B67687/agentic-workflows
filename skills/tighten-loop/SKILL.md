@@ -1,11 +1,15 @@
 ---
 name: tighten-loop
-description: "Harvest course-corrections from the current conversation and convert them into durable fixes so the agent doesn't need the same steer next time. Use when someone says tighten the loop, debrief this session, what should I update, what tripped you up. NOT for: repo readiness (-> loop-check), retros on past PRs/incidents (-> retrospective), or applying edits inline."
-trigger-phrases: tighten the loop, debrief this session, what should I update, what tripped you up, what slowed you down, session debrief
-handoffs: loop-check (for repo-level loop assessment), retrospective (for event-driven retro)
-companion-script: scripts/tighten-loop.sh
+description: 'Harvest course-corrections from the current conversation and convert them into durable fixes so the agent doesn''t need the same steer next time. Use when someone says tighten the loop, debrief
+  this session, what should I update, what tripped you up. NOT for: repo readiness (-> loop-check), retros on past PRs/incidents (-> retrospective), or applying edits inline.'
+compatibility: claude-code, cursor, opencode, gemini-cli, codex-cli
+allowed-tools: bash, read, grep, glob
+metadata:
+  companion-script: scripts/tighten-loop.sh
+  handoffs: loop-check (for repo-level loop assessment), retrospective (for event-driven retro)
+  trigger-phrases: tighten the loop, debrief this session, what should I update, what tripped you up, what slowed you down, session debrief
+  bundle: assess
 ---
-
 # Tighten Loop
 
 Answer one question: **"From the corrections I gave the agent in this conversation, what should I update so it doesn't need them next time?"**
