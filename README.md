@@ -282,6 +282,7 @@ agentic-workflows/
 | **Memory & RAG** | Mem0, LMCache, MemPalace, MemOS, PageIndex, agentmemory, GraphRAG |
 | **Workflow Platforms** | n8n, Flowise, Langflow, Dify, Manifest, Infisical |
 | **Prompt Libraries** | Pi-Skills, Karpathy-Skills, Codex Skills, Counsel, Awe(Claude Code) |
+| **README Design & Rendering** | [readme-svg-typing-generator](https://github.com/readme-SVG/readme-SVG-typing-generator), [readme-svg-wave-divider-generator](https://github.com/readme-SVG/readme-SVG-wave-divider-generator), [GitHub Readme Stats](https://github.com/anuraghazra/github-readme-stats), [readme-hub](https://github.com/mkr-infinity/readme-hub) |
 | **MCP & Protocols** | MCP Registry, MCP Servers, GitHub MCP Server |
 | **Agent Platforms** | Pi, Cline, CUA, Rufo, Agency-Agents, OpenCode |
 | **LLMs & Learning** | DeepSeek-V3, OpenAI Codex, Qwen, Gemini CLI, Hello Agents, Claude Code Best Practice, Generative AI for Beginners |
@@ -295,8 +296,10 @@ agentic-workflows/
 |------|-----|
 | [tree-sitter](https://github.com/tree-sitter/tree-sitter) | Repo-map generation |
 | [Playwright](https://github.com/microsoft/playwright) | Browser automation |
+| [RTK (Rust Token Killer)](https://github.com/ericseppanen/rtk) | File counting & analysis |
 | [git-filter-repo](https://github.com/newren/git-filter-repo) | Git history management |
 | [promptfoo](https://github.com/promptfoo/promptfoo) | Prompt evaluation |
+| [readme-aura](https://github.com/collectioneur/readme-aura) | React/JSX to SVG README components |
 | [SVG Typing Generator](https://github.com/readme-SVG/readme-SVG-typing-generator) | Animated README header |
 | [GitHub Readme Stats](https://github.com/anuraghazra/github-readme-stats) | Repository stats |
 | [Wave Divider Generator](https://github.com/readme-SVG/readme-SVG-wave-divider-generator) | Section dividers |
