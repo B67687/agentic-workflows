@@ -8,19 +8,11 @@ companion-script: scripts/grill-session.sh
 
 # Grill Me
 
-**Companion script:** `scripts/grill-session.sh` --- session framing, question formatting, and closure summary.
-```bash
-bash ./scripts/grill-session.sh start "<topic>"       # open a grill session
-bash ./scripts/grill-session.sh question "<q>" "<r>"   # format a question
-bash ./scripts/grill-session.sh close                  # closure summary
-```
+Companion script: `scripts/grill-session.sh`
+Related: `structured-questioning` skill for preparing questions
 
 Socratic questioning: expose hidden assumptions before committing to action.
 When a task is broad, ambiguous, or expensive to get wrong, stop and grill before planning.
-
-> **Related skill**: Use `structured-questioning` to prepare your questions *before* entering a grill
-> session. That skill decomposes any question into 5W+H + Socratic probe. This skill walks the
-> decision tree with the other party.
 
 ## Phases
 
@@ -103,10 +95,4 @@ Use `/grill-with-docs` instead when the project has a CONTEXT.md domain language
 
 ## Verification
 
-After grilling:
-
-- [ ] Every branch of the decision tree has been walked
-- [ ] The user confirms the summary is correct
-- [ ] No ambiguous or unresolved requirements remain
-- [ ] You have enough clarity to write a plan or spec
-- [ ] Remaining unknowns are explicitly flagged as deferred decisions
+After grilling: confirm with user that every decision branch is walked and the summary is correct before proceeding.
