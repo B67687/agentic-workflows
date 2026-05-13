@@ -66,6 +66,7 @@ GEMINI.md
 # Tier 3 — Generated Search Indexes and Caches
 # ------------------------------------------------------------------
 .cache/
+skills/.skill-index.json
 
 # ------------------------------------------------------------------
 # Tier 3 — Large Binaries (not source)

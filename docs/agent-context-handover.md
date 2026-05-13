@@ -223,7 +223,7 @@ Your current session context (copy below):
 Research on AI agent engineering, model selection, and workspace optimization
 
 ## What's Done
-- Built comprehensive knowledge base structure (AGENTS.md, docs/CONTEXT.md, docs/)
+- Built comprehensive knowledge base structure (AGENTS.md, docs/context-format.md, docs/)
 - Implemented research workflow with hierarchical analysis (Medium/Deep)
 - Added cognitive science integration (testing effect, cognitive load theory)
 - Created explanation framework (teaching order, curse of knowledge)
@@ -248,7 +248,7 @@ Using MiniMax M2.7 Free for research (latest model, unlimited tokens)
 - AGENTS.md: Operating contract with 10 principles
 - docs/agent-context-handover.md: Model switching guide
 - docs/model-selection-guide.md: April 2026 rankings
-- docs/CONTEXT.md: AI orientation
+- docs/context-format.md: AI orientation
 
 ## Next Steps
 1. Read session-state.json first, then AGENTS.md

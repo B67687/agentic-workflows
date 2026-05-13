@@ -76,7 +76,7 @@ If you cannot answer these confidently, do not flag the file.
 
 ### Error 1: Surface-Level Pattern Matching
 
-**Wrong:** Flagged `README.md` and `docs/CONTEXT.md` as nearly identical because both had folder structure blocks and "High-Signal Files" tables.
+**Wrong:** Flagged `README.md` and `docs/context-format.md` as nearly identical because both had folder structure blocks and "High-Signal Files" tables.
 
 **Why it was wrong:** They serve different audiences (human navigation vs AI orientation). The duplication was intentional for each audience's convenience.
 

@@ -121,16 +121,16 @@ When `detect-gaps.sh` runs at session start, it checks:
 
 Without governance:
 ```
-Add file: workflows/deploy-checklist.md  →  Wrong place (no "workflows/" dir)
+Add file: workflows/security-checklist.md  →  Wrong place (no "workflows/" dir)
                                        →  Needs refactoring later
 ```
 
 With governance:
 ```
-I want to add a deployment checklist.
+I want to add a security auditing skill.
 → Is this a process with steps? YES → skills/<name>/
-→ Create skills/deploy-checklist/SKILL.md
-→ Add companion script if needed: skills/deploy-checklist/scripts/checklist.sh
+→ Create skills/security-and-hardening/SKILL.md
+→ Add companion script if needed: skills/security-and-hardening/scripts/audit.sh
 → Update skills/manifest.json
 → Done. No refactoring needed.
 ```

@@ -64,7 +64,7 @@ Read this first on every resume. Everything else is linked.
 - Retrieve only relevant local context: `bash scripts/retrieve-context.sh "query"`
 - Check whether to restart: `bash scripts/session-boundary.sh --phase research --turns 8`
 - Create a compact continuation packet: `bash scripts/handoff.sh "task" --phase research --turns 8`
-- After changing propagation or sync scripts, run: `bash scripts/test-propagation-contract.sh`
+- After changing propagation or sync scripts, run: `bash scripts/propagate-to-all.sh --check`
 - After a verified phase, use: `bash scripts/checkpoint-commit.sh -m "checkpoint summary"`
 
 ## Deep References (read only when needed)
