@@ -5,6 +5,15 @@
 
 ---
 
+## Phase 26: Full workspace audit, refactor, governance, and companion script completion (2026-05-13)
+- P0: Git bloat purge — filter-repo removed 10MB HTML + 6MB JSONL + archive/raw/ + .cache/ + course-guide.pdf from history. .git 22M→4.7M (91%)
+- P0: 13 new companion scripts — 41/41 skills with scripts (was 5/27 = 19%)
+- P0: 4-layer governance — file classification (.gitignore tiers), skill completeness (detect-gaps Check 8), growth policy (Check 9), auto-healing (HEAL=1)
+- P0: Assumption expiry — scripts/assumption-expiry.sh, session-state.json assumptions[] with TTL
+- P0: Session health monitoring — context-pressure.sh --persist/--auto, cross-session trend tracking
+- P0: Structural governance — docs/structural-governance.md, inbox/ staging, detect-gaps Check 10
+
+
 ## Phase 25: Agent Dreaming Integration (2026-05-12)
 - Bridged "agent dreaming" / divergent thinking concept to the existing `divergent-ideation` skill
 - Enhanced skill description to cover play/exploration contexts naturally

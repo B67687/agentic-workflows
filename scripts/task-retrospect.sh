@@ -42,7 +42,6 @@ while [ $# -gt 0 ]; do
       ;;
     --session-end)
       MODE="session-end"
-      shift
       ;;
     --type|--type=*)
       if [[ "$1" == --type=* ]]; then TYPE="${1#*=}"; else shift; TYPE="${1:-}"; fi
@@ -52,7 +51,6 @@ while [ $# -gt 0 ]; do
       ;;
     --to-json)
       MODE="to-json"
-      shift
       ;;
     *)
       if [ -z "$INSIGHT" ]; then
@@ -83,7 +81,13 @@ for w in wc[:15]:
 " 2>/dev/null || echo "- unspecified changes")
   
   # Count commits since last history entry
-  HIST_COMMITS=$(git log --oneline "$(git log -1 --format='%H' -- archive/history-full-detailed.md 2>/dev/null || echo HEAD~5)"..HEAD 2>/dev/null | wc -l)
+  LAST_HIST=$(git log -1 --format='%H' -- archive/history-full-detailed.md 2>/dev/null || echo "")
+  if [ -n "$LAST_HIST" ]; then
+    HIST_COMMITS=$(git log --oneline "${LAST_HIST}..HEAD" 2>/dev/null | wc -l || echo 0)
+  else
+    HIST_COMMITS=0
+  fi
+  HIST_COMMITS=${HIST_COMMITS:-0}
   
   echo "=== Session End Documentation ==="
   echo "  Commits since last history entry: $HIST_COMMITS"
@@ -110,50 +114,46 @@ print(s.get('currentTask', {}).get('name', 'unspecified work'))
   # --- Prepend to history-full-detailed.md (top, newest-first) ---
   HIST_FILE="$REPO_ROOT/archive/history-full-detailed.md"
   if [ -f "$HIST_FILE" ]; then
+    WC_TMP=$(mktemp)
+    echo "$WC_ITEMS" > "$WC_TMP"
+    
     python3 -c "
 import re
 with open('$HIST_FILE') as f:
     content = f.read()
+with open('$WC_TMP') as f:
+    wc = f.read()
 
-# Insert new entry right after header (before first # 2026- entry)
-m = re.search(r'\n# 2026-', content)
+m = re.search(r'\n# 2026-05-', content)
 insert_at = m.start() + 1 if m else len(content)
 
-new_entry = '''\n
-# ${DATE_ONLY} — ${SESSION_TITLE}
-
-**Session end:** ${TIMESTAMP}
-**Commits since last entry:** ${HIST_COMMITS}
-
-${WC_ITEMS}
-'''
+new_entry = '\n\n# $DATE_ONLY — $SESSION_TITLE\n\n**Session end:** $TIMESTAMP\n**Commits since last entry:** $HIST_COMMITS\n\n' + wc + '\n'
 
 new_content = content[:insert_at] + new_entry + content[insert_at:]
 with open('$HIST_FILE', 'w') as f:
     f.write(new_content)
-"
+" 2>/dev/null || true
+    rm -f "$WC_TMP"
     echo "  ✓ Prepended to archive/history-full-detailed.md"
   fi
   
   # --- Prepend to history-index.md (top, newest-first) ---
   IDX_FILE="$REPO_ROOT/archive/history-index.md"
   if [ -f "$IDX_FILE" ]; then
-    # Find the first phase heading to insert after
     HEADER=$(head -6 "$IDX_FILE")
     REST=$(tail -n +7 "$IDX_FILE")
     
-    # Find next phase number
-    NEXT_PHASE=$(echo "$REST" | grep -oP 'Phase \K\d+' | head -1)
+    NEXT_PHASE=$(echo "$REST" | grep -oP 'Phase \K\d+' | head -1 || echo 1)
     NEXT_PHASE=$((NEXT_PHASE + 1))
     
     TMP=$(mktemp)
     echo "$HEADER" > "$TMP"
     echo "" >> "$TMP"
     echo "## Phase ${NEXT_PHASE}: ${SESSION_TITLE} (${DATE_ONLY})" >> "$TMP"
-    echo "$WC_ITEMS" | head -6 | sed 's/^P[0-4]: //' >> "$TMP"
+    echo "$WC_ITEMS" | head -6 | sed 's/^P[0-4]: //' >> "$TMP" 2>/dev/null || true
     echo "" >> "$TMP"
     echo "$REST" >> "$TMP"
-    mv "$TMP" "$IDX_FILE"
+    mv "$TMP" "$IDX_FILE" 2>/dev/null || true
     echo "  ✓ Prepended Phase ${NEXT_PHASE} to archive/history-index.md"
   fi
   

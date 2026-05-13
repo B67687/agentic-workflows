@@ -4665,6 +4665,27 @@ When in doubt, preserve the decision and its rationale, but label the evidence l
 
 ---
 
+
+
+# 2026-05-13 — Full workspace audit, refactor, governance, and companion script completion
+
+**Session end:** 2026-05-13T02:11:30Z
+**Commits since last entry:** 0
+
+- P0: Git bloat purge — filter-repo removed 10MB HTML + 6MB JSONL + archive/raw/ + .cache/ + course-guide.pdf from history. .git 22M→4.7M (91%)
+- P0: 13 new companion scripts — 41/41 skills with scripts (was 5/27 = 19%)
+- P0: 4-layer governance — file classification (.gitignore tiers), skill completeness (detect-gaps Check 8), growth policy (Check 9), auto-healing (HEAL=1)
+- P0: Assumption expiry — scripts/assumption-expiry.sh, session-state.json assumptions[] with TTL
+- P0: Session health monitoring — context-pressure.sh --persist/--auto, cross-session trend tracking
+- P0: Structural governance — docs/structural-governance.md, inbox/ staging, detect-gaps Check 10
+- P1: AGENTS.md restructuring — numbering fixed (was 1-2-3-10-4-5...→1-2-3-4-...12), skill count corrected 28→41, Cost section removed, integration gaps closed (rules/, .tap/, agent-skills setup guides)
+- P1: MCP config — agentmemory + sequential-thinking ON by default, playwright removed from central config
+- P1: TAP skills integration (teambrilliant) — 14 new skills with companion scripts, enhanced frontmatter, .tap/ project memory
+- P2: Ruflo evaluation — CLI-only model (0MB persistent cost), daemon stopped, MCP disabled (sql.js hangs on WSL2)
+- P2: System research — 9 authoritative sources synthesized in research/well-maintained-system-research.md
+- P2: Cleanup — 10 stale duplicate scripts removed, ghost agent/ dir removed, orphaned file links fixed, shell bug fixed
+- P2: research quality automation — research quality framework made automatic default (no /research or qualifiers needed)
+
 # 2026-05-12 — Full Workspace Audit and Refactor
 
 **User intent:** The user asked for a comprehensive scan of the entire repo to find every issue from macro to micro, fix them recursively, and reach a state where no structural problems remain.
