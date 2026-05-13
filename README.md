@@ -202,6 +202,20 @@ workflow concepts, or direct code references.
 | [vercel-labs/portless](https://github.com/vercel-labs/portless) | Serverless agent patterns |
 | [zilliztech/claude-context](https://github.com/zilliztech/claude-context) | Context engineering patterns |
 
+### Additional Starred Resources
+These repositories from the owner's starred list also influenced the direction
+of this harness:
+
+| Category | Repos |
+|----------|-------|
+| **Agent Platforms** | [cline/cline](https://github.com/cline/cline), [earendil-works/pi](https://github.com/earendil-works/pi), [trycua/cua](https://github.com/trycua/cua), [msitarzewski/agency-agents](https://github.com/msitarzewski/agency-agents), [ultraworkers/claw-code](https://github.com/ultraworkers/claw-code), [karpathy/autoresearch](https://github.com/karpathy/autoresearch), [karpathy/llm-council](https://github.com/karpathy/llm-council), [bytedance/trae-agent](https://github.com/bytedance/trae-agent), [ThePrimeagen/harpoon](https://github.com/ThePrimeagen/harpoon) |
+| **Agent Skills & Prompts** | [badlogic/pi-skills](https://github.com/badlogic/pi-skills), [forrestchang/andrej-karpathy-skills](https://github.com/forrestchang/andrej-karpathy-skills), [mattpocock/skills](https://github.com/mattpocock/skills), [ComposioHQ/awesome-codex-skills](https://github.com/ComposioHQ/awesome-codex-skills), [jiangjiax/counsel](https://github.com/jiangjiax/counsel) |
+| **MCP & Protocols** | [modelcontextprotocol/registry](https://github.com/modelcontextprotocol/registry), [modelcontextprotocol/servers](https://github.com/modelcontextprotocol/servers), [github/github-mcp-server](https://github.com/github/github-mcp-server) |
+| **Memory & RAG** | [rohitg00/agentmemory](https://github.com/rohitg00/agentmemory), [microsoft/graphrag](https://github.com/microsoft/graphrag), [ruvnet/ruflo](https://github.com/ruvnet/ruflo), [ruvnet/RuView](https://github.com/ruvnet/RuView) |
+| **Tools Used in This Hub** | [tree-sitter/tree-sitter](https://github.com/tree-sitter/tree-sitter) (repo-map), [microsoft/playwright](https://github.com/microsoft/playwright) (browser automation), [newren/git-filter-repo](https://github.com/newren/git-filter-repo) (rewrote history), [promptfoo/promptfoo](https://github.com/promptfoo/promptfoo) (prompt testing), [anomaloco/opencode](https://github.com/anomaloco/opencode) (the runtime this harness runs on) |
+| **LLMs & Models** | [deepseek-ai/DeepSeek-V3](https://github.com/deepseek-ai/DeepSeek-V3), [QwenLM/Qwen](https://github.com/QwenLM/Qwen), [QwenLM/qwen-code](https://github.com/QwenLM/qwen-code), [openai/codex](https://github.com/openai/codex), [google-gemini/gemini-cli](https://github.com/google-gemini/gemini-cli) |
+| **Learning & Community** | [datawhalechina/hello-agents](https://github.com/datawhalechina/hello-agents), [jjyaoao/HelloAgents](https://github.com/jjyaoao/HelloAgents), [shanraisshan/claude-code-best-practice](https://github.com/shanraisshan/claude-code-best-practice), [shareAI-lab/learn-claude-code](https://github.com/shareAI-lab/learn-claude-code), [pingdotgg/t3code](https://github.com/pingdotgg/t3code), [DayuanJiang/next-ai-draw-io](https://github.com/DayuanJiang/next-ai-draw-io), [microsoft/generative-ai-for-beginners](https://github.com/microsoft/generative-ai-for-beginners) |
+
 ### Also Referenced
 - [OpenViking (volcengine/OpenViking)](https://github.com/volcengine/OpenViking)
 - [OpenClaw / Pen](https://github.com/openclaw/pen)
