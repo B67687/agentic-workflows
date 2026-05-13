@@ -242,7 +242,7 @@ agentic-workflows/
     <h4>🤖 Agent Frameworks</h4>
     <ul>
       <li><a href="https://github.com/microsoft/autogen">AutoGen</a> --- Multi-agent convos</li>
-      <li><a href="https://github.com/google/adk-python">Google ADK</a> --- 5 skill design patterns</li>
+      <li><a href="https://github.com/google/adk-python">Google ADK</a> --- <a href="https://x.com/GoogleCloudTech/status/2033953579824758855">5 skill design patterns</a></li>
       <li><a href="https://github.com/anthropics/claude-agent-sdk">Claude Agent SDK</a> --- Lifecycle & tool use</li>
       <li><a href="https://github.com/openai/openai-agents-python">OpenAI Agents SDK</a> --- Handoff patterns</li>
       <li><a href="https://github.com/Significant-Gravitas/AutoGPT">AutoGPT</a> --- Autonomous loops</li>
