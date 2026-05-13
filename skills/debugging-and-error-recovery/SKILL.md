@@ -98,47 +98,13 @@ Output: Root cause identified, fix implemented, regression test
 
 ### Why This Sequence?
 
-| Approach | Risk |
-|---|---|
-| Start at code (Level 4) | Fix the symptom, not the cause. Miss architectural issues. Fix breaks other things. |
-| Start at module (Level 3) | Waste time in the wrong file. Miss cross-component interactions. |
-| Start at system (Level 1) | Correct fix at the right level. Understand tradeoffs. Catch architectural issues. |
+Starting at the system level prevents fixing symptoms instead of causes. Top-down refinement (Wirth), delta debugging (Zeller), and the Cynefin framework all validate this approach: understand the problem category before choosing the response.
 
-The macro-to-micro approach is grounded in established problem-solving methodologies:
-
-- **Top-down design** (Wirth, 1971): "Program Development by Stepwise Refinement" --- formulate the overview, then refine subsystems in detail
-- **Wolf fence algorithm** (Gauss, 1982): Binary search for bugs --- fence down the middle, determine which side, repeat
-- **Delta debugging** (Zeller, 2002): Systematic isolation of failure-inducing input by progressive narrowing
-- **Cynefin framework** (Snowden, 2007): Categorize the problem type before choosing the response --- don't treat complex problems as simple ones
-
-**This is default behavior.** Every fix in this workspace follows the macro-to-micro funnel. See `AGENTS.md` Operating Contract for the governing rule.
+**This is default behavior.** Every fix follows the macro-to-micro funnel.
 
 ## Companion Script: `scripts/triage.sh`
 
-When a failure occurs, run triage first to capture structured evidence:
-
-```bash
-# Capture current failure context (outputs JSON, saves to .triage/latest.json)
-bash ./scripts/triage.sh
-
-# The triage artifact includes: timestamp, git state, recent errors,
-# recent commands, dirty files, and environment variables.
-```
-
-To populate triage with error data, pipe failing commands through
-`log-error.sh`:
-
-```bash
-# Capture a failing command's output
-npm test 2>&1 | bash ./scripts/log-error.sh "npm test"
-
-# Then run triage to see the recent errors in context
-bash ./scripts/triage.sh
-```
-
-Use the triage output to seed your debugging session --- it gives you
-a structured starting point instead of relying on memory or scrolling
-through terminal output.
+Run `bash ./scripts/triage.sh` to capture failure context (timestamp, git state, recent errors). Pipe failing commands through `log-error.sh` to populate triage data automatically.
 
 ## The Stop-the-Line Rule
 
