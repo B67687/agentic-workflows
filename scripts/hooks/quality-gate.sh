@@ -122,6 +122,89 @@ check_large_files() {
   done
 }
 
+check_error_handling() {
+  echo ":: Checking staged .sh files for error handling patterns..."
+  local files
+  files=$(check_staged -- '*.sh' 2>/dev/null || true)
+  if [[ -z "$files" ]]; then
+    echo "   (no .sh files staged)"
+    return
+  fi
+
+  while IFS= read -r file; do
+    [[ -z "$file" ]] && continue
+
+    # Retrieve staged content to check what's actually being committed
+    local staged
+    staged=$(git diff --cached "$file" 2>/dev/null | grep '^+' | sed 's/^+//' || true)
+
+    # If no staged additions, check the full file (new file or pre-existing)
+    if [[ -z "$staged" ]]; then
+      staged=$(git show :"$file" 2>/dev/null || cat "$file" 2>/dev/null)
+    fi
+
+    local has_errexit=false has_nounset=false has_pipefail=false
+
+    echo "$staged" | grep -qE '^\s*set\s+-[a-z]*e' && has_errexit=true
+    echo "$staged" | grep -qE '^\s*set\s+-[a-z]*u' && has_nounset=true
+    echo "$staged" | grep -qE 'pipefail' && has_pipefail=true
+
+    local missing=()
+    $has_errexit || missing+=("set -e")
+    $has_nounset || missing+=("set -u")
+    $has_pipefail || missing+=("pipefail")
+
+    if [[ ${#missing[@]} -gt 0 ]]; then
+      local joined
+      joined=$(IFS=,; echo "${missing[*]}")
+      if $has_errexit || $has_nounset || $has_pipefail; then
+        print_issue "WARN" "$file" "Missing: $joined (expected: set -euo pipefail)"
+      else
+        print_issue "WARN" "$file" "Missing ALL error handling: $joined (consider adding set -euo pipefail)"
+      fi
+    fi
+  done <<< "$files"
+}
+
+check_shellcheck() {
+  if ! command -v shellcheck &>/dev/null; then
+    return
+  fi
+
+  echo ":: Running shellcheck on staged .sh files..."
+  local files
+  files=$(check_staged -- '*.sh' 2>/dev/null || true)
+  if [[ -z "$files" ]]; then
+    echo "   (no .sh files staged)"
+    return
+  fi
+
+  while IFS= read -r file; do
+    [[ -z "$file" ]] && continue
+    # Only check if file still exists (not deleted)
+    [[ ! -f "$file" ]] && continue
+
+    local output
+    output=$(shellcheck -f gcc "$file" 2>/dev/null || true)
+    if [[ -n "$output" ]]; then
+      local err_count
+      err_count=$(echo "$output" | grep -c 'error:' 2>/dev/null || echo 0)
+      local warn_count
+      warn_count=$(echo "$output" | grep -c 'warning:' 2>/dev/null || echo 0)
+      if [[ "$err_count" -gt 0 ]]; then
+        print_issue "WARN" "$file" "shellcheck: $err_count error(s), $warn_count warning(s)"
+
+        # Show errors inline for visibility
+        echo "$output" | grep 'error:' | head -3 | while IFS= read -r line; do
+          echo "         → $line"
+        done
+      elif [[ "$warn_count" -gt 5 ]]; then
+        print_issue "WARN" "$file" "shellcheck: $warn_count warnings (consider reviewing)"
+      fi
+    fi
+  done <<< "$files"
+}
+
 check_ascii() {
   echo ":: Checking for non-ASCII characters in staged text files..."
   local files
@@ -166,6 +249,8 @@ check_console_log
 check_secrets
 check_todo_fixme
 check_large_files
+check_error_handling
+check_shellcheck
 check_ascii
 
 echo ""

@@ -245,6 +245,57 @@ Commands are edited once in `commands/` and synced to both harnesses via `script
 
 ---
 
+## Code Standards (Shell Scripts)
+
+These standards are enforced by `scripts/hooks/quality-gate.sh` at commit time and checked on every session start.
+
+### Required: `set -euo pipefail`
+
+Every `.sh` file **must** have this as the first operational line after the header comment:
+
+```bash
+set -euo pipefail
+```
+
+This enables three protections:
+
+| Flag | Protection | What it prevents |
+|------|-----------|-----------------|
+| `-e` (errexit) | Exit on command failure | Silent continuation after errors |
+| `-u` (nounset) | Error on undefined variables | Silent use of empty strings |
+| `-o pipefail` | Fail pipeline on any component fail | Silent pipe failures (`cmd1 \| cmd2`) |
+
+**Exceptions:** Propagation templates (`propagation/*.template.sh`) and ingested sources (`raw/sources/`) are exempt. All active scripts in `scripts/` and `skills/*/scripts/` must comply.
+
+### Recommended: ERR trap
+
+For scripts over 200 lines or that perform critical operations (git, file manipulation, state changes), add an error trap after the `set` line:
+
+```bash
+trap 'echo "[ERROR] $BASH_SOURCE:$LINENO"' ERR
+```
+
+This catches errors in subshells and `$( )` substitutions that `set -e` may miss.
+
+### Recommended: Safe `cd`
+
+Always guard directory changes with explicit error handling:
+
+```bash
+cd "$TARGET_DIR" || { echo "ERROR: cannot cd to $TARGET_DIR"; exit 1; }
+```
+
+### Checked by quality gate
+
+The pre-commit hook (`scripts/hooks/quality-gate.sh`, wired into `checkpoint-commit.sh`) checks:
+- All staged `.sh` files for `set -e`, `set -u`, and `pipefail`
+- Runs `shellcheck` on staged `.sh` files (if available, non-blocking)
+
+Run manually: `bash ./scripts/checkpoint-commit.sh -m "test"` (will fail if quality gate finds errors)
+Bypass: `--skip-quality` flag on checkpoint-commit (not recommended)
+
+---
+
 ## Retrieval Order
 
 On every resume, read in this order:

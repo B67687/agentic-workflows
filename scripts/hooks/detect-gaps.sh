@@ -221,6 +221,30 @@ else
     echo "  ✓  inbox/ is empty"
 fi
 
+# ---- Check 11: Error Handling Regressions ----
+# Scans active scripts for missing error handling patterns (non-blocking).
+# Excludes propagation templates and raw/sources (intentionally exempt).
+ERROR_HANDLING_ISSUES=0
+while IFS= read -r f; do
+    issues=0
+    grep -qE '^\s*set\s+-[a-z]*e' "$f" 2>/dev/null || issues=$((issues + 1))
+    grep -qE '^\s*set\s+-[a-z]*u' "$f" 2>/dev/null || issues=$((issues + 1))
+    grep -qE 'pipefail' "$f" 2>/dev/null || issues=$((issues + 1))
+    if [ "$issues" -gt 0 ]; then
+        ERROR_HANDLING_ISSUES=$((ERROR_HANDLING_ISSUES + 1))
+        [ "$ERROR_HANDLING_ISSUES" -le 5 ] && report_gap "WARN" "$f is missing error handling components"
+    fi
+done < <(find . -name '*.sh' -not -path './.git/*' -not -path './propagation/*' -not -path './raw/*' -not -path './.bench-runs/*' -not -path './.opencode/*' 2>/dev/null)
+
+if [ "$ERROR_HANDLING_ISSUES" -gt 0 ]; then
+    if [ "$ERROR_HANDLING_ISSUES" -gt 5 ]; then
+        report_gap "WARN" "plus $(($ERROR_HANDLING_ISSUES - 5)) more script(s) with missing error handling"
+    fi
+    echo "       Run: bash ./scripts/hooks/quality-gate.sh (pre-commit check)"
+else
+    echo "  ✓  Error handling patterns: all active scripts comply"
+fi
+
 # ---- Summary ----
 echo ""
 if [ "$FOUND_GAP" = true ]; then
