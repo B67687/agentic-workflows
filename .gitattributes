@@ -1,0 +1,21 @@
+# Release export rules — files excluded from release tarballs
+# (git archive uses these to strip dev-only content)
+
+.gitattributes          export-ignore
+.gitignore              export-ignore
+.gitkeep                export-ignore
+.rgignore               export-ignore
+.cleanup-protect        export-ignore
+.claude/                export-ignore
+.cursor/                export-ignore
+.opencode/              export-ignore
+.devcontainer/          export-ignore
+.ruflo/                 export-ignore
+.github/                export-ignore
+CONTRIBUTING.md         export-ignore
+
+# Generated artifacts (regenerate, don't ship)
+ruvector.db             export-ignore
+repo-graph.html         export-ignore
+*.sqlite                export-ignore
+*.log                   export-ignore
