@@ -1,12 +1,12 @@
 {
   "session": 78,
-  "status": "implemented",
-  "interruptedCount": 0,
+  "status": "verified-phase",
+  "interruptedCount": 1,
   "contextPressure": "healthy",
   "currentTask": {
-    "name": "Integrate cognitive surrender resistance into workflow",
+    "name": "Audit: detect stale artifacts from folder renames",
     "status": "done",
-    "goal": "Research cognitive surrender comprehensively, identify solutions, and integrate resistance mechanisms into the agentic-workflows hub."
+    "goal": "Check if folder renames (bus-app→bus-hop, wall-you→scenic-fetch) left stale references or orphaned content dirs."
   },
   "environment": {
     "note": "Configure per-workspace in your OpenCode config at `$HOME/.config/opencode/opencode.jsonc`.",
