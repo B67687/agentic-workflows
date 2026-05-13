@@ -177,7 +177,7 @@ For a detailed catalog, run `ls scripts/` or `ls commands/`.
 
 ## Engineering Skills (agent-skills)
 
-This hub integrates **[agent-skills](https://github.com/addyosmani/agent-skills)** — 22 production-grade engineering skills plus divergent-ideation for creative ideation. Skills are in `skills/` (28 total) alongside 3 agent personas in `agents/`, 5 reference checklists in `references/`, and setup guides in `docs/agent-skills/`.
+This hub integrates **[agent-skills](https://github.com/addyosmani/agent-skills)** — 22 production-grade engineering skills plus divergent-ideation for creative ideation. Skills are in `skills/` (28 total) alongside 3 agent personas in [`agents/`](agents/), 5 reference checklists in [`references/`](references/), and setup guides in [`docs/agent-skills/`](docs/agent-skills/).
 
 ### How Skills Work
 
