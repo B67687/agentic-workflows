@@ -139,7 +139,7 @@ except: pass
 elif [ "$IS_WORKTREE" = true ]; then
   echo ""
   echo "ℹ  Working in a session worktree. Finish with:"
-  echo "   bash ./scripts/session-fork.sh --merge   (merge into main)"
+  echo "   bash ./scripts/session-fork.sh --merge   (merge into default branch)"
   echo "   bash ./scripts/session-fork.sh --close   (just cleanup)"
 fi
 
