@@ -46,13 +46,30 @@ case "$CMD" in
     # Parse optional flags
     WORKDIR="$REPO_ROOT"
     MODEL=""
+    FORMAT="text"
     while [ $# -gt 0 ]; do
       case "$1" in
         --dir) WORKDIR="$2"; shift 2 ;;
         --model) MODEL="$2"; shift 2 ;;
+        --format)
+          FORMAT="$2"
+          if [ "$FORMAT" != "text" ] && [ "$FORMAT" != "json" ]; then
+            echo "Format must be 'text' or 'json'"
+            exit 1
+          fi
+          shift 2 ;;
         *) echo "Unknown option: $1"; exit 1 ;;
       esac
     done
+
+    # Pydantic AI structured output pattern: append JSON instruction
+    if [ "$FORMAT" = "json" ]; then
+      TASK="$TASK
+
+IMPORTANT: Return your entire response as valid JSON. Start with { and end with }.
+Do not include any text, markdown, or backticks before or after the JSON object.
+The JSON must be parseable by json.loads()."
+    fi
 
     # Generate job ID
     JOB_ID="job-$(date -u +%Y%m%d%H%M%S)-$$"
@@ -100,7 +117,9 @@ case "$CMD" in
   "agent": "$AGENT",
   "task": $(echo "$TASK" | python3 -c "import sys,json; print(json.dumps(sys.stdin.read()))" 2>/dev/null || echo "\"$TASK\""),
   "workdir": "$WORKDIR",
+  "format": "$FORMAT",
   "status": "running",
+  "result": null,
   "created": "$TIMESTAMP",
   "started": "$TIMESTAMP",
   "completed": null,
@@ -212,6 +231,40 @@ print()
     done
     ;;
 
+  result)
+    JOB_ID="${1:-}"
+    if [ -z "$JOB_ID" ]; then
+      echo "Usage: bash ./scripts/agent-dispatch.sh result <job-id>"
+      echo "Jobs:"
+      ls "$JOBS_DIR"/*.json 2>/dev/null | sed 's/.*\///;s/\.json$//' | head -10
+      exit 1
+    fi
+    if [ ! -f "$JOBS_DIR/$JOB_ID.json" ]; then
+      echo "Job not found: $JOB_ID"
+      exit 1
+    fi
+    python3 -c "
+import json
+with open('$JOBS_DIR/$JOB_ID.json') as f:
+    job = json.load(f)
+fmt = job.get('format', 'text')
+result = job.get('result')
+if fmt == 'json' and result is not None:
+    if isinstance(result, dict) and '_error' in result:
+        print(f'JSON parse error: {result[\"_error\"]}')
+        print(f'Raw output: {result[\"_raw\"][:200]}')
+    else:
+        print(json.dumps(result, indent=2))
+else:
+    log_path = '$JOBS_DIR/$JOB_ID.log'
+    try:
+        with open(log_path) as lf:
+            print(lf.read())
+    except FileNotFoundError:
+        print('No log output yet.')
+" 2>/dev/null
+    ;;
+
   log)
     JOB_ID="${1:-}"
     if [ -z "$JOB_ID" ]; then
@@ -266,6 +319,7 @@ with open('$JOBS_DIR/$JOB_ID.json', 'w') as f:
     echo "  bash ./scripts/agent-dispatch.sh list"
     echo "  bash ./scripts/agent-dispatch.sh cancel <job-id>"
     echo "  bash ./scripts/agent-dispatch.sh log <job-id>"
+    echo "  bash ./scripts/agent-dispatch.sh result <job-id>"
     echo ""
     echo "Agents (available):"
     echo "  pi       pi-coding-agent (default)"
@@ -275,11 +329,14 @@ with open('$JOBS_DIR/$JOB_ID.json', 'w') as f:
     echo "  claude   npm install -g @anthropic/claude-code"
     echo ""
     echo "Options for 'run':"
-    echo "  --dir <path>   Working directory (default: workspace root)"
-    echo "  --model <id>   Model to use (agent-specific)"
+    echo "  --dir <path>     Working directory (default: workspace root)"
+    echo "  --model <id>     Model to use (agent-specific)"
+    echo "  --format <type>  Output format: 'text' (default) or 'json' (Pydantic AI pattern)"
     echo ""
     echo "Examples:"
     echo "  bash ./scripts/agent-dispatch.sh run pi 'Research what Yjs does'"
+    echo "  bash ./scripts/agent-dispatch.sh run pi 'Extract config' --format json"
+    echo "  bash ./scripts/agent-dispatch.sh result job-001"
     echo "  bash ./scripts/agent-dispatch.sh status"
     echo "  bash ./scripts/agent-dispatch.sh log job-001"
     ;;
