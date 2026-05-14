@@ -36,6 +36,7 @@ Edit this file to teach SwarmVault how this vault should be organized and mainta
 - **pipeline** --- Pipeline state management and task orchestration
 - **health_monitor** --- Session health and context pressure detection
 - **test** --- Smoke tests and verification scripts
+- **community** --- Groups of related entities forming a topic cluster (GraphRAG pattern). Communities share source_ids, relationship targets, or tags. Compiled to `wiki/communities/` when the graph is dense enough to warrant hierarchical summarization.
 
 ## Relationship Types
 
@@ -47,6 +48,9 @@ Edit this file to teach SwarmVault how this vault should be organized and mainta
 - **tests** --- Smoke test verifies a tool
 - **sandboxes** --- Sandbox isolates an agent operation
 - **supersedes** --- A new tool supersedes an old approach
+- **contains** --- A community contains entities (community -> entity)
+- **related_via** --- Two entities relate through shared membership in a community (entity -> entity, via community)
+- **summarizes** --- A community summary summarizes a set of entities (summary -> entity)
 - Depends on
 
 ## Grounding Rules
@@ -54,6 +58,24 @@ Edit this file to teach SwarmVault how this vault should be organized and mainta
 - Prefer raw sources over summaries.
 - Cite source ids whenever claims are stated.
 - Do not treat the wiki as a source of truth when the raw material disagrees.
+
+## Community Hierarchy (GraphRAG Pattern)
+
+The knowledge graph can organize into **communities** -- clusters of related
+entities. Community structure follows the GraphRAG pattern:
+
+- **Community detection:** Groups of entities that share source_ids,
+  tags, or relationship targets form a community.
+- **Hierarchical levels:** Communities can nest (topics -> subtopics).
+  Each level produces a summary that synthesizes its member entities.
+- **Query routing:** Broad questions use community summaries (global).
+  Specific questions use entity-level lookup (local).
+
+This is a compile-time optimization: communities are pre-computed during
+indexing so that query-time retrieval can choose the right scope.
+
+Community pages live at `wiki/communities/<name>.md`. They must include
+frontmatter fields: `page_id`, `community_level`, `member_ids`, `summary`.
 
 ## Exclusions
 

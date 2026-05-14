@@ -150,7 +150,7 @@ See [docs/workflow.md](docs/workflow.md) for the full system, [docs/hub-quicksta
 
 | Category | Projects |
 |----------|----------|
-| <img src="https://img.shields.io/badge/Memory%20%26%20RAG-8-e1306c?style=flat-square" alt="Memory"> | Mem0, LMCache, MemPalace, MemOS, PageIndex,<br><a href="https://github.com/zilliztech/claude-context"><b>*agentmemory</b></a>, GraphRAG, RAG-Anything |
+| <img src="https://img.shields.io/badge/Memory%20%26%20RAG-8-e1306c?style=flat-square" alt="Memory"> | Mem0, LMCache, MemPalace, MemOS, PageIndex,<br><a href="https://github.com/zilliztech/claude-context"><b>*agentmemory</b></a>, <a href="https://github.com/microsoft/graphrag"><b>*GraphRAG</b></a>, RAG-Anything |
 | <img src="https://img.shields.io/badge/Workflow%20Platforms-6-58a6ff?style=flat-square" alt="Workflow"> | n8n, Flowise, Langflow, Dify, Manifest, Infisical |
 | <img src="https://img.shields.io/badge/Prompt%20Libraries-7-0ea5e9?style=flat-square" alt="Prompts"> | Pi-Skills, <a href="https://github.com/karpathy/autoresearch"><b>*Karpathy-Skills</b></a>, Codex Skills, <b>*Counsel</b>,<br>Everything Claude Code, Awesome Claude Code, awesome-codex-skills |
 | <img src="https://img.shields.io/badge/MCP%20%26%20Protocols-3-3fb950?style=flat-square" alt="MCP"> | MCP Registry, MCP Servers, GitHub MCP Server |
