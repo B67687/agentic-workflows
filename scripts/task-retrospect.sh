@@ -269,7 +269,7 @@ if command -v ruflo &>/dev/null; then
 fi
 
 # === 4. Consolidate memory (Mem0 pattern) ===
-bash "$REPO_ROOT/scripts/consolidate-memory.sh" 2>&1 | tail -1 || true
+bash "$REPO_ROOT/scripts/consolidate-memory.sh" --sync 2>&1 | tail -1 || true
 
 # === 5. Try agentmemory (best-effort, don't fail) ===
 # Check if the MCP server is running by looking for node agentmemory
