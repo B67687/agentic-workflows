@@ -1,34 +1,43 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 115" style="background:transparent; font-family:ui-monospace,'Cascadia Code','Fira Code',monospace;">
   <defs>
     <style>
-      @keyframes fadeIn1 {
+      /* 14s cycle: each line fades in sequentially, all fade out together */
+      @keyframes anim1 {
         0%   { opacity: 0; transform: translateY(6px); }
         8%   { opacity: 0; transform: translateY(6px); }
-        20%  { opacity: 1; transform: translateY(0); }
-        100% { opacity: 1; transform: translateY(0); }
+        12%  { opacity: 1; transform: translateY(0); }
+        75%  { opacity: 1; transform: translateY(0); }
+        85%  { opacity: 0; transform: translateY(-4px); }
+        100% { opacity: 0; transform: translateY(-4px); }
       }
-      @keyframes fadeIn2 {
+      @keyframes anim2 {
         0%   { opacity: 0; transform: translateY(6px); }
-        28%  { opacity: 0; transform: translateY(6px); }
-        40%  { opacity: 1; transform: translateY(0); }
-        100% { opacity: 1; transform: translateY(0); }
+        22%  { opacity: 0; transform: translateY(6px); }
+        26%  { opacity: 1; transform: translateY(0); }
+        75%  { opacity: 1; transform: translateY(0); }
+        85%  { opacity: 0; transform: translateY(-4px); }
+        100% { opacity: 0; transform: translateY(-4px); }
       }
-      @keyframes fadeIn3 {
+      @keyframes anim3 {
         0%   { opacity: 0; transform: translateY(6px); }
-        48%  { opacity: 0; transform: translateY(6px); }
-        60%  { opacity: 1; transform: translateY(0); }
-        100% { opacity: 1; transform: translateY(0); }
+        38%  { opacity: 0; transform: translateY(6px); }
+        42%  { opacity: 1; transform: translateY(0); }
+        75%  { opacity: 1; transform: translateY(0); }
+        85%  { opacity: 0; transform: translateY(-4px); }
+        100% { opacity: 0; transform: translateY(-4px); }
       }
-      @keyframes fadeIn4 {
+      @keyframes anim4 {
         0%   { opacity: 0; transform: translateY(6px); }
-        68%  { opacity: 0; transform: translateY(6px); }
-        80%  { opacity: 1; transform: translateY(0); }
-        100% { opacity: 1; transform: translateY(0); }
+        54%  { opacity: 0; transform: translateY(6px); }
+        58%  { opacity: 1; transform: translateY(0); }
+        75%  { opacity: 1; transform: translateY(0); }
+        85%  { opacity: 0; transform: translateY(-4px); }
+        100% { opacity: 0; transform: translateY(-4px); }
       }
-      .l1 { animation: fadeIn1 12s ease-out infinite; }
-      .l2 { animation: fadeIn2 12s ease-out infinite; }
-      .l3 { animation: fadeIn3 12s ease-out infinite; }
-      .l4 { animation: fadeIn4 12s ease-out infinite; }
+      .l1 { animation: anim1 14s ease-in-out infinite; }
+      .l2 { animation: anim2 14s ease-in-out infinite; }
+      .l3 { animation: anim3 14s ease-in-out infinite; }
+      .l4 { animation: anim4 14s ease-in-out infinite; }
     </style>
   </defs>
 
