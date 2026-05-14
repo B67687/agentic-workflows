@@ -128,7 +128,7 @@ See [docs/workflow.md](docs/workflow.md) for the full system, [docs/hub-quicksta
 
 <h2 id="ecosystem">Ecosystem</h2>
 
-<p>This harness was built by studying and integrating patterns from <b>60+ open-source projects</b> across the agent ecosystem. Projects with <code>*</code> have patterns extracted into skills, scripts, or documentation.</p>
+<p>This harness was built by studying and integrating patterns from <b>70+ open-source projects</b> across the agent ecosystem. Projects with <code>*</code> have patterns extracted into skills, scripts, or documentation. The remaining 46 are context citations --- each evaluated and classified during the source extraction audit.</p>
 
 <h3>Core Inspirations</h3>
 
@@ -173,6 +173,10 @@ See [docs/workflow.md](docs/workflow.md) for the full system, [docs/hub-quicksta
 </div>
 
 </details>
+
+<blockquote>
+<p><b>Note:</b> Projects listed without <code>*</code> are research/citation references --- not extraction targets. These 46 projects were evaluated during the <a href="https://github.com/B67687/agentic-workflows/tree/main/workflow/source-extraction">source extraction audit</a> and classified as either having no extractable pattern that maps to a workspace subsystem, or having their core insight already covered by another extracted pattern.</p>
+</blockquote>
 
 <h3>Tools Used</h3>
 

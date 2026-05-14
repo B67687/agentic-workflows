@@ -24,8 +24,16 @@ trap 'echo "[ERROR] $BASH_SOURCE:$LINENO"' ERR
 
 REPO_ROOT=$(git rev-parse --show-toplevel 2>/dev/null || echo ".")
 
-GOAL="${1:-}"
-shift 1 || true
+# Collect goal from all non-flag leading args
+GOAL=""
+while [ $# -gt 0 ] && ! [[ "$1" =~ ^-- ]]; do
+  if [ -z "$GOAL" ]; then
+    GOAL="$1"
+  else
+    GOAL="$GOAL $1"
+  fi
+  shift
+done
 
 AGENT="pi"
 MAX_TASKS=10
@@ -74,9 +82,24 @@ echo "Agent: $AGENT"
 echo "Max tasks: $MAX_TASKS"
 echo ""
 
-# ---------------------------------------------------------------------------
-# Build decomposition prompt (single-line to avoid agent dispatch issues)
+# Build decomposition prompt
 DECOMPOSE_PROMPT="Decompose the following goal into at most $MAX_TASKS concrete implementation tasks ordered by dependency. Goal: $GOAL. Rules: each task must be actionable by a developer agent; tasks should be ordered so prerequisites come first. Return ONLY a JSON array of task objects like [{\"id\":1,\"description\":\"task 1\"},{\"id\":2,\"description\":\"task 2\"}] with no markdown, no explanation."
+
+# --output mode: skip agent dispatch entirely
+if [ "$OUTPUT_ONLY" = true ]; then
+  echo "Pipeline JSON (heuristic -- no agent dispatch):"
+  echo "$GOAL" | python3 -c "
+import json, re, sys
+goal = sys.stdin.read().strip()
+parts = [p.strip() for p in re.split(r'(?<=[.?!])\s+|\n+', goal) if p.strip()]
+if not parts:
+    parts = ['Review the goal', 'Implement changes', 'Verify and commit']
+parts = parts[:$MAX_TASKS]
+tasks = [{'id': i+1, 'description': p} for i, p in enumerate(parts)]
+print(json.dumps(tasks, indent=2))
+"
+  exit 0
+fi
 
 # ---------------------------------------------------------------------------
 # Dispatch to agent for decomposition

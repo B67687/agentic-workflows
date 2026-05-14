@@ -48,6 +48,7 @@ case "$CMD" in
     MODEL=""
     FORMAT="text"
     MAX_LOOPS=1
+    REASONING=""
     while [ $# -gt 0 ]; do
       case "$1" in
         --dir) WORKDIR="$2"; shift 2 ;;
@@ -70,9 +71,24 @@ case "$CMD" in
             FORMAT="json"
           fi
           shift 2 ;;
+        --reasoning)
+          REASONING="$2"
+          if [ "$REASONING" != "auto" ] && [ "$REASONING" != "high" ] && [ "$REASONING" != "max" ] && [ "$REASONING" != "non-think" ]; then
+            echo "Reasoning must be: auto, high, max, or non-think"
+            exit 1
+          fi
+          shift 2 ;;
         *) echo "Unknown option: $1"; exit 1 ;;
       esac
     done
+
+    # Auto-classify reasoning level if not explicitly set
+    if [ -z "$REASONING" ]; then
+      # Default: auto-classify
+      REASONING=$(bash "$REPO_ROOT/scripts/reasoning-level.sh" "$TASK" 2>/dev/null || echo "high")
+    elif [ "$REASONING" = "auto" ]; then
+      REASONING=$(bash "$REPO_ROOT/scripts/reasoning-level.sh" "$TASK" 2>/dev/null || echo "high")
+    fi
 
     # Pydantic AI structured output pattern: append JSON instruction
     if [ "$FORMAT" = "json" ]; then
@@ -131,6 +147,7 @@ The JSON must be parseable by json.loads()."
   "workdir": "$WORKDIR",
   "format": "$FORMAT",
   "max_loops": $MAX_LOOPS,
+  "reasoning": "$REASONING",
   "status": "running",
   "result": null,
   "iterations": [],
@@ -165,23 +182,14 @@ print(json.dumps(args))
 
     PID=$!
     echo "$JOB_ID"
-    echo "Dispatched to $AGENT: $JOB_ID"
-    echo "  Task: ${TASK:0:80}..."
-    echo "  Workdir: $WORKDIR"
-    echo "  PID: $PID"
-    echo ""
-    echo "Check: bash ./scripts/agent-dispatch.sh status $JOB_ID"
-    echo "Log:   bash ./scripts/agent-dispatch.sh log $JOB_ID"
-
-    # Update job record with PID
-    python3 -c "
-import json
-with open('$JOBS_DIR/$JOB_ID.json') as f:
-    j = json.load(f)
-j['pid'] = $PID
-with open('$JOBS_DIR/$JOB_ID.json', 'w') as f:
-    json.dump(j, f, indent=2)
-" 2>/dev/null || true
+    echo "  Reasoning level: $REASONING"
+    if [ "$REASONING" = "max" ]; then
+      echo "    (complex/agentic task — +5-20% on hard work, higher cost)"
+    elif [ "$REASONING" = "non-think" ]; then
+      echo "    (trivial task — no reasoning needed, cheapest)"
+    else
+      echo "    (routine task — default, good balance)"
+    fi
     ;;
 
   handoff)

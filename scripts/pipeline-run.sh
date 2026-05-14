@@ -198,6 +198,10 @@ EOF
       # Clear auto_next since we're done
       jq 'del(.auto_next)' "$FILE" > "$FILE.tmp" && mv "$FILE.tmp" "$FILE" 2>/dev/null || true
       echo "Pipeline complete: $PIPELINE_ID"
+      # Auto-compact learnings after pipeline completion
+      if [ -f "$(dirname "$FILE")/../../scripts/self-improve.sh" ]; then
+        bash "$(dirname "$FILE")/../../scripts/self-improve.sh" --compact-only 2>/dev/null || true
+      fi
     else
       echo "Task $TASK_ID -> $STATUS"
     fi
