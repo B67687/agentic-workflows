@@ -56,7 +56,7 @@
 
 ---
 
-<h2>🚀 Quick Start</h2>
+<h2>Quick Start</h2>
 
 ```bash
 git clone https://github.com/B67687/agentic-workflows.git
@@ -69,33 +69,31 @@ Then open **[`AGENTS.md`](AGENTS.md)** ~ that's the operating contract. Every ag
 
 ---
 
-<h2>🧩 Features</h2>
+<h2>Features</h2>
 
-| | |
-|---|---|
-| <img src="https://img.shields.io/badge/Contract-58a6ff?style=flat-square" alt=""> | **AGENTS.md** ~ Shared rules and conventions every agent reads on entry |
-| <img src="https://img.shields.io/badge/Skills-0ea5e9?style=flat-square" alt=""> | **42 engineering skills** ~ Debug, review, ship, document. Companion scripts for each |
-| <img src="https://img.shields.io/badge/Propagation-3fb950?style=flat-square" alt=""> | **Templates flow to 15+ repos** ~ Change once in the hub, updates everywhere |
-| <img src="https://img.shields.io/badge/Memory-e1306c?style=flat-square" alt=""> | **agentmemory MCP** ~ Captures tool use, compresses observations, persists across sessions |
-| <img src="https://img.shields.io/badge/Workflow-58a6ff?style=flat-square" alt=""> | **Checkpoints, handoffs, pipelines** ~ Structured phases instead of chaotic chats |
-| <img src="https://img.shields.io/badge/Research-0ea5e9?style=flat-square" alt=""> | **6-phase systematic research** ~ Frame, discover, triangulate, apply, preserve |
-| <img src="https://img.shields.io/badge/Quality-3fb950?style=flat-square" alt=""> | **A2H escalation, assumption expiry** ~ Pre-push quality gates, error counters |
-| <img src="https://img.shields.io/badge/Orchestration-e1306c?style=flat-square" alt=""> | **Cross-project memory loop** ~ Propagate templates, harvest insights across repos |
-| <img src="https://img.shields.io/badge/Tests-58a6ff?style=flat-square" alt=""> | **32-test smoke suite** ~ Every change verified before commit. Red/green TDD |
+- **AGENTS.md** ~ Shared rules and conventions every agent reads on entry
+- **42 engineering skills** ~ Debug, review, ship, document. Companion scripts for each
+- **Templates flow to 15+ repos** ~ Change once in the hub, updates everywhere
+- **agentmemory MCP** ~ Captures tool use, compresses observations, persists across sessions
+- **Checkpoints, handoffs, pipelines** ~ Structured phases instead of chaotic chats
+- **6-phase systematic research** ~ Frame, discover, triangulate, apply, preserve
+- **A2H escalation, assumption expiry** ~ Pre-push quality gates, error counters
+- **Cross-project memory loop** ~ Propagate templates, harvest insights across repos
+- **32-test smoke suite** ~ Every change verified before commit. Red/green TDD
 
 ---
 
-<h2>⚙️ How It Works</h2>
+<h2>How It Works</h2>
 
-**📥 Define** ~ `AGENTS.md` sets the rules. Every agent reads it on entry. Skills, commands, and propagation templates inherit from it.
+**Define** ~ `AGENTS.md` sets the rules. Every agent reads it on entry. Skills, commands, and propagation templates inherit from it.
 
-**🔄 Propagate** ~ `propagate.sh` pushes templates to topic folders. One change in the hub updates 15+ repos. Commands, scripts, configs all synced.
+**Propagate** ~ `propagate.sh` pushes templates to topic folders. One change in the hub updates 15+ repos. Commands, scripts, configs all synced.
 
-**📤 Harvest** ~ Learnings flow back to the hub via insight harvesting. Cross-project memory loops keep knowledge circulating instead of siloed.
+**Harvest** ~ Learnings flow back to the hub via insight harvesting. Cross-project memory loops keep knowledge circulating instead of siloed.
 
 ---
 
-<h2>🗺️ Orientation</h2>
+<h2>Orientation</h2>
 
 <p align="center">
   <picture>
@@ -123,7 +121,7 @@ Then open **[`AGENTS.md`](AGENTS.md)** ~ that's the operating contract. Every ag
 
 ---
 
-<h2 id="ecosystem">🌍 Ecosystem</h2>
+<h2 id="ecosystem">Ecosystem</h2>
 
 <p>This harness was built by studying and integrating patterns from <b>50+ open-source projects</b> across the agent ecosystem.</p>
 

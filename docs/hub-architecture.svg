@@ -60,7 +60,7 @@
 
   <!-- Internal hub arrows -->
   <line x1="440" y1="132" x2="458" y2="132" stroke="#58a6ff" stroke-width="1" opacity="0.5" marker-end="url(#arrowT)"/>
-  <line x1="440" y1="210" x2="458" y2="210" stroke="#e1306c" stroke-width="1" opacity="0.5"/>
+  <line x1="440" y1="210" x2="460" y2="210" stroke="#e1306c" stroke-width="1" opacity="0.5"/>
 
   <!-- ===== ARROW: Hub -> Topics ===== -->
   <line x1="450" y1="255" x2="450" y2="285" stroke="#58a6ff" stroke-width="2" marker-end="url(#arrowT)"/>
