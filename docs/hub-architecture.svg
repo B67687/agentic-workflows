@@ -77,7 +77,6 @@
   <text x="195" y="378" fill="#8b949e" font-size="10" text-anchor="middle">propagated/checkpoint-commit.sh</text>
   <text x="195" y="395" fill="#8b949e" font-size="10" text-anchor="middle">propagated/error-counter.sh</text>
   <text x="195" y="412" fill="#8b949e" font-size="10" text-anchor="middle">propagated/session-status.sh</text>
-  <text x="195" y="450" fill="#3fb950" font-size="10" text-anchor="middle">[content/] Your Work</text>
 
   <!-- Topic B - 240px wide -->
   <rect x="330" y="325" width="240" height="140" rx="8" fill="url(#topicGrad)" stroke="#0ea5e9" stroke-width="1.5" filter="url(#glowTopic)"/>
@@ -86,7 +85,6 @@
   <text x="450" y="378" fill="#8b949e" font-size="10" text-anchor="middle">propagated/checkpoint-commit.sh</text>
   <text x="450" y="395" fill="#8b949e" font-size="10" text-anchor="middle">propagated/error-counter.sh</text>
   <text x="450" y="412" fill="#8b949e" font-size="10" text-anchor="middle">propagated/session-status.sh</text>
-  <text x="450" y="450" fill="#3fb950" font-size="10" text-anchor="middle">[content/] Your Work</text>
 
   <!-- Topic C - 240px wide -->
   <rect x="585" y="325" width="240" height="140" rx="8" fill="url(#topicGrad)" stroke="#0ea5e9" stroke-width="1.5" filter="url(#glowTopic)"/>
@@ -95,7 +93,7 @@
   <text x="705" y="378" fill="#8b949e" font-size="10" text-anchor="middle">propagated/checkpoint-commit.sh</text>
   <text x="705" y="395" fill="#8b949e" font-size="10" text-anchor="middle">propagated/error-counter.sh</text>
   <text x="705" y="412" fill="#8b949e" font-size="10" text-anchor="middle">propagated/session-status.sh</text>
-  <text x="705" y="450" fill="#3fb950" font-size="10" text-anchor="middle">[content/] Your Work</text>
+
 
   <!-- Harvest arrows (dotted, back to hub) -->
   <line x1="195" y1="325" x2="365" y2="260" stroke="#30363d" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arrowB)"/>

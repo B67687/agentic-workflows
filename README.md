@@ -10,7 +10,6 @@
   <a href="#features">Features</a>&ensp;·&ensp;
   <a href="#how-it-works">How It Works</a>&ensp;·&ensp;
   <a href="#orientation">Orientation</a>&ensp;·&ensp;
-  <a href="#commands">Commands</a>&ensp;·&ensp;
   <a href="#ecosystem">Ecosystem</a>
 </p>
 
@@ -55,18 +54,34 @@
   <img src="https://img.shields.io/badge/Any_AGENTS.md_AI-555555?style=flat-square" alt="AGENTS.md compatible">
 </p>
 
-<h2>Quick Start</h2>
+<h2 id="quick-start">Quick Start</h2>
 
 ```bash
 git clone https://github.com/B67687/agentic-workflows.git
 cd agentic-workflows
+```
+
+Open **[`AGENTS.md`](AGENTS.md)** -- that's the operating contract. Every agent reads it first. Then verify everything works:
+
+```bash
 bash ./scripts/test-smoke.sh
 bash ./scripts/propagate.sh all --apply    # push templates to your repos
 ```
 
-Then open **[`AGENTS.md`](AGENTS.md)** ~ that's the operating contract. Every agent reads it first.
 
-<h2>Features</h2>
+<h2 id="how-it-works">How It Works</h2>
+
+<h3>Define</h3>
+`AGENTS.md` sets the operating contract. Every agent reads it on entry. Skills, commands, and propagation templates inherit from this single source of truth.
+
+<h3>Propagate</h3>
+`propagate.sh` pushes templates to topic folders. One change in the hub updates 15+ repos. Commands, scripts, and configs all synced.
+
+<h3>Harvest</h3>
+Learnings flow back to the hub via insight harvesting. Cross-project memory loops keep knowledge circulating instead of siloed in individual projects.
+
+
+<h2 id="features">Features</h2>
 
 | | |
 |---|---|
@@ -80,15 +95,8 @@ Then open **[`AGENTS.md`](AGENTS.md)** ~ that's the operating contract. Every ag
 | **Cross-project loop** | Propagate templates, harvest insights across all repos |
 | **32-test smoke suite** | Every change verified before commit. TDD patterns included |
 
-<h2>How It Works</h2>
 
-**Define** ~ `AGENTS.md` sets the rules. Every agent reads it on entry. Skills, commands, and propagation templates inherit from it.
-
-**Propagate** ~ `propagate.sh` pushes templates to topic folders. One change in the hub updates 15+ repos. Commands, scripts, configs all synced.
-
-**Harvest** ~ Learnings flow back to the hub via insight harvesting. Cross-project memory loops keep knowledge circulating instead of siloed.
-
-<h2>Orientation</h2>
+<h2 id="orientation">Orientation</h2>
 
 <p align="center">
   <picture>
@@ -97,7 +105,7 @@ Then open **[`AGENTS.md`](AGENTS.md)** ~ that's the operating contract. Every ag
   </picture>
 </p>
 
-<h2 id="commands">Commands</h2>
+<h3 id="commands">Common Commands</h3>
 
 ```bash
 bash ./scripts/session-status.sh        # Workspace health
@@ -109,9 +117,12 @@ bash ./scripts/checkpoint-commit.sh -m "msg"  # Verified commit
 
 See [docs/workflow.md](docs/workflow.md) for the full system, [docs/hub-quickstart.md](docs/hub-quickstart.md) to set up your own project, or open [session-state.json](session-state.json) to resume interrupted work.
 
+
 <h2 id="ecosystem">Ecosystem</h2>
 
 <p>This harness was built by studying and integrating patterns from <b>50+ open-source projects</b> across the agent ecosystem.</p>
+
+<h3>Core Inspirations</h3>
 
 <table>
 <tr>
@@ -130,23 +141,27 @@ See [docs/workflow.md](docs/workflow.md) for the full system, [docs/hub-quicksta
 </tr>
 </table>
 
+<h3>Full Ecosystem</h3>
+
 <details>
-<summary><b>Full ecosystem</b> ~ 50+ projects across 8 more categories</summary>
+<summary>50+ projects across 8 more categories</summary>
 
 | Category | Projects |
 |----------|----------|
-| <img src="https://img.shields.io/badge/Memory%20%26%20RAG-8-e1306c?style=flat-square" alt="Memory"> | Mem0, LMCache, MemPalace, MemOS, PageIndex, agentmemory, GraphRAG, RAG-Anything |
+| <img src="https://img.shields.io/badge/Memory%20%26%20RAG-8-e1306c?style=flat-square" alt="Memory"> | Mem0, LMCache, MemPalace, MemOS, PageIndex,<br>agentmemory, GraphRAG, RAG-Anything |
 | <img src="https://img.shields.io/badge/Workflow%20Platforms-6-58a6ff?style=flat-square" alt="Workflow"> | n8n, Flowise, Langflow, Dify, Manifest, Infisical |
-| <img src="https://img.shields.io/badge/Prompt%20Libraries-7-0ea5e9?style=flat-square" alt="Prompts"> | Pi-Skills, Karpathy-Skills, Codex Skills, Counsel, Everything Claude Code, Awesome Claude Code, awesome-codex-skills |
+| <img src="https://img.shields.io/badge/Prompt%20Libraries-7-0ea5e9?style=flat-square" alt="Prompts"> | Pi-Skills, Karpathy-Skills, Codex Skills, Counsel,<br>Everything Claude Code, Awesome Claude Code, awesome-codex-skills |
 | <img src="https://img.shields.io/badge/MCP%20%26%20Protocols-3-3fb950?style=flat-square" alt="MCP"> | MCP Registry, MCP Servers, GitHub MCP Server |
-| <img src="https://img.shields.io/badge/Agent%20Platforms-6-e1306c?style=flat-square" alt="Platforms"> | Cline, CUA, Rufo, Agency-Agents, Codex CLI, generative-ai-for-beginners |
-| <img src="https://img.shields.io/badge/README%20Design-4-58a6ff?style=flat-square" alt="Readme Design"> | readme-svg-wave-divider-generator, readme-hub, GitHub Readme Stats, readme-aura |
-| <img src="https://img.shields.io/badge/LLMs%20%26%20Learning-6-0ea5e9?style=flat-square" alt="LLMs"> | DeepSeek-V3, OpenAI Codex, Qwen, Gemini CLI, Hello Agents, Claude Code Best Practice |
+| <img src="https://img.shields.io/badge/Agent%20Platforms-6-e1306c?style=flat-square" alt="Platforms"> | Cline, CUA, Rufo, Agency-Agents,<br>Codex CLI, generative-ai-for-beginners |
+| <img src="https://img.shields.io/badge/README%20Design-4-58a6ff?style=flat-square" alt="Readme Design"> | readme-svg-wave-divider-generator, readme-hub,<br>GitHub Readme Stats, readme-aura |
+| <img src="https://img.shields.io/badge/LLMs%20%26%20Learning-6-0ea5e9?style=flat-square" alt="LLMs"> | DeepSeek-V3, OpenAI Codex, Qwen, Gemini CLI,<br>Hello Agents, Claude Code Best Practice |
 
 </details>
 
+<h3>Tools Used</h3>
+
 <details>
-<summary><b>Tools used in this project</b></summary>
+<summary>Software that helped build this project</summary>
 
 | Tool | Use |
 |------|-----|
@@ -159,8 +174,14 @@ See [docs/workflow.md](docs/workflow.md) for the full system, [docs/hub-quicksta
 </details>
 
 <br>
+<p align="center"><sub>Ready to start? Read <a href="#quick-start">Quick Start</a> or open <a href="AGENTS.md">AGENTS.md</a> to begin.</sub></p>
+
 <p align="center"><sub>&ensp;&middot;&ensp;&middot;&ensp;&middot;&ensp;</sub></p>
 <p align="center"><sub>If you maintain a project listed here and would prefer different attribution or removal, please <a href="https://github.com/B67687/agentic-workflows/issues">open an issue</a>.</sub></p>
+
+<p align="center">
+  <a href="#">[^ Back to top]</a>
+</p>
 
 <p align="center">
   <sub>
