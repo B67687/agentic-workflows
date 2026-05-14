@@ -1,62 +1,97 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 115" style="background:transparent; font-family:ui-monospace,'Cascadia Code','Fira Code',monospace;">
   <defs>
     <style>
+      /* Each animation class has 4 pulses per cycle at pseudorandom sizes (0.5x-2.0x).
+         Different pulse-scale order and timing across 8 classes means every dot
+         blinks at a unique rhythm with different sizes each time. */
       @keyframes pa {
-        0%,100% { opacity: 0.02; transform: scale(0.15); }
-        28%     { opacity: 0.85; transform: scale(2.2); }
-        50%     { opacity: 0.65; transform: scale(1.4); }
-        75%     { opacity: 0.08; transform: scale(0.5); }
+        0%,100% { opacity: 0.03; transform: scale(0.3); }
+        10%     { opacity: 0.7;  transform: scale(2.0); }
+        22%     { opacity: 0.03; transform: scale(0.35); }
+        34%     { opacity: 0.5;  transform: scale(1.2); }
+        46%     { opacity: 0.04; transform: scale(0.3); }
+        58%     { opacity: 0.75; transform: scale(1.6); }
+        70%     { opacity: 0.03; transform: scale(0.4); }
+        82%     { opacity: 0.4;  transform: scale(0.8); }
       }
-      .pa { animation: pa 2.3s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+      .pa { animation: pa 6.4s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
       @keyframes pb {
-        0%,100% { opacity: 0.05; transform: scale(0.3); }
-        30%     { opacity: 0.6; transform: scale(1.6); }
-        55%     { opacity: 0.4; transform: scale(1.0); }
-        78%     { opacity: 0.12; transform: scale(0.6); }
+        0%,100% { opacity: 0.04; transform: scale(0.35); }
+        10%     { opacity: 0.5;  transform: scale(0.8); }
+        22%     { opacity: 0.03; transform: scale(0.3); }
+        34%     { opacity: 0.75; transform: scale(2.0); }
+        46%     { opacity: 0.04; transform: scale(0.4); }
+        58%     { opacity: 0.55; transform: scale(1.2); }
+        70%     { opacity: 0.03; transform: scale(0.35); }
+        82%     { opacity: 0.65; transform: scale(1.6); }
       }
-      .pb { animation: pb 1.8s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+      .pb { animation: pb 5.2s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
       @keyframes pc {
-        0%,100% { opacity: 0.03; transform: scale(0.2); }
-        32%     { opacity: 0.9; transform: scale(2.8); }
-        52%     { opacity: 0.7; transform: scale(1.6); }
-        72%     { opacity: 0.05; transform: scale(0.3); }
+        0%,100% { opacity: 0.03; transform: scale(0.3); }
+        10%     { opacity: 0.65; transform: scale(1.6); }
+        22%     { opacity: 0.04; transform: scale(0.4); }
+        34%     { opacity: 0.4;  transform: scale(0.8); }
+        46%     { opacity: 0.03; transform: scale(0.3); }
+        58%     { opacity: 0.8;  transform: scale(2.0); }
+        70%     { opacity: 0.04; transform: scale(0.35); }
+        82%     { opacity: 0.5;  transform: scale(1.2); }
       }
-      .pc { animation: pc 3.1s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+      .pc { animation: pc 7.0s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
       @keyframes pd {
-        0%,100% { opacity: 0.08; transform: scale(0.4); }
-        35%     { opacity: 0.5; transform: scale(1.3); }
-        60%     { opacity: 0.3; transform: scale(0.8); }
-        80%     { opacity: 0.15; transform: scale(0.5); }
+        0%,100% { opacity: 0.04; transform: scale(0.4); }
+        10%     { opacity: 0.55; transform: scale(1.2); }
+        22%     { opacity: 0.03; transform: scale(0.35); }
+        34%     { opacity: 0.65; transform: scale(1.6); }
+        46%     { opacity: 0.04; transform: scale(0.3); }
+        58%     { opacity: 0.4;  transform: scale(0.8); }
+        70%     { opacity: 0.03; transform: scale(0.4); }
+        82%     { opacity: 0.75; transform: scale(2.0); }
       }
-      .pd { animation: pd 4.5s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+      .pd { animation: pd 4.8s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
       @keyframes pe {
-        0%,100% { opacity: 0.01; transform: scale(0.1); }
-        25%     { opacity: 0.7; transform: scale(2.5); }
-        48%     { opacity: 0.5; transform: scale(1.2); }
-        70%     { opacity: 0.1; transform: scale(0.4); }
+        0%,100% { opacity: 0.03; transform: scale(0.3); }
+        10%     { opacity: 0.8;  transform: scale(2.0); }
+        22%     { opacity: 0.04; transform: scale(0.4); }
+        34%     { opacity: 0.4;  transform: scale(0.8); }
+        46%     { opacity: 0.03; transform: scale(0.35); }
+        58%     { opacity: 0.65; transform: scale(1.6); }
+        70%     { opacity: 0.04; transform: scale(0.3); }
+        82%     { opacity: 0.5;  transform: scale(1.2); }
       }
-      .pe { animation: pe 2.9s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+      .pe { animation: pe 5.8s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
       @keyframes pf {
-        0%,100% { opacity: 0.06; transform: scale(0.25); }
-        33%     { opacity: 0.75; transform: scale(1.9); }
-        58%     { opacity: 0.55; transform: scale(1.1); }
-        82%     { opacity: 0.03; transform: scale(0.35); }
+        0%,100% { opacity: 0.04; transform: scale(0.35); }
+        10%     { opacity: 0.65; transform: scale(1.6); }
+        22%     { opacity: 0.03; transform: scale(0.3); }
+        34%     { opacity: 0.55; transform: scale(1.2); }
+        46%     { opacity: 0.04; transform: scale(0.4); }
+        58%     { opacity: 0.75; transform: scale(2.0); }
+        70%     { opacity: 0.03; transform: scale(0.35); }
+        82%     { opacity: 0.4;  transform: scale(0.8); }
       }
-      .pf { animation: pf 5.8s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+      .pf { animation: pf 6.8s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
       @keyframes pg {
-        0%,100% { opacity: 0.04; transform: scale(0.18); }
-        30%     { opacity: 0.8; transform: scale(3.0); }
-        50%     { opacity: 0.6; transform: scale(1.8); }
-        75%     { opacity: 0.07; transform: scale(0.45); }
+        0%,100% { opacity: 0.03; transform: scale(0.4); }
+        10%     { opacity: 0.5;  transform: scale(1.2); }
+        22%     { opacity: 0.04; transform: scale(0.3); }
+        34%     { opacity: 0.75; transform: scale(2.0); }
+        46%     { opacity: 0.03; transform: scale(0.35); }
+        58%     { opacity: 0.4;  transform: scale(0.8); }
+        70%     { opacity: 0.04; transform: scale(0.4); }
+        82%     { opacity: 0.7;  transform: scale(1.6); }
       }
-      .pg { animation: pg 3.6s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+      .pg { animation: pg 5.5s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
       @keyframes ph {
-        0%,100% { opacity: 0.07; transform: scale(0.35); }
-        35%     { opacity: 0.55; transform: scale(1.5); }
-        55%     { opacity: 0.35; transform: scale(0.9); }
-        78%     { opacity: 0.12; transform: scale(0.55); }
+        0%,100% { opacity: 0.04; transform: scale(0.3); }
+        10%     { opacity: 0.4;  transform: scale(0.8); }
+        22%     { opacity: 0.03; transform: scale(0.4); }
+        34%     { opacity: 0.65; transform: scale(1.6); }
+        46%     { opacity: 0.04; transform: scale(0.35); }
+        58%     { opacity: 0.5;  transform: scale(1.2); }
+        70%     { opacity: 0.03; transform: scale(0.3); }
+        82%     { opacity: 0.75; transform: scale(2.0); }
       }
-      .ph { animation: ph 1.2s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+      .ph { animation: ph 6.2s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
       @keyframes fade1 {
         0%   { opacity: 0; } 12%  { opacity: 0; } 16%  { opacity: 1; }
         75%  { opacity: 1; } 85%  { opacity: 0; } 100% { opacity: 0; }
@@ -80,83 +115,97 @@
       .text-layer { filter: drop-shadow(0 0 4px rgba(88,166,255,0.3)); }
     </style>
   </defs>
+
+  <!-- Blue dots — distributed across all 8 animation classes for varied rhythm -->
   <g fill="#58a6ff">
     <circle cx="32" cy="12" r="2.0" class="pa"/>
-    <circle cx="98" cy="28" r="2.0" class="pd"/>
-    <circle cx="157" cy="6" r="2.0" class="pe"/>
-    <circle cx="210" cy="42" r="2.0" class="pb"/>
-    <circle cx="268" cy="18" r="2.0" class="pg"/>
-    <circle cx="325" cy="52" r="2.0" class="pf"/>
-    <circle cx="390" cy="8" r="2.0" class="pc"/>
-    <circle cx="445" cy="35" r="2.0" class="pa"/>
-    <circle cx="510" cy="14" r="2.0" class="ph"/>
-    <circle cx="575" cy="48" r="2.0" class="pd"/>
-    <circle cx="630" cy="22" r="2.0" class="pb"/>
-    <circle cx="695" cy="56" r="2.0" class="pe"/>
-    <circle cx="740" cy="10" r="2.0" class="pg"/>
-    <circle cx="55" cy="38" r="2.0" class="pf"/>
-    <circle cx="120" cy="8" r="2.0" class="pa"/>
-    <circle cx="185" cy="55" r="2.0" class="ph"/>
-    <circle cx="240" cy="30" r="2.0" class="pc"/>
-    <circle cx="305" cy="16" r="2.0" class="pb"/>
-    <circle cx="370" cy="62" r="2.0" class="pe"/>
-    <circle cx="425" cy="24" r="2.0" class="pd"/>
-    <circle cx="490" cy="45" r="2.0" class="pg"/>
-    <circle cx="555" cy="6" r="2.0" class="pa"/>
-    <circle cx="610" cy="38" r="2.0" class="pf"/>
-    <circle cx="670" cy="18" r="2.0" class="ph"/>
-    <circle cx="720" cy="68" r="2.0" class="pc"/>
-    <circle cx="15" cy="65" r="2.0" class="pd"/>
-    <circle cx="78" cy="50" r="2.0" class="pb"/>
-    <circle cx="145" cy="38" r="2.0" class="pe"/>
-    <circle cx="200" cy="12" r="2.0" class="pg"/>
-    <circle cx="260" cy="62" r="2.0" class="pa"/>
-    <circle cx="320" cy="28" r="2.0" class="pf"/>
-    <circle cx="385" cy="42" r="2.0" class="ph"/>
-    <circle cx="438" cy="68" r="2.0" class="pc"/>
-    <circle cx="505" cy="6" r="2.0" class="pd"/>
-    <circle cx="560" cy="58" r="2.0" class="pb"/>
-    <circle cx="620" cy="10" r="2.0" class="pe"/>
-    <circle cx="680" cy="48" r="2.0" class="pg"/>
-    <circle cx="735" cy="42" r="2.0" class="pa"/>
-    <circle cx="48" cy="76" r="2.0" class="pf"/>
-    <circle cx="112" cy="66" r="2.0" class="ph"/>
-    <circle cx="170" cy="20" r="2.0" class="pc"/>
-    <circle cx="230" cy="78" r="2.0" class="pb"/>
-    <circle cx="295" cy="42" r="2.0" class="pd"/>
-    <circle cx="355" cy="10" r="2.0" class="pe"/>
-    <circle cx="415" cy="55" r="2.0" class="pg"/>
-    <circle cx="475" cy="70" r="2.0" class="pa"/>
-    <circle cx="535" cy="35" r="2.0" class="ph"/>
-    <circle cx="595" cy="72" r="2.0" class="pd"/>
-    <circle cx="655" cy="38" r="2.0" class="pc"/>
+    <circle cx="210" cy="42" r="2.0" class="pe"/>
+    <circle cx="390" cy="8" r="2.0" class="pg"/>
+    <circle cx="510" cy="14" r="2.0" class="pb"/>
+    <circle cx="695" cy="56" r="2.0" class="pc"/>
+    <circle cx="120" cy="8" r="2.0" class="pf"/>
+    <circle cx="240" cy="30" r="2.0" class="pd"/>
+    <circle cx="425" cy="24" r="2.0" class="ph"/>
+    <circle cx="555" cy="6" r="2.0" class="pe"/>
+    <circle cx="670" cy="18" r="2.0" class="pg"/>
+    <circle cx="145" cy="38" r="2.0" class="pb"/>
+    <circle cx="320" cy="28" r="2.0" class="pc"/>
+    <circle cx="505" cy="6" r="2.0" class="pf"/>
+    <circle cx="680" cy="48" r="2.0" class="pd"/>
+    <circle cx="170" cy="20" r="2.0" class="pa"/>
+    <circle cx="355" cy="10" r="2.0" class="ph"/>
+    <circle cx="535" cy="35" r="2.0" class="pg"/>
     <circle cx="710" cy="14" r="2.0" class="pb"/>
-    <circle cx="25" cy="88" r="2.0" class="pe"/>
-    <circle cx="85" cy="100" r="2.0" class="pg"/>
-    <circle cx="155" cy="70" r="2.0" class="pa"/>
-    <circle cx="215" cy="92" r="2.0" class="pf"/>
-    <circle cx="280" cy="82" r="2.0" class="ph"/>
-    <circle cx="340" cy="96" r="2.0" class="pc"/>
-    <circle cx="400" cy="88" r="2.0" class="pd"/>
-    <circle cx="460" cy="78" r="2.0" class="pb"/>
-    <circle cx="530" cy="94" r="2.0" class="pe"/>
-    <circle cx="590" cy="84" r="2.0" class="pg"/>
-    <circle cx="640" cy="62" r="2.0" class="pa"/>
-    <circle cx="700" cy="80" r="2.0" class="pf"/>
-    <circle cx="745" cy="58" r="2.0" class="ph"/>
-    <circle cx="38" cy="105" r="2.0" class="pd"/>
-    <circle cx="105" cy="95" r="2.0" class="pc"/>
-    <circle cx="178" cy="100" r="2.0" class="pb"/>
-    <circle cx="245" cy="108" r="2.0" class="pe"/>
-    <circle cx="310" cy="72" r="2.0" class="pg"/>
-    <circle cx="375" cy="100" r="2.0" class="pa"/>
-    <circle cx="435" cy="104" r="2.0" class="pf"/>
-    <circle cx="500" cy="88" r="2.0" class="ph"/>
-    <circle cx="565" cy="96" r="2.0" class="pc"/>
-    <circle cx="625" cy="72" r="2.0" class="pd"/>
-    <circle cx="690" cy="102" r="2.0" class="pb"/>
-    <circle cx="730" cy="92" r="2.0" class="pe"/>
   </g>
+
+  <!-- Green dots -->
+  <g fill="#3fb950">
+    <circle cx="98" cy="28" r="2.0" class="pb"/>
+    <circle cx="268" cy="18" r="2.0" class="pc"/>
+    <circle cx="445" cy="35" r="2.0" class="pf"/>
+    <circle cx="575" cy="48" r="2.0" class="pd"/>
+    <circle cx="740" cy="10" r="2.0" class="pa"/>
+    <circle cx="240" cy="30" r="2.0" class="pe"/>
+    <circle cx="370" cy="62" r="2.0" class="pg"/>
+    <circle cx="490" cy="45" r="2.0" class="ph"/>
+    <circle cx="610" cy="38" r="2.0" class="pc"/>
+    <circle cx="720" cy="68" r="2.0" class="pf"/>
+    <circle cx="200" cy="12" r="2.0" class="pd"/>
+    <circle cx="385" cy="42" r="2.0" class="pa"/>
+    <circle cx="560" cy="58" r="2.0" class="pe"/>
+    <circle cx="735" cy="42" r="2.0" class="pg"/>
+    <circle cx="295" cy="42" r="2.0" class="pb"/>
+    <circle cx="475" cy="70" r="2.0" class="ph"/>
+    <circle cx="595" cy="72" r="2.0" class="pf"/>
+  </g>
+
+  <!-- Purple dots -->
+  <g fill="#bc8cff">
+    <circle cx="157" cy="6" r="2.0" class="pc"/>
+    <circle cx="325" cy="52" r="2.0" class="pd"/>
+    <circle cx="630" cy="22" r="2.0" class="pa"/>
+    <circle cx="55" cy="38" r="2.0" class="pe"/>
+    <circle cx="305" cy="16" r="2.0" class="pg"/>
+    <circle cx="438" cy="68" r="2.0" class="pb"/>
+    <circle cx="620" cy="10" r="2.0" class="ph"/>
+    <circle cx="78" cy="50" r="2.0" class="pf"/>
+    <circle cx="260" cy="62" r="2.0" class="pd"/>
+    <circle cx="415" cy="55" r="2.0" class="pa"/>
+    <circle cx="655" cy="38" r="2.0" class="pe"/>
+    <circle cx="155" cy="70" r="2.0" class="pg"/>
+    <circle cx="340" cy="96" r="2.0" class="pb"/>
+    <circle cx="530" cy="94" r="2.0" class="ph"/>
+    <circle cx="700" cy="80" r="2.0" class="pf"/>
+  </g>
+
+  <!-- Gold dots -->
+  <g fill="#d29922">
+    <circle cx="185" cy="55" r="2.0" class="pf"/>
+    <circle cx="85" cy="100" r="2.0" class="pd"/>
+    <circle cx="15" cy="65" r="2.0" class="pa"/>
+    <circle cx="112" cy="66" r="2.0" class="pb"/>
+    <circle cx="230" cy="78" r="2.0" class="pc"/>
+    <circle cx="640" cy="62" r="2.0" class="pe"/>
+    <circle cx="25" cy="88" r="2.0" class="pg"/>
+    <circle cx="178" cy="100" r="2.0" class="ph"/>
+    <circle cx="375" cy="100" r="2.0" class="pf"/>
+    <circle cx="565" cy="96" r="2.0" class="pd"/>
+    <circle cx="730" cy="92" r="2.0" class="pa"/>
+    <circle cx="105" cy="95" r="2.0" class="pe"/>
+  </g>
+
+  <!-- Pink dots — spread across multiple classes for visual variety -->
+  <g fill="#f778ba">
+    <circle cx="400" cy="88" r="2.0" class="pa"/>
+    <circle cx="700" cy="80" r="2.0" class="pc"/>
+    <circle cx="245" cy="108" r="2.0" class="pe"/>
+    <circle cx="625" cy="72" r="2.0" class="pg"/>
+    <circle cx="460" cy="78" r="2.0" class="pb"/>
+    <circle cx="215" cy="92" r="2.0" class="pd"/>
+    <circle cx="500" cy="88" r="2.0" class="pf"/>
+    <circle cx="690" cy="102" r="2.0" class="ph"/>
+  </g>
+
   <g class="text-layer">
     <g class="fade1">
       <text x="380" y="32" fill="#58a6ff" font-size="18" text-anchor="middle">Systems engineering for AI agents.</text>
