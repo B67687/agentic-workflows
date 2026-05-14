@@ -19,38 +19,38 @@
       .pulseh { animation: pulseH 1.34s ease-in-out infinite; }
 
       @keyframes fade1 {
-        0%   { opacity: 0; transform: translateY(6px); }
-        0%  { opacity: 0; }
-        4%  { opacity: 1; transform: translateY(0); }
+        0%   { opacity: 0; }
+        12%  { opacity: 0; }
+        16%  { opacity: 1; }
         75%  { opacity: 1; }
-        85%  { opacity: 0; transform: translateY(-4px); }
+        85%  { opacity: 0; }
         100% { opacity: 0; }
       }
       .fade1 { animation: fade1 14s ease-in-out infinite; }
       @keyframes fade2 {
-        0%   { opacity: 0; transform: translateY(6px); }
-        14%  { opacity: 0; }
-        18%  { opacity: 1; transform: translateY(0); }
+        0%   { opacity: 0; }
+        28%  { opacity: 0; }
+        32%  { opacity: 1; }
         75%  { opacity: 1; }
-        85%  { opacity: 0; transform: translateY(-4px); }
+        85%  { opacity: 0; }
         100% { opacity: 0; }
       }
       .fade2 { animation: fade2 14s ease-in-out infinite; }
       @keyframes fade3 {
-        0%   { opacity: 0; transform: translateY(6px); }
-        30%  { opacity: 0; }
-        34%  { opacity: 1; transform: translateY(0); }
+        0%   { opacity: 0; }
+        44%  { opacity: 0; }
+        48%  { opacity: 1; }
         75%  { opacity: 1; }
-        85%  { opacity: 0; transform: translateY(-4px); }
+        85%  { opacity: 0; }
         100% { opacity: 0; }
       }
       .fade3 { animation: fade3 14s ease-in-out infinite; }
       @keyframes fade4 {
-        0%   { opacity: 0; transform: translateY(6px); }
-        46%  { opacity: 0; }
-        50%  { opacity: 1; transform: translateY(0); }
+        0%   { opacity: 0; }
+        60%  { opacity: 0; }
+        64%  { opacity: 1; }
         75%  { opacity: 1; }
-        85%  { opacity: 0; transform: translateY(-4px); }
+        85%  { opacity: 0; }
         100% { opacity: 0; }
       }
       .fade4 { animation: fade4 14s ease-in-out infinite; }
