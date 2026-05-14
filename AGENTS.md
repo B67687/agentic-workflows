@@ -88,7 +88,6 @@ For SwarmVault graph queries, read `wiki/graph/report.md` first (falls back to `
 
 ## Key Rules
 
-<rules>
 - **No new files** if an existing doc covers the need.
 - **Verify aggressively** --- verification is the quality engine.
 - **Weigh complexity cost against improvement magnitude** --- "All else equal, simpler is better." A small improvement that adds ugly complexity is not worth it. Removing code while keeping or improving function is a double win. When accepting a change, consider: does this make the system simpler or more complex? If the latter, the improvement must be proportional. (Pattern from karpathy/autoresearch simplicity criterion.)
@@ -124,7 +123,6 @@ For SwarmVault graph queries, read `wiki/graph/report.md` first (falls back to `
 - **Batch file reads to 3 at a time**: avoid dispatching 6+ parallel reads mixed with a long-running build --- memory pressure on 4GB WSL2 can interrupt tool execution.
 - **Use `gradle-build` for Gradle projects**: instead of bare `./gradlew`. The wrapper runs the build then stops the daemon, freeing ~600MB--1.8GB RSS.
 - **Resist cognitive surrender by default**: Cognitive surrender is adopting AI output without forming an independent view. The calibration question is: *"Am I forming my own understanding of this output, or adopting the agent's answer wholesale?"* These feel identical from the inside. Before every generative action (research summary, plan, code, review), construct an expectation of what the output should contain before running the tool. After the output, verify independently --- don't let "looks right" replace "I know this is right." For decisions with tradeoffs, ask the model to argue against its own answer. This is not optional for high-verification work; it is the difference between offloading (strategic delegation with oversight) and surrender (uncritical adoption). See `research/cognitive-surrender-research.md` for the full evidence.
-</rules>
 
 ## Structure Rules
 
@@ -204,9 +202,9 @@ loading 41 full skill files, load progressively:
 | **L3** | Reference files, assets, scripts | Variable | On demand |
 
 ```bash
-bash ./scripts/skill-toolset.sh list           # L1 — browse 42 skills
-bash ./scripts/skill-toolset.sh load <name>    # L2 — full instructions
-bash ./scripts/skill-toolset.sh resource <name> <path>  # L3 — specific file
+bash ./scripts/skill-toolset.sh list           # L1 --- browse 42 skills
+bash ./scripts/skill-toolset.sh load <name>    # L2 --- full instructions
+bash ./scripts/skill-toolset.sh resource <name> <path>  # L3 --- specific file
 bash ./scripts/skill-toolset.sh find <query>   # Search by name/pattern
 ```
 
@@ -214,7 +212,6 @@ Every 42-skill L1 scan costs ~4K tokens. Full monolithic loading of all 42 would
 cost ~200K tokens. Progressive disclosure makes the difference between "I can have
 many skills" and "I can't afford to know they exist."
 
-<rules>
 - If a task matches a skill, invoke it via the `skill` tool if available, OR read `skills/<skill-name>/SKILL.md` directly
 - Skills are located in `skills/<skill-name>/SKILL.md`
 - Follow the skill workflow exactly (do not partially apply)
@@ -222,12 +219,11 @@ many skills" and "I can't afford to know they exist."
 ### Bundle Overview
 
 Skills are grouped into **lifecycle bundles** for faster selection (see [full table](#skill-bundles)).
-</rules>
 
 ### Intent -> Skill Mapping
 
 | Intent | Skill(s) to invoke |
-|---|---|---|
+|---|---|
 | Creative / novel / original ideas | `divergent-ideation` (before spec-driven-development) |
 | Ambiguous / needs scoping | `grill-me` (relentless questioning before commit) |
 | Refine an idea | `idea-refine` (structured divergent -> convergent) |
