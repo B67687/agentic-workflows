@@ -478,7 +478,7 @@ EOF
     echo "  Custom:   pipeline-run.sh guardrail <id> <task> pre /path/to/script.sh"
     echo ""
     echo "Agents for dispatch: pi (default), codex, claude"
-    ""
+    echo ""
     echo "Example:"
     echo "  pipeline-run.sh init \"Auth module\" \"Implement JWT middleware\" \"Add login endpoint\" \"Write tests\""
     echo "  pipeline-run.sh dispatch <id> pi"
