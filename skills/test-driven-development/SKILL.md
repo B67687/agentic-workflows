@@ -50,39 +50,13 @@ Write a failing test before writing the code that makes it pass. For bug fixes, 
 
 ### Step 1: RED --- Write a Failing Test
 
-Write the test first. It must fail. A test that passes immediately proves nothing.
-
-```typescript
-// RED: This test fails because createTask doesn't exist yet
-describe('TaskService', () => {
-  it('creates a task with title and default status', async () => {
-    const task = await taskService.createTask({ title: 'Buy groceries' });
-
-    expect(task.id).toBeDefined();
-    expect(task.title).toBe('Buy groceries');
-    expect(task.status).toBe('pending');
-    expect(task.createdAt).toBeInstanceOf(Date);
-  });
-});
-```
+Write the test first. It must fail. A test that passes immediately proves nothing. Load RED example (L3):
+`bash ./scripts/skill-toolset.sh resource test-driven-development references/test-examples.md`
 
 ### Step 2: GREEN --- Make It Pass
 
-Write the minimum code to make the test pass. Don't over-engineer:
-
-```typescript
-// GREEN: Minimal implementation
-export async function createTask(input: { title: string }): Promise<Task> {
-  const task = {
-    id: generateId(),
-    title: input.title,
-    status: 'pending' as const,
-    createdAt: new Date(),
-  };
-  await db.tasks.insert(task);
-  return task;
-}
-```
+Write the minimum code to make the test pass. Don't over-engineer. Load GREEN example (L3):
+`bash ./scripts/skill-toolset.sh resource test-driven-development references/test-examples.md`
 
 ### Step 3: REFACTOR --- Clean Up
 
@@ -118,30 +92,8 @@ Bug report arrives
   Run full test suite (no regressions)
 ```
 
-**Example:**
-
-```typescript
-// Bug: "Completing a task doesn't update the completedAt timestamp"
-
-// Step 1: Write the reproduction test (it should FAIL)
-it('sets completedAt when task is completed', async () => {
-  const task = await taskService.createTask({ title: 'Test' });
-  const completed = await taskService.completeTask(task.id);
-
-  expect(completed.status).toBe('completed');
-  expect(completed.completedAt).toBeInstanceOf(Date);  // This fails -> bug confirmed
-});
-
-// Step 2: Fix the bug
-export async function completeTask(id: string): Promise<Task> {
-  return db.tasks.update(id, {
-    status: 'completed',
-    completedAt: new Date(),  // This was missing
-  });
-}
-
-// Step 3: Test passes -> bug fixed, regression guarded
-```
+Load the Prove-It example (bug reproduction test pattern) as L3:
+`bash ./scripts/skill-toolset.sh resource test-driven-development references/test-examples.md`
 
 ## The Test Pyramid
 
@@ -164,26 +116,10 @@ Load test examples (L3) showing state vs. interaction testing:
 Descriptive And Meaningful Phrases > Don't Repeat Yourself for test code.
 Duplication in tests is acceptable if it keeps each test independently readable.
 
-### DAMP Over DRY in Tests
-
 In production code, DRY (Don't Repeat Yourself) is usually right. In tests, **DAMP (Descriptive And Meaningful Phrases)** is better. A test should read like a specification --- each test should tell a complete story without requiring the reader to trace through shared helpers.
 
-```typescript
-// DAMP: Each test is self-contained and readable
-it('rejects tasks with empty titles', () => {
-  const input = { title: '', assignee: 'user-1' };
-  expect(() => createTask(input)).toThrow('Title is required');
-});
-
-it('trims whitespace from titles', () => {
-  const input = { title: '  Buy groceries  ', assignee: 'user-1' };
-  const task = createTask(input);
-  expect(task.title).toBe('Buy groceries');
-});
-
-// Over-DRY: Shared setup obscures what each test actually verifies
-// (Don't do this just to avoid repeating the input shape)
-```
+Load DAMP/DRY examples (L3):
+`bash ./scripts/skill-toolset.sh resource test-driven-development references/test-examples.md`
 
 Duplication in tests is acceptable when it makes each test independently understandable.
 
@@ -203,56 +139,12 @@ Preference order (most to least preferred):
 
 ### Use the Arrange-Act-Assert Pattern
 
-```typescript
-it('marks overdue tasks when deadline has passed', () => {
-  // Arrange: Set up the test scenario
-  const task = createTask({
-    title: 'Test',
-    deadline: new Date('2025-01-01'),
-  });
-
-  // Act: Perform the action being tested
-  const result = checkOverdue(task, new Date('2025-01-02'));
-
-  // Assert: Verify the outcome
-  expect(result.isOverdue).toBe(true);
-});
-```
+Load AAA and assertion examples (L3):
+`bash ./scripts/skill-toolset.sh resource test-driven-development references/test-examples.md`
 
 ### One Assertion Per Concept
 
-```typescript
-// Good: Each test verifies one behavior
-it('rejects empty titles', () => { ... });
-it('trims whitespace from titles', () => { ... });
-it('enforces maximum title length', () => { ... });
-
-// Bad: Everything in one test
-it('validates titles correctly', () => {
-  expect(() => createTask({ title: '' })).toThrow();
-  expect(createTask({ title: '  hello  ' }).title).toBe('hello');
-  expect(() => createTask({ title: 'a'.repeat(256) })).toThrow();
-});
-```
-
 ### Name Tests Descriptively
-
-```typescript
-// Good: Reads like a specification
-describe('TaskService.completeTask', () => {
-  it('sets status to completed and records timestamp', ...);
-  it('throws NotFoundError for non-existent task', ...);
-  it('is idempotent --- completing an already-completed task is a no-op', ...);
-  it('sends notification to task assignee', ...);
-});
-
-// Bad: Vague names
-describe('TaskService', () => {
-  it('works', ...);
-  it('handles errors', ...);
-  it('test 3', ...);
-});
-```
 
 ## Test Anti-Patterns to Avoid
 
