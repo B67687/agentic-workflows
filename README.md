@@ -38,7 +38,7 @@
     </picture>
   </a>
   <br>
-  <sub>SVG architecture diagram --- <a href="docs/hub-architecture.svg">view full size</a></sub>
+  <sub>SVG architecture diagram ~ <a href="docs/hub-architecture.svg">view full size</a></sub>
 </p>
 
 <p align="center">
@@ -69,7 +69,7 @@ bash ./scripts/test-smoke.sh
 bash ./scripts/propagate.sh all --apply    # push templates to your repos
 ```
 
-Then open **[`AGENTS.md`](AGENTS.md)** --- that's the operating contract. Every agent reads it first.
+Then open **[`AGENTS.md`](AGENTS.md)** ~ that's the operating contract. Every agent reads it first.
 
 ---
 
@@ -77,25 +77,25 @@ Then open **[`AGENTS.md`](AGENTS.md)** --- that's the operating contract. Every 
 
 | | |
 |---|---|
-| <img src="https://img.shields.io/badge/Contract-58a6ff?style=flat-square" alt=""> | **AGENTS.md** --- Shared rules and conventions every agent reads on entry |
-| <img src="https://img.shields.io/badge/Skills-0ea5e9?style=flat-square" alt=""> | **42 engineering skills** --- Debug, review, ship, document. Companion scripts for each |
-| <img src="https://img.shields.io/badge/Propagation-3fb950?style=flat-square" alt=""> | **Templates flow to 15+ repos** --- Change once in the hub, updates everywhere |
-| <img src="https://img.shields.io/badge/Memory-e1306c?style=flat-square" alt=""> | **agentmemory MCP** --- Captures tool use, compresses observations, persists across sessions |
-| <img src="https://img.shields.io/badge/Workflow-58a6ff?style=flat-square" alt=""> | **Checkpoints, handoffs, pipelines** --- Structured phases instead of chaotic chats |
-| <img src="https://img.shields.io/badge/Research-0ea5e9?style=flat-square" alt=""> | **6-phase systematic research** --- Frame, discover, triangulate, apply, preserve |
-| <img src="https://img.shields.io/badge/Quality-3fb950?style=flat-square" alt=""> | **A2H escalation, assumption expiry** --- Pre-push quality gates, error counters |
-| <img src="https://img.shields.io/badge/Orchestration-e1306c?style=flat-square" alt=""> | **Cross-project memory loop** --- Propagate templates, harvest insights across repos |
-| <img src="https://img.shields.io/badge/Tests-58a6ff?style=flat-square" alt=""> | **32-test smoke suite** --- Every change verified before commit. Red/green TDD |
+| <img src="https://img.shields.io/badge/Contract-58a6ff?style=flat-square" alt=""> | **AGENTS.md** ~ Shared rules and conventions every agent reads on entry |
+| <img src="https://img.shields.io/badge/Skills-0ea5e9?style=flat-square" alt=""> | **42 engineering skills** ~ Debug, review, ship, document. Companion scripts for each |
+| <img src="https://img.shields.io/badge/Propagation-3fb950?style=flat-square" alt=""> | **Templates flow to 15+ repos** ~ Change once in the hub, updates everywhere |
+| <img src="https://img.shields.io/badge/Memory-e1306c?style=flat-square" alt=""> | **agentmemory MCP** ~ Captures tool use, compresses observations, persists across sessions |
+| <img src="https://img.shields.io/badge/Workflow-58a6ff?style=flat-square" alt=""> | **Checkpoints, handoffs, pipelines** ~ Structured phases instead of chaotic chats |
+| <img src="https://img.shields.io/badge/Research-0ea5e9?style=flat-square" alt=""> | **6-phase systematic research** ~ Frame, discover, triangulate, apply, preserve |
+| <img src="https://img.shields.io/badge/Quality-3fb950?style=flat-square" alt=""> | **A2H escalation, assumption expiry** ~ Pre-push quality gates, error counters |
+| <img src="https://img.shields.io/badge/Orchestration-e1306c?style=flat-square" alt=""> | **Cross-project memory loop** ~ Propagate templates, harvest insights across repos |
+| <img src="https://img.shields.io/badge/Tests-58a6ff?style=flat-square" alt=""> | **32-test smoke suite** ~ Every change verified before commit. Red/green TDD |
 
 ---
 
 <h2>⚙️ How It Works</h2>
 
-**📥 Define** --- `AGENTS.md` sets the rules. Every agent reads it on entry. Skills, commands, and propagation templates inherit from it.
+**📥 Define** ~ `AGENTS.md` sets the rules. Every agent reads it on entry. Skills, commands, and propagation templates inherit from it.
 
-**🔄 Propagate** --- `propagate.sh` pushes templates to topic folders. One change in the hub updates 15+ repos. Commands, scripts, configs all synced.
+**🔄 Propagate** ~ `propagate.sh` pushes templates to topic folders. One change in the hub updates 15+ repos. Commands, scripts, configs all synced.
 
-**📤 Harvest** --- Learnings flow back to the hub via insight harvesting. Cross-project memory loops keep knowledge circulating instead of siloed.
+**📤 Harvest** ~ Learnings flow back to the hub via insight harvesting. Cross-project memory loops keep knowledge circulating instead of siloed.
 
 ---
 
@@ -149,7 +149,7 @@ Then open **[`AGENTS.md`](AGENTS.md)** --- that's the operating contract. Every 
 </table>
 
 <details>
-<summary><b>Full ecosystem</b> --- 50+ projects across 8 more categories</summary>
+<summary><b>Full ecosystem</b> ~ 50+ projects across 8 more categories</summary>
 
 | Category | Projects |
 |----------|----------|
