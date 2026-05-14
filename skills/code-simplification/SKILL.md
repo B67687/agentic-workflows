@@ -50,11 +50,11 @@ code examples. Load with:
 
 Quick summary:
 
-1. **Preserve Behavior Exactly** — Same outputs, errors, side effects for all inputs
-2. **Follow Project Conventions** — Consistency over preference
-3. **Prefer Clarity Over Cleverness** — Explicit > compact when clarity suffers
-4. **Maintain Balance** — Don't over-simplify; comprehension speed is the goal
-5. **Scope to What Changed** — Simplify modified code, avoid drive-by refactors
+1. **Preserve Behavior Exactly** --- Same outputs, errors, side effects for all inputs
+2. **Follow Project Conventions** --- Consistency over preference
+3. **Prefer Clarity Over Cleverness** --- Explicit > compact when clarity suffers
+4. **Maintain Balance** --- Don't over-simplify; comprehension speed is the goal
+5. **Scope to What Changed** --- Simplify modified code, avoid drive-by refactors
 
 ## The Simplification Process
 
@@ -123,6 +123,33 @@ FOR EACH SIMPLIFICATION:
 Avoid batching multiple simplifications into a single untested change. If something breaks, you need to know which simplification caused it.
 
 **The Rule of 500:** If a refactoring would touch more than 500 lines, invest in automation (codemods, sed scripts, AST transforms) rather than making the changes by hand. Manual edits at that scale are error-prone and exhausting to review.
+
+### Step 3.5: Structured Edit Pattern (SEARCH/REPLACE)
+
+For surgical edits on known code, use the SEARCH/REPLACE block format.
+Each block targets a specific file, locates exact code, and replaces it.
+This is more precise than whole-file rewrites for targeted changes.
+
+```
+Block Structure:
+---
+filepath: path/to/file.py
+### SEARCH:
+<exact code to find, including surrounding context for uniqueness>
+### REPLACE:
+<new code>
+---
+```
+
+**Rules:**
+1. Include 2-5 lines of surrounding context --- enough to make the SEARCH unique
+2. SEARCH must match existing code exactly (whitespace, indentation, comments)
+3. One SEARCH/REPLACE block per edit --- multiple blocks for multiple changes
+4. After applying, validate syntax (`python3 -c "compile(...)"`, `npx tsc --noEmit`, etc.)
+
+**Derived from:** Aider's SEARCH/REPLACE edit format
+([Aider-AI/aider](https://github.com/Aider-AI/aider) --- chat.md edit format specification).
+This pattern enables precise, reviewable, and verifiable code edits at scale.
 
 ### Step 4: Verify the Result
 
