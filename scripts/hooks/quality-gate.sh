@@ -135,14 +135,9 @@ check_error_handling() {
   while IFS= read -r file; do
     [[ -z "$file" ]] && continue
 
-    # Retrieve staged content to check what's actually being committed
+    # Check full file content from staged index (not just added lines)
     local staged
-    staged=$(git diff --cached "$file" 2>/dev/null | grep '^+' | sed 's/^+//' || true)
-
-    # If no staged additions, check the full file (new file or pre-existing)
-    if [[ -z "$staged" ]]; then
-      staged=$(git show :"$file" 2>/dev/null || cat "$file" 2>/dev/null)
-    fi
+    staged=$(git show :"$file" 2>/dev/null || cat "$file" 2>/dev/null)
 
     local has_errexit=false has_nounset=false has_pipefail=false
 
@@ -189,9 +184,9 @@ check_shellcheck() {
     output=$(shellcheck -f gcc "$file" 2>/dev/null || true)
     if [[ -n "$output" ]]; then
       local err_count
-      err_count=$(echo "$output" | grep -c 'error:' 2>/dev/null || echo 0)
+      err_count=$(grep -c 'error:' <<< "$output" 2>/dev/null || true)
       local warn_count
-      warn_count=$(echo "$output" | grep -c 'warning:' 2>/dev/null || echo 0)
+      warn_count=$(grep -c 'warning:' <<< "$output" 2>/dev/null || true)
       if [[ "$err_count" -gt 0 ]]; then
         print_issue "WARN" "$file" "shellcheck: $err_count error(s), $warn_count warning(s)"
 
