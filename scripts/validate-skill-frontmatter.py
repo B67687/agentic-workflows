@@ -23,7 +23,9 @@ import pathlib
 SKILLS_DIR = pathlib.Path(__file__).resolve().parent.parent / "skills"
 
 ALLOWED_TOP_LEVEL = {"name", "description", "license", "compatibility",
-                     "metadata", "allowed-tools", "allowed_tools"}
+                     "metadata", "allowed-tools", "allowed_tools", "status"}
+
+VALID_STATUSES = {"active", "deprecated", "archived"}
 
 NAME_PATTERN = re.compile(r'^[a-z0-9]+(-[a-z0-9]+)*$')
 
@@ -107,9 +109,14 @@ def validate_skill(skill_dir, fix=False):
     custom_top = set(fm.keys()) - ALLOWED_TOP_LEVEL
     if custom_top:
         for field in sorted(custom_top):
-            results.append(("WARN", f"non-standard top-level field '{field}' — should be under 'metadata'"))
+            results.append(("WARN", f"non-standard top-level field '{field}' --- should be under 'metadata'"))
         if fix:
             results.append(("FIX", f"Would move {sorted(custom_top)} into metadata"))
+
+    # --- status validation ---
+    status = fm.get("status", "active")
+    if status not in VALID_STATUSES:
+        results.append(("WARN", f"status '{status}' is not valid (must be one of: {', '.join(sorted(VALID_STATUSES))})"))
 
     # --- compatibility ---
     compat = fm.get("compatibility", "")

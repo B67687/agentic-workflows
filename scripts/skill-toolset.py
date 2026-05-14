@@ -1,18 +1,21 @@
 #!/usr/bin/env python3
-"""Progressive disclosure toolset — L1/L2/L3 skill loading.
+"""Progressive disclosure toolset --- L1/L2/L3 skill loading.
 
 Implements the three-tier information model from the Agent Skills specification:
 
-  L1 — Metadata:  skill names and descriptions (~100 tokens each)
-  L2 — Full load: complete SKILL.md instructions
-  L3 — Resource:  specific files from references/, assets/, or scripts/
+  L1 --- Metadata:  skill names and descriptions (~100 tokens each)
+  L2 --- Full load: complete SKILL.md instructions
+  L3 --- Resource:  specific files from references/, assets/, or scripts/
 
 Usage:
-    python3 scripts/skill-toolset.py list                   # L1 — names + descriptions
-    python3 scripts/skill-toolset.py list --compact         # L1 — one line per skill
-    python3 scripts/skill-toolset.py list --json            # L1 — machine-readable JSON
-    python3 scripts/skill-toolset.py load <name>            # L2 — full SKILL.md
-    python3 scripts/skill-toolset.py resource <name> <path> # L3 — specific file
+    python3 scripts/skill-toolset.py list                   # L1 --- names + descriptions
+    python3 scripts/skill-toolset.py list --compact         # L1 --- one line per skill
+    python3 scripts/skill-toolset.py list --json            # L1 --- machine-readable JSON
+    python3 scripts/skill-toolset.py list --active          # filter: active only
+    python3 scripts/skill-toolset.py list --deprecated      # filter: deprecated only
+    python3 scripts/skill-toolset.py list --archived        # filter: archived only
+    python3 scripts/skill-toolset.py load <name>            # L2 --- full SKILL.md
+    python3 scripts/skill-toolset.py resource <name> <path> # L3 --- specific file
     python3 scripts/skill-toolset.py find <query>           # search by name/desc/pattern
     python3 scripts/skill-toolset.py info <name>            # detail for one skill (all metadata)
 """
@@ -67,7 +70,7 @@ def parse_frontmatter(skill_dir):
 
 
 def cmd_list(args):
-    """L1 — names and descriptions (compact by default for agent consumption)."""
+    """L1 --- names and descriptions (compact by default for agent consumption)."""
     compact = "--compact" in args or len(args) == 0
     as_json = "--json" in args
     show_all = "--all" in args or "-a" in args
@@ -85,8 +88,23 @@ def cmd_list(args):
             "description": fm.get("description", ""),
             "pattern": meta.get("pattern", ""),
             "bundle": meta.get("bundle", ""),
+            "status": fm.get("status", "active"),
             "companion_script": meta.get("companion-script", ""),
         })
+
+    # Filter by status if requested
+    status_filter = None
+    for a in args:
+        if a.startswith("--status="):
+            status_filter = a.split("=", 1)[1]
+        elif a == "--deprecated":
+            status_filter = "deprecated"
+        elif a == "--archived":
+            status_filter = "archived"
+        elif a == "--active":
+            status_filter = "active"
+    if status_filter:
+        results = [r for r in results if r.get("status") == status_filter]
 
     if as_json:
         print(json.dumps(results, indent=2))
@@ -108,7 +126,8 @@ def cmd_list(args):
         for r in results:
             pat = f"[{r['pattern']}]" if r["pattern"] else ""
             bun = f"({r['bundle']})" if r["bundle"] else ""
-            tags = f"{pat:14s} {bun:10s}" if pat or bun else ""
+            sts = f"{{{r['status']}}}" if r["status"] != "active" else ""
+            tags = f"{pat:14s} {bun:10s} {sts:14s}" if pat or bun or sts else ""
             desc = r["description"]
             # Trim long descriptions for compact mode
             max_desc = 70 - len(tags)
@@ -129,7 +148,7 @@ def cmd_list(args):
 
 
 def cmd_load(args):
-    """L2 — load full SKILL.md for a named skill."""
+    """L2 --- load full SKILL.md for a named skill."""
     if not args:
         print("Usage: skill-toolset load <name>")
         sys.exit(1)
@@ -144,7 +163,7 @@ def cmd_load(args):
     # Output the full SKILL.md body (stripping frontmatter for cleaner context)
     content = (skill_dir / "SKILL.md").read_text(encoding="utf-8")
 
-    # Strip frontmatter — agent only needs the body
+    # Strip frontmatter --- agent only needs the body
     if content.startswith("---"):
         rest = content[3:].lstrip("\n\r")
         for pattern in ["\n---\n", "\n---\r\n"]:
@@ -157,7 +176,7 @@ def cmd_load(args):
 
 
 def cmd_resource(args):
-    """L3 — load a specific resource file from a skill."""
+    """L3 --- load a specific resource file from a skill."""
     if len(args) < 2:
         print("Usage: skill-toolset resource <name> <path>")
         sys.exit(1)
@@ -173,7 +192,7 @@ def cmd_resource(args):
         print(f"Skill '{name}' not found.")
         sys.exit(1)
 
-    # Resolve the resource — allow paths relative to skill dir or absolute within skills
+    # Resolve the resource --- allow paths relative to skill dir or absolute within skills
     candidates = [
         skill_dir / resource_path,
     ]
