@@ -47,6 +47,7 @@ case "$CMD" in
     WORKDIR="$REPO_ROOT"
     MODEL=""
     FORMAT="text"
+    MAX_LOOPS=1
     while [ $# -gt 0 ]; do
       case "$1" in
         --dir) WORKDIR="$2"; shift 2 ;;
@@ -56,6 +57,17 @@ case "$CMD" in
           if [ "$FORMAT" != "text" ] && [ "$FORMAT" != "json" ]; then
             echo "Format must be 'text' or 'json'"
             exit 1
+          fi
+          shift 2 ;;
+        --loop)
+          MAX_LOOPS="$2"
+          if ! [ "$MAX_LOOPS" -gt 0 ] 2>/dev/null; then
+            echo "Loop count must be a positive integer"
+            exit 1
+          fi
+          # Hermes Agent pattern: force JSON format for iterative refinement
+          if [ "$FORMAT" = "text" ]; then
+            FORMAT="json"
           fi
           shift 2 ;;
         *) echo "Unknown option: $1"; exit 1 ;;
@@ -118,8 +130,10 @@ The JSON must be parseable by json.loads()."
   "task": $(echo "$TASK" | python3 -c "import sys,json; print(json.dumps(sys.stdin.read()))" 2>/dev/null || echo "\"$TASK\""),
   "workdir": "$WORKDIR",
   "format": "$FORMAT",
+  "max_loops": $MAX_LOOPS,
   "status": "running",
   "result": null,
+  "iterations": [],
   "created": "$TIMESTAMP",
   "started": "$TIMESTAMP",
   "completed": null,
@@ -146,6 +160,7 @@ print(json.dumps(args))
       _RUNNER_JOBS_DIR="$JOBS_DIR" \
       _RUNNER_JOB_ID="$JOB_ID" \
       _CMD_ARGS_JSON="$CMD_ARGS_JSON" \
+      _RUNNER_MAX_LOOPS="$MAX_LOOPS" \
       python3 "$RUNNER" > /dev/null 2>&1 &
 
     PID=$!
@@ -332,10 +347,12 @@ with open('$JOBS_DIR/$JOB_ID.json', 'w') as f:
     echo "  --dir <path>     Working directory (default: workspace root)"
     echo "  --model <id>     Model to use (agent-specific)"
     echo "  --format <type>  Output format: 'text' (default) or 'json' (Pydantic AI pattern)"
+    echo "  --loop <N>       Iterative refinement (Hermes Agent pattern, N=iterations)"
     echo ""
     echo "Examples:"
     echo "  bash ./scripts/agent-dispatch.sh run pi 'Research what Yjs does'"
     echo "  bash ./scripts/agent-dispatch.sh run pi 'Extract config' --format json"
+    echo "  bash ./scripts/agent-dispatch.sh run pi 'Refactor module' --loop 3"
     echo "  bash ./scripts/agent-dispatch.sh result job-001"
     echo "  bash ./scripts/agent-dispatch.sh status"
     echo "  bash ./scripts/agent-dispatch.sh log job-001"
