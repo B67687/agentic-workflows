@@ -66,9 +66,9 @@
   <line x1="440" y1="132" x2="458" y2="132" stroke="#58a6ff" stroke-width="1" opacity="0.5" marker-end="url(#arrowT)"/>
   <line x1="440" y1="210" x2="458" y2="210" stroke="#e1306c" stroke-width="1" opacity="0.5"/>
 
-  <!-- ===== ARROW: Hub → Topics ===== -->
+  <!-- ===== ARROW: Hub -> Topics ===== -->
   <line x1="450" y1="255" x2="450" y2="285" stroke="#58a6ff" stroke-width="2" marker-end="url(#arrowT)"/>
-  <text x="465" y="273" fill="#58a6ff" font-size="9" font-style="italic">propagated/ templates</text>
+  <text x="465" y="273" fill="#58a6ff" font-size="9" font-style="italic">propagated templates</text>
 
   <!-- ===== TOPIC FOLDERS ===== -->
   <rect x="70" y="290" width="760" height="195" rx="10" fill="none" stroke="#0ea5e9" stroke-width="1" stroke-dasharray="6,3" opacity="0.4"/>
@@ -110,7 +110,7 @@
   <line x1="695" y1="325" x2="545" y2="260" stroke="#30363d" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arrowB)"/>
   <text x="465" y="288" fill="#8b949e" font-size="9" font-style="italic">harvest insights</text>
 
-  <!-- ===== ARROW: Hub → Runtime ===== -->
+  <!-- ===== ARROW: Hub -> Runtime ===== -->
   <line x1="450" y1="496" x2="450" y2="525" stroke="#8b949e" stroke-width="1.5" marker-end="url(#arrowB)"/>
 
   <!-- ===== RUNTIME STATE ===== -->
