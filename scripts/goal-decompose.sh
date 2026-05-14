@@ -58,20 +58,30 @@ while [ $# -gt 0 ]; do
 done
 
 # ---------------------------------------------------------------------------
-# Interactive mode: read goal from stdin
+# Read goal from pipe if no arg was provided
 # ---------------------------------------------------------------------------
-if [ -z "$GOAL" ] && [ -t 0 ]; then
-  echo "Enter goal (Ctrl+D to finish):"
-  GOAL=$(cat)
-elif [ -z "$GOAL" ]; then
-  echo "Usage: bash ./scripts/goal-decompose.sh \"<goal>\" [options]"
-  echo "  or:  echo \"<goal>\" | bash ./scripts/goal-decompose.sh"
-  exit 1
+if [ -z "$GOAL" ]; then
+  # Try reading from stdin (works for both pipe and direct invocation)
+  read -t 1 GOAL 2>/dev/null || true
+  # If there's more piped content, grab it all
+  if [ -n "$GOAL" ]; then
+    EXTRA=$(cat 2>/dev/null || true)
+    if [ -n "$EXTRA" ]; then
+      GOAL="${GOAL}${GOAL:+ }${EXTRA}"
+    fi
+  fi
 fi
 
-# Read from pipe if stdin is not a terminal
+# Still no goal? Check for interactive terminal
 if [ -z "$GOAL" ]; then
-  GOAL=$(cat)
+  if [ -t 0 ]; then
+    echo "Enter goal (Ctrl+D to finish):"
+    GOAL=$(cat)
+  else
+    echo "Usage: bash ./scripts/goal-decompose.sh \"<goal>\" [options]"
+    echo "  or:  echo \"<goal>\" | bash ./scripts/goal-decompose.sh"
+    exit 1
+  fi
 fi
 
 [ -z "$GOAL" ] && echo "No goal provided." && exit 1
@@ -173,9 +183,12 @@ if [ "$TASKS_JSON" = "PARSE_ERROR" ] || [ -z "$TASKS_JSON" ]; then
 fi
 
 # Parse task descriptions into flat list for pipeline-run.sh init
+# Truncate to MAX_TASKS to enforce budget
 TASK_DESCS=$(echo "$TASKS_JSON" | python3 -c "
 import json, sys
 tasks = json.loads(sys.stdin.read())
+# Truncate to max_tasks to enforce budget
+tasks = tasks[:$MAX_TASKS]
 for t in tasks:
     d = t.get('description', '').strip()
     if d:

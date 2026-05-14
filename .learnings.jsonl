@@ -1,3 +1,6 @@
+autopilot: task 1 done for pipeline pipeline-20260514154429
+autopilot: task 1 done for pipeline pipeline-20260514154700
+autopilot: task 1 done for pipeline pipeline-20260514155035
 {"ts": "2026-05-11T05:02:37Z", "insight": "OpenMythos analysis: zero code is transferable to agentic-workflows hub (different domains: neural architecture vs knowledge base). Meta-pattern validation confirms our design is sound \u2014 recurrent-depth, input injection, ACT halting patterns already present in our phase system.\n", "tags": "openmythos,architecture-comparison,meta-patterns", "source": "agent"}
 {"ts": "2026-05-11T14:44:44Z", "insight": "Codebase understanding optimal stack: Tree-sitter repo map + BM25 retrieval + bash-only agentic exploration + large context with prompt caching. Trend is toward simpler agent interfaces as models get smarter (mini-swe-agent proves 100-line bash-only agent beats complex tool interfaces on SWE-bench).\n", "tags": "codebase-understanding,agent-architecture,research", "source": "agent"}
 {"ts": "2026-05-12T05:06:42Z", "insight": "Reflection loop works best when called after commit, not before\n", "tags": "general", "type": "learning", "source": "retrospect"}
@@ -24,3 +27,4 @@
 {"ts": "2026-05-14T06:24:42Z", "insight": "Source audit + 6 pattern extractions: 84 sources analyzed, 5 macro-to-micro fixes, memory architecture, skill lifecycle, n8n error handling, L3 extraction, agentmemory sync", "tags": "source-audit,bug", "type": "bug", "source": "retrospect"}
 {"ts": "2026-05-14T07:01:37Z", "insight": "CrewAI Flow pattern extraction: conditional routing (@router) added to pipeline-run.sh via route subcommand", "tags": "crewai-flow,entity:reference,entity:pipeline-run", "type": "learning", "source": "retrospect"}
 {"ts": "2026-05-14T07:10:24Z", "insight": "GraphRAG pattern extraction: community hierarchy + dual-mode query pattern added to SwarmVault schema and workflow docs", "tags": "graphrag", "type": "learning", "source": "retrospect"}
+autopilot: task 1 done for pipeline pipeline-20260514155342

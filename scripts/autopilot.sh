@@ -157,6 +157,18 @@ MAX_ATTEMPTS_INT=$MAX_ATTEMPTS
 TASK_COUNTER=0
 
 while true; do
+  # Check if pipeline is already complete (from previous iteration)
+  PIPELINE_STATUS=$(python3 -c "
+import json
+with open('$REPO_ROOT/.runtime/pipeline/$PIPELINE_ID.json') as f:
+    p = json.load(f)
+print(p.get('status', ''))
+" 2>/dev/null || echo "")
+  if [ "$PIPELINE_STATUS" = "complete" ]; then
+    echo "Pipeline already complete."
+    break
+  fi
+
   # Check budget before each task
   echo "--- Budget Check ---"
   BUDGET_RESULT=0
