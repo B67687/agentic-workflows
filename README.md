@@ -32,7 +32,10 @@
 
 <p align="center">
   <a href="docs/hub-architecture.svg">
-    <img src="docs/hub-architecture.svg?v=2" width="100%" alt="Hub Architecture Diagram" style="max-width:900px;">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="docs/hub-architecture.svg">
+      <img src="docs/hub-architecture-light.svg" width="100%" alt="Hub Architecture Diagram" style="max-width:900px;">
+    </picture>
   </a>
   <br>
   <sub>SVG architecture diagram --- <a href="docs/hub-architecture.svg">view full size</a></sub>
@@ -99,7 +102,10 @@ Then open **[`AGENTS.md`](AGENTS.md)** --- that's the operating contract. Every 
 <h2>🗺️ Orientation</h2>
 
 <p align="center">
-  <img src="docs/folder-structure.svg?v=2" width="100%" alt="Folder structure" style="max-width:720px;">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/folder-structure.svg">
+    <img src="docs/folder-structure-light.svg" width="100%" alt="Folder structure" style="max-width:720px;">
+  </picture>
 </p>
 
 | Quick Command | Action |

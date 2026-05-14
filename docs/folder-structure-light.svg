@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 530" style="max-width:800px; font-family:ui-monospace,'Cascadia Code','Fira Code',monospace; background:#ffffff; border-radius:12px;border:1px solid #d0d7de;">
+
+  <!-- COLORS -->
+  <defs>
+    <linearGradient id="coreHead" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ddf4ff"/>
+      <stop offset="100%" stop-color="#f6f8fa"/>
+    </linearGradient>
+    <linearGradient id="skillHead" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#dafbe1"/>
+      <stop offset="100%" stop-color="#f6f8fa"/>
+    </linearGradient>
+    <linearGradient id="row1" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#f6f8fa"/>
+      <stop offset="100%" stop-color="#f6f8fa"/>
+    </linearGradient>
+    <linearGradient id="row2" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#f6f8fa"/>
+      <stop offset="100%" stop-color="#f6f8fa"/>
+    </linearGradient>
+  </defs>
+
+  <!-- HEADER -->
+  <text x="400" y="38" fill="#0969da" font-size="16" font-weight="bold" text-anchor="middle" letter-spacing="1">agentic-workflows /</text>
+  <text x="400" y="58" fill="#57606a" font-size="12" text-anchor="middle">Agent orchestration harness --- one contract, N repos</text>
+
+  <!-- COLUMN LABELS -->
+  <rect x="25" y="80" width="360" height="28" rx="4" fill="#ffffff" stroke="#0969da" stroke-width="1" opacity="0.5"/>
+  <text x="205" y="98" fill="#0969da" font-size="11" font-weight="bold" text-anchor="middle" letter-spacing="2">CORE</text>
+
+  <rect x="415" y="80" width="360" height="28" rx="4" fill="#ffffff" stroke="#1a7f37" stroke-width="1" opacity="0.5"/>
+  <text x="595" y="98" fill="#1a7f37" font-size="11" font-weight="bold" text-anchor="middle" letter-spacing="2">SKILLS &amp; TOOLING</text>
+
+  <!-- AGENTS.md -->
+  <rect x="25" y="120" width="360" height="52" rx="6" fill="#f6f8fa" stroke="#0969da" stroke-width="1.5"/>
+  <text x="48" y="142" fill="#0969da" font-size="13" font-weight="bold">AGENTS.md</text>
+  <text x="128" y="142" fill="#57606a" font-size="11">Shared rules, conventions, escalation</text>
+  <text x="48" y="160" fill="#57606a" font-size="10">Every agent reads this first on session start</text>
+
+  <!-- skills/ -->
+  <rect x="415" y="120" width="360" height="52" rx="6" fill="#f6f8fa" stroke="#1a7f37" stroke-width="1"/>
+  <text x="438" y="142" fill="#1a7f37" font-size="13" font-weight="bold">skills/</text>
+  <text x="503" y="142" fill="#57606a" font-size="11">42 engineering skills with scripts</text>
+  <text x="438" y="160" fill="#57606a" font-size="10">Debug, review, ship, document, research patterns</text>
+
+  <!-- commands/ -->
+  <rect x="25" y="186" width="360" height="52" rx="6" fill="#f6f8fa" stroke="#0969da" stroke-width="1"/>
+  <text x="48" y="208" fill="#0969da" font-size="13" font-weight="bold">commands/</text>
+  <text x="128" y="208" fill="#57606a" font-size="11">Slash commands: /task, /plan, /research</text>
+  <text x="48" y="226" fill="#57606a" font-size="10">14 commands for session, pipeline, git, counsel</text>
+
+  <!-- propagation/ -->
+  <rect x="415" y="186" width="360" height="52" rx="6" fill="#f6f8fa" stroke="#1a7f37" stroke-width="1"/>
+  <text x="438" y="208" fill="#1a7f37" font-size="13" font-weight="bold">propagation/</text>
+  <text x="542" y="208" fill="#57606a" font-size="11">39 templates for topic folder sync</text>
+  <text x="438" y="226" fill="#57606a" font-size="10">Change once in hub, updates 15+ repos automatically</text>
+
+  <!-- scripts/ -->
+  <rect x="25" y="252" width="360" height="52" rx="6" fill="#f6f8fa" stroke="#0969da" stroke-width="1"/>
+  <text x="48" y="274" fill="#0969da" font-size="13" font-weight="bold">scripts/</text>
+  <text x="120" y="274" fill="#57606a" font-size="11">83 automation scripts and lifecycle hooks</text>
+  <text x="48" y="292" fill="#57606a" font-size="10">A2H contact, error handling, session management</text>
+
+  <!-- research/ -->
+  <rect x="415" y="252" width="360" height="52" rx="6" fill="#f6f8fa" stroke="#1a7f37" stroke-width="1"/>
+  <text x="438" y="274" fill="#1a7f37" font-size="13" font-weight="bold">research/</text>
+  <text x="518" y="274" fill="#57606a" font-size="11">Active campaigns with 6-phase methodology</text>
+  <text x="438" y="292" fill="#57606a" font-size="10">Frame, discover, gather, triangulate, apply, preserve</text>
+
+  <!-- docs/ -->
+  <rect x="25" y="318" width="360" height="52" rx="6" fill="#f6f8fa" stroke="#0969da" stroke-width="1"/>
+  <text x="48" y="340" fill="#0969da" font-size="13" font-weight="bold">docs/</text>
+  <text x="97" y="340" fill="#57606a" font-size="11">Quickstart, workflow, quality standards</text>
+  <text x="48" y="358" fill="#57606a" font-size="10">Session checkpoints, hub quickstart, ADRs</text>
+
+  <!-- wiki/ -->
+  <rect x="415" y="318" width="360" height="52" rx="6" fill="#f6f8fa" stroke="#1a7f37" stroke-width="1"/>
+  <text x="438" y="340" fill="#1a7f37" font-size="13" font-weight="bold">wiki/</text>
+  <text x="487" y="340" fill="#57606a" font-size="11">SwarmVault knowledge graph output</text>
+  <text x="438" y="358" fill="#57606a" font-size="10">Compiled knowledge from 50+ source documents</text>
+
+  <!-- RUNTIME SECTION -->
+  <rect x="25" y="392" width="750" height="28" rx="4" fill="#ffffff" stroke="#d0d7de" stroke-width="1"/>
+  <text x="400" y="410" fill="#57606a" font-size="11" font-weight="bold" text-anchor="middle" letter-spacing="2">RUNTIME STATE</text>
+
+  <rect x="25" y="432" width="360" height="44" rx="6" fill="#f6f8fa" stroke="#d0d7de" stroke-width="1"/>
+  <text x="48" y="455" fill="#57606a" font-size="12" font-weight="bold">.runtime/</text>
+  <text x="125" y="455" fill="#57606a" font-size="11">A2H, error logs, agent jobs, pipelines</text>
+  <text x="48" y="468" fill="#d0d7de" font-size="9">Generated state (gitignored)</text>
+
+  <rect x="415" y="432" width="360" height="44" rx="6" fill="#f6f8fa" stroke="#d0d7de" stroke-width="1"/>
+  <text x="438" y="455" fill="#57606a" font-size="12" font-weight="bold">swarmvault.schema.md</text>
+  <text x="630" y="455" fill="#57606a" font-size="11">Knowledge graph schema</text>
+  <text x="438" y="468" fill="#d0d7de" font-size="9">Defines nodes, edges, and source tracking</text>
+
+  <!-- FOOTER -->
+  <text x="400" y="515" fill="#d0d7de" font-size="11" text-anchor="middle" font-style="italic">Hub code at root  /  Generated state in .runtime/  /  Your work stays in topic folders</text>
+</svg>
