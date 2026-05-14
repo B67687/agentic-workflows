@@ -9,7 +9,7 @@
 # Usage:
 #   bash ./scripts/session-fork.sh [task-name] [base-ref]
 #     Create a worktree + new branch for task-name, off base-ref.
-#     base-ref defaults to HEAD (usually main).
+#     base-ref defaults to HEAD (usually the default branch).
 #     Example: session-fork.sh "fix-api" s73-redesign  (branch from existing branch)
 #
 #   bash ./scripts/session-fork.sh --attach <branch>
@@ -25,7 +25,7 @@
 #     Must be run from within the worktree.
 #
 #   bash ./scripts/session-fork.sh --merge
-#     Merge worktree branch into main, remove worktree.
+#     Merge worktree branch into default branch, remove worktree.
 #     Run from within the worktree. Handles conflict detection.
 #
 #   bash ./scripts/session-fork.sh --rename "new-name"
@@ -42,7 +42,7 @@
 #   Each session branch is independent. When done:
 #     bash ./scripts/session-fork.sh --merge   (from worktree)
 #
-#   Which does: fetch main -> checkout main -> merge branch -> push -> cleanup
+#   Which does: fetch default branch -> checkout default -> merge branch -> push -> cleanup
 #
 #   If conflicts arise, resolve in the main checkout, then close manually.
 #
@@ -96,6 +96,21 @@ ROOT="$(git rev-parse --show-toplevel)"
 REPO_NAME="$(basename "$ROOT")"
 PARENT="$(dirname "$ROOT")"
 WORKTREE_ROOT="$PARENT/.worktrees/$REPO_NAME"
+
+# Auto-detect default branch
+DEFAULT_BRANCH=""
+if command -v gh &>/dev/null; then
+  DEFAULT_BRANCH=$(gh repo view --json defaultBranch --jq .defaultBranch 2>/dev/null || true)
+fi
+if [ -z "$DEFAULT_BRANCH" ]; then
+  for b in main master; do
+    if git show-ref --verify "refs/heads/$b" >/dev/null 2>&1; then
+      DEFAULT_BRANCH="$b"
+      break
+    fi
+  done
+fi
+DEFAULT_BRANCH="${DEFAULT_BRANCH:-main}"
 
 slugify() {
   echo "$1" \
@@ -233,7 +248,7 @@ merge_worktree() {
     exit 1
   fi
 
-  echo "=== Merging '$branch' into main ==="
+  echo "=== Merging '$branch' into $DEFAULT_BRANCH ==="
 
   # Ensure everything is committed in the worktree
   if [ -n "$(git -C "$branch_wt" status --short)" ]; then
@@ -256,22 +271,22 @@ merge_worktree() {
   # Do the merge from the main checkout
   cd "$main_wt" || { echo "Could not cd to main checkout: $main_wt"; exit 1; }
 
-  echo "Updating main..."
-  git checkout main 2>/dev/null || true
-  git pull origin main --rebase 2>/dev/null || echo "  (pull skipped)"
+  echo "Updating $DEFAULT_BRANCH..."
+  git checkout "$DEFAULT_BRANCH" 2>/dev/null || true
+  git pull origin "$DEFAULT_BRANCH" --rebase 2>/dev/null || echo "  (pull skipped)"
 
   echo ""
-  echo "Merging '$branch' into main..."
-  if git merge --no-ff "$branch" -m "Merge $branch into main"; then
+  echo "Merging '$branch' into $DEFAULT_BRANCH..."
+  if git merge --no-ff "$branch" -m "Merge $branch into $DEFAULT_BRANCH"; then
     echo "✓ Merge successful"
-    git push origin main 2>/dev/null || echo "  (push skipped --- no remote or offline)"
+    git push origin "$DEFAULT_BRANCH" 2>/dev/null || echo "  (push skipped --- no remote or offline)"
   else
     echo ""
-    echo "✗ CONFLICT. Fix in the main checkout ($main_wt):"
+    echo "✗ CONFLICT. Fix in the primary checkout ($main_wt):"
     echo "   1. Edit conflicting files (marked with <<<<<<<)"
     echo "   2. git add <files>"
     echo "   3. git commit -m 'resolve merge conflicts'"
-    echo "   4. git push origin main"
+    echo "   4. git push origin $DEFAULT_BRANCH"
     echo "   5. cd $branch_wt"
     echo "   6. bash ./scripts/session-fork.sh --close"
     echo ""
@@ -289,7 +304,7 @@ merge_worktree() {
     echo "Could not auto-remove worktree. Manual:"
     echo "  git worktree remove $branch_wt"
   }
-  echo "✓ Branch '$branch' merged into main"
+  echo "✓ Branch '$branch' merged into $DEFAULT_BRANCH"
   echo "  Local branch still exists. Delete: git branch -d $branch"
 }
 
@@ -360,8 +375,8 @@ create_worktree() {
   local ref="${BASE_REF:-HEAD}"
 
   # Only check "on main" when no base-ref is specified (defaults to HEAD = main)
-  if [ -z "${BASE_REF:-}" ] && [ "$current_branch" != "main" ]; then
-    echo "You're on '$current_branch', not 'main'."
+  if [ -z "${BASE_REF:-}" ] && [ "$current_branch" != "$DEFAULT_BRANCH" ]; then
+    echo "You're on '$current_branch', not the default branch '$DEFAULT_BRANCH'."
     echo "To branch from a different base, specify it:"
     echo "  bash ./scripts/session-fork.sh \"task\" $current_branch"
     exit 1
@@ -434,7 +449,7 @@ except: print('')
   echo ""
   echo "To close when done (from within worktree):"
   echo "  bash ./scripts/session-fork.sh --close"
-  echo "  bash ./scripts/session-fork.sh --merge   (merge into main + cleanup)"
+  echo "  bash ./scripts/session-fork.sh --merge   (merge into default branch + cleanup)"
 }
 
 # ── Attach to existing branch ────────────────────────────────────────────────
