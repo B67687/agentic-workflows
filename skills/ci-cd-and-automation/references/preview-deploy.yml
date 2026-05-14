@@ -1,0 +1,17 @@
+# preview-deploy.yml
+# Source: ci-cd-and-automation/SKILL.md (extracted to L3)
+
+### Preview Deployments
+
+Every PR gets a preview deployment for manual testing:
+
+```yaml
+# Deploy preview on PR (Vercel/Netlify/etc.)
+deploy-preview:
+  runs-on: ubuntu-latest
+  if: github.event_name == 'pull_request'
+  steps:
+    - uses: actions/checkout@v4
+    - name: Deploy preview
+      run: npx vercel --token=${{ secrets.VERCEL_TOKEN }}
+```

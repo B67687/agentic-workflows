@@ -48,68 +48,8 @@ src/components/
 
 ### Component Patterns
 
-**Prefer composition over configuration:**
-
-```tsx
-// Good: Composable
-<Card>
-  <CardHeader>
-    <CardTitle>Tasks</CardTitle>
-  </CardHeader>
-  <CardBody>
-    <TaskList tasks={tasks} />
-  </CardBody>
-</Card>
-
-// Avoid: Over-configured
-<Card
-  title="Tasks"
-  headerVariant="large"
-  bodyPadding="md"
-  content={<TaskList tasks={tasks} />}
-/>
-```
-
-**Keep components focused:**
-
-```tsx
-// Good: Does one thing
-export function TaskItem({ task, onToggle, onDelete }: TaskItemProps) {
-  return (
-    <li className="flex items-center gap-3 p-3">
-      <Checkbox checked={task.done} onChange={() => onToggle(task.id)} />
-      <span className={task.done ? 'line-through text-muted' : ''}>{task.title}</span>
-      <Button variant="ghost" size="sm" onClick={() => onDelete(task.id)}>
-        <TrashIcon />
-      </Button>
-    </li>
-  );
-}
-```
-
-**Separate data fetching from presentation:**
-
-```tsx
-// Container: handles data
-export function TaskListContainer() {
-  const { tasks, isLoading, error } = useTasks();
-
-  if (isLoading) return <TaskListSkeleton />;
-  if (error) return <ErrorState message="Failed to load tasks" retry={refetch} />;
-  if (tasks.length === 0) return <EmptyState message="No tasks yet" />;
-
-  return <TaskList tasks={tasks} />;
-}
-
-// Presentation: handles rendering
-export function TaskList({ tasks }: { tasks: Task[] }) {
-  return (
-    <ul role="list" className="divide-y">
-      {tasks.map(task => <TaskItem key={task.id} task={task} />)}
-    </ul>
-  );
-}
-```
+Load component pattern examples (composition, focus, container/presenter) as L3:
+`bash ./scripts/skill-toolset.sh resource frontend-ui-engineering references/design-patterns.md`
 
 ## State Management
 
@@ -164,31 +104,10 @@ AI-generated UI has recognizable patterns. Avoid all of them:
 | Stock card grids | Uniform grids are a layout shortcut that ignores information priority and scanning patterns | Purpose-driven layouts |
 | Shadow-heavy design | Layered shadows add depth that competes with content and slows rendering on low-end devices | Subtle or no shadows unless the design system specifies |
 
-### Spacing and Layout
+### Spacing and Layout / Typography / Color
 
-Use a consistent spacing scale. Don't invent values:
-
-```css
-/* Use the scale: 0.25rem increments (or whatever the project uses) */
-/* Good */  padding: 1rem;      /* 16px */
-/* Good */  gap: 0.75rem;       /* 12px */
-/* Bad */   padding: 13px;      /* Not on any scale */
-/* Bad */   margin-top: 2.3rem; /* Not on any scale */
-```
-
-### Typography
-
-Respect the type hierarchy:
-
-```
-h1 -> Page title (one per page)
-h2 -> Section title
-h3 -> Subsection title
-body -> Default text
-small -> Secondary/helper text
-```
-
-Don't skip heading levels. Don't use heading styles for non-heading content.
+Load design token reference (spacing scale, type hierarchy, color tokens) as L3:
+`bash ./scripts/skill-toolset.sh resource frontend-ui-engineering references/design-values.md`
 
 ### Color
 

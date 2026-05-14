@@ -1,0 +1,15 @@
+# dependabot.yml
+# Source: ci-cd-and-automation/SKILL.md (extracted to L3)
+
+### Dependabot / Renovate
+
+```yaml
+# .github/dependabot.yml
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+```

@@ -73,45 +73,18 @@ Pull Request Opened
 
 ### Basic CI Pipeline
 
-```yaml
-# .github/workflows/ci.yml
-name: CI
+Load the CI pipeline template (L3):
+`bash ./scripts/skill-toolset.sh resource ci-cd-and-automation references/ci-pipeline.yml`
 
-on:
-  pull_request:
-    branches: [main]
-  push:
-    branches: [main]
+### With Database Integration Tests
 
-jobs:
-  quality:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
+Load the extended pipeline with DB services (L3):
+`bash ./scripts/skill-toolset.sh resource ci-cd-and-automation references/ci-database.yml`
 
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-          cache: 'npm'
+### E2E Tests
 
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Lint
-        run: npm run lint
-
-      - name: Type check
-        run: npx tsc --noEmit
-
-      - name: Test
-        run: npm test -- --coverage
-
-      - name: Build
-        run: npm run build
-
-      - name: Security audit
-        run: npm audit --audit-level=high
-```
+Load the E2E test pipeline (L3):
+`bash ./scripts/skill-toolset.sh resource ci-cd-and-automation references/ci-e2e.yml`
 
 ### With Database Integration Tests
 
@@ -210,18 +183,8 @@ Build error -> Agent checks config and dependencies
 
 ### Preview Deployments
 
-Every PR gets a preview deployment for manual testing:
-
-```yaml
-# Deploy preview on PR (Vercel/Netlify/etc.)
-deploy-preview:
-  runs-on: ubuntu-latest
-  if: github.event_name == 'pull_request'
-  steps:
-    - uses: actions/checkout@v4
-    - name: Deploy preview
-      run: npx vercel --token=${{ secrets.VERCEL_TOKEN }}
-```
+Load preview deployment config (L3):
+`bash ./scripts/skill-toolset.sh resource ci-cd-and-automation references/preview-deploy.yml`
 
 ### Feature Flags
 
@@ -262,27 +225,8 @@ PR merged to main
 
 ### Rollback Plan
 
-Every deployment should be reversible:
-
-```yaml
-# Manual rollback workflow
-name: Rollback
-on:
-  workflow_dispatch:
-    inputs:
-      version:
-        description: 'Version to rollback to'
-        required: true
-
-jobs:
-  rollback:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Rollback deployment
-        run: |
-          # Deploy the specified previous version
-          npx vercel rollback ${{ inputs.version }}
-```
+Load rollback workflow (L3):
+`bash ./scripts/skill-toolset.sh resource ci-cd-and-automation references/rollback.yml`
 
 ## Environment Management
 

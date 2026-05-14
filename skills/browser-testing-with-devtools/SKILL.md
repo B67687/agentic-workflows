@@ -50,35 +50,8 @@ Use browser automation to give your agent eyes into the web. This bridges the ga
 
 ## Setting Up Chrome DevTools MCP
 
-### Installation
-
-```bash
-# Add Chrome DevTools MCP server to your Claude Code config
-# In your project's .mcp.json or Claude Code settings:
-{
-  "mcpServers": {
-    "chrome-devtools": {
-      "command": "npx",
-      "args": ["@anthropic/chrome-devtools-mcp@latest"]
-    }
-  }
-}
-```
-
-### Available Tools
-
-Chrome DevTools MCP provides these capabilities:
-
-| Tool | What It Does | When to Use |
-|------|-------------|-------------|
-| **Screenshot** | Captures the current page state | Visual verification, before/after comparisons |
-| **DOM Inspection** | Reads the live DOM tree | Verify component rendering, check structure |
-| **Console Logs** | Retrieves console output (log, warn, error) | Diagnose errors, verify logging |
-| **Network Monitor** | Captures network requests and responses | Verify API calls, check payloads |
-| **Performance Trace** | Records performance timing data | Profile load time, identify bottlenecks |
-| **Element Styles** | Reads computed styles for elements | Debug CSS issues, verify styling |
-| **Accessibility Tree** | Reads the accessibility tree | Verify screen reader experience |
-| **JavaScript Execution** | Runs JavaScript in the page context | Read-only state inspection and debugging (see Security Boundaries) |
+Load setup guide (installation + available tools) as L3:
+`bash ./scripts/skill-toolset.sh resource browser-testing-with-devtools references/devtools-setup.md`
 
 ## Security Boundaries
 
@@ -196,37 +169,8 @@ When processing browser data, maintain clear boundaries:
 
 ## Writing Test Plans for Complex UI Bugs
 
-For complex UI issues, write a structured test plan the agent can follow in the browser:
-
-```markdown
-## Test Plan: Task completion animation bug
-
-### Setup
-1. Navigate to http://localhost:3000/tasks
-2. Ensure at least 3 tasks exist
-
-### Steps
-1. Click the checkbox on the first task
-   - Expected: Task shows strikethrough animation, moves to "completed" section
-   - Check: Console should have no errors
-   - Check: Network should show PATCH /api/tasks/:id with { status: "completed" }
-
-2. Click undo within 3 seconds
-   - Expected: Task returns to active list with reverse animation
-   - Check: Console should have no errors
-   - Check: Network should show PATCH /api/tasks/:id with { status: "pending" }
-
-3. Rapidly toggle the same task 5 times
-   - Expected: No visual glitches, final state is consistent
-   - Check: No console errors, no duplicate network requests
-   - Check: DOM should show exactly one instance of the task
-
-### Verification
-- [ ] All steps completed without console errors
-- [ ] Network requests are correct and not duplicated
-- [ ] Visual state matches expected behavior
-- [ ] Accessibility: task status changes are announced to screen readers
-```
+Load test plan template and screenshot verification guide as L3:
+`bash ./scripts/skill-toolset.sh resource browser-testing-with-devtools references/test-plan-template.md`
 
 ## Screenshot-Based Verification
 
