@@ -71,15 +71,17 @@ Then open **[`AGENTS.md`](AGENTS.md)** ~ that's the operating contract. Every ag
 
 <h2>Features</h2>
 
-- **AGENTS.md** ~ Shared rules and conventions every agent reads on entry
-- **42 engineering skills** ~ Debug, review, ship, document. Companion scripts for each
-- **Templates flow to 15+ repos** ~ Change once in the hub, updates everywhere
-- **agentmemory MCP** ~ Captures tool use, compresses observations, persists across sessions
-- **Checkpoints, handoffs, pipelines** ~ Structured phases instead of chaotic chats
-- **6-phase systematic research** ~ Frame, discover, triangulate, apply, preserve
-- **A2H escalation, assumption expiry** ~ Pre-push quality gates, error counters
-- **Cross-project memory loop** ~ Propagate templates, harvest insights across repos
-- **32-test smoke suite** ~ Every change verified before commit. Red/green TDD
+| | |
+|---|---|
+| **AGENTS.md** | Shared rules and conventions every agent reads on entry |
+| **42 engineering skills** | Debug, review, ship, document patterns. Companion scripts for each |
+| **Template propagation** | Change once in the hub, sync to 15+ repos automatically |
+| **agentmemory MCP** | Captures tool use, compresses observations across sessions |
+| **Workflow discipline** | Checkpoints, handoffs, pipelines instead of chaotic chats |
+| **6-phase research** | Frame, discover, triangulate, apply, preserve methodology |
+| **Quality guardrails** | A2H escalation, assumption expiry, pre-push gates, error counters |
+| **Cross-project loop** | Propagate templates, harvest insights across all repos |
+| **32-test smoke suite** | Every change verified before commit. TDD patterns included |
 
 ---
 
@@ -102,22 +104,13 @@ Then open **[`AGENTS.md`](AGENTS.md)** ~ that's the operating contract. Every ag
   </picture>
 </p>
 
-| Quick Command | Action |
-|---|---|
-| `bash ./scripts/session-status.sh` | Workspace health |
-| `bash ./scripts/tools.sh` | Tool registry |
-| `bash ./scripts/search-index.sh "query"` | BM25 search |
-| `bash ./scripts/propagate.sh status` | Sync status |
-| `bash ./scripts/checkpoint-commit.sh -m "msg"` | Verified commit |
+`bash ./scripts/session-status.sh` -- Workspace health
+`bash ./scripts/tools.sh` -- Tool registry
+`bash ./scripts/search-index.sh "query"` -- BM25 search
+`bash ./scripts/propagate.sh status` -- Sync status
+`bash ./scripts/checkpoint-commit.sh -m "msg"` -- Verified commit
 
-| Need | Go to |
-|---|---|
-| Understand the whole system | [docs/workflow.md](docs/workflow.md) |
-| Set this up in your project | [docs/hub-quickstart.md](docs/hub-quickstart.md) |
-| Research an AI topic | [research/research-prompt.md](research/research-prompt.md) |
-| Debug a failure | [debugging skill](skills/debugging-and-error-recovery/SKILL.md) |
-| Code review | [review skill](skills/code-review-and-quality/SKILL.md) |
-| Resume interrupted work | [session-state.json](session-state.json) + [AGENTS.md](AGENTS.md) |
+See [docs/workflow.md](docs/workflow.md) for the full system overview, [docs/hub-quickstart.md](docs/hub-quickstart.md) to set up your own project, or open [session-state.json](session-state.json) to resume interrupted work.
 
 ---
 
