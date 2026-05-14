@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # =============================================================================
-# consolidate-memory.sh — Deduplicate and merge similar learnings
+# consolidate-memory.sh --- Deduplicate and merge similar learnings
 #
 # Mem0-inspired memory consolidation pattern:
 #   1. Read all learnings from .learnings.jsonl
@@ -9,7 +9,7 @@
 #   4. Re-write the file with consolidated entries
 #
 # Source: Mem0's memory consolidation approach
-# (https://github.com/mem0ai/mem0 — memory consolidation)
+# (https://github.com/mem0ai/mem0 --- memory consolidation)
 #
 # Usage:
 #   bash ./scripts/consolidate-memory.sh                # consolidate and report
@@ -182,6 +182,98 @@ print(f'  Before:  {len(entries)} -> After: {len(kept)}')
 " 2>/dev/null
     ;;
 
+  --entity-extract)
+    echo "Extracting entities from learnings..."
+    python3 -c "
+import json, re
+
+# Known tool/script names to detect
+KNOWN_TOOLS = [
+    'pipeline-run.sh', 'agent-dispatch.sh', 'browser.sh', 'consolidate-memory.sh',
+    'memory-query.sh', 'sync-learnings.sh', 'search-index.sh', 'test-smoke.sh',
+    'task-retrospect.sh', 'context-pressure.sh', 'a2h-contact.sh', 'skill-toolset.sh',
+    'checkpoint-commit.sh', 'explore.py', 'triage.sh',
+]
+
+# Known skill names to detect
+KNOWN_SKILLS = [
+    'source-extraction', 'debugging-and-error-recovery', 'test-driven-development',
+    'incremental-implementation', 'ci-cd-and-automation', 'frontend-ui-engineering',
+    'browser-testing-with-devtools', 'code-review-and-quality', 'code-simplification',
+    'security-and-hardening', 'performance-optimization', 'documentation-and-adrs',
+    'planning-and-task-breakdown', 'git-workflow-and-versioning', 'shipping-and-launch',
+    'context-engineering', 'bash-explore', 'skill-creator',
+]
+
+def extract_entities(text):
+    entities = set()
+    text_lower = text.lower()
+    
+    # Tool names
+    for tool in KNOWN_TOOLS:
+        if tool.lower() in text_lower:
+            entities.add('entity:' + tool.replace('.sh', '').replace('.py', ''))
+    
+    # Skill names
+    for skill in KNOWN_SKILLS:
+        if skill.replace('-', ' ') in text_lower or skill in text_lower:
+            name = skill.split('-')[0] if '-' in skill else skill
+            entities.add('entity:' + name)
+    
+    # Session and pipeline references
+    for pat in [r'\bpipeline-[\w-]+\b', r'\bsession[- ]\d+\b', r'\btraj-[\w-]+\b']:
+        for m in re.finditer(pat, text_lower):
+            entities.add('entity:reference')
+    
+    return list(entities)
+
+entries = []
+with open('$LEARNINGS_FILE') as f:
+    for line in f:
+        line = line.strip()
+        if not line: continue
+        try:
+            entries.append(json.loads(line))
+        except:
+            pass
+
+total_entities = 0
+updated = 0
+for e in entries:
+    content = e.get('insight', e.get('content', ''))
+    tags = e.get('tags', '')
+    
+    # Detect existing entity tags
+    existing_entities = [t for t in (tags.split(',') if isinstance(tags, str) else tags) if t.startswith('entity:')]
+    
+    # Extract new entities
+    new_entities = extract_entities(content)
+    
+    # Filter to only new ones
+    to_add = [e for e in new_entities if e not in existing_entities]
+    
+    if to_add:
+        if isinstance(tags, str):
+            if tags:
+                e['tags'] = tags + ',' + ','.join(to_add)
+            else:
+                e['tags'] = ','.join(to_add)
+        else:
+            e['tags'] = list(tags) + to_add
+        updated += 1
+        total_entities += len(to_add)
+
+# Write back
+with open('$LEARNINGS_FILE', 'w') as f:
+    for e in entries:
+        f.write(json.dumps(e) + '\n')
+
+print(f'  Entries processed: {len(entries)}')
+print(f'  Updated: {updated} entries')
+print(f'  Entity tags added: {total_entities}')
+" 2>/dev/null
+    ;;
+
   --sync)
     echo "Syncing to agentmemory..."
     # First run consolidation
@@ -256,7 +348,13 @@ print('  Run: python3 scripts/sync-learnings.sh to push to agentmemory')
     ;;
 
   *)
-    echo "Usage: consolidate-memory.sh [--dry-run|--stats|consolidate|--sync]"
+    echo "Usage: consolidate-memory.sh [--dry-run|--stats|consolidate|--entity-extract|--sync]"
+    echo ""
+    echo "  consolidate       Deduplicate and merge (default)"
+    echo "  --dry-run         Preview dedup changes"
+    echo "  --stats           Tag frequency report"
+    echo "  --entity-extract  Extract entity tags from content (Mem0 v3 pattern)"
+    echo "  --sync            Consolidate + flag for agentmemory sync"
     exit 1
     ;;
 esac

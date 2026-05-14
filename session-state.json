@@ -1,12 +1,12 @@
 {
-  "session": 80,
+  "session": 81,
   "status": "verified-phase",
   "interruptedCount": 0,
   "contextPressure": "healthy",
   "currentTask": {
-    "name": "Source audit + pattern extraction: 84 sources audited, 5 macro-to-micro fixes applied",
+    "name": "Backlog extraction: Playwright POM, CrewAI Flow routing, GraphRAG dual-query, L3 extractions (ci-cd, frontend-ui, tdd)",
     "status": "done",
-    "goal": "Complete source audit of ~90 external sources, implement P0-P3 fixes, verify with tests, extract additional patterns"
+    "goal": "Extract 6 patterns from backlog sources, complete all 3 L3 extractions, propagate"
   },
   "environment": {
     "note": "Configure per-workspace in your agent runtime config (e.g., OpenCode at `$HOME/.config/opencode/opencode.jsonc`, Claude Code at `.claude/settings.json`).",
@@ -15,55 +15,28 @@
     "topicFoldersPath": "Change to your topic folders parent"
   },
   "whatChanged": [
-    "Source audit: 84 sources across 6 passes (Agent Frameworks, Dev Tools, Skills & Quality, Memory & RAG + Workflows, Prompt Libs + MCP + Platforms + Design, LLMs + Research + Tools)",
-    "P0: Added source citation enforcement to quality gate (check_source_citation) + workflow/source-citation.md",
-    "P1: Added agent-driven web exploration -- browser.sh click/section modes + bash-explore skill update",
-    "P2: Added guardrail pattern to pipeline-run.sh -- pre/post validation with scripts/guardrails/",
-    "P3: Added AST pattern detection to code-review skill -- automated analysis step with grep commands",
-    "P4: Extracted Aider SEARCH/REPLACE edit pattern into code-simplification skill",
-    "Fix: Quality gate error handling detection and shellcheck count bugs",
-    "Verify: 16 new smoke tests (P5-P9) -- 49 total, all pass",
-    "Quality: All source citations link back to original projects per citation workflow",
-    "Memory: Defined 3-store memory architecture (AGENTS.md) with unified query (memory-query.sh)",
-    "Memory: Extracted Mem0 consolidation patterns (consolidate-memory.sh + workflow)",
-    "Eval: Added promptfoo-compatible eval-report to skill-bench.sh (list/compare/export)",
-    "README: Updated ecosystem section with * integration depth markers and preamble note",
-    "Skill-lifecycle: Added status field (active/deprecated/archived) to frontmatter spec + validation + toolset filter",
-    "L3-extraction: Moved 239 lines of inline content from 4 large skills to reference files (10 refs created)",
-    "n8n: Extracted per-node error handling pattern into pipeline-run.sh (:: continue/retry:N/abort)",
-    "Memory-sync: Built full memory pipeline -- consolidate-memory.sh --sync syncs to pending-sync.json, sync-learnings.sh bridges to agentmemory MCP",
-    "skill-creator e2e: Generated source-extraction skill, validated end-to-end (0 errors, listed in toolset)"
+    "Playwright: Extracted Page Object Model (POM) pattern into browser-testing skill reference doc + L3 ref",
+    "CrewAI: Extracted Flow conditional routing (@router) as new 'route' subcommand in pipeline-run.sh (10 tests)",
+    "GraphRAG: Extracted community hierarchy + dual-mode query pattern as workflow doc + SwarmVault schema update",
+    "L3 ci-cd-and-automation: Removed 96 lines duplicate inline YAML, created ci-parallel.yml ref",
+    "L3 frontend-ui-engineering: Removed 104 lines inline TSX, created a11y-patterns.md + ui-patterns.md refs",
+    "L3 test-driven-development: Removed 108 lines inline code, filled dangling test-examples.md ref (was referenced but missing)",
+    "README: Updated README with * markers for Playwright, CrewAI, GraphRAG (3 namedrops converted)"
   ],
   "filesTouched": [
-    "workflow/source-citation.md (NEW --- citation workflow + enforcement section)",
-    "scripts/guardrails/pre-default.sh (NEW --- pre-task validation)",
-    "scripts/guardrails/post-default.sh (NEW --- post-task validation)",
-    "scripts/hooks/quality-gate.sh (check_source_citation + error handling/shellcheck fix)",
-    "scripts/pipeline-run.sh (guardrail + n8n error handling + source citation fix)",
-    "scripts/browser.sh (click + section modes for agent-driven browsing)",
-    "scripts/test-smoke.sh (16 new tests P5-P9, 49 total)",
-    "skills/bash-explore/SKILL.md (web exploration workflow + browser-use citation)",
-    "skills/code-review-and-quality/SKILL.md (AST pattern detection + tree-sitter/Aider citations)",
-    "skills/code-review-and-quality/references/review-checklist.md (automated analysis section 0)",
-    "skills/code-simplification/SKILL.md (SEARCH/REPLACE edit pattern + Aider citation)",
-    "skills/source-extraction/SKILL.md (NEW --- source extraction workflow skill)",
-    "skills/ci-cd-and-automation/SKILL.md + 6 refs (L3 extraction, -56 lines)",
-    "skills/frontend-ui-engineering/SKILL.md + 2 refs (L3 extraction, -81 lines)",
-    "skills/test-driven-development/SKILL.md + 1 ref (L3 extraction, -46 lines)",
-    "skills/browser-testing-with-devtools/SKILL.md + 2 refs (L3 extraction, -56 lines)",
-    "scripts/skill-toolset.py (status filter + display for skill lifecycle)",
-    "scripts/validate-skill-frontmatter.py (status field validation)",
-    "scripts/skill-bench.sh (eval-report subcommand, promptfoo export)",
-    "scripts/consolidate-memory.sh (--sync mode, agentmemory bridge)",
-    "scripts/sync-learnings.sh (NEW --- agentmemory sync helper)",
-    "scripts/memory-query.sh (NEW --- unified memory query across 3 stores)",
-    "skills/skill-creator/references/agentskills-spec.md (status field in spec)",
-    "workflow/memory-consolidation.md (NEW --- Mem0-inspired patterns)",
-    "AGENTS.md (memory architecture section, deep references update)",
-    "README.md (restructured sections, ecosystem markers, CTA, back-to-top)"
+    "skills/browser-testing-with-devtools/references/page-object-model.md (NEW --- POM pattern reference)",
+    "skills/browser-testing-with-devtools/SKILL.md (POM section + L3 load command)",
+    "scripts/pipeline-run.sh (route subcommand, CrewAI Flow @router pattern)",
+    "scripts/test-smoke.sh (10 new P10 routing tests, 59 total)",
+    "workflow/graphrag-pattern.md (NEW --- community hierarchy + dual-mode query)",
+    "swarmvault.schema.md (community category, relationship types, hierarchy section)",
+    "skills/ci-cd-and-automation/SKILL.md + references/ci-parallel.yml (L3, -96 lines)",
+    "skills/frontend-ui-engineering/SKILL.md + 2 refs (L3, -104 lines)",
+    "skills/test-driven-development/SKILL.md + test-examples.md (L3, -108 lines)",
+    "README.md (* markers for Playwright, CrewAI, GraphRAG)"
   ],
   "verification": [
-    "All 49 smoke tests pass (33 existing + 16 new P5-P9)",
+    "All 59 smoke tests pass (49 existing + 10 new P10)",
     "check_source_citation() correctly flags unsourced repo references in staged docs",
     "browser.sh click/section exit 1 with missing arguments, help text shows new modes",
     "pipeline-run.sh guardrail passes for long descriptions, rejects short ones, rejects non-done tasks",
@@ -77,7 +50,9 @@
     "sync-learnings.sh --status correctly reads pending sync state",
     "skill-creator e2e: source-extraction skill passes validation, listed in toolset",
     "Skill lifecycle: 43 skills pass frontmatter validation with optional status field",
-    "All 4 large skills have L3 references accessible via skill-toolset.sh resource"
+    "All 6 skill L3 references accessible via skill-toolset.sh resource",
+    "POM ref loads via skill-toolset.sh resource browser-testing-with-devtools references/page-object-model.md",
+    "Route command: pipeline-run.sh route <id> <from> --success <to> routes correctly on update + next"
   ],
   "keyLearnings": [
     "~75% of 84 external sources are namedrop-only in the README ecosystem table. Pattern extraction must be systematic --- a single quality gate check prevents new namedrops but doesn't retroactively fix existing entries.",
@@ -91,13 +66,11 @@
     "n8n's per-node error handling pattern maps directly onto pipeline-run.sh's task model. The :: annotation syntax is self-documenting and doesn't break existing pipelines.",
     "Three parallel memory stores is not a bug --- it's correct architecture when availability guarantees differ. The fix is boundary definitions + unified query + one-way sync, not unification."
   ],
-  "residualRisk": "Skill-creator generates spec-compliant frontmatter but hasn't been tested end-to-end with a live agent generating a real skill. The generated skill's description quality depends on the agent's understanding of the domain --- ambiguous descriptions still lead to poor L1 triggering. 21 of 42 skills have no pattern tag (they don't fit the 5 patterns neatly). Some large skills (ci-cd, frontend-ui, testing) still have heavy inline content that could benefit from L3 extraction.",
+  "residualRisk": "Skill-creator generates spec-compliant frontmatter but hasn't been tested end-to-end with a live agent generating a real skill. The generated skill's description quality depends on the agent's understanding of the domain --- ambiguous descriptions still lead to poor L1 triggering. 21 of 42 skills have no pattern tag (they don't fit the 5 patterns neatly). Some large skills (ci-cd, frontend-ui, tdd) still have heavy inline content that could benefit from L3 extraction. The CrewAI route subcommand has 10 tests but has not been tested in a real pipeline handoff. The POM reference doc exists but hasn't been used in a real test session.",
   "immediateNextSteps": [
-    "Run task-retrospect.sh to capture learnings from the ADK 5-patterns integration cycle",
-    "Test skill-creator end-to-end: ask agent to generate a new skill, verify output",
-    "Consider extracting inline content from the remaining large skills (ci-cd, frontend-ui, tdd, browser-testing)",
-    "Clean up stale content dirs: bus-hop/bus-app-content (empty), scenic-fetch/wall-you-content (empty)",
-    "Propagate AGENTS.md updates and new skill-toolset to topic folders via propagate-to-all.sh"
+    "Run task-retrospect.sh to capture learnings from the backlog extraction cycle",
+    "Propagate AGENTS.md updates and new skill-toolset to topic folders via propagate-to-all.sh",
+    "Consider a real end-to-end test of the CrewAI route subcommand with pipeline handoff"
   ],
   "resumeRules": [
     "Read session-state.json first on every resume",
