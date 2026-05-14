@@ -10,6 +10,7 @@
   <a href="#features">Features</a>&ensp;·&ensp;
   <a href="#how-it-works">How It Works</a>&ensp;·&ensp;
   <a href="#orientation">Orientation</a>&ensp;·&ensp;
+  <a href="#commands">Commands</a>&ensp;·&ensp;
   <a href="#ecosystem">Ecosystem</a>
 </p>
 
@@ -54,8 +55,6 @@
   <img src="https://img.shields.io/badge/Any_AGENTS.md_AI-555555?style=flat-square" alt="AGENTS.md compatible">
 </p>
 
----
-
 <h2>Quick Start</h2>
 
 ```bash
@@ -66,8 +65,6 @@ bash ./scripts/propagate.sh all --apply    # push templates to your repos
 ```
 
 Then open **[`AGENTS.md`](AGENTS.md)** ~ that's the operating contract. Every agent reads it first.
-
----
 
 <h2>Features</h2>
 
@@ -83,8 +80,6 @@ Then open **[`AGENTS.md`](AGENTS.md)** ~ that's the operating contract. Every ag
 | **Cross-project loop** | Propagate templates, harvest insights across all repos |
 | **32-test smoke suite** | Every change verified before commit. TDD patterns included |
 
----
-
 <h2>How It Works</h2>
 
 **Define** ~ `AGENTS.md` sets the rules. Every agent reads it on entry. Skills, commands, and propagation templates inherit from it.
@@ -92,8 +87,6 @@ Then open **[`AGENTS.md`](AGENTS.md)** ~ that's the operating contract. Every ag
 **Propagate** ~ `propagate.sh` pushes templates to topic folders. One change in the hub updates 15+ repos. Commands, scripts, configs all synced.
 
 **Harvest** ~ Learnings flow back to the hub via insight harvesting. Cross-project memory loops keep knowledge circulating instead of siloed.
-
----
 
 <h2>Orientation</h2>
 
@@ -104,6 +97,8 @@ Then open **[`AGENTS.md`](AGENTS.md)** ~ that's the operating contract. Every ag
   </picture>
 </p>
 
+<h2 id="commands">Commands</h2>
+
 ```bash
 bash ./scripts/session-status.sh        # Workspace health
 bash ./scripts/tools.sh                 # Tool registry
@@ -113,8 +108,6 @@ bash ./scripts/checkpoint-commit.sh -m "msg"  # Verified commit
 ```
 
 See [docs/workflow.md](docs/workflow.md) for the full system, [docs/hub-quickstart.md](docs/hub-quickstart.md) to set up your own project, or open [session-state.json](session-state.json) to resume interrupted work.
-
----
 
 <h2 id="ecosystem">Ecosystem</h2>
 
@@ -167,8 +160,6 @@ See [docs/workflow.md](docs/workflow.md) for the full system, [docs/hub-quicksta
 
 <br>
 <sub>If you maintain a project listed here and would prefer different attribution or removal, please <a href="https://github.com/B67687/agentic-workflows/issues">open an issue</a>.</sub>
-
----
 
 <p align="center">
   <sub>
