@@ -244,6 +244,61 @@ assert_output_contains "pipeline-run.sh next picks next task" \
   "bash scripts/pipeline-run.sh next $PIPELINE_ID" \
   "task beta"
 
+# --- P10: CrewAI Flow Routing ---
+echo ""
+echo "--- P10: CrewAI Flow Routing ---"
+
+# Test route help text
+assert_output_contains "pipeline-run.sh route help text" \
+  "bash scripts/pipeline-run.sh 2>&1" \
+  "CrewAI Flow @router"
+
+# Create a 3-task pipeline for routing tests
+ROUTE_PIPE_ID=$(bash scripts/pipeline-run.sh init "Route test" "first" "second" "third" 2>&1 | grep "^pipeline-" | head -1)
+if [ -n "$ROUTE_PIPE_ID" ]; then
+  test_pass "pipeline-run.sh route: creates pipeline"
+else
+  test_fail "pipeline-run.sh route: init failed"
+fi
+
+# Add a route: task 1 done -> skip task 2, go to task 3
+assert_exit "pipeline-run.sh route: add success route" \
+  "bash scripts/pipeline-run.sh route $ROUTE_PIPE_ID 1 --success 3"
+
+# Verify route is in the pipeline JSON
+assert_output_contains "pipeline-run.sh route: stored in JSON" \
+  "jq -r '.routes | length' .runtime/pipeline/$ROUTE_PIPE_ID.json" \
+  "1"
+
+# Mark task 1 done (should route to task 3)
+assert_exit "pipeline-run.sh route: mark task 1 done" \
+  "bash scripts/pipeline-run.sh update $ROUTE_PIPE_ID 1 done"
+
+# Next should show task 3 (routed, skipping task 2)
+assert_output_contains "pipeline-run.sh route: next shows routed task 3" \
+  "bash scripts/pipeline-run.sh next $ROUTE_PIPE_ID" \
+  "third"
+
+# Test failure routing: create another pipeline
+ROUTE_PIPE_ID2=$(bash scripts/pipeline-run.sh init "Route fail test" "step1" "retry-step" "fallback" 2>&1 | grep "^pipeline-" | head -1)
+assert_exit "pipeline-run.sh route: creates failure pipeline" \
+  "[ -n \"$ROUTE_PIPE_ID2\" ]"
+
+# Route: step1 failure -> fallback (task 3), step1 done -> retry-step (task 2)
+assert_exit "pipeline-run.sh route: add failure route" \
+  "bash scripts/pipeline-run.sh route $ROUTE_PIPE_ID2 1 --success 2 --failure 3"
+
+# Mark task 1 failed -> should route to task 3
+assert_exit "pipeline-run.sh route: mark task 1 failed" \
+  "bash scripts/pipeline-run.sh update $ROUTE_PIPE_ID2 1 failed"
+
+# Next should show task 3 (failure route)
+assert_output_contains "pipeline-run.sh route: next shows failure route" \
+  "bash scripts/pipeline-run.sh next $ROUTE_PIPE_ID2" \
+  "fallback"
+
+echo ""
+
 # ===========================================================================
 echo ""
 echo "--- P5: Source Enforcement ---"

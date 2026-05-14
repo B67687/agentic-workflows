@@ -126,7 +126,7 @@ See [docs/workflow.md](docs/workflow.md) for the full system, [docs/hub-quicksta
 <tr>
   <td width="33%" valign="top">
     <img src="https://img.shields.io/badge/Agent%20Frameworks-12-58a6ff?style=flat-square" alt="Agent Frameworks"><br>
-    AutoGen · <a href="https://github.com/google/adk-python"><b>*Google ADK</b></a> · Claude Agent SDK · OpenAI Agents SDK · Pydantic AI · AutoGPT · MetaGPT · A2A Protocol · Hermes Agent · AgentScope · Open-SWE · crewAI
+    AutoGen · <a href="https://github.com/google/adk-python"><b>*Google ADK</b></a> · Claude Agent SDK · OpenAI Agents SDK · Pydantic AI · AutoGPT · MetaGPT · A2A Protocol · Hermes Agent · AgentScope · Open-SWE · <a href="https://github.com/crewAIInc/crewAI"><b>*crewAI</b></a>
   </td>
   <td width="33%" valign="top">
     <img src="https://img.shields.io/badge/Developer%20Tools-9-0ea5e9?style=flat-square" alt="Dev Tools"><br>

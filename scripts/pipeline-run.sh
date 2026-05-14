@@ -51,7 +51,8 @@ case "$CMD" in
   "created": "$TIMESTAMP",
   "current_task": null,
   "tasks": $TASK_JSON,
-  "status": "active"
+  "status": "active",
+  "routes": []
 }
 EOF
     
@@ -177,10 +178,25 @@ EOF
       esac
     fi
     
+    # CrewAI Flow @router: resolve routing rules
+    if [ "$STATUS" = "done" ] || [ "$STATUS" = "failed" ]; then
+      ROUTE_NEXT=$(jq -r --arg tid "$TASK_ID" --arg status "$STATUS" '
+        def resolve: if $status == "done" then .on_success // empty else .on_failure // empty end;
+        [.routes[] | select(.from == ($tid | tonumber))] | first | resolve // empty
+      ' "$FILE" 2>/dev/null)
+      if [ -n "$ROUTE_NEXT" ] && [ "$ROUTE_NEXT" != "null" ]; then
+        # Set auto_next so the next subcommand picks it up
+        jq --arg next "$ROUTE_NEXT" '.auto_next = ($next | tonumber)' "$FILE" > "$FILE.tmp" && mv "$FILE.tmp" "$FILE"
+        echo "  CrewAI Flow route: task $TASK_ID -> task $ROUTE_NEXT ($STATUS)"
+      fi
+    fi
+
     # If all tasks done, mark pipeline as complete
     ALL_DONE=$(jq '(.tasks | length) as $n | ([.tasks[] | select(.status=="done" or .status=="failed")] | length) == $n' "$FILE" 2>/dev/null)
     if [ "$ALL_DONE" = "true" ]; then
       jq '.status = "complete"' "$FILE" > "$FILE.tmp" && mv "$FILE.tmp" "$FILE"
+      # Clear auto_next since we're done
+      jq 'del(.auto_next)' "$FILE" > "$FILE.tmp" && mv "$FILE.tmp" "$FILE" 2>/dev/null || true
       echo "Pipeline complete: $PIPELINE_ID"
     else
       echo "Task $TASK_ID -> $STATUS"
@@ -202,7 +218,41 @@ EOF
       exit 0
     fi
     
-    # Find first pending task
+    # Check for CrewAI Flow routed task (auto_next from route resolution)
+    AUTO_NEXT=$(jq -r '.auto_next // empty' "$FILE" 2>/dev/null)
+    if [ -n "$AUTO_NEXT" ]; then
+      # Clear auto_next and check if the routed task is still pending
+      jq 'del(.auto_next)' "$FILE" > "$FILE.tmp" && mv "$FILE.tmp" "$FILE"
+      NEXT=$(jq -r --arg an "$AUTO_NEXT" '.tasks[] | select(.id == ($an | tonumber) and .status == "pending") | {id, description}' "$FILE" 2>/dev/null)
+      if [ -n "$NEXT" ] && [ "$NEXT" != "null" ]; then
+        TASK_ID=$(echo "$NEXT" | jq -r '.id' 2>/dev/null)
+        TASK_DESC=$(echo "$NEXT" | jq -r '.description' 2>/dev/null)
+        jq --arg id "$TASK_ID" --arg pid "$PIPELINE_ID" '
+          (.tasks[] | select(.id == ($id | tonumber))) |= (.status = "in-progress")
+          | .current_task = ($id | tonumber)
+        ' "$FILE" > "$FILE.tmp" && mv "$FILE.tmp" "$FILE"
+        echo "Task $TASK_ID (routed): $TASK_DESC"
+        echo ""
+        echo "Guardrails (recommended for every task):"
+        echo "  Pre:  bash ./scripts/pipeline-run.sh guardrail $PIPELINE_ID $TASK_ID pre"
+        echo "  Post: bash ./scripts/pipeline-run.sh guardrail $PIPELINE_ID $TASK_ID post"
+        echo ""
+        echo "Dispatch to @worker:"
+        echo "  Use the task tool to spawn subagent_type=worker"
+        echo "  Prompt includes: task description, files to modify, verification target"
+        echo ""
+        echo "After worker returns:"
+        echo "  bash ./scripts/pipeline-run.sh update $PIPELINE_ID $TASK_ID done|failed \"notes\""
+        echo "  bash ./scripts/pipeline-run.sh guardrail $PIPELINE_ID $TASK_ID post"
+        echo "  bash ./scripts/pipeline-run.sh next $PIPELINE_ID"
+        echo ""
+        echo "For high-stakes tasks:"
+        echo "  bash ./scripts/pipeline-run.sh human-checkpoint $PIPELINE_ID $TASK_ID"
+        exit 0
+      fi
+    fi
+
+    # Fallback: find first pending task by ID order
     NEXT=$(jq -r '[.tasks[] | select(.status=="pending")] | first | {id, description}' "$FILE" 2>/dev/null)
     if [ -z "$NEXT" ] || [ "$NEXT" = "null" ]; then
       # Check for failed tasks
@@ -285,6 +335,89 @@ EOF
     echo "After human response: bash ./scripts/pipeline-run.sh next $PIPELINE_ID"
     ;;
     
+  route)
+    # Add a routing rule (CrewAI Flow @router pattern).
+    # When from-task-id completes, route to success-task if done,
+    # or to failure-task if failed. Tasks can chain multiple routes.
+    #
+    # Usage:
+    #   pipeline-run.sh route <pipeline-id> <from-task-id> --success <to-task-id> [--failure <to-task-id>]
+    #
+    # Examples:
+    #   pipeline-run.sh route pipe-001 1 --success 3 --failure 2
+    #   pipeline-run.sh route pipe-001 3 --success 4
+    PIPELINE_ID="${2:-}"
+    FROM_TASK="${3:-}"
+    SUCCESS_FLAG=false
+    FAILURE_FLAG=false
+    SUCCESS_TASK=""
+    FAILURE_TASK=""
+
+    shift 3
+    while [ $# -gt 0 ]; do
+      case "$1" in
+        --success)
+          SUCCESS_FLAG=true
+          SUCCESS_TASK="$2"
+          shift 2
+          ;;
+        --failure)
+          FAILURE_FLAG=true
+          FAILURE_TASK="$2"
+          shift 2
+          ;;
+        *)
+          echo "Unknown option: $1"
+          echo "Usage: pipeline-run.sh route <pipeline-id> <from-task-id> --success <to-task-id> [--failure <to-task-id>]"
+          exit 1
+          ;;
+      esac
+    done
+
+    [ -z "$PIPELINE_ID" ] && echo "Usage: pipeline-run.sh route <pipeline-id> <from-task-id> --success <to-task-id> [--failure <to-task-id>]" && exit 1
+    [ -z "$FROM_TASK" ] && echo "Usage: pipeline-run.sh route <pipeline-id> <from-task-id> --success <to-task-id> [--failure <to-task-id>]" && exit 1
+    [ "$SUCCESS_FLAG" = false ] && [ "$FAILURE_FLAG" = false ] && echo "Provide at least --success or --failure." && exit 1
+
+    FILE="$PIPELINE_DIR/$PIPELINE_ID.json"
+    [ ! -f "$FILE" ] && echo "Pipeline not found: $PIPELINE_ID" && exit 1
+
+    # Validate tasks exist
+    TASK_COUNT=$(jq '.tasks | length' "$FILE" 2>/dev/null)
+    FROM_OK=$(jq --argjson ft "$FROM_TASK" '[.tasks[] | select(.id == $ft)] | length' "$FILE" 2>/dev/null)
+    [ "$FROM_OK" = "0" ] && echo "From-task $FROM_TASK not found in pipeline." && exit 1
+
+    if [ "$SUCCESS_FLAG" = true ]; then
+      SUCCESS_OK=$(jq --argjson st "$SUCCESS_TASK" '[.tasks[] | select(.id == $st)] | length' "$FILE" 2>/dev/null)
+      [ "$SUCCESS_OK" = "0" ] && echo "Success-task $SUCCESS_TASK not found in pipeline." && exit 1
+    fi
+    if [ "$FAILURE_FLAG" = true ]; then
+      FAILURE_OK=$(jq --argjson ft "$FAILURE_TASK" '[.tasks[] | select(.id == $ft)] | length' "$FILE" 2>/dev/null)
+      [ "$FAILURE_OK" = "0" ] && echo "Failure-task $FAILURE_TASK not found in pipeline." && exit 1
+    fi
+
+    # Add the routing rule (use --arg for task IDs, convert to number in jq)
+    if [ "$SUCCESS_FLAG" = true ] && [ "$FAILURE_FLAG" = true ]; then
+      jq --arg from "$FROM_TASK" \
+         --arg success "$SUCCESS_TASK" \
+         --arg failure "$FAILURE_TASK" \
+         '.routes += [{"from": ($from | tonumber), "on_success": ($success | tonumber), "on_failure": ($failure | tonumber)}]' \
+         "$FILE" > "$FILE.tmp" && mv "$FILE.tmp" "$FILE"
+    elif [ "$SUCCESS_FLAG" = true ]; then
+      jq --arg from "$FROM_TASK" \
+         --arg success "$SUCCESS_TASK" \
+         '.routes += [{"from": ($from | tonumber), "on_success": ($success | tonumber)}]' \
+         "$FILE" > "$FILE.tmp" && mv "$FILE.tmp" "$FILE"
+    else
+      jq --arg from "$FROM_TASK" \
+         --arg failure "$FAILURE_TASK" \
+         '.routes += [{"from": ($from | tonumber), "on_failure": ($failure | tonumber)}]' \
+         "$FILE" > "$FILE.tmp" && mv "$FILE.tmp" "$FILE"
+    fi
+
+    echo "Route added: task $FROM_TASK -> success=$SUCCESS_TASK failure=$FAILURE_TASK"
+    echo "  (CrewAI Flow @router pattern)"
+    ;;
+
   dispatch)
     # Dispatch all pending tasks to an external agent asynchronously
     PIPELINE_ID="${2:-}"
@@ -509,6 +642,7 @@ EOF
     echo "  status  [pipeline-id]          Show pipeline status"
     echo "  update  <id> <task> <s> [n]    Update task status (done/failed/pending)"
     echo "  next    <pipeline-id>          Show next uncompleted task"
+    echo "  route   <id> <from> --succ <to> [--fail <to>]  Add routing rule (CrewAI Flow @router)"
     echo "  human-checkpoint <id> [task]   Pause for human approval (12-factor F7)"
     echo "  dispatch <id> [agent]          Dispatch pending tasks to agent asynchronously"
     echo "  collect <id>                   Collect results from dispatched tasks"
@@ -523,10 +657,18 @@ EOF
     echo "  Post-task: pipeline-run.sh guardrail <id> <task> post"
     echo "  Custom:   pipeline-run.sh guardrail <id> <task> pre /path/to/script.sh"
     echo ""
+    echo "Routing (CrewAI Flow @router pattern):"
+    echo "  After a task completes, route to the next task based on status:"
+    echo "    pipeline-run.sh route <id> <from> --success <on-done> --failure <on-fail>"
+    echo "    pipeline-run.sh route <id> <from> --success <on-done>"
+    echo '  Example: pipeline-run.sh route "pipe-001" 1 --success 3 --failure 2'
+    echo "    (task 1 done -> task 3, task 1 failed -> task 2)"
+    echo ""
     echo "Agents for dispatch: pi (default), codex, claude"
     echo ""
     echo "Example:"
-    echo '  pipeline-run.sh init "Auth module" "Implement JWT middleware" "Add login endpoint :: retry:3" "Write tests"'
+    echo '  pipeline-run.sh init "Auth module" "Implement JWT" "Add login endpoint :: retry:3" "Write tests" "Deploy"'
+    echo '  pipeline-run.sh route <id> 1 --success 2 --failure 5  # CrewAI @router skip to deploy on failure'
     echo "  pipeline-run.sh dispatch <id> pi"
     echo "  pipeline-run.sh collect <id>"
     echo "  pipeline-run.sh guardrail <id> 1 pre"
