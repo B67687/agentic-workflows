@@ -34,7 +34,14 @@ case "$CMD" in
     ID=0
     for task in "${TASKS[@]}"; do
       ID=$((ID + 1))
-      TASK_JSON=$(echo "$TASK_JSON" | jq ". + [{\"id\": $ID, \"description\": $(echo "$task" | jq -Rs .), \"status\": \"pending\", \"agent_job_id\": null, \"worker_result\": null, \"notes\": null}]" 2>/dev/null)
+      # Check for on_error annotation: "task :: abort|continue|retry:N"
+      ON_ERROR="abort"
+      TASK_DESC="$task"
+      if echo "$task" | grep -qE ':: (abort|continue|retry:[0-9]+)$'; then
+        ON_ERROR=$(echo "$task" | sed 's/.*:: //')
+        TASK_DESC=$(echo "$task" | sed 's/ :: .*$//')
+      fi
+      TASK_JSON=$(echo "$TASK_JSON" | jq ". + [{\"id\": $ID, \"description\": $(echo "$TASK_DESC" | jq -Rs .), \"status\": \"pending\", \"on_error\": \"$ON_ERROR\", \"retry_count\": 0, \"agent_job_id\": null, \"worker_result\": null, \"notes\": null}]" 2>/dev/null)
     done
     
     cat > "$PIPELINE_DIR/$PIPELINE_ID.json" << EOF
@@ -129,10 +136,45 @@ EOF
       ' "$FILE" > "$FILE.tmp" && mv "$FILE.tmp" "$FILE"
     fi
     
-    # If any task failed, mark pipeline as blocked
-    FAILED=$(jq '[.tasks[] | select(.status=="failed")] | length' "$FILE" 2>/dev/null)
-    if [ "$FAILED" -gt 0 ]; then
-      jq '.status = "blocked"' "$FILE" > "$FILE.tmp" && mv "$FILE.tmp" "$FILE"
+    # N8N-style per-node error handling: respect on_error field
+    # abort   (default) -> block pipeline on failure
+    # continue          -> mark failed, keep pipeline moving
+    # retry:N           -> retry up to N times before aborting
+    if [ "$STATUS" = "failed" ]; then
+      ON_ERROR=$(jq -r --arg id "$TASK_ID" '.tasks[] | select(.id == ($id | tonumber)) | .on_error // "abort"' "$FILE" 2>/dev/null)
+      RETRY_COUNT=$(jq -r --arg id "$TASK_ID" '.tasks[] | select(.id == ($id | tonumber)) | .retry_count // 0' "$FILE" 2>/dev/null)
+      
+      case "$ON_ERROR" in
+        continue)
+          # Mark failed but don't block pipeline
+          jq --arg id "$TASK_ID" '
+            (.tasks[] | select(.id == ($id | tonumber))) |= (.status = "failed" | .retry_count = 0)
+          ' "$FILE" > "$FILE.tmp" && mv "$FILE.tmp" "$FILE"
+          echo "  n8n: on_error=continue, task failed, pipeline continues"
+          ;;
+        retry:*)
+          MAX_RETRY=$(echo "$ON_ERROR" | cut -d: -f2)
+          if [ "$RETRY_COUNT" -lt "$MAX_RETRY" ]; then
+            NEW_COUNT=$((RETRY_COUNT + 1))
+            jq --arg id "$TASK_ID" --argjson count "$NEW_COUNT" '
+              (.tasks[] | select(.id == ($id | tonumber))) |= (.status = "pending" | .retry_count = $count | .notes = "retry \($count)")
+            ' "$FILE" > "$FILE.tmp" && mv "$FILE.tmp" "$FILE"
+            echo "  n8n: on_error=$ON_ERROR, retry $NEW_COUNT/$MAX_RETRY"
+          else
+            # Out of retries --- fall back to abort
+            jq --arg id "$TASK_ID" '
+              (.tasks[] | select(.id == ($id | tonumber))) |= (.status = "failed" | .retry_count = 0)
+            ' "$FILE" > "$FILE.tmp" && mv "$FILE.tmp" "$FILE"
+            jq '.status = "blocked"' "$FILE" > "$FILE.tmp" && mv "$FILE.tmp" "$FILE"
+            echo "  n8n: on_error=$ON_ERROR, out of retries, pipeline blocked"
+          fi
+          ;;
+        *)
+          # abort (default): block pipeline on any failure
+          jq '.status = "blocked"' "$FILE" > "$FILE.tmp" && mv "$FILE.tmp" "$FILE"
+          echo "  n8n: on_error=abort (default), pipeline blocked"
+          ;;
+      esac
     fi
     
     # If all tasks done, mark pipeline as complete
@@ -472,6 +514,10 @@ EOF
     echo "  collect <id>                   Collect results from dispatched tasks"
     echo "  guardrail <id> <task> <p|po>   Run pre/post guardrail on a task"
     echo ""
+    echo "Error handling (n8n per-node pattern):"
+    echo "  Appends :: continue or :: retry:3 to a task description:"
+    echo '    pipeline-run.sh init "Build auth" "Handle errors :: retry:2" "Send email :: continue"'
+    echo ""
     echo "Guardrails (OpenAI Agents SDK pattern):"
     echo "  Pre-task: pipeline-run.sh guardrail <id> <task> pre"
     echo "  Post-task: pipeline-run.sh guardrail <id> <task> post"
@@ -480,7 +526,7 @@ EOF
     echo "Agents for dispatch: pi (default), codex, claude"
     echo ""
     echo "Example:"
-    echo "  pipeline-run.sh init \"Auth module\" \"Implement JWT middleware\" \"Add login endpoint\" \"Write tests\""
+    echo '  pipeline-run.sh init "Auth module" "Implement JWT middleware" "Add login endpoint :: retry:3" "Write tests"'
     echo "  pipeline-run.sh dispatch <id> pi"
     echo "  pipeline-run.sh collect <id>"
     echo "  pipeline-run.sh guardrail <id> 1 pre"
