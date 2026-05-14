@@ -184,6 +184,148 @@ with open('$JOBS_DIR/$JOB_ID.json', 'w') as f:
 " 2>/dev/null || true
     ;;
 
+  handoff)
+    # A2A Protocol pattern: delegate a subtask to another agent.
+    # The parent job waits while the child agent processes the task.
+    # Result is the combined output when the child completes.
+    #
+    # Usage:
+    #   bash ./scripts/agent-dispatch.sh handoff <parent-job> <agent> "<task>" [--dir <path>]
+    #
+    # The parent job enters 'waiting' state. A child job is created and
+    # dispatched to the target agent. Use 'status' to check both jobs.
+    PARENT_ID="${1:-}"
+    CHILD_AGENT="${2:-}"
+    CHILD_TASK="${3:-}"
+    shift 3 || true
+
+    if [ -z "$PARENT_ID" ] || [ -z "$CHILD_AGENT" ] || [ -z "$CHILD_TASK" ]; then
+      echo "Usage: bash ./scripts/agent-dispatch.sh handoff <parent-job> <agent> \"<task>\" [--dir <path>]"
+      exit 1
+    fi
+
+    # Verify parent exists
+    if [ ! -f "$JOBS_DIR/$PARENT_ID.json" ]; then
+      echo "Parent job not found: $PARENT_ID"
+      echo "Run 'bash ./scripts/agent-dispatch.sh list' to see all jobs."
+      exit 1
+    fi
+
+    # Parse handoff options
+    CHILD_WORKDIR="$REPO_ROOT"
+    while [ $# -gt 0 ]; do
+      case "$1" in
+        --dir) CHILD_WORKDIR="$2"; shift 2 ;;
+        *) echo "Unknown option: $1"; exit 1 ;;
+      esac
+    done
+
+    # Generate child job ID
+    CHILD_ID="${PARENT_ID}-child-$(date -u +%Y%m%d%H%M%S)"
+    CHILD_TIMESTAMP=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+
+    # Build command based on agent
+    case "$CHILD_AGENT" in
+      pi)
+        CHILD_CMD_ARGS=("pi" "-p" "$CHILD_TASK")
+        ;;
+      codex)
+        if ! command -v codex &>/dev/null; then
+          echo "Codex CLI not found. Install: npm install -g @openai/codex"
+          exit 1
+        fi
+        CHILD_CMD_ARGS=("codex" "$CHILD_TASK")
+        ;;
+      claude)
+        if ! command -v claude &>/dev/null; then
+          echo "Claude Code not found. Install: npm install -g @anthropic/claude-code"
+          exit 1
+        fi
+        CHILD_CMD_ARGS=("claude" "-p" "$CHILD_TASK")
+        ;;
+      *)
+        echo "Unknown agent: $CHILD_AGENT"
+        echo "Available: pi, codex, claude"
+        exit 1
+        ;;
+    esac
+
+    # Create child job record
+    cat > "$JOBS_DIR/$CHILD_ID.json" << CJOEF
+{
+  "id": "$CHILD_ID",
+  "agent": "$CHILD_AGENT",
+  "task": $(echo "$CHILD_TASK" | python3 -c "import sys,json; print(json.dumps(sys.stdin.read()))" 2>/dev/null || echo "\"$CHILD_TASK\""),
+  "workdir": "$CHILD_WORKDIR",
+  "format": "json",
+  "max_loops": 1,
+  "status": "running",
+  "result": null,
+  "iterations": [],
+  "parent_id": "$PARENT_ID",
+  "created": "$CHILD_TIMESTAMP",
+  "started": "$CHILD_TIMESTAMP",
+  "completed": null,
+  "exit_code": null,
+  "pid": null
+}
+CJOEF
+
+    # Encode command args for child runner
+    CHILD_ARGS_FILE="$JOBS_DIR/${CHILD_ID}_args.txt"
+    printf '%s\n' "${CHILD_CMD_ARGS[@]}" > "$CHILD_ARGS_FILE"
+    CHILD_CMD_ARGS_JSON=$(python3 -c "
+import json
+with open('$CHILD_ARGS_FILE') as f:
+    args = [line.rstrip('\n') for line in f if line.strip()]
+print(json.dumps(args))
+")
+
+    # Launch child runner
+    RUNNER="$REPO_ROOT/scripts/_agent_runner.py"
+    nohup env \
+      _RUNNER_WORKDIR="$CHILD_WORKDIR" \
+      _RUNNER_JOBS_DIR="$JOBS_DIR" \
+      _RUNNER_JOB_ID="$CHILD_ID" \
+      _CMD_ARGS_JSON="$CHILD_CMD_ARGS_JSON" \
+      _RUNNER_MAX_LOOPS="1" \
+      python3 "$RUNNER" > /dev/null 2>&1 &
+
+    CHILD_PID=$!
+
+    # Update child record with PID
+    python3 -c "
+import json
+with open('$JOBS_DIR/$CHILD_ID.json') as f:
+    j = json.load(f)
+j['pid'] = $CHILD_PID
+with open('$JOBS_DIR/$CHILD_ID.json', 'w') as f:
+    json.dump(j, f, indent=2)
+" 2>/dev/null || true
+
+    # Update parent record with handoff info
+    python3 -c "
+import json
+with open('$JOBS_DIR/$PARENT_ID.json') as f:
+    p = json.load(f)
+p['status'] = 'waiting'
+p['handoff_child'] = '$CHILD_ID'
+p['handoff_agent'] = '$CHILD_AGENT'
+with open('$JOBS_DIR/$PARENT_ID.json', 'w') as f:
+    json.dump(p, f, indent=2)
+" 2>/dev/null || true
+
+    echo "Handoff: $PARENT_ID -> $CHILD_ID"
+    echo "  Parent status: waiting (child processing)"
+    echo "  Child agent: $CHILD_AGENT"
+    echo "  Task: ${CHILD_TASK:0:80}..."
+    echo "  Child PID: $CHILD_PID"
+    echo ""
+    echo "Check: bash ./scripts/agent-dispatch.sh status $PARENT_ID"
+    echo "       bash ./scripts/agent-dispatch.sh status $CHILD_ID"
+    echo "Result: bash ./scripts/agent-dispatch.sh result $CHILD_ID"
+    ;;
+
   status)
     JOB_ID="${1:-}"
     if [ -z "$JOB_ID" ]; then
@@ -262,6 +404,31 @@ print()
 import json
 with open('$JOBS_DIR/$JOB_ID.json') as f:
     job = json.load(f)
+
+# A2A Protocol: follow handoff chain
+handoff = job.get('handoff_child')
+if handoff:
+    print(f'[Parent job — delegated to child: {handoff}]')
+    print(f'  Agent: {job.get(\"handoff_agent\", \"?\")}')
+    print(f'  Status: {job.get(\"status\", \"?\")}')
+    print()
+    # Show child result instead
+    child_path = '$JOBS_DIR/' + handoff + '.json'
+    try:
+        with open(child_path) as cf:
+            child = json.load(cf)
+        cr = child.get('result')
+        if child.get('format') == 'json' and cr is not None:
+            if isinstance(cr, dict) and '_error' in cr:
+                print(f'Child JSON parse error: {cr[\"_error\"]}')
+            else:
+                print(json.dumps(cr, indent=2))
+        else:
+            print(f'Child status: {child.get(\"status\")} exit={child.get(\"exit_code\")}')
+    except FileNotFoundError:
+        print('Child job not yet complete.')
+    sys.exit(0)
+
 fmt = job.get('format', 'text')
 result = job.get('result')
 if fmt == 'json' and result is not None:
@@ -330,6 +497,7 @@ with open('$JOBS_DIR/$JOB_ID.json', 'w') as f:
     echo ""
     echo "Usage:"
     echo "  bash ./scripts/agent-dispatch.sh run <agent> \"<task>\" [options]"
+    echo "  bash ./scripts/agent-dispatch.sh handoff <parent> <agent> \"<task>\" [--dir <path>]"
     echo "  bash ./scripts/agent-dispatch.sh status [job-id]"
     echo "  bash ./scripts/agent-dispatch.sh list"
     echo "  bash ./scripts/agent-dispatch.sh cancel <job-id>"
