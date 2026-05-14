@@ -185,12 +185,17 @@ EOF
     
     echo "Task $TASK_ID: $TASK_DESC"
     echo ""
+    echo "Guardrails (recommended for every task):"
+    echo "  Pre:  bash ./scripts/pipeline-run.sh guardrail $PIPELINE_ID $TASK_ID pre"
+    echo "  Post: bash ./scripts/pipeline-run.sh guardrail $PIPELINE_ID $TASK_ID post"
+    echo ""
     echo "Dispatch to @worker:"
     echo "  Use the task tool to spawn subagent_type=worker"
     echo "  Prompt includes: task description, files to modify, verification target"
     echo ""
     echo "After worker returns:"
     echo "  bash ./scripts/pipeline-run.sh update $PIPELINE_ID $TASK_ID done|failed \"notes\""
+    echo "  bash ./scripts/pipeline-run.sh guardrail $PIPELINE_ID $TASK_ID post"
     echo "  bash ./scripts/pipeline-run.sh next $PIPELINE_ID"
     echo ""
     echo "For high-stakes tasks:"
@@ -382,6 +387,77 @@ EOF
     fi
     ;;
 
+  guardrail)
+    # Run a guardrail check on a task (OpenAI Agents SDK guardrail pattern)
+    # pre:  validate task before dispatch (input guardrail)
+    # post: validate result after completion (output guardrail)
+    PIPELINE_ID="${2:-}"
+    TASK_ID="${3:-}"
+    GUARD_TYPE="${4:-}"   # "pre" or "post"
+    GUARD_SCRIPT="${5:-}" # optional custom guardrail script
+
+    [ -z "$PIPELINE_ID" ] && echo "Usage: pipeline-run.sh guardrail <pipeline-id> <task-id> <pre|post> [script]" && exit 1
+    [ -z "$TASK_ID" ] && echo "Usage: pipeline-run.sh guardrail <pipeline-id> <task-id> <pre|post> [script]" && exit 1
+    [ -z "$GUARD_TYPE" ] && echo "Usage: pipeline-run.sh guardrail <pipeline-id> <task-id> <pre|post> [script]" && exit 1
+
+    FILE="$PIPELINE_DIR/$PIPELINE_ID.json"
+    [ ! -f "$FILE" ] && echo "Pipeline not found: $PIPELINE_ID" && exit 1
+
+    # Determine guardrail script
+    if [ -z "$GUARD_SCRIPT" ]; then
+      GUARD_SCRIPT="$REPO_ROOT/scripts/guardrails/${GUARD_TYPE}-default.sh"
+      # Fallback: use external validation scripts
+      if [ ! -f "$GUARD_SCRIPT" ] && [ "$GUARD_TYPE" = "pre" ]; then
+        GUARD_SCRIPT="$REPO_ROOT/scripts/implement-preflight.sh"
+      fi
+    fi
+
+    if [ ! -f "$GUARD_SCRIPT" ]; then
+      echo "Guardrail script not found: $GUARD_SCRIPT"
+      echo "  Create one at: $REPO_ROOT/scripts/guardrails/${GUARD_TYPE}-default.sh"
+      exit 1
+    fi
+
+    echo "Guardrail ($GUARD_TYPE): $(basename "$GUARD_SCRIPT")"
+    echo "  Pipeline: $PIPELINE_ID"
+    echo "  Task:     $TASK_ID"
+    echo ""
+
+    # Run guardrail script with task context
+    set +e
+    OUTPUT=$(bash "$GUARD_SCRIPT" "$PIPELINE_ID" "$TASK_ID" 2>&1)
+    EXIT_CODE=$?
+    set -e
+
+    echo "$OUTPUT" | head -10
+
+    if [ "$EXIT_CODE" -ne 0 ]; then
+      # Guardrail failed -- mark task as blocked
+      GUARD_MSG=$(echo "$OUTPUT" | grep 'GUARDRAIL_FAIL' | head -1 | sed 's/^GUARDRAIL_FAIL: //' || echo "guardrail $GUARD_TYPE failed")
+      jq --arg id "$TASK_ID" --arg msg "$GUARD_MSG" '
+        (.tasks[] | select(.id == ($id | tonumber))) |= (.status = "blocked" | .notes = $msg)
+      ' "$FILE" > "$FILE.tmp" && mv "$FILE.tmp" "$FILE"
+      echo ""
+      echo "  GUARDRAIL_BLOCKED: $GUARD_MSG"
+      echo "  Task $TASK_ID has been marked as blocked."
+      exit 1
+    else
+      echo ""
+      echo "  GUARDRAIL_OK"
+
+      # Post-guardrail pass: mark the note as verified
+      if [ "$GUARD_TYPE" = "post" ]; then
+        TASK_STATUS=$(jq -r --arg id "$TASK_ID" '.tasks[] | select(.id == ($id | tonumber)) | .status' "$FILE" 2>/dev/null)
+        if [ "$TASK_STATUS" = "done" ]; then
+          jq --arg id "$TASK_ID" '
+            (.tasks[] | select(.id == ($id | tonumber))) |= (.notes = (.notes // "verified"))
+          ' "$FILE" > "$FILE.tmp" && mv "$FILE.tmp" "$FILE"
+          echo "  Output verified."
+        fi
+      fi
+    fi
+    ;;
+
   *)
     echo "Subagent Pipeline State Manager"
     echo ""
@@ -394,12 +470,19 @@ EOF
     echo "  human-checkpoint <id> [task]   Pause for human approval (12-factor F7)"
     echo "  dispatch <id> [agent]          Dispatch pending tasks to agent asynchronously"
     echo "  collect <id>                   Collect results from dispatched tasks"
+    echo "  guardrail <id> <task> <p|po>   Run pre/post guardrail on a task"
+    echo ""
+    echo "Guardrails (OpenAI Agents SDK pattern):"
+    echo "  Pre-task: pipeline-run.sh guardrail <id> <task> pre"
+    echo "  Post-task: pipeline-run.sh guardrail <id> <task> post"
+    echo "  Custom:   pipeline-run.sh guardrail <id> <task> pre /path/to/script.sh"
     echo ""
     echo "Agents for dispatch: pi (default), codex, claude"
-    echo ""
+    ""
     echo "Example:"
     echo "  pipeline-run.sh init \"Auth module\" \"Implement JWT middleware\" \"Add login endpoint\" \"Write tests\""
     echo "  pipeline-run.sh dispatch <id> pi"
     echo "  pipeline-run.sh collect <id>"
+    echo "  pipeline-run.sh guardrail <id> 1 pre"
     ;;
 esac
