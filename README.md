@@ -116,7 +116,7 @@ See [docs/workflow.md](docs/workflow.md) for the full system, [docs/hub-quicksta
 
 <h2 id="ecosystem">Ecosystem</h2>
 
-<p>This harness was built by studying and integrating patterns from <b>50+ open-source projects</b> across the agent ecosystem. Projects with <code>*</code> have patterns extracted into skills, scripts, or documentation.</p>
+<p>This harness was built by studying and integrating patterns from <b>60+ open-source projects</b> across the agent ecosystem. Projects with <code>*</code> have patterns extracted into skills, scripts, or documentation.</p>
 
 <h3>Core Inspirations</h3>
 
@@ -134,7 +134,7 @@ See [docs/workflow.md](docs/workflow.md) for the full system, [docs/hub-quicksta
   </td>
   <td width="33%" valign="top">
     <img src="https://img.shields.io/badge/Skills%20%26%20Quality-5-3fb950?style=flat-square" alt="Skills"><br>
-    <a href="https://github.com/addyosmani/agent-skills"><b>*Agent-Skills</b></a> · <a href="https://github.com/humanlayer/12-factor-agents"><b>*12-Factor Agents</b></a> · System Design Primer · <a href="https://github.com/tree-sitter/tree-sitter"><b>*tree-sitter</b></a> · promptfoo
+    <a href="https://github.com/addyosmani/agent-skills"><b>*Agent-Skills</b></a> · <a href="https://github.com/humanlayer/12-factor-agents"><b>*12-Factor Agents</b></a> · System Design Primer · <a href="https://github.com/tree-sitter/tree-sitter"><b>*tree-sitter</b></a> · <a href="https://github.com/promptfoo/promptfoo"><b>*promptfoo</b></a>
   </td>
 </tr>
 </table>
@@ -151,7 +151,7 @@ See [docs/workflow.md](docs/workflow.md) for the full system, [docs/hub-quicksta
 | Category | Projects |
 |----------|----------|
 | <img src="https://img.shields.io/badge/Memory%20%26%20RAG-8-e1306c?style=flat-square" alt="Memory"> | <a href="https://github.com/mem0ai/mem0"><b>*Mem0</b></a>, LMCache, MemPalace, MemOS, PageIndex,<br><a href="https://github.com/zilliztech/claude-context"><b>*agentmemory</b></a>, <a href="https://github.com/microsoft/graphrag"><b>*GraphRAG</b></a>, RAG-Anything |
-| <img src="https://img.shields.io/badge/Workflow%20Platforms-6-58a6ff?style=flat-square" alt="Workflow"> | n8n, Flowise, Langflow, Dify, Manifest, Infisical |
+| <img src="https://img.shields.io/badge/Workflow%20Platforms-6-58a6ff?style=flat-square" alt="Workflow"> | <a href="https://github.com/n8n-io/n8n"><b>*n8n</b></a>, Flowise, Langflow, Dify, Manifest, Infisical |
 | <img src="https://img.shields.io/badge/Prompt%20Libraries-7-0ea5e9?style=flat-square" alt="Prompts"> | Pi-Skills, <a href="https://github.com/karpathy/autoresearch"><b>*Karpathy-Skills</b></a>, Codex Skills, <b>*Counsel</b>,<br>Everything Claude Code, Awesome Claude Code, awesome-codex-skills |
 | <img src="https://img.shields.io/badge/MCP%20%26%20Protocols-3-3fb950?style=flat-square" alt="MCP"> | MCP Registry, MCP Servers, GitHub MCP Server |
 | <img src="https://img.shields.io/badge/Agent%20Platforms-6-e1306c?style=flat-square" alt="Platforms"> | Cline, CUA, <b>*Rufo (ruflo)</b>, Agency-Agents,<br>Codex CLI, generative-ai-for-beginners |
@@ -175,7 +175,7 @@ See [docs/workflow.md](docs/workflow.md) for the full system, [docs/hub-quicksta
 | [*Playwright](https://github.com/microsoft/playwright) | Browser automation (POM) |
 | [RTK](https://github.com/ericseppanen/rtk) | File counting & analysis |
 | [git-filter-repo](https://github.com/newren/git-filter-repo) | Git history management |
-| [promptfoo](https://github.com/promptfoo/promptfoo) | Prompt evaluation |
+| [*promptfoo](https://github.com/promptfoo/promptfoo) | Prompt evaluation (eval-report) |
 
 </div>
 
