@@ -54,8 +54,18 @@ High-value sources discovered during research should be added to the registry fo
 bash ./scripts/learnings-save.sh "Source: <name> (<URL>)" source-tracking
 ```
 
-## Verification
+## Enforcement
 
-- For any doc or skill change: `rtk grep -n 'http\?://' <file>` to verify citations exist
+The quality gate (`scripts/hooks/quality-gate.sh`) automatically checks staged doc files for
+new GitHub org/repo references without accompanying URLs. This runs before every commit via
+the `check_source_citation()` function.
+
+- If a new external repo reference is found without a URL, the gate emits a WARN
+- Fix: add the URL on the same line, either as inline text (`https://github.com/org/repo`)
+  or as a Markdown link (`[org/repo](https://github.com/org/repo)`)
+- If a claim genuinely cannot be sourced, flag it: `[UNSOURCED --- needs verification]`
+
+## Manual Verification
+
+- For any doc or skill change: `grep -n 'http\?://' <file>` to verify citations exist
 - Before merging: confirm every external claim has a linked source
-- If a claim cannot be sourced, flag it: `[UNSOURCED --- needs verification]`

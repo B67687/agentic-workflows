@@ -6,6 +6,7 @@
 #   - Hardcoded secrets (API keys, tokens)
 #   - TODO/FIXME markers in staged code files
 #   - Large files staged for commit
+#   - Unsourced external references in docs (see workflow/source-citation.md)
 # =============================================================================
 
 set -euo pipefail
@@ -205,6 +206,52 @@ check_shellcheck() {
   done <<< "$files"
 }
 
+check_source_citation() {
+  echo ":: Checking staged docs for unsourced external references..."
+  local files
+  files=$(check_staged -- 'README.md' 'docs/*.md' 'workflow/*.md' 'commands/*.md' 'research/*.md' 2>/dev/null || true)
+  if [[ -z "$files" ]]; then
+    echo "   (no doc files staged)"
+    return
+  fi
+
+  local issues=0
+  while IFS= read -r file; do
+    [[ -z "$file" ]] && continue
+    local added_lines
+    added_lines=$(git diff --cached -U0 "$file" 2>/dev/null | grep '^+' | sed 's/^+//' || true)
+    [[ -z "$added_lines" ]] && continue
+
+    while IFS= read -r line; do
+      [[ -z "$line" ]] && continue
+      # Skip if line already has a URL or Markdown link
+      echo "$line" | grep -qE 'https?://' && continue
+      echo "$line" | grep -qE '\]\(https?://' && continue
+      # Skip code blocks and indented code
+      echo "$line" | grep -qE '^```\|^    \|^\t' && continue
+
+      # Find potential GitHub org/repo references (3+ chars / 3+ chars)
+      local repo_refs
+      repo_refs=$(echo "$line" | grep -oE '\b[a-zA-Z][a-zA-Z0-9_-]{2,}/[a-zA-Z][a-zA-Z0-9._-]{2,}\b' || true)
+      if [[ -n "$repo_refs" ]]; then
+        while IFS= read -r ref; do
+          [[ -z "$ref" ]] && continue
+          # Skip self-references
+          echo "$ref" | grep -qE '^B67687/' && continue
+          # Skip file path patterns
+          echo "$ref" | grep -qE '/\.' && continue
+          print_issue "WARN" "$file" "External reference '${ref}' without URL citation"
+          issues=$((issues + 1))
+        done <<< "$repo_refs"
+      fi
+    done <<< "$added_lines"
+  done <<< "$files"
+
+  if [[ "$issues" -gt 0 ]]; then
+    echo "   See workflow/source-citation.md for citation requirements."
+  fi
+}
+
 check_ascii() {
   echo ":: Checking for non-ASCII characters in staged text files..."
   local files
@@ -251,6 +298,7 @@ check_todo_fixme
 check_large_files
 check_error_handling
 check_shellcheck
+check_source_citation
 check_ascii
 
 echo ""
