@@ -3,7 +3,7 @@ name: bash-explore
 description: Use bash (find, grep, cat) for codebase exploration before falling back to Read/Grep tools. For bulk discovery bash is faster and more flexible. Switch to tools only after bash has narrowed
   the target.
 compatibility: claude-code, cursor, opencode, gemini-cli, codex-cli
-allowed-tools: bash, read, grep, glob
+allowed-tools: bash, read, grep, glob, webfetch, websearch
 metadata:
   handoffs: context-engineering (to set up context), using-agent-skills (to pick a skill)
   trigger-phrases: find files, search codebase, explore repo, look for, where is, grep for, find in files
@@ -90,4 +90,22 @@ Wraps common discovery with edge case and noise handling. Auto-excludes `.git/` 
 python3 core/explore.py find-by-content 'pattern' --ext .py .ts
 python3 core/explore.py file-stats
 ```
+
+## Web Exploration (Agent-Driven Browsing)
+
+When exploration targets are on the web (not local files), use `scripts/browser.sh` for
+agent-driven browsing. Unlike `webfetch` (single page fetch), agent-driven browsing lets
+you navigate multi-step flows and extract structured data from dynamic pages.
+
+**Workflow:**
+1. `bash scripts/browser.sh navigate <url>` -- Load page, get title
+2. `bash scripts/browser.sh text <url>` -- Extract visible text
+3. `bash scripts/browser.sh click <url> <css-selector>` -- Follow a link, get new URL
+4. `bash scripts/browser.sh section <url> <css-selector>` -- Extract specific section
+
+The agent decides each step based on previous output, enabling exploration of
+interactive documentation, dashboards, and multi-page research targets.
+
+**Source pattern:** Based on browser-use's agent-driven browser controller pattern
+([browser-use/browser-use](https://github.com/browser-use/browser-use) 0-task-agent).
 
