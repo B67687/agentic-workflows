@@ -232,6 +232,11 @@ EOF
           | .current_task = ($id | tonumber)
         ' "$FILE" > "$FILE.tmp" && mv "$FILE.tmp" "$FILE"
         echo "Task $TASK_ID (routed): $TASK_DESC"
+        # Check if this task has a handoff agent (OpenAI SDK handoff pattern)
+        HANDOFF_INFO=$(jq -r --arg tid "$AUTO_NEXT" '[.routes[] | select(.on_success == ($tid | tonumber) or .on_failure == ($tid | tonumber))][0].handoff_agent // empty' "$FILE" 2>/dev/null)
+        if [ -n "$HANDOFF_INFO" ]; then
+          echo "  Handoff agent: $HANDOFF_INFO (OpenAI SDK handoff pattern)"
+        fi
         echo ""
         echo "Guardrails (recommended for every task):"
         echo "  Pre:  bash ./scripts/pipeline-run.sh guardrail $PIPELINE_ID $TASK_ID pre"
@@ -346,12 +351,14 @@ EOF
     # Examples:
     #   pipeline-run.sh route pipe-001 1 --success 3 --failure 2
     #   pipeline-run.sh route pipe-001 3 --success 4
+    #   pipeline-run.sh route pipe-001 1 --success 3 --handoff pi
     PIPELINE_ID="${2:-}"
     FROM_TASK="${3:-}"
     SUCCESS_FLAG=false
     FAILURE_FLAG=false
     SUCCESS_TASK=""
     FAILURE_TASK=""
+    HANDOFF_AGENT=""
 
     shift 3
     while [ $# -gt 0 ]; do
@@ -366,16 +373,20 @@ EOF
           FAILURE_TASK="$2"
           shift 2
           ;;
+        --handoff)
+          HANDOFF_AGENT="$2"
+          shift 2
+          ;;
         *)
           echo "Unknown option: $1"
-          echo "Usage: pipeline-run.sh route <pipeline-id> <from-task-id> --success <to-task-id> [--failure <to-task-id>]"
+          echo "Usage: pipeline-run.sh route <pipeline-id> <from-task-id> --success <to-task-id> [--failure <to-task-id>] [--handoff <agent>]"
           exit 1
           ;;
       esac
     done
 
-    [ -z "$PIPELINE_ID" ] && echo "Usage: pipeline-run.sh route <pipeline-id> <from-task-id> --success <to-task-id> [--failure <to-task-id>]" && exit 1
-    [ -z "$FROM_TASK" ] && echo "Usage: pipeline-run.sh route <pipeline-id> <from-task-id> --success <to-task-id> [--failure <to-task-id>]" && exit 1
+    [ -z "$PIPELINE_ID" ] && echo "Usage: pipeline-run.sh route <pipeline-id> <from-task-id> --success <to-task-id> [--failure <to-task-id>] [--handoff <agent>]" && exit 1
+    [ -z "$FROM_TASK" ] && echo "Usage: pipeline-run.sh route <pipeline-id> <from-task-id> --success <to-task-id> [--failure <to-task-id>] [--handoff <agent>]" && exit 1
     [ "$SUCCESS_FLAG" = false ] && [ "$FAILURE_FLAG" = false ] && echo "Provide at least --success or --failure." && exit 1
 
     FILE="$PIPELINE_DIR/$PIPELINE_ID.json"
@@ -396,25 +407,35 @@ EOF
     fi
 
     # Add the routing rule (use --arg for task IDs, convert to number in jq)
+    # OpenAI SDK handoff pattern: specify which agent handles the routed task
+    if [ -n "$HANDOFF_AGENT" ]; then
+      HANDOFF_JQ="| . + {\"handoff_agent\": \"$HANDOFF_AGENT\"}"
+    else
+      HANDOFF_JQ=""
+    fi
+
     if [ "$SUCCESS_FLAG" = true ] && [ "$FAILURE_FLAG" = true ]; then
       jq --arg from "$FROM_TASK" \
          --arg success "$SUCCESS_TASK" \
          --arg failure "$FAILURE_TASK" \
-         '.routes += [{"from": ($from | tonumber), "on_success": ($success | tonumber), "on_failure": ($failure | tonumber)}]' \
+         --arg handoff "$HANDOFF_AGENT" \
+         '.routes += [{"from": ($from | tonumber), "on_success": ($success | tonumber), "on_failure": ($failure | tonumber)} + if $handoff != "" then {"handoff_agent": $handoff} else {} end]' \
          "$FILE" > "$FILE.tmp" && mv "$FILE.tmp" "$FILE"
     elif [ "$SUCCESS_FLAG" = true ]; then
       jq --arg from "$FROM_TASK" \
          --arg success "$SUCCESS_TASK" \
-         '.routes += [{"from": ($from | tonumber), "on_success": ($success | tonumber)}]' \
+         --arg handoff "$HANDOFF_AGENT" \
+         '.routes += [{"from": ($from | tonumber), "on_success": ($success | tonumber)} + if $handoff != "" then {"handoff_agent": $handoff} else {} end]' \
          "$FILE" > "$FILE.tmp" && mv "$FILE.tmp" "$FILE"
     else
       jq --arg from "$FROM_TASK" \
          --arg failure "$FAILURE_TASK" \
-         '.routes += [{"from": ($from | tonumber), "on_failure": ($failure | tonumber)}]' \
+         --arg handoff "$HANDOFF_AGENT" \
+         '.routes += [{"from": ($from | tonumber), "on_failure": ($failure | tonumber)} + if $handoff != "" then {"handoff_agent": $handoff} else {} end]' \
          "$FILE" > "$FILE.tmp" && mv "$FILE.tmp" "$FILE"
     fi
 
-    echo "Route added: task $FROM_TASK -> success=$SUCCESS_TASK failure=$FAILURE_TASK"
+    echo "Route added: task $FROM_TASK -> success=$SUCCESS_TASK failure=$FAILURE_TASK${HANDOFF_AGENT:+ (handoff: $HANDOFF_AGENT)}"
     echo "  (CrewAI Flow @router pattern)"
     ;;
 
@@ -642,7 +663,7 @@ EOF
     echo "  status  [pipeline-id]          Show pipeline status"
     echo "  update  <id> <task> <s> [n]    Update task status (done/failed/pending)"
     echo "  next    <pipeline-id>          Show next uncompleted task"
-    echo "  route   <id> <from> --succ <to> [--fail <to>]  Add routing rule (CrewAI Flow @router)"
+    echo "  route   <id> <from> --succ <to> [--fail <to>] [--handoff <agent>]  Add routing rule + optional agent handoff"
     echo "  human-checkpoint <id> [task]   Pause for human approval (12-factor F7)"
     echo "  dispatch <id> [agent]          Dispatch pending tasks to agent asynchronously"
     echo "  collect <id>                   Collect results from dispatched tasks"
@@ -657,12 +678,14 @@ EOF
     echo "  Post-task: pipeline-run.sh guardrail <id> <task> post"
     echo "  Custom:   pipeline-run.sh guardrail <id> <task> pre /path/to/script.sh"
     echo ""
-    echo "Routing (CrewAI Flow @router pattern):"
+    echo "Routing (CrewAI Flow @router + OpenAI SDK handoff):"
     echo "  After a task completes, route to the next task based on status:"
     echo "    pipeline-run.sh route <id> <from> --success <on-done> --failure <on-fail>"
     echo "    pipeline-run.sh route <id> <from> --success <on-done>"
+    echo "    pipeline-run.sh route <id> <from> --success <on-done> --handoff <agent>"
     echo '  Example: pipeline-run.sh route "pipe-001" 1 --success 3 --failure 2'
-    echo "    (task 1 done -> task 3, task 1 failed -> task 2)"
+    echo '  Example: pipeline-run.sh route "pipe-001" 1 --success 3 --handoff pi'
+    echo "    (task 1 done -> task 3 via pi agent -- OpenAI SDK handoff pattern)"
     echo ""
     echo "Agents for dispatch: pi (default), codex, claude"
     echo ""
