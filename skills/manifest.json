@@ -10,7 +10,8 @@
         "divergent-ideation",
         "spec-driven-development",
         "structured-questioning",
-        "planning-and-task-breakdown"
+        "planning-and-task-breakdown",
+        "source-extraction"
       ]
     },
     "build": {
