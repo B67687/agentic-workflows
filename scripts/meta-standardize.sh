@@ -173,13 +173,13 @@ stats() {
   echo "  Learnings: $LEARNINGS"
   echo "  Commits:   $COMMITS"
 
-  # Check test health
+  # Check test health (syntax only, don't run full suite)
   echo ""
   echo "--- Test Health ---"
-  if bash "$REPO_ROOT/scripts/test-smoke.sh" 2>&1 | tail -1 | grep -q "ALL TESTS PASSED"; then
-    echo "  Tests: PASSING"
+  if bash -n "$REPO_ROOT/scripts/test-smoke.sh" 2>/dev/null; then
+    echo "  Tests: syntax OK"
   else
-    echo "  Tests: FAILING"
+    echo "  Tests: syntax FAILING"
   fi 2>/dev/null || echo "  Tests: unknown"
 
   # Check quality gate status

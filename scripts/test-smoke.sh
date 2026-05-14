@@ -419,6 +419,44 @@ assert_output_contains "quality gate detects set -euo in pipeline-run.sh" \
 assert_exit "quality-gate.sh parses without syntax error" \
   "bash -n scripts/hooks/quality-gate.sh"
 
+# --- P11: Autonomous Runtime Fork ---
+echo ""
+echo "--- P11: Autonomous Runtime Fork ---"
+
+# Script syntax checks (fast)
+assert_exit "safety-escalate.sh syntax" \
+  "bash -n scripts/safety-escalate.sh"
+assert_exit "autopilot.sh syntax" \
+  "bash -n scripts/autopilot.sh"
+assert_exit "meta-standardize.sh syntax" \
+  "bash -n scripts/meta-standardize.sh"
+assert_exit "self-improve.sh syntax" \
+  "bash -n scripts/self-improve.sh"
+
+# meta-standardize.sh subcommands (fast)
+assert_exit "meta-standardize.sh check" \
+  "bash scripts/meta-standardize.sh check"
+# stats is slow (scans all repos), skip for smoke suite
+
+# self-improve.sh --status (fast)
+assert_exit "self-improve.sh --status" \
+  "bash scripts/self-improve.sh --status"
+
+# autopilot.sh --status (fast, no agent needed)
+assert_exit "autopilot.sh --status" \
+  "bash scripts/autopilot.sh --status"
+
+# goal-decompose.sh --output (fast, heuristic no agent)
+assert_exit "goal-decompose.sh --output" \
+  "bash scripts/goal-decompose.sh 'test goal' --max-tasks 2 --output"
+
+# safety-escalate.sh help test (fast, no pipeline needed)
+assert_output_contains "safety-escalate.sh help" \
+  "bash scripts/safety-escalate.sh 2>&1" \
+  "Safety Escalation Chain"
+
+echo ""
+
 echo ""
 echo "=== Results ==="
 echo "  Pass: $PASS"
