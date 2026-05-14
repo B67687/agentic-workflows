@@ -27,14 +27,14 @@
 <br>
 
 <p align="center">
-  <img src="docs/typing-animation.svg?v=3" width="100%" alt="Typing animation" style="max-width:760px;">
+  <img src="docs/typing-animation.svg" width="100%" alt="Typing animation" style="max-width:760px;">
 </p>
 
 <p align="center">
   <a href="docs/hub-architecture.svg">
     <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="docs/hub-architecture.svg?v=3">
-      <img src="docs/hub-architecture-light.svg?v=3" width="100%" alt="Hub Architecture Diagram" style="max-width:900px;">
+      <source media="(prefers-color-scheme: dark)" srcset="docs/hub-architecture.svg">
+      <img src="docs/hub-architecture-light.svg" width="100%" alt="Hub Architecture Diagram" style="max-width:900px;">
     </picture>
   </a>
   <br>
@@ -103,8 +103,8 @@ Then open **[`AGENTS.md`](AGENTS.md)** ~ that's the operating contract. Every ag
 
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="docs/folder-structure.svg?v=3">
-    <img src="docs/folder-structure-light.svg?v=3" width="100%" alt="Folder structure" style="max-width:720px;">
+    <source media="(prefers-color-scheme: dark)" srcset="docs/folder-structure.svg">
+    <img src="docs/folder-structure-light.svg" width="100%" alt="Folder structure" style="max-width:720px;">
   </picture>
 </p>
 

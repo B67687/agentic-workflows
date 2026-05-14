@@ -234,26 +234,25 @@ fi
 [ "$found" -eq 0 ] && pass "All referenced images exist" || fail "Missing image references"
 
 # =========================================================
-# CHECK 9: Cache-busting on all img/srcset
+# CHECK 9: No query parameters in README image URLs
 # =========================================================
 echo ""
-echo "  [9/12] Cache-busting on image references"
+echo "  [9/12] No query params in image URLs (causes CDN issues)"
 found=0
 if [ -f "$README" ]; then
   python3 -c "
 import re
 with open('$README', 'r') as f:
     readme = f.read()
-for m in re.finditer(r'(src|srcset)=\"([^\"]+\.svg)(\?[^\"]*)?\"', readme):
+for m in re.finditer(r'(src|srcset)=\"([^\"]+\.\w+)\?[^\"]*\"', readme):
     path = m.group(2)
-    qs = m.group(3) or ''
-    if not qs.startswith('?v=') or not qs[3:].isdigit():
-        print(f'Missing cache-buster: {path}')
-        exit(1)
+    qs = m.group(0).split('?')[1].rstrip('\"')
+    print(f'Has query param ?{qs}: {path}')
+    exit(1)
 exit(0)
-" 2>/dev/null || { fail "Some SVGs missing ?v=N cache-buster"; found=$((found+1)); }
+" 2>/dev/null || { fail "Image URLs should not have query parameters"; found=$((found+1)); }
 fi
-[ "$found" -eq 0 ] && pass "All SVGs have cache-busters" || fail "$found missing cache-busters"
+[ "$found" -eq 0 ] && pass "No query params in image URLs" || fail "$found image URLs with query params"
 
 # =========================================================
 # CHECK 10: No --- in README content
@@ -334,6 +333,37 @@ for f in $SVG_FILES; do
   fi
 done
 [ "$found" -eq 0 ] && pass "No cascade bugs detected" || fail "$found files may have cascade bugs"
+
+# =========================================================
+# CHECK 13: README image accessibility (alt text)
+# =========================================================
+echo ""
+echo "  [13/13] README image alt text"
+found=0
+if [ -f "$README" ]; then
+  python3 -c "
+import re
+with open('$README', 'r') as f:
+    readme = f.read()
+for m in re.finditer(r'<img[^>]+src=\"([^\"]+\.\w+)\?[^\"]*\"[^>]*>', readme):
+    tag = m.group()
+    if 'alt=' not in tag:
+        print(f'Missing alt text: {m.group(1)}')
+        exit(1)
+    elif 'alt=\"\"' in tag:
+        print(f'Empty alt text: {m.group(1)}')
+        exit(1)
+for m in re.finditer(r'<img[^>]+src=\"([^\"]+\.\w+)\"[^>]*>', readme):
+    tag = m.group()
+    if 'alt=' not in tag:
+        print(f'Missing alt text: {m.group(1)}')
+        exit(1)
+    elif 'alt=\"\"' in tag:
+        pass  # empty alt OK for decorative
+exit(0)
+" 2>/dev/null || { fail "Images missing alt text"; found=$((found+1)); }
+fi
+[ "$found" -eq 0 ] && pass "All images have alt text" || fail "$found images missing alt text"
 
 # =========================================================
 # SUMMARY
