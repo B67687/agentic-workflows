@@ -180,16 +180,14 @@ See [docs/workflow.md](docs/workflow.md) for the full system, [docs/hub-quicksta
 <p align="center"><sub>If you maintain a project listed here and would prefer different attribution or removal, please <a href="https://github.com/B67687/agentic-workflows/issues">open an issue</a>.</sub></p>
 
 <p align="center">
-  <a href="#">&#94; Back to top</a>
-</p>
-
-<p align="center">
   <sub>
     <a href="https://github.com/B67687/agentic-workflows/blob/main/LICENSE">MIT License</a>
     ·
     <a href="https://github.com/B67687/agentic-workflows/issues">Issues</a>
     ·
     <a href="https://github.com/B67687/agentic-workflows/discussions">Discussions</a>
+    ·
+    <a href="#">Back to top</a>
   </sub>
   <br>
   <sub>Built with &hearts; from the open-source agent community.</sub>
