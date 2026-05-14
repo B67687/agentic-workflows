@@ -41,21 +41,34 @@ flowchart TD
 ### Question Gate (automatic, no command needed)
 
 **This runs on every interaction automatically.** When you state a goal or ask a question, the agent
-analyzes it for completeness using the 5W+H framework (Who, What, When, Where, Why, How).
+activates the **Clarification Protocol** (`skills/clarification-protocol/`) --- a formal six-phase
+decision framework that detects ambiguity, assesses risk, explores what can be found autonomously,
+decides whether to ask or proceed, and manages the multi-turn clarification flow.
 
 **Direction A (Your request -> Agent):** If your request is vague or missing critical context,
-the agent automatically responds with structured probes --- one question at a time, with a
-recommended answer --- before proceeding. This is not a skill you invoke; it's default behavior.
+the agent runs through the protocol's decision gate:
+1. **Detect** --- classify ambiguity using structured criteria (referential, scope, missing input, etc.)
+2. **Assess** --- evaluate confidence, reversibility, and cost of wrong action
+3. **Explore** --- check codebase/docs/context to resolve what can be found autonomously
+4. **Decide** --- triage: **Act** (high confidence + reversible), **Ask** (low confidence or irreversible), or **Offer Options** (multiple valid paths)
+5. If asking: one specific question with options + recommendation, then end turn
+6. If proceeding: state assumptions explicitly, then execute
+
+This is not a skill you invoke; it's default behavior governed by the protocol.
 
 **Direction B (Agent needs info -> You):** When the agent needs information from you, it formats
-its question using this structure:
-- **Context**: 1-2 sentences on why this is needed
-- **Fork**: the possible paths
-- **Recommendation**: which path it recommends and why
-- **Impact**: what changes based on your answer
-- **Fallback**: what it will do if it doesn't hear back
+its question using the structured question format from the protocol:
+- **Header**: short label (max 12 chars) as category tag
+- **Question**: specific, one thing at a time, with a clear fork
+- **Options**: 2-4 choices with 1-line descriptions, one marked (Recommended)
+- **Why**: 1-2 sentences explaining why this matters
+- **Next**: what will happen after you answer
 
-No manual invocation needed. The Question Gate is the first thing that fires on every task.
+No manual invocation needed. The Question Gate fires on every task, using the formal protocol
+to decide whether to act, ask, or offer options.
+
+Reference: `skills/clarification-protocol/SKILL.md` for the full protocol specification.
+Companion: `bash ./skills/clarification-protocol/scripts/clarify.sh gate "request"`.
 
 ### Research
 Understand the system before changing it. Read startup files, retrieve relevant context, identify exact files and dependencies. **Do not edit yet.**
@@ -145,8 +158,8 @@ Either loop for the next slice, or classify the task as fixed/obsolete/parked an
 
 | Situation | Response |
 |---|---|
-| Request is vague or missing 5W+H dimensions | **Auto-probe before routing** --- one question at a time, with recommendation |
-| Agent needs info from user | **ACI format** --- context, fork, recommendation, impact, fallback |
+| Request is vague or missing 5W+H dimensions | **Clarification Protocol** --- Detect -> Assess -> Explore -> Decide. One question with options, or state assumptions and proceed. |
+| Agent needs info from user | **Structured question format** --- header, question, options with descriptions, recommendation, why, next. See Phase 5 of the Clarification Protocol. |
 | Task is ambiguous or costly to misunderstand | **Grill first** --- surface assumptions, sharpen scope |
 | Task is too big for one cycle | **Slice first** --- milestone ladder + first executable slice |
 | Planning loops twice without converging | **Stop refining, pick the next slice** |

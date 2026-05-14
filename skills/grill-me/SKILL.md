@@ -15,9 +15,20 @@ metadata:
 
 Companion script: `scripts/grill-session.sh`
 Related: `structured-questioning` skill for preparing questions
+Related: `clarification-protocol` skill for deciding WHEN to grill vs. ask vs. proceed
 
 Socratic questioning: expose hidden assumptions before committing to action.
 When a task is broad, ambiguous, or expensive to get wrong, stop and grill before planning.
+
+> **Use with the Clarification Protocol.** Before entering a grill session, run the
+> clarification-protocol's Detect-Assess-Explore phases to determine that grilling is
+> actually the right approach. The protocol's triage (Act / Ask / Offer Options) decides
+> WHETHER to engage; grill-me determines HOW to grill when deep decision-tree walking
+> is needed. If the protocol says "ask one question" or "offer options" instead, follow
+> that guidance rather than defaulting to a full grill.
+>
+> See `skills/clarification-protocol/SKILL.md` for the full decision framework.
+> See `bash ./skills/clarification-protocol/scripts/clarify.sh gate "request"` for automation.
 
 ## Phases
 

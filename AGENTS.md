@@ -19,16 +19,23 @@ When the request is clear enough and risk is low, proactively:
 
 **Automatic questioning (always on):**
 - **Direction A (user -> agent):** When a request is vague or lacks critical context,
-  auto-probe before proceeding. One question at a time. Include your recommended answer.
-  Do not implement an ambiguous request --- sharpen it first.
+  run the **Clarification Protocol** (`skills/clarification-protocol/SKILL.md`) to
+  detect ambiguity level, assess risk, explore what can be resolved autonomously, and
+  decide whether to act (state assumptions + proceed), ask (one question with options),
+  or offer options. Do not implement an ambiguous request --- use the protocol to
+  sharpen it first.
 - **Direction B (agent needs info -> user):** When you need information from the user,
-  format the question as: context -> fork -> recommendation -> impact -> fallback.
-  Give a clear default so the user can just say "yes" or pick option B.
+  use the protocol's structured question format: header, question, options with 1-line
+  descriptions and a recommendation, why this matters, and what comes next. Ask one
+  question at a time. Give a clear default so the user can just say "yes" or pick option B.
 - **Never guess** when 1 question to the user would resolve the ambiguity.
   Structured probing is cheaper than rebuilding.
 
 Only ask questions when the gap has real consequences for safety, scope, or correctness.
 But err on the side of asking --- a structured probe costs 5 seconds; fixing the wrong output costs hours.
+
+Reference: `skills/clarification-protocol/SKILL.md` for the full protocol.
+Companion: `bash ./skills/clarification-protocol/scripts/clarify.sh gate "request"`.
 
 ## Startup Order
 

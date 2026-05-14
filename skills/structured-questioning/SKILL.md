@@ -134,6 +134,7 @@ Before sending the question, check:
 
 | Skill | How They Connect |
 |---|---|
+| **clarification-protocol** | Use this skill to *formulate* the question; the protocol's Phase 5 (Question Design) drives structure and templates. The protocol's Detect-Assess-Explore-Decide phases run BEFORE you reach this skill --- it determines WHETHER to ask; this skill determines HOW to ask well. |
 | **grill-me** | Use this skill to *prepare* your questions before going into a grill session. The grill's decision tree is stronger when your opening questions are already decomposed. |
 | **research-prompt** | The 5W+H decomposition feeds directly into the research prompt's Hierarchical Analysis section. Use Phase 1 before starting research to sharpen scope. |
 | **idea-refine** | Use Socratic Iteration (Phase 2) during the convergent thinking phase to stress-test ideas before selecting. |
