@@ -81,21 +81,15 @@ Learnings flow back to the hub via insight harvesting. Cross-project memory loop
 
 <h2 id="features">Features</h2>
 
-<div align="center">
-
-| | |
-|---|---|
-| **AGENTS.md** | Shared rules and conventions every agent reads on entry |
-| **42 engineering skills** | Debug, review, ship, document patterns. Companion scripts for each |
-| **Template propagation** | Change once in the hub, sync to 15+ repos automatically |
-| **agentmemory MCP** | Captures tool use, compresses observations across sessions |
-| **Workflow discipline** | Checkpoints, handoffs, pipelines instead of chaotic chats |
-| **6-phase research** | Frame, discover, triangulate, apply, preserve methodology |
-| **Quality guardrails** | A2H escalation, assumption expiry, pre-push gates, error counters |
-| **Cross-project loop** | Propagate templates, harvest insights across all repos |
-| **32-test smoke suite** | Every change verified before commit. TDD patterns included |
-
-</div>
+- Shared rules and conventions every agent reads on entry
+- Debug, review, ship, document patterns. Companion scripts for each
+- Change once in the hub, sync to 15+ repos automatically
+- Captures tool use, compresses observations across sessions
+- Checkpoints, handoffs, pipelines instead of chaotic chats
+- Frame, discover, triangulate, apply, preserve methodology
+- A2H escalation, assumption expiry, pre-push gates, error counters
+- Propagate templates, harvest insights across all repos
+- Every change verified before commit. TDD patterns included
 
 
 <h2 id="orientation">Orientation</h2>
