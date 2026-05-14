@@ -119,131 +119,27 @@ Load design token reference (spacing scale, type hierarchy, color tokens) as L3:
 
 Every component must meet these standards:
 
-### Keyboard Navigation
+### Accessibility Patterns
 
-```tsx
-// Every interactive element must be keyboard accessible
-<button onClick={handleClick}>Click me</button>        // ✓ Focusable by default
-<div onClick={handleClick}>Click me</div>               // ✗ Not focusable
-<div role="button" tabIndex={0} onClick={handleClick}    // ✓ But prefer <button>
-     onKeyDown={e => {
-       if (e.key === 'Enter') handleClick();
-       if (e.key === ' ') e.preventDefault();
-     }}
-     onKeyUp={e => {
-       if (e.key === ' ') handleClick();
-     }}>
-  Click me
-</div>
-```
-
-### ARIA Labels
-
-```tsx
-// Label interactive elements that lack visible text
-<button aria-label="Close dialog"><XIcon /></button>
-
-// Label form inputs
-<label htmlFor="email">Email</label>
-<input id="email" type="email" />
-
-// Or use aria-label when no visible label exists
-<input aria-label="Search tasks" type="search" />
-```
-
-### Focus Management
-
-```tsx
-// Move focus when content changes
-function Dialog({ isOpen, onClose }: DialogProps) {
-  const closeRef = useRef<HTMLButtonElement>(null);
-
-  useEffect(() => {
-    if (isOpen) closeRef.current?.focus();
-  }, [isOpen]);
-
-  // Trap focus inside dialog when open
-  return (
-    <dialog open={isOpen}>
-      <button ref={closeRef} onClick={onClose}>Close</button>
-      {/* dialog content */}
-    </dialog>
-  );
-}
-```
+Load a11y examples (keyboard navigation, ARIA labels, focus management) as L3:
+`bash ./scripts/skill-toolset.sh resource frontend-ui-engineering references/a11y-patterns.md`
 
 ### Meaningful Empty and Error States
 
-```tsx
-// Don't show blank screens
-function TaskList({ tasks }: { tasks: Task[] }) {
-  if (tasks.length === 0) {
-    return (
-      <div role="status" className="text-center py-12">
-        <TasksEmptyIcon className="mx-auto h-12 w-12 text-muted" />
-        <h3 className="mt-2 text-sm font-medium">No tasks</h3>
-        <p className="mt-1 text-sm text-muted">Get started by creating a new task.</p>
-        <Button className="mt-4" onClick={onCreateTask}>Create Task</Button>
-      </div>
-    );
-  }
-
-  return <ul role="list">...</ul>;
-}
-```
+Load empty state and responsive patterns as L3:
+`bash ./scripts/skill-toolset.sh resource frontend-ui-engineering references/ui-patterns.md`
 
 ## Responsive Design
 
-Design for mobile first, then expand:
-
-```tsx
-// Tailwind: mobile-first responsive
-<div className="
-  grid grid-cols-1      /* Mobile: single column */
-  sm:grid-cols-2        /* Small: 2 columns */
-  lg:grid-cols-3        /* Large: 3 columns */
-  gap-4
-">
-```
+Design for mobile first, then expand. Load responsive patterns as L3:
+`bash ./scripts/skill-toolset.sh resource frontend-ui-engineering references/ui-patterns.md`
 
 Test at these breakpoints: 320px, 768px, 1024px, 1440px.
 
 ## Loading and Transitions
 
-```tsx
-// Skeleton loading (not spinners for content)
-function TaskListSkeleton() {
-  return (
-    <div className="space-y-3" aria-busy="true" aria-label="Loading tasks">
-      {Array.from({ length: 3 }).map((_, i) => (
-        <div key={i} className="h-12 bg-muted animate-pulse rounded" />
-      ))}
-    </div>
-  );
-}
-
-// Optimistic updates for perceived speed
-function useToggleTask() {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: toggleTask,
-    onMutate: async (taskId) => {
-      await queryClient.cancelQueries({ queryKey: ['tasks'] });
-      const previous = queryClient.getQueryData(['tasks']);
-
-      queryClient.setQueryData(['tasks'], (old: Task[]) =>
-        old.map(t => t.id === taskId ? { ...t, done: !t.done } : t)
-      );
-
-      return { previous };
-    },
-    onError: (_err, _taskId, context) => {
-      queryClient.setQueryData(['tasks'], context?.previous);
-    },
-  });
-}
-```
+Load skeleton loading and optimistic update patterns as L3:
+`bash ./scripts/skill-toolset.sh resource frontend-ui-engineering references/ui-patterns.md`
 
 ## See Also
 
