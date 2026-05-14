@@ -12,11 +12,20 @@
 #   bash ./scripts/browser.sh html <url>              # Extract page HTML
 #   bash ./scripts/browser.sh pdf <url> <file>        # Save page as PDF
 #   bash ./scripts/browser.sh check <url> <pattern>   # Check if page contains text
+#   bash ./scripts/browser.sh click <url> <selector>  # Click matching element, return new URL
+#   bash ./scripts/browser.sh section <url> <selector> # Extract text from matching element
+#
+# Agent-driven exploration workflow:
+#   1. bash browser.sh navigate <url>
+#   2. bash browser.sh text <url>              # Read page content
+#   3. bash browser.sh click <url> "a.more"   # Follow a link
+#   4. bash browser.sh section <new-url> "main" # Read target section
 #
 # Examples:
 #   bash ./scripts/browser.sh navigate https://example.com
 #   bash ./scripts/browser.sh screenshot https://example.com /tmp/shot.png
 #   bash ./scripts/browser.sh text https://example.com | head -20
+#   bash ./scripts/browser.sh click https://example.com "a[href]"
 # =============================================================================
 set -euo pipefail
 
@@ -129,6 +138,50 @@ const { chromium } = require('playwright');
 " 2>&1
     ;;
 
+  click)
+    # Click a CSS selector on a page, return new page info
+    [ -z "$URL" ] && echo "Usage: browser.sh click <url> <css-selector>" && exit 1
+    SELECTOR="${3:-}"
+    [ -z "$SELECTOR" ] && echo "Usage: browser.sh click <url> <css-selector>" && exit 1
+    $NODE_SCRIPT "
+const { chromium } = require('playwright');
+(async () => {
+  const browser = await chromium.launch();
+  const page = await browser.newPage();
+  await page.goto('$URL', { waitUntil: 'domcontentloaded' });
+  const el = await page.locator('$SELECTOR').first();
+  if (!el) { console.log('ERROR: No element found for: $SELECTOR'); await browser.close(); process.exit(1); }
+  await Promise.all([
+    page.waitForNavigation({ waitUntil: 'domcontentloaded' }).catch(() => {}),
+    el.click().catch(() => {}),
+  ]);
+  console.log('Title: ' + (await page.title()));
+  console.log('URL:   ' + page.url());
+  await browser.close();
+})();
+" 2>&1
+    ;;
+
+  section)
+    # Extract text content of a specific element
+    [ -z "$URL" ] && echo "Usage: browser.sh section <url> <css-selector>" && exit 1
+    SELECTOR="${3:-}"
+    [ -z "$SELECTOR" ] && echo "Usage: browser.sh section <url> <css-selector>" && exit 1
+    $NODE_SCRIPT "
+const { chromium } = require('playwright');
+(async () => {
+  const browser = await chromium.launch();
+  const page = await browser.newPage();
+  await page.goto('$URL', { waitUntil: 'domcontentloaded' });
+  const el = await page.locator('$SELECTOR').first();
+  if (!el) { console.log('ERROR: No element found for: $SELECTOR'); await browser.close(); process.exit(1); }
+  const text = await el.innerText();
+  console.log(text);
+  await browser.close();
+})();
+" 2>&1
+    ;;
+
   help|--help|-h)
     echo "Browser automation via Playwright"
     echo ""
@@ -139,6 +192,10 @@ const { chromium } = require('playwright');
     echo "  html <url>                  Extract page HTML"
     echo "  pdf <url> [file]            Save page as PDF (default: page.pdf)"
     echo "  check <url> <pattern>      Check if page contains text"
+    echo "  click <url> <selector>     Click matching element, return new URL/title"
+    echo "  section <url> <selector>   Extract text from matching CSS element"
+    echo ""
+    echo "Agent exploration workflow: navigate -> text -> click -> section"
     echo ""
     echo "For interactive browsing, use Playwright MCP (configured in opencode.jsonc)."
     echo "MCP tools include: navigate, screenshot, click, fill, select, hover, etc."
