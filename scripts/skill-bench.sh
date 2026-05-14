@@ -341,6 +341,127 @@ REOF
     log "  Result file: $RESULT_FILE"
     ;;
 
+  eval-report|report)
+    # Generate a standardized evaluation report comparing multiple runs.
+    # Format: promptfoo-compatible JSON for cross-run comparison.
+    # Source pattern: https://github.com/promptfoo/promptfoo (evaluation format)
+    MODE="${1:-list}"
+    REPORT_DIR="$RUNS_DIR"
+
+    case "$MODE" in
+      list)
+        # List available benchmark runs
+        echo "=== Benchmark Runs ==="
+        echo ""
+        if [ ! -d "$REPORT_DIR" ]; then
+          echo "  No runs found."
+          exit 0
+        fi
+        for dir in "$REPORT_DIR"/*/; do
+          [ -d "$dir" ] || continue
+          RESULT_FILE="$dir/result.json"
+          if [ -f "$RESULT_FILE" ]; then
+            python3 -c "
+import json
+with open('$RESULT_FILE') as f:
+    r = json.load(f)
+print(f'  {r.get(\"run_id\", \"?\")}')
+print(f'    skill:  {r.get(\"skill\", \"?\")}')
+print(f'    bench:  {r.get(\"benchmark_id\", \"?\")}')
+print(f'    result: {\"PASS\" if r.get(\"success\") else \"FAIL\"} steps={r.get(\"steps\", \"?\")} time={r.get(\"time_seconds\", \"?\")}s')
+print()
+" 2>/dev/null || echo "  $(basename "$dir"): no result"
+          fi
+        done
+        ;;
+
+      compare)
+        # Compare two or more runs, sorted by score
+        shift
+        if [ $# -eq 0 ]; then
+          echo "Usage: skill-bench.sh eval-report compare <run-id-1> [run-id-2 ...]"
+          exit 1
+        fi
+        echo "=== Comparison Report ==="
+        echo ""
+        python3 -c "
+import json, glob, os, sys
+
+report_dir = '$REPORT_DIR'
+run_ids = sys.argv[1:]
+
+entries = []
+for rid in run_ids:
+    f = os.path.join(report_dir, rid, 'result.json')
+    if os.path.exists(f):
+        with open(f) as fp:
+            entries.append(json.load(fp))
+    else:
+        for gf in glob.glob(os.path.join(report_dir, rid, 'result.json')):
+            with open(gf) as fp:
+                entries.append(json.load(fp))
+
+if not entries:
+    print('  No matching runs found.')
+else:
+    entries.sort(key=lambda x: (not x.get('success', False), x.get('time_seconds', 9999)))
+    print(f'  Runs: {len(entries)}')
+    print(f'  Pass: {sum(1 for e in entries if e.get(\"success\"))}')
+    print(f'  Fail: {sum(1 for e in entries if not e.get(\"success\"))}')
+    print()
+    for i, e in enumerate(entries):
+        status = 'PASS' if e.get('success') else 'FAIL'
+        print(f'  [{i+1}] {e.get(\"run_id\", \"?\")}')
+        print(f'       skill={e.get(\"skill\", \"?\")} bench={e.get(\"benchmark_id\", \"?\")}')
+        print(f'       result={status} steps={e.get(\"steps\", \"?\")} time={e.get(\"time_seconds\", \"?\")}s')
+        print()
+" 2>/dev/null "$@"
+        ;;
+
+      export)
+        # Export all results as promptfoo-compatible JSON
+        echo "["
+        FIRST=true
+        for dir in "$REPORT_DIR"/*/; do
+          [ -d "$dir" ] || continue
+          RESULT_FILE="$dir/result.json"
+          if [ -f "$RESULT_FILE" ]; then
+            $FIRST || echo ","
+            FIRST=false
+            python3 -c "
+import json
+with open('$RESULT_FILE') as f:
+    r = json.load(f)
+pf = {
+    'prompt': {'raw': 'see run ' + r.get('run_id', '')},
+    'response': {'raw': 'verified=' + str(r.get('success', False))},
+    'success': r.get('success', False),
+    'score': 1.0 if r.get('success', False) else 0.0,
+    'latency_ms': (r.get('time_seconds') or 0) * 1000,
+    'testCase': {
+        'description': r.get('benchmark_id', '') + ' / ' + r.get('skill', ''),
+        'assert': []
+    }
+}
+print(json.dumps(pf, indent=2))
+" 2>/dev/null
+          fi
+        done
+        echo "]"
+        ;;
+
+      *)
+        echo "Usage:"
+        echo "  eval-report list                        List all benchmark runs"
+        echo "  eval-report compare <id> [id...]       Compare runs side by side"
+        echo "  eval-report export                     Export as promptfoo JSON"
+        echo ""
+        echo "Source: promptfoo evaluation format"
+        echo "(https://github.com/promptfoo/promptfoo)"
+        ;;
+    esac
+    ;;
+
   help|--help|-h|*)
     echo "Skill Benchmark Runner"
     echo ""
@@ -354,6 +475,15 @@ REOF
     echo ""
     echo "  bash ./scripts/skill-bench.sh verify --run <dir>"
     echo "    Verify a completed benchmark run. Runs verification checks, writes result.json."
+    echo ""
+    echo "  bash ./scripts/skill-bench.sh eval-report list"
+    echo "    List all benchmark runs with results."
+    echo ""
+    echo "  bash ./scripts/skill-bench.sh eval-report compare <id> [id...]"
+    echo "    Compare runs side by side, sorted by score."
+    echo ""
+    echo "  bash ./scripts/skill-bench.sh eval-report export"
+    echo "    Export all results as promptfoo-compatible JSON."
     echo ""
     echo "Lifecycle:"
     echo "  1. list     -> pick a benchmark for your skill"
