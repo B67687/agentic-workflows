@@ -54,7 +54,7 @@ show_help() {
   echo "Agent git session manager"
   echo ""
   echo "Usage:"
-  echo "  start <name> [--allow <paths>] [--base <b>]  Create session from base branch (default: main)"
+  echo "  start <name> [--allow <paths>] [--base <b>]  Create session from base branch (default: auto-detect)"
   echo "  commit [-m <msg>]                             Commit changes with quality gate"
   echo "  status [session-id]                           List active sessions (or details for one)"
   echo "  end [session-id] [--pr] [--pr-title x] [--merge]  Squash, cleanup (--pr: PR, --merge into base)"
@@ -80,12 +80,28 @@ case "$CMD" in
   # ===== start =====
   start)
     NAME="${1:-}"
-    [ -z "$NAME" ] && echo "Usage: git-agent.sh start <name> [--allow <paths>] [--base <branch>]" && exit 1
+    [ -z "$NAME" ] && echo "Usage: git-agent.sh start <name> [--allow <paths>] [--base <branch>] (default: auto-detect)" && exit 1
     shift 1
 
     # Parse flags
     ALLOW_PATHS=()
-    BASE_BRANCH="main"
+    BASE_BRANCH=""
+
+    # Auto-detect default branch: gh CLI, then local main/master, then main
+    DEFAULT_BRANCH=""
+    if command -v gh &>/dev/null; then
+      DEFAULT_BRANCH=$(gh repo view --json defaultBranch --jq .defaultBranch 2>/dev/null || true)
+    fi
+    if [ -z "$DEFAULT_BRANCH" ]; then
+      for b in main master; do
+        if git show-ref --verify "refs/heads/$b" >/dev/null 2>&1; then
+          DEFAULT_BRANCH="$b"
+          break
+        fi
+      done
+    fi
+    DEFAULT_BRANCH="${DEFAULT_BRANCH:-main}"
+
     while [ $# -gt 0 ]; do
       case "$1" in
         --allow)
@@ -102,6 +118,8 @@ case "$CMD" in
         *) echo "Unknown: $1"; exit 1 ;;
       esac
     done
+
+    BASE_BRANCH="${BASE_BRANCH:-$DEFAULT_BRANCH}"
 
     # Verify base branch exists
     if ! git show-ref --verify "refs/heads/$BASE_BRANCH" >/dev/null 2>&1; then
@@ -309,7 +327,11 @@ PIPEOF
     NAME=$(echo "$S" | python3 -c "import json,sys; print(json.load(sys.stdin).get('name',''))" 2>/dev/null)
     BRANCH=$(echo "$S" | python3 -c "import json,sys; print(json.load(sys.stdin).get('branch',''))" 2>/dev/null)
     WP=$(echo "$S" | python3 -c "import json,sys; print(json.load(sys.stdin).get('worktree_path',''))" 2>/dev/null)
-    BASE_BRANCH=$(echo "$S" | python3 -c "import json,sys; print(json.load(sys.stdin).get('base_branch','main'))" 2>/dev/null)
+    BASE_BRANCH=$(echo "$S" | python3 -c "import json,sys; print(json.load(sys.stdin).get('base_branch',''))" 2>/dev/null)
+    if [ -z "$BASE_BRANCH" ]; then
+      BASE_BRANCH=$(git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's@.*/@@')
+    fi
+    BASE_BRANCH="${BASE_BRANCH:-main}"
 
     echo "Ending session: $NAME (base: $BASE_BRANCH)"
 
