@@ -159,9 +159,6 @@ See [docs/workflow.md](docs/workflow.md) for the full system, [docs/hub-quicksta
 </details>
 
 <br>
-
----
-
 <p align="center"><sub>If you maintain a project listed here and would prefer different attribution or removal, please <a href="https://github.com/B67687/agentic-workflows/issues">open an issue</a>.</sub></p>
 
 <p align="center">
