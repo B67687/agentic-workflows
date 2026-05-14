@@ -104,9 +104,15 @@ Then open **[`AGENTS.md`](AGENTS.md)** ~ that's the operating contract. Every ag
   </picture>
 </p>
 
-Run `bash ./scripts/session-status.sh` for workspace health, `bash ./scripts/tools.sh` for the tool registry, or `bash ./scripts/search-index.sh "query"` for BM25 search. Check sync status with `bash ./scripts/propagate.sh status` and commit changes with `bash ./scripts/checkpoint-commit.sh -m "msg"`.
+```bash
+bash ./scripts/session-status.sh        # Workspace health
+bash ./scripts/tools.sh                 # Tool registry
+bash ./scripts/search-index.sh "query"  # BM25 search
+bash ./scripts/propagate.sh status      # Sync status
+bash ./scripts/checkpoint-commit.sh -m "msg"  # Verified commit
+```
 
-Read [docs/workflow.md](docs/workflow.md) for the full system overview, [docs/hub-quickstart.md](docs/hub-quickstart.md) to set up your own project, or open [session-state.json](session-state.json) to resume interrupted work.
+See [docs/workflow.md](docs/workflow.md) for the full system, [docs/hub-quickstart.md](docs/hub-quickstart.md) to set up your own project, or open [session-state.json](session-state.json) to resume interrupted work.
 
 ---
 
