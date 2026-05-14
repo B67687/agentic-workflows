@@ -5,7 +5,7 @@
 # with quality gates, squash before PR, and clean up on completion.
 #
 # Usage:
-#   git-agent.sh start <name> [--allow <paths>]
+#   git-agent.sh start <name> [--allow <paths>] [--base <branch>]
 #   git-agent.sh commit [-m "message"]
 #   git-agent.sh status [session-id]
 #   git-agent.sh end [session-id] [--pr] [--pr-title "title"] [--merge]
@@ -54,18 +54,19 @@ show_help() {
   echo "Agent git session manager"
   echo ""
   echo "Usage:"
-  echo "  start <name> [--allow <paths>]          Create isolated session branch + worktree"
-  echo "  commit [-m <msg>]                       Commit changes with quality gate"
-  echo "  status [session-id]                     List active sessions (or details for one)"
-  echo "  end [session-id] [--pr] [--pr-title x] [--merge]  Squash, cleanup (--pr: PR, --merge: into main)"
-  echo "  abort <session-id>                                    Discard session entirely"
-  echo "  ci-wait <session-id> [--timeout N]      Wait for CI to pass"
+  echo "  start <name> [--allow <paths>] [--base <b>]  Create session from base branch (default: main)"
+  echo "  commit [-m <msg>]                             Commit changes with quality gate"
+  echo "  status [session-id]                           List active sessions (or details for one)"
+  echo "  end [session-id] [--pr] [--pr-title x] [--merge]  Squash, cleanup (--pr: PR, --merge into base)"
+  echo "  abort <session-id>                                        Discard session entirely"
+  echo "  ci-wait <session-id> [--timeout N]          Wait for CI to pass"
   echo ""
   echo "Examples:"
   echo "  git-agent.sh start feature-x --allow scripts/"
+  echo "  git-agent.sh start fork-task --base feat/autonomous-runtime"
   echo "  git-agent.sh commit -m 'Implement feature X'"
   echo "  git-agent.sh end --pr                          # Push, create PR, cleanup"
-  echo "  git-agent.sh end --merge                       # Merge into main, cleanup"
+  echo "  git-agent.sh end --merge                       # Merge into base branch, cleanup"
   echo "  git-agent.sh ci-wait --timeout 300"
 }
 
@@ -79,11 +80,12 @@ case "$CMD" in
   # ===== start =====
   start)
     NAME="${1:-}"
-    [ -z "$NAME" ] && echo "Usage: git-agent.sh start <name> [--allow <paths>]" && exit 1
+    [ -z "$NAME" ] && echo "Usage: git-agent.sh start <name> [--allow <paths>] [--base <branch>]" && exit 1
     shift 1
 
-    # Parse --allow paths
+    # Parse flags
     ALLOW_PATHS=()
+    BASE_BRANCH="main"
     while [ $# -gt 0 ]; do
       case "$1" in
         --allow)
@@ -93,9 +95,19 @@ case "$CMD" in
             shift
           done
           ;;
+        --base)
+          BASE_BRANCH="$2"
+          shift 2
+          ;;
         *) echo "Unknown: $1"; exit 1 ;;
       esac
     done
+
+    # Verify base branch exists
+    if ! git show-ref --verify "refs/heads/$BASE_BRANCH" >/dev/null 2>&1; then
+      echo "Base branch not found: $BASE_BRANCH"
+      exit 1
+    fi
 
     init_state
 
@@ -118,8 +130,8 @@ case "$CMD" in
       exit 1
     fi
 
-    # Create branch and worktree
-    git branch "$BRANCH" main
+    # Create branch from base and worktree
+    git branch "$BRANCH" "$BASE_BRANCH"
     git worktree add "$WORKTREE_PATH" "$BRANCH"
 
     # Normalize worktree path (resolve .. etc.)
@@ -128,7 +140,8 @@ case "$CMD" in
     # Set EXIT trap for auto-commit WIP
     # Save the trap setup as a helper in the worktree
     # Exclude trap file from git tracking so it doesn't leak to main
-    echo ".git-agent-trap.sh" >> "$WORKTREE_PATH/.git/info/exclude" 2>/dev/null || true
+    # Worktrees use .git as a file (not a directory), so use .gitignore in worktree root
+    echo ".git-agent-trap.sh" >> "$WORKTREE_PATH/.gitignore" 2>/dev/null || true
     cat > "$WORKTREE_PATH/.git-agent-trap.sh" << 'TRAPEOF'
 #!/bin/bash
 # Auto-commit WIP on unexpected exit.
@@ -173,8 +186,8 @@ PIPEOF
     fi
 
     # Save session state via helper
-    printf '{"id":"%s","name":"%s","branch":"%s","worktree_path":"%s","created":"%s","status":"active","safety":%s}' \
-      "$SESSION_ID" "$NAME" "$BRANCH" "$WORKTREE_PATH" "$TIMESTAMP" \
+    printf '{"id":"%s","name":"%s","branch":"%s","base_branch":"%s","worktree_path":"%s","created":"%s","status":"active","safety":%s}' \
+      "$SESSION_ID" "$NAME" "$BRANCH" "$BASE_BRANCH" "$WORKTREE_PATH" "$TIMESTAMP" \
       "$(printf '%s\n' "${ALLOW_PATHS[@]}" | python3 -c "import json,sys; paths=[l.strip() for l in sys.stdin if l.strip()]; print(json.dumps({'allowed_paths':paths,'blocked_paths':[],'max_tasks':None,'max_loops':None,'human_gates':[]}) if paths else '{}')" 2>/dev/null)" \
       | python3 "$HELPER" add
 
@@ -296,8 +309,9 @@ PIPEOF
     NAME=$(echo "$S" | python3 -c "import json,sys; print(json.load(sys.stdin).get('name',''))" 2>/dev/null)
     BRANCH=$(echo "$S" | python3 -c "import json,sys; print(json.load(sys.stdin).get('branch',''))" 2>/dev/null)
     WP=$(echo "$S" | python3 -c "import json,sys; print(json.load(sys.stdin).get('worktree_path',''))" 2>/dev/null)
+    BASE_BRANCH=$(echo "$S" | python3 -c "import json,sys; print(json.load(sys.stdin).get('base_branch','main'))" 2>/dev/null)
 
-    echo "Ending session: $NAME"
+    echo "Ending session: $NAME (base: $BASE_BRANCH)"
 
     # cd to worktree if it exists
     if [ -d "$WP" ]; then
@@ -309,11 +323,11 @@ PIPEOF
         git commit -m "WIP: final checkpoint" --no-verify 2>/dev/null || true
       fi
 
-      # Squash all commits on this branch into one
-      COMMIT_COUNT=$(git log --oneline main..HEAD 2>/dev/null | wc -l)
+      # Squash all commits on this branch into one (against base branch)
+      COMMIT_COUNT=$(git log --oneline "$BASE_BRANCH"..HEAD 2>/dev/null | wc -l)
       if [ "$COMMIT_COUNT" -gt 1 ]; then
-        echo "  Squashing $COMMIT_COUNT commits..."
-        git reset --soft main 2>/dev/null
+        echo "  Squashing $COMMIT_COUNT commits against $BASE_BRANCH..."
+        git reset --soft "$BASE_BRANCH" 2>/dev/null
         SQUASH_MSG="${PR_TITLE:-Session: $NAME}"
         if [ -z "$(git status --porcelain 2>/dev/null)" ]; then
           echo "  No changes to squash (already up to date)."
@@ -339,10 +353,10 @@ PIPEOF
         fi
       fi
 
-      # Merge back to main if requested (fork -> main)
+      # Merge back to base branch (fork -> base)
       if [ "$MERGE_FLAG" = true ]; then
-        echo "  Merging into main..."
-        git checkout main 2>/dev/null || true
+        echo "  Merging into $BASE_BRANCH..."
+        git checkout "$BASE_BRANCH" 2>/dev/null || true
         git merge "$BRANCH" --squash 2>/dev/null && git commit -m "${PR_TITLE:-Merge session: $NAME}" --no-verify 2>/dev/null || \
           echo "  (merge skipped: no changes or conflicts)"
         git push 2>&1 || echo "  (push failed or no remote configured)"
