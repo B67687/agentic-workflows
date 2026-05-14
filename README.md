@@ -192,5 +192,5 @@ See [docs/workflow.md](docs/workflow.md) for the full system, [docs/hub-quicksta
     <a href="https://github.com/B67687/agentic-workflows/discussions">Discussions</a>
   </sub>
   <br>
-  <sub>Built with patterns from the open-source agent community.</sub>
+  <sub>Built with &hearts; from the open-source agent community.</sub>
 </p>
