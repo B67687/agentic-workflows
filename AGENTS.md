@@ -538,6 +538,7 @@ supported APIs.
 | TDD with agents | `docs/tdd-with-agents.md` |
 | MCP architecture reference | `docs/mcp-architecture.md` |
 | Retrieval policy | `docs/retrieval-policy.md` |
+| Source citation workflow | `workflow/source-citation.md` |
 | 12-Factor Agents principles map | `docs/12-factor-agents-integration.md` |
 | A2H (Agent-to-Human) protocol | `drafts/a2h-spec.md` in [humanlayer/12-factor-agents](https://github.com/humanlayer/12-factor-agents) |
 | Agent-to-Human contact tool | `scripts/a2h-contact.sh` --- contact, approve, respond, list |

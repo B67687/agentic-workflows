@@ -96,7 +96,7 @@ Return a structured research note with:
 ## Common to All Paths
 
 - **Do not edit files yet.** Research is research, implementation is implementation.
-- **Cite all sources** with URLs and authority ratings.
+- **Cite all sources** with URLs and authority ratings. See `workflow/source-citation.md` for the full citation workflow.
 - **Flag all uncertainties** --- unlabeled claims are silently treated as CONFIRMED.
 - **Know when to stop** --- see Scope Control in `research/research-prompt.md`.
 - **Preserve durable findings** to memory and docs (Phase 5 of the methodology).

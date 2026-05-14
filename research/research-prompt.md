@@ -248,10 +248,13 @@ Map the research findings to the specific problem or decision at hand.
 
 **Output:** Specific implications, recommended actions, and what must be true.
 
-### Phase 5: Preserve
+### Phase 5: Preserve & Cite
 
 Durable knowledge should outlive this session.
 
+- **Cite every source** — Every claim, pattern, and integration point must cite its source
+  at minimum as `[Title](URL)`. Follow the full workflow in `workflow/source-citation.md`.
+  This is not optional. Uncited claims degrade to SPECULATIVE.
 - **Save to memory**: `memory_save(type="research", concepts="<tags>", files="<paths>")`
   for findings that:
   - Contradict or update existing knowledge
@@ -266,7 +269,7 @@ Durable knowledge should outlive this session.
 **Do NOT save**: Task progress, temporary state, session outcomes, or things that will
 be stale in a week.
 
-**Output**: Memory entries, doc updates, and learnings logged.
+**Output**: Memory entries, doc updates, learnings logged, and every claim sourced.
 
 ---
 
