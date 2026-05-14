@@ -81,6 +81,8 @@ Learnings flow back to the hub via insight harvesting. Cross-project memory loop
 
 <h2 id="features">Features</h2>
 
+<div align="center">
+
 | | |
 |---|---|
 | **AGENTS.md** | Shared rules and conventions every agent reads on entry |
@@ -92,6 +94,8 @@ Learnings flow back to the hub via insight harvesting. Cross-project memory loop
 | **Quality guardrails** | A2H escalation, assumption expiry, pre-push gates, error counters |
 | **Cross-project loop** | Propagate templates, harvest insights across all repos |
 | **32-test smoke suite** | Every change verified before commit. TDD patterns included |
+
+</div>
 
 
 <h2 id="orientation">Orientation</h2>
@@ -122,6 +126,8 @@ See [docs/workflow.md](docs/workflow.md) for the full system, [docs/hub-quicksta
 
 <h3>Core Inspirations</h3>
 
+<div align="center">
+
 <table>
 <tr>
   <td width="33%" valign="top">
@@ -139,10 +145,14 @@ See [docs/workflow.md](docs/workflow.md) for the full system, [docs/hub-quicksta
 </tr>
 </table>
 
+</div>
+
 <h3>Full Ecosystem</h3>
 
 <details open>
 <summary>50+ projects across 8 more categories</summary>
+
+<div align="center">
 
 | Category | Projects |
 |----------|----------|
@@ -154,12 +164,16 @@ See [docs/workflow.md](docs/workflow.md) for the full system, [docs/hub-quicksta
 | <img src="https://img.shields.io/badge/README%20Design-4-58a6ff?style=flat-square" alt="Readme Design"> | readme-svg-wave-divider-generator, readme-hub,<br>GitHub Readme Stats, <a href="https://github.com/VoltAgent/awesome-design-md"><b>*awesome-design-md</b></a> |
 | <img src="https://img.shields.io/badge/LLMs%20%26%20Learning-6-0ea5e9?style=flat-square" alt="LLMs"> | DeepSeek-V3, OpenAI Codex, Qwen, Gemini CLI,<br>Hello Agents, Claude Code Best Practice |
 
+</div>
+
 </details>
 
 <h3>Tools Used</h3>
 
 <details open>
 <summary>Software that helped build this project</summary>
+
+<div align="center">
 
 | Tool | Use |
 |------|-----|
@@ -168,6 +182,8 @@ See [docs/workflow.md](docs/workflow.md) for the full system, [docs/hub-quicksta
 | [RTK](https://github.com/ericseppanen/rtk) | File counting & analysis |
 | [git-filter-repo](https://github.com/newren/git-filter-repo) | Git history management |
 | [promptfoo](https://github.com/promptfoo/promptfoo) | Prompt evaluation |
+
+</div>
 
 </details>
 
