@@ -144,6 +144,71 @@ Try these in roughly this order:
 
 Treat the loop as a product --- make it faster, sharper, more deterministic. A 2-second deterministic loop is a debugging superpower. For non-deterministic bugs, focus on raising the reproduction rate until it's debuggable. If you genuinely cannot build a loop, say so explicitly and ask for access, artifacts, or permission to instrument.
 
+## SWE-Agent Pattern: Reproduce-First Autonomous Fix
+
+**Source:** [SWE-agent](https://github.com/SWE-agent/SWE-agent) (NeurIPS 2024)
+-- autonomous GitHub issue fixing via agent-tool interface.
+
+SWE-agent's core pattern is: **reproduce the bug with a test first, then let the
+agent autonomously localize, fix, and verify.** This complements the macro-to-micro
+funnel by adding the fix loop to the end.
+
+### The Workflow
+
+```
+Bug report / GitHub issue
+        │
+        ▼
+1. REPRODUCE: Write a test that demonstrates the bug
+   (must fail with current code)
+        │
+        ▼
+2. LOCALIZE: Agent reads the error, traces the code path,
+   identifies the root cause
+        │
+        ▼
+3. FIX: Agent implements the minimal code change
+        │
+        ▼
+4. VERIFY: The reproduction test now PASSES
+        │
+        ▼
+5. FULL SUITE: Run all tests to check for regressions
+        │
+        ▼
+6. COMMIT: Push the fix + reproduction test together
+```
+
+### Key Constraints
+
+- **Step 1 is NOT optional.** Writing the reproduction test first ensures:
+  - The bug is understood before the fix is attempted
+  - The fix can be proven (test was red, now green)
+  - The regression is guarded forever
+- **The agent does ALL steps** (SWE-agent's contribution): given the issue text
+  and the repo, the agent localizes, fixes, verifies, and submits autonomously.
+- **If the test can't be written, the bug isn't understood well enough.**
+  This is the forcing function --- struggling to reproduce means struggling to
+  understand, and any attempted fix without reproduction is a guess.
+
+### Mapping to This Workspace
+
+| SWE-agent step | How we do it |
+|----------------|-------------|
+| Reproduce | Write a failing test (see `test-driven-development` skill, Prove-It pattern) |
+| Localize | Macro-to-micro funnel (Level 1 -> Level 4) |
+| Fix | Minimal code change, same as Step 2 (GREEN) of TDD |
+| Verify | The failing test now passes + full suite |
+| Submit | `checkpoint-commit.sh` with reproduction test included |
+
+### When to Use
+
+- **Bug reports with clear reproduction steps** -- let the agent do the full loop
+- **Regression bugs** -- the test was probably there in the first place
+- **Suggested by macro-to-micro funnel** -- after Localize step, switch to
+  Reproduce-First pattern instead of guessing the fix
+- **Not for:** exploration, refactoring, or features
+
 ## The Triage Checklist
 
 Work through these steps in order. Do not skip steps.
