@@ -23,7 +23,7 @@
   <a href="https://github.com/B67687/agentic-workflows/graphs/commit-activity"><img src="https://img.shields.io/github/commit-activity/m/B67687/agentic-workflows?style=flat-square" alt="Commits per month"></a>
   <a href="https://github.com/B67687/agentic-workflows/commits/main"><img src="https://img.shields.io/github/commit-activity/t/B67687/agentic-workflows?style=flat-square&label=total%20commits" alt="Total Commits"></a>
   <br><br>
-  <img src="docs/typing-animation.svg" width="100%" alt="Typing animation" style="max-width:860px;">
+  <img src="docs/typing-animation.svg" width="100%" alt="Typing animation" style="max-width:960px;">
 </p>
 
 <p align="center">
