@@ -184,10 +184,6 @@ See [docs/workflow.md](docs/workflow.md) for the full system, [docs/hub-quicksta
     <a href="https://github.com/B67687/agentic-workflows/blob/main/LICENSE">MIT License</a>
     ·
     <a href="https://github.com/B67687/agentic-workflows/issues">Issues</a>
-    ·
-    <a href="https://github.com/B67687/agentic-workflows/discussions">Discussions</a>
-    ·
-    <a href="#">Back to top</a>
   </sub>
   <br>
   <sub>Built with &hearts; from the open-source agent community.</sub>
