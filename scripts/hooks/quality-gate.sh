@@ -235,6 +235,8 @@ check_source_citation() {
           echo "$ref" | grep -qE '^B67687/' && continue
           # Skip file path patterns
           echo "$ref" | grep -qE '/\.' && continue
+          # Skip if second part has a file extension (internal paths, not repos)
+          echo "$ref" | grep -qE '/[a-zA-Z0-9._-]+\.[a-zA-Z]{1,4}$' && continue
           print_issue "WARN" "$file" "External reference '${ref}' without URL citation"
           issues=$((issues + 1))
         done <<< "$repo_refs"
