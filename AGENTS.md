@@ -275,9 +275,26 @@ Skills are grouped into **lifecycle bundles** in `skills/manifest.json` for sele
 
 When a task spans the lifecycle (e.g. "build and ship"), invoke skills from multiple bundles in order: **define -> build -> verify -> ship**.
 
+## Memory Architecture
+
+This workspace uses three memory stores with distinct purposes and availability
+guarantees. They are NOT interchangeable --- each serves a specific role.
+
+| Store | Purpose | Availability | Query |
+|-------|---------|-------------|-------|
+| `.learnings.jsonl` | **Durable cross-session knowledge** --- preferences, decisions, patterns, bugs. Survives session resets. | Always accessible | Keyword search (`learnings-search.sh`) |
+| `agentmemory MCP` | **Ephemeral session context** --- recent observations, timeline, tool usage. Rich semantic search. | Only when MCP server is running (WASM init may hang on WSL2) | `memory_smart_search`, `memory_recall` |
+| `ruflo memory` | **Operational patterns** --- task routing, workflow hooks, session history. | Separate CLI | `ruflo hooks route` |
+
+**Unified query:** Use `bash ./scripts/memory-query.sh <query>` or
+`bash ./scripts/memory-query.sh --all <query>` to search across all stores.
+
+**One-way sync:** Durable knowledge from `.learnings.jsonl` should be pushed to
+agentmemory periodically via `memory_save(type="learning", ...)` for semantic retrieval.
+
 ## Persistent Memory (agentmemory)
 
-**agentmemory** (`@agentmemory/mcp`) is available as an MCP server. It provides persistent, cross-session memory for this workspace.
+`@agentmemory/mcp` is available as an MCP server. It provides persistent, cross-session memory for this workspace.
 
 ### What it does
 - **Auto-captures** tool use, prompts, file access during sessions
@@ -298,8 +315,10 @@ If agentmemory MCP is unavailable or unresponsive, use the local learnings file 
 
 - **Save:** `bash ./scripts/learnings-save.sh "insight" [tags]`
 - **Search:** `bash ./scripts/learnings-search.sh [query]`
+- **Consolidate:** `bash ./scripts/consolidate-memory.sh`
+- **Unified query:** `bash ./scripts/memory-query.sh --all <query>`
 
-The local file lives at `.learnings.jsonl` in the repo root. It supports keyword search only (no semantic search). Prefer agentmemory for semantic lookups; use this as a fallback.
+The local file lives at `.learnings.jsonl` in the repo root. It supports keyword search only (no semantic search). Use `scripts/memory-query.sh` for cross-store queries.
 
 ### Session Search
 
@@ -536,6 +555,7 @@ supported APIs.
 | Retrieval policy | `docs/retrieval-policy.md` |
 | Source citation workflow | `workflow/source-citation.md` |
 | Memory consolidation workflow | `workflow/memory-consolidation.md` |
+| Unified memory query | `scripts/memory-query.sh` |
 | 12-Factor Agents principles map | `docs/12-factor-agents-integration.md` |
 | A2H (Agent-to-Human) protocol | `drafts/a2h-spec.md` in [humanlayer/12-factor-agents](https://github.com/humanlayer/12-factor-agents) |
 | Agent-to-Human contact tool | `scripts/a2h-contact.sh` --- contact, approve, respond, list |
