@@ -1,164 +1,225 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 115" style="background:transparent; font-family:ui-monospace,'Cascadia Code','Fira Code',monospace;">
   <defs>
     <style>
-      /* Each class: 2 blinks per 16s cycle. Each blink is a different color.
-         Every dot gets a unique delay so peaks never overlap. */
+      /* 8 classes, each with 4 pulses per 8s cycle. Each pulse has a different
+         size AND a different colour. Random positions → no wave pattern. */
+      /* pa: big-green, med-purple, sm-gold, lg-pink */
       @keyframes pa {
-        0%, 46%, 100% { opacity: 0.015; transform: scale(0.15); fill: #58a6ff; }
-        3%            { opacity: 0.4;    transform: scale(0.6);  fill: #3fb950; }
-        5%            { opacity: 0.85;   transform: scale(1.6);  fill: #3fb950; }
-        8%            { opacity: 0.1;    transform: scale(0.4);  fill: #3fb950; }
-        49%           { opacity: 0.35;   transform: scale(0.5);  fill: #bc8cff; }
-        51%           { opacity: 0.8;    transform: scale(1.4);  fill: #bc8cff; }
-        54%           { opacity: 0.08;   transform: scale(0.35); fill: #bc8cff; }
+        0%,97%,100% { opacity: 0.01; transform: scale(0.15); fill: #58a6ff; }
+        4%  { opacity: 0.5;  transform: scale(0.7);  fill: #3fb950; }
+        6%  { opacity: 0.85; transform: scale(2.0);  fill: #3fb950; }
+        9%  { opacity: 0.05; transform: scale(0.25); fill: #3fb950; }
+        28% { opacity: 0.4;  transform: scale(0.5);  fill: #bc8cff; }
+        30% { opacity: 0.7;  transform: scale(1.4);  fill: #bc8cff; }
+        33% { opacity: 0.04; transform: scale(0.2);  fill: #bc8cff; }
+        52% { opacity: 0.35; transform: scale(0.4);  fill: #d29922; }
+        54% { opacity: 0.6;  transform: scale(1.0);  fill: #d29922; }
+        57% { opacity: 0.03; transform: scale(0.2);  fill: #d29922; }
+        76% { opacity: 0.5;  transform: scale(0.7);  fill: #f778ba; }
+        78% { opacity: 0.8;  transform: scale(1.7);  fill: #f778ba; }
+        81% { opacity: 0.04; transform: scale(0.25); fill: #f778ba; }
       }
+      /* pb: sm-purple, lg-gold, med-pink, big-green */
       @keyframes pb {
-        0%, 46%, 100% { opacity: 0.015; transform: scale(0.15); fill: #58a6ff; }
-        3%            { opacity: 0.35;   transform: scale(0.5);  fill: #d29922; }
-        5%            { opacity: 0.8;    transform: scale(1.4);  fill: #d29922; }
-        8%            { opacity: 0.08;   transform: scale(0.35); fill: #d29922; }
-        49%           { opacity: 0.4;    transform: scale(0.6);  fill: #f778ba; }
-        51%           { opacity: 0.85;   transform: scale(1.6);  fill: #f778ba; }
-        54%           { opacity: 0.1;    transform: scale(0.4);  fill: #f778ba; }
+        0%,97%,100% { opacity: 0.01; transform: scale(0.15); fill: #58a6ff; }
+        4%  { opacity: 0.35; transform: scale(0.4);  fill: #bc8cff; }
+        6%  { opacity: 0.6;  transform: scale(1.0);  fill: #bc8cff; }
+        9%  { opacity: 0.03; transform: scale(0.2);  fill: #bc8cff; }
+        28% { opacity: 0.5;  transform: scale(0.7);  fill: #d29922; }
+        30% { opacity: 0.85; transform: scale(2.0);  fill: #d29922; }
+        33% { opacity: 0.05; transform: scale(0.25); fill: #d29922; }
+        52% { opacity: 0.4;  transform: scale(0.5);  fill: #f778ba; }
+        54% { opacity: 0.7;  transform: scale(1.4);  fill: #f778ba; }
+        57% { opacity: 0.04; transform: scale(0.2);  fill: #f778ba; }
+        76% { opacity: 0.5;  transform: scale(0.7);  fill: #3fb950; }
+        78% { opacity: 0.8;  transform: scale(1.7);  fill: #3fb950; }
+        81% { opacity: 0.04; transform: scale(0.25); fill: #3fb950; }
       }
+      /* pc: med-gold, big-pink, sm-green, lg-purple */
       @keyframes pc {
-        0%, 46%, 100% { opacity: 0.015; transform: scale(0.15); fill: #58a6ff; }
-        3%            { opacity: 0.4;    transform: scale(0.6);  fill: #58a6ff; }
-        5%            { opacity: 0.85;   transform: scale(1.6);  fill: #58a6ff; }
-        8%            { opacity: 0.1;    transform: scale(0.4);  fill: #58a6ff; }
-        49%           { opacity: 0.35;   transform: scale(0.5);  fill: #3fb950; }
-        51%           { opacity: 0.8;    transform: scale(1.4);  fill: #3fb950; }
-        54%           { opacity: 0.08;   transform: scale(0.35); fill: #3fb950; }
+        0%,97%,100% { opacity: 0.01; transform: scale(0.15); fill: #58a6ff; }
+        4%  { opacity: 0.4;  transform: scale(0.5);  fill: #d29922; }
+        6%  { opacity: 0.7;  transform: scale(1.4);  fill: #d29922; }
+        9%  { opacity: 0.04; transform: scale(0.2);  fill: #d29922; }
+        28% { opacity: 0.5;  transform: scale(0.7);  fill: #f778ba; }
+        30% { opacity: 0.85; transform: scale(2.0);  fill: #f778ba; }
+        33% { opacity: 0.05; transform: scale(0.25); fill: #f778ba; }
+        52% { opacity: 0.35; transform: scale(0.4);  fill: #3fb950; }
+        54% { opacity: 0.6;  transform: scale(1.0);  fill: #3fb950; }
+        57% { opacity: 0.03; transform: scale(0.2);  fill: #3fb950; }
+        76% { opacity: 0.5;  transform: scale(0.7);  fill: #bc8cff; }
+        78% { opacity: 0.8;  transform: scale(1.7);  fill: #bc8cff; }
+        81% { opacity: 0.04; transform: scale(0.25); fill: #bc8cff; }
       }
+      /* pd: lg-pink, sm-green, big-gold, med-purple */
       @keyframes pd {
-        0%, 46%, 100% { opacity: 0.015; transform: scale(0.15); fill: #58a6ff; }
-        3%            { opacity: 0.35;   transform: scale(0.5);  fill: #f778ba; }
-        5%            { opacity: 0.8;    transform: scale(1.4);  fill: #f778ba; }
-        8%            { opacity: 0.08;   transform: scale(0.35); fill: #f778ba; }
-        49%           { opacity: 0.4;    transform: scale(0.6);  fill: #d29922; }
-        51%           { opacity: 0.85;   transform: scale(1.6);  fill: #d29922; }
-        54%           { opacity: 0.1;    transform: scale(0.4);  fill: #d29922; }
+        0%,97%,100% { opacity: 0.01; transform: scale(0.15); fill: #58a6ff; }
+        4%  { opacity: 0.5;  transform: scale(0.7);  fill: #f778ba; }
+        6%  { opacity: 0.85; transform: scale(2.0);  fill: #f778ba; }
+        9%  { opacity: 0.05; transform: scale(0.25); fill: #f778ba; }
+        28% { opacity: 0.35; transform: scale(0.4);  fill: #3fb950; }
+        30% { opacity: 0.6;  transform: scale(1.0);  fill: #3fb950; }
+        33% { opacity: 0.03; transform: scale(0.2);  fill: #3fb950; }
+        52% { opacity: 0.5;  transform: scale(0.7);  fill: #d29922; }
+        54% { opacity: 0.8;  transform: scale(1.7);  fill: #d29922; }
+        57% { opacity: 0.04; transform: scale(0.25); fill: #d29922; }
+        76% { opacity: 0.4;  transform: scale(0.5);  fill: #bc8cff; }
+        78% { opacity: 0.7;  transform: scale(1.4);  fill: #bc8cff; }
+        81% { opacity: 0.04; transform: scale(0.2);  fill: #bc8cff; }
+      }
+      /* pe: sm-green, med-purple, lg-pink, big-gold */
+      @keyframes pe {
+        0%,97%,100% { opacity: 0.01; transform: scale(0.15); fill: #58a6ff; }
+        4%  { opacity: 0.35; transform: scale(0.4);  fill: #3fb950; }
+        6%  { opacity: 0.6;  transform: scale(1.0);  fill: #3fb950; }
+        9%  { opacity: 0.03; transform: scale(0.2);  fill: #3fb950; }
+        28% { opacity: 0.4;  transform: scale(0.5);  fill: #bc8cff; }
+        30% { opacity: 0.7;  transform: scale(1.4);  fill: #bc8cff; }
+        33% { opacity: 0.04; transform: scale(0.2);  fill: #bc8cff; }
+        52% { opacity: 0.5;  transform: scale(0.7);  fill: #f778ba; }
+        54% { opacity: 0.85; transform: scale(2.0);  fill: #f778ba; }
+        57% { opacity: 0.05; transform: scale(0.25); fill: #f778ba; }
+        76% { opacity: 0.5;  transform: scale(0.7);  fill: #d29922; }
+        78% { opacity: 0.8;  transform: scale(1.7);  fill: #d29922; }
+        81% { opacity: 0.04; transform: scale(0.25); fill: #d29922; }
+      }
+      /* pf: big-blue, sm-gold, med-green, lg-pink */
+      @keyframes pf {
+        0%,97%,100% { opacity: 0.01; transform: scale(0.15); fill: #58a6ff; }
+        4%  { opacity: 0.5;  transform: scale(0.7);  fill: #58a6ff; }
+        6%  { opacity: 0.85; transform: scale(2.0);  fill: #58a6ff; }
+        9%  { opacity: 0.05; transform: scale(0.25); fill: #58a6ff; }
+        28% { opacity: 0.35; transform: scale(0.4);  fill: #d29922; }
+        30% { opacity: 0.6;  transform: scale(1.0);  fill: #d29922; }
+        33% { opacity: 0.03; transform: scale(0.2);  fill: #d29922; }
+        52% { opacity: 0.4;  transform: scale(0.5);  fill: #3fb950; }
+        54% { opacity: 0.7;  transform: scale(1.4);  fill: #3fb950; }
+        57% { opacity: 0.04; transform: scale(0.2);  fill: #3fb950; }
+        76% { opacity: 0.5;  transform: scale(0.7);  fill: #f778ba; }
+        78% { opacity: 0.8;  transform: scale(1.7);  fill: #f778ba; }
+        81% { opacity: 0.04; transform: scale(0.25); fill: #f778ba; }
+      }
+      /* pg: med-blue, lg-green, sm-purple, big-gold */
+      @keyframes pg {
+        0%,97%,100% { opacity: 0.01; transform: scale(0.15); fill: #58a6ff; }
+        4%  { opacity: 0.4;  transform: scale(0.5);  fill: #58a6ff; }
+        6%  { opacity: 0.7;  transform: scale(1.4);  fill: #58a6ff; }
+        9%  { opacity: 0.04; transform: scale(0.2);  fill: #58a6ff; }
+        28% { opacity: 0.5;  transform: scale(0.7);  fill: #3fb950; }
+        30% { opacity: 0.85; transform: scale(2.0);  fill: #3fb950; }
+        33% { opacity: 0.05; transform: scale(0.25); fill: #3fb950; }
+        52% { opacity: 0.35; transform: scale(0.4);  fill: #bc8cff; }
+        54% { opacity: 0.6;  transform: scale(1.0);  fill: #bc8cff; }
+        57% { opacity: 0.03; transform: scale(0.2);  fill: #bc8cff; }
+        76% { opacity: 0.5;  transform: scale(0.7);  fill: #d29922; }
+        78% { opacity: 0.8;  transform: scale(1.7);  fill: #d29922; }
+        81% { opacity: 0.04; transform: scale(0.25); fill: #d29922; }
+      }
+      /* ph: sm-pink, big-blue, med-gold, lg-green */
+      @keyframes ph {
+        0%,97%,100% { opacity: 0.01; transform: scale(0.15); fill: #58a6ff; }
+        4%  { opacity: 0.35; transform: scale(0.4);  fill: #f778ba; }
+        6%  { opacity: 0.6;  transform: scale(1.0);  fill: #f778ba; }
+        9%  { opacity: 0.03; transform: scale(0.2);  fill: #f778ba; }
+        28% { opacity: 0.5;  transform: scale(0.7);  fill: #58a6ff; }
+        30% { opacity: 0.85; transform: scale(2.0);  fill: #58a6ff; }
+        33% { opacity: 0.05; transform: scale(0.25); fill: #58a6ff; }
+        52% { opacity: 0.4;  transform: scale(0.5);  fill: #d29922; }
+        54% { opacity: 0.7;  transform: scale(1.4);  fill: #d29922; }
+        57% { opacity: 0.04; transform: scale(0.2);  fill: #d29922; }
+        76% { opacity: 0.5;  transform: scale(0.7);  fill: #3fb950; }
+        78% { opacity: 0.8;  transform: scale(1.7);  fill: #3fb950; }
+        81% { opacity: 0.04; transform: scale(0.25); fill: #3fb950; }
       }
 
-      /* 32 dots × 2 blinks = 64 events spread over 16s → ~4s between events per dot.
-         Unique delays ensure no two dots peak at the same moment. */
-      .d01, .d09, .d17, .d25 { transform-box: fill-box; transform-origin: center; }
-      .d02, .d10, .d18, .d26 { transform-box: fill-box; transform-origin: center; }
-      .d03, .d11, .d19, .d27 { transform-box: fill-box; transform-origin: center; }
-      .d04, .d12, .d20, .d28 { transform-box: fill-box; transform-origin: center; }
-      .d05, .d13, .d21, .d29 { transform-box: fill-box; transform-origin: center; }
-      .d06, .d14, .d22, .d30 { transform-box: fill-box; transform-origin: center; }
-      .d07, .d15, .d23, .d31 { transform-box: fill-box; transform-origin: center; }
-      .d08, .d16, .d24, .d32 { transform-box: fill-box; transform-origin: center; }
+      .pa, .pb, .pc, .pd, .pe, .pf, .pg, .ph { transform-box: fill-box; transform-origin: center; }
+      .pa { animation: pa 8.0s ease-in-out infinite; }
+      .pb { animation: pb 8.0s ease-in-out infinite; }
+      .pc { animation: pc 8.0s ease-in-out infinite; }
+      .pd { animation: pd 8.0s ease-in-out infinite; }
+      .pe { animation: pe 8.0s ease-in-out infinite; }
+      .pf { animation: pf 8.0s ease-in-out infinite; }
+      .pg { animation: pg 8.0s ease-in-out infinite; }
+      .ph { animation: ph 8.0s ease-in-out infinite; }
 
-      .d01 { animation: pa 16s ease-in-out infinite; animation-delay: -16.0s; }
-      .d02 { animation: pa 16s ease-in-out infinite; animation-delay: -15.5s; }
-      .d03 { animation: pa 16s ease-in-out infinite; animation-delay: -15.0s; }
-      .d04 { animation: pa 16s ease-in-out infinite; animation-delay: -14.5s; }
-      .d05 { animation: pa 16s ease-in-out infinite; animation-delay: -14.0s; }
-      .d06 { animation: pa 16s ease-in-out infinite; animation-delay: -13.5s; }
-      .d07 { animation: pa 16s ease-in-out infinite; animation-delay: -13.0s; }
-      .d08 { animation: pa 16s ease-in-out infinite; animation-delay: -12.5s; }
-      .d09 { animation: pb 16s ease-in-out infinite; animation-delay: -16.0s; }
-      .d10 { animation: pb 16s ease-in-out infinite; animation-delay: -15.5s; }
-      .d11 { animation: pb 16s ease-in-out infinite; animation-delay: -15.0s; }
-      .d12 { animation: pb 16s ease-in-out infinite; animation-delay: -14.5s; }
-      .d13 { animation: pb 16s ease-in-out infinite; animation-delay: -14.0s; }
-      .d14 { animation: pb 16s ease-in-out infinite; animation-delay: -13.5s; }
-      .d15 { animation: pb 16s ease-in-out infinite; animation-delay: -13.0s; }
-      .d16 { animation: pb 16s ease-in-out infinite; animation-delay: -12.5s; }
-      .d17 { animation: pc 16s ease-in-out infinite; animation-delay: -15.75s; }
-      .d18 { animation: pc 16s ease-in-out infinite; animation-delay: -15.25s; }
-      .d19 { animation: pc 16s ease-in-out infinite; animation-delay: -14.75s; }
-      .d20 { animation: pc 16s ease-in-out infinite; animation-delay: -14.25s; }
-      .d21 { animation: pc 16s ease-in-out infinite; animation-delay: -13.75s; }
-      .d22 { animation: pc 16s ease-in-out infinite; animation-delay: -13.25s; }
-      .d23 { animation: pc 16s ease-in-out infinite; animation-delay: -12.75s; }
-      .d24 { animation: pc 16s ease-in-out infinite; animation-delay: -12.25s; }
-      .d25 { animation: pd 16s ease-in-out infinite; animation-delay: -15.5s; }
-      .d26 { animation: pd 16s ease-in-out infinite; animation-delay: -15.0s; }
-      .d27 { animation: pd 16s ease-in-out infinite; animation-delay: -14.5s; }
-      .d28 { animation: pd 16s ease-in-out infinite; animation-delay: -14.0s; }
-      .d29 { animation: pd 16s ease-in-out infinite; animation-delay: -13.5s; }
-      .d30 { animation: pd 16s ease-in-out infinite; animation-delay: -13.0s; }
-      .d31 { animation: pd 16s ease-in-out infinite; animation-delay: -12.5s; }
-      .d32 { animation: pd 16s ease-in-out infinite; animation-delay: -12.0s; }
-
-      @keyframes fade1 {
-        0%   { opacity: 0; } 12%  { opacity: 0; } 16%  { opacity: 1; }
-        75%  { opacity: 1; } 85%  { opacity: 0; } 100% { opacity: 0; }
-      }
+      @keyframes fade1 { 0%{opacity:0}12%{opacity:0}16%{opacity:1}75%{opacity:1}85%{opacity:0}100%{opacity:0} }
       .fade1 { animation: fade1 14s ease-in-out infinite; }
-      @keyframes fade2 {
-        0%   { opacity: 0; } 28%  { opacity: 0; } 32%  { opacity: 1; }
-        75%  { opacity: 1; } 85%  { opacity: 0; } 100% { opacity: 0; }
-      }
+      @keyframes fade2 { 0%{opacity:0}28%{opacity:0}32%{opacity:1}75%{opacity:1}85%{opacity:0}100%{opacity:0} }
       .fade2 { animation: fade2 14s ease-in-out infinite; }
-      @keyframes fade3 {
-        0%   { opacity: 0; } 44%  { opacity: 0; } 48%  { opacity: 1; }
-        75%  { opacity: 1; } 85%  { opacity: 0; } 100% { opacity: 0; }
-      }
+      @keyframes fade3 { 0%{opacity:0}44%{opacity:0}48%{opacity:1}75%{opacity:1}85%{opacity:0}100%{opacity:0} }
       .fade3 { animation: fade3 14s ease-in-out infinite; }
-      @keyframes fade4 {
-        0%   { opacity: 0; } 60%  { opacity: 0; } 64%  { opacity: 1; }
-        75%  { opacity: 1; } 85%  { opacity: 0; } 100% { opacity: 0; }
-      }
+      @keyframes fade4 { 0%{opacity:0}60%{opacity:0}64%{opacity:1}75%{opacity:1}85%{opacity:0}100%{opacity:0} }
       .fade4 { animation: fade4 14s ease-in-out infinite; }
       .text-layer { filter: drop-shadow(0 0 4px rgba(88,166,255,0.3)); }
     </style>
   </defs>
-
   <g>
-    <!-- pa: green → purple -->
-    <circle cx="40"  cy="20"  r="2.0" class="d01"/>
-    <circle cx="130" cy="45"  r="2.0" class="d02"/>
-    <circle cx="220" cy="15"  r="2.0" class="d03"/>
-    <circle cx="310" cy="50"  r="2.0" class="d04"/>
-    <circle cx="400" cy="22"  r="2.0" class="d05"/>
-    <circle cx="490" cy="55"  r="2.0" class="d06"/>
-    <circle cx="580" cy="18"  r="2.0" class="d07"/>
-    <circle cx="670" cy="48"  r="2.0" class="d08"/>
-    <!-- pb: gold → pink -->
-    <circle cx="70"  cy="35"  r="2.0" class="d09"/>
-    <circle cx="160" cy="10"  r="2.0" class="d10"/>
-    <circle cx="250" cy="42"  r="2.0" class="d11"/>
-    <circle cx="340" cy="12"  r="2.0" class="d12"/>
-    <circle cx="430" cy="38"  r="2.0" class="d13"/>
-    <circle cx="520" cy="8"   r="2.0" class="d14"/>
-    <circle cx="610" cy="35"  r="2.0" class="d15"/>
-    <circle cx="700" cy="15"  r="2.0" class="d16"/>
-    <!-- pc: blue → green -->
-    <circle cx="55"  cy="55"  r="2.0" class="d17"/>
-    <circle cx="145" cy="28"  r="2.0" class="d18"/>
-    <circle cx="235" cy="60"  r="2.0" class="d19"/>
-    <circle cx="325" cy="30"  r="2.0" class="d20"/>
-    <circle cx="415" cy="58"  r="2.0" class="d21"/>
-    <circle cx="505" cy="28"  r="2.0" class="d22"/>
-    <circle cx="595" cy="55"  r="2.0" class="d23"/>
-    <circle cx="685" cy="25"  r="2.0" class="d24"/>
-    <!-- pd: pink → gold -->
-    <circle cx="25"  cy="8"   r="2.0" class="d25"/>
-    <circle cx="115" cy="65"  r="2.0" class="d26"/>
-    <circle cx="205" cy="25"  r="2.0" class="d27"/>
-    <circle cx="295" cy="68"  r="2.0" class="d28"/>
-    <circle cx="385" cy="10"  r="2.0" class="d29"/>
-    <circle cx="475" cy="42"  r="2.0" class="d30"/>
-    <circle cx="565" cy="65"  r="2.0" class="d31"/>
-    <circle cx="655" cy="38"  r="2.0" class="d32"/>
+    <!-- Random positions, 8 classes mixed → no wave, just random sparkles -->
+    <circle cx="45"  cy="22"  r="2.0" class="pa"/>
+    <circle cx="712" cy="18"  r="2.0" class="pb"/>
+    <circle cx="189" cy="60"  r="2.0" class="pc"/>
+    <circle cx="634" cy="42"  r="2.0" class="pd"/>
+    <circle cx="98"  cy="8"   r="2.0" class="pe"/>
+    <circle cx="543" cy="65"  r="2.0" class="pf"/>
+    <circle cx="310" cy="15"  r="2.0" class="pg"/>
+    <circle cx="476" cy="48"  r="2.0" class="ph"/>
+    <circle cx="152" cy="35"  r="2.0" class="pa"/>
+    <circle cx="690" cy="55"  r="2.0" class="pb"/>
+    <circle cx="260" cy="42"  r="2.0" class="pc"/>
+    <circle cx="565" cy="12"  r="2.0" class="pd"/>
+    <circle cx="78"  cy="50"  r="2.0" class="pe"/>
+    <circle cx="410" cy="28"  r="2.0" class="pf"/>
+    <circle cx="340" cy="60"  r="2.0" class="pg"/>
+    <circle cx="605" cy="32"  r="2.0" class="ph"/>
+    <circle cx="230" cy="18"  r="2.0" class="pa"/>
+    <circle cx="520" cy="38"  r="2.0" class="pb"/>
+    <circle cx="130" cy="58"  r="2.0" class="pc"/>
+    <circle cx="670" cy="25"  r="2.0" class="pd"/>
+    <circle cx="35"  cy="68"  r="2.0" class="pe"/>
+    <circle cx="440" cy="10"  r="2.0" class="pf"/>
+    <circle cx="288" cy="32"  r="2.0" class="pg"/>
+    <circle cx="735" cy="48"  r="2.0" class="ph"/>
+    <circle cx="170" cy="10"  r="2.0" class="pa"/>
+    <circle cx="490" cy="62"  r="2.0" class="pb"/>
+    <circle cx="360" cy="22"  r="2.0" class="pc"/>
+    <circle cx="110" cy="40"  r="2.0" class="pd"/>
+    <circle cx="640" cy="58"  r="2.0" class="pe"/>
+    <circle cx="220" cy="50"  r="2.0" class="pf"/>
+    <circle cx="580" cy="25"  r="2.0" class="pg"/>
+    <circle cx="75"  cy="68"  r="2.0" class="ph"/>
+    <circle cx="530" cy="8"   r="2.0" class="pa"/>
+    <circle cx="320" cy="48"  r="2.0" class="pb"/>
+    <circle cx="650" cy="36"  r="2.0" class="pc"/>
+    <circle cx="245" cy="65"  r="2.0" class="pd"/>
+    <circle cx="460" cy="20"  r="2.0" class="pe"/>
+    <circle cx="140" cy="28"  r="2.0" class="pf"/>
+    <circle cx="700" cy="42"  r="2.0" class="pg"/>
+    <circle cx="385" cy="55"  r="2.0" class="ph"/>
+    <circle cx="500" cy="72"  r="2.0" class="pa"/>
+    <circle cx="195" cy="38"  r="2.0" class="pb"/>
+    <circle cx="560" cy="48"  r="2.0" class="pc"/>
+    <circle cx="90"  cy="30"  r="2.0" class="pd"/>
+    <circle cx="420" cy="42"  r="2.0" class="pe"/>
+    <circle cx="660" cy="12"  r="2.0" class="pf"/>
+    <circle cx="275" cy="55"  r="2.0" class="pg"/>
+    <circle cx="350" cy="8"   r="2.0" class="ph"/>
+    <circle cx="160" cy="48"  r="2.0" class="pa"/>
+    <circle cx="620" cy="62"  r="2.0" class="pb"/>
+    <circle cx="440" cy="68"  r="2.0" class="pc"/>
+    <circle cx="290" cy="10"  r="2.0" class="pd"/>
+    <circle cx="540" cy="28"  r="2.0" class="pe"/>
+    <circle cx="120" cy="18"  r="2.0" class="pf"/>
+    <circle cx="720" cy="35"  r="2.0" class="pg"/>
+    <circle cx="50"  cy="42"  r="2.0" class="ph"/>
+    <circle cx="378" cy="38"  r="2.0" class="pa"/>
+    <circle cx="210" cy="28"  r="2.0" class="pb"/>
+    <circle cx="590" cy="55"  r="2.0" class="pc"/>
+    <circle cx="738" cy="62"  r="2.0" class="pd"/>
   </g>
-
   <g class="text-layer">
-    <g class="fade1">
-      <text x="380" y="32" fill="#58a6ff" font-size="18" text-anchor="middle">Systems engineering for AI agents.</text>
-    </g>
-    <g class="fade2">
-      <text x="380" y="57" fill="#58a6ff" font-size="18" text-anchor="middle">Operating contract. Workflow discipline.</text>
-    </g>
-    <g class="fade3">
-      <text x="380" y="82" fill="#58a6ff" font-size="18" text-anchor="middle">Knowledge propagation. Shared context.</text>
-    </g>
-    <g class="fade4">
-      <text x="380" y="109" fill="#58a6ff" font-size="18" text-anchor="middle">One hub. One contract. N repos. Shared knowledge flows both ways.</text>
-    </g>
+    <g class="fade1"><text x="380" y="32" fill="#58a6ff" font-size="18" text-anchor="middle">Systems engineering for AI agents.</text></g>
+    <g class="fade2"><text x="380" y="57" fill="#58a6ff" font-size="18" text-anchor="middle">Operating contract. Workflow discipline.</text></g>
+    <g class="fade3"><text x="380" y="82" fill="#58a6ff" font-size="18" text-anchor="middle">Knowledge propagation. Shared context.</text></g>
+    <g class="fade4"><text x="380" y="109" fill="#58a6ff" font-size="18" text-anchor="middle">One hub. One contract. N repos. Shared knowledge flows both ways.</text></g>
   </g>
 </svg>
