@@ -190,6 +190,26 @@ This is especially valuable for:
 - Loading states and transitions
 - Empty states and error states
 
+## Page Object Model (POM)
+
+**Source:** [Playwright -- Page Object Models](https://playwright.dev/docs/pom)
+
+For structured test suites, use page objects to encapsulate element selectors
+and interaction methods. Each page or component becomes a class -- tests call
+`loginPage.login(email, pw)` instead of writing raw selectors.
+
+Load the full POM guide as L3:
+`bash ./scripts/skill-toolset.sh resource browser-testing-with-devtools references/page-object-model.md`
+
+Key principles:
+- **Locators are readonly properties** (not methods) -- avoids re-querying the DOM on every access
+- **Methods return void or state** -- page objects define actions, not assertions
+- **One file per page/component** -- keeps selectors isolated when UI changes
+- **Component-level POM** for shared UI (nav, search, footer) -- reuse across page objects
+
+For this workspace's `scripts/browser.sh`, wrap Playwright MCP calls in page
+objects for repeatable multi-step flows.
+
 ## Console Analysis Patterns
 
 ### What to Look For

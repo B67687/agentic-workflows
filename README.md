@@ -164,7 +164,7 @@ See [docs/workflow.md](docs/workflow.md) for the full system, [docs/hub-quicksta
 | Tool | Use |
 |------|-----|
 | [tree-sitter](https://github.com/tree-sitter/tree-sitter) | Repo-map generation |
-| [Playwright](https://github.com/microsoft/playwright) | Browser automation |
+| [*Playwright](https://github.com/microsoft/playwright) | Browser automation (POM) |
 | [RTK](https://github.com/ericseppanen/rtk) | File counting & analysis |
 | [git-filter-repo](https://github.com/newren/git-filter-repo) | Git history management |
 | [promptfoo](https://github.com/promptfoo/promptfoo) | Prompt evaluation |
