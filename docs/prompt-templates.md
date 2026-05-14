@@ -90,6 +90,30 @@ Full version: [repo-workflows.md](prompt-library/repo-workflows.md#14b-source-re
 | [voice-and-humanization.md](prompt-library/voice-and-humanization.md) | Beginner/amateur reasoning, humanization, AI detection references, language-specific writing patterns |
 | [visualization.md](prompt-library/visualization.md) | Excalidraw/diagram generation prompt |
 
+## Claude Code Instruction Pattern
+
+**Source:** [Claude Code](https://code.claude.com/docs/en/overview) --
+[Claude Code plugins](https://github.com/anthropics/claude-code) (123k stars).
+
+Claude Code uses a layered instruction system. The same pattern applies to
+any agentic coding tool (OpenCode, Codex CLI, etc.):
+
+| Layer | File | Scope | Persistence |
+|-------|------|-------|-------------|
+| Project instructions | `CLAUDE.md` | Project-wide, explicit | Committed to repo |
+| Auto memory | `.claude/memory/` | Session-learned preferences | Auto-managed |
+| Skills | `.claude/skills/` | Reusable workflows (sharable) | Committed or shared |
+| Hooks | `.claude/hooks/` | Event-triggered actions | Project-local |
+
+**Pattern:** Instructions accumulate hierarchically, not redundantly. Write
+things specific to the project in `CLAUDE.md`. Let auto-memory handle
+implicit preferences. Package repeatable workflows as skills. Automate
+boilerplate safety checks as hooks.
+
+This repository follows the same pattern: `AGENTS.md` = project instructions,
+`.learnings.jsonl` = auto memory, `skills/` = reusable workflows,
+`scripts/hooks/` = event triggers.
+
 ## Maintenance Rule
 
 Keep this file as an index plus only the most reused short prompts.
