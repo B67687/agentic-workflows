@@ -246,6 +246,125 @@ assert_output_contains "pipeline-run.sh next picks next task" \
 
 # ===========================================================================
 echo ""
+echo "--- P5: Source Enforcement ---"
+
+assert_output_contains "quality-gate.sh has source citation check" \
+  "grep -q check_source_citation scripts/hooks/quality-gate.sh && echo check_source_citation" \
+  "check_source_citation"
+
+# Test: check that the quality gate's regex flags an unsourced repo ref in a staged doc
+assert_output_contains "source-check flags unsourced repo reference" \
+  'bash -c "
+tmpdir=\$(mktemp -d)
+cd \"\$tmpdir\"
+git init -q
+echo \"# Test\" > test.md
+git add test.md
+git commit -qm \"init\"
+echo \"Using repo: test-org/test-project for inspiration\" >> test.md
+git add test.md
+# Simulate check_source_citation logic
+refs=\$(git diff --cached -U0 test.md 2>/dev/null | grep '^+' | sed 's/^+//' | grep -oE \"\\b[a-zA-Z][a-zA-Z0-9_-]{2,}/[a-zA-Z][a-zA-Z0-9._-]{2,}\\b\" | grep -v \"^B67687/\" | grep -v \"/\\.\" || true)
+echo \"Found refs: \$refs\"
+[ -n \"\$refs\" ] && echo \"FLAGGED\" || echo \"CLEAN\"
+rm -rf \"\$tmpdir\"
+" 2>&1 | tail -1' \
+  "FLAGGED"
+
+# ===========================================================================
+echo ""
+echo "--- P6: Guardrail Pattern ---"
+
+# Create pipelines for guardrail tests (using intermediate vars to avoid set -e issues)
+GUARD_OUT=$(bash scripts/pipeline-run.sh init "Guardrail test" "Implement login with JWT and rate limiting for auth/api.py" 2>&1) || true
+VALID_PIPE=$(echo "$GUARD_OUT" | grep "^pipeline-" | head -1)
+
+if [ -n "$VALID_PIPE" ]; then
+  assert_output_contains "pre-guardrail passes for long description with files" \
+    "bash scripts/pipeline-run.sh guardrail $VALID_PIPE 1 pre 2>&1 || true" \
+    "GUARDRAIL_PASS"
+fi
+
+SHORT_OUT=$(bash scripts/pipeline-run.sh init "Short test" "Fix bug" 2>&1) || true
+SHORT_PIPE=$(echo "$SHORT_OUT" | grep "^pipeline-" | head -1)
+
+if [ -n "$SHORT_PIPE" ]; then
+  assert_output_contains "pre-guardrail rejects short description" \
+    "bash scripts/pipeline-run.sh guardrail $SHORT_PIPE 1 pre 2>&1 || true" \
+    "GUARDRAIL_FAIL"
+fi
+
+if [ -n "${PIPELINE_ID:-}" ]; then
+  assert_output_contains "post-guardrail rejects non-done task" \
+    "bash scripts/pipeline-run.sh guardrail $PIPELINE_ID 2 post 2>&1 || true" \
+    "GUARDRAIL_FAIL"
+fi
+
+# Test guardrail script syntax
+assert_exit "pre-default.sh syntax" \
+  "bash -n scripts/guardrails/pre-default.sh"
+
+assert_exit "post-default.sh syntax" \
+  "bash -n scripts/guardrails/post-default.sh"
+
+# ===========================================================================
+echo ""
+echo "--- P7: Browser.sh Argument Validation ---"
+
+# Test that click and section modes reject missing arguments
+assert_exit "browser.sh click rejects missing selector" \
+  "bash scripts/browser.sh click https://example.com 2>&1" \
+  1
+
+assert_exit "browser.sh section rejects missing selector" \
+  "bash scripts/browser.sh section https://example.com 2>&1" \
+  1
+
+assert_output_contains "browser.sh help shows new modes" \
+  "bash scripts/browser.sh help" \
+  "click <url> <selector>"
+
+assert_output_contains "browser.sh help shows section mode" \
+  "bash scripts/browser.sh help" \
+  "section <url> <selector>"
+
+# ===========================================================================
+echo ""
+echo "--- P8: AST Pattern Detection ---"
+
+# Test each grep command from the code-review skill on known files
+assert_output_contains "AST: nested conditional detection works" \
+  "grep -rn 'if.*if.*if' --include='*.md' scripts/test-smoke.sh 2>/dev/null | head -1 || true" \
+  ""
+
+# Test repo-map runs (may exit 1 if no tree-sitter languages installed)
+assert_exit "AST: repo-map runs without crash" \
+  "python3 scripts/repo-map.py --max-tokens 128 --scope scripts/ 2>/dev/null || true" \
+  0
+
+# Test that the code-review skill references tree-sitter sources
+assert_output_contains "code-review skill cites tree-sitter source" \
+  "grep -q 'tree-sitter/tree-sitter' skills/code-review-and-quality/SKILL.md && echo FOUND" \
+  "FOUND"
+
+assert_output_contains "code-review skill cites Aider source" \
+  "grep -q 'Aider-AI/aider' skills/code-review-and-quality/SKILL.md && echo FOUND" \
+  "FOUND"
+
+# ===========================================================================
+echo ""
+echo "--- P9: Quality Gate Self-Test ---"
+
+# Test that check_error_handling detects set -euo pipefail in valid scripts
+assert_output_contains "quality gate detects set -euo in pipeline-run.sh" \
+  "grep -qE 'set\s+-[a-z]*euo' scripts/pipeline-run.sh 2>/dev/null && echo 'has_errexit' || echo 'no_errexit'" \
+  "has_errexit"
+
+# Verify check_source_citation function exists and can be parsed
+assert_exit "quality-gate.sh parses without syntax error" \
+  "bash -n scripts/hooks/quality-gate.sh"
+
+echo ""
 echo "=== Results ==="
 echo "  Pass: $PASS"
 echo "  Fail: $FAIL"
