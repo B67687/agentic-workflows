@@ -1,59 +1,154 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 115" style="background:transparent; font-family:ui-monospace,'Cascadia Code','Fira Code',monospace;">
   <defs>
     <style>
-      /* 14s cycle: each line fades in sequentially, all fade out together */
-      @keyframes anim1 {
+      /* Dot matrix pulse animations */
+      @keyframes pulseA { 0%,100% { opacity: 0.06; } 50% { opacity: 0.6; } }
+      @keyframes pulseB { 0%,100% { opacity: 0.12; } 30% { opacity: 0.7; } 70% { opacity: 0.04; } }
+      @keyframes pulseC { 0%,100% { opacity: 0.04; } 40% { opacity: 0.5; } 80% { opacity: 0.1; } }
+      @keyframes pulseD { 0%,100% { opacity: 0.1; } 25% { opacity: 0.08; } 60% { opacity: 0.65; } }
+      @keyframes pulseE { 0%,100% { opacity: 0.07; } 35% { opacity: 0.55; } 65% { opacity: 0.03; } }
+      @keyframes pulseF { 0%,100% { opacity: 0.15; } 45% { opacity: 0.05; } 75% { opacity: 0.6; } }
+      .pa { animation: pulseA 3.7s ease-in-out infinite; }
+      .pb { animation: pulseB 4.2s ease-in-out infinite; }
+      .pc { animation: pulseC 2.9s ease-in-out infinite; }
+      .pd { animation: pulseD 3.4s ease-in-out infinite; }
+      .pe { animation: pulseE 5.1s ease-in-out infinite; }
+      .pf { animation: pulseF 3.1s ease-in-out infinite; }
+
+      /* Text animations (same as before) */
+      @keyframes fade1 {
         0%   { opacity: 0; transform: translateY(6px); }
-        8%   { opacity: 0; transform: translateY(6px); }
+        8%   { opacity: 0; }
         12%  { opacity: 1; transform: translateY(0); }
-        75%  { opacity: 1; transform: translateY(0); }
+        75%  { opacity: 1; }
         85%  { opacity: 0; transform: translateY(-4px); }
-        100% { opacity: 0; transform: translateY(-4px); }
+        100% { opacity: 0; }
       }
-      @keyframes anim2 {
+      @keyframes fade2 {
         0%   { opacity: 0; transform: translateY(6px); }
-        22%  { opacity: 0; transform: translateY(6px); }
+        22%  { opacity: 0; }
         26%  { opacity: 1; transform: translateY(0); }
-        75%  { opacity: 1; transform: translateY(0); }
+        75%  { opacity: 1; }
         85%  { opacity: 0; transform: translateY(-4px); }
-        100% { opacity: 0; transform: translateY(-4px); }
+        100% { opacity: 0; }
       }
-      @keyframes anim3 {
+      @keyframes fade3 {
         0%   { opacity: 0; transform: translateY(6px); }
-        38%  { opacity: 0; transform: translateY(6px); }
+        38%  { opacity: 0; }
         42%  { opacity: 1; transform: translateY(0); }
-        75%  { opacity: 1; transform: translateY(0); }
+        75%  { opacity: 1; }
         85%  { opacity: 0; transform: translateY(-4px); }
-        100% { opacity: 0; transform: translateY(-4px); }
+        100% { opacity: 0; }
       }
-      @keyframes anim4 {
+      @keyframes fade4 {
         0%   { opacity: 0; transform: translateY(6px); }
-        54%  { opacity: 0; transform: translateY(6px); }
+        54%  { opacity: 0; }
         58%  { opacity: 1; transform: translateY(0); }
-        75%  { opacity: 1; transform: translateY(0); }
+        75%  { opacity: 1; }
         85%  { opacity: 0; transform: translateY(-4px); }
-        100% { opacity: 0; transform: translateY(-4px); }
+        100% { opacity: 0; }
       }
-      .l1 { animation: anim1 14s ease-in-out infinite; }
-      .l2 { animation: anim2 14s ease-in-out infinite; }
-      .l3 { animation: anim3 14s ease-in-out infinite; }
-      .l4 { animation: anim4 14s ease-in-out infinite; }
+      .l1 { animation: fade1 14s ease-in-out infinite; }
+      .l2 { animation: fade2 14s ease-in-out infinite; }
+      .l3 { animation: fade3 14s ease-in-out infinite; }
+      .l4 { animation: fade4 14s ease-in-out infinite; }
+      .text-layer { filter: drop-shadow(0 0 4px rgba(88,166,255,0.3)); }
     </style>
   </defs>
 
-  <g class="l1">
-    <text x="380" y="32" fill="#58a6ff" font-size="18" text-anchor="middle">Systems engineering for AI agents.</text>
+  <!-- Dot matrix background -->
+  <g fill="#58a6ff">
+    <circle cx="19" cy="12" r="2.0" class="pa"/><circle cx="57" cy="12" r="1.5" class="pb"/>
+    <circle cx="95" cy="12" r="2.0" class="pc"/><circle cx="133" cy="12" r="1.5" class="pd"/>
+    <circle cx="171" cy="12" r="2.0" class="pe"/><circle cx="209" cy="12" r="2.0" class="pf"/>
+    <circle cx="247" cy="12" r="1.5" class="pa"/><circle cx="285" cy="12" r="2.0" class="pb"/>
+    <circle cx="323" cy="12" r="1.5" class="pc"/><circle cx="361" cy="12" r="2.0" class="pd"/>
+    <circle cx="399" cy="12" r="2.0" class="pe"/><circle cx="437" cy="12" r="1.5" class="pf"/>
+    <circle cx="475" cy="12" r="2.0" class="pa"/><circle cx="513" cy="12" r="1.5" class="pb"/>
+    <circle cx="551" cy="12" r="2.0" class="pc"/><circle cx="589" cy="12" r="1.5" class="pd"/>
+    <circle cx="627" cy="12" r="2.0" class="pe"/><circle cx="665" cy="12" r="1.5" class="pf"/>
+    <circle cx="703" cy="12" r="2.0" class="pa"/><circle cx="741" cy="12" r="1.5" class="pb"/>
+
+    <circle cx="19" cy="28" r="1.5" class="pf"/><circle cx="57" cy="28" r="2.0" class="pe"/>
+    <circle cx="95" cy="28" r="1.5" class="pd"/><circle cx="133" cy="28" r="2.0" class="pc"/>
+    <circle cx="171" cy="28" r="1.5" class="pb"/><circle cx="209" cy="28" r="1.5" class="pa"/>
+    <circle cx="247" cy="28" r="2.0" class="pf"/><circle cx="285" cy="28" r="1.5" class="pe"/>
+    <circle cx="323" cy="28" r="2.0" class="pd"/><circle cx="361" cy="28" r="1.5" class="pc"/>
+    <circle cx="399" cy="28" r="1.5" class="pb"/><circle cx="437" cy="28" r="2.0" class="pa"/>
+    <circle cx="475" cy="28" r="1.5" class="pf"/><circle cx="513" cy="28" r="2.0" class="pe"/>
+    <circle cx="551" cy="28" r="1.5" class="pd"/><circle cx="589" cy="28" r="2.0" class="pc"/>
+    <circle cx="627" cy="28" r="1.5" class="pb"/><circle cx="665" cy="28" r="1.5" class="pa"/>
+    <circle cx="703" cy="28" r="2.0" class="pf"/><circle cx="741" cy="28" r="1.5" class="pe"/>
+
+    <circle cx="19" cy="44" r="2.0" class="pc"/><circle cx="57" cy="44" r="1.5" class="pd"/>
+    <circle cx="95" cy="44" r="2.0" class="pe"/><circle cx="133" cy="44" r="1.5" class="pf"/>
+    <circle cx="171" cy="44" r="2.0" class="pa"/><circle cx="209" cy="44" r="1.5" class="pb"/>
+    <circle cx="247" cy="44" r="2.0" class="pc"/><circle cx="285" cy="44" r="2.0" class="pd"/>
+    <circle cx="323" cy="44" r="1.5" class="pe"/><circle cx="361" cy="44" r="2.0" class="pf"/>
+    <circle cx="399" cy="44" r="1.5" class="pa"/><circle cx="437" cy="44" r="2.0" class="pb"/>
+    <circle cx="475" cy="44" r="2.0" class="pc"/><circle cx="513" cy="44" r="1.5" class="pd"/>
+    <circle cx="551" cy="44" r="2.0" class="pe"/><circle cx="589" cy="44" r="1.5" class="pf"/>
+    <circle cx="627" cy="44" r="2.0" class="pa"/><circle cx="665" cy="44" r="2.0" class="pb"/>
+    <circle cx="703" cy="44" r="1.5" class="pc"/><circle cx="741" cy="44" r="2.0" class="pd"/>
+
+    <circle cx="19" cy="60" r="1.5" class="pe"/><circle cx="57" cy="60" r="2.0" class="pf"/>
+    <circle cx="95" cy="60" r="1.5" class="pa"/><circle cx="133" cy="60" r="2.0" class="pb"/>
+    <circle cx="171" cy="60" r="1.5" class="pc"/><circle cx="209" cy="60" r="2.0" class="pd"/>
+    <circle cx="247" cy="60" r="1.5" class="pe"/><circle cx="285" cy="60" r="1.5" class="pf"/>
+    <circle cx="323" cy="60" r="2.0" class="pa"/><circle cx="361" cy="60" r="1.5" class="pb"/>
+    <circle cx="399" cy="60" r="2.0" class="pc"/><circle cx="437" cy="60" r="1.5" class="pd"/>
+    <circle cx="475" cy="60" r="2.0" class="pe"/><circle cx="513" cy="60" r="2.0" class="pf"/>
+    <circle cx="551" cy="60" r="1.5" class="pa"/><circle cx="589" cy="60" r="2.0" class="pb"/>
+    <circle cx="627" cy="60" r="1.5" class="pc"/><circle cx="665" cy="60" r="2.0" class="pd"/>
+    <circle cx="703" cy="60" r="2.0" class="pe"/><circle cx="741" cy="60" r="1.5" class="pf"/>
+
+    <circle cx="19" cy="76" r="2.0" class="pa"/><circle cx="57" cy="76" r="1.5" class="pb"/>
+    <circle cx="95" cy="76" r="2.0" class="pc"/><circle cx="133" cy="76" r="1.5" class="pd"/>
+    <circle cx="171" cy="76" r="2.0" class="pe"/><circle cx="209" cy="76" r="1.5" class="pf"/>
+    <circle cx="247" cy="76" r="2.0" class="pa"/><circle cx="285" cy="76" r="1.5" class="pb"/>
+    <circle cx="323" cy="76" r="2.0" class="pc"/><circle cx="361" cy="76" r="2.0" class="pd"/>
+    <circle cx="399" cy="76" r="1.5" class="pe"/><circle cx="437" cy="76" r="2.0" class="pf"/>
+    <circle cx="475" cy="76" r="1.5" class="pa"/><circle cx="513" cy="76" r="2.0" class="pb"/>
+    <circle cx="551" cy="76" r="2.0" class="pc"/><circle cx="589" cy="76" r="1.5" class="pd"/>
+    <circle cx="627" cy="76" r="2.0" class="pe"/><circle cx="665" cy="76" r="1.5" class="pf"/>
+    <circle cx="703" cy="76" r="2.0" class="pa"/><circle cx="741" cy="76" r="2.0" class="pb"/>
+
+    <circle cx="19" cy="92" r="1.5" class="pf"/><circle cx="57" cy="92" r="2.0" class="pe"/>
+    <circle cx="95" cy="92" r="1.5" class="pd"/><circle cx="133" cy="92" r="2.0" class="pc"/>
+    <circle cx="171" cy="92" r="1.5" class="pb"/><circle cx="209" cy="92" r="2.0" class="pa"/>
+    <circle cx="247" cy="92" r="1.5" class="pf"/><circle cx="285" cy="92" r="2.0" class="pe"/>
+    <circle cx="323" cy="92" r="1.5" class="pd"/><circle cx="361" cy="92" r="2.0" class="pc"/>
+    <circle cx="399" cy="92" r="2.0" class="pb"/><circle cx="437" cy="92" r="1.5" class="pa"/>
+    <circle cx="475" cy="92" r="2.0" class="pf"/><circle cx="513" cy="92" r="1.5" class="pe"/>
+    <circle cx="551" cy="92" r="2.0" class="pd"/><circle cx="589" cy="92" r="2.0" class="pc"/>
+    <circle cx="627" cy="92" r="1.5" class="pb"/><circle cx="665" cy="92" r="2.0" class="pa"/>
+    <circle cx="703" cy="92" r="1.5" class="pf"/><circle cx="741" cy="92" r="2.0" class="pe"/>
+
+    <circle cx="19" cy="108" r="2.0" class="pb"/><circle cx="57" cy="108" r="1.5" class="pc"/>
+    <circle cx="95" cy="108" r="2.0" class="pd"/><circle cx="133" cy="108" r="2.0" class="pe"/>
+    <circle cx="171" cy="108" r="1.5" class="pf"/><circle cx="209" cy="108" r="2.0" class="pa"/>
+    <circle cx="247" cy="108" r="2.0" class="pb"/><circle cx="285" cy="108" r="1.5" class="pc"/>
+    <circle cx="323" cy="108" r="2.0" class="pd"/><circle cx="361" cy="108" r="1.5" class="pe"/>
+    <circle cx="399" cy="108" r="2.0" class="pf"/><circle cx="437" cy="108" r="1.5" class="pa"/>
+    <circle cx="475" cy="108" r="2.0" class="pb"/><circle cx="513" cy="108" r="2.0" class="pc"/>
+    <circle cx="551" cy="108" r="1.5" class="pd"/><circle cx="589" cy="108" r="2.0" class="pe"/>
+    <circle cx="627" cy="108" r="1.5" class="pf"/><circle cx="665" cy="108" r="2.0" class="pa"/>
+    <circle cx="703" cy="108" r="2.0" class="pb"/><circle cx="741" cy="108" r="2.0" class="pc"/>
   </g>
 
-  <g class="l2">
-    <text x="380" y="57" fill="#58a6ff" font-size="18" text-anchor="middle">Operating contract. Workflow discipline.</text>
-  </g>
-
-  <g class="l3">
-    <text x="380" y="82" fill="#58a6ff" font-size="18" text-anchor="middle">Knowledge propagation. Shared context.</text>
-  </g>
-
-  <g class="l4">
-    <text x="380" y="109" fill="#58a6ff" font-size="18" font-weight="bold" text-anchor="middle">One hub. One contract. N repos. Shared knowledge flows both ways.</text>
+  <!-- Text layer -->
+  <g class="text-layer">
+    <g class="l1">
+      <text x="380" y="32" fill="#58a6ff" font-size="18" text-anchor="middle">Systems engineering for AI agents.</text>
+    </g>
+    <g class="l2">
+      <text x="380" y="57" fill="#58a6ff" font-size="18" text-anchor="middle">Operating contract. Workflow discipline.</text>
+    </g>
+    <g class="l3">
+      <text x="380" y="82" fill="#58a6ff" font-size="18" text-anchor="middle">Knowledge propagation. Shared context.</text>
+    </g>
+    <g class="l4">
+      <text x="380" y="109" fill="#58a6ff" font-size="18" font-weight="bold" text-anchor="middle">One hub. One contract. N repos. Shared knowledge flows both ways.</text>
+    </g>
   </g>
 </svg>
