@@ -72,10 +72,10 @@ bash ./scripts/propagate.sh all --apply    # push templates to your repos
 <h2 id="how-it-works">How It Works</h2>
 
 <h3>Define</h3>
-`AGENTS.md` sets the operating contract. Every agent reads it on entry. Skills, commands, and propagation templates inherit from this single source of truth.
+<a href="AGENTS.md"><code>AGENTS.md</code></a> sets the operating contract. Every agent reads it on entry. Skills, commands, and propagation templates inherit from this single source of truth.
 
 <h3>Propagate</h3>
-`propagate.sh` pushes templates to topic folders. One change in the hub updates 15+ repos. Commands, scripts, and configs all synced.
+<a href="scripts/propagate.sh"><code>propagate.sh</code></a> pushes templates to topic folders. One change in the hub updates 15+ repos. Commands, scripts, and configs all synced.
 
 <h3>Harvest</h3>
 Learnings flow back to the hub via insight harvesting. Cross-project memory loops keep knowledge circulating instead of siloed in individual projects.
@@ -143,7 +143,7 @@ See [docs/workflow.md](docs/workflow.md) for the full system, [docs/hub-quicksta
 
 <h3>Full Ecosystem</h3>
 
-<details>
+<details open>
 <summary>50+ projects across 8 more categories</summary>
 
 | Category | Projects |
@@ -160,7 +160,7 @@ See [docs/workflow.md](docs/workflow.md) for the full system, [docs/hub-quicksta
 
 <h3>Tools Used</h3>
 
-<details>
+<details open>
 <summary>Software that helped build this project</summary>
 
 | Tool | Use |
