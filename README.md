@@ -33,8 +33,6 @@
       <img src="docs/hub-architecture-light.svg" width="100%" alt="Hub Architecture Diagram" style="max-width:900px;">
     </picture>
   </a>
-  <br>
-  <sub>SVG architecture diagram ~ <a href="docs/hub-architecture.svg">view full size</a></sub>
 </p>
 
 <p align="center">
