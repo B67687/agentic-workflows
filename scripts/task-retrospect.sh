@@ -268,7 +268,10 @@ if command -v ruflo &>/dev/null; then
   echo "  ✓ Pattern recorded to ruflo memory"
 fi
 
-# === 4. Try agentmemory (best-effort, don't fail) ===
+# === 4. Consolidate memory (Mem0 pattern) ===
+bash "$REPO_ROOT/scripts/consolidate-memory.sh" 2>&1 | tail -1 || true
+
+# === 5. Try agentmemory (best-effort, don't fail) ===
 # Check if the MCP server is running by looking for node agentmemory
 if command -v npx &>/dev/null && npx --yes @agentmemory/mcp --help &>/dev/null 2>&1; then
   # Save via memory_save --- can't call MCP from bash directly
@@ -276,7 +279,7 @@ if command -v npx &>/dev/null && npx --yes @agentmemory/mcp --help &>/dev/null 2
   echo "  ℹ  Run 'agentmemory memory_save' with content from .learnings.jsonl to persist cross-session"
 fi
 
-# === 5. Track last retrospect in session-state.json ===
+# === 6. Track last retrospect in session-state.json ===
 if [ -f "$REPO_ROOT/session-state.json" ]; then
   python3 -c "
 import json
