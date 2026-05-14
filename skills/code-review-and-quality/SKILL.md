@@ -3,7 +3,7 @@ name: code-review-and-quality
 description: Conducts multi-axis code review. Use before merging any change. Use when reviewing code written by yourself, another agent, or a human. Use when you need to assess code quality across multiple
   dimensions before it enters the main branch.
 compatibility: claude-code, cursor, opencode, gemini-cli, codex-cli
-allowed-tools: bash, read, grep, glob, edit
+allowed-tools: bash, read, grep, glob, edit, lsp
 metadata:
   companion-script: scripts/review-checklist.sh
   handoffs: debugging-and-error-recovery (to fix issues), code-simplification (to simplify)
@@ -32,15 +32,18 @@ Multi-dimensional code review with quality gates. Every change gets reviewed bef
 ## The Five-Axis Review
 
 Every review evaluates code across these dimensions. See the full checklist at
-`references/review-checklist.md` (L3) — load with:
+`references/review-checklist.md` (L3) --- load with:
 `bash ./scripts/skill-toolset.sh resource code-review-and-quality references/review-checklist.md`
 
 The five axes are:
-1. **Correctness** — spec match, edge cases, error paths, test quality
-2. **Readability & Simplicity** — clear names, straightforward flow, no dead code
-3. **Architecture** — pattern fit, module boundaries, dependency direction
-4. **Security** — input validation, secrets, auth, injection prevention
-5. **Performance** — N+1 queries, unbounded ops, sync/async correctness
+1. **Correctness** --- spec match, edge cases, error paths, test quality
+2. **Readability & Simplicity** --- clear names, straightforward flow, no dead code
+3. **Architecture** --- pattern fit, module boundaries, dependency direction
+4. **Security** --- input validation, secrets, auth, injection prevention
+5. **Performance** --- N+1 queries, unbounded ops, sync/async correctness
+
+Before the manual five-axis review, run automated AST analysis (Step 3.5) to catch
+structural issues the manual review might miss.
 
 ## Change Sizing
 
@@ -82,6 +85,43 @@ For each file changed:
 4. Security: Any vulnerabilities?
 5. Performance: Any bottlenecks?
 ```
+
+### Step 3.5: Automated Analysis (AST Pattern Detection)
+
+Augment manual review with automated pattern detection. These commands work
+without a full language server and catch structural issues the eye misses.
+
+```bash
+# 1. Deeply nested conditionals (complexity indicator)
+grep -rn 'if.*if.*if' --include='*.py' --include='*.ts' --include='*.js' .
+
+# 2. Function length indicators (excessive lines)
+for f in $(find . -name '*.py' -not -path './.*'); do
+  grep -n '^def \|^class ' "$f" | while IFS=: read linenum name; do
+    nextline=$(tail -n +$((linenum+1)) "$f" | grep -n '^def \|^class \|^$' | head -1 | cut -d: -f1)
+    [ -n "$nextline" ] && [ "$nextline" -gt 60 ] && echo "LONG: $f:$linenum ($nextline lines)"
+  done
+done
+
+# 3. Hardcoded configuration (magic numbers/strings)
+grep -rnE '\b[0-9]{4,}\b' --include='*.py' --include='*.ts' --include='*.js' . | grep -v '__pycache__\|node_modules'
+
+# 4. Unused imports (single-file check)
+for f in $(find . -name '*.py' -not -path './.*'); do
+  for imp in $(grep '^import \|^from ' "$f" 2>/dev/null | sed 's/^import //;s/^from \([^ ]*\) import.*/\1/' | tr -d ' '); do
+    mod=$(echo "$imp" | sed 's/\..*$//')
+    grep -q "$mod\." "$f" 2>/dev/null || echo "UNUSED: $mod in $f"
+  done
+done
+
+# 5. Structure overview via repo-map (uses tree-sitter AST if installed)
+if [ -f "scripts/repo-map.py" ]; then
+  python3 scripts/repo-map.py --max-tokens 512 --scope "$(pwd)" 2>/dev/null || true
+fi
+```
+
+**Source pattern:** AST-based code analysis inspired by [tree-sitter/tree-sitter](https://github.com/tree-sitter/tree-sitter)
+and the code understanding approaches in Aider's repo-map ([Aider-AI/aider](https://github.com/Aider-AI/aider)).
 
 ### Step 4: Categorize Findings
 

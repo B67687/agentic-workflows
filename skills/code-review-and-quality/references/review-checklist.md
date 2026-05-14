@@ -2,6 +2,16 @@
 
 The five-axis review framework. Evaluate every change across these dimensions.
 
+## 0. Automated Analysis (Run Before Manual Review)
+
+See SKILL.md Step 3.5 for full commands.
+
+- [ ] Deeply nested conditionals checked (`grep -rn 'if.*if.*if'`)
+- [ ] Overlong functions flagged
+- [ ] Magic numbers/hardcoded values detected
+- [ ] Unused imports identified
+- [ ] Structure reviewed via repo-map (tree-sitter AST if available)
+
 ## 1. Correctness
 
 Does the code do what it claims to do?
