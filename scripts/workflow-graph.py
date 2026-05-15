@@ -987,7 +987,9 @@ HTML = r'''<!DOCTYPE html>
     data.edges.update(EDGES.filter(function(e) { return !e.hidden; }));
   });
 
-  // Freeze
+  // ================================================================
+  // SECTION: Freeze / Fit controls
+  // ================================================================
   document.getElementById('btnFreeze').addEventListener('click', function() {
     physicsFrozen = !physicsFrozen;
     network.setOptions({ physics: !physicsFrozen });
@@ -1000,7 +1002,9 @@ HTML = r'''<!DOCTYPE html>
     network.fit({ animation: true, duration: 300 });
   });
 
-  // Search
+  // ================================================================
+  // SECTION: Search
+  // ================================================================
   let searchTimeout;
   const searchInput = document.getElementById('search');
   searchInput.addEventListener('input', function() {
@@ -1019,7 +1023,9 @@ HTML = r'''<!DOCTYPE html>
     }, 150);
   });
 
-  // Click info + gate expand
+  // ================================================================
+  // SECTION: Click info panel + Gate expand
+  // ================================================================
   network.on('click', function(params) {
     const panel = document.getElementById('infoPanel');
     if (params.nodes.length > 0) {
@@ -1110,6 +1116,9 @@ HTML = r'''<!DOCTYPE html>
     }
   });
 
+  // ================================================================
+  // SECTION: Keyboard shortcuts
+  // ================================================================
   document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') {
       network.selectNodes([]); searchInput.value = '';
@@ -1119,15 +1128,22 @@ HTML = r'''<!DOCTYPE html>
     if ((e.ctrlKey || e.metaKey) && e.key === 'f') { e.preventDefault(); searchInput.focus(); }
   });
 
-  // ── Legend click: dim/highlight by node group or edge type ──────────
+  // ================================================================
+  // SECTION: Legend click — dim/highlight by node group or edge type
+  // ================================================================
   let highlightGroup = null;
   let highlightEdge = null;
   const origColors = new Map();
+  const origFonts = new Map();
 
   function saveOrigColor(nodeId) {
     const n = data.nodes.get(nodeId);
-    if (n && !origColors.has(nodeId)) {
+    if (!n) return;
+    if (!origColors.has(nodeId)) {
       origColors.set(nodeId, JSON.parse(JSON.stringify(n.color)));
+    }
+    if (!origFonts.has(nodeId) && n.font) {
+      origFonts.set(nodeId, JSON.parse(JSON.stringify(n.font)));
     }
   }
 
@@ -1199,12 +1215,22 @@ HTML = r'''<!DOCTYPE html>
       const color = origColors.get(n.id);
       if (!color) return;
       const newColor = JSON.parse(JSON.stringify(color));
+      const newFont = origFonts.has(n.id) ? JSON.parse(JSON.stringify(origFonts.get(n.id))) : null;
       if (!match) {
         newColor.background = 'rgba(20,24,30,0.06)';
         newColor.border = 'rgba(40,48,60,0.15)';
         newColor.highlight = { background: 'rgba(20,24,30,0.1)', border: 'rgba(40,48,60,0.2)' };
+        if (newFont) { newFont.color = 'rgba(80,90,110,0.15)'; }
+      } else {
+        // Restore original font if it was dimmed
+        if (newFont && origFonts.has(n.id)) {
+          const orig = JSON.parse(JSON.stringify(origFonts.get(n.id)));
+          newFont.color = orig.color;
+        }
       }
-      data.nodes.update({ id: n.id, color: newColor });
+      const update = { id: n.id, color: newColor };
+      if (newFont) update.font = newFont;
+      data.nodes.update(update);
     });
 
     // Apply toggling to edges
@@ -1243,13 +1269,18 @@ HTML = r'''<!DOCTYPE html>
     highlightActive = false;
     highlightGroup = null;
     highlightEdge = null;
-    // Restore node colors
+    // Restore node colors and fonts
     origColors.forEach(function(color, nodeId) {
       if (data.nodes.get(nodeId)) {
-        data.nodes.update({ id: nodeId, color: JSON.parse(JSON.stringify(color)) });
+        const upd = { id: nodeId, color: JSON.parse(JSON.stringify(color)) };
+        if (origFonts.has(nodeId)) {
+          upd.font = JSON.parse(JSON.stringify(origFonts.get(nodeId)));
+        }
+        data.nodes.update(upd);
       }
     });
     origColors.clear();
+    origFonts.clear();
     // Restore edge colors
     EDGES.forEach(function(e) {
       if (e._origColor) e.color = JSON.parse(JSON.stringify(e._origColor));
@@ -1261,7 +1292,9 @@ HTML = r'''<!DOCTYPE html>
     });
   }
 
-  // Node type legend clicks
+  // ================================================================
+  // SECTION: Node type legend clicks
+  // ================================================================
   document.querySelectorAll('.legend-item').forEach(function(el) {
     el.addEventListener('click', function() {
       const grp = this.dataset.legendGroup;
@@ -1272,7 +1305,9 @@ HTML = r'''<!DOCTYPE html>
     });
   });
 
-  // Edge type legend clicks
+  // ================================================================
+  // SECTION: Edge type legend clicks
+  // ================================================================
   document.querySelectorAll('.legend-edge-item').forEach(function(el) {
     el.addEventListener('click', function() {
       const edge = this.dataset.legendEdge;

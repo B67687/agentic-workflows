@@ -283,10 +283,12 @@ if [ -f "$WGF" ]; then
   assert_file_contains "wg: highlightActive flag" "$WGF" "highlightActive"
   assert_file_contains "wg: hover disabled when highlight active" "$WGF" "if (highlightActive) return;"
 
-  # 4. Smart connected-node/edge dimming
+  # 4. Smart connected-node/edge dimming + font dimming
   assert_file_contains "wg: connected nodes from edge filter" "$WGF" "connectedNodes.add(e.from)"
   assert_file_contains "wg: connected edges from node filter" "$WGF" "visibleEdgeIndices"
   assert_file_contains "wg: edge LegendType helper" "$WGF" "function edgeLegendType"
+  assert_file_contains "wg: font dimming on highlight" "$WGF" "newFont.color = 'rgba(80,90,110,0.15)'"
+  assert_file_contains "wg: font restore on highlight reset" "$WGF" "origFonts"
 
   # 5. SVG companion exists and is valid
   if [ -f "workflow-graph.svg" ]; then
