@@ -827,7 +827,7 @@ HTML = r'''<!DOCTYPE html>
     transition: opacity 0.2s;
   }
   .legend-item.dimmed, .legend-edge-item.dimmed {
-    opacity: 0.35;
+    opacity: 0.15;
   }
   .legend-item.active, .legend-edge-item.active {
     opacity: 1;
@@ -932,14 +932,21 @@ HTML = r'''<!DOCTYPE html>
   const network = new vis.Network(container, data, options);
   let physicsFrozen = false;
 
-  // Zoom limits: clamp scale between 0.12 and 4.0, preserve view position
+  // Zoom limits: hard stop at 0.12x and 4.0x, zero movement past boundary
   const MIN_ZOOM = 0.12;
   const MAX_ZOOM = 4.0;
-  network.on('zoom', function(params) {
-    const clamped = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, params.scale));
-    if (clamped !== params.scale) {
-      const pos = network.getViewPosition();
-      network.moveTo({ scale: clamped, position: pos, animation: false });
+  let zoomCorrecting = false;
+  network.on('zoom', function() {
+    if (zoomCorrecting) return;
+    const scale = network.getScale();
+    if (scale < MIN_ZOOM) {
+      zoomCorrecting = true;
+      network.zoomIn(MIN_ZOOM / scale, { animation: false });
+      zoomCorrecting = false;
+    } else if (scale > MAX_ZOOM) {
+      zoomCorrecting = true;
+      network.zoomOut(scale / MAX_ZOOM, { animation: false });
+      zoomCorrecting = false;
     }
   });
 
@@ -1137,9 +1144,9 @@ HTML = r'''<!DOCTYPE html>
       if (!color) return;
       const newColor = JSON.parse(JSON.stringify(color));
       if (!match) {
-        newColor.background = 'rgba(60,65,75,0.12)';
-        newColor.border = 'rgba(60,65,75,0.25)';
-        newColor.highlight = { background: 'rgba(60,65,75,0.2)', border: 'rgba(60,65,75,0.3)' };
+        newColor.background = 'rgba(20,24,30,0.06)';
+        newColor.border = 'rgba(40,48,60,0.15)';
+        newColor.highlight = { background: 'rgba(20,24,30,0.1)', border: 'rgba(40,48,60,0.2)' };
       }
       data.nodes.update({ id: n.id, color: newColor });
     });
@@ -1153,8 +1160,8 @@ HTML = r'''<!DOCTYPE html>
       if (!e._origColor) { e._origColor = JSON.parse(JSON.stringify(e.color)); e._origWidth = e.width; }
       const orig = e._origColor;
       if (!matchEdge) {
-        e.color = { color: 'rgba(60,65,75,0.08)' };
-        e.width = 0.3;
+        e.color = { color: 'rgba(20,24,30,0.02)' };
+        e.width = 0.1;
       } else {
         e.color = JSON.parse(JSON.stringify(orig));
         e.width = e._origWidth;
