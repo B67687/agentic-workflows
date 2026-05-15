@@ -19,9 +19,13 @@
 # =============================================================================
 set -euo pipefail
 
+COMPACT=${COMPACT:-1}
+
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 FEEDBACK_LOG="$REPO_ROOT/.runtime/quality-feedback.jsonl"
 ensure_dir() { mkdir -p "$(dirname "$FEEDBACK_LOG")"; }
+
+say() { [[ "$COMPACT" == "0" ]] && echo "$@"; :; }
 
 CMD="${1:-help}"
 
@@ -32,7 +36,7 @@ case "$CMD" in
     OUTPUT="${4:-}"
     ensure_dir
     echo "{\"ts\":\"$(date -u +%Y-%m-%dT%H:%M:%SZ)\",\"gate\":\"$GATE\",\"result\":\"$RESULT\",\"output\":$(echo "$OUTPUT" | python3 -c 'import sys,json; print(json.dumps(sys.stdin.read().strip()))' 2>/dev/null || echo "\"\""),\"session\":\"${SESSION_ID:-unknown}\"}" >> "$FEEDBACK_LOG"
-    echo "recorded: $GATE=$RESULT"
+    say "recorded: $GATE=$RESULT"
     ;;
 
   status)
@@ -41,25 +45,26 @@ case "$CMD" in
       exit 0
     fi
     TOTAL=$(wc -l < "$FEEDBACK_LOG" 2>/dev/null || echo 0)
-    # grep -c outputs "0" on stdout and exits 1 on no match.
-    # With pipefail enabled (from test harness), the pipe exit code is 1,
-    # which triggers || fallback and duplicates output. Avoid pipe entirely.
     FAILED=$(grep -c '"result":"failed"' "$FEEDBACK_LOG" 2>/dev/null || true)
     PASSED=$((TOTAL - FAILED))
 
-    echo "=== Quality Feedback Status ==="
-    echo "Total checks: $TOTAL"
-    echo "Passed:       $PASSED"
-    echo "Failed:       $FAILED"
+    say "=== Quality Feedback Status ==="
+    say "Total checks: $TOTAL"
+    say "Passed:       $PASSED"
+    say "Failed:       $FAILED"
 
     if [ "$FAILED" -gt 0 ] && [ "$TOTAL" -gt 0 ]; then
       PCT=$((FAILED * 100 / TOTAL))
-      echo "Failure rate: ${PCT}%"
+      say "Failure rate: ${PCT}%"
     fi
 
-    # Check for recurring failures (same gate failing 3+ consecutive)
-    echo ""
-    for gate in $(grep '"result":"failed"' "$FEEDBACK_LOG" 2>/dev/null | python3 -c "
+    if [ "$FAILED" -eq 0 ]; then
+      [[ "$COMPACT" == "1" ]] && echo "✓ All quality checks passed."
+    fi
+
+    if [ "$FAILED" -gt 0 ]; then
+      echo ""
+      for gate in $(grep '"result":"failed"' "$FEEDBACK_LOG" 2>/dev/null | python3 -c "
 import sys, json
 gates = {}
 for line in sys.stdin:
@@ -71,16 +76,17 @@ for line in sys.stdin:
 for g, c in sorted(gates.items(), key=lambda x: -x[1]):
     if c >= 3: print(f'{c}x {g}')
 " 2>/dev/null); do
-      echo "  ⚠ Recurring: $gate"
-    done
+        echo "  ⚠ Recurring: $gate"
+      done
+    fi
     ;;
 
   history)
     if [ ! -f "$FEEDBACK_LOG" ]; then
-      echo "No quality feedback recorded yet."
+      say "No quality feedback recorded yet."
       exit 0
     fi
-    echo "=== Recent Quality Events (last 20) ==="
+    say "=== Recent Quality Events (last 20) ==="
     tail -20 "$FEEDBACK_LOG" | python3 -c "
 import sys, json
 for line in sys.stdin:
@@ -94,8 +100,7 @@ for line in sys.stdin:
     ;;
 
   check)
-    # Run quality checks via MCP server if available, or directly
-    echo "=== Running Full Quality Check ==="
+    say "=== Running Full Quality Check ==="
 
     for gate in quality constitution comprehension; do
       result="passed"
@@ -127,7 +132,7 @@ for line in sys.stdin:
       bash "$0" record "$gate" "$result" "$output"
     done
 
-    echo ""
+    say ""
     bash "$0" status
     ;;
 

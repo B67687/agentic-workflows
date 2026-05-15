@@ -28,3 +28,5 @@ autopilot: task 1 done for pipeline pipeline-20260514155035
 {"ts": "2026-05-14T07:01:37Z", "insight": "CrewAI Flow pattern extraction: conditional routing (@router) added to pipeline-run.sh via route subcommand", "tags": "crewai-flow,entity:reference,entity:pipeline-run", "type": "learning", "source": "retrospect"}
 {"ts": "2026-05-14T07:10:24Z", "insight": "GraphRAG pattern extraction: community hierarchy + dual-mode query pattern added to SwarmVault schema and workflow docs", "tags": "graphrag", "type": "learning", "source": "retrospect"}
 autopilot: task 1 done for pipeline pipeline-20260514155342
+### Traffic Tracker Setup
+{"ts":"2026-05-15T07:34:40Z","insight":"GitHub Traffic Tracker (djdarcy/github-traffic-tracker) set up for permanent clone/view history — PAT needs both 'gist' and 'repo' scopes for traffic API access\n","tags":"traffic,analytics,github-actions","source":"agent"}

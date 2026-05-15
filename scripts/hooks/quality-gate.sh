@@ -16,7 +16,14 @@ YELLOW='\033[1;33m'
 GREEN='\033[0;32m'
 NC='\033[0m' # No Color
 
+COMPACT=${COMPACT:-1}
 FAILED=false
+
+# Suppress informational output in COMPACT mode, keep only findings
+say() {
+  [[ "$COMPACT" == "0" ]] && echo "$@"
+  :
+}
 
 # ---- Repo root ----
 REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || echo "$(cd "$(dirname "$0")/../.." && pwd)")"
@@ -39,11 +46,11 @@ print_issue() {
 # ---- Checks ----
 
 check_console_log() {
-  echo ":: Checking for console.log in staged code files..."
+  say ":: Checking for console.log in staged code files..."
   local files
   files=$(check_staged -- '*.ts' '*.tsx' '*.js' '*.jsx' '*.mjs' '*.py' 2>/dev/null || true)
   if [[ -z "$files" ]]; then
-    echo "   (no code files staged)"
+    say "   (no code files staged)"
     return
   fi
   while IFS= read -r file; do
@@ -55,11 +62,11 @@ check_console_log() {
 }
 
 check_secrets() {
-  echo ":: Checking for hardcoded secrets in staged files..."
+  say ":: Checking for hardcoded secrets in staged files..."
   local files
   files=$(check_staged 2>/dev/null || true)
   if [[ -z "$files" ]]; then
-    echo "   (no files staged)"
+    say "   (no files staged)"
     return
   fi
 
@@ -95,7 +102,7 @@ check_secrets() {
 }
 
 check_todo_fixme() {
-  echo ":: Checking for TODO/FIXME markers in staged code files..."
+  say ":: Checking for TODO/FIXME markers in staged code files..."
   local files
   files=$(check_staged -- '*.ts' '*.tsx' '*.js' '*.jsx' '*.mjs' '*.py' '*.go' '*.rs' '*.java' 2>/dev/null || true)
   if [[ -z "$files" ]]; then
@@ -110,7 +117,7 @@ check_todo_fixme() {
 }
 
 check_large_files() {
-  echo ":: Checking for large staged files..."
+  say ":: Checking for large staged files..."
   local large_files=()
   while IFS= read -r file; do
     [[ -z "$file" ]] && continue
@@ -127,11 +134,11 @@ check_large_files() {
 }
 
 check_error_handling() {
-  echo ":: Checking staged .sh files for error handling patterns..."
+  say ":: Checking staged .sh files for error handling patterns..."
   local files
   files=$(check_staged -- '*.sh' 2>/dev/null || true)
   if [[ -z "$files" ]]; then
-    echo "   (no .sh files staged)"
+    say "   (no .sh files staged)"
     return
   fi
 
@@ -170,11 +177,11 @@ check_shellcheck() {
     return
   fi
 
-  echo ":: Running shellcheck on staged .sh files..."
+  say ":: Running shellcheck on staged .sh files..."
   local files
   files=$(check_staged -- '*.sh' 2>/dev/null || true)
   if [[ -z "$files" ]]; then
-    echo "   (no .sh files staged)"
+    say "   (no .sh files staged)"
     return
   fi
 
@@ -205,11 +212,11 @@ check_shellcheck() {
 }
 
 check_source_citation() {
-  echo ":: Checking staged docs for unsourced external references..."
+  say ":: Checking staged docs for unsourced external references..."
   local files
   files=$(check_staged -- 'README.md' 'docs/*.md' 'workflow/*.md' 'commands/*.md' 'research/*.md' 2>/dev/null || true)
   if [[ -z "$files" ]]; then
-    echo "   (no doc files staged)"
+    say "   (no doc files staged)"
     return
   fi
 
@@ -250,7 +257,7 @@ check_source_citation() {
   done <<< "$files"
 
   if [[ "$issues" -gt 0 ]]; then
-    echo "   See workflow/source-citation.md for citation requirements."
+    say "   See workflow/source-citation.md for citation requirements."
   fi
 }
 
@@ -269,7 +276,7 @@ check_unaddressed_dissent() {
     return
   fi
 
-  echo ":: Checking for unaddressed plan dissent..."
+  say ":: Checking for unaddressed plan dissent..."
   local py_script='
 import json, sys
 
@@ -315,17 +322,17 @@ if blocking:
 }
 
 check_ascii() {
-  echo ":: Checking for non-ASCII characters in staged text files..."
+  say ":: Checking for non-ASCII characters in staged text files..."
   local files
   files=$(check_staged -- '*.md' '*.sh' '*.py' '*.json' '*.yaml' '*.yml' '*.txt' '*.toml' 2>/dev/null || true)
   if [[ -z "$files" ]]; then
-    echo "   (no text files staged)"
+    say "   (no text files staged)"
     return
   fi
 
   local norm_script="$(dirname "$0")/../normalize-ascii.py"
   if [[ ! -f "$norm_script" ]]; then
-    echo "   (normalize-ascii.py not found, skipping)"
+    say "   (normalize-ascii.py not found, skipping)"
     return
   fi
 
@@ -354,7 +361,7 @@ check_pending_decisions() {
     return
   fi
 
-  echo ":: Checking for unresolved decisions..."
+  say ":: Checking for unresolved decisions..."
   local pending
   # Use python for reliable single-number output
   pending=$(python3 -c "
@@ -392,7 +399,7 @@ check_comprehension_evidence() {
     return
   fi
 
-  echo ":: Checking comprehension evidence..."
+  say ":: Checking comprehension evidence..."
   local verify_output
   verify_output=$(bash "$gate_script" verify "$evidence_file" 2>&1 || true)
 
@@ -418,7 +425,7 @@ check_constitution_validity() {
     return
   fi
 
-  echo ":: Checking constitution validity..."
+  say ":: Checking constitution validity..."
 
   # Check version format
   local version
@@ -440,7 +447,7 @@ check_constitution_validity() {
   fi
 
   # Check for ambiguity markers in staged md files
-  echo ":: Checking for [NEEDS CLARIFICATION] markers in staged files..."
+  say ":: Checking for [NEEDS CLARIFICATION] markers in staged files..."
   local ambiguous_files
   ambiguous_files=$(check_staged -- '*.md' 2>/dev/null | xargs grep -l '\[NEEDS CLARIFICATION' 2>/dev/null || true)
   if [[ -n "$ambiguous_files" ]]; then
@@ -457,10 +464,12 @@ check_constitution_validity() {
 
 # ---- Main ----
 
-echo "=========================================="
-echo "  Quality Gate"
-echo "=========================================="
-echo ""
+if [[ "$COMPACT" == "0" ]]; then
+  echo "=========================================="
+  echo "  Quality Gate"
+  echo "=========================================="
+  echo ""
+fi
 
 check_console_log
 check_secrets
@@ -475,14 +484,16 @@ check_comprehension_evidence
 check_pending_decisions
 check_constitution_validity
 
-echo ""
-echo "=========================================="
+if [[ "$COMPACT" == "0" ]]; then
+  echo ""
+  echo "=========================================="
+fi
 
 if [[ "$FAILED" == true ]]; then
   echo -e "${RED}✗ Quality gate FAILED --- fix ERRORS before committing.${NC}"
-  echo "  (WARN items are advisory, not blocking)"
+  [[ "$COMPACT" == "1" ]] && echo "  (WARN items are advisory, not blocking)"
   exit 1
 else
-  echo -e "${GREEN}✓ Quality gate PASSED${NC}"
+  [[ "$COMPACT" == "0" ]] && echo -e "${GREEN}✓ Quality gate PASSED${NC}"
   exit 0
 fi

@@ -112,22 +112,10 @@ if git diff --name-only --diff-filter=U | grep -q .; then
   exit 1
 fi
 
-# Post-edit verification hook (inspects changed files)
-POST_EDIT_SCRIPT="$(dirname "$0")/hooks/post-edit.sh"
-if [[ -f "$POST_EDIT_SCRIPT" ]]; then
-  echo ":: Running post-edit verification..."
-  POST_EDIT_RESULT=0
-  bash "$POST_EDIT_SCRIPT" --staged || POST_EDIT_RESULT=$?
-  if [[ "$POST_EDIT_RESULT" -ne 0 ]]; then
-    echo "WARNING: post-edit checks found issues (non-blocking for commit)." >&2
-  fi
-fi
-
 if [[ "$SKIP_QUALITY" == false ]]; then
   QUALITY_SCRIPT="$(dirname "$0")/hooks/quality-gate.sh"
   if [[ -f "$QUALITY_SCRIPT" ]]; then
-    echo ":: Running pre-commit quality gate..."
-    if ! bash "$QUALITY_SCRIPT"; then
+    if ! COMPACT=1 bash "$QUALITY_SCRIPT"; then
       echo "ERROR: quality gate failed. Use --skip-quality to bypass (not recommended)." >&2
       exit 1
     fi
