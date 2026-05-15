@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 780" width="100%" style="max-width:1000px; background:#0d1117; border-radius:12px; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">
 <rect width="1000" height="780" rx="12" fill="#0d1117"/>
-<defs><linearGradient id="pGrad" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#238636"/><stop offset="100%" stop-color="#1a7a2a"/></linearGradient><linearGradient id="gGrad" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#d29922"/><stop offset="100%" stop-color="#b8860b"/></linearGradient><linearGradient id="bGrad" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#1f6feb"/><stop offset="100%" stop-color="#1558b0"/></linearGradient><filter id="glow"><feDropShadow dx="0" dy="0" stdDeviation="3" flood-color="#58a6ff" flood-opacity="0.2"/></filter><marker id="arr" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#58a6ff"/></marker><marker id="arrM" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#8b949e"/></marker></defs>
+<defs><linearGradient id="pGrad" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#238636"/><stop offset="100%" stop-color="#1a7a2a"/></linearGradient><linearGradient id="gGrad" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#d29922"/><stop offset="100%" stop-color="#b8860b"/></linearGradient><linearGradient id="bGrad" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#1f6feb"/><stop offset="100%" stop-color="#1558b0"/></linearGradient><filter id="glow"><feDropShadow dx="0" dy="0" stdDeviation="3" flood-color="#58a6ff" flood-opacity="0.2"/></filter><marker id="arr" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#58a6ff"/></marker><marker id="arrM" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#8b949e"/></marker></defs>
 <text x="500" y="30" fill="#58a6ff" font-size="16" font-weight="bold" text-anchor="middle" letter-spacing="1">WORKFLOW DIAGRAM</text>
 <line x1="200" y1="42" x2="800" y2="42" stroke="#58a6ff" stroke-width="1" opacity="0.3"/>
 <rect x="30" y="55" width="940" height="140" rx="8" fill="none" stroke="#30363d" stroke-width="1" stroke-dasharray="6,3" opacity="0.5"/>
@@ -23,15 +23,15 @@
 <text x="732" y="113.0" text-anchor="middle" fill="#f0f6fc" font-size="9" font-weight="normal">CLAUDE.md</text>
 <rect x="810" y="90" width="130" height="30" rx="6" fill="#6e7681" stroke="#848d97" stroke-width="1.5"/>
 <text x="875" y="98.0" text-anchor="middle" fill="#f0f6fc" font-size="10" font-weight="bold">97 targets/folder</text>
-<line x1="165" y1="105" x2="190" y2="105" stroke="#58a6ff" stroke-width="1.5" marker-end="url(#arr)"/>
-<line x1="290" y1="105" x2="320" y2="105" stroke="#58a6ff" stroke-width="1.5" marker-end="url(#arr)"/>
-<line x1="420" y1="105" x2="450" y2="105" stroke="#58a6ff" stroke-width="1.5" marker-end="url(#arr)"/>
-<line x1="550" y1="105" x2="590" y2="92" stroke="#58a6ff" stroke-width="1.5" marker-end="url(#arrM)"/>
-<line x1="550" y1="105" x2="590" y2="118" stroke="#58a6ff" stroke-width="1.5" marker-end="url(#arrM)"/>
-<line x1="550" y1="105" x2="690" y2="92" stroke="#58a6ff" stroke-width="1.5" marker-end="url(#arrM)"/>
-<line x1="550" y1="105" x2="690" y2="118" stroke="#58a6ff" stroke-width="1.5" marker-end="url(#arrM)"/>
+<line x1="165" y1="105" x2="190" y2="105" stroke="#58a6ff" stroke-width="1.5" stroke-linecap="butt" marker-end="url(#arr)"/>
+<line x1="290" y1="105" x2="320" y2="105" stroke="#58a6ff" stroke-width="1.5" stroke-linecap="butt" marker-end="url(#arr)"/>
+<line x1="420" y1="105" x2="450" y2="105" stroke="#58a6ff" stroke-width="1.5" stroke-linecap="butt" marker-end="url(#arr)"/>
+<line x1="550" y1="105" x2="590" y2="92" stroke="#58a6ff" stroke-width="1.5" stroke-linecap="butt" marker-end="url(#arrM)"/>
+<line x1="550" y1="105" x2="590" y2="118" stroke="#58a6ff" stroke-width="1.5" stroke-linecap="butt" marker-end="url(#arrM)"/>
+<line x1="550" y1="105" x2="690" y2="92" stroke="#58a6ff" stroke-width="1.5" stroke-linecap="butt" marker-end="url(#arrM)"/>
+<line x1="550" y1="105" x2="690" y2="118" stroke="#58a6ff" stroke-width="1.5" stroke-linecap="butt" marker-end="url(#arrM)"/>
 <text x="620" y="82" fill="#3d444d" font-size="8" text-anchor="middle">Per topic folder</text>
-<line x1="750" y1="105" x2="810" y2="105" stroke="#58a6ff" stroke-width="1.5" marker-end="url(#arr)"/>
+<line x1="750" y1="105" x2="810" y2="105" stroke="#58a6ff" stroke-width="1.5" stroke-linecap="butt" marker-end="url(#arr)"/>
 <text x="780" y="98" fill="#3d444d" font-size="8" text-anchor="middle">×14 folders</text>
 <rect x="30" y="210" width="940" height="185" rx="8" fill="none" stroke="#30363d" stroke-width="1" stroke-dasharray="6,3" opacity="0.5"/>
 <text x="44" y="228" fill="#58a6ff" font-size="11" font-weight="bold">TASK EXECUTION PIPELINE</text>
@@ -73,14 +73,14 @@
 <polygon points="823,232 851,260 823,288 795,260" fill="#d29922" stroke="#bb8009" stroke-width="1.5"/>
 <text x="823" y="255.0" text-anchor="middle" fill="#f0f6fc" font-size="8" font-weight="bold">Session</text>
 <text x="823" y="265.0" text-anchor="middle" fill="#f0f6fc" font-size="8" font-weight="bold">Gate</text>
-<line x1="125" y1="260" x2="145" y2="260" stroke="#58a6ff" stroke-width="1.5" marker-end="url(#arr)"/>
-<line x1="272" y1="260" x2="285" y2="260" stroke="#58a6ff" stroke-width="1.5" marker-end="url(#arr)"/>
-<line x1="385" y1="260" x2="400" y2="260" stroke="#58a6ff" stroke-width="1.5" marker-end="url(#arr)"/>
-<line x1="500" y1="260" x2="515" y2="260" stroke="#58a6ff" stroke-width="1.5" marker-end="url(#arr)"/>
-<line x1="615" y1="260" x2="630" y2="260" stroke="#58a6ff" stroke-width="1.5" marker-end="url(#arr)"/>
-<line x1="730" y1="260" x2="745" y2="260" stroke="#58a6ff" stroke-width="1.5" marker-end="url(#arr)"/>
-<line x1="845" y1="260" x2="860" y2="260" stroke="#58a6ff" stroke-width="1.5" marker-end="url(#arr)"/>
-<line x1="900" y1="260" x2="930" y2="260" stroke="#58a6ff" stroke-width="1.5" marker-end="url(#arr)"/>
+<line x1="125" y1="260" x2="145" y2="260" stroke="#58a6ff" stroke-width="1.5" stroke-linecap="butt" marker-end="url(#arr)"/>
+<line x1="272" y1="260" x2="285" y2="260" stroke="#58a6ff" stroke-width="1.5" stroke-linecap="butt" marker-end="url(#arr)"/>
+<line x1="385" y1="260" x2="400" y2="260" stroke="#58a6ff" stroke-width="1.5" stroke-linecap="butt" marker-end="url(#arr)"/>
+<line x1="500" y1="260" x2="515" y2="260" stroke="#58a6ff" stroke-width="1.5" stroke-linecap="butt" marker-end="url(#arr)"/>
+<line x1="615" y1="260" x2="630" y2="260" stroke="#58a6ff" stroke-width="1.5" stroke-linecap="butt" marker-end="url(#arr)"/>
+<line x1="730" y1="260" x2="745" y2="260" stroke="#58a6ff" stroke-width="1.5" stroke-linecap="butt" marker-end="url(#arr)"/>
+<line x1="845" y1="260" x2="860" y2="260" stroke="#58a6ff" stroke-width="1.5" stroke-linecap="butt" marker-end="url(#arr)"/>
+<line x1="900" y1="260" x2="930" y2="260" stroke="#58a6ff" stroke-width="1.5" stroke-linecap="butt" marker-end="url(#arr)"/>
 <text x="248" y="310" text-anchor="middle" fill="#8b949e" font-size="7">model-select → sufficiency → scope-check</text>
 <text x="363" y="310" text-anchor="middle" fill="#8b949e" font-size="7">model-select → CATFISH → scope → comprehension → decisions → autonomy → preflight</text>
 <text x="478" y="310" text-anchor="middle" fill="#8b949e" font-size="7">quality-speed (full suite or smoke?)</text>
@@ -91,7 +91,7 @@
 <rect x="30" y="410" width="940" height="195" rx="8" fill="none" stroke="#30363d" stroke-width="1" stroke-dasharray="6,3" opacity="0.5"/>
 <text x="44" y="428" fill="#58a6ff" font-size="11" font-weight="bold">BRANCH WORKFLOWS</text>
 <line x1="70" y1="445" x2="930" y2="445" stroke="#30363d" stroke-width="1" stroke-dasharray="4,3" opacity="0.5"/>
-<line x1="565" y1="279" x2="565" y2="415" stroke="#58a6ff" stroke-width="1.5" marker-end="url(#arr)" stroke-dasharray="4,3"/>
+<line x1="565" y1="279" x2="565" y2="415" stroke="#58a6ff" stroke-width="1.5" stroke-linecap="butt" marker-end="url(#arr)" stroke-dasharray="4,3"/>
 <line x1="565" y1="415" x2="565" y2="445" stroke="#30363d" stroke-width="1" stroke-dasharray="4,3"/>
 <rect x="75" y="453" width="140" height="50" rx="6" fill="#1f6feb" stroke="#388bfd" stroke-width="1.5"/>
 <text x="145" y="471.0" text-anchor="middle" fill="#f0f6fc" font-size="10" font-weight="bold">Agent Dispatch</text>
@@ -144,7 +144,7 @@
 <text x="810" y="680.0" text-anchor="middle" fill="#f0f6fc" font-size="9" font-weight="bold">Task</text>
 <text x="810" y="694.0" text-anchor="middle" fill="#f0f6fc" font-size="9" font-weight="bold">Retrospect</text>
 <line x1="810" y1="662" x2="810" y2="670" stroke="#30363d" stroke-width="1" stroke-dasharray="2,2"/>
-<line x1="795" y1="279" x2="795" y2="630" stroke="#8b949e" stroke-width="1.5" marker-end="url(#arrM)" stroke-dasharray="4,3"/>
+<line x1="795" y1="279" x2="795" y2="630" stroke="#8b949e" stroke-width="1.5" stroke-linecap="butt" marker-end="url(#arrM)" stroke-dasharray="4,3"/>
 <line x1="30" y1="750" x2="970" y2="750" stroke="#30363d" stroke-width="0.5" opacity="0.3"/>
 <text x="30" y="760" fill="#8b949e" font-size="9">132 tools · 97 propagation pairs · 14 commands · 46 skills · 8 agents</text>
 <text x="970" y="760" fill="#8b949e" font-size="9" text-anchor="end">Interactive: b67687.github.io/agentic-workflows/workflow-graph.html</text>

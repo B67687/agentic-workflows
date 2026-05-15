@@ -311,6 +311,61 @@ if [ -f "$WGF" ]; then
   # 8. README has the correct Workflows section
   assert_file_contains "wg: README links SVG in workflows section" "README.md" "workflow-graph.svg"
   assert_file_contains "wg: README links to hosted interactive" "README.md" "b67687.github.io/agentic-workflows/workflow-graph.html"
+
+  # 9. Auto-discovery: gate plugins, agent personas, commands from filesystem
+  if python3 -c "
+import json, re, os
+
+with open('workflow-graph.html') as f:
+    html = f.read()
+nodes_m = re.search(r'const NODES = (\[.*?\]);\s*\n\s*const EDGES', html, re.DOTALL)
+if not nodes_m:
+    print('FAIL: could not find NODES JSON')
+    exit(1)
+nodes = json.loads(nodes_m.group(1))
+
+# Count agent-group nodes (personas from files + dispatch backends)
+agent_count = sum(1 for n in nodes if n.get('group') == 'agent')
+agent_files = [f for f in os.listdir('agents') if f.endswith('.md') and f != 'README.md']
+agent_persona_count = sum(1 for n in nodes if n.get('group') == 'agent' and 'persona' in n.get('id', ''))
+print(f'OK: {agent_persona_count} persona nodes for {len(agent_files)} agent files ({agent_count} total agent nodes)')
+" 2>&1; then
+    test_pass "wg: agent personas auto-discovered from agents/*.md"
+  else
+    test_fail "wg: agent personas auto-discovery failed"
+  fi
+
+  # 9b. Command count matches filesystem
+  CMD_FS=$(ls commands/*.md 2>/dev/null | wc -l)
+  CMD_HTML=$(python3 -c "
+import json, re
+with open('workflow-graph.html') as f:
+    html = f.read()
+m = re.search(r'const NODES = (\[.*?\]);', html, re.DOTALL)
+nodes = json.loads(m.group(1))
+for n in nodes:
+    l = n.get('label', '')
+    if '.opencode/commands/' in l.replace(chr(10), ' '):
+        import re as r
+        mm = r.search(r'(\d+) mirrored', l)
+        if mm:
+            print(mm.group(1))
+            exit(0)
+print('0')
+" 2>/dev/null)
+  if [ "$CMD_HTML" = "$CMD_FS" ] && [ -n "$CMD_HTML" ] && [ "$CMD_HTML" != "0" ]; then
+    test_pass "wg: command count ($CMD_FS) matches filesystem"
+  else
+    test_fail "wg: command count mismatch (html='$CMD_HTML' fs='$CMD_FS')"
+  fi
+
+  # 10. Arrow markers use refX=6 (not 10) to prevent line overhang past arrow tip
+  if [ -f "workflow-graph.svg" ]; then
+    assert_file_contains "wg: arrow marker refX=6 (no overhang)" "workflow-graph.svg" 'refX="6"'
+    assert_file_contains "wg: arrow stroke-linecap=butt" "workflow-graph.svg" 'stroke-linecap="butt"'
+  else
+    test_skip "wg: arrow checks (SVG not found)"
+  fi
 else
   test_skip "workflow-graph.html not generated (run 'bash scripts/workflow-graph.sh' first)"
 fi

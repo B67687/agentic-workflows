@@ -1151,7 +1151,7 @@
       "right": 12
     },
     "size": 24,
-    "desc": "Single source of truth for all commands"
+    "desc": "Single source of truth for all commands (14 files)"
   },
   {
     "id": "target-opencode",
@@ -1182,7 +1182,7 @@
       "right": 12
     },
     "size": 24,
-    "desc": "OpenCode native slash commands",
+    "desc": "OpenCode native slash commands (14 mirrored)",
     "harness": "OpenCode"
   },
   {
@@ -1214,7 +1214,7 @@
       "right": 12
     },
     "size": 24,
-    "desc": "Pi coding-agent prompts",
+    "desc": "Pi coding-agent prompts (14 mirrored)",
     "harness": "Pi"
   },
   {
@@ -1875,8 +1875,8 @@
     "detail": "Canonical fan-out pattern:\n  -> code-reviewer (review report)\n  -> security-auditor (audit report)\n  -> test-engineer (coverage report)\n  -> merge phase -> go/no-go decision"
   },
   {
-    "id": "agent-reviewer",
-    "label": "code-reviewer\npersona",
+    "id": "agent-build-resolver",
+    "label": "Build Error Resolver\npersona",
     "group": "agent",
     "shape": "triangle",
     "color": {
@@ -1897,12 +1897,38 @@
       "size": 9
     },
     "size": 18,
-    "desc": "Senior Staff Engineer. Five-axis PR review",
+    "desc": "Agent persona from agents/build-resolver.md",
+    "persona": "agents/build-resolver.md"
+  },
+  {
+    "id": "agent-code-reviewer",
+    "label": "Senior Code Reviewer\npersona",
+    "group": "agent",
+    "shape": "triangle",
+    "color": {
+      "background": "#3D9E6A",
+      "border": "#2D7A50",
+      "highlight": {
+        "background": "#4DBB80",
+        "border": "#FFFFFF"
+      }
+    },
+    "borderWidth": 2,
+    "borderWidthSelected": 3,
+    "font": {
+      "face": "Inter, system-ui, sans-serif",
+      "strokeWidth": 2,
+      "strokeColor": "rgba(0,0,0,0.5)",
+      "color": "#f0f2f5",
+      "size": 9
+    },
+    "size": 18,
+    "desc": "Agent persona from agents/code-reviewer.md",
     "persona": "agents/code-reviewer.md"
   },
   {
-    "id": "agent-security",
-    "label": "security-auditor\npersona",
+    "id": "agent-database-reviewer",
+    "label": "Database Reviewer\npersona",
     "group": "agent",
     "shape": "triangle",
     "color": {
@@ -1923,12 +1949,12 @@
       "size": 9
     },
     "size": 18,
-    "desc": "Security Engineer. OWASP vulnerability audit",
-    "persona": "agents/security-auditor.md"
+    "desc": "Agent persona from agents/database-reviewer.md",
+    "persona": "agents/database-reviewer.md"
   },
   {
-    "id": "agent-testeng",
-    "label": "test-engineer\npersona",
+    "id": "agent-doc-updater",
+    "label": "Documentation Updater\npersona",
     "group": "agent",
     "shape": "triangle",
     "color": {
@@ -1949,12 +1975,12 @@
       "size": 9
     },
     "size": 18,
-    "desc": "QA Engineer. Test strategy + coverage analysis",
-    "persona": "agents/test-engineer.md"
+    "desc": "Agent persona from agents/doc-updater.md",
+    "persona": "agents/doc-updater.md"
   },
   {
     "id": "agent-planner",
-    "label": "planner persona",
+    "label": "Planner\npersona",
     "group": "agent",
     "shape": "triangle",
     "color": {
@@ -1975,8 +2001,86 @@
       "size": 9
     },
     "size": 18,
-    "desc": "Staff Engineer. Feature decomposition + milestone planning",
+    "desc": "Agent persona from agents/planner.md",
     "persona": "agents/planner.md"
+  },
+  {
+    "id": "agent-security-auditor",
+    "label": "Security Auditor\npersona",
+    "group": "agent",
+    "shape": "triangle",
+    "color": {
+      "background": "#3D9E6A",
+      "border": "#2D7A50",
+      "highlight": {
+        "background": "#4DBB80",
+        "border": "#FFFFFF"
+      }
+    },
+    "borderWidth": 2,
+    "borderWidthSelected": 3,
+    "font": {
+      "face": "Inter, system-ui, sans-serif",
+      "strokeWidth": 2,
+      "strokeColor": "rgba(0,0,0,0.5)",
+      "color": "#f0f2f5",
+      "size": 9
+    },
+    "size": 18,
+    "desc": "Agent persona from agents/security-auditor.md",
+    "persona": "agents/security-auditor.md"
+  },
+  {
+    "id": "agent-tdd-guide",
+    "label": "TDD Guide\npersona",
+    "group": "agent",
+    "shape": "triangle",
+    "color": {
+      "background": "#3D9E6A",
+      "border": "#2D7A50",
+      "highlight": {
+        "background": "#4DBB80",
+        "border": "#FFFFFF"
+      }
+    },
+    "borderWidth": 2,
+    "borderWidthSelected": 3,
+    "font": {
+      "face": "Inter, system-ui, sans-serif",
+      "strokeWidth": 2,
+      "strokeColor": "rgba(0,0,0,0.5)",
+      "color": "#f0f2f5",
+      "size": 9
+    },
+    "size": 18,
+    "desc": "Agent persona from agents/tdd-guide.md",
+    "persona": "agents/tdd-guide.md"
+  },
+  {
+    "id": "agent-test-engineer",
+    "label": "Test Engineer\npersona",
+    "group": "agent",
+    "shape": "triangle",
+    "color": {
+      "background": "#3D9E6A",
+      "border": "#2D7A50",
+      "highlight": {
+        "background": "#4DBB80",
+        "border": "#FFFFFF"
+      }
+    },
+    "borderWidth": 2,
+    "borderWidthSelected": 3,
+    "font": {
+      "face": "Inter, system-ui, sans-serif",
+      "strokeWidth": 2,
+      "strokeColor": "rgba(0,0,0,0.5)",
+      "color": "#f0f2f5",
+      "size": 9
+    },
+    "size": 18,
+    "desc": "Agent persona from agents/test-engineer.md",
+    "persona": "agents/test-engineer.md"
   },
   {
     "id": "pipeline-run",
@@ -4172,28 +4276,8 @@
     "legendEdge": "orchestrates"
   },
   {
-    "from": "implement",
-    "to": "agent-dispatch",
-    "color": {
-      "color": "rgba(199,75,75,0.4)",
-      "highlight": "#FFFFFF"
-    },
-    "width": 1.5,
-    "smooth": {
-      "type": "curvedCW",
-      "roundness": 0.1
-    },
-    "arrows": {
-      "to": {
-        "enabled": true,
-        "scaleFactor": 0.7
-      }
-    },
-    "legendEdge": "branch_to"
-  },
-  {
-    "from": "agent-dispatch",
-    "to": "agent-pi",
+    "from": "ship-fanout",
+    "to": "agent-code-reviewer",
     "color": {
       "color": "rgba(61,158,106,0.4)",
       "highlight": "#FFFFFF"
@@ -4213,70 +4297,7 @@
     "dashes": true
   },
   {
-    "from": "agent-dispatch",
-    "to": "agent-codex",
-    "color": {
-      "color": "rgba(61,158,106,0.4)",
-      "highlight": "#FFFFFF"
-    },
-    "width": 1.0,
-    "smooth": {
-      "type": "curvedCW",
-      "roundness": 0.1
-    },
-    "arrows": {
-      "to": {
-        "enabled": true,
-        "scaleFactor": 0.7
-      }
-    },
-    "legendEdge": "dispatches",
-    "dashes": true
-  },
-  {
-    "from": "agent-dispatch",
-    "to": "agent-claude",
-    "color": {
-      "color": "rgba(61,158,106,0.4)",
-      "highlight": "#FFFFFF"
-    },
-    "width": 1.0,
-    "smooth": {
-      "type": "curvedCW",
-      "roundness": 0.1
-    },
-    "arrows": {
-      "to": {
-        "enabled": true,
-        "scaleFactor": 0.7
-      }
-    },
-    "legendEdge": "dispatches",
-    "dashes": true
-  },
-  {
-    "from": "agent-dispatch",
-    "to": "agent-sandbox",
-    "color": {
-      "color": "rgba(61,158,106,0.4)",
-      "highlight": "#FFFFFF"
-    },
-    "width": 1.0,
-    "smooth": {
-      "type": "curvedCW",
-      "roundness": 0.1
-    },
-    "arrows": {
-      "to": {
-        "enabled": true,
-        "scaleFactor": 0.7
-      }
-    },
-    "legendEdge": "dispatches",
-    "dashes": true
-  },
-  {
-    "from": "agent-pi",
+    "from": "agent-code-reviewer",
     "to": "implement",
     "color": {
       "color": "rgba(150,150,170,0.3)",
@@ -4297,7 +4318,28 @@
     "dashes": true
   },
   {
-    "from": "agent-codex",
+    "from": "ship-fanout",
+    "to": "agent-security-auditor",
+    "color": {
+      "color": "rgba(61,158,106,0.4)",
+      "highlight": "#FFFFFF"
+    },
+    "width": 1.0,
+    "smooth": {
+      "type": "curvedCW",
+      "roundness": 0.1
+    },
+    "arrows": {
+      "to": {
+        "enabled": true,
+        "scaleFactor": 0.7
+      }
+    },
+    "legendEdge": "dispatches",
+    "dashes": true
+  },
+  {
+    "from": "agent-security-auditor",
     "to": "implement",
     "color": {
       "color": "rgba(150,150,170,0.3)",
@@ -4306,7 +4348,7 @@
     "width": 0.8,
     "smooth": {
       "type": "curvedCW",
-      "roundness": 0.22
+      "roundness": 0.2
     },
     "arrows": {
       "to": {
@@ -4318,7 +4360,28 @@
     "dashes": true
   },
   {
-    "from": "agent-claude",
+    "from": "ship-fanout",
+    "to": "agent-test-engineer",
+    "color": {
+      "color": "rgba(61,158,106,0.4)",
+      "highlight": "#FFFFFF"
+    },
+    "width": 1.0,
+    "smooth": {
+      "type": "curvedCW",
+      "roundness": 0.1
+    },
+    "arrows": {
+      "to": {
+        "enabled": true,
+        "scaleFactor": 0.7
+      }
+    },
+    "legendEdge": "dispatches",
+    "dashes": true
+  },
+  {
+    "from": "agent-test-engineer",
     "to": "implement",
     "color": {
       "color": "rgba(150,150,170,0.3)",
@@ -4327,7 +4390,7 @@
     "width": 0.8,
     "smooth": {
       "type": "curvedCW",
-      "roundness": 0.24
+      "roundness": 0.2
     },
     "arrows": {
       "to": {
@@ -4339,8 +4402,50 @@
     "dashes": true
   },
   {
-    "from": "implement",
-    "to": "ship-fanout",
+    "from": "ship-fanout",
+    "to": "agent-planner",
+    "color": {
+      "color": "rgba(61,158,106,0.4)",
+      "highlight": "#FFFFFF"
+    },
+    "width": 1.0,
+    "smooth": {
+      "type": "curvedCW",
+      "roundness": 0.1
+    },
+    "arrows": {
+      "to": {
+        "enabled": true,
+        "scaleFactor": 0.7
+      }
+    },
+    "legendEdge": "dispatches",
+    "dashes": true
+  },
+  {
+    "from": "agent-planner",
+    "to": "implement",
+    "color": {
+      "color": "rgba(150,150,170,0.3)",
+      "highlight": "#FFFFFF"
+    },
+    "width": 0.8,
+    "smooth": {
+      "type": "curvedCW",
+      "roundness": 0.2
+    },
+    "arrows": {
+      "to": {
+        "enabled": true,
+        "scaleFactor": 0.7
+      }
+    },
+    "legendEdge": "returns",
+    "dashes": true
+  },
+  {
+    "from": "plan",
+    "to": "agent-build-resolver",
     "color": {
       "color": "rgba(199,75,75,0.4)",
       "highlight": "#FFFFFF"
@@ -4359,71 +4464,8 @@
     "legendEdge": "branch_to"
   },
   {
-    "from": "ship-fanout",
-    "to": "agent-reviewer",
-    "color": {
-      "color": "rgba(61,158,106,0.4)",
-      "highlight": "#FFFFFF"
-    },
-    "width": 1.0,
-    "smooth": {
-      "type": "curvedCW",
-      "roundness": 0.1
-    },
-    "arrows": {
-      "to": {
-        "enabled": true,
-        "scaleFactor": 0.7
-      }
-    },
-    "legendEdge": "dispatches",
-    "dashes": true
-  },
-  {
-    "from": "ship-fanout",
-    "to": "agent-security",
-    "color": {
-      "color": "rgba(61,158,106,0.4)",
-      "highlight": "#FFFFFF"
-    },
-    "width": 1.0,
-    "smooth": {
-      "type": "curvedCW",
-      "roundness": 0.1
-    },
-    "arrows": {
-      "to": {
-        "enabled": true,
-        "scaleFactor": 0.7
-      }
-    },
-    "legendEdge": "dispatches",
-    "dashes": true
-  },
-  {
-    "from": "ship-fanout",
-    "to": "agent-testeng",
-    "color": {
-      "color": "rgba(61,158,106,0.4)",
-      "highlight": "#FFFFFF"
-    },
-    "width": 1.0,
-    "smooth": {
-      "type": "curvedCW",
-      "roundness": 0.1
-    },
-    "arrows": {
-      "to": {
-        "enabled": true,
-        "scaleFactor": 0.7
-      }
-    },
-    "legendEdge": "dispatches",
-    "dashes": true
-  },
-  {
-    "from": "agent-reviewer",
-    "to": "implement",
+    "from": "agent-build-resolver",
+    "to": "plan",
     "color": {
       "color": "rgba(150,150,170,0.3)",
       "highlight": "#FFFFFF"
@@ -4443,8 +4485,28 @@
     "dashes": true
   },
   {
-    "from": "agent-security",
-    "to": "implement",
+    "from": "plan",
+    "to": "agent-database-reviewer",
+    "color": {
+      "color": "rgba(199,75,75,0.4)",
+      "highlight": "#FFFFFF"
+    },
+    "width": 1.5,
+    "smooth": {
+      "type": "curvedCW",
+      "roundness": 0.15
+    },
+    "arrows": {
+      "to": {
+        "enabled": true,
+        "scaleFactor": 0.7
+      }
+    },
+    "legendEdge": "branch_to"
+  },
+  {
+    "from": "agent-database-reviewer",
+    "to": "plan",
     "color": {
       "color": "rgba(150,150,170,0.3)",
       "highlight": "#FFFFFF"
@@ -4452,7 +4514,7 @@
     "width": 0.8,
     "smooth": {
       "type": "curvedCW",
-      "roundness": 0.22
+      "roundness": 0.2
     },
     "arrows": {
       "to": {
@@ -4464,8 +4526,28 @@
     "dashes": true
   },
   {
-    "from": "agent-testeng",
-    "to": "implement",
+    "from": "plan",
+    "to": "agent-doc-updater",
+    "color": {
+      "color": "rgba(199,75,75,0.4)",
+      "highlight": "#FFFFFF"
+    },
+    "width": 1.5,
+    "smooth": {
+      "type": "curvedCW",
+      "roundness": 0.15
+    },
+    "arrows": {
+      "to": {
+        "enabled": true,
+        "scaleFactor": 0.7
+      }
+    },
+    "legendEdge": "branch_to"
+  },
+  {
+    "from": "agent-doc-updater",
+    "to": "plan",
     "color": {
       "color": "rgba(150,150,170,0.3)",
       "highlight": "#FFFFFF"
@@ -4473,7 +4555,48 @@
     "width": 0.8,
     "smooth": {
       "type": "curvedCW",
-      "roundness": 0.24
+      "roundness": 0.2
+    },
+    "arrows": {
+      "to": {
+        "enabled": true,
+        "scaleFactor": 0.7
+      }
+    },
+    "legendEdge": "returns",
+    "dashes": true
+  },
+  {
+    "from": "plan",
+    "to": "agent-tdd-guide",
+    "color": {
+      "color": "rgba(199,75,75,0.4)",
+      "highlight": "#FFFFFF"
+    },
+    "width": 1.5,
+    "smooth": {
+      "type": "curvedCW",
+      "roundness": 0.15
+    },
+    "arrows": {
+      "to": {
+        "enabled": true,
+        "scaleFactor": 0.7
+      }
+    },
+    "legendEdge": "branch_to"
+  },
+  {
+    "from": "agent-tdd-guide",
+    "to": "plan",
+    "color": {
+      "color": "rgba(150,150,170,0.3)",
+      "highlight": "#FFFFFF"
+    },
+    "width": 0.8,
+    "smooth": {
+      "type": "curvedCW",
+      "roundness": 0.2
     },
     "arrows": {
       "to": {

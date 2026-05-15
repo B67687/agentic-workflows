@@ -115,6 +115,62 @@ def get_template_counts():
     }
 
 
+def discover_gate_plugins():
+    """Auto-discover gate plugin scripts from scripts/gates/*/."""
+    repo_root = Path(__file__).resolve().parent.parent
+    gates_dir = repo_root / "scripts" / "gates"
+    if not gates_dir.exists():
+        return {}
+
+    plugins = {}
+    for phase_dir in sorted(gates_dir.iterdir()):
+        if not phase_dir.is_dir():
+            continue
+        phase = phase_dir.name
+        scripts = sorted(f.name for f in phase_dir.iterdir() if f.name.endswith(".sh"))
+        if scripts:
+            plugins[phase] = scripts
+    return plugins
+
+
+def discover_agent_personas():
+    """Auto-discover agent persona files from agents/."""
+    repo_root = Path(__file__).resolve().parent.parent
+    agents_dir = repo_root / "agents"
+    if not agents_dir.exists():
+        return []
+
+    personas = []
+    for f in sorted(agents_dir.iterdir()):
+        if f.name.endswith(".md") and f.name != "README.md":
+            # Read the first # heading for the agent name
+            name = f.stem.replace("-", " ").title()
+            try:
+                with open(f) as fh:
+                    for line in fh:
+                        if line.startswith("# "):
+                            name = line.strip("# \n")
+                            break
+            except Exception:
+                pass
+            personas.append({"id": f.stem, "name": name, "file": str(f.relative_to(repo_root))})
+    return personas
+
+
+def discover_commands():
+    """Count command files in commands/."""
+    repo_root = Path(__file__).resolve().parent.parent
+    cmds_dir = repo_root / "commands"
+    if not cmds_dir.exists():
+        return []
+    return sorted(f.stem for f in cmds_dir.iterdir() if f.name.endswith(".md"))
+
+
+GATE_PLUGINS = discover_gate_plugins()
+AGENT_PERSONAS = discover_agent_personas()
+COMMANDS_LIST = discover_commands()
+
+
 TOOLS_DATA = parse_tools_toml()
 PROP_DATA = parse_propagation_contract()
 TMPL_DATA = get_template_counts()
@@ -372,12 +428,13 @@ def build_all_workflows():
     E("propagate-sh", "p-all", "orchestrates")
 
     # --- Command sync details ---
-    N("commands-dir", "commands/\n(14 .md files)", "source",
-      desc="Single source of truth for all commands")
-    N("target-opencode", ".opencode/commands/\n(14 mirrored)", "target",
-      desc="OpenCode native slash commands", harness="OpenCode")
-    N("target-pi", ".pi/prompts/\n(14 mirrored)", "target",
-      desc="Pi coding-agent prompts", harness="Pi")
+    N("commands-dir", f"commands/\n({len(COMMANDS_LIST)} .md files)", "source",
+      desc=f"Single source of truth for all commands ({len(COMMANDS_LIST)} files)")
+    cmd_count = len(COMMANDS_LIST)
+    N("target-opencode", f".opencode/commands/\n({cmd_count} mirrored)", "target",
+      desc=f"OpenCode native slash commands ({cmd_count} mirrored)", harness="OpenCode")
+    N("target-pi", f".pi/prompts/\n({cmd_count} mirrored)", "target",
+      desc=f"Pi coding-agent prompts ({cmd_count} mirrored)", harness="Pi")
     N("target-claude-cursor", "Claude / Cursor\n(bash scripts/<name>.sh)", "harness",
       desc="Invoke commands directly as bash scripts. No file mirror needed.")
 
@@ -482,37 +539,36 @@ def build_all_workflows():
              "  -> test-engineer (coverage report)\n"
              "  -> merge phase -> go/no-go decision")
 
-    N("agent-reviewer", "code-reviewer\npersona", "agent",
-      desc="Senior Staff Engineer. Five-axis PR review",
-      persona="agents/code-reviewer.md")
-    N("agent-security", "security-auditor\npersona", "agent",
-      desc="Security Engineer. OWASP vulnerability audit",
-      persona="agents/security-auditor.md")
-    N("agent-testeng", "test-engineer\npersona", "agent",
-      desc="QA Engineer. Test strategy + coverage analysis",
-      persona="agents/test-engineer.md")
+    # Auto-discovered agent personas from agents/*.md
+    known_personas = {}
+    for p in AGENT_PERSONAS:
+        pid = f"agent-{p['id']}"
+        known_personas[p['id']] = pid
+        N(pid, f"{p['name']}\npersona", "agent",
+          desc=f"Agent persona from {p['file']}",
+          persona=p['file'])
 
-    N("agent-planner", "planner persona", "agent",
-      desc="Staff Engineer. Feature decomposition + milestone planning",
-      persona="agents/planner.md")
+    # Wire up /ship fan-out to discovered personas
+    N("ship-fanout", "/ship Fan-out\n(Parallel)", "branch",
+      desc="Parallel dispatch to code-reviewer + security-auditor + test-engineer",
+      detail="Canonical fan-out pattern:\n"
+             "  -> code-reviewer (review report)\n"
+             "  -> security-auditor (audit report)\n"
+             "  -> test-engineer (coverage report)\n"
+             "  -> merge phase -> go/no-go decision")
 
-    E("implement", "agent-dispatch", "branch_to")
-    E("agent-dispatch", "agent-pi", "dispatches")
-    E("agent-dispatch", "agent-codex", "dispatches")
-    E("agent-dispatch", "agent-claude", "dispatches")
-    E("agent-dispatch", "agent-sandbox", "dispatches")
-    E("agent-pi", "implement", "returns", smooth={"type": "curvedCW", "roundness": 0.2})
-    E("agent-codex", "implement", "returns", smooth={"type": "curvedCW", "roundness": 0.22})
-    E("agent-claude", "implement", "returns", smooth={"type": "curvedCW", "roundness": 0.24})
+    # Connect discovered personas that match known /ship roles
+    for role in ["code-reviewer", "security-auditor", "test-engineer", "planner"]:
+        pid = known_personas.get(role)
+        if pid:
+            E("ship-fanout", pid, "dispatches")
+            E(pid, "implement", "returns", smooth={"type": "curvedCW", "roundness": 0.2})
 
-    E("implement", "ship-fanout", "branch_to",
-      smooth={"type": "curvedCW", "roundness": 0.15})
-    E("ship-fanout", "agent-reviewer", "dispatches")
-    E("ship-fanout", "agent-security", "dispatches")
-    E("ship-fanout", "agent-testeng", "dispatches")
-    E("agent-reviewer", "implement", "returns", smooth={"type": "curvedCW", "roundness": 0.2})
-    E("agent-security", "implement", "returns", smooth={"type": "curvedCW", "roundness": 0.22})
-    E("agent-testeng", "implement", "returns", smooth={"type": "curvedCW", "roundness": 0.24})
+    # Any other discovered personas feed from plan
+    for role, pid in known_personas.items():
+        if role not in ("code-reviewer", "security-auditor", "test-engineer", "planner"):
+            E("plan", pid, "branch_to", smooth={"type": "curvedCW", "roundness": 0.15})
+            E(pid, "plan", "returns", smooth={"type": "curvedCW", "roundness": 0.2})
 
     # ================================================================
     # 5. PIPELINE RUN (SEQUENCED DISPATCH)
@@ -1392,9 +1448,9 @@ def build_svg_diagram():
           '<linearGradient id="bGrad" x1="0%" y1="0%" x2="0%" y2="100%">'
           f'<stop offset="0%" stop-color="{BLU}"/><stop offset="100%" stop-color="#1558b0"/></linearGradient>'
           '<filter id="glow"><feDropShadow dx="0" dy="0" stdDeviation="3" flood-color="#58a6ff" flood-opacity="0.2"/></filter>'
-          '<marker id="arr" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="6" markerHeight="6" orient="auto">'
+          '<marker id="arr" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto">'
           f'<path d="M 0 0 L 10 5 L 0 10 z" fill="{ACCENT}"/></marker>'
-          '<marker id="arrM" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="5" markerHeight="5" orient="auto">'
+          '<marker id="arrM" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="5" markerHeight="5" orient="auto">'
           f'<path d="M 0 0 L 10 5 L 0 10 z" fill="{MUTED}"/></marker>'
           '</defs>')
 
@@ -1410,7 +1466,7 @@ def build_svg_diagram():
         push(f'<text x="{x + 14}" y="{y + 18}" fill="{ACCENT}" font-size="11" font-weight="bold">{label}</text>')
 
     def arr(x1, y1, x2, y2, color=ACCENT, dashes="", marker="arr"):
-        s = f'stroke="{color}" stroke-width="1.5" marker-end="url(#{marker})"'
+        s = f'stroke="{color}" stroke-width="1.5" stroke-linecap="butt" marker-end="url(#{marker})"'
         if dashes: s += f' stroke-dasharray="{dashes}"'
         push(f'<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" {s}/>')
 
@@ -1588,7 +1644,7 @@ def build_svg_diagram():
     # =====================================================================
     ly = 756
     push(f'<line x1="30" y1="{ly-6}" x2="970" y2="{ly-6}" stroke="{LINE}" stroke-width="0.5" opacity="0.3"/>')
-    push(f'<text x="30" y="{ly+4}" fill="{MUTED}" font-size="9">132 tools · {PROP_DATA["total_pairs"]} propagation pairs · 14 commands · 46 skills · 8 agents</text>')
+    push(f'<text x="30" y="{ly+4}" fill="{MUTED}" font-size="9">132 tools · {PROP_DATA["total_pairs"]} propagation pairs · {len(COMMANDS_LIST)} commands · 46 skills · {len(AGENT_PERSONAS)} agents</text>')
     push(f'<text x="970" y="{ly+4}" fill="{MUTED}" font-size="9" text-anchor="end">Interactive: b67687.github.io/agentic-workflows/workflow-graph.html</text>')
 
     push('</svg>')
@@ -1615,7 +1671,9 @@ def main():
     print("🧩 Building comprehensive Workflow DAG...")
     print(f"   Source data: {sum(TOOL_COUNTS.values())} tools · "
           f"{PROP_DATA['total_pairs']} propagation pairs · "
-          f"{TMPL_DATA['templates']} template files")
+          f"{TMPL_DATA['templates']} template files · "
+          f"{len(COMMANDS_LIST)} commands · {len(AGENT_PERSONAS)} personas · "
+          f"{sum(len(v) for v in GATE_PLUGINS.values())} gate plugins")
 
     if not svg_only:
         nodes, edges = build_all_workflows()
