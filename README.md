@@ -200,6 +200,7 @@ See [docs/workflow.md](docs/workflow.md) for the full system, [docs/hub-quicksta
 | [bubblewrap](https://github.com/containers/bubblewrap) | Sandboxed agent execution |
 | [jq](https://github.com/jqlang/jq) | JSON processing in scripts |
 | [@agentmemory/mcp](https://github.com/rohitg00/agentmemory) | Persistent memory MCP server (npx) |
+| [github-traffic-tracker](https://github.com/djdarcy/github-traffic-tracker) | Permanent traffic analytics + CI separation |
 
 </div>
 
