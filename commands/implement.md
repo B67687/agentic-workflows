@@ -16,18 +16,21 @@ If `Implement decision: block`, do not implement. Send the task back exactly one
 
 If `Implement decision: caution`, fix the checkout state first or move the work into a worktree before implementing.
 
-### Decision Point
+### Phase Gate with Quality Checks
 
-Before implementing, evaluate the key approach decision if it wasn't already made during planning:
+Before implementing, run the unified phase gate with all quality checks:
 
 ```bash
-bash ./scripts/decision.sh evaluate \
-  "implementation strategy for this slice" \
-  --stakes medium \
-  --options "direct-edit,test-first,prototype-then-clean"
+bash ./scripts/phase-gate.sh implement \
+  --research-done --plan-done --scope-bounded --verification-known \
+  --check-quality
 ```
 
-If the decision has multiple tradeoffs with no clear winner, use medium stakes (produces a weighted criteria matrix). If the path is clear, use low stakes (quick binary). If the decision is irreversible or costly, use high stakes (recommends multi-perspective review via counsel/parley).
+This runs:
+1. **State check**: research, plan, scope, and verification preconditions
+2. **Comprehension evidence**: verifies comprehension-gate evidence exists
+3. **CATFISH reconcile**: checks plan challenges are addressed
+4. **Decision log**: warns of unresolved decisions
 
 ### Comprehension Gate (Enforced Participation)
 

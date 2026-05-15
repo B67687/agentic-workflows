@@ -33,21 +33,18 @@ Return a compact plan with:
 - what is explicitly out of scope
 - where to checkpoint or restart between phases
 
-### Research Sufficiency Gate (Before Planning)
+### Phase Gate with Quality Checks
 
-Before planning, ensure research is sufficient:
+Run the unified phase gate with quality checks before planning:
 
 ```bash
-# If you have a research note file:
-bash ./scripts/research-sufficiency.sh note <research-note-file>
-
-# For full assessment:
-bash ./scripts/research-sufficiency.sh assess --research-note <research-note-file>
+bash ./scripts/phase-gate.sh plan --research-done --check-quality
 ```
 
-- **PASS** (exit 0) -> proceed to planning
-- **CONTINUE** (exit 1) -> address warnings before or during planning
-- **BLOCK** (exit 2) -> go back to research, critical gaps remain
+This runs:
+1. **State check**: research must be done (--research-done flag)
+2. **Research sufficiency**: if a research note exists, checks for red flags (source URLs, confidence levels, gaps section)
+3. If sufficiency check BLOCKs, go back to `/research`
 
 ### Plan Challenge (CATFISH Protocol)
 
