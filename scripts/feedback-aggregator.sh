@@ -40,9 +40,11 @@ case "$CMD" in
       echo "No quality feedback recorded yet."
       exit 0
     fi
-    TOTAL=$(wc -l < "$FEEDBACK_LOG")
-    # grep -c outputs "0" AND exits 1 on no match — must discard stdout when no match
-    FAILED=$(grep -c '"result":"failed"' "$FEEDBACK_LOG" 2>/dev/null | grep . || echo 0)
+    TOTAL=$(wc -l < "$FEEDBACK_LOG" 2>/dev/null || echo 0)
+    # grep -c outputs "0" on stdout and exits 1 on no match.
+    # With pipefail enabled (from test harness), the pipe exit code is 1,
+    # which triggers || fallback and duplicates output. Avoid pipe entirely.
+    FAILED=$(grep -c '"result":"failed"' "$FEEDBACK_LOG" 2>/dev/null || true)
     PASSED=$((TOTAL - FAILED))
 
     echo "=== Quality Feedback Status ==="
