@@ -356,7 +356,15 @@ check_pending_decisions() {
 
   echo ":: Checking for unresolved decisions..."
   local pending
-  pending=$(grep -c 'PENDING_\|status.*pending\|confidence.*null' "$decision_log" 2>/dev/null | tail -1 || echo 0)
+  # Use python for reliable single-number output
+  pending=$(python3 -c "
+import json, re
+try:
+    with open('$decision_log') as f:
+        count = sum(1 for line in f if re.search(r'PENDING_|status.*pending|confidence.*null', line))
+    print(count)
+except: print(0)
+" 2>/dev/null || echo 0)
 
   if [[ "$pending" -gt 0 ]]; then
     print_issue "WARN" "(session)" "$pending decision(s) still pending or unscored"
