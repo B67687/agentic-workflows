@@ -1181,7 +1181,7 @@ def build_svg_diagram():
             push(f'<text x="{mx}" y="{my}" text-anchor="middle" fill="{TEXT_MUTED}" font-family="{FONT}" font-size="8">{label}</text>')
 
     def section_title(x, y, title):
-        push(f'<text x="{x}" y="{y}" fill="{SECTION_TITLE}" font-family="{FONT}" font-size="10" font-weight="600" text-transform="uppercase" letter-spacing="1">{title}</text>')
+        push(f'<text x="{x}" y="{y}" fill="{SECTION_TITLE}" font-family="{FONT}" font-size="10" font-weight="600">{title}</text>')
 
     # ──────────────────────────────────────────────────────────────────
     # TIER 1: PROPAGATION + TOOL LANDSCAPE (y=30..120)

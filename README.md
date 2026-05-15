@@ -88,10 +88,10 @@ Learnings flow back to the hub via insight harvesting. Cross-project memory loop
 The system orchestrates work across five interlocking workflows. The diagram below shows how tasks flow through the pipeline, how agents get dispatched, how templates propagate to sibling repos, and how sessions are managed.
 
 <p align="center">
-  <a href="workflow-graph.html">
+  <a href="https://b67687.github.io/agentic-workflows/workflow-graph.html">
     <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="workflow-graph.svg">
-      <img src="workflow-graph.svg" width="100%" alt="Workflow Diagram" style="max-width:1100px;">
+      <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/B67687/agentic-workflows/main/workflow-graph.svg">
+      <img src="https://raw.githubusercontent.com/B67687/agentic-workflows/main/workflow-graph.svg" width="100%" alt="Workflow Diagram" style="max-width:1100px;">
     </picture>
   </a>
   <br><sub><a href="https://b67687.github.io/agentic-workflows/workflow-graph.html" target="_blank">Open interactive version ↗</a> (click nodes for details, expand gates to see decision chains — hosted on GitHub Pages)</sub>
