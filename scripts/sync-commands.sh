@@ -62,12 +62,11 @@ if [ "$DRY_RUN" = true ]; then
   exit 0
 fi
 
-# Sync all to .opencode/commands/
+# Sync all to hardcoded targets (backward compat)
 mkdir -p "$TARGET_OPENCODE"
 cp "$SOURCE"/*.md "$TARGET_OPENCODE/"
 OPENCODE_COUNT=$(find "$TARGET_OPENCODE" -maxdepth 1 -name '*.md' | wc -l)
 
-# Sync all to .pi/prompts/
 mkdir -p "$TARGET_PI"
 cp "$SOURCE"/*.md "$TARGET_PI/"
 PI_COUNT=$(find "$TARGET_PI" -maxdepth 1 -name '*.md' | wc -l)
@@ -75,6 +74,37 @@ PI_COUNT=$(find "$TARGET_PI" -maxdepth 1 -name '*.md' | wc -l)
 echo "Synced $SOURCE_COUNT command files:"
 echo "  -> $TARGET_OPENCODE ($OPENCODE_COUNT files)"
 echo "  -> $TARGET_PI ($PI_COUNT files)"
+
+# Sync to registry-defined agent commands directories
+REGISTRY_SCRIPT="$HUB_DIR/scripts/agent-registry.sh"
+if [[ -f "$REGISTRY_SCRIPT" ]] && [[ -f "$HUB_DIR/.runtime/agent-registry.json" ]]; then
+  AGENT_DIRS=$(python3 -c "
+import json
+with open('$HUB_DIR/.runtime/agent-registry.json') as f:
+    data = json.load(f)
+for a in data.get('agents', []):
+    cd = a.get('commands_dir')
+    if cd and a.get('status') in ('available', 'unknown'):
+        # Resolve relative to hub dir
+        import os.path
+        full = os.path.join('$HUB_DIR', cd)
+        if os.path.isdir(full):
+            print(full)
+" 2>/dev/null || true)
+  if [[ -n "$AGENT_DIRS" ]]; then
+    while IFS= read -r dir; do
+      [[ -z "$dir" ]] && continue
+      if [ "$DRY_RUN" = true ]; then
+        echo "  [DRY RUN] Would sync to registry target: $dir"
+      else
+        mkdir -p "$dir"
+        cp "$SOURCE"/*.md "$dir/"
+        local_count=$(find "$dir" -maxdepth 1 -name '*.md' | wc -l)
+        echo "  -> $dir ($local_count files, from registry)"
+      fi
+    done <<< "$AGENT_DIRS"
+  fi
+fi
 
 if [ "$VERBOSE" = true ]; then
   echo ""

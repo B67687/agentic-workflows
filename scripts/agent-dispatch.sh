@@ -103,38 +103,78 @@ The JSON must be parseable by json.loads()."
     JOB_ID="job-$(date -u +%Y%m%d%H%M%S)-$$"
     TIMESTAMP=$(date -u +%Y-%m-%dT%H:%M:%SZ)
 
-    # Build the command based on agent
+    # Build the command based on agent (registry-backed)
+    REGISTRY_SCRIPT="$REPO_ROOT/scripts/agent-registry.sh"
+    AGENT_BINARY=""
+    AGENT_INSTALL=""
+    if [[ -f "$REGISTRY_SCRIPT" ]] && [[ -f "$REPO_ROOT/.runtime/agent-registry.json" ]]; then
+      # Read agent manifest from registry
+      eval "$(python3 -c "
+import json
+with open('$REPO_ROOT/.runtime/agent-registry.json') as f:
+    data = json.load(f)
+for a in data.get('agents', []):
+    if a['id'] == '$AGENT':
+        print(f'AGENT_BINARY={a.get(\"binary\", \"\")}')
+        print(f'AGENT_INSTALL={a.get(\"install\", \"\")}')
+        break
+" 2>/dev/null || true)"
+    fi
+
+    if [[ -z "$AGENT_BINARY" ]]; then
+      # Fall back to hardcoded agent definitions
+      case "$AGENT" in
+        pi)
+          AGENT_BINARY="pi"
+          ;;
+        codex)
+          AGENT_BINARY="codex"
+          AGENT_INSTALL="npm install -g @openai/codex"
+          ;;
+        claude)
+          AGENT_BINARY="claude"
+          AGENT_INSTALL="npm install -g @anthropic/claude-code"
+          ;;
+        *)
+          echo "Unknown agent: $AGENT"
+          echo "Available: pi, codex, claude (or register new agents via agent-registry.sh)"
+          exit 1
+          ;;
+      esac
+    fi
+
+    # Check binary exists
+    if ! command -v "$AGENT_BINARY" &>/dev/null; then
+      echo "Agent '$AGENT' (binary: $AGENT_BINARY) not found."
+      if [[ -n "$AGENT_INSTALL" ]]; then
+        echo "Install: $AGENT_INSTALL"
+      fi
+      exit 1
+    fi
+
+    # Build command args (agent-specific flag patterns)
     case "$AGENT" in
       pi)
-        CMD_ARGS=("pi" "-p" "$TASK")
+        CMD_ARGS=("$AGENT_BINARY" "-p" "$TASK")
         if [ -n "$MODEL" ]; then
           CMD_ARGS+=("--model" "$MODEL")
         fi
         ;;
       codex)
-        if ! command -v codex &>/dev/null; then
-          echo "Codex CLI not found. Install: npm install -g @openai/codex"
-          exit 1
-        fi
-        CMD_ARGS=("codex" "$TASK")
+        CMD_ARGS=("$AGENT_BINARY" "$TASK")
         if [ -n "$MODEL" ]; then
           CMD_ARGS+=("-m" "$MODEL")
         fi
         ;;
       claude)
-        if ! command -v claude &>/dev/null; then
-          echo "Claude Code not found. Install: npm install -g @anthropic/claude-code"
-          exit 1
-        fi
-        CMD_ARGS=("claude" "-p" "$TASK")
+        CMD_ARGS=("$AGENT_BINARY" "-p" "$TASK")
         if [ -n "$MODEL" ]; then
           CMD_ARGS+=("--model" "$MODEL")
         fi
         ;;
       *)
-        echo "Unknown agent: $AGENT"
-        echo "Available: pi, codex, claude"
-        exit 1
+        # Generic agent: binary + task as single arg
+        CMD_ARGS=("$AGENT_BINARY" "$TASK")
         ;;
     esac
 
@@ -232,29 +272,61 @@ print(json.dumps(args))
     CHILD_ID="${PARENT_ID}-child-$(date -u +%Y%m%d%H%M%S)"
     CHILD_TIMESTAMP=$(date -u +%Y-%m-%dT%H:%M:%SZ)
 
-    # Build command based on agent
+    # Build command based on agent (registry-backed)
+    REGISTRY_SCRIPT="$REPO_ROOT/scripts/agent-registry.sh"
+    CHILD_BINARY=""
+    CHILD_INSTALL=""
+    if [[ -f "$REGISTRY_SCRIPT" ]] && [[ -f "$REPO_ROOT/.runtime/agent-registry.json" ]]; then
+      eval "$(python3 -c "
+import json
+with open('$REPO_ROOT/.runtime/agent-registry.json') as f:
+    data = json.load(f)
+for a in data.get('agents', []):
+    if a['id'] == '$CHILD_AGENT':
+        print(f'CHILD_BINARY={a.get(\"binary\", \"\")}')
+        print(f'CHILD_INSTALL={a.get(\"install\", \"\")}')
+        break
+" 2>/dev/null || true)"
+    fi
+
+    if [[ -z "$CHILD_BINARY" ]]; then
+      case "$CHILD_AGENT" in
+        pi)
+          CHILD_BINARY="pi"
+          ;;
+        codex)
+          CHILD_BINARY="codex"
+          CHILD_INSTALL="npm install -g @openai/codex"
+          ;;
+        claude)
+          CHILD_BINARY="claude"
+          CHILD_INSTALL="npm install -g @anthropic/claude-code"
+          ;;
+        *)
+          echo "Unknown agent: $CHILD_AGENT"
+          echo "Available: pi, codex, claude (or register new agents via agent-registry.sh)"
+          exit 1
+          ;;
+      esac
+    fi
+
+    if ! command -v "$CHILD_BINARY" &>/dev/null; then
+      echo "Agent '$CHILD_AGENT' (binary: $CHILD_BINARY) not found."
+      if [[ -n "$CHILD_INSTALL" ]]; then
+        echo "Install: $CHILD_INSTALL"
+      fi
+      exit 1
+    fi
+
     case "$CHILD_AGENT" in
-      pi)
-        CHILD_CMD_ARGS=("pi" "-p" "$CHILD_TASK")
+      pi|claude)
+        CHILD_CMD_ARGS=("$CHILD_BINARY" "-p" "$CHILD_TASK")
         ;;
       codex)
-        if ! command -v codex &>/dev/null; then
-          echo "Codex CLI not found. Install: npm install -g @openai/codex"
-          exit 1
-        fi
-        CHILD_CMD_ARGS=("codex" "$CHILD_TASK")
-        ;;
-      claude)
-        if ! command -v claude &>/dev/null; then
-          echo "Claude Code not found. Install: npm install -g @anthropic/claude-code"
-          exit 1
-        fi
-        CHILD_CMD_ARGS=("claude" "-p" "$CHILD_TASK")
+        CHILD_CMD_ARGS=("$CHILD_BINARY" "$CHILD_TASK")
         ;;
       *)
-        echo "Unknown agent: $CHILD_AGENT"
-        echo "Available: pi, codex, claude"
-        exit 1
+        CHILD_CMD_ARGS=("$CHILD_BINARY" "$CHILD_TASK")
         ;;
     esac
 
@@ -512,12 +584,26 @@ with open('$JOBS_DIR/$JOB_ID.json', 'w') as f:
     echo "  bash ./scripts/agent-dispatch.sh log <job-id>"
     echo "  bash ./scripts/agent-dispatch.sh result <job-id>"
     echo ""
-    echo "Agents (available):"
-    echo "  pi       pi-coding-agent (default)"
-    echo ""
-    echo "Agents (installable):"
-    echo "  codex    npm install -g @openai/codex"
-    echo "  claude   npm install -g @anthropic/claude-code"
+    if [[ -f "$REPO_ROOT/.runtime/agent-registry.json" ]]; then
+      python3 -c "
+import json
+with open('$REPO_ROOT/.runtime/agent-registry.json') as f:
+    data = json.load(f)
+for a in data.get('agents', []):
+    st = a.get('status', '?')
+    bid = a['id']
+    desc = a.get('description', '')
+    inst = a.get('install', '')
+    if inst:
+        print(f'  {bid:8s} [{st:12s}] {desc}')
+        print(f'           Install: {inst}')
+    else:
+        print(f'  {bid:8s} [{st:12s}] {desc}')
+" 2>/dev/null || echo "  (registry not available)"
+    else
+      echo "Agents (from registry): run 'agent-registry.sh init' first"
+      echo "Default agents available: pi, codex, claude"
+    fi
     echo ""
     echo "Options for 'run':"
     echo "  --dir <path>     Working directory (default: workspace root)"

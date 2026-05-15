@@ -15,7 +15,7 @@
 [registry]
 version = "1.2"
 updated = "2026-05-15"
-tool_count = 131
+tool_count = 132
 command_count = 14
 binary_count = 6
 description = "Agentic Workflows --- agent harness tool registry"
@@ -1145,4 +1145,11 @@ name = "template-resolve"
 description = "Resolve template paths from priority stack (overrides > presets > extensions > core)"
 category = "utility"
 path = "scripts/template-resolve.sh"
+type = "script"
+
+[[tool]]
+name = "agent-registry"
+description = "Cross-agent manifest registry — list, register, inspect, sync agent configurations (binary, commands dir, capabilities)"
+category = "agent"
+path = "scripts/agent-registry.sh"
 type = "script"
