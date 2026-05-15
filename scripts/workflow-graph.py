@@ -871,7 +871,6 @@ HTML = r'''<!DOCTYPE html>
   __LEGEND__
   <div class="legend-edge-section">
     <div class="legend-edge-item" data-legend-edge="main_flow"><span class="edge-swatch main"></span><span class="legend-label">Phase flow</span></div>
-    <div class="legend-edge-item" data-legend-edge="gate_check"><span class="edge-swatch gate"></span><span class="legend-label">Gate check</span></div>
     <div class="legend-edge-item" data-legend-edge="branch_to"><span class="edge-swatch branch"></span><span class="legend-label">Branch flow</span></div>
     <div class="legend-edge-item" data-legend-edge="dispatches"><span class="edge-swatch dispatch"></span><span class="legend-label">Agent dispatch</span></div>
     <div class="legend-edge-item" data-legend-edge="syncs"><span class="edge-swatch sync"></span><span class="legend-label">Sync / propagate</span></div>
