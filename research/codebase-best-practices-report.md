@@ -187,7 +187,7 @@ Includes `context-save.sh`, `context-restore.sh`, `pipeline-run.sh`, `freeze.sh`
 | `task-retrospect.sh` | 28 | `cd "$REPO_ROOT"` |
 | `test-workflows.sh` | 17 | `cd "$REPO_ROOT"` |
 | `test-smoke.sh` | 16 | `cd "$REPO_ROOT"` |
-| `.bench-runs/*/verify.sh` | 6 | `cd /home/namikaz/...` |
+| `.bench-runs/*/verify.sh` | 6 | `cd $REPO_ROOT` |
 
 **Fix applied:** All 6 callsites changed to `cd "$REPO_ROOT" || { echo "ERROR: cannot cd to $REPO_ROOT"; exit 1; }`
 
@@ -287,7 +287,7 @@ This is **intentional** --- propagation templates and raw/sources ingested files
 
 Standard library vs third-party imports are mixed in several `.py` files. `server.py` uses comma-imports (`import os, sys, json`) instead of separate lines.
 
-#### L3. Bench-run files with hardcoded `/home/namikaz/` paths
+#### L3. Bench-run files with hardcoded home-directory paths
 
 Found in `.bench-runs/verify.sh` files --- test fixtures, low risk.
 

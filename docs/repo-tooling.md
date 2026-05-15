@@ -197,7 +197,7 @@ Files under `/mnt/c` or `/mnt/m` are Windows-mounted files, not native Linux fil
 For this workspace:
 
 ```bash
-cd "/mnt/m/M-Namikaz-Others/ai-prompting"
+cd "/path/to/your/repo"
 bash scripts/ws.sh validate
 ```
 

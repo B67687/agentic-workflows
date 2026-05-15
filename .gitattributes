@@ -19,3 +19,4 @@ ruvector.db             export-ignore
 repo-graph.html         export-ignore
 *.sqlite                export-ignore
 *.log                   export-ignore
+docs/stats/             export-ignore
