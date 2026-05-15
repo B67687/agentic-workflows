@@ -21,13 +21,21 @@
     "115/115 smoke tests pass",
     "33/33 MCP client protocol tests pass",
     "131 tools in tools.toml",
-    "130 tools returned by tools.sh --json"
+    "131 tools returned by tools.sh --json",
+    "DeepSeek-TUI v0.8.37 installed",
+    "deepseek-tui mcp validate: 'All enabled servers connected'",
+    "deepseek-tui mcp tools: 131 tools discovered from agentic-workflows server",
+    "MCP protocol validated end-to-end: init → list tools → resource list all confirmed"
   ],
-  "keyLearnings": [],
-  "residualRisk": "MCP protocol validated at 33 unit tests but never connected to a live DeepSeek-TUI session.",
+  "keyLearnings": [
+    "DeepSeek-TUI prefixes MCP tool names with 'mcp_agentic-workflows_' — tools appear as mcp_agentic-workflows_phase-gate, etc.",
+    "The mcp validate command confirms both config validity AND server connectivity in one call",
+    "No mcp call subcommand exists — tool execution happens inside an LLM chat session"
+  ],
+  "residualRisk": "Tool execution from within a DeepSeek-TUI chat session not tested (requires API key + interactive session). Protocol connectivity validated at config level.",
   "immediateNextSteps": [
-    "End-to-end test: run `bash scripts/serve-mcp.sh --mcp-add-self`, copy config to ~/.deepseek/mcp.json",
     "Dynamic Autonomy Cascade: extend autonomy-gate.sh with start/adjust subcommands",
-    "Decision Pipeline Composition: investigate ANSI color output in test assertions"
+    "Decision Pipeline Composition: investigate ANSI color output in test assertions",
+    "Templates/ directory: decide to commit, gitignore, or delete"
   ]
 }
