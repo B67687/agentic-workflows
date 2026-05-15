@@ -1,58 +1,56 @@
 {
-  "session": 850,
+  "session": 851,
   "status": "verified-phase",
   "interruptedCount": 0,
   "contextPressure": "healthy",
   "currentTask": {
-    "name": "MCP gate-system tests + 115-pass smoke suite",
+    "name": "9Router complete: 5 structural upgrades + full integration + MCP exposure + 115 test suite",
     "status": "done",
-    "goal": "Add smoke tests for all MCP gate resources (dashboard, autonomy, gate://, gate-plugins, pipeline/run). Verify 115-pass suite."
+    "goal": "Complete comparative analysis of agentic-workflows vs 9Router. Implement 5 structural upgrades (gate plugins, dynamic autonomy, decision pipeline, cooldown/backoff, session dashboard). Wire all tools into commands, AGENTS.md, workflow.md. Integrate constitution auto-gating. Expose all gate infrastructure via MCP. Add smoke tests."
   },
   "whatChanged": [
-    "test-smoke.sh: 8 new MCP integration tests for gate resources and pipeline/run method",
-    "test-smoke.sh: gate:// URI count check uses >=8 (de-flaked against new plugin additions)",
-    "115 tests pass (up from 108)"
+    "session-state.json populated with full session data (was bare template)",
+    "See prior sessions for the full change history across all 5 upgrades + integration work"
   ],
   "filesTouched": [
-    "scripts/test-smoke.sh (+29 lines, 8 new MCP gate-system tests)"
+    "session-state.json (populated)"
   ],
   "verification": [
     "115 tests pass, 0 fail",
-    "state://dashboard resource listed and readable",
-    "state://autonomy resource listed",
-    "methodology://gate-plugins resource listed",
-    "gate://implement/autonomy returns structured JSON (mimeType: application/json)",
-    "state://dashboard read contains session data",
-    "pipeline/run implement->verify returns passed=true",
-    "gate:// URIs: >=8 found"
+    "0 dirty files",
+    "On main, 5 commits ahead of origin/main"
   ],
   "keyLearnings": [
-    "MCP tests are the most brittle (method count, resource count) — always use >= N instead of == N for dynamic counts"
+    "Session-state.json keeps getting overwritten to bare template on new session start (session-start.sh behavior). Fix by checking session-state.json first on resume and repopulating if empty.",
+    "Previous learnings from prior sessions are summarized in the HEAD commit series"
   ],
-  "residualRisk": "The original 3 pre-existing failures (tools.toml drift, ambiguity checker) appear to have been fixed in intervening commits. 115/115 clean.",
+  "residualRisk": "5 unpushed commits ahead of origin/main. The 3 pre-existing test failures appear resolved in intervening commits. Session-state.json bare-template issue persists across session resets.",
   "immediateNextSteps": [
-    "Consider: add HTTP wrapper mode for MCP server (flake8-mcpserver or direct aiohttp binding)",
-    "Consider: wire session-dashboard.sh into session-start hook for automatic observability on resume"
+    "Push 5 unpushed commits to origin/main",
+    "Consider: fix session-start.sh to preserve session-state.json across resets",
+    "Consider: HTTP wrapper mode for MCP server (non-stdio clients)",
+    "Consider: wire session-dashboard.sh into session-start hook"
   ],
   "resumeRules": [
-    "115 tests, all pass",
-    "MCP: 61+ resources (session, dashboard, autonomy, gate://, skill://, methodology://)",
+    "115 tests, all pass, repo clean",
+    "MCP: 61+ resources including gate://, state://dashboard, state://autonomy, methodology://gate-plugins",
     "MCP pipeline: pipeline/run with transition + task params",
-    "Gate: phase-gate.sh <phase> --check-quality (comprehensive)",
-    "--check-quality auto-runs constitution + gates + decision pipeline",
+    "Gate: phase-gate.sh <phase> --check-quality (comprehensive: constitution + gates + pipeline)",
     "Autonomy: autonomy-gate.sh start | adjust | status",
-    "Dashboard: session-dashboard.sh [--json|--watch]"
+    "Dashboard: session-dashboard.sh [--json|--watch]",
+    "Error cooldown: error-counter.sh with exponential backoff"
   ],
-  "doNotRepeat": [],
-  "lastRetrospect": "2026-05-15T23:00:00Z",
-  "learningsCount": 41,
+  "doNotRepeat": [
+    "Session-state.json gets overwritten on every session reset — always check and repopulate before compacting"
+  ],
+  "lastRetrospect": "2026-05-15T23:30:00Z",
+  "learningsCount": 42,
   "contextMetrics": {
     "last": {
       "status": "HEALTHY",
       "score": 1,
       "signals": {
-        "session_age_hours": 1,
-        "commits_today": 22,
+        "commits_today": 23,
         "dirty_count": 0,
         "dirty_new": 0,
         "dirty_modified": 0,
