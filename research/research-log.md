@@ -54,3 +54,4 @@ No active long-form research entry is open.
 - Move completed detailed campaigns to `archive/`.
 - Add durable, reusable conclusions to `archive/research/research-findings.md`.
 - Link archives from this file instead of pasting long completed research inline.
+- 2026-05-15: [9Router Analysis](9router-analysis.md) — pipeline/state-machine architecture, 5 structural upgrades implemented on main
