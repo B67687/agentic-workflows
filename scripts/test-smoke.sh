@@ -156,6 +156,35 @@ assert_output_contains "serve-mcp.py reads state://session" \
   "printf '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"initialize\",\"params\":{}}\n{\"jsonrpc\":\"2.0\",\"id\":2,\"method\":\"resources/read\",\"params\":{\"uri\":\"state://session\"}}\n' | python3 scripts/serve-mcp.py 2>/dev/null | python3 -c \"import sys,json; d=json.loads(sys.stdin.read().split(chr(10))[1]); c=d['result']['contents'][0]; print(c.get('mimeType',''))\"" \
   "application/json"
 
+# MCP: new gate-system resources (dashboard, autonomy, gate-plugins doc, gate:// URIs)
+assert_output_contains "serve-mcp.py lists dashboard resource" \
+  "printf '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"initialize\",\"params\":{}}\n{\"jsonrpc\":\"2.0\",\"id\":2,\"method\":\"resources/list\",\"params\":{}}\n' | python3 scripts/serve-mcp.py 2>/dev/null | python3 -c \"import sys,json; d=json.loads(sys.stdin.read().split(chr(10))[1]); uris=[r['uri'] for r in d['result']['resources']]; print('state://dashboard' in uris)\"" \
+  "True"
+
+assert_output_contains "serve-mcp.py lists autonomy resource" \
+  "printf '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"initialize\",\"params\":{}}\n{\"jsonrpc\":\"2.0\",\"id\":2,\"method\":\"resources/list\",\"params\":{}}\n' | python3 scripts/serve-mcp.py 2>/dev/null | python3 -c \"import sys,json; d=json.loads(sys.stdin.read().split(chr(10))[1]); uris=[r['uri'] for r in d['result']['resources']]; print('state://autonomy' in uris)\"" \
+  "True"
+
+assert_output_contains "serve-mcp.py lists gate-plugins methodology" \
+  "printf '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"initialize\",\"params\":{}}\n{\"jsonrpc\":\"2.0\",\"id\":2,\"method\":\"resources/list\",\"params\":{}}\n' | python3 scripts/serve-mcp.py 2>/dev/null | python3 -c \"import sys,json; d=json.loads(sys.stdin.read().split(chr(10))[1]); uris=[r['uri'] for r in d['result']['resources']]; print('methodology://gate-plugins' in uris)\"" \
+  "True"
+
+assert_output_contains "serve-mcp.py lists gate:// URIs" \
+  "printf '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"initialize\",\"params\":{}}\n{\"jsonrpc\":\"2.0\",\"id\":2,\"method\":\"resources/list\",\"params\":{}}\n' | python3 scripts/serve-mcp.py 2>/dev/null | python3 -c \"import sys,json; d=json.loads(sys.stdin.read().split(chr(10))[1]); gates=[r for r in d['result']['resources'] if r['uri'].startswith('gate://')]; print(len(gates) >= 8)\"" \
+  "True"
+
+assert_output_contains "serve-mcp.py reads gate://implement/autonomy" \
+  "printf '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"initialize\",\"params\":{}}\n{\"jsonrpc\":\"2.0\",\"id\":2,\"method\":\"resources/read\",\"params\":{\"uri\":\"gate://implement/autonomy\"}}\n' | python3 scripts/serve-mcp.py 2>/dev/null | python3 -c \"import sys,json; d=json.loads(sys.stdin.read().split(chr(10))[1]); c=d['result']['contents'][0]; print(c.get('mimeType',''))\"" \
+  "application/json"
+
+assert_output_contains "serve-mcp.py reads state://dashboard" \
+  "printf '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"initialize\",\"params\":{}}\n{\"jsonrpc\":\"2.0\",\"id\":2,\"method\":\"resources/read\",\"params\":{\"uri\":\"state://dashboard\"}}\n' | python3 scripts/serve-mcp.py 2>/dev/null | python3 -c \"import sys,json; d=json.loads(sys.stdin.read().split(chr(10))[1]); c=d['result']['contents'][0]; t=c.get('text',''); print('session' in t)\"" \
+  "True"
+
+assert_output_contains "serve-mcp.py pipeline/run implement->verify" \
+  "printf '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"initialize\",\"params\":{}}\n{\"jsonrpc\":\"2.0\",\"id\":2,\"method\":\"pipeline/run\",\"params\":{\"transition\":\"implement->verify\",\"task\":\"test\"}}\n' | python3 scripts/serve-mcp.py 2>/dev/null | python3 -c \"import sys,json; d=json.loads(sys.stdin.read().split(chr(10))[1]); sc=d.get('result',{}).get('structuredContent',{}); print(sc.get('pipeline',{}).get('passed'))\"" \
+  "True"
+
 assert_exit "post-edit.sh runs cleanly on staged" \
   "bash scripts/hooks/post-edit.sh --staged"
 
