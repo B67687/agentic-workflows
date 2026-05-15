@@ -187,14 +187,41 @@ if [[ "$CHECK_CONSTITUTION" == true ]] || [[ "$CHECK_QUALITY" == true ]] || [[ "
     echo ""
     echo "--- Constitution Gate ---"
 
-    # Map single phase to a transition (from -> to)
-    case "$PHASE" in
-      research)  TRANSITION="" ;;  # research is the safe entry lane, no gates
-      plan)      TRANSITION="research plan" ;;
-      implement) TRANSITION="plan implement" ;;
-      review)    TRANSITION="implement review" ;;
-      *)         TRANSITION="" ;;
-    esac
+    # Resolve transition from template (data-driven), fall back to hardcoded
+    TRANSITION=""
+    TMPL_SCRIPT="$SCRIPT_DIR/template-resolve.sh"
+    if [[ -f "$TMPL_SCRIPT" ]]; then
+      TMPL_PATH=$(bash "$TMPL_SCRIPT" find "${PHASE}-template.md" 2>/dev/null || true)
+      if [[ -n "$TMPL_PATH" ]] && [[ -f "$TMPL_PATH" ]]; then
+        # Extract constitution_gates from template frontmatter
+        TMPL_GATES=$(python3 -c "
+import yaml, re
+with open('$TMPL_PATH') as f:
+    content = f.read()
+m = re.match(r'^---\s*\n(.*?)\n---', content, re.DOTALL)
+if m:
+    try:
+        fm = yaml.safe_load(m.group(1))
+        if fm and 'constitution_gates' in fm:
+            print(fm['constitution_gates'])
+    except: pass
+" 2>/dev/null || true)
+        if [[ -n "$TMPL_GATES" ]]; then
+          TRANSITION="$TMPL_GATES"
+          echo "  Template: ${PHASE}-template.md (${TMPL_GATES})"
+        fi
+      fi
+    fi
+    # Fall back to hardcoded mapping if template not found or has no gates
+    if [[ -z "$TRANSITION" ]]; then
+      case "$PHASE" in
+        research)  TRANSITION="" ;;  # research is the safe entry lane, no gates
+        plan)      TRANSITION="research plan" ;;
+        implement) TRANSITION="plan implement" ;;
+        review)    TRANSITION="implement review" ;;
+        *)         TRANSITION="" ;;
+      esac
+    fi
 
     if [[ -n "$TRANSITION" ]]; then
       # shellcheck disable=SC2086

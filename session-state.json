@@ -1,41 +1,18 @@
 {
-  "session": 88,
-  "status": "verified-phase",
+  "session": 89,
+  "status": "in-progress",
   "interruptedCount": 0,
   "contextPressure": "healthy",
   "currentTask": {
-    "name": "Full-Stream Interface: final cleanup and MCP client test recreation",
-    "status": "done",
-    "goal": "Recreate test-mcp-client.py, fix methodology resource count, finalize all 4 phases"
+    "name": "Integration Test",
+    "status": "started",
+    "goal": ""
   },
   "whatChanged": [
-    "test-mcp-client.py recreated (was lost to stash pop) — 33 MCP protocol tests",
-    "test-mcp-client added to tools.toml (131 tools total)",
-    "MCP protocol validated: 115 smoke tests + 33 MCP tests = 148 total passing"
+    "test entry"
   ],
-  "filesTouched": [
-    "scripts/test-mcp-client.py (NEW, recreated)",
-    "session-state.json (UPDATED)"
-  ],
-  "verification": [
-    "115/115 smoke tests pass",
-    "33/33 MCP client protocol tests pass",
-    "131 tools in tools.toml",
-    "131 tools returned by tools.sh --json",
-    "DeepSeek-TUI v0.8.37 installed",
-    "deepseek-tui mcp validate: 'All enabled servers connected'",
-    "deepseek-tui mcp tools: 131 tools discovered from agentic-workflows server",
-    "MCP protocol validated end-to-end: init → list tools → resource list all confirmed"
-  ],
-  "keyLearnings": [
-    "DeepSeek-TUI prefixes MCP tool names with 'mcp_agentic-workflows_' — tools appear as mcp_agentic-workflows_phase-gate, etc.",
-    "The mcp validate command confirms both config validity AND server connectivity in one call",
-    "No mcp call subcommand exists — tool execution happens inside an LLM chat session"
-  ],
-  "residualRisk": "Tool execution from within a DeepSeek-TUI chat session not tested (requires API key + interactive session). Protocol connectivity validated at config level.",
-  "immediateNextSteps": [
-    "Dynamic Autonomy Cascade: extend autonomy-gate.sh with start/adjust subcommands",
-    "Decision Pipeline Composition: investigate ANSI color output in test assertions",
-    "Templates/ directory: decide to commit, gitignore, or delete"
-  ]
+  "verification": [],
+  "keyLearnings": [],
+  "residualRisk": "",
+  "immediateNextSteps": []
 }
