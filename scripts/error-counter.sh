@@ -57,6 +57,9 @@ Usage:
   error-counter.sh reset <operation>
     Reset counter (on success).
 
+  error-counter.sh route <operation> <1|2|3|4> [--note "..."]
+    Route an escalation to target: 1=human, 2=subagent, 3=safety-system, 4=auto-retry
+
   error-counter.sh context <operation>
     Output compact XML error context for LLM consumption.
 
@@ -237,6 +240,195 @@ do_reset() {
 # Post-failure decision support (QSAF-inspired failure classification)
 # ---------------------------------------------------------------------------
 
+# ---------------------------------------------------------------------------
+# Escalation routing (for environment failures: classify E)
+# ---------------------------------------------------------------------------
+
+do_route() {
+  local operation="$1"
+  local route_target="${2:-}"
+  local note=""
+
+  shift 2 2>/dev/null || true
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      --note) note="$2"; shift 2 ;;
+      *) echo "Unknown: $1" >&2; return 2 ;;
+    esac
+  done
+
+  if [ -z "$route_target" ] || ! echo "1 2 3 4" | grep -q "$route_target"; then
+    echo "ERROR: route_target must be 1 (human), 2 (agent), 3 (system), or 4 (retry)" >&2
+    return 2
+  fi
+
+  local file
+  file=$(counter_path "$operation")
+
+  if [ ! -f "$file" ]; then
+    echo "No counter file for: $operation"
+    echo "Run: error-counter.sh increment '$operation' first"
+    return 1
+  fi
+
+  # Read error context
+  local error_context
+  error_context=$(python3 -c "
+import json
+with open('$file') as f:
+    d = json.load(f)
+print(d.get('last_error', 'unknown error')[:500])
+" 2>/dev/null || echo "unknown error")
+
+  local timestamp
+  timestamp=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+  local route_dir="$COUNTER_DIR/routes"
+  mkdir -p "$route_dir"
+
+  echo "=========================================="
+  echo "  Escalation Route"
+  echo "=========================================="
+  echo ""
+
+  case "$route_target" in
+    1)
+      # Human escalation via a2h-contact.sh
+      echo "  Target: human"
+      echo "  Executing: a2h-contact.sh approve..."
+
+      if [ -f "$SCRIPT_DIR/a2h-contact.sh" ]; then
+        bash "$SCRIPT_DIR/a2h-contact.sh" approve \
+          "escalate-$operation" \
+          "{\"operation\": \"$operation\", \"failure_type\": \"environment\", \"error\": $(echo "$error_context" | python3 -c "import sys,json; print(json.dumps(sys.stdin.read()))" 2>/dev/null || echo "\"\"")}" \
+          --urgency high --channel cli 2>&1 || true
+      fi
+
+      # Record route
+      local route_file="$route_dir/$operation-human-$timestamp.json"
+      cat > "$route_file" <<EOF
+{
+  "operation": "$operation",
+  "target": "human",
+  "route": 1,
+  "timestamp": "$timestamp",
+  "note": "$note"
+}
+EOF
+      echo "  Route logged: $route_file"
+      ;;
+
+    2)
+      # Agent dispatch: output subagent prompt
+      echo "  Target: subagent"
+      echo ""
+      echo "  To dispatch a subagent with this error context:"
+      echo "    Use the task tool to spawn @worker with:"
+      echo ""
+      echo '    Prompt:'
+      echo "    Analyze this environment failure and identify whether it is transient or permanent, and recommend action."
+      cat <<PROMPT
+    Error context:
+      Operation: $operation
+      Error: $error_context
+
+    Task: Analyze this environment failure. Determine:
+      1. Is this a transient or permanent failure?
+      2. What conditions would need to change for a retry to succeed?
+      3. Should the approach be modified to work around this failure?
+      4. Or should this be escalated to a human with specific context?
+
+    Return: a structured assessment with recommendation.
+PROMPT
+      echo ""
+
+      # Record route
+      local route_file="$route_dir/$operation-agent-$timestamp.json"
+      cat > "$route_file" <<EOF
+{
+  "operation": "$operation",
+  "target": "subagent",
+  "route": 2,
+  "timestamp": "$timestamp",
+  "note": "$note"
+}
+EOF
+      echo "  Route logged: $route_file"
+      ;;
+
+    3)
+      # System escalation via safety-guard.sh
+      echo "  Target: system (safety-guard)"
+      echo "  Executing: safety-guard.sh check..."
+
+      if [ -f "$SCRIPT_DIR/safety-guard.sh" ]; then
+        # Check against generic safety profile
+        bash "$SCRIPT_DIR/safety-guard.sh" check "pipeline-$operation" "task-1" --file "" 2>&1 || true
+      else
+        echo "  safety-guard.sh not available --- escalate to human instead"
+        echo "  Route: falling back to route 1"
+        do_route "$operation" 1 --note "fallback from route 3: safety-guard unavailable"
+        return
+      fi
+
+      # Record route
+      local route_file="$route_dir/$operation-system-$timestamp.json"
+      cat > "$route_file" <<EOF
+{
+  "operation": "$operation",
+  "target": "system",
+  "route": 3,
+  "timestamp": "$timestamp",
+  "note": "$note"
+}
+EOF
+      echo "  Route logged: $route_file"
+      ;;
+
+    4)
+      # Auto-retry with backoff
+      echo "  Target: auto-retry (transient failure)"
+      echo ""
+
+      # Read current count for backoff
+      local current_count
+      current_count=$(python3 -c "
+import json
+with open('$file') as f:
+    print(json.load(f).get('count', 0))
+" 2>/dev/null || echo 1)
+
+      local backoff=$((current_count * 2))
+      echo "  Backoff: ${backoff}s (retry ${current_count})"
+      echo "  Reset counter and retry with modified conditions."
+      echo ""
+
+      # Reset counter (so retry doesn't immediately hit threshold)
+      if [ -f "$file" ]; then
+        rm "$file"
+      fi
+
+      echo "  Counter reset. Retry with:"
+      echo "    - Wait ${backoff}s before retry"
+      echo "    - Use different conditions if possible (timeout, retry count, etc.)"
+      echo "    - If fails again: error-counter.sh increment '$operation' with --decide"
+
+      # Record route
+      local route_file="$route_dir/$operation-retry-$timestamp.json"
+      cat > "$route_file" <<EOF
+{
+  "operation": "$operation",
+  "target": "auto-retry",
+  "route": 4,
+  "backoff": $backoff,
+  "timestamp": "$timestamp",
+  "note": "$note"
+}
+EOF
+      echo "  Route logged: $route_file"
+      ;;
+  esac
+}
+
 do_decide() {
   local operation="$1"
   local file
@@ -361,7 +553,7 @@ do_classify() {
       ;;
     E)
       failure_type="environment"
-      recommendation="escalate to human"
+      recommendation="escalate"
       ;;
   esac
 
@@ -379,6 +571,26 @@ EOF
   echo "Classified: $operation -> $failure_type failure"
   echo "Recommendation: $recommendation"
   echo "Logged: $decision_file"
+
+  # Show routing options for environment failures
+  if [[ "$classification" == "E" ]]; then
+    echo ""
+    echo "--- Escalation Routing ---"
+    echo "Choose where to escalate this environment failure:"
+    echo ""
+    echo "  (1) Human    --- for permission issues, external deps, broken infra"
+    echo "      bash error-counter.sh route $operation 1 [--note "..."]"
+    echo ""
+    echo "  (2) Agent    --- for parallel analysis or modified retry"
+    echo "      bash error-counter.sh route $operation 2 [--note "..."]"
+    echo ""
+    echo "  (3) System   --- for blocked paths, budget exhaustion"
+    echo "      bash error-counter.sh route $operation 3 [--note "..."]"
+    echo ""
+    echo "  (4) Retry    --- for transient failures (network, timeout)"
+    echo "      bash error-counter.sh route $operation 4 [--note "..."]"
+    echo ""
+  fi
 }
 
 do_context() {
@@ -486,6 +698,10 @@ case "$CMD" in
 
   classify)
     do_classify "$@"
+    ;;
+
+  route)
+    do_route "$@"
     ;;
 
   context)
