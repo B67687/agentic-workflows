@@ -136,8 +136,8 @@ SKILL.md frontmatter fields used by DeepSeek-TUI's parser:
 | Phase | Artifacts | Status |
 |-------|-----------|--------|
 | **1. Structured Interface** | `tools.toml`, `skills.toml`, `tools.sh --json`, SKILL.md alignment | **DONE** ← current |
-| **2. MCP Server** | `scripts/serve-mcp.sh`, MCP config for DeepSeek-TUI/OpenCode | Next |
-| **3. Post-Edit Quality Loop** | Post-edit hook protocol, feedback aggregator | Planned |
+| **2. MCP Server** | `scripts/serve-mcp.py` + `scripts/serve-mcp.sh`, MCP config for DeepSeek-TUI/OpenCode | **DONE** ← current |
+| **3. Post-Edit Quality Loop** | Post-edit hook protocol, feedback aggregator | Next |
 | **4. Full Integration** | Methodology MCP resources, session state sync, cognitive safeguard tools | Future |
 
 ## Related

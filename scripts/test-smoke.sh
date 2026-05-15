@@ -112,6 +112,25 @@ assert_exit "session-start.sh runs cleanly" \
 
 # ===========================================================================
 echo ""
+echo "--- P2: MCP Server ---"
+
+assert_exit "serve-mcp.sh --check succeeds" \
+  "bash scripts/serve-mcp.sh --check"
+
+assert_output_contains "serve-mcp.py initialize responds" \
+  "printf '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"initialize\",\"params\":{\"protocolVersion\":\"2025-11-25\",\"capabilities\":{},\"clientInfo\":{\"name\":\"test\",\"version\":\"0.1\"}}}\n{\"jsonrpc\":\"2.0\",\"id\":2,\"method\":\"tools/list\",\"params\":{}}\n' | python3 scripts/serve-mcp.py" \
+  "agentic-workflows-mcp"
+
+assert_output_contains "serve-mcp.py lists 121 tools" \
+  "printf '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"initialize\",\"params\":{}}\n{\"jsonrpc\":\"2.0\",\"id\":2,\"method\":\"tools/list\",\"params\":{}}\n' | python3 scripts/serve-mcp.py 2>/dev/null | python3 -c \"import sys,json; d=json.loads(sys.stdin.read().split(chr(10))[1]); print(len(d['result']['tools']))\"" \
+  "121"
+
+assert_output_contains "serve-mcp.py lists 44 skills" \
+  "printf '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"initialize\",\"params\":{}}\n{\"jsonrpc\":\"2.0\",\"id\":2,\"method\":\"resources/list\",\"params\":{}}\n' | python3 scripts/serve-mcp.py 2>/dev/null | python3 -c \"import sys,json; d=json.loads(sys.stdin.read().split(chr(10))[1]); skills=[r for r in d['result']['resources'] if r['uri'].startswith('skill://')]; print(len(skills))\"" \
+  "44"
+
+# ===========================================================================
+echo ""
 echo "--- P2: Scripted Skills ---"
 
 # explore.py
