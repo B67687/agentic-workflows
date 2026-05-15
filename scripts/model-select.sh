@@ -40,7 +40,7 @@ REFRESH_DATE="2026-05-15"
 # Task type classifier keywords
 declare -A TASK_TYPES
 TASK_TYPES=(
-  ["coding"]="implement|write code|add feature|build|refactor|fix bug|debug|patch|program|script"
+  ["coding"]="implement|write code|add feature|build|refactor|fix bug|fix typo|fix test|patch|program|script|merge|commit|deploy|ci|test suite|test case"
   ["debugging"]="debug|bug|error|fail|crash|broken|wrong|incorrect|stack.trace|exception"
   ["research"]="research|investigate|explore|learn|understand|analyze|compare|survey|literature"
   ["writing"]="write|document|draft|compose|explain|describe|summarize|report|readme"
@@ -123,12 +123,11 @@ recommend() {
 # ---------------------------------------------------------------------------
 classify_task() {
   description="$1"
-  lower_desc
   lower_desc=$(echo "$description" | tr '[:upper:]' '[:lower:]')
 
   # Detect task type by keyword matching (first match wins)
   detected_type="coding"
-  for type in "debugging" "research" "writing" "architecture" "extraction" "multimodal" "planning" "coding"; do
+  for type in "debugging" "coding" "research" "writing" "architecture" "extraction" "multimodal" "planning"; do
     keywords="${TASK_TYPES[$type]}"
     if echo "$lower_desc" | grep -qiE "$keywords" 2>/dev/null; then
       detected_type="$type"
@@ -177,9 +176,7 @@ print_recommendation() {
   echo ""
 
   echo "--- Primary Recommendation ---"
-  primary
   primary=$(recommend "$task_type" "$complexity" "$budget" | grep -v '^ALT:' | head -1)
-  model provider reason
   IFS='|' read -r model provider reason <<< "$primary"
   echo "  Model:    $model"
   echo "  Provider: $provider"
