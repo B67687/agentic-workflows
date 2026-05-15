@@ -97,6 +97,14 @@ if [ -f "$SNAPSHOT" ]; then
     fi
 fi
 
+# ---- Constitution Health ----
+CONSTITUTION_SCRIPT="$(dirname "$0")/../constitution.sh"
+if [[ -f "$CONSTITUTION_SCRIPT" ]] && [[ -f "$(git rev-parse --show-toplevel 2>/dev/null)/constitution.md" ]]; then
+  echo ""
+  echo "Constitution:"
+  bash "$CONSTITUTION_SCRIPT" status 2>/dev/null | sed 's/^/  /'
+fi
+
 # ---- Session Status Overview ----
 bash "$(dirname "$0")/../session-status.sh" --compact 2>/dev/null || true
 echo "  bash ./scripts/tools.sh            --- full tool list"

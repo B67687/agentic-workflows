@@ -71,11 +71,17 @@ get_article_list() {
 }
 
 get_article_severity() {
-  local num="$1"; ensure_constitution
-  local in=false; local sev="ADVISORY"
+  local target="$1"; ensure_constitution
+  local count=0; local in=false; local sev="ADVISORY"
   while IFS= read -r line; do
-    if echo "$line" | grep -q "^## Article $num:"; then in=true; continue; fi
-    if echo "$line" | grep -q "^## Article" && ! echo "$line" | grep -q "^## Article $num:"; then [[ "$in" == true ]] && break; fi
+    if echo "$line" | grep -q '^## Article '; then
+      count=$((count + 1))
+      if [[ "$count" -eq "$target" ]]; then
+        in=true; continue
+      elif [[ "$in" == true ]]; then
+        break
+      fi
+    fi
     [[ "$in" == true ]] && echo "$line" | grep -qi "BLOCKING" && sev="BLOCKING"
   done < "$CONSTITUTION_FILE"
   echo "$sev"
@@ -179,7 +185,7 @@ cmd_check() {
   echo "File: $CONSTITUTION_FILE"
   echo ""
   for num in $(seq 1 "$count"); do
-    local name; name=$(get_article_list | sed -n "${num}p" 2>/dev/null | sed 's/^## Article [0-9]*: //' || echo "Article $num")
+    local name; name=$(get_article_list | sed -n "${num}p" 2>/dev/null | sed 's/^## Article [IVXLCDM]*: //' || echo "Article $num")
     local sev; sev=$(get_article_severity "$num")
     [[ -n "$filter" ]] && { echo "$name" | grep -qi "$filter" || continue; }
     echo "  Article $num: $name"
@@ -266,7 +272,7 @@ cmd_list() {
   while IFS= read -r article; do
     local s; s=$(get_article_severity "$i")
     local tag; [[ "$s" == "BLOCKING" ]] && tag="BLOCK" || tag="ADVIS"
-    echo "  Article $i: $(echo "$article" | sed 's/^## Article [0-9]*: //')  [$tag]"
+    echo "  Article $i: $(echo "$article" | sed 's/^## Article [IVXLCDM]*: //')  [$tag]"
     i=$((i + 1))
   done < <(get_article_list)
   echo ""; echo "  $c articles | Version $v"

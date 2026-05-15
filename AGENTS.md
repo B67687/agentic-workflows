@@ -41,11 +41,12 @@ Companion: `bash ./skills/clarification-protocol/scripts/clarify.sh gate "reques
 
 1. `session-state.json` --- active session state; read first on every resume
 2. Lifecycle hooks run automatically (printed to conversation):
-   - `bash ./scripts/hooks/session-start.sh` --- branch, recent commits, state health
+   - `bash ./scripts/hooks/session-start.sh` --- branch, recent commits, state health, constitution status
    - `bash ./scripts/hooks/detect-gaps.sh` --- stale indexes, missing state, drift
 3. `AGENTS.md` --- this operating contract
-4. `docs/workflow.md` --- fast orientation (replaces multi-file startup --- merged from core-agent-doctrine + phase-based + agentic-workflows + system-overview)
-5. Task-specific files only when needed
+4. `constitution.md` --- immutable governing principles with enforceable article gates
+5. `docs/workflow.md` --- fast orientation (replaces multi-file startup --- merged from core-agent-doctrine + phase-based + agentic-workflows + system-overview)
+6. Task-specific files only when needed
 
 For topic-folder work: root `session-state.json`, then lifecycle hooks, then `AGENTS.md`, then `docs/workflow.md`, then `meta/` files only when deeper context is needed.
 
