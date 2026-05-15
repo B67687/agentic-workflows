@@ -147,6 +147,42 @@ Return a compact slice note with:
 
 If the slice output says normal planning is enough, recommend `/plan $ARGUMENTS` instead.
 
+## Decompose (after plan, before implement)
+
+Use this after the plan is written to decompose the first milestone into
+structured, executable tasks with parallel markers, dependency ordering,
+file paths, verification targets, and constitution gate references.
+
+Run:
+```bash
+bash ./scripts/task-decompose.sh "$ARGUMENTS" \
+  --from research/ \
+  --story "<user story 1>" \
+  --story "<user story 2>" \
+  --check-gates
+```
+
+Produces a tasks.md with:
+- **Tasks T1, T2, ...** --- each with file paths, verification, dependencies
+- **`[P]` markers** --- parallel tasks dispatchable concurrently
+- **Constitution references** --- which articles each task triggers
+- **Checkpoints** --- verification gates between user stories
+
+Save to `.runtime/tasks.md` for structured tracking:
+```bash
+bash ./scripts/task-decompose.sh "$ARGUMENTS" \
+  --from research/ \
+  --output .runtime/tasks.md \
+  --check-gates
+```
+
+Then proceed to implementation:
+```bash
+bash ./scripts/phase-gate.sh implement \
+  --research-done --plan-done --scope-bounded --verification-known \
+  --check-quality --constitution --check-ambiguity
+```
+
 <rationalizations>
 | Shortcut | Why It Fails |
 |---|---|

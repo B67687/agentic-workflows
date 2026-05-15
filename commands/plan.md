@@ -93,3 +93,21 @@ The quality gate will also check for unaddressed blocking findings at commit tim
 - Verification target is vague ("make it work") instead of specific ("tests pass + build succeeds + endpoint returns 200")
 - No explicit "out of scope" section
 </red_flags>
+
+### Next Step
+
+After the plan is approved, decompose the first milestone into executable tasks:
+
+```bash
+bash ./scripts/task-decompose.sh "$ARGUMENTS" \
+  --from research/ --story "<story>" \
+  --output .runtime/tasks.md --check-gates
+```
+
+Then run the implementation phase gate with all checks:
+
+```bash
+bash ./scripts/phase-gate.sh implement \
+  --research-done --plan-done --scope-bounded --verification-known \
+  --check-quality --constitution --check-ambiguity
+```

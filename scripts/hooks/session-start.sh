@@ -160,4 +160,18 @@ if command -v ruflo &>/dev/null; then
   echo "  bash ruflo hooks pretrain          --- re-analyze repo for patterns"
 fi
 
+# ---- Reasoning Level ----
+REASONING_LEVEL=$(python3 -c "
+import json, re
+try:
+    with open('$HOME/.config/opencode/opencode.jsonc') as f:
+        content = f.read()
+    m = re.search(r'\"reasoning_effort\":\s*\"([^\"]+)\"', content)
+    if m: print(m.group(1))
+    else: print('high')
+except: print('unknown')
+" 2>/dev/null || echo "unknown")
+echo ""
+echo "Reasoning: ${REASONING_LEVEL} (bash ./scripts/reasoning.sh to change)"
+
 echo "=== End Diagnostics ==="
