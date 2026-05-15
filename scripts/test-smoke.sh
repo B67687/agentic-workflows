@@ -150,7 +150,7 @@ assert_output_contains "serve-mcp.py state/status responds" \
 
 assert_output_contains "serve-mcp.py lists methodology resource" \
   "printf '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"initialize\",\"params\":{}}\n{\"jsonrpc\":\"2.0\",\"id\":2,\"method\":\"resources/list\",\"params\":{}}\n' | python3 scripts/serve-mcp.py 2>/dev/null | python3 -c \"import sys,json; d=json.loads(sys.stdin.read().split(chr(10))[1]); methods=[r for r in d['result']['resources'] if r['uri'].startswith('methodology://')]; print(len(methods))\"" \
-  "4"
+  "5"
 
 assert_output_contains "serve-mcp.py reads state://session" \
   "printf '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"initialize\",\"params\":{}}\n{\"jsonrpc\":\"2.0\",\"id\":2,\"method\":\"resources/read\",\"params\":{\"uri\":\"state://session\"}}\n' | python3 scripts/serve-mcp.py 2>/dev/null | python3 -c \"import sys,json; d=json.loads(sys.stdin.read().split(chr(10))[1]); c=d['result']['contents'][0]; print(c.get('mimeType',''))\"" \
