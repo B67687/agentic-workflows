@@ -41,7 +41,8 @@ case "$CMD" in
       exit 0
     fi
     TOTAL=$(wc -l < "$FEEDBACK_LOG")
-    FAILED=$(grep -c '"result":"failed"' "$FEEDBACK_LOG" 2>/dev/null || echo 0)
+    # grep -c outputs "0" AND exits 1 on no match — must discard stdout when no match
+    FAILED=$(grep -c '"result":"failed"' "$FEEDBACK_LOG" 2>/dev/null | grep . || echo 0)
     PASSED=$((TOTAL - FAILED))
 
     echo "=== Quality Feedback Status ==="

@@ -131,6 +131,42 @@ assert_output_contains "serve-mcp.py lists 44 skills" \
 
 # ===========================================================================
 echo ""
+echo "--- P4: Full Integration ---"
+
+assert_exit "session-sync.sh start creates state" \
+  "bash scripts/session-sync.sh start"
+
+assert_output_contains "session-sync.sh status shows session" \
+  "bash scripts/session-sync.sh status" \
+  "Session:"
+
+assert_output_contains "session-sync.sh update + append work" \
+  "bash scripts/session-sync.sh update currentTask.name 'Integration Test' && bash scripts/session-sync.sh append whatChanged 'test entry'" \
+  "whatChanged"
+
+assert_output_contains "serve-mcp.py state/status responds" \
+  "printf '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"initialize\",\"params\":{}}\n{\"jsonrpc\":\"2.0\",\"id\":2,\"method\":\"state/status\",\"params\":{}}\n' | python3 scripts/serve-mcp.py 2>/dev/null | python3 -c \"import sys,json; d=json.loads(sys.stdin.read().strip().split(chr(10))[1]); sc=d.get('result',{}).get('structuredContent',{}); print('session' in sc and isinstance(sc['session'], int))\"" \
+  "True"
+
+assert_output_contains "serve-mcp.py lists methodology resource" \
+  "printf '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"initialize\",\"params\":{}}\n{\"jsonrpc\":\"2.0\",\"id\":2,\"method\":\"resources/list\",\"params\":{}}\n' | python3 scripts/serve-mcp.py 2>/dev/null | python3 -c \"import sys,json; d=json.loads(sys.stdin.read().split(chr(10))[1]); methods=[r for r in d['result']['resources'] if r['uri'].startswith('methodology://')]; print(len(methods))\"" \
+  "4"
+
+assert_output_contains "serve-mcp.py reads state://session" \
+  "printf '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"initialize\",\"params\":{}}\n{\"jsonrpc\":\"2.0\",\"id\":2,\"method\":\"resources/read\",\"params\":{\"uri\":\"state://session\"}}\n' | python3 scripts/serve-mcp.py 2>/dev/null | python3 -c \"import sys,json; d=json.loads(sys.stdin.read().split(chr(10))[1]); c=d['result']['contents'][0]; print(c.get('mimeType',''))\"" \
+  "application/json"
+
+assert_exit "post-edit.sh runs cleanly on staged" \
+  "bash scripts/hooks/post-edit.sh --staged"
+
+assert_exit "feedback-aggregator.sh status works" \
+  "bash scripts/feedback-aggregator.sh status"
+
+assert_exit "feedback-aggregator.sh record works" \
+  "bash scripts/feedback-aggregator.sh record test-gate passed 'test ok'"
+
+# ===========================================================================
+echo ""
 echo "--- P2: Scripted Skills ---"
 
 # explore.py

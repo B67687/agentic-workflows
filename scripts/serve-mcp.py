@@ -176,6 +176,19 @@ def _load_skills():
 
 
 # ── Tool execution ───────────────────────────────────────────────────────────
+def _sync_session(method_name, status="completed"):
+    """Update session-state.json after a tool execution."""
+    try:
+        session_sync = REPO_ROOT / "scripts" / "session-sync.sh"
+        if session_sync.exists():
+            subprocess.run(
+                [str(session_sync), "update", "status", "verified-phase"],
+                capture_output=True, text=True, timeout=10,
+            )
+    except Exception:
+        pass  # Non-blocking
+
+
 def _execute_script(path, args_dict):
     """Execute a script from the registry and return structured output."""
     full_path = REPO_ROOT / path
@@ -322,6 +335,8 @@ class MCPServer:
                 return self._handle_resources_read(params, req_id)
             elif method == "quality/check":
                 return self._handle_quality_check(params, req_id)
+            elif method == "state/status":
+                return self._handle_state_status(params, req_id)
             else:
                 return self._make_error(req_id, -32601, f"Method not found: {method}")
         except Exception as e:
@@ -407,6 +422,42 @@ class MCPServer:
             },
         })
 
+    # ── State status endpoint ─────────────────────────────────────────────
+    def _handle_state_status(self, params, req_id):
+        """Return current session state summary."""
+        state_path = REPO_ROOT / "session-state.json"
+        try:
+            if state_path.exists():
+                state = json.loads(state_path.read_text())
+            else:
+                state = {"status": "no-session"}
+        except Exception:
+            state = {"status": "error-reading-state"}
+
+        # Add derived health info
+        health = {"healthy": True, "warnings": []}
+        task = state.get("currentTask", {})
+        if task.get("status") == "done" and not state.get("immediateNextSteps"):
+            health["warnings"].append("Task complete with no next steps defined")
+        if state.get("interruptedCount", 0) > 3:
+            health["warnings"].append(f"High interruption count: {state['interruptedCount']}")
+            health["healthy"] = False
+
+        result = {
+            "session": state.get("session", 0),
+            "status": state.get("status", "unknown"),
+            "task": task.get("name", ""),
+            "task_status": task.get("status", ""),
+            "interruptedCount": state.get("interruptedCount", 0),
+            "contextPressure": state.get("contextPressure", "unknown"),
+            "health": health,
+        }
+
+        return self._make_result(req_id, {
+            "content": [{"type": "text", "text": json.dumps(result, indent=2)}],
+            "structuredContent": result,
+        })
+
     def _handle_tools_call(self, params, req_id):
         name = params.get("name", "")
         arguments = params.get("arguments", {})
@@ -437,6 +488,9 @@ class MCPServer:
             quality_results = []
             for gate in gate_names:
                 quality_results.append(_run_quality_gate(gate))
+
+        # Auto-sync session state
+        _sync_session(name)
 
         # If quality gates ran, append them to the response
         if quality_results:
@@ -481,17 +535,30 @@ class MCPServer:
             })
 
         # Methodology resources
+        METHODOLOGY = [
+            ("methodology://workflow", "Workflow Methodology",
+             "Full workflow methodology: question gate, research, plan, implement, verify, retrospect"),
+            ("methodology://full-stream-interface", "Full-Stream Interface Architecture",
+             "Architecture document for the Layer 4↔3 interface contract"),
+            ("methodology://agents-md", "Agent Operating Contract",
+             "AGENTS.md — full agent harness operating contract and governance rules"),
+            ("methodology://research-prompt", "Research Methodology",
+             "6-phase research methodology: frame, discover, gather, triangulate, apply, preserve"),
+        ]
+        for uri, name, desc in METHODOLOGY:
+            resources.append({
+                "uri": uri, "name": name, "description": desc,
+                "mimeType": "text/markdown",
+                "annotations": {"audience": ["assistant"]},
+            })
+
+        # State resource (dynamic)
         resources.append({
-            "uri": "methodology://workflow",
-            "name": "Workflow Methodology",
-            "description": "Full workflow methodology (question gate, research, plan, implement, verify, retrospect)",
-            "mimeType": "text/markdown",
-        })
-        resources.append({
-            "uri": "methodology://full-stream-interface",
-            "name": "Full-Stream Interface Architecture",
-            "description": "Architecture document for the Layer 4↔3 interface contract",
-            "mimeType": "text/markdown",
+            "uri": "state://session",
+            "name": "Session State",
+            "description": "Current session state.json (read-only)",
+            "mimeType": "application/json",
+            "annotations": {"audience": ["assistant"]},
         })
 
         return self._make_result(req_id, {"resources": resources})
@@ -523,17 +590,29 @@ class MCPServer:
             })
 
         # Methodology resources
-        if uri == "methodology://workflow":
-            path = REPO_ROOT / "docs" / "workflow.md"
-        elif uri == "methodology://full-stream-interface":
-            path = REPO_ROOT / "docs" / "full-stream-interface.md"
-        else:
-            return self._make_error(req_id, -32602, f"Unknown resource: {uri}")
+        METHODOLOGY_MAP = {
+            "methodology://workflow": ("docs/workflow.md", "text/markdown"),
+            "methodology://full-stream-interface": ("docs/full-stream-interface.md", "text/markdown"),
+            "methodology://agents-md": ("AGENTS.md", "text/markdown"),
+            "methodology://research-prompt": ("research/research-prompt.md", "text/markdown"),
+        }
+        if uri in METHODOLOGY_MAP:
+            rel_path, mime = METHODOLOGY_MAP[uri]
+            path = REPO_ROOT / rel_path
+            text = path.read_text() if path.exists() else f"(not found: {path})"
+            return self._make_result(req_id, {
+                "contents": [{"uri": uri, "mimeType": mime, "text": text}]
+            })
 
-        text = path.read_text() if path.exists() else f"(not found: {path})"
-        return self._make_result(req_id, {
-            "contents": [{"uri": uri, "mimeType": "text/markdown", "text": text}]
-        })
+        # State resources
+        if uri == "state://session":
+            path = REPO_ROOT / "session-state.json"
+            text = path.read_text() if path.exists() else "{}"
+            return self._make_result(req_id, {
+                "contents": [{"uri": uri, "mimeType": "application/json", "text": text}]
+            })
+
+        return self._make_error(req_id, -32602, f"Unknown resource: {uri}")
 
     # ── JSON-RPC helpers ────────────────────────────────────────────────────
     def _make_result(self, req_id, result):
