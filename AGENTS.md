@@ -7,9 +7,9 @@ An agent harness for orchestrating, managing, and extending AI agents. Not a cod
 **Core principle: Supply missing structure when safe.**
 When the request is clear enough and risk is low, proactively sharpen scope, choose investigation order, define verification targets, use the lightest lane, and switch to tests-first for behavior changes.
 
-**Default research conduct:** Rigorous by default --- source triangulation, confidence levels (SPECULATIVE→ESTABLISHED), authority weighting, cited sources. 6-phase methodology in `research/research-prompt.md`.
+**Default research conduct:** Rigorous by default --- source triangulation, confidence levels (SPECULATIVE->ESTABLISHED), authority weighting, cited sources. 6-phase methodology in `research/research-prompt.md`.
 
-**Default fix conduct (macro-to-micro):** Start at system architecture → affected domain → module → root cause. Never skip levels — see `skills/debugging-and-error-recovery/SKILL.md`.
+**Default fix conduct (macro-to-micro):** Start at system architecture -> affected domain -> module -> root cause. Never skip levels --- see `skills/debugging-and-error-recovery/SKILL.md`.
 
 **Automatic questioning:** Run Clarification Protocol (`skills/clarification-protocol/SKILL.md`) on vague requests. One structured question at a time. Never guess when asking resolves ambiguity.
 
@@ -28,7 +28,7 @@ When the request is clear enough and risk is low, proactively sharpen scope, cho
 |------|---------|
 | `session-state.json` | Active session; read first on resume |
 | `docs/workflow.md` | Compact workflow summary |
-| `scripts/tools.sh` | Tool registry — list all agent-callable tools |
+| `scripts/tools.sh` | Tool registry --- list all agent-callable tools |
 | `scripts/skill-toolset.sh` | Progressive skill loading (L1/L2/L3) |
 | `scripts/search-index.sh` | BM25 text index query |
 | `scripts/test-smoke.sh` | 115-test smoke suite |
@@ -38,25 +38,25 @@ When the request is clear enough and risk is low, proactively sharpen scope, cho
 ## Key Rules
 
 - **No new files** if an existing doc covers the need.
-- **Verify aggressively** — verification is the quality engine.
-- **Weigh complexity vs improvement** — simpler is better. Removing code while keeping function is a double win.
+- **Verify aggressively** --- verification is the quality engine.
+- **Weigh complexity vs improvement** --- simpler is better. Removing code while keeping function is a double win.
 - **Summarize work** as root cause, fix, verification, residual risk.
-- **Commit after every meaningful change** — run `bash ./scripts/checkpoint-commit.sh -m "summary"` immediately.
-- **Phase-based work**: research → plan → implement. Don't jump to code.
-- **Fix macro-to-micro**: system → domain → module → root cause.
+- **Commit after every meaningful change** --- run `bash ./scripts/checkpoint-commit.sh -m "summary"` immediately.
+- **Phase-based work**: research -> plan -> implement. Don't jump to code.
+- **Fix macro-to-micro**: system -> domain -> module -> root cause.
 - **One task per session**: topic shift? Checkpoint and restart fresh.
 - **Probe repo before edits**: branch, divergence, dirt, upstream.
-- **Batch file reads 3 at a time** — avoid 6+ reads mixed with long builds (memory pressure on WSL2).
+- **Batch file reads 3 at a time** --- avoid 6+ reads mixed with long builds (memory pressure on WSL2).
 
 ## Governance
 
 - Runtime authority: your agent runtime config (OpenCode at `$HOME/.config/opencode/opencode.jsonc`)
-- Repo authority: `session-state.json` → `AGENTS.md` → `docs/workflow.md`
+- Repo authority: `session-state.json` -> `AGENTS.md` -> `docs/workflow.md`
 - No tool-specific runtime configs repo-locally (no `.claude/settings.json` overrides, etc.)
 
 ## Agentic Behavior
 
-- **Brevity by default**: simple→1 sentence, medium→bullets, complex→sections.
+- **Brevity by default**: simple->1 sentence, medium->bullets, complex->sections.
 - **Proactive checkpointing**: suggest handoff at 10+ turns, compress to 5-line summary.
 - **Handle directly by default** (<10 file search, 1-3 line edits, <10 file ops, plans under 5 steps).
   Route to @explore/@worker when exceeding thresholds.
@@ -67,7 +67,7 @@ When the request is clear enough and risk is low, proactively sharpen scope, cho
 
 ## Session Documentation
 
-After meaningful work, update `session-state.json`. Write `archive/history-index.md` (compact) and `archive/history-full-detailed.md` (narrative). History is NOT read by default — it's for long-break resumes.
+After meaningful work, update `session-state.json`. Write `archive/history-index.md` (compact) and `archive/history-full-detailed.md` (narrative). History is NOT read by default --- it's for long-break resumes.
 
 ## Deep References
 
