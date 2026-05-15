@@ -261,7 +261,7 @@ def main():
                 print(f"  ✗ {skill_dir.name}: {'; '.join(messages)}")
             unchanged += 1
 
-    mode = " [DRY RUN — no files changed]" if dry_run else ""
+    mode = " [DRY RUN --- no files changed]" if dry_run else ""
     print(f"\n---{mode}")
     print(f"Total: {len(dirs)}  Changed: {changed}  Unchanged: {unchanged}")
 

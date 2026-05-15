@@ -2,7 +2,7 @@
 
 **Status**: ESTABLISHED
 **Goal**: Systematically compare both repos to identify high-impact improvements for agentic-workflows
-**Method**: Source triangulation — primary source analysis of both repos + ecosystem literature
+**Method**: Source triangulation --- primary source analysis of both repos + ecosystem literature
 **Date**: 2026-05-15
 
 ---
@@ -27,21 +27,21 @@
 
 | Aspect | Ours | Spec Kit | Assessment |
 |--------|------|----------|------------|
-| Pipeline definition | `docs/workflow.md` — descriptive pipeline shape | `spec-driven.md` + templates — prescriptive, executable pipeline | Spec Kit's pipeline IS the tool; ours is described but agent-discretionary |
-| Phase enforcement | `phase-gate.sh` — executable blockers per phase | Constitution Check in plan-template.md — template checkboxes | Our gates are actually executable (stronger); theirs are template-embedded (more discoverable) |
-| Phase artifacts | Research note → plan → implementation | spec.md → plan.md → tasks.md → code | Spec Kit has richer artifact set (research.md, data-model.md, contracts/, quickstart.md) |
-| Task decomposition | Manual via `/task` + `task-slice.sh` + `task-intake.sh` | `/speckit.tasks` — AI-driven decomposition from plan artifacts | **Gap**: Ours has better intake/slicing but no automated spec→task pipeline |
+| Pipeline definition | `docs/workflow.md` --- descriptive pipeline shape | `spec-driven.md` + templates --- prescriptive, executable pipeline | Spec Kit's pipeline IS the tool; ours is described but agent-discretionary |
+| Phase enforcement | `phase-gate.sh` --- executable blockers per phase | Constitution Check in plan-template.md --- template checkboxes | Our gates are actually executable (stronger); theirs are template-embedded (more discoverable) |
+| Phase artifacts | Research note -> plan -> implementation | spec.md -> plan.md -> tasks.md -> code | Spec Kit has richer artifact set (research.md, data-model.md, contracts/, quickstart.md) |
+| Task decomposition | Manual via `/task` + `task-slice.sh` + `task-intake.sh` | `/speckit.tasks` --- AI-driven decomposition from plan artifacts | **Gap**: Ours has better intake/slicing but no automated spec->task pipeline |
 | Verification | Separate `/verify` step, `quality-speed-gate.sh` | Built into templates (checklists, constitution gates) | Ours is more thorough but less integrated |
 
 ### 2.2 Governance & Quality
 
 | Aspect | Ours | Spec Kit | Assessment |
 |--------|------|----------|------------|
-| Phase gates | `phase-gate.sh` — boolean state checks + quality checks | Constitution Check in plan-template.md — Phase -1 gates | **Both strong**, different approaches |
+| Phase gates | `phase-gate.sh` --- boolean state checks + quality checks | Constitution Check in plan-template.md --- Phase -1 gates | **Both strong**, different approaches |
 | Constitution | No single constitution document | `constitution.md` with 9 articles + amendment process | **GAP**: We have governance rules scattered across files but no unified constitution |
 | Test enforcement | Advisory (WARN on quality-gate) | Article III: NON-NEGOTIABLE test-first | **GAP**: Ours is advisory; theirs is enforceable |
 | Simplicity gates | Simplicity criterion in AGENTS.md, quality gate | Simplicity Gate (Art VII), Anti-Abstraction Gate (Art VIII) | Spec Kit has explicit gates; ours is a general rule |
-| Pre-commit checks | `quality-gate.sh` — shellcheck, secrets, non-ASCII, TODO | No equivalent (just markdownlint) | **We lead** — executable pre-commit quality enforcement |
+| Pre-commit checks | `quality-gate.sh` --- shellcheck, secrets, non-ASCII, TODO | No equivalent (just markdownlint) | **We lead** --- executable pre-commit quality enforcement |
 | Error handling | `error-counter.sh`, `log-error.sh`, escalation, classification (C/S/E) | None | **We lead significantly** |
 | Post-mortem | `task-retrospect.sh`, `triple-debt.sh` | None | **We lead** |
 
@@ -49,18 +49,18 @@
 
 | Aspect | Ours | Spec Kit | Assessment |
 |--------|------|----------|------------|
-| Adversarial planning | CATFISH protocol (`plan-challenge.sh`, `plan-guard.sh --challenge`) | None | **We lead** — this is unique |
-| Comprehension enforcement | `comprehension-gate.sh` — enforced participation before implement | None | **We lead** — Recognition model implementation |
-| Decision audit trail | `decision.sh` — DCI packet (option + objections + reopen) | None | **We lead** |
-| Assumption expiry | `assumption-expiry.sh` — TTL-based stale claim detection | None | **We lead** |
-| Cognitive surrender mitigation | Full research-backed system (recognition, CATFISH, debt tracking, calibration checks) | None | **We lead significantly** — this is our most distinctive advantage |
+| Adversarial planning | CATFISH protocol (`plan-challenge.sh`, `plan-guard.sh --challenge`) | None | **We lead** --- this is unique |
+| Comprehension enforcement | `comprehension-gate.sh` --- enforced participation before implement | None | **We lead** --- Recognition model implementation |
+| Decision audit trail | `decision.sh` --- DCI packet (option + objections + reopen) | None | **We lead** |
+| Assumption expiry | `assumption-expiry.sh` --- TTL-based stale claim detection | None | **We lead** |
+| Cognitive surrender mitigation | Full research-backed system (recognition, CATFISH, debt tracking, calibration checks) | None | **We lead significantly** --- this is our most distinctive advantage |
 
 ### 2.4 Memory & Context
 
 | Aspect | Ours | Spec Kit | Assessment |
 |--------|------|----------|------------|
-| Memory system | 3-store (learnings.jsonl + agentmemory + ruflo) | Single `constitution.md` | **We lead** — multi-store architecture |
-| Session state | `session-state.json` — structured session tracking | None | **We lead** |
+| Memory system | 3-store (learnings.jsonl + agentmemory + ruflo) | Single `constitution.md` | **We lead** --- multi-store architecture |
+| Session state | `session-state.json` --- structured session tracking | None | **We lead** |
 | Context pressure monitoring | `context-pressure.sh` | None | **We lead** |
 | Prefetch/retrieve | `prefetch-context.sh`, `retrieve-context.sh` | None | **We lead** |
 
@@ -68,7 +68,7 @@
 
 | Aspect | Ours | Spec Kit | Assessment |
 |--------|------|----------|------------|
-| Skill system | 46 skills, L1/L2/L3 progressive loading, skill registry | Extensions (91) + Presets (18) — different model | Different approaches; ours is deeper per-skill, theirs is broader per-extension |
+| Skill system | 46 skills, L1/L2/L3 progressive loading, skill registry | Extensions (91) + Presets (18) --- different model | Different approaches; ours is deeper per-skill, theirs is broader per-extension |
 | Skill loading | `skill-toolset.sh list/load/resource/find` | Extension/preset install via CLI | Different: ours is context-efficiency focused, theirs is feature-addition focused |
 | Template system | Flat templates in skills/ + commands/ | Priority-resolved hierarchy (overrides > presets > extensions > core) | **GAP**: Their template system is significantly more sophisticated |
 | Cross-agent support | OpenCode + manual Claude/Cursor/Codex support | 30+ formal integrations with registry | **GAP**: Their integration model is more systematic |
@@ -77,8 +77,8 @@
 
 | Aspect | Ours | Spec Kit | Assessment |
 |--------|------|----------|------------|
-| Research methodology | 6-phase framework with source triangulation, confidence levels, authority weighting | Lightweight research notes (research.md) | **We lead** — significantly more rigorous |
-| Research sufficiency | `research-sufficiency.sh` — 7 red flag checks | None | **We lead** |
+| Research methodology | 6-phase framework with source triangulation, confidence levels, authority weighting | Lightweight research notes (research.md) | **We lead** --- significantly more rigorous |
+| Research sufficiency | `research-sufficiency.sh` --- 7 red flag checks | None | **We lead** |
 | Web research | `websearch` tool | `research.md` generated by agent | Comparable |
 
 ### 2.7 Agent Architecture
@@ -93,16 +93,16 @@
 
 ## 3. What We Do Better (Preserve & Double Down)
 
-These are areas where we should NOT follow spec-kit — we're ahead:
+These are areas where we should NOT follow spec-kit --- we're ahead:
 
 ### 3.1 Cognitive Safety System
 This is our most distinctive advantage. Spec-kit has no equivalent of:
-- **CATFISH** — counterfactual adversarial planning with fresh-context subagent dissent
-- **Comprehension Gate** — enforced participation before acting (Recognition model)
-- **Triple Debt** — tracking technical + cognitive + intent debt at task boundaries
-- **Decision scaffold** — DCI packet with residual objections and reopen conditions
-- **Assumption expiry** — TTL-based re-evaluation of non-verifiable claims
-- **Calibration checks** — expectation construction + "can I reconstruct this reasoning?"
+- **CATFISH** --- counterfactual adversarial planning with fresh-context subagent dissent
+- **Comprehension Gate** --- enforced participation before acting (Recognition model)
+- **Triple Debt** --- tracking technical + cognitive + intent debt at task boundaries
+- **Decision scaffold** --- DCI packet with residual objections and reopen conditions
+- **Assumption expiry** --- TTL-based re-evaluation of non-verifiable claims
+- **Calibration checks** --- expectation construction + "can I reconstruct this reasoning?"
 
 **Recommendation**: Maintain and deepen. Consider integrating these checks into a unified constitution.
 
@@ -123,7 +123,7 @@ This is our most distinctive advantage. Spec-kit has no equivalent of:
 
 ### 3.4 Research Rigor
 - 6-phase methodology with source triangulation
-- Confidence levels (SPECULATIVE → ESTABLISHED)
+- Confidence levels (SPECULATIVE -> ESTABLISHED)
 - Research sufficiency checks (7 red flags)
 - Authority weighting and cited sources
 
@@ -146,7 +146,7 @@ This is our most distinctive advantage. Spec-kit has no equivalent of:
 
 **What we have**: Governance rules scattered across AGENTS.md, workflow.md, phase-gate.sh, quality-gate.sh. No single authoritative principles document.
 
-**Why it matters**: Without a constitution, every decision starts from scratch. The constitution encodes accumulated wisdom as enforceable gates — making the system self-governing rather than relying on the agent to remember 50+ rules.
+**Why it matters**: Without a constitution, every decision starts from scratch. The constitution encodes accumulated wisdom as enforceable gates --- making the system self-governing rather than relying on the agent to remember 50+ rules.
 
 **Implementation sketch:**
 ```
@@ -163,7 +163,7 @@ templates/constitution-template.md  # Article template
 4. **CATFISH First** (adversarial planning dissent before implement)
 5. **Comprehension Gate** (enforced participation before action)
 6. **Simplicity Criterion** (simpler is better; document complexity cost)
-7. **Error Escalate** (3 consecutive failures → escalate)
+7. **Error Escalate** (3 consecutive failures -> escalate)
 8. **Phase Gate** (don't skip phases)
 9. **Recognition** (construct expectation before generation)
 
@@ -199,7 +199,7 @@ scripts/template-list.sh             # List available templates by priority
 
 **What we have**: `[INTELLIGENCE]` tags but no structured format for WHAT needs clarification or WHY.
 
-**Why it matters**: The #1 LLM failure mode is confident-sounding incorrect assumptions. Forcing explicit ambiguity markers directly addresses this — the LLM must tag what it doesn't know instead of fabricating.
+**Why it matters**: The #1 LLM failure mode is confident-sounding incorrect assumptions. Forcing explicit ambiguity markers directly addresses this --- the LLM must tag what it doesn't know instead of fabricating.
 
 **Implementation sketch:**
 ```
@@ -211,7 +211,7 @@ Define format: [NEEDS CLARIFICATION: question about X]
 ### 4.4 Spec-to-Task Decomposition | HIGH IMPACT, MEDIUM EFFORT
 
 **What they have**: `/speckit.tasks` command that reads plan.md + data-model.md + contracts/ + research.md and auto-generates tasks.md with:
-- User story → task mapping
+- User story -> task mapping
 - `[P]` parallel execution markers
 - File path specifications per task
 - TDD structure (tests before code)
@@ -223,7 +223,7 @@ Define format: [NEEDS CLARIFICATION: question about X]
 
 **Implementation sketch:**
 ```
-scripts/task-decompose.sh           # Reads plan.md + artifacts → tasks.md
+scripts/task-decompose.sh           # Reads plan.md + artifacts -> tasks.md
 templates/core/tasks-template.md    # Improved task template with [P] markers
 ```
 
@@ -245,7 +245,7 @@ templates/core/tasks-template.md    # Improved task template with [P] markers
 
 **What we have**: OpenCode-first with `sync-commands.sh` that also writes to `.pi/prompts/`. Manual CLAUDE.md support. Loose support for Cursor/Codex.
 
-**Why it matters**: Not about supporting 30 agents — it's about having a clean model so adding a new agent doesn't require manual setup.
+**Why it matters**: Not about supporting 30 agents --- it's about having a clean model so adding a new agent doesn't require manual setup.
 
 **Implementation sketch:**
 ```
@@ -288,7 +288,7 @@ Define manifest format for agent properties (name, commands dir, context file, f
 | Monolithic Python CLI (5.4K line __init__.py) | Our distributed Bash script architecture is more maintainable and testable |
 | Single-agent sequential workflow | Our multi-agent dispatch with worktree isolation is more advanced |
 | Template-checkbox gates (Phase -1) | Our executable phase-gate.sh that actually blocks is stronger |
-| No cognitive safety | We lead here — this is our distinctive advantage |
+| No cognitive safety | We lead here --- this is our distinctive advantage |
 | Agent-specific command formats (TOML/YAML) | Unnecessary complexity for our use case; Markdown commands work universally |
 | Extension/preset marketplace | Premature for our scale; focus on core system first |
 | Spec-as-source (Level 3) | Aspirational and unproven in practice |
@@ -327,6 +327,6 @@ spec-driven skill (advisory) constitution.md Art I-V with gates
 
 ## 9. Sources
 
-- Primary: `github.com/github/spec-kit` (full repo analysis — README, spec-driven.md, DEVELOPMENT.md, AGENTS.md, templates/, source)
+- Primary: `github.com/github/spec-kit` (full repo analysis --- README, spec-driven.md, DEVELOPMENT.md, AGENTS.md, templates/, source)
 - Primary: Our repo (workflow.md, commands/, skills/, scripts/, AGENTS.md, session-state.json)
 - Ecosystem: arXiv 2602.00180, augmentcode.com (tooling comparison), rushis.com (SDD deep dive), zylos.ai (Q1 2026 landscape), delbion.com (SDD platform comparison)

@@ -2,7 +2,7 @@
 
 ## 1. Preserve Behavior Exactly
 
-Don't change what the code does — only how it expresses it. All inputs, outputs,
+Don't change what the code does --- only how it expresses it. All inputs, outputs,
 side effects, error behavior, and edge cases must remain identical. If you're not
 sure a simplification preserves behavior, don't make it.
 
@@ -24,7 +24,7 @@ external preferences. Before simplifying:
 3. Match the project's style for import ordering, function style, naming, error
    handling, and type annotation depth
 
-Simplification that breaks project consistency is not simplification — it's churn.
+Simplification that breaks project consistency is not simplification --- it's churn.
 
 ## 3. Prefer Clarity Over Cleverness
 
@@ -62,13 +62,13 @@ for (const item of items) {
 
 Simplification has a failure mode: over-simplification. Watch for these traps:
 
-- **Inlining too aggressively** — removing a helper that gave a concept a name
+- **Inlining too aggressively** --- removing a helper that gave a concept a name
   makes the call site harder to read
-- **Combining unrelated logic** — two simple functions merged into one complex
+- **Combining unrelated logic** --- two simple functions merged into one complex
   function is not simpler
-- **Removing "unnecessary" abstraction** — some abstractions exist for
+- **Removing "unnecessary" abstraction** --- some abstractions exist for
   extensibility or testability, not complexity
-- **Optimizing for line count** — fewer lines is not the goal; easier
+- **Optimizing for line count** --- fewer lines is not the goal; easier
   comprehension is
 
 ## 5. Scope to What Changed

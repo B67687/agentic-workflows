@@ -10,7 +10,7 @@
 
 Cognitive surrender is the tendency to adopt AI-generated outputs with minimal critical evaluation, bypassing both intuitive and deliberative reasoning. First rigorously defined and empirically demonstrated by Shaw and Nave (2026) at the Wharton School, the concept has rapidly spawned a cross-disciplinary literature spanning psychology, philosophy, law, cybersecurity, software engineering, governance, and agent architecture design. Addy Osmani (Google) has bridged this academic work to daily software engineering practice, connecting surrender to comprehension debt, anti-rationalization tables, and the calibration problem every developer now faces.
 
-**Version 2 (May 14, 2026)** expands this synthesis with ~25 new sources covering: the AI Cognitive Trojan Horse (how LLMs bypass epistemic vigilance), the Scaffolded Cognitive Friction framework (MAS-based devil's advocates), the CATFISH Protocol (dynamic adversarial injection, 23% better than static), Cognitive Task Partitioning (separating exploration from deterministic verification), the Recognition model (collapse is driven by interaction architecture, not model capability), and 10+ additional mitigation architectures. The central finding of v2: **agents can be part of the solution, not just the problem — but only with deliberately anti-surrender architecture.**
+**Version 2 (May 14, 2026)** expands this synthesis with ~25 new sources covering: the AI Cognitive Trojan Horse (how LLMs bypass epistemic vigilance), the Scaffolded Cognitive Friction framework (MAS-based devil's advocates), the CATFISH Protocol (dynamic adversarial injection, 23% better than static), Cognitive Task Partitioning (separating exploration from deterministic verification), the Recognition model (collapse is driven by interaction architecture, not model capability), and 10+ additional mitigation architectures. The central finding of v2: **agents can be part of the solution, not just the problem --- but only with deliberately anti-surrender architecture.**
 
 ---
 
@@ -175,16 +175,16 @@ The field has exploded in 2026. Here are the major contributions organized by do
 
 ## 5. Agent-Side Cognitive Surrender Mitigation Architectures
 
-*A major finding of this expanded research: agents can be part of the solution, not just the problem — but only with deliberately anti-surrender architecture. The following patterns represent the current state of the art (May 2026).*
+*A major finding of this expanded research: agents can be part of the solution, not just the problem --- but only with deliberately anti-surrender architecture. The following patterns represent the current state of the art (May 2026).*
 
 ### 5.1 Structured Adversarial Deliberation
 
 #### 5.1.1 The CATFISH Protocol (Dynamic Devil's Advocate)
 
-**Source:** Counsel Research (2026) — empirical study of multi-agent committee deliberation
+**Source:** Counsel Research (2026) --- empirical study of multi-agent committee deliberation
 **Confidence:** CONFIRMED (empirical, 23% improvement over static baseline)
 
-**The counterintuitive finding**: A permanent devil's advocate makes things worse. The committee develops **adversarial fatigue** — it learns to dismiss the always-contrarian voice rather than engage with it.
+**The counterintuitive finding**: A permanent devil's advocate makes things worse. The committee develops **adversarial fatigue** --- it learns to dismiss the always-contrarian voice rather than engage with it.
 
 | Pattern | Design | Robustness |
 |---------|--------|------------|
@@ -220,20 +220,20 @@ Achieves 100% decision packet completeness and 98% tension preservation, outperf
 
 #### 5.1.3 Dialectical Development Protocol (DDP)
 
-**Source:** Klauden (2026) — Hegelian multi-agent framework
+**Source:** Klauden (2026) --- Hegelian multi-agent framework
 **Confidence:** PLAUSIBLE (theoretical with implementation guidance)
 
 Three-agent adversarial system mapped to Hegelian dialectics:
 - **Agent A (Thesis / Architect)**: aggressive, prioritizes features and speed, responds to requirements with direct implementation
-- **Agent B (Antithesis / Auditor)**: conservative, sole mission is to negate A — hunts for architectural flaws, performance bottlenecks, security vulnerabilities
+- **Agent B (Antithesis / Auditor)**: conservative, sole mission is to negate A --- hunts for architectural flaws, performance bottlenecks, security vulnerabilities
 - **Agent C (Synthesis / Synthesizer)**: pragmatist, fuses valid points at higher dimension (does NOT average A and B)
 - **User (Arbiter)**: holds ultimate decision power, defines the project's "general line"
 
 **Critical design constraints:**
 1. **Information isolation granularity**: B should only see A's final conclusion, not reasoning chain or user's preference framing
-2. **Complexity gating**: not all tasks need dialectics — a complexity assessor determines whether adversarial process is worth activating
+2. **Complexity gating**: not all tasks need dialectics --- a complexity assessor determines whether adversarial process is worth activating
 3. **Collapsible process**: by default, show only final proposal + key disagreements; users can expand to see full exchange
-4. **Pre-mortem prompting**: instead of telling Agent B to "find flaws," instruct it to "assume Agent A's proposal has already failed — deduce the three most likely causes of failure"
+4. **Pre-mortem prompting**: instead of telling Agent B to "find flaws," instruct it to "assume Agent A's proposal has already failed --- deduce the three most likely causes of failure"
 
 #### 5.1.4 Heterogeneous Debate Engine (HDE)
 
@@ -250,12 +250,12 @@ Identifies **architectural heterogeneity** as the crucial variable for debate st
 
 **Key finding**: Homogeneous architectures (same model, same prompts) inevitably converge toward consensus collapse. Heterogeneous architectures (different grounding, different strategies) preserve productive disagreement. "Identity-grounded heterogeneity is a priority for architects to avoid logical deterioration."
 
-#### 5.1.5 ARGSBASE — Structured Human-AI Deliberation
+#### 5.1.5 ARGSBASE --- Structured Human-AI Deliberation
 
 **Source:** Turkstra et al., EACL 2026 (peer-reviewed)
 **Confidence:** CONFIRMED (peer-reviewed conference paper, user study)
 
-A deliberation interface enabling users to engage with multiple LLMs coordinated by a moderator agent that assigns roles, manages turn-taking, and ensures structured interaction. Grounded in argumentation theory. User study found the tool "easy to use, perspective-enhancing." Positions LLMs as "reasonable parrots" — reasoning partners guided by argumentative principles (relevance, responsibility, freedom).
+A deliberation interface enabling users to engage with multiple LLMs coordinated by a moderator agent that assigns roles, manages turn-taking, and ensures structured interaction. Grounded in argumentation theory. User study found the tool "easy to use, perspective-enhancing." Positions LLMs as "reasonable parrots" --- reasoning partners guided by argumentative principles (relevance, responsibility, freedom).
 
 ### 5.2 Verification as an Independent Layer
 
@@ -274,7 +274,7 @@ A three-agent model with strict separation of concerns:
 
 **Cardinal rule**: *"AI-assisted exploration must never bypass deterministic verification layers."*
 
-The workflow: Humans + LLMs explore design space → candidate designs converted to structured artifacts → deterministic validation (validate → analyze → model-check → simulate) → engineers review evidence artifacts.
+The workflow: Humans + LLMs explore design space -> candidate designs converted to structured artifacts -> deterministic validation (validate -> analyze -> model-check -> simulate) -> engineers review evidence artifacts.
 
 **Claim**: "AI collaboration works best when cognition is partitioned deliberately. Humans provide meaning and intent. LLMs expand the design space. Deterministic systems perform exhaustive reasoning and verification."
 
@@ -317,19 +317,19 @@ Run at every agent handoff boundary in multi-agent pipelines. Verification recei
 The single most provocative mitigation finding:
 
 > "Collapse is not driven by model capability. It is driven by interaction architecture."
-> "Any system that does not enforce participation will, over time, train its users not to think — regardless of model capability."
+> "Any system that does not enforce participation will, over time, train its users not to think --- regardless of model capability."
 
-**Configuration A (Delegation)** — AI generates solution, human reviews → surrender dominates.
-**Configuration B (Recognition)** — AI flags issue, asks developer to diagnose root cause *before* revealing its own analysis → engineers at all levels show improved independent debugging.
+**Configuration A (Delegation)** --- AI generates solution, human reviews -> surrender dominates.
+**Configuration B (Recognition)** --- AI flags issue, asks developer to diagnose root cause *before* revealing its own analysis -> engineers at all levels show improved independent debugging.
 
 Critical distinction:
 - **Delegation systems** optimize for output. Evaluation happens after the fact.
 - **Recognition systems** optimize for reasoning. Evaluation happens *during* the process.
-- "Once a system commits to an answer, you are no longer governing reasoning — you are auditing a decision that has already been made."
+- "Once a system commits to an answer, you are no longer governing reasoning --- you are auditing a decision that has already been made."
 
 #### 5.3.2 Prosthetic Cognition
 
-**Source:** Salvato (2026) — extended mind thesis applied to AI interaction
+**Source:** Salvato (2026) --- extended mind thesis applied to AI interaction
 **Confidence:** PLAUSIBLE (theoretical with 3-year practice demonstration)
 
 A third framing beyond "tool" (human operates) and "agent" (machine acts autonomously): **AI as cognitive prosthetic**.
@@ -337,14 +337,14 @@ A third framing beyond "tool" (human operates) and "agent" (machine acts autonom
 | Framing | Relationship | Cognitive Consequence |
 |---------|-------------|----------------------|
 | Tool | Human operates | Neutral (depends on use) |
-| Agent | Machine acts | **Delegation → atrophy** |
+| Agent | Machine acts | **Delegation -> atrophy** |
 | **Prosthetic** | **Cognitive extension** | **Practitioner stays in the loop, gets sharper** |
 
 Key properties:
 - Model extends cognitive reach (unlimited working memory, parallel evaluation)
 - Practitioner provides intent, judgment, domain expertise
 - Bidirectional coupling tightens over time
-- **Interface layer is the practice** — purpose-built coupling that evolves
+- **Interface layer is the practice** --- purpose-built coupling that evolves
 
 > "The practitioner who stays in the loop gets sharper at the work the system extends, while the one who delegates gets further from the judgment that made delegation safe in the first place."
 
@@ -366,7 +366,7 @@ Distinguishes between agents designed to *minimize* user involvement (high surre
 **Source:** arXiv 2510.05307 (within-subjects study, n=48)
 **Confidence:** CONFIRMED (empirical, 81% preference, 13.54% time reduction)
 
-A decision-theoretic model for determining optimal confirmation checkpoint placement. The CDCR pattern (Confirmation → Diagnosis → Correction → Redo) describes how users naturally supervise agents.
+A decision-theoretic model for determining optimal confirmation checkpoint placement. The CDCR pattern (Confirmation -> Diagnosis -> Correction -> Redo) describes how users naturally supervise agents.
 
 | Strategy | Preference | Time vs confirm-at-end |
 |----------|-----------|----------------------|
@@ -376,7 +376,7 @@ A decision-theoretic model for determining optimal confirmation checkpoint place
 
 Model parameters: step accuracy + step duration + confirmation overhead. Dynamic programming finds optimal checkpoint placement.
 
-#### 5.4.2 Magentic-UI — Six Interaction Mechanisms
+#### 5.4.2 Magentic-UI --- Six Interaction Mechanisms
 
 **Source:** Microsoft Research (arXiv 2507.22358)
 **Confidence:** CONFIRMED (multi-dimensional evaluation)
@@ -389,7 +389,7 @@ Six mechanisms targeting different surrender points:
 5. **Long-term memory**: leverage past experience for future performance
 6. **Multi-tasking**: parallel execution while staying in the loop
 
-#### 5.4.3 DoubleAgents — Distributed Cognition Alignment
+#### 5.4.3 DoubleAgents --- Distributed Cognition Alignment
 
 **Source:** arXiv 2509.12626 (2-day lab study n=10 + 3 real-world deployments)
 **Confidence:** CONFIRMED (empirical with real-world validation)
@@ -399,11 +399,11 @@ Three components:
 2. **Dashboard visualization**: makes agent reasoning legible for user evaluation
 3. **Policy module**: transforms user edits into reusable alignment artifacts (policies, email templates, stop hooks)
 
-Users' comfort in offloading increased over time, but *required control at points of uncertainty* — edge-case flagging and context-dependent actions. Simulation (unit-testing for user-specific correctness) compressed the alignment iteration cycle.
+Users' comfort in offloading increased over time, but *required control at points of uncertainty* --- edge-case flagging and context-dependent actions. Simulation (unit-testing for user-specific correctness) compressed the alignment iteration cycle.
 
 ### 5.5 Bidirectional Adaptation
 
-#### 5.5.1 BiCA — Bidirectional Cognitive Alignment
+#### 5.5.1 BiCA --- Bidirectional Cognitive Alignment
 
 **Source:** arXiv 2509.12179 (agent-based simulation, n=100 per condition)
 **Confidence:** CONFIRMED (empirical, 46% synergy improvement)
@@ -419,7 +419,7 @@ Humans and AI mutually adapt, rather than AI conforming to fixed human preferenc
 
 Uses KL-budget constraints for controlled co-evolution. Emergent protocols neither agent was programmed to use outperformed handcrafted ones by 84%.
 
-#### 5.5.2 DOVA — Deliberation-First Orchestration
+#### 5.5.2 DOVA --- Deliberation-First Orchestration
 
 **Source:** arXiv 2603.13327
 **Confidence:** PLAUSIBLE (architecture with formal components)
@@ -429,7 +429,7 @@ Deliberation-first meta-reasoning layer decides whether to invoke tools before a
 2. **Blackboard**: results posted to shared workspace for evidence and weighted votes
 3. **Iterative Refinement**: top synthesis refined through multi-round critique
 
-Six-level token budget for adaptive reasoning depth. Includes adversarial Bull-vs-Bear debate for evaluative queries with sequential turn-taking (critical: in round r, Bull conditions on all prior Bear arguments — forces direct engagement with counterpoints).
+Six-level token budget for adaptive reasoning depth. Includes adversarial Bull-vs-Bear debate for evaluative queries with sequential turn-taking (critical: in round r, Bull conditions on all prior Bear arguments --- forces direct engagement with counterpoints).
 
 ## 6. Deeper Mechanism Theories
 
@@ -438,18 +438,18 @@ Six-level token budget for adaptive reasoning depth. Includes adversarial Bull-v
 **Source:** Maynard, A. D. (2026). arXiv:2601.07085
 **Confidence:** CONFIRMED (theoretical framework with testable predictions, peer-review track record)
 
-Proposes that LLMs present **"honest non-signals"** — genuine characteristics (fluency, helpfulness, apparent disinterest) that fail to carry the informational equivalent human characteristics would carry, because in humans these are costly to produce (requiring understanding, stakes, effort) while in LLMs they are computationally trivial.
+Proposes that LLMs present **"honest non-signals"** --- genuine characteristics (fluency, helpfulness, apparent disinterest) that fail to carry the informational equivalent human characteristics would carry, because in humans these are costly to produce (requiring understanding, stakes, effort) while in LLMs they are computationally trivial.
 
 **Four bypass mechanisms against epistemic vigilance:**
 
-1. **Processing fluency decoupled from understanding** — fluent text triggers automatic trust responses evolved for a world where fluency correlated with understanding
-2. **Trust-competence presentation without stakes** — LLMs sound authoritative but have no reputation to lose
-3. **Cognitive offloading that delegates evaluation itself** — the act of consulting the AI shifts responsibility for verification
-4. **Optimization-driven sycophancy** — models trained to be helpful and agreeable systematically suppress disagreement
+1. **Processing fluency decoupled from understanding** --- fluent text triggers automatic trust responses evolved for a world where fluency correlated with understanding
+2. **Trust-competence presentation without stakes** --- LLMs sound authoritative but have no reputation to lose
+3. **Cognitive offloading that delegates evaluation itself** --- the act of consulting the AI shifts responsibility for verification
+4. **Optimization-driven sycophancy** --- models trained to be helpful and agreeable systematically suppress disagreement
 
-**Counterintuitive prediction**: Cognitively sophisticated users may be *more* vulnerable — they are better at generating post-hoc justifications for AI output, which masks the surrender. This reframes AI safety as partly a problem of *calibration* (aligning human evaluative responses with actual epistemic status) rather than solely preventing deception.
+**Counterintuitive prediction**: Cognitively sophisticated users may be *more* vulnerable --- they are better at generating post-hoc justifications for AI output, which masks the surrender. This reframes AI safety as partly a problem of *calibration* (aligning human evaluative responses with actual epistemic status) rather than solely preventing deception.
 
-### 6.2 QSAF — Cognitive Degradation in Agentic AI
+### 6.2 QSAF --- Cognitive Degradation in Agentic AI
 
 **Source:** Atta et al. (2025). arXiv:2507.15330
 **Confidence:** CONFIRMED (formal lifecycle, 7 runtime controls)
@@ -469,7 +469,7 @@ Introduces **Cognitive Degradation** as a vulnerability class in agentic AI syst
 - Memory integrity enforcement
 - Model of human fatigue/mapped onto agent architectures through neuroscience analogs
 
-Maps agent architectures to human neural analogs — enabling early detection of "fatigue," "starvation," and "role collapse" in agent systems.
+Maps agent architectures to human neural analogs --- enabling early detection of "fatigue," "starvation," and "role collapse" in agent systems.
 
 ### 6.3 Cognitive Amplification vs. Delegation Framework
 

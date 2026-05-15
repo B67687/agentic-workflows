@@ -5,7 +5,7 @@
 # Updates session-state.json from runtime events. Called by the MCP server
 # after tools/call execution and by phase-gate.sh at phase transitions.
 #
-# Prevents session-state.json drift — the state file is always current.
+# Prevents session-state.json drift --- the state file is always current.
 #
 # Usage:
 #   bash scripts/session-sync.sh update <field> <value>

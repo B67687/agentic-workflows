@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # =============================================================================
-# constitution.sh — Workspace Constitution management
+# constitution.sh --- Workspace Constitution management
 # Manages a constitution.md that encodes immutable governing principles.
 # Each article defines gates checked before phase transitions.
 #
@@ -207,13 +207,13 @@ cmd_check() {
       *) result="SKIP" ;;
     esac
     if [[ "$result" == "FAIL" && "$sev" == "BLOCKING" ]]; then
-      echo -e "  → ${RED}BLOCKING${NC}"; all_pass=false
+      echo -e "  -> ${RED}BLOCKING${NC}"; all_pass=false
     elif [[ "$result" == "FAIL" ]]; then
-      echo -e "  → ${YELLOW}ADVISORY${NC}"
+      echo -e "  -> ${YELLOW}ADVISORY${NC}"
     elif [[ "$result" == "PASS" ]]; then
-      echo -e "  → ${GREEN}PASS${NC}"
+      echo -e "  -> ${GREEN}PASS${NC}"
     else
-      echo "  → $result"
+      echo "  -> $result"
     fi
     echo ""
   done
@@ -295,7 +295,7 @@ cmd_status() {
     esac
   done
   echo "  Passing: $pass  Failing: $fail"
-  [[ "$fail" -gt 0 ]] && echo -e "  Status: ${YELLOW}ATTENTION${NC} — run 'check'" || echo -e "  Status: ${GREEN}COMPLIANT${NC}"
+  [[ "$fail" -gt 0 ]] && echo -e "  Status: ${YELLOW}ATTENTION${NC} --- run 'check'" || echo -e "  Status: ${GREEN}COMPLIANT${NC}"
 }
 
 cmd_path() { ensure_constitution; echo "$CONSTITUTION_FILE"; }

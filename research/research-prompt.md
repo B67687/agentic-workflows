@@ -252,7 +252,7 @@ Map the research findings to the specific problem or decision at hand.
 
 Durable knowledge should outlive this session.
 
-- **Cite every source** — Every claim, pattern, and integration point must cite its source
+- **Cite every source** --- Every claim, pattern, and integration point must cite its source
   at minimum as `[Title](URL)`. Follow the full workflow in `workflow/source-citation.md`.
   This is not optional. Uncited claims degrade to SPECULATIVE.
 - **Save to memory**: `memory_save(type="research", concepts="<tags>", files="<paths>")`

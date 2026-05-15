@@ -6,7 +6,7 @@
 # into the feedback aggregator, and surfaces issues for the next agent turn.
 #
 # This is the orchestration-layer equivalent of DeepSeek-TUI's LSP post-edit
-# diagnostics — automatically inspecting changes and feeding results back
+# diagnostics --- automatically inspecting changes and feeding results back
 # into the feedback loop before the agent continues.
 #
 # Usage:
@@ -103,7 +103,7 @@ done
 # Check for binary file modifications (unusual for this repo)
 for f in "${FILES[@]}"; do
   if [ -f "$REPO_ROOT/$f" ] && file "$REPO_ROOT/$f" | grep -q "ELF\|Mach-O\|PE32"; then
-    echo "[post-edit] ⚠  $f: binary file added/modified — verify intent"
+    echo "[post-edit] ⚠  $f: binary file added/modified --- verify intent"
   fi
 done
 
@@ -117,7 +117,7 @@ for f in "${FILES[@]}"; do
 done
 
 if $TEST_FILES; then
-  echo "[post-edit] Script files changed — running smoke tests..."
+  echo "[post-edit] Script files changed --- running smoke tests..."
   if bash "$REPO_ROOT/scripts/test-smoke.sh" > /dev/null 2>&1; then
     echo "[post-edit] Smoke tests: PASSED"
     bash "$AGGREGATOR" record "smoke-tests" "passed" "All smoke tests pass" > /dev/null 2>&1 || true
@@ -131,7 +131,7 @@ fi
 if $ALL_PASSED; then
   echo "[post-edit] All checks passed."
 else
-  echo "[post-edit] Some checks FAILED — review above before continuing."
+  echo "[post-edit] Some checks FAILED --- review above before continuing."
 fi
 
 # Exit with status (non-zero if any check failed)

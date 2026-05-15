@@ -87,8 +87,8 @@ DeepSeek-TUI-compatible frontmatter, auto-discovered from multiple directories:
 | `~/.deepseek/skills/` | Lowest | DeepSeek global default |
 
 SKILL.md frontmatter fields used by DeepSeek-TUI's parser:
-- `name` (required) — skill identifier
-- `description` (recommended) — driver for model-visible skills block
+- `name` (required) --- skill identifier
+- `description` (recommended) --- driver for model-visible skills block
 - All other fields stored as body (harmless extras)
 
 ## Data Flow (One Complete Turn)
@@ -96,19 +96,19 @@ SKILL.md frontmatter fields used by DeepSeek-TUI's parser:
 ```
 [User] "Fix the bug in parse_config()"
     │
-    ▼  Layer 5→4
+    ▼  Layer 5->4
 [Question Gate] probes ambiguity, clarifies scope
 [Research] maps system, finds call sites, analyzes bug
 [Plan] breaks into steps, defines files and verification
     │
-    │  Layer 4→3 via MCP:
+    │  Layer 4->3 via MCP:
     │  tool_call("phase-gate", {phase: "implement"})
     │  tool_call("implement", {steps: [...]})
     │
     ▼
 [Execution Runtime]
     ├─ file:read existing code
-    ├─ file:edit → LSP diagnostics → auto-fix if errors
+    ├─ file:edit -> LSP diagnostics -> auto-fix if errors
     ├─ shell:run cargo test
     ├─ Checkpoint session state
     ├─ Call back to quality gates via MCP:
@@ -135,15 +135,15 @@ SKILL.md frontmatter fields used by DeepSeek-TUI's parser:
 
 | Phase | Artifacts | Status |
 |-------|-----------|--------|
-| **1. Structured Interface** | `tools.toml`, `skills.toml`, `tools.sh --json`, SKILL.md alignment | **DONE** ← current |
-| **2. MCP Server** | `scripts/serve-mcp.py` + `scripts/serve-mcp.sh`, MCP config for DeepSeek-TUI/OpenCode | **DONE** ← current |
-| **3. Post-Edit Quality Loop** | Post-edit hook, feedback aggregator, quality/check MCP method | **DONE** ← current |
-| **4. Full Integration** | Session state sync, methodology MCP resources, cognitive safeguard tools, state/status endpoint | **DONE** ← current |
+| **1. Structured Interface** | `tools.toml`, `skills.toml`, `tools.sh --json`, SKILL.md alignment | **DONE** <- current |
+| **2. MCP Server** | `scripts/serve-mcp.py` + `scripts/serve-mcp.sh`, MCP config for DeepSeek-TUI/OpenCode | **DONE** <- current |
+| **3. Post-Edit Quality Loop** | Post-edit hook, feedback aggregator, quality/check MCP method | **DONE** <- current |
+| **4. Full Integration** | Session state sync, methodology MCP resources, cognitive safeguard tools, state/status endpoint | **DONE** <- current |
 
 ## Related
 
-- `scripts/tools.toml` — structured tool manifest
-- `scripts/skills.toml` — structured skill index
-- `scripts/tools.sh` — tool registry (reads tools.toml, supports --json)
-- `docs/mcp-architecture.md` — MCP reference
-- `docs/workflow.md` — workflow methodology
+- `scripts/tools.toml` --- structured tool manifest
+- `scripts/skills.toml` --- structured skill index
+- `scripts/tools.sh` --- tool registry (reads tools.toml, supports --json)
+- `docs/mcp-architecture.md` --- MCP reference
+- `docs/workflow.md` --- workflow methodology

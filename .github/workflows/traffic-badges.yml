@@ -30,7 +30,7 @@ jobs:
             const repo = context.repo.repo;
             const gistId = process.env.GIST_ID;
 
-            // 0. Freshness check — skip if last run was < 1 hour ago
+            // 0. Freshness check --- skip if last run was < 1 hour ago
             // Only applies to push-triggered runs; schedule and manual always run
             const eventName = context.eventName;
             const FRESHNESS_MINUTES = 60;
@@ -48,7 +48,7 @@ jobs:
                       console.log(`Skipping push-triggered run: last collection was ${Math.round(minutesAgo)}m ago (threshold: ${FRESHNESS_MINUTES}m)`);
                       return;
                     }
-                    console.log(`Last collection: ${Math.round(minutesAgo)}m ago — proceeding`);
+                    console.log(`Last collection: ${Math.round(minutesAgo)}m ago --- proceeding`);
                   }
                 }
               } catch (e) {
@@ -87,7 +87,7 @@ jobs:
             const CURRENT_SCHEMA = 3;
             const stateVersion = state.schemaVersion || 1;
 
-            // v1 → v2: Migrate boolean lastSeenDates to delta-based lastSeenCloneCounts
+            // v1 -> v2: Migrate boolean lastSeenDates to delta-based lastSeenCloneCounts
             if (stateVersion < 2) {
               if (!state.lastSeenCloneCounts) {
                 state.lastSeenCloneCounts = {};
@@ -117,10 +117,10 @@ jobs:
                   }
                 }
               }
-              console.log(`Schema migration v1 → v2: delta-based dedup maps`);
+              console.log(`Schema migration v1 -> v2: delta-based dedup maps`);
             }
 
-            // v2 → v3: Compute totalOrganicClones from dailyHistory
+            // v2 -> v3: Compute totalOrganicClones from dailyHistory
             // Previously badges used totalClones - totalCiCheckouts (global subtraction)
             // which allows phantom CI on zero-clone days to reduce organic below
             // individual day values. Now we accumulate per-day organic instead.
@@ -134,7 +134,7 @@ jobs:
                 (state.totalClones || 0) - (state.totalCiCheckouts || 0)
               );
               state.totalOrganicClones = Math.max(histOrganic, globalOrganic);
-              console.log(`Schema migration v2 → v3: totalOrganicClones = ${state.totalOrganicClones}`);
+              console.log(`Schema migration v2 -> v3: totalOrganicClones = ${state.totalOrganicClones}`);
             }
 
             state.schemaVersion = CURRENT_SCHEMA;
@@ -238,12 +238,12 @@ jobs:
               state.stars = repoData.data.stargazers_count;
               state.forks = repoData.data.forks_count;
               state.openIssues = repoData.data.open_issues_count;
-              // Record repo creation date (from GitHub) — entries before this
+              // Record repo creation date (from GitHub) --- entries before this
               // are pre-repo noise from the Traffic API's 14-day backfill
               if (!state.repoCreatedAt) {
                 state.repoCreatedAt = repoData.data.created_at;
               }
-              // Record when we first started collecting — set once on first run.
+              // Record when we first started collecting --- set once on first run.
               // Distinct from repoCreatedAt: the repo may have existed for months
               // before tracking was enabled. Days between repoCreatedAt and
               // trackingSince are "not collected" (gap), not "zero traffic".
@@ -312,7 +312,7 @@ jobs:
                 // Write uniqueClones when API returned data for this date.
                 // The API includes both count and uniques for every date in
                 // its 14-day window, so if clonesByDate has this date,
-                // uniqueClonesByDate does too. Accept zeros — they mean
+                // uniqueClonesByDate does too. Accept zeros --- they mean
                 // "no unique cloners today", not "expired data". Math.max
                 // protects against overwriting a real value with a stale zero.
                 if (uniqueClonesByDate[dateStr] !== undefined) {
@@ -325,7 +325,7 @@ jobs:
                   entry.uniqueViews = Math.max(entry.uniqueViews || 0, uniqueViewsByDate[dateStr]);
                 }
               }
-              // Only set stars/forks/openIssues for today — these are
+              // Only set stars/forks/openIssues for today --- these are
               // point-in-time snapshots, not historical values. Writing
               // today's count onto past entries overwrites their real values.
               if (dateStr === todayStr) {
@@ -367,7 +367,7 @@ jobs:
 
             // Backfill zeros for dates within the API's 14-day window that
             // weren't in the API response. The Traffic API only returns dates
-            // with count > 0, so absence means zero traffic — not "no data."
+            // with count > 0, so absence means zero traffic --- not "no data."
             // Dates outside the API window keep undefined (gap detection).
             {
               const windowStart = new Date();
@@ -555,7 +555,7 @@ jobs:
 
             // Compute organicUniqueClones for all daily entries
             // Formula: organicUnique = unique - MIN(round(unique * ciRate), ciRuns)
-            // Skip entries without uniqueClones — don't create false zeros
+            // Skip entries without uniqueClones --- don't create false zeros
             for (const entry of state.dailyHistory) {
               if (entry.uniqueClones == null) continue;
               const rawUnique = entry.uniqueClones;
@@ -571,7 +571,7 @@ jobs:
             const previousOrganicToday = state._previousOrganicToday;
             const todayOrganic = todayEntry.organicClones || 0;
             if (previousOrganicToday === undefined) {
-              // First run after v2→v3 migration — totalOrganicClones was already
+              // First run after v2->v3 migration --- totalOrganicClones was already
               // seeded from dailyHistory which may include today. Don't double-count.
               state._previousOrganicToday = todayOrganic;
             } else {
@@ -592,7 +592,7 @@ jobs:
             );
             console.log(`Organic unique clones: today=${todayEntry.organicUniqueClones}, total=${state.totalOrganicUniqueClones} (raw ${state.totalUniqueClones} - CI ${state.totalCiUniqueClones})`);
 
-            // 7.7 Totals sanity check — repair under-counted totals from
+            // 7.7 Totals sanity check --- repair under-counted totals from
             // the first-run seeding bug (zero-count dates marked as "seen",
             // causing real traffic to be skipped on subsequent runs).
             // The dailyHistory entries are correct (Math.max merge), so

@@ -1,5 +1,5 @@
 # =============================================================================
-# tools.toml — Structured tool manifest for agentic-workflows
+# tools.toml --- Structured tool manifest for agentic-workflows
 #
 # Machine-readable registry of all agent-callable tools. Consumable by:
 #   - MCP servers (register each tool programmatically)
@@ -18,25 +18,25 @@ updated = "2026-05-15"
 tool_count = 95
 command_count = 14
 binary_count = 6
-description = "Agentic Workflows — agent harness tool registry"
+description = "Agentic Workflows --- agent harness tool registry"
 
 # =============================================================================
 # TOOL CATEGORIES
 # =============================================================================
-# workflow    — phase gates, planning, implementation orchestration
-# quality     — quality gates, verification, checks
-# session     — session state, checkpoint, resume, handoff
-# git         — git operations, worktree management
-# agent       — agent dispatch, sub-agents, pipeline, sandbox
-# memory      — learnings, memory stores, consolidation
-# research    — research methodology, analysis
-# skill       — skill management, progressive loading
-# safety      — error handling, escalation, guardrails
-# experiment  — benchmarks, experiments, optimization
-# comms       — agent-to-human, parley multi-agent
-# productivity — north-star, goal-decompose, product-shape
-# utility     — general utilities, tool registry, indexing
-# constitution — governance, policy
+# workflow    --- phase gates, planning, implementation orchestration
+# quality     --- quality gates, verification, checks
+# session     --- session state, checkpoint, resume, handoff
+# git         --- git operations, worktree management
+# agent       --- agent dispatch, sub-agents, pipeline, sandbox
+# memory      --- learnings, memory stores, consolidation
+# research    --- research methodology, analysis
+# skill       --- skill management, progressive loading
+# safety      --- error handling, escalation, guardrails
+# experiment  --- benchmarks, experiments, optimization
+# comms       --- agent-to-human, parley multi-agent
+# productivity --- north-star, goal-decompose, product-shape
+# utility     --- general utilities, tool registry, indexing
+# constitution --- governance, policy
 # =============================================================================
 
 # =============================================================================
@@ -168,7 +168,7 @@ inputs.commit_signal = { type = "boolean", description = "Check if changes justi
 
 [[tool]]
 name = "workflow-router"
-description = "Normal-language request router — classify intent and route to correct lane"
+description = "Normal-language request router --- classify intent and route to correct lane"
 category = "workflow"
 path = "scripts/workflow-router.sh"
 type = "script"
@@ -197,7 +197,7 @@ phases = ["verify"]
 
 [[tool]]
 name = "quality-gate"
-description = "Pre-commit quality check hook — enforces set flags, shellcheck, ASCII, and constitution compliance"
+description = "Pre-commit quality check hook --- enforces set flags, shellcheck, ASCII, and constitution compliance"
 category = "quality"
 path = "scripts/hooks/quality-gate.sh"
 type = "script"
@@ -298,7 +298,7 @@ quality_gates = []
 
 [[tool]]
 name = "quality-readme-svg"
-description = "README & SVG Architecture Quality Checks — validates documentation and diagram quality"
+description = "README & SVG Architecture Quality Checks --- validates documentation and diagram quality"
 category = "quality"
 path = "scripts/quality-readme-svg.sh"
 type = "script"
@@ -367,7 +367,7 @@ inputs.skip_quality = { type = "boolean", description = "Bypass quality gate", d
 
 [[tool]]
 name = "checkpoint-review"
-description = "Deterministic checkpoint and restart review — what just happened and what's next"
+description = "Deterministic checkpoint and restart review --- what just happened and what's next"
 category = "session"
 path = "scripts/checkpoint-review.sh"
 type = "script"
@@ -391,7 +391,7 @@ phases = ["session"]
 
 [[tool]]
 name = "context-pressure"
-description = "Session health monitor — detects context rot (age, dirt, commit count)"
+description = "Session health monitor --- detects context rot (age, dirt, commit count)"
 category = "session"
 path = "scripts/context-pressure.sh"
 type = "script"
@@ -407,7 +407,7 @@ phases = ["session"]
 
 [[tool]]
 name = "session-status"
-description = "Compact one-shot workspace orientation — branch, health, tools, tests"
+description = "Compact one-shot workspace orientation --- branch, health, tools, tests"
 category = "session"
 path = "scripts/session-status.sh"
 type = "script"
@@ -440,7 +440,7 @@ phases = ["research", "implement"]
 
 [[tool]]
 name = "prompt-contract"
-description = "Self-prompt checklist before phase work — outcome, context, constraints, verification, ask/proceed"
+description = "Self-prompt checklist before phase work --- outcome, context, constraints, verification, ask/proceed"
 category = "session"
 path = "scripts/prompt-contract.sh"
 type = "script"
@@ -497,7 +497,7 @@ type = "script"
 
 [[tool]]
 name = "autopilot"
-description = "Autonomous goal execution loop. Cycles: plan → implement → verify → checkpoint"
+description = "Autonomous goal execution loop. Cycles: plan -> implement -> verify -> checkpoint"
 category = "agent"
 path = "scripts/autopilot.sh"
 type = "script"
@@ -692,7 +692,7 @@ phases = ["implement", "verify"]
 
 [[tool]]
 name = "freeze"
-description = "Restrict file edits to one directory. Hard block — creates .gstack-freeze lockfile"
+description = "Restrict file edits to one directory. Hard block --- creates .gstack-freeze lockfile"
 category = "safety"
 path = "scripts/freeze.sh"
 type = "script"
@@ -707,7 +707,7 @@ type = "script"
 
 [[tool]]
 name = "log-error"
-description = "Capture an error for agent triage. Pipeable — feeds into triage system"
+description = "Capture an error for agent triage. Pipeable --- feeds into triage system"
 category = "safety"
 path = "scripts/log-error.sh"
 type = "script"
@@ -726,7 +726,7 @@ inputs.action = { type = "string", enum = ["check", "update", "audit"] }
 
 [[tool]]
 name = "constitution"
-description = "Workspace Constitution management — 7 subcommands, 9-article gates. check/compliance/enforce/list/version/etc."
+description = "Workspace Constitution management --- 7 subcommands, 9-article gates. check/compliance/enforce/list/version/etc."
 category = "constitution"
 path = "scripts/constitution.sh"
 type = "script"
@@ -754,7 +754,7 @@ type = "script"
 
 [[tool]]
 name = "parley-analyze"
-description = "Post-hoc analysis of Parley sessions — extract consensus, disagreement, and insights"
+description = "Post-hoc analysis of Parley sessions --- extract consensus, disagreement, and insights"
 category = "comms"
 path = "scripts/parley-analyze.sh"
 type = "script"
@@ -840,14 +840,14 @@ type = "script"
 
 [[tool]]
 name = "hook-session-start"
-description = "[INTERNAL] Session-start diagnostics — branch, recent commits, state health"
+description = "[INTERNAL] Session-start diagnostics --- branch, recent commits, state health"
 category = "utility"
 path = "scripts/hooks/session-start.sh"
 type = "hook"
 
 [[tool]]
 name = "hook-detect-gaps"
-description = "[INTERNAL] Gap detection — stale index, missing state, propagation drift"
+description = "[INTERNAL] Gap detection --- stale index, missing state, propagation drift"
 category = "utility"
 path = "scripts/hooks/detect-gaps.sh"
 type = "hook"
@@ -1032,14 +1032,14 @@ type = "command"
 
 [[tool]]
 name = "cmd-query"
-description = "Targeted context retrieval — faster than manual grepping for specific information"
+description = "Targeted context retrieval --- faster than manual grepping for specific information"
 category = "research"
 path = "commands/query.md"
 type = "command"
 
 [[tool]]
 name = "cmd-repo-map"
-description = "Compact workspace map — control files, content areas, key symbols. Use before unfamiliar folders"
+description = "Compact workspace map --- control files, content areas, key symbols. Use before unfamiliar folders"
 category = "research"
 path = "commands/repo-map.md"
 type = "command"
@@ -1053,7 +1053,7 @@ type = "command"
 
 [[tool]]
 name = "cmd-route"
-description = "Default intake — route natural-language requests to correct lane"
+description = "Default intake --- route natural-language requests to correct lane"
 category = "workflow"
 path = "commands/route.md"
 type = "command"

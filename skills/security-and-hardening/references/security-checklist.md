@@ -62,7 +62,7 @@
 
 ## Boundary Enforcement
 
-- [ ] All external boundaries have validation (user input → API, API → service, service → database)
+- [ ] All external boundaries have validation (user input -> API, API -> service, service -> database)
 - [ ] Authorization checked at every network boundary, not just the entry point
 - [ ] Data flow validated at each system boundary (APIs, config files, logs, external sources)
 - [ ] All data from external sources treated as untrusted until validated
