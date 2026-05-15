@@ -132,7 +132,7 @@ See [docs/workflow.md](docs/workflow.md) for the full system, [docs/hub-quicksta
 
 <h2 id="ecosystem">Ecosystem</h2>
 
-<p>This harness was built by studying and integrating patterns from <b>70+ open-source projects</b> across the agent ecosystem. Projects with <code>*</code> have patterns extracted into skills, scripts, or documentation. The remaining 48 are context citations --- each evaluated and classified during the source extraction audit.</p>
+<p>This harness was built by studying and integrating patterns from <b>80+ open-source projects</b> across the agent ecosystem. Projects with <code>*</code> have patterns extracted into skills, scripts, or documentation. The remaining 48 are context citations --- each evaluated and classified during the source extraction audit.</p>
 
 <h3>Core Inspirations</h3>
 
@@ -145,8 +145,8 @@ See [docs/workflow.md](docs/workflow.md) for the full system, [docs/hub-quicksta
     AutoGen · <a href="https://github.com/google/adk-python"><b>*Google ADK</b></a> · Claude Agent SDK · <a href="https://platform.openai.com/docs/guides/agents"><b>*OpenAI Agents SDK</b></a> · <a href="https://github.com/pydantic/pydantic-ai"><b>*Pydantic AI</b></a> · AutoGPT · MetaGPT · <a href="https://github.com/a2aproject/A2A"><b>*A2A Protocol</b></a> · <a href="https://github.com/NousResearch/hermes-agent"><b>*Hermes Agent</b></a> · AgentScope · Open-SWE · <a href="https://github.com/crewAIInc/crewAI"><b>*crewAI</b></a>
   </td>
   <td width="33%" valign="top">
-    <img src="https://img.shields.io/badge/Developer%20Tools-10-0ea5e9?style=flat-square" alt="Dev Tools"><br>
-    <a href="https://code.claude.com/docs/en/best-practices"><b>*Claude Code</b></a> · <a href="https://github.com/Aider-AI/aider"><b>*Aider</b></a> · <a href="https://github.com/humanlayer/humanlayer"><b>*HumanLayer</b></a> · <a href="https://github.com/garrytan/gstack"><b>*GStack</b></a> · UI-TARS · Deer Flow · <a href="https://github.com/browser-use/browser-use"><b>*browser-use</b></a> · <a href="https://github.com/anomalyco/opencode"><b>*OpenCode</b></a> · Pi · <a href="https://github.com/SWE-agent/SWE-agent"><b>*SWE-agent</b></a>
+    <img src="https://img.shields.io/badge/Developer%20Tools-11-0ea5e9?style=flat-square" alt="Dev Tools"><br>
+    <a href="https://code.claude.com/docs/en/best-practices"><b>*Claude Code</b></a> · <a href="https://github.com/Aider-AI/aider"><b>*Aider</b></a> · <a href="https://github.com/humanlayer/humanlayer"><b>*HumanLayer</b></a> · <a href="https://github.com/garrytan/gstack"><b>*GStack</b></a> · <a href="https://github.com/anthropics/claude-plugins-official"><b>*Claude Plugins</b></a> · UI-TARS · Deer Flow · <a href="https://github.com/browser-use/browser-use"><b>*browser-use</b></a> · <a href="https://github.com/anomalyco/opencode"><b>*OpenCode</b></a> · Pi · <a href="https://github.com/SWE-agent/SWE-agent"><b>*SWE-agent</b></a>
   </td>
   <td width="33%" valign="top">
     <img src="https://img.shields.io/badge/Skills%20%26%20Quality-5-3fb950?style=flat-square" alt="Skills"><br>
@@ -160,7 +160,7 @@ See [docs/workflow.md](docs/workflow.md) for the full system, [docs/hub-quicksta
 <h3>Full Ecosystem</h3>
 
 <details open>
-<summary>50+ projects across 9 more categories</summary>
+<summary>60+ projects across 9 more categories</summary>
 
 <div align="center">
 
@@ -170,8 +170,8 @@ See [docs/workflow.md](docs/workflow.md) for the full system, [docs/hub-quicksta
 | <img src="https://img.shields.io/badge/Workflow%20Platforms-6-58a6ff?style=flat-square" alt="Workflow"> | <a href="https://github.com/n8n-io/n8n"><b>*n8n</b></a>, Flowise, Langflow, Dify, Manifest, Infisical |
 | <img src="https://img.shields.io/badge/Prompt%20Libraries-7-0ea5e9?style=flat-square" alt="Prompts"> | Pi-Skills, <a href="https://github.com/karpathy/autoresearch"><b>*Karpathy-Skills</b></a>, Codex Skills, <a href="https://github.com/jiangjiax/counsel"><b>*Counsel</b></a>,<br>Everything Claude Code, Awesome Claude Code, awesome-codex-skills |
 | <img src="https://img.shields.io/badge/MCP%20%26%20Protocols-5-3fb950?style=flat-square" alt="MCP"> | MCP Registry, MCP Servers, GitHub MCP Server,<br>**sequential-thinking** (structured reasoning), **@opencode-ai/plugin** |
-| <img src="https://img.shields.io/badge/Agent%20Platforms-6-e1306c?style=flat-square" alt="Platforms"> | Cline, CUA, <a href="https://github.com/ruvnet/ruflo"><b>*Rufo (ruflo)</b></a>, Agency-Agents,<br>Codex CLI, generative-ai-for-beginners |
-| <img src="https://img.shields.io/badge/README%20Design-4-58a6ff?style=flat-square" alt="Readme Design"> | readme-svg-wave-divider-generator, readme-hub,<br>GitHub Readme Stats, <a href="https://github.com/VoltAgent/awesome-design-md"><b>*awesome-design-md</b></a> |
+| <img src="https://img.shields.io/badge/Agent%20Platforms-8-e1306c?style=flat-square" alt="Platforms"> | Cline, CUA, <a href="https://github.com/ruvnet/ruflo"><b>*Rufo (ruflo)</b></a>, Agency-Agents,<br>Codex CLI, generative-ai-for-beginners,<br><a href="https://github.com/got-agents/agents"><b>*got-agents</b></a>, <a href="https://github.com/openclaw/pen">Pen</a> |
+| <img src="https://img.shields.io/badge/README%20Design-5-58a6ff?style=flat-square" alt="Readme Design"> | readme-svg-wave-divider-generator, readme-hub,<br>GitHub Readme Stats, <a href="https://github.com/VoltAgent/awesome-design-md"><b>*awesome-design-md</b></a>,<br><a href="https://github.com/charmbracelet/crush"><b>*Crush</b></a> |
 | <img src="https://img.shields.io/badge/LLMs%20%26%20Learning-6-0ea5e9?style=flat-square" alt="LLMs"> | DeepSeek-V3, OpenAI Codex, Qwen, Gemini CLI,<br>Hello Agents, Claude Code Best Practice |
 
 </div>
