@@ -18,6 +18,9 @@ NC='\033[0m' # No Color
 
 FAILED=false
 
+# ---- Repo root ----
+REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || echo "$(cd "$(dirname "$0")/../.." && pwd)")"
+
 # ---- Utility ----
 check_staged() {
   git diff --cached --name-only --diff-filter=ACMR "$@"
@@ -249,6 +252,66 @@ check_source_citation() {
   fi
 }
 
+check_unaddressed_dissent() {
+  local challenge_response
+  challenge_response="$REPO_ROOT/.runtime/challenge-response.json"
+
+  if [[ ! -f "$challenge_response" ]]; then
+    return
+  fi
+
+  # Check if file has content (not empty /dev/null equivalent)
+  local file_size
+  file_size=$(stat -c%s "$challenge_response" 2>/dev/null || echo 0)
+  if [[ "$file_size" -lt 10 ]]; then
+    return
+  fi
+
+  echo ":: Checking for unaddressed plan dissent..."
+  local py_script='
+import json, sys
+
+with open("'"$challenge_response"'") as f:
+    try:
+        resp = json.load(f)
+    except json.JSONDecodeError:
+        print("  WARN    challenge-response.json: malformed JSON, skipping")
+        sys.exit(0)
+
+findings = resp.get("findings", [])
+if not findings:
+    sys.exit(0)
+
+blocking = []
+significant = []
+for f in findings:
+    sev = f.get("severity", "significant")
+    status = f.get("_status", f.get("status", "unaddressed"))
+    title = f.get("title", "unknown")
+    if status == "addressed":
+        continue
+    if sev == "blocking":
+        blocking.append(title)
+    else:
+        significant.append(title)
+
+for b in blocking:
+    print(f"  ERROR   {b} (blocking, unaddressed)")
+
+for s in significant:
+    print(f"  WARN    {s} (significant, unaddressed)")
+
+if blocking:
+    sys.exit(1)
+'
+
+  if python3 -c "$py_script" 2>/dev/null; then
+    : # clean exit (no unaddressed blocking findings)
+  else
+    FAILED=true
+  fi
+}
+
 check_ascii() {
   echo ":: Checking for non-ASCII characters in staged text files..."
   local files
@@ -297,6 +360,7 @@ check_error_handling
 check_shellcheck
 check_source_citation
 check_ascii
+check_unaddressed_dissent
 
 echo ""
 echo "=========================================="

@@ -1,5 +1,8 @@
 ---
-description: Turn the researched task into an explicit implementation plan
+description: >
+  Turn the researched task into an explicit implementation plan.
+  Includes optional CATFISH-style adversarial challenge (plan-challenge.sh)
+  to detect premature convergence and inject structured dissent.
 ---
 
 This is planning mode only.
@@ -29,6 +32,29 @@ Return a compact plan with:
 - the verification command or check for each step
 - what is explicitly out of scope
 - where to checkpoint or restart between phases
+
+### Plan Challenge (CATFISH Protocol)
+
+After producing the plan and saving it to `.runtime/plan.json`, re-run the plan guard with the challenge flag:
+
+`bash ./scripts/plan-guard.sh "$ARGUMENTS" --challenge`
+
+This checks for collapse signals (premature convergence, missing risks, vague verification).
+If the challenge is required, the guard will print instructions to dispatch a @worker subagent with structured dissent.
+
+The challenge uses **counterfactual post-mortem framing**:
+> "Assume this plan has already failed catastrophically --- what caused it?"
+
+This is NOT a "find flaws" review. It surfaces risks that a same-context review would miss.
+
+After the challenge response is collected, run:
+`bash ./scripts/plan-challenge.sh reconcile --plan .runtime/plan.json --response .runtime/challenge-response.json`
+
+- **PASS** -> proceed with implementation
+- **FAIL** (blocking findings) -> address each before proceeding
+- **WARN** (significant findings) -> address or document as residual risk
+
+The quality gate will also check for unaddressed blocking findings at commit time.
 
 <rationalizations>
 | Shortcut | Why It Fails |
