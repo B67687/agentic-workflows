@@ -1122,263 +1122,239 @@ def build_legend():
 # ═══════════════════════════════════════════════════════════════════════
 
 def build_svg_diagram():
-    """Generate a clean static SVG diagram of all workflows for README embedding."""
-    W = 1100
-    H = 720
-    CX = W // 2  # center x = 550
-    FONT = "-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif"
+    """Generate a clean static SVG workflow diagram matching the existing hub-architecture style."""
+    W, H = 1000, 780
+    CX = W // 2
 
-    # Colors (dark theme, matching the repo's style)
+    # Colors
     BG = "#0d1117"
-    TEXT = "#e6edf3"
-    TEXT_MUTED = "#8b949e"
-    PHASE_BG = "#238636"
-    PHASE_BD = "#2ea043"
-    GATE_BG = "#d29922"
-    GATE_BD = "#bb8009"
-    BRANCH_BG = "#1f6feb"
-    BRANCH_BD = "#388bfd"
-    LINE_CLR = "#30363d"
-    LINE_MAIN = "#58a6ff"
-    ARROW_CLR = "#58a6ff"
-    PROP_BG = "#9e6a03"
-    TOOL_BG = "#3d444d"
-    TOOL_BD = "#484f58"
-    START_BG = "#1f6feb"
-    NODE_TEXT = "#f0f6fc"
-    SECTION_TITLE = "#58a6ff"
+    TXT = "#f0f6fc"
+    MUTED = "#8b949e"
+    ACCENT = "#58a6ff"
+    GRN = "#238636"
+    GRN_BD = "#2ea043"
+    GOLD = "#d29922"
+    GOLD_BD = "#bb8009"
+    BLU = "#1f6feb"
+    BLU_BD = "#388bfd"
+    ORG = "#9e6a03"
+    GREY = "#3d444d"
+    GBD = "#484f58"
+    LINE = "#30363d"
+    FONT = "-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif"
 
     svg = []
     push = svg.append
 
-    # -- Header --
-    push(f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="100%" style="max-width:{W}px">')
-    push(f'<rect width="{W}" height="{H}" fill="{BG}" rx="8"/>')
+    # --- SVG header with defs ---
+    push(f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="100%" style="max-width:{W}px; background:{BG}; border-radius:12px; font-family:{FONT};">')
+    push(f'<rect width="{W}" height="{H}" rx="12" fill="{BG}"/>')
     push(f'<defs>'
-          '<marker id="arrow" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="6" markerHeight="6" orient="auto">'
-          f'<path d="M 0 0 L 10 5 L 0 10 z" fill="{LINE_MAIN}"/></marker>'
-          '<marker id="arrow-sub" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="5" markerHeight="5" orient="auto">'
-          f'<path d="M 0 0 L 10 5 L 0 10 z" fill="{LINE_CLR}"/></marker>'
+          '<linearGradient id="pGrad" x1="0%" y1="0%" x2="0%" y2="100%">'
+          f'<stop offset="0%" stop-color="{GRN}"/><stop offset="100%" stop-color="#1a7a2a"/></linearGradient>'
+          '<linearGradient id="gGrad" x1="0%" y1="0%" x2="0%" y2="100%">'
+          f'<stop offset="0%" stop-color="{GOLD}"/><stop offset="100%" stop-color="#b8860b"/></linearGradient>'
+          '<linearGradient id="bGrad" x1="0%" y1="0%" x2="0%" y2="100%">'
+          f'<stop offset="0%" stop-color="{BLU}"/><stop offset="100%" stop-color="#1558b0"/></linearGradient>'
+          '<filter id="glow"><feDropShadow dx="0" dy="0" stdDeviation="3" flood-color="#58a6ff" flood-opacity="0.2"/></filter>'
+          '<marker id="arr" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="6" markerHeight="6" orient="auto">'
+          f'<path d="M 0 0 L 10 5 L 0 10 z" fill="{ACCENT}"/></marker>'
+          '<marker id="arrM" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="5" markerHeight="5" orient="auto">'
+          f'<path d="M 0 0 L 10 5 L 0 10 z" fill="{MUTED}"/></marker>'
           '</defs>')
 
-    # -- Helper: rounded rect --
-    def rect(x, y, w, h, fill, stroke, label, opts=""):
-        push(f'<rect x="{x}" y="{y}" width="{w}" height="{h}" fill="{fill}" stroke="{stroke}" stroke-width="1.5" {opts}/>')
-        push(f'<text x="{x + w//2}" y="{y + h//2 + 4}" text-anchor="middle" fill="{NODE_TEXT}" font-family="-apple-system,BlinkMacSystemFont,\'Segoe UI\',sans-serif" font-size="11" font-weight="600">{label}</text>')
+    # --- Helpers ---
+    def box(x, y, w, h, fill, stroke, label, fs=12, fw="bold"):
+        push(f'<rect x="{x}" y="{y}" width="{w}" height="{h}" rx="6" fill="{fill}" stroke="{stroke}" stroke-width="1.5"/>')
+        for i, line in enumerate(label.split("\n")):
+            push(f'<text x="{x + w//2}" y="{y + h//2 + (i - 0.5) * 14}" text-anchor="middle" fill="{TXT}" font-size="{fs}" font-weight="{fw}">{line}</text>')
 
-    def diamond(cx, cy, size, fill, stroke, label, opts=""):
-        s = size // 2
-        push(f'<polygon points="{cx},{cy-s} {cx+s},{cy} {cx},{cy+s} {cx-s},{cy}" fill="{fill}" stroke="{stroke}" stroke-width="1.5" {opts}/>')
-        push(f'<text x="{cx}" y="{cy + 3}" text-anchor="middle" fill="{NODE_TEXT}" font-family="{FONT}" font-size="9" font-weight="500">{label}</text>')
+    def sbox(x, y, w, h, label):
+        """Section bounding box with dashed border."""
+        push(f'<rect x="{x}" y="{y}" width="{w}" height="{h}" rx="8" fill="none" stroke="{LINE}" stroke-width="1" stroke-dasharray="6,3" opacity="0.5"/>')
+        push(f'<text x="{x + 14}" y="{y + 18}" fill="{ACCENT}" font-size="11" font-weight="bold">{label}</text>')
 
-    def arrow(x1, y1, x2, y2, color=LINE_MAIN, label="", dash=""):
-        style = f'stroke="{color}" stroke-width="1.5" marker-end="url(#arrow)"'
-        if dash:
-            style += f' stroke-dasharray="{dash}"'
-        push(f'<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" {style}/>')
-        if label:
-            mx, my = (x1 + x2) // 2, (y1 + y2) // 2 - 10
-            push(f'<text x="{mx}" y="{my}" text-anchor="middle" fill="{TEXT_MUTED}" font-family="{FONT}" font-size="8">{label}</text>')
+    def arr(x1, y1, x2, y2, color=ACCENT, dashes="", marker="arr"):
+        s = f'stroke="{color}" stroke-width="1.5" marker-end="url(#{marker})"'
+        if dashes: s += f' stroke-dasharray="{dashes}"'
+        push(f'<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" {s}/>')
 
-    def section_title(x, y, title):
-        push(f'<text x="{x}" y="{y}" fill="{SECTION_TITLE}" font-family="{FONT}" font-size="10" font-weight="600">{title}</text>')
+    def lbl(x, y, text, color=MUTED, fs=10):
+        push(f'<text x="{x}" y="{y}" fill="{color}" font-size="{fs}" text-anchor="middle">{text}</text>')
 
-    # ──────────────────────────────────────────────────────────────────
-    # TIER 1: PROPAGATION + TOOL LANDSCAPE (y=30..120)
-    # ──────────────────────────────────────────────────────────────────
-    section_title(30, 25, "▸ Cross-Repo Propagation")
+    # =====================================================================
+    # TITLE
+    # =====================================================================
+    push(f'<text x="{CX}" y="30" fill="{ACCENT}" font-size="16" font-weight="bold" text-anchor="middle" letter-spacing="1">WORKFLOW DIAGRAM</text>')
+    push(f'<line x1="200" y1="42" x2="800" y2="42" stroke="{ACCENT}" stroke-width="1" opacity="0.3"/>')
 
-    # Propagate entry
-    rect(30, 35, 100, 28, PROP_BG, "#bb8009", "propagate.sh")
-    # Command sync
-    rect(170, 35, 100, 28, BRANCH_BG, BRANCH_BD, "sync commands")
-    # Template propagate
-    rect(310, 35, 100, 28, BRANCH_BG, BRANCH_BD, "propagate templates")
+    # =====================================================================
+    # SECTION 1: PROPAGATION (y=55..200)
+    # =====================================================================
+    sbox(30, 55, 940, 140, "CROSS-REPO PROPAGATION")
 
-    # Destinations
-    rect(450, 25, 80, 22, TOOL_BG, TOOL_BD, ".opencode/")
-    rect(450, 53, 80, 22, TOOL_BG, TOOL_BD, ".pi/prompts/")
-    rect(540, 25, 80, 22, TOOL_BG, TOOL_BD, "commands/")
-    rect(540, 53, 80, 22, TOOL_BG, TOOL_BD, "CLAUDE.md")
+    # propagate.sh entry
+    box(55, 90, 110, 30, ORG, "#bb8009", "propagate.sh", fs=11)
 
-    # Topic folders (larger radius)
-    push(f'<rect x="660" y="35" width="110" height="28" rx="14" fill="#6e7681" stroke="#848d97" stroke-width="1.5"/>')
-    push(f'<text x="715" y="53" text-anchor="middle" fill="{NODE_TEXT}" font-family="-apple-system,BlinkMacSystemFont,\'Segoe UI\',sans-serif" font-size="11" font-weight="600">14 topic folders</text>')
-    # Status check
-    rect(810, 35, 90, 28, GATE_BG, GATE_BD, "✓ sync status")
+    # Sub-commands
+    box(190, 90, 100, 30, BLU, BLU_BD, "sync", fs=11)
+    box(320, 90, 100, 30, BLU, BLU_BD, "propagate", fs=11)
+    box(450, 90, 100, 30, BLU, BLU_BD, "all", fs=11)
 
-    push(f'<text x="{W - 30}" y="25" text-anchor="end" fill="{TEXT_MUTED}" font-family="{FONT}" font-size="9">{PROP_DATA["total_pairs"]} file targets per folder</text>')
+    # Sync targets
+    box(590, 78, 85, 24, GREY, GBD, ".opencode/", fs=9, fw="normal")
+    box(590, 108, 85, 24, GREY, GBD, ".pi/", fs=9, fw="normal")
+    box(690, 78, 85, 24, GREY, GBD, "commands/", fs=9, fw="normal")
+    box(690, 108, 85, 24, GREY, GBD, "CLAUDE.md", fs=9, fw="normal")
+
+    # Topic folders
+    box(810, 90, 130, 30, "#6e7681", "#848d97", f"{PROP_DATA['total_pairs']} targets/folder", fs=10)
 
     # Edges
-    arrow(130, 49, 170, 49, LINE_MAIN)
-    arrow(270, 49, 310, 49, LINE_MAIN)
-    arrow(410, 49, 450, 36, LINE_CLR, "")
-    arrow(410, 49, 540, 36, LINE_CLR, "")
-    arrow(410, 49, 450, 64, LINE_CLR, "")
-    arrow(410, 49, 540, 64, LINE_CLR, "")
-    arrow(630, 49, 660, 49, "#848d97", f"{PROP_DATA['managed']} managed + {PROP_DATA['repo_owned']} repo-owned", "4")
-    arrow(770, 49, 810, 49, LINE_MAIN)
+    arr(165, 105, 190, 105)
+    arr(290, 105, 320, 105)
+    arr(420, 105, 450, 105)
+    arr(550, 105, 590, 92, marker="arrM")
+    arr(550, 105, 590, 118, marker="arrM")
+    arr(550, 105, 690, 92, marker="arrM")
+    arr(550, 105, 690, 118, marker="arrM")
+    lbl(620, 82, f"Per topic folder", GREY, 8)
+    arr(750, 105, 810, 105)
+    lbl(780, 98, f"×14 folders", GREY, 8)
 
-    # ──────────────────────────────────────────────────────────────────
-    # TIER 2: MAIN PHASE PIPELINE (y=160..330)
-    # ──────────────────────────────────────────────────────────────────
-    section_title(30, 155, "▸ Task Execution Pipeline")
-
-    phases_x = [50, 210, 350, 490, 630, 770, 910]
-
-    phase_data = [
-        (50, "Start"),
-        (210, "Route\nIntake"),
-        (350, "Research\n(6 tools)"),
-        (490, "Plan\n(4 tools)"),
-        (630, "Implement\n(4 tools)"),
-        (770, "Verify\n(7 tools)"),
-        (910, "Session\nCheckpoint"),
-    ]
-
-    # Close / End off to the right
-    rect(1030, 280, 60, 28, "none", "none", "", "")  # placeholder for end
+    # =====================================================================
+    # SECTION 2: MAIN PHASE PIPELINE (y=210..400)
+    # =====================================================================
+    sbox(30, 210, 940, 185, "TASK EXECUTION PIPELINE")
 
     # Phase boxes
-    for px, plabel in phase_data:
-        rect(px, 235, 130, 40, PHASE_BG, PHASE_BD, plabel)
-
-    # End ellipse
-    push(f'<ellipse cx="1090" cy="255" rx="30" ry="16" fill="none" stroke="{LINE_CLR}" stroke-width="1.5"/>')
-    push(f'<text x="1090" y="259" text-anchor="middle" fill="{TEXT_MUTED}" font-family="{FONT}" font-size="11">End</text>')
-
-    # Main flow arrows
-    arrow(180, 255, 210, 255, LINE_MAIN)
-    arrow(340, 255, 350, 255, LINE_MAIN)
-    arrow(480, 255, 490, 255, LINE_MAIN)
-    arrow(620, 255, 630, 255, LINE_MAIN)
-    arrow(760, 255, 770, 255, LINE_MAIN)
-    arrow(900, 255, 910, 255, LINE_MAIN)
-    arrow(1040, 255, 1060, 255, LINE_CLR)
-
-    # Gate diamonds between phases
-    gate_x_positions = [270, 420, 560, 700, 840]
-    gate_labels = ["Research\nGate", "Plan\nGate", "Implement\nGate", "Verify\nGate", "Session\nGate"]
-
-    for gx, glabel in zip(gate_x_positions, gate_labels):
-        diamond(gx, 255, 36, GATE_BG, GATE_BD, glabel)
-        # Connect phase -> gate -> phase
-        # Already handled by main flow arrows
-
-    # Decision sub-steps below gates (small labels)
-    decision_labels = [
-        ("270", ["Model", "Select"]),
-        ("420", ["Model", "Select"]),
-        ("560", ["Quality", "Speed"]),
+    phases = [
+        (55, "Start", "start_end"),
+        (170, "Route\nIntake", "phase"),
+        (285, "Research", "phase"),
+        (400, "Plan", "phase"),
+        (515, "Implement", "phase"),
+        (630, "Verify", "phase"),
+        (745, "Session\nCheckpoint", "phase"),
+        (860, "Close", "phase"),
+        (930, "End", "start_end"),
     ]
-    for dx, dlabels in decision_labels:
-        pass  # skip for SVG (too detailed)
 
-    # Gate details as floating label
-    push(f'<text x="270" y="295" text-anchor="middle" fill="{TEXT_MUTED}" font-family="{FONT}" font-size="7">model-select · sufficiency · scope-check</text>')
-    push(f'<text x="420" y="295" text-anchor="middle" fill="{TEXT_MUTED}" font-family="{FONT}" font-size="7">model-select · catfish · scope · comprehension · decisions · autonomy · preflight</text>')
-    push(f'<text x="560" y="295" text-anchor="middle" fill="{TEXT_MUTED}" font-family="{FONT}" font-size="7">quality-speed check (full suite or smoke?)</text>')
-    push(f'<text x="700" y="295" text-anchor="middle" fill="{TEXT_MUTED}" font-family="{FONT}" font-size="7">test-smoke · test-workflows · counsel-run</text>')
-    push(f'<text x="840" y="295" text-anchor="middle" fill="{TEXT_MUTED}" font-family="{FONT}" font-size="7">checkpoint-commit · context-save · handoff</text>')
+    for px, plabel, ptype in phases:
+        if ptype == "start_end":
+            w, h = 70, 32
+            push(f'<ellipse cx="{px + w//2}" cy="260" rx="{w//2}" ry="{h//2}" fill="none" stroke="{ACCENT}" stroke-width="1.5"/>')
+            push(f'<text x="{px + w//2}" y="264" text-anchor="middle" fill="{MUTED}" font-size="11" font-weight="bold">{plabel}</text>')
+        else:
+            w, h = 100, 38
+            box(px, 241, w, h, GRN, GRN_BD, plabel, fs=11)
 
-    # Question Gate before Route
-    diamond(145, 255, 30, GATE_BG, GATE_BD, "Q")
-    push(f'<text x="145" y="230" text-anchor="middle" fill="{TEXT_MUTED}" font-family="{FONT}" font-size="7">Question</text>')
-    arrow(50, 274, 50, 255, LINE_MAIN)  # Start -> Q gate
-    arrow(160, 255, 210, 255, LINE_MAIN)
+    # Gate diamonds
+    gates = [
+        (248, "Q\nGate", 24),
+        (363, "Research\nGate", 28),
+        (478, "Plan\nGate", 28),
+        (593, "Impl.\nGate", 28),
+        (708, "Verify\nGate", 28),
+        (823, "Session\nGate", 28),
+    ]
 
-    # ──────────────────────────────────────────────────────────────────
-    # TIER 3: BRANCH WORKFLOWS (y=370..520)
-    # ──────────────────────────────────────────────────────────────────
-    section_title(30, 365, "▸ Branch Workflows")
+    for gx, glabel, gs in gates:
+        s = gs
+        push(f'<polygon points="{gx},{260-s} {gx+s},{260} {gx},{260+s} {gx-s},{260}" fill="{GOLD}" stroke="{GOLD_BD}" stroke-width="1.5"/>')
+        for i, line in enumerate(glabel.split("\n")):
+            push(f'<text x="{gx}" y="{260 + (i - 0.5) * 10}" text-anchor="middle" fill="{TXT}" font-size="8" font-weight="bold">{line}</text>')
 
-    branch_y = 375
+    # Flow arrows
+    arr(125, 260, 145, 260)  # Start → Q Gate
+    arr(272, 260, 285, 260)
+    arr(385, 260, 400, 260)
+    arr(500, 260, 515, 260)
+    arr(615, 260, 630, 260)
+    arr(730, 260, 745, 260)
+    arr(845, 260, 860, 260)
+    arr(900, 260, 930, 260)
+
+    # Gate chain summaries (small text below each gate)
+    gate_chains = [
+        (248, "model-select → sufficiency → scope-check"),
+        (363, "model-select → CATFISH → scope → comprehension → decisions → autonomy → preflight"),
+        (478, "quality-speed (full suite or smoke?)"),
+        (593, "test-smoke · test-workflows · counsel-run"),
+        (708, "checkpoint-commit · context-save · handoff"),
+        (823, "close-task · finish-task · task-retrospect"),
+    ]
+
+    for cx, summary in gate_chains:
+        push(f'<text x="{cx}" y="310" text-anchor="middle" fill="{MUTED}" font-size="7">{summary}</text>')
+
+    # Detail label row
+    lbl(500, 325, "← Each gate runs a decision chain before allowing the next phase →", MUTED, 8)
+
+    # =====================================================================
+    # SECTION 3: BRANCH WORKFLOWS (y=410..610)
+    # =====================================================================
+    sbox(30, 410, 940, 195, "BRANCH WORKFLOWS")
+
+    branch_y = 445
     branch_data = [
-        (160, "Agent Dispatch\nFan-out (pi/codex/claude)", "scripts/agent-dispatch.sh", BRANCH_BG),
-        (390, "Pipeline Run\nSequenced task dispatch", "scripts/pipeline-run.sh", BRANCH_BG),
-        (620, "Counsel / Parley\nMulti-perspective review", "scripts/counsel-gate.sh", BRANCH_BG),
-        (850, "Autopilot\nAutonomous execution loop", "scripts/autopilot.sh", BRANCH_BG),
+        (145, "Agent Dispatch\nFan-out to pi/codex/claude", "agent-dispatch.sh", BLU, 140, 50),
+        (370, "Pipeline Run\nSequenced task → @worker", "pipeline-run.sh", BLU, 140, 50),
+        (595, "Counsel / Parley\nMulti-perspective review", "counsel-run.sh", BLU, 140, 50),
+        (820, "Autopilot\nAutonomous execution loop", "autopilot.sh", BLU, 140, 50),
     ]
 
-    # Branch from Implement (x=630) down to branches
-    # Horizontal line at y=375
-    branch_start_x = 120
-    branch_end_x = 1000
-    push(f'<line x1="{branch_start_x}" y1="{branch_y}" x2="{branch_end_x}" y2="{branch_y}" stroke="{LINE_CLR}" stroke-width="1" stroke-dasharray="4,3"/>')
-    arrow(630, 275, 630, 350, LINE_CLR, "branches", "4,3")
-    # Vertical line from implement down to branch horizontal
-    push(f'<line x1="630" y1="{branch_y - 25}" x2="630" y2="{branch_y}" stroke="{LINE_CLR}" stroke-width="1" stroke-dasharray="4,3"/>')
+    # Branch horizontal bus
+    push(f'<line x1="70" y1="{branch_y}" x2="930" y2="{branch_y}" stroke="{LINE}" stroke-width="1" stroke-dasharray="4,3" opacity="0.5"/>')
 
-    for bx, blabel, bscript, bcolor in branch_data:
-        rect(bx - 60, branch_y + 10, 120, 38, bcolor, BRANCH_BD, blabel)
-        push(f'<text x="{bx}" y="{branch_y + 58}" text-anchor="middle" fill="{TEXT_MUTED}" font-family="{FONT}" font-size="7">{bscript}</text>')
-        # Arrow from horizontal line down to branch
-        push(f'<line x1="{bx}" y1="{branch_y}" x2="{bx}" y2="{branch_y + 10}" stroke="{LINE_CLR}" stroke-width="1" stroke-dasharray="2,2"/>')
+    # Connection from Implement phase (x=565) down to bus
+    arr(565, 279, 565, 415, ACCENT, "4,3")
+    push(f'<line x1="565" y1="{branch_y-30}" x2="565" y2="{branch_y}" stroke="{LINE}" stroke-width="1" stroke-dasharray="4,3"/>')
 
-    # Agent dispatch targets (small boxes below agent dispatch)
-    ad_y = branch_y + 50
-    push(f'<text x="160" y="{ad_y + 55}" text-anchor="middle" fill="{TEXT_MUTED}" font-family="{FONT}" font-size="8">→ pi · codex · claude</text>')
-    push(f'<text x="160" y="{ad_y + 66}" text-anchor="middle" fill="{TEXT_MUTED}" font-family="{FONT}" font-size="8">/ship: reviewer + security + test</text>')
+    for bx, blabel, bscript, bcolor, bw, bh in branch_data:
+        x = bx - bw // 2
+        box(x, branch_y + 8, bw, bh, bcolor, BLU_BD, blabel, fs=10)
+        push(f'<text x="{bx}" y="{branch_y + 68}" text-anchor="middle" fill="{MUTED}" font-size="8">{bscript}</text>')
+        push(f'<line x1="{bx}" y1="{branch_y}" x2="{bx}" y2="{branch_y + 8}" stroke="{LINE}" stroke-width="1" stroke-dasharray="2,2"/>')
 
-    # Pipeline run targets
-    push(f'<text x="390" y="{ad_y + 55}" text-anchor="middle" fill="{TEXT_MUTED}" font-family="{FONT}" font-size="8">@worker · @explore · @review</text>')
-    push(f'<text x="390" y="{ad_y + 66}" text-anchor="middle" fill="{TEXT_MUTED}" font-family="{FONT}" font-size="8">on_error: abort/continue/retry:N</text>')
+    # Agent dispatch sub-details
+    lbl(145, 525, "Targets: pi-coding-agent · Codex CLI · Claude Code", MUTED, 8)
+    lbl(145, 538, "/ship: code-reviewer + security-auditor + test-engineer (parallel)", MUTED, 8)
 
-    # ──────────────────────────────────────────────────────────────────
-    # TIER 4: SESSION LIFECYCLE (y=550..650)
-    # ──────────────────────────────────────────────────────────────────
-    section_title(30, 555, "▸ Session Lifecycle")
+    lbl(370, 525, "Sub-agents: @worker (full tools) · @explore (read-only) · @review (diff)", MUTED, 8)
+    lbl(370, 538, "on_error: abort | continue | retry:N", MUTED, 8)
 
-    sess_y = 565
+    # =====================================================================
+    # SECTION 4: SESSION LIFECYCLE (y=620..740)
+    # =====================================================================
+    sbox(30, 620, 940, 105, "SESSION LIFECYCLE")
+
     sess_items = [
-        (140, "Checkpoint\nCommit"),
-        (300, "Session\nFork (worktree)"),
-        (460, "Handoff\n(continuation)"),
-        (620, "Context\nRestore"),
-        (780, "Context\nPressure"),
+        (110, "Checkpoint\nCommit"),
+        (250, "Session\nFork (worktree)"),
+        (390, "Handoff\n(continuation)"),
+        (530, "Context\nRestore"),
+        (670, "Context\nPressure"),
+        (810, "Task\nRetrospect"),
     ]
 
-    push(f'<line x1="80" y1="{sess_y}" x2="860" y2="{sess_y}" stroke="{LINE_CLR}" stroke-width="1" stroke-dasharray="4,3"/>')
+    sess_y = 662
+    push(f'<line x1="60" y1="{sess_y}" x2="940" y2="{sess_y}" stroke="{LINE}" stroke-width="1" stroke-dasharray="4,3" opacity="0.5"/>')
 
     for sx, slabel in sess_items:
-        rect(sx - 50, sess_y + 10, 100, 32, TOOL_BG, TOOL_BD, slabel)
-        push(f'<line x1="{sx}" y1="{sess_y}" x2="{sx}" y2="{sess_y + 10}" stroke="{LINE_CLR}" stroke-width="1" stroke-dasharray="2,2"/>')
+        box(sx - 45, sess_y + 8, 90, 34, GREY, GBD, slabel, fs=9)
+        push(f'<line x1="{sx}" y1="{sess_y}" x2="{sx}" y2="{sess_y + 8}" stroke="{LINE}" stroke-width="1" stroke-dasharray="2,2"/>')
 
-    # Connection from Session phase to sessions
-    push(f'<line x1="910" y1="275" x2="910" y2="{sess_y}" stroke="{LINE_CLR}" stroke-width="1" stroke-dasharray="4,3"/>')
-    arrow(910, 345, 910, sess_y - 5, LINE_CLR, "session lifecycle", "4,3")
+    # Connection from Session phase down
+    arr(795, 279, 795, 630, MUTED, "4,3", "arrM")
 
-    # ──────────────────────────────────────────────────────────────────
-    # TOOL LANDSCAPE (right side panel)
-    # ──────────────────────────────────────────────────────────────────
-    panel_x = 50
-    panel_y = 610
-    push(f'<text x="{panel_x}" y="630" fill="{SECTION_TITLE}" font-family="{FONT}" font-size="10" font-weight="600">▸ Tool Landscape: {sum(TOOL_COUNTS.values())} registered</text>')
-    tool_str = " · ".join(f"{cat}: {cnt}" for cat, cnt in sorted(TOOL_COUNTS.items(), key=lambda x: -x[1]) if cnt > 0)
-    push(f'<text x="{panel_x}" y="648" fill="{TEXT_MUTED}" font-family="{FONT}" font-size="9">{tool_str}</text>')
-    push(f'<text x="{panel_x}" y="664" fill="{TEXT_MUTED}" font-family="{FONT}" font-size="9">14 commands · 46 skills · 8 agents · {TMPL_DATA["templates"]} propagation templates</text>')
-
-    # ──────────────────────────────────────────────────────────────────
-    # FOOTER / LEGEND
-    # ──────────────────────────────────────────────────────────────────
-    ly = 690
-    push(f'<line x1="30" y1="{ly - 8}" x2="{W - 30}" y2="{ly - 8}" stroke="{LINE_CLR}" stroke-width="0.5"/>')
-
-    legend_items = [
-        (PHASE_BG, "Phase"),
-        (GATE_BG, "Gate"),
-        (BRANCH_BG, "Branch"),
-        (PROP_BG, "Propagation"),
-        (TOOL_BG, "Tool / Target"),
-    ]
-
-    lx = 30
-    for lcolor, llabel in legend_items:
-        push(f'<rect x="{lx}" y="{ly}" width="10" height="10" rx="2" fill="{lcolor}" stroke="{lcolor}" stroke-width="1"/>')
-        push(f'<text x="{lx + 15}" y="{ly + 9}" fill="{TEXT}" font-family="{FONT}" font-size="9">{llabel}</text>')
-        lx += 90
-
-    push(f'<text x="{W - 260}" y="{ly + 9}" fill="{TEXT_MUTED}" font-family="{FONT}" font-size="8">Interactive: b67687.github.io/agentic-workflows/workflow-graph.html</text>')
+    # =====================================================================
+    # FOOTER
+    # =====================================================================
+    ly = 756
+    push(f'<line x1="30" y1="{ly-6}" x2="970" y2="{ly-6}" stroke="{LINE}" stroke-width="0.5" opacity="0.3"/>')
+    push(f'<text x="30" y="{ly+4}" fill="{MUTED}" font-size="9">132 tools · {PROP_DATA["total_pairs"]} propagation pairs · 14 commands · 46 skills · 8 agents</text>')
+    push(f'<text x="970" y="{ly+4}" fill="{MUTED}" font-size="9" text-anchor="end">Interactive: b67687.github.io/agentic-workflows/workflow-graph.html</text>')
 
     push('</svg>')
     return "\n".join(svg)
