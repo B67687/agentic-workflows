@@ -1,82 +1,58 @@
 {
-  "session": 4,
+  "session": 826,
   "status": "verified-phase",
   "interruptedCount": 0,
   "contextPressure": "healthy",
   "currentTask": {
-    "name": "All 5 structural upgrades from 9Router comparative analysis implemented",
+    "name": "Phase-gate.sh --check-quality now auto-runs constitution + decision pipeline",
     "status": "done",
-    "goal": "Convert phase-gate.sh from hardcoded delegation to convention-based plugin discovery, add dynamic autonomy cascade, decision pipeline composition, cooldown + backoff in error-counter, and unified session dashboard — all inspired by 9Router's pipeline architecture."
+    "goal": "Make --check-quality the single comprehensive flag: runs constitution gates, gate plugins, and decision pipeline automatically at every phase-gate invocation."
   },
   "whatChanged": [
-    "Gate Plugin Discovery: phase-gate.sh quality checks section replaced hardcoded case statement with auto-discovery from scripts/gates/{phase}/*.sh. 8 plugin wrappers created. New scope-check gate added.",
-    "Dynamic Autonomy Cascade: autonomy-gate.sh start/adjust/status subcommands allow mid-phase autonomy level adjustment based on error-counter, comprehension-gate, and file-decision signals.",
-    "Decision Pipeline Composition: decision-pipeline.sh chains model-select → file-decision → autonomy-gate → comprehension-gate → quality-speed-gate at phase transitions.",
-    "Cooldown + Exponential Backoff: error-counter.sh now calculates cooldown = COOLDOWN_BASE × 2^(count-1) after each increment. Supports --retry-after override. Check/list show remaining cooldown.",
-    "Session Dashboard: session-dashboard.sh aggregates phase state, gate status, decision history, error counts, and debt levels into single view.",
-    "quality-gate.sh: added scripts/ as known internal path prefix to prevent false source-citation warnings for internal gate paths.",
-    "108 smoke tests across all subsystems."
+    "phase-gate.sh --check-quality now auto-runs constitution gates for the phase transition",
+    "phase-gate.sh --check-quality now auto-runs the decision pipeline (research->plan, plan->implement, implement->verify)",
+    "Constitution gate failure now sets OVERALL_RESULT so exit code matches combined result",
+    "STATE_FILE defined early in phase-gate.sh for decision pipeline task extraction"
   ],
   "filesTouched": [
-    "scripts/gates/ (NEW - 8 plugins across 4 phases)",
-    "scripts/phase-gate.sh (REWORKED - auto-discovery engine)",
-    "scripts/autonomy-gate.sh (+start/adjust/status subcommands)",
-    "scripts/decision-pipeline.sh (NEW - composable decision chains)",
-    "scripts/error-counter.sh (+cooldown + exponential backoff)",
-    "scripts/session-dashboard.sh (NEW - aggregated observability)",
-    "scripts/hooks/quality-gate.sh (+scripts/ prefix skip)",
-    "commands/plan.md (updated for plugin discovery)",
-    "commands/implement.md (updated for plugin discovery)",
-    "scripts/test-smoke.sh (+P12 gate plugin tests, +P13 cooldown tests, +P14 dashboard tests)"
+    "scripts/phase-gate.sh (--check-quality now comprehensive: constitution + gates + pipeline)"
   ],
   "verification": [
-    "All 108 smoke tests pass (0 regressions)",
-    "phase-gate.sh discovers correct plugins per phase (research:1, plan:2, implement:4, verify:1)",
-    "autonomy-gate.sh start/adjust/status tested end-to-end with signal-based level transitions",
-    "decision-pipeline.sh chains 5 decision types and stops at first failure",
-    "error-counter.sh cooldown tested: 30s → 60s → 120s exponential backoff, --retry-after override, escalation at threshold",
-    "session-dashboard.sh aggregates all gate state correctly",
-    "All gate plugins return standard exit codes (0/1/2/3)",
-    "Plugins auto-skip on missing evidence (exit 3)"
+    "phase-gate.sh plan --check-quality runs constitution + catfish + scope-check + research->plan pipeline",
+    "phase-gate.sh implement --check-quality runs constitution + 5 gate plugins + plan->implement pipeline",
+    "Constitution BLOCK correctly propagates to OVERALL_RESULT (exit 1)"
   ],
   "keyLearnings": [
-    "9Router's core architectural insight — separate pipeline from state machine — maps cleanly to agent governance: decision pipelines are pure transforms, phase state is the state machine, gate plugins are the composition layer.",
-    "Exit code 3 (SKIP) for gate plugins is critical: gates auto-detect missing evidence and gracefully degrade rather than blocking with confusing errors.",
-    "Dynamic autonomy is the behavioral counterpart of 9Router's mid-request fallback: re-evaluate autonomy after every signal, not once at task start.",
-    "The 5-upgrade plan demonstrates that good architecture comparison yields composable, testable improvements that fit an existing system's conventions."
+    "Making --check-quality the single comprehensive flag reduces agent cognitive load: one flag does everything",
+    "The constitution gate and decision pipeline were parallel tracks that should have been integrated from the start"
   ],
-  "residualRisk": "All 5 upgrades are on main but rely on agent-mediated invocation (I must remember to call --check-quality, session-dashboard, etc.). No daemon mode. Error-counter cooldown is advisory (check shows it, but blocking requires manual respect of cooldown).",
+  "residualRisk": "Full-stream MCP interface not yet integrated with gate/decision infrastructure. session-state.json gets overwritten on every new session start (bare template pattern).",
   "immediateNextSteps": [
-    "Run full regression: bash scripts/test-smoke.sh",
-    "Check all worktrees are cleaned up: git worktree list",
-    "Review 108 tests for any flaky or slow tests that could be optimized",
-    "No push needed unless remote tracking required"
+    "Integrate full-stream MCP interface (serve-mcp.py) with gate/decision pipeline",
+    "Fix session-state.json persistence issue (keep getting overwritten to bare template)",
+    "Investigate tools.toml tool count drift (3 pre-existing test failures)"
   ],
   "resumeRules": [
-    "Read session-state.json first on every resume",
-    "Question Gate is automatic: vague requests trigger the Clarification Protocol before implementation",
-    "Gate plugins: phase-gate.sh <phase> --check-quality auto-discovers plugins from scripts/gates/<phase>/*.sh",
-    "Autonomy cascade: autonomy-gate.sh start | adjust | status for dynamic mid-phase autonomy",
-    "Decision pipeline: decision-pipeline.sh <from->to> [--evidence <dir>] chains decisions at transitions",
-    "Error cooldown: error-counter.sh increment <op> [--retry-after N] sets exponential backoff cooldown",
-    "Dashboard: bash scripts/session-dashboard.sh [--json] for aggregated gate state",
-    "108 tests, quality gate clean"
+    "Gate plugins: phase-gate.sh <phase> --check-quality auto-discovers from scripts/gates/<phase>/*.sh",
+    "Autonomy cascade: autonomy-gate.sh start | adjust | status",
+    "Decision pipeline: decision-pipeline.sh <from->to> chains gates at phase transitions",
+    "Dashboard: bash scripts/session-dashboard.sh [--json|--watch]",
+    "Error cooldown: error-counter.sh increment <op> [--retry-after N]",
+    "--check-quality now comprehensive: runs constitution + gates + pipeline in one flag"
   ],
-  "doNotRepeat": [
-    "2026-05-15: session-state.json was a bare template with 'test entry' data — never leave uncommitted session-state dirt at session end."
-  ],
-  "lastRetrospect": "2026-05-15T18:00:00Z",
-  "learningsCount": 35,
+  "doNotRepeat": [],
+  "lastRetrospect": "2026-05-15T21:00:00Z",
+  "learningsCount": 38,
   "contextMetrics": {
     "last": {
       "status": "HEALTHY",
       "score": 1,
       "signals": {
-        "session_age_hours": 1,
-        "commits_today": 15,
-        "dirty_count": 0,
+        "session_age_hours": 3,
+        "commits_today": 19,
+        "dirty_count": 1,
         "dirty_new": 0,
-        "dirty_modified": 0,
+        "dirty_modified": 1,
         "context_pressure": "healthy"
       }
     },
