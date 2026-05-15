@@ -401,6 +401,52 @@ check_comprehension_evidence() {
   # exit 0: PASS, nothing to report
 }
 
+check_constitution_validity() {
+  local constitution="$REPO_ROOT/constitution.md"
+  local template="$REPO_ROOT/templates/core/constitution-template.md"
+
+  if [[ ! -f "$constitution" ]]; then
+    print_issue "WARN" "constitution.md" "Not found — run: bash scripts/constitution.sh init"
+    return
+  fi
+
+  echo ":: Checking constitution validity..."
+
+  # Check version format
+  local version
+  version=$(grep '^version: ' "$constitution" | sed 's/version: "\(.*\)"/\1/' 2>/dev/null || echo "")
+  if [[ -z "$version" ]]; then
+    print_issue "WARN" "constitution.md" "Missing or invalid version in frontmatter"
+  fi
+
+  # Check article count
+  local article_count
+  article_count=$(grep -c '^## Article ' "$constitution" 2>/dev/null || echo 0)
+  if [[ "$article_count" -eq 0 ]]; then
+    print_issue "ERROR" "constitution.md" "No articles found — constitution is empty"
+  fi
+
+  # Check template staleness
+  if [[ -f "$template" ]] && [[ "$constitution" -ot "$template" ]]; then
+    print_issue "WARN" "constitution.md" "Template is newer than constitution — consider regenerating: bash scripts/constitution.sh init --force"
+  fi
+
+  # Check for ambiguity markers in staged md files
+  echo ":: Checking for [NEEDS CLARIFICATION] markers in staged files..."
+  local ambiguous_files
+  ambiguous_files=$(check_staged -- '*.md' 2>/dev/null | xargs grep -l '\[NEEDS CLARIFICATION' 2>/dev/null || true)
+  if [[ -n "$ambiguous_files" ]]; then
+    while IFS= read -r f; do
+      [[ -z "$f" ]] && continue
+      local count
+      count=$(grep -c '\[NEEDS CLARIFICATION' "$f" 2>/dev/null || echo 0)
+      if [[ "$count" -gt 0 ]]; then
+        print_issue "WARN" "$f" "$count unresolved [NEEDS CLARIFICATION] marker(s)"
+      fi
+    done <<< "$ambiguous_files"
+  fi
+}
+
 # ---- Main ----
 
 echo "=========================================="
@@ -419,6 +465,7 @@ check_ascii
 check_unaddressed_dissent
 check_comprehension_evidence
 check_pending_decisions
+check_constitution_validity
 
 echo ""
 echo "=========================================="

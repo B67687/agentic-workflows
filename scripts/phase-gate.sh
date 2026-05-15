@@ -25,6 +25,8 @@ UPSTREAM_FACING=false
 CONTRIBUTION_READ=false
 CHECK_QUALITY=false
 ALL_CHECKS=false
+CHECK_CONSTITUTION=false
+CHECK_AMBIGUITY=false
 
 usage() {
   cat <<'EOF'
@@ -50,11 +52,13 @@ Quality options:
                          comprehension evidence, etc.)
   --all-checks          Run ALL checks comprehensively (slower)
 
-When --check-quality is set, the gate delegates to:
-  research-sufficiency.sh (research -> plan)
-  comprehension-gate.sh   (plan -> implement)
-  plan-challenge.sh       (plan -> implement)
-  quality-speed-gate.sh   (implement -> review)
+When --check-quality is set, the gate runs plugins from:
+  scripts/gates/<phase>/*.sh with standard exit codes
+
+Additional checks:
+  --constitution       Run constitutional article gates for this phase
+  --check-ambiguity    Scan plan/spec for unresolved [NEEDS CLARIFICATION] markers
+  --all-checks         Run ALL checks (quality + constitution + ambiguity)
 EOF
 }
 
@@ -92,6 +96,14 @@ while [[ $# -gt 0 ]]; do
     --all-checks)
       ALL_CHECKS=true
       CHECK_QUALITY=true
+      CHECK_CONSTITUTION=true
+      CHECK_AMBIGUITY=true
+      ;;
+    --constitution)
+      CHECK_CONSTITUTION=true
+      ;;
+    --check-ambiguity)
+      CHECK_AMBIGUITY=true
       ;;
     --help|-h)
       usage
@@ -164,6 +176,93 @@ echo "Decision: $decision"
 echo "Phase: $PHASE"
 echo "Reason: $reason"
 echo "Next: $next"
+
+# ---------------------------------------------------------------------------
+# Constitution article gates (--constitution or --all-checks)
+# ---------------------------------------------------------------------------
+if [[ "$CHECK_CONSTITUTION" == true ]] || [[ "$ALL_CHECKS" == true ]]; then
+  CONSTITUTION_SCRIPT="$SCRIPT_DIR/constitution.sh"
+  if [[ -f "$CONSTITUTION_SCRIPT" ]] && [[ -f "$REPO_ROOT/constitution.md" ]]; then
+    echo ""
+    echo "--- Constitution Gate ---"
+
+    # Map single phase to a transition (from -> to)
+    case "$PHASE" in
+      research)  TRANSITION="" ;;  # research is the safe entry lane, no gates
+      plan)      TRANSITION="research plan" ;;
+      implement) TRANSITION="plan implement" ;;
+      review)    TRANSITION="implement review" ;;
+      *)         TRANSITION="" ;;
+    esac
+
+    if [[ -n "$TRANSITION" ]]; then
+      # shellcheck disable=SC2086
+      if bash "$CONSTITUTION_SCRIPT" gate $TRANSITION; then
+        echo "  Constitution gate PASSED"
+      else
+        echo "  Constitution gate BLOCKED --- see above"
+        # Don't override a 'block' decision, but set a flag for combined result
+        if [[ "$decision" == "allow" ]]; then
+          decision="block"
+          reason="constitution gate blocked this transition"
+        fi
+      fi
+    else
+      echo "  No constitution gates for phase '$PHASE' (entry lane)"
+    fi
+  else
+    echo ""
+    echo "--- Constitution Gate ---"
+    echo "  SKIP   constitution.sh not found or no constitution.md"
+    echo "  Run:   bash scripts/constitution.sh init"
+  fi
+fi
+
+# ---------------------------------------------------------------------------
+# Ambiguity check (--check-ambiguity or --all-checks)
+# ---------------------------------------------------------------------------
+if [[ "$CHECK_AMBIGUITY" == true ]] || [[ "$ALL_CHECKS" == true ]]; then
+  echo ""
+  echo "--- Ambiguity Check ---"
+
+  # Scan plan files and spec files for unresolved [NEEDS CLARIFICATION] markers
+  AMBIGUITY_FILES=()
+  # Use find to handle non-existent globs gracefully
+  while IFS= read -r -d '' f; do
+    AMBIGUITY_FILES+=("$f")
+  done < <(find "$REPO_ROOT/research" -maxdepth 1 -name '*.md' -type f 2>/dev/null || true)
+  while IFS= read -r -d '' f; do
+    AMBIGUITY_FILES+=("$f")
+  done < <(find "$REPO_ROOT/specs" -maxdepth 2 -name 'spec.md' -type f 2>/dev/null || true)
+  [[ -f "$RUNTIME_DIR/plan.json" ]] && AMBIGUITY_FILES+=("$RUNTIME_DIR/plan.json")
+
+  TOTAL_MARKERS=0
+  for f in "${AMBIGUITY_FILES[@]}"; do
+    local markers
+    markers=$(grep -c '\[NEEDS CLARIFICATION' "$f" 2>/dev/null || echo 0)
+    if [[ "$markers" -gt 0 ]]; then
+      echo "  WARN   $markers unresolved marker(s) in $(basename "$f")"
+      TOTAL_MARKERS=$((TOTAL_MARKERS + markers))
+      # Show the first few markers
+      grep -n '\[NEEDS CLARIFICATION' "$f" 2>/dev/null | head -3 | sed 's/^/         /'
+    fi
+  done
+
+  if [[ "$TOTAL_MARKERS" -gt 0 ]]; then
+    echo ""
+    echo "  ACTION: Resolve [NEEDS CLARIFICATION] markers before proceeding."
+    echo "         Each marker represents an ambiguity the LLM flagged instead of guessing."
+    if [[ "$PHASE" == "implement" ]]; then
+      echo "  BLOCKING: Unresolved ambiguities block implementation."
+      if [[ "$decision" == "allow" ]]; then
+        decision="block"
+        reason="unresolved ambiguity markers in plan/spec"
+      fi
+    fi
+  else
+    echo "  No unresolved ambiguity markers found"
+  fi
+fi
 
 # ---------------------------------------------------------------------------
 # Quality checks via plugin discovery (--check-quality or --all-checks)

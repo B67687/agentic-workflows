@@ -73,6 +73,15 @@ ASSUMPTIONS I'M MAKING:
 
 Don't silently fill in ambiguous requirements. The spec's entire purpose is to surface misunderstandings *before* code gets written --- assumptions are the most dangerous form of misunderstanding.
 
+**Mark ambiguity explicitly.** When a requirement is underspecified, do not guess. Use `[NEEDS CLARIFICATION: <specific question>]` inline:
+
+```markdown
+- FR-006: System MUST authenticate users via [NEEDS CLARIFICATION: auth method not specified]
+- FR-007: System MUST retain user data for [NEEDS CLARIFICATION: retention period not specified]
+```
+
+The phase gate (`phase-gate.sh --check-ambiguity`) scans for unresolved `[NEEDS CLARIFICATION]` markers and BLOCKs the implement phase until they are resolved. This prevents the most common LLM failure mode: confident-sounding incorrect assumptions.
+
 **Write a spec document covering these six core areas:**
 
 > See `assets/spec-template.md` (L3) for the fill-in-the-blank template with objective,

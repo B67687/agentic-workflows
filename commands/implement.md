@@ -16,14 +16,14 @@ If `Implement decision: block`, do not implement. Send the task back exactly one
 
 If `Implement decision: caution`, fix the checkout state first or move the work into a worktree before implementing.
 
-### Phase Gate with Quality Checks
+### Phase Gate with Quality + Constitution + Ambiguity Checks
 
-Before implementing, run the unified phase gate with all quality checks:
+Before implementing, run the unified phase gate with all quality, constitution, and ambiguity checks:
 
 ```bash
 bash ./scripts/phase-gate.sh implement \
   --research-done --plan-done --scope-bounded --verification-known \
-  --check-quality
+  --check-quality --constitution --check-ambiguity
 ```
 
 The `--check-quality` flag auto-discovers gate plugins from `scripts/gates/implement/*.sh`.
@@ -34,6 +34,15 @@ Each plugin is a standalone check. Current plugins for the implement phase:
 4. **Decision log**: warns of unresolved decisions
 5. **Autonomy assessment**: current autonomy level
 6. **Preflight check**: repo health and task fit
+
+The `--constitution` flag runs Articles IV (CATFISH), V (Comprehension), VI (Simplicity), VIII (Phase Order):
+- Checks adversarial challenge evidence exists
+- Checks comprehension evidence is filled
+- Checks simplicity rationale documented
+- Checks phase artifacts exist
+
+The `--check-ambiguity` flag scans plan and spec files for `[NEEDS CLARIFICATION]` markers.
+Any unresolved markers BLOCK the implement phase — forcing resolution before coding.
 
 New gate plugins can be added by creating `scripts/gates/implement/<name>.sh`.
 
