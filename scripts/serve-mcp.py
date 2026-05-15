@@ -188,6 +188,9 @@ def _execute_script(path, args_dict):
                 "isError": True,
             }
 
+    # Run post-edit hook on modified files before execution
+    # (the execution may create/modify files, so we check after too)
+
     # Build args from the input dict
     cmd = [str(full_path)]
     for key, value in args_dict.items():
@@ -210,6 +213,19 @@ def _execute_script(path, args_dict):
         output = result.stdout
         if result.stderr:
             output += f"\n[stderr]\n{result.stderr}"
+
+        # Run post-edit hook after execution (catches file modifications)
+        post_edit_script = REPO_ROOT / "scripts" / "hooks" / "post-edit.sh"
+        if post_edit_script.exists():
+            try:
+                pe_result = subprocess.run(
+                    [str(post_edit_script), "--all"],
+                    capture_output=True, text=True, timeout=30,
+                )
+                if pe_result.stdout.strip():
+                    output += f"\n\n[post-edit]\n{pe_result.stdout.strip()}"
+            except (subprocess.TimeoutExpired, OSError):
+                pass  # Post-edit hook is non-blocking
 
         return {
             "content": [
@@ -304,6 +320,8 @@ class MCPServer:
                 return self._handle_resources_list(params, req_id)
             elif method == "resources/read":
                 return self._handle_resources_read(params, req_id)
+            elif method == "quality/check":
+                return self._handle_quality_check(params, req_id)
             else:
                 return self._make_error(req_id, -32601, f"Method not found: {method}")
         except Exception as e:
@@ -327,14 +345,17 @@ class MCPServer:
                 },
                 "serverInfo": {
                     "name": "agentic-workflows-mcp",
-                    "version": "1.0.0",
-                    "description": "MCP server for agentic-workflows tool registry and skill index",
+                    "version": "1.1.0",
+                    "description": "MCP server for agentic-workflows — quality verification, tool registry, skill index",
                 },
                 "instructions": (
                     "This server exposes the agentic-workflows orchestration methodology "
                     "as MCP tools and resources. Tools represent executable scripts for "
                     "quality gates, session management, research, and workflow phases. "
-                    "Resources represent skill definitions and methodology documentation."
+                    "Resources represent skill definitions and methodology documentation. "
+                    "Use quality/check to run explicit quality validation. All tools/call "
+                    "responses include quality gate results when the tool has quality_gates "
+                    "defined in its metadata."
                 ),
             },
         }
@@ -355,6 +376,37 @@ class MCPServer:
 
         return self._make_result(req_id, {"tools": mcp_tools})
 
+    # ── Quality check method (explicit, not tool-call side-effect) ─────────
+    def _handle_quality_check(self, params, req_id):
+        """Run one or more quality gates explicitly. Returns structured results.
+
+        Params:
+            gates: list of gate names to run (default: all known)
+        """
+        gate_names = params.get("gates", _run_quality_gate.__defaults__)
+        if not gate_names:
+            gate_names = ["quality", "constitution", "comprehension"]
+
+        results = []
+        for gate in gate_names:
+            results.append(_run_quality_gate(gate))
+
+        all_passed = all(r.get("passed", False) for r in results)
+
+        return self._make_result(req_id, {
+            "content": [{
+                "type": "text",
+                "text": json.dumps(results, indent=2),
+            }],
+            "structuredContent": {
+                "quality": {
+                    "passed": all_passed,
+                    "gate_count": len(results),
+                    "gates": results,
+                }
+            },
+        })
+
     def _handle_tools_call(self, params, req_id):
         name = params.get("name", "")
         arguments = params.get("arguments", {})
@@ -365,28 +417,51 @@ class MCPServer:
         if not tool:
             return self._make_error(req_id, -32602, f"Unknown tool: {name}")
 
-        # Special-case quality gate invocation
-        if tool["category"] == "quality" and tool.get("quality_gates"):
-            results = []
-            for gate in tool["quality_gates"]:
-                results.append(_run_quality_gate(gate))
-            return self._make_result(req_id, {
-                "content": [{"type": "text", "text": json.dumps(results, indent=2)}],
-            })
-
-        # Execute the script
+        # Execute the script (or return doc reference for commands)
         script_path = tool.get("path", "")
         if not script_path or tool.get("type") == "command":
-            return self._make_result(req_id, {
+            exec_result = {
                 "content": [{
                     "type": "text",
                     "text": f"Tool '{name}' is a command definition, not directly executable. "
                             f"See the command doc for usage: {script_path}"
                 }],
+            }
+        else:
+            exec_result = _execute_script(script_path, arguments)
+
+        # Run quality gates AFTER execution for ANY tool with quality_gates
+        quality_results = None
+        gate_names = tool.get("quality_gates", [])
+        if gate_names:
+            quality_results = []
+            for gate in gate_names:
+                quality_results.append(_run_quality_gate(gate))
+
+        # If quality gates ran, append them to the response
+        if quality_results:
+            all_passed = all(q.get("passed", False) for q in quality_results)
+            summary = f"\n\n--- Quality Gates ---\n"
+            summary += f"Status: {'PASSED' if all_passed else 'FAILED'}\n"
+            for qr in quality_results:
+                status = "✓" if qr.get("passed") else "✗"
+                summary += f"  {status} {qr.get('gate', 'unknown')}: {qr.get('output', '')[:120]}\n"
+
+            exec_result["content"].append({
+                "type": "text",
+                "text": summary,
             })
 
-        result = _execute_script(script_path, arguments)
-        return self._make_result(req_id, result)
+            # Surface quality failure in structuredContent for programmatic consumers
+            if not all_passed:
+                exec_result["structuredContent"] = {
+                    "quality": {
+                        "passed": False,
+                        "gates": quality_results,
+                    }
+                }
+
+        return self._make_result(req_id, exec_result)
 
     def _handle_resources_list(self, params, req_id):
         skills = self._get_skills()
