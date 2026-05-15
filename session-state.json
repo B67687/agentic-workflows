@@ -1,5 +1,5 @@
 {
-  "session": 82,
+  "session": 83,
   "status": "verified-phase",
   "interruptedCount": 0,
   "contextPressure": "healthy",
@@ -16,37 +16,46 @@
   },
   "whatChanged": [
     "Research: cognitive-surrender.md expanded from 383 to 766 lines with 40 sources, 6 agent-mitigation architecture families",
-    "CATFISH Protocol: scripts/plan-challenge.sh --- dynamic dissent engine with collapse detection, counterfactual subagent dispatch, reconcile gate",
-    "Recognition Model: scripts/comprehension-gate.sh --- enforced participation with extract/verify/summary, skill-load audit in skill-toolset.py",
-    "Decision Scaffold: scripts/decision.sh --- unified DCI decision packet with evaluate/log/review/audit, depth-adaptive stakes (low/medium/high)",
-    "Triple Debt: scripts/triple-debt.sh --- Storey model tracking technical/cognitive/intent debt with history",
-    "Quality Gate: check_unaddressed_dissent (CATFISH blocking), check_comprehension_evidence (Recognition), check_pending_decisions (Decision integration)",
-    "plan-guard.sh: --challenge and --trivial flags integrating CATFISH detection into planning flow",
-    "commands/task.md + implement.md: decision point steps before execution",
-    "task-retrospect.sh: --debt flag for Triple Debt assessment at task boundaries",
-    "Deep repo analysis: 16 comprehension gaps identified, 27 decision-support mechanisms mapped, 10 unsolved decision types discovered"
+    "CATFISH Protocol: scripts/plan-challenge.sh dynamic dissent engine + plan-guard.sh --challenge flag",
+    "Recognition Model: scripts/comprehension-gate.sh enforced participation + skill-toolset.py audit trail",
+    "Decision Scaffold: scripts/decision.sh DCI decision packet with evaluate/log/review/audit",
+    "Triple Debt: scripts/triple-debt.sh tracking technical/cognitive/intent debt with history",
+    "Research Sufficiency: scripts/research-sufficiency.sh 6-phase methodology + 7 red flag checks",
+    "Quality vs Speed: scripts/quality-speed-gate.sh heuristic test depth recommendation",
+    "Unified Phase Gate: extended phase-gate.sh --check-quality delegates to all anti-surrender checks",
+    "Post-Failure Decision: error-counter.sh decide/classify subcommands (C/S/E failure classification)",
+    "Commit signal: session-boundary.sh now outputs commit suggestion after verified phases",
+    "commands/*.md: updated all workflow commands to reference unified phase gate",
+    "Deep repo analysis: 16 comprehension gaps, 27 decision mechanisms mapped, 10 unsolved types"
   ],
   "filesTouched": [
-    "research/cognitive-surrender-research.md (expanded: +383 lines, 40 sources, agent-mitigation architectures)",
-    "scripts/plan-challenge.sh (NEW --- CATFISH protocol, 571 lines)",
-    "scripts/plan-guard.sh (+100 lines, --challenge/--trivial flags)",
-    "scripts/comprehension-gate.sh (NEW --- Recognition model, 377 lines)",
-    "scripts/decision.sh (NEW --- DCI decision scaffold, 517 lines)",
-    "scripts/triple-debt.sh (NEW --- Storey Triple Debt tracking)",
-    "scripts/skill-toolset.py (+13 lines, skill-load audit trail)",
-    "scripts/hooks/quality-gate.sh (+101 lines, 3 new checks: dissent, comprehension, decisions)",
+    "scripts/plan-challenge.sh (NEW --- 571 lines)",
+    "scripts/plan-guard.sh (+100 lines, --challenge/--trivial)",
+    "scripts/comprehension-gate.sh (NEW --- 377 lines)",
+    "scripts/decision.sh (NEW --- 517 lines)",
+    "scripts/triple-debt.sh (NEW)",
+    "scripts/research-sufficiency.sh (NEW)",
+    "scripts/quality-speed-gate.sh (NEW)",
+    "scripts/skill-toolset.py (+13 lines, audit trail)",
+    "scripts/error-counter.sh (+164 lines, decide/classify)",
+    "scripts/session-boundary.sh (+commit suggestion)",
+    "scripts/phase-gate.sh (+164 lines, --check-quality flag)",
+    "scripts/hooks/quality-gate.sh (+101 lines, 3 new checks)",
     "scripts/task-retrospect.sh (+10 lines, --debt flag)",
-    "commands/plan.md (+28 lines, CATFISH workflow instructions)",
-    "commands/implement.md (+31 lines, decision point + comprehension gate)",
-    "commands/task.md (+15 lines, decision point after intake)"
+    "commands/plan.md (+28 lines, CATFISH + research sufficiency)",
+    "commands/implement.md (+31 lines, decision point + unified gate)",
+    "commands/task.md (+15 lines, decision point)",
+    "research/cognitive-surrender-research.md (expanded 383 to 766 lines)"
   ],
   "verification": [
-    "All 68 smoke tests pass (up from 59)",
+    "All 68 smoke tests pass (0 regressions, up from 59)",
     "plan-challenge.sh tested with 6 real scenarios (trivial/bug/feature/architecture/iteration/pipeline)",
     "comprehension-gate.sh tested with empty/filled/partial evidence",
     "decision.sh tested with low/medium/high stakes + manual log + review + audit",
+    "error-counter.sh decide/classify tested end-to-end with real failure context",
     "All JSON logs validate (no malformed entries)",
     "Quality gate passes on all commits (non-ASCII normalized)",
+    "Remote synced: origin/main at latest",
     "Branch management: feat/recognition-participation merged, s82-decision-workflow merged and deleted"
   ],
   "keyLearnings": [
@@ -57,11 +66,13 @@
     "DCI decision packet pattern (selected option + residual objections + reopen conditions) provides the audit trail for decision-making that prevents premature convergence.",
     "Minimal design is a quality GATE, not a design CONSTRAINT. Systemic analysis first, then minimal as final optimization pass."
   ],
-  "residualRisk": "plan-challenge.sh, comprehension-gate.sh, decision.sh, and triple-debt.sh are committed to main but not yet used in production agent workflow. The quality-gate integration is advisory (WARN not ERROR) for most checks except CATFISH blocking findings. Decision workflow integration in commands/*.md is documented but agent-mediated. The 10 unsolved decision types (Path D) are still untooled.",
+  "residualRisk": "plan-challenge.sh, comprehension-gate.sh, decision.sh, and triple-debt.sh are committed to main but not yet used in production agent workflow. The quality-gate integration is advisory (WARN not ERROR) for most checks except CATFISH blocking findings. Decision workflow integration in commands/*.md is documented but agent-mediated. The 10 unsolved decision types (Path D) have 3 of 10 resolved (research sufficiency, quality/speed, post-failure). Remaining 7 (model selection, file-level edit, escalation routing, plan confidence, risk-adjusted autonomy, commit-vs-checkpoint) are ready for new session forks.",
   "immediateNextSteps": [
-    "Path D: Fork session for remaining unsolved decision types (research sufficiency, model selection, quality/speed tradeoff) on new worktree branch",
+    "New session 1: model-selection tool (model registry + task classifier)",
+    "New session 2: file-level edit decision tool",
+    "New session 3: risk-adjusted autonomy gate",
     "Run triple-debt.sh assess at task boundaries to start tracking cognitive drift",
-    "Push origin/main if behind remote"
+    "No push needed --- origin/main is at latest commit 434b584"
   ],
   "resumeRules": [
     "Read session-state.json first on every resume",
@@ -71,12 +82,14 @@
     "Recognition workflow: comprehension-gate.sh extract before implement, verify via quality-gate",
     "Decision workflow: decision.sh evaluate/log/review/audit for structured decision-making",
     "Triple Debt: triple-debt.sh assess at task boundaries; integrate with retrospect via --debt",
+    "Unified gate: phase-gate.sh <phase> --check-quality for all pre-phase checks",
+    "Post-failure: error-counter.sh increment <op> then decide <op> then classify <op> <C|S|E>",
     "68 tests, quality gate clean"
   ],
   "doNotRepeat": [
     "2026-05-13: Researched cognitive surrender using only webfetch --- blind to Google results. Use websearch first."
   ],
-  "lastRetrospect": "2026-05-14T21:30:00Z",
+  "lastRetrospect": "2026-05-15T10:30:00Z",
   "learningsCount": 30,
   "contextMetrics": {
     "history": [
@@ -127,22 +140,27 @@
       "timestamp": "2026-05-15T10:30:00Z",
       "type": "checkpoint",
       "milestone": "session-wrap",
-      "summary": "Session 83: Cognitive surrender mitigation --- CATFISH protocol (plan-challenge.sh, plan-guard.sh ++), Recognition model (comprehension-gate.sh), Decision scaffold (decision.sh), Triple Debt tracking (triple-debt.sh), workflow integration in commands/*.md + quality-gate.sh. 68 tests pass (up from 59). 3 subsystems committed, merged to main, pushed.",
+      "summary": "Session 83: Cognitive surrender mitigation --- CATFISH protocol (plan-challenge.sh), Recognition model (comprehension-gate.sh), Decision scaffold (decision.sh), Triple Debt tracking (triple-debt.sh), Research sufficiency (research-sufficiency.sh), Quality-speed gate (quality-speed-gate.sh), Unified phase gate (phase-gate.sh --check-quality), Post-failure decision (error-counter.sh decide/classify). 12 commits, 8 new scripts, 68 tests (up from 59). Remote synced.",
       "filesChanged": [
         "scripts/plan-challenge.sh (NEW --- 571 lines)",
         "scripts/plan-guard.sh (++ --challenge/--trivial)",
         "scripts/comprehension-gate.sh (NEW --- 377 lines)",
         "scripts/decision.sh (NEW --- 517 lines)",
         "scripts/triple-debt.sh (NEW)",
+        "scripts/research-sufficiency.sh (NEW)",
+        "scripts/quality-speed-gate.sh (NEW)",
         "scripts/skill-toolset.py (++ audit trail)",
+        "scripts/error-counter.sh (++ decide/classify)",
+        "scripts/session-boundary.sh (++ commit suggestion)",
+        "scripts/phase-gate.sh (++ --check-quality flag)",
         "scripts/hooks/quality-gate.sh (++ 3 new checks)",
         "scripts/task-retrospect.sh (++ --debt flag)",
-        "commands/plan.md (++ CATFISH workflow)",
-        "commands/implement.md (++ decision + comprehension steps)",
+        "commands/plan.md (++ CATFISH + research sufficiency)",
+        "commands/implement.md (++ decision + comprehension + unified gate)",
         "commands/task.md (++ decision point)",
-        "research/cognitive-surrender-research.md (expanded 383->766 lines)"
+        "research/cognitive-surrender-research.md (expanded 383 to 766 lines)"
       ],
-      "verification": "68 tests pass. Quality gate clean. JSON logs validate. Branch management: s82-decision-workflow forked, committed, merged, deleted."
+      "verification": "68 tests pass. Quality gate clean. JSON logs validate. Branch management: feat/recognition-participation merged, s82-decision-workflow merged, remote synced."
     }
   ]
 }

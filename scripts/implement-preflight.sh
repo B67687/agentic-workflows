@@ -153,31 +153,50 @@ elif [[ "$SAFE_TO_EDIT" == "caution" ]]; then
   IMPLEMENT_NEXT="resolve the safety note from task intake, then rerun preflight"
 fi
 
-# --- Human-in-the-loop approval gate for high-risk operations (12-factor F7) ---
-if [[ "$RISK" == "high" ]]; then
+# --- Autonomy gate: risk-adjusted autonomy level ---
+AUTONOMY_OUTPUT=""
+AUTONOMY_LEVEL=""
+if [[ -f "$SCRIPT_DIR/autonomy-gate.sh" ]]; then
+  AUTONOMY_OUTPUT=$(bash "$SCRIPT_DIR/autonomy-gate.sh" assess \
+    --risk "$RISK" \
+    --files 1 \
+    --cross-module "$([[ "$SEPARATE_WORK" == true ]] && echo 'true' || echo 'false')" \
+    --context-score "$([[ -f "$(dirname "$SCRIPT_DIR")/.runtime/comprehension-evidence.md" ]] && echo 'high' || echo 'low')" \
+    2>&1 || true)
+  AUTONOMY_LEVEL=$(echo "$AUTONOMY_OUTPUT" | grep 'Autonomy:' | awk '{print $NF}')
+fi
+
+if [[ "$AUTONOMY_LEVEL" == "RESTRICTED" ]] && [[ "$IMPLEMENT_DECISION" != "block" ]]; then
+  # RESTRICTED overrides: must get human approval before implementation
   APPROVAL_OUTPUT=$(bash "$SCRIPT_DIR/a2h-contact.sh" approve \
     "implement: $TASK" \
-    "{\"size\": \"$SIZE\", \"risk\": \"$RISK\", \"clarity\": \"$CLARITY\"}" \
+    "{\"size\": \"$SIZE\", \"risk\": \"$RISK\", \"autonomy\": \"RESTRICTED\"}" \
     --urgency high --channel cli 2>&1 || true)
 
-  # Check if approval was granted (exit code 0 from approve with CLI = granted)
-  if echo "$APPROVAL_OUTPUT" | grep -q "approved: true"; then
+  if echo "$APPROVAL_OUTPUT" | grep -q "approved: true\|Approved: True"; then
     IMPLEMENT_DECISION="allow"
-    IMPLEMENT_REASON="human approved high-risk operation"
-    IMPLEMENT_NEXT="proceed with implementation"
-  elif echo "$APPROVAL_OUTPUT" | grep -q "Approved: True"; then
-    IMPLEMENT_DECISION="allow"
-    IMPLEMENT_REASON="human approved high-risk operation"
-    IMPLEMENT_NEXT="proceed with implementation"
+    IMPLEMENT_REASON="human approved RESTRICTED autonomy operation"
+    IMPLEMENT_NEXT="proceed with implementation (SUPERVISED mode --- verify before commit)"
   elif echo "$APPROVAL_OUTPUT" | grep -q "pending"; then
     IMPLEMENT_DECISION="block"
-    IMPLEMENT_REASON="high-risk operation awaiting human approval --- check .runtime/a2h/ for pending approvals"
+    IMPLEMENT_REASON="RESTRICTED autonomy --- awaiting human approval"
     IMPLEMENT_NEXT="run: bash $SCRIPT_DIR/a2h-contact.sh list --pending"
+  else
+    IMPLEMENT_DECISION="block"
+    IMPLEMENT_REASON="RESTRICTED autonomy --- human did not approve"
+    IMPLEMENT_NEXT="revise the plan and request approval again"
   fi
+elif [[ "$AUTONOMY_LEVEL" == "SUPERVISED" ]] && [[ "$IMPLEMENT_DECISION" == "allow" ]]; then
+  IMPLEMENT_DECISION="caution"
+  IMPLEMENT_REASON="SUPERVISED autonomy --- implement then present diff for review"
+  IMPLEMENT_NEXT="implement changes, then show diff for review before committing"
 fi
 
 printf '%s\n' "$INTAKE_OUTPUT"
 printf '%s\n' "$GATE_OUTPUT"
+if [[ -n "$AUTONOMY_LEVEL" ]]; then
+  echo "Autonomy: $AUTONOMY_LEVEL"
+fi
 echo "Implement decision: $IMPLEMENT_DECISION"
 echo "Implement reason: $IMPLEMENT_REASON"
 echo "Implement next: $IMPLEMENT_NEXT"

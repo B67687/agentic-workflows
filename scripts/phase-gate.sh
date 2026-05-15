@@ -240,6 +240,15 @@ case "$PHASE" in
         echo "  OK     No pending decisions"
       fi
     fi
+
+    echo ""
+
+    # Autonomy gate
+    ag="$SCRIPT_DIR/autonomy-gate.sh"
+    if [[ -f "$ag" ]]; then
+      echo "  Autonomy assessment:"
+      bash "$ag" quick 2>/dev/null || true
+    fi
     ;;
 
   review)
