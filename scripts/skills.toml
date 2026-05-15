@@ -1,0 +1,382 @@
+# =============================================================================
+# skills.toml — Structured skill index for agentic-workflows
+#
+# Machine-readable index of all 46 skills with frontmatter, activation
+# criteria, and companion resources. Consumable by:
+#   - MCP servers (expose skills as resources)
+#   - Agent runtimes (DeepSeek-TUI, OpenCode, Claude Code via skill discovery)
+#   - scripts/skill-toolset.sh (augment progressive loading with metadata)
+#   - Quality gates (determine which quality gates a skill triggers)
+#
+# Schema version: 1.0
+# Last updated: 2026-05-15
+# =============================================================================
+
+[registry]
+version = "1.0"
+updated = "2026-05-15"
+skill_count = 44
+description = "Agentic Workflows — skill index"
+
+# =============================================================================
+# SKILL CATEGORIES
+# =============================================================================
+# define    — spec, plan, break down work
+# build     — implement with discipline
+# verify    — debug, test, review, harden
+# ship      — release, document, automate
+# meta      — how we work
+# product   — product thinking, discovery, strategy
+# =============================================================================
+
+# ─────────────────────────────────────────────────────────────────────────────
+# DEFINE — Spec, plan, break down work
+# ─────────────────────────────────────────────────────────────────────────────
+
+[[skill]]
+name = "clarification-protocol"
+description = "Systematic protocol for agents to detect ambiguous user intent, decide whether to ask or proceed, and manage the clarification interaction"
+bundle = "define"
+compatibility = "claude-code, cursor, opencode, gemini-cli, codex-cli"
+companion = "skills/clarification-protocol/scripts/clarify.sh"
+trigger_phrases = ["vague", "clarify", "ambiguous", "I'm not sure", "what do you mean"]
+
+[[skill]]
+name = "grill-me"
+description = "Interview the user relentlessly about a plan or design until reaching shared understanding"
+bundle = "define"
+compatibility = "claude-code, cursor, opencode, gemini-cli, codex-cli"
+trigger_phrases = ["grill me", "push back", "challenge this", "is this solid"]
+
+[[skill]]
+name = "idea-refine"
+description = "Structured divergent → convergent refinement of raw ideas into actionable proposals"
+bundle = "define"
+compatibility = "claude-code, cursor, opencode, gemini-cli, codex-cli"
+trigger_phrases = ["refine this idea", "shape this", "make this concrete"]
+
+[[skill]]
+name = "divergent-ideation"
+description = "Generate diverse, creative alternatives before converging on a solution path"
+bundle = "define"
+compatibility = "claude-code, cursor, opencode, gemini-cli, codex-cli"
+trigger_phrases = ["brainstorm", "alternatives", "creative", "what else"]
+
+[[skill]]
+name = "spec-driven-development"
+description = "Write the spec first, then implement to match. Prevents scope creep and ambiguous requirements"
+bundle = "define"
+compatibility = "claude-code, cursor, opencode, gemini-cli, codex-cli"
+trigger_phrases = ["spec", "specification", "requirements", "define the contract"]
+
+[[skill]]
+name = "structured-questioning"
+description = "5W+H + Socratic + ACI methodology for formulating high-signal questions"
+bundle = "define"
+compatibility = "claude-code, cursor, opencode, gemini-cli, codex-cli"
+trigger_phrases = ["how do I ask", "what questions", "probe", "investigate"]
+
+[[skill]]
+name = "planning-and-task-breakdown"
+description = "Break ambiguous goals into concrete, ordered tasks with clear dependencies"
+bundle = "define"
+compatibility = "claude-code, cursor, opencode, gemini-cli, codex-cli"
+trigger_phrases = ["plan this", "break this down", "task list", "milestones"]
+
+# ─────────────────────────────────────────────────────────────────────────────
+# BUILD — Implement with discipline
+# ─────────────────────────────────────────────────────────────────────────────
+
+[[skill]]
+name = "incremental-implementation"
+description = "Build features one small verified step at a time. Keep each step independently testable"
+bundle = "build"
+compatibility = "claude-code, cursor, opencode, gemini-cli, codex-cli"
+trigger_phrases = ["implement", "build", "code this", "step by step"]
+
+[[skill]]
+name = "test-driven-development"
+description = "Write the test first, see it fail, implement, see it pass, refactor"
+bundle = "build"
+compatibility = "claude-code, cursor, opencode, gemini-cli, codex-cli"
+trigger_phrases = ["tdd", "test first", "write tests", "red-green-refactor"]
+
+[[skill]]
+name = "source-driven-development"
+description = "Trace requirements to source documents; verify every claim against its origin"
+bundle = "build"
+compatibility = "claude-code, cursor, opencode, gemini-cli, codex-cli"
+trigger_phrases = ["source", "citation", "verify this claim", "where does it say"]
+
+[[skill]]
+name = "frontend-ui-engineering"
+description = "UI implementation patterns for agent-friendly frontend work — incremental, testable, accessible"
+bundle = "build"
+compatibility = "claude-code, cursor, opencode, gemini-cli, codex-cli"
+trigger_phrases = ["ui", "frontend", "react", "component", "style", "layout"]
+
+[[skill]]
+name = "api-and-interface-design"
+description = "Design APIs and interfaces with contract-first rigor. Schema before implementation"
+bundle = "build"
+compatibility = "claude-code, cursor, opencode, gemini-cli, codex-cli"
+trigger_phrases = ["api", "endpoint", "interface", "contract", "schema"]
+
+[[skill]]
+name = "implementation-planning"
+description = "Bridge from strategy to execution — create structured implementation plans with files, steps, and verification criteria"
+bundle = "build"
+compatibility = "claude-code, cursor, opencode"
+trigger_phrases = ["implementation plan", "how to build", "execution steps"]
+
+# ─────────────────────────────────────────────────────────────────────────────
+# VERIFY — Debug, test, review, harden
+# ─────────────────────────────────────────────────────────────────────────────
+
+[[skill]]
+name = "debugging-and-error-recovery"
+description = "Systematic debugging from reproduction to root cause to fix. Macro-to-micro funnel methodology"
+bundle = "verify"
+compatibility = "claude-code, cursor, opencode, gemini-cli, codex-cli"
+companion = "skills/debugging-and-error-recovery/scripts/triage.sh"
+trigger_phrases = ["debug", "bug", "error", "crash", "not working", "fix this", "failure"]
+
+[[skill]]
+name = "code-review-and-quality"
+description = "Review diffs for bugs, regressions, risky changes, and missing tests with severity scoring"
+bundle = "verify"
+compatibility = "claude-code, cursor, opencode, gemini-cli, codex-cli"
+trigger_phrases = ["review this", "code review", "audit", "quality check", "is this correct"]
+
+[[skill]]
+name = "code-simplification"
+description = "Simplify code without changing behavior. Remove accidental complexity"
+bundle = "verify"
+compatibility = "claude-code, cursor, opencode, gemini-cli, codex-cli"
+trigger_phrases = ["simplify", "refactor", "clean up", "reduce complexity", "technical debt"]
+
+[[skill]]
+name = "browser-testing-with-devtools"
+description = "Browser QA automation via Playwright + DevTools Protocol. Full interaction + snapshot"
+bundle = "verify"
+compatibility = "claude-code, cursor, opencode"
+trigger_phrases = ["browser test", "e2e", "qa", "playwright", "visual test"]
+
+[[skill]]
+name = "security-and-hardening"
+description = "Security review: OWASP Top 10, dependency audit, input validation, authentication patterns"
+bundle = "verify"
+compatibility = "claude-code, cursor, opencode, gemini-cli, codex-cli"
+trigger_phrases = ["security", "vulnerability", "xss", "injection", "auth", "harden"]
+
+[[skill]]
+name = "performance-optimization"
+description = "Measure first, optimize second. Evidence-based performance improvements"
+bundle = "verify"
+compatibility = "claude-code, cursor, opencode, gemini-cli, codex-cli"
+trigger_phrases = ["performance", "slow", "optimize", "speed up", "bottleneck", "profile"]
+
+[[skill]]
+name = "doubt-driven-development"
+description = "High-stakes code review methodology. Ask 'what would make this wrong?' instead of 'is this right?'"
+bundle = "verify"
+compatibility = "claude-code, cursor, opencode, gemini-cli, codex-cli"
+trigger_phrases = ["high stakes", "critical", "doubt", "what could go wrong", "premortem"]
+
+[[skill]]
+name = "blast-radius"
+description = "Analyze the impact scope of a change before making it. Finds ripple effects across the codebase"
+bundle = "verify"
+compatibility = "claude-code, cursor, opencode"
+companion = "scripts/blast-radius.sh"
+trigger_phrases = ["blast radius", "impact", "ripple effect", "what else changes", "side effects"]
+
+[[skill]]
+name = "systems-health"
+description = "Check and improve system health metrics — test coverage, documentation freshness, dependency status"
+bundle = "verify"
+compatibility = "claude-code, cursor, opencode"
+companion = "scripts/systems-health.sh"
+trigger_phrases = ["systems health", "health check", "coverage", "freshness", "dependency check"]
+
+# ─────────────────────────────────────────────────────────────────────────────
+# SHIP — Release, document, automate
+# ─────────────────────────────────────────────────────────────────────────────
+
+[[skill]]
+name = "git-workflow-and-versioning"
+description = "Structures git workflow practices. Committing, branching, resolving conflicts, parallel streams"
+bundle = "ship"
+compatibility = "claude-code, cursor, opencode, gemini-cli, codex-cli"
+trigger_phrases = ["git", "commit", "branch", "rebase", "merge", "versioning"]
+
+[[skill]]
+name = "ci-cd-and-automation"
+description = "Design and debug CI/CD pipelines. GitHub Actions, testing, deployment automation"
+bundle = "ship"
+compatibility = "claude-code, cursor, opencode, gemini-cli, codex-cli"
+trigger_phrases = ["ci", "cd", "pipeline", "github actions", "deploy", "automation"]
+
+[[skill]]
+name = "deprecation-and-migration"
+description = "Plan and execute safe deprecations and migrations with rollback capability"
+bundle = "ship"
+compatibility = "claude-code, cursor, opencode, gemini-cli, codex-cli"
+trigger_phrases = ["deprecate", "migrate", "sunset", "remove", "upgrade", "migration path"]
+
+[[skill]]
+name = "documentation-and-adrs"
+description = "Write clear, verifiable documentation and Architecture Decision Records"
+bundle = "ship"
+compatibility = "claude-code, cursor, opencode, gemini-cli, codex-cli"
+companion = "skills/documentation-and-adrs/scripts/create-adr.sh"
+trigger_phrases = ["document", "adr", "readme", "docs", "architecture decision", "write docs"]
+
+[[skill]]
+name = "shipping-and-launch"
+description = "Ship readiness checklist: testing, documentation, monitoring, rollback plan, communication"
+bundle = "ship"
+compatibility = "claude-code, cursor, opencode, gemini-cli, codex-cli"
+trigger_phrases = ["ship", "launch", "release", "go live", "production", "rollout"]
+
+# ─────────────────────────────────────────────────────────────────────────────
+# META — How we work
+# ─────────────────────────────────────────────────────────────────────────────
+
+[[skill]]
+name = "context-engineering"
+description = "Manage agent context efficiently. Compression, prioritization, and cache-aware prompt design"
+bundle = "meta"
+compatibility = "claude-code, cursor, opencode, gemini-cli, codex-cli"
+trigger_phrases = ["context", "prompt", "token budget", "compression", "window"]
+
+[[skill]]
+name = "bash-explore"
+description = "Bash-hybrid codebase exploration. Use bash for discovery, tools for precision"
+bundle = "meta"
+compatibility = "claude-code, cursor, opencode, gemini-cli, codex-cli"
+trigger_phrases = ["explore", "find", "search codebase", "discover", "where is"]
+
+[[skill]]
+name = "using-agent-skills"
+description = "Meta-skill for when you're unsure which skill to use. Guides skill selection by task type"
+bundle = "meta"
+compatibility = "claude-code, cursor, opencode"
+trigger_phrases = ["which skill", "help me choose", "what skill", "not sure how"]
+
+[[skill]]
+name = "skill-evaluator"
+description = "Evaluate and improve skills themselves. Tests skill behavior, suggests refinements"
+bundle = "meta"
+compatibility = "claude-code, cursor, opencode"
+trigger_phrases = ["evaluate this skill", "improve skill", "skill quality", "skill test"]
+
+[[skill]]
+name = "skill-creator"
+description = "Create new skills. Generates SKILL.md, companion scripts, and test stubs"
+bundle = "meta"
+compatibility = "claude-code, cursor, opencode"
+trigger_phrases = ["create skill", "new skill", "skill template", "author skill"]
+
+[[skill]]
+name = "source-extraction"
+description = "Extract structured knowledge from source documents. Reading comprehension for research"
+bundle = "meta"
+compatibility = "claude-code, cursor, opencode"
+trigger_phrases = ["extract", "synthesize", "summarize source", "key points"]
+
+[[skill]]
+name = "loop-check"
+description = "Detect and break agent loops. Identifies circular reasoning, repeated failures, and infinite regress"
+bundle = "meta"
+compatibility = "claude-code, cursor, opencode"
+trigger_phrases = ["loop", "stuck", "repeating", "circular", "not making progress"]
+
+[[skill]]
+name = "tighten-loop"
+description = "Shorten the feedback cycle between idea and verification. Faster iteration without losing quality"
+bundle = "meta"
+compatibility = "claude-code, cursor, opencode"
+trigger_phrases = ["iterate faster", "shorten loop", "feedback cycle", "speed up iteration"]
+
+[[skill]]
+name = "retrospective"
+description = "Post-task reflection. Structured learning capture with evidence and action items"
+bundle = "meta"
+compatibility = "claude-code, cursor, opencode"
+companion = "scripts/tap-retrospective.sh"
+trigger_phrases = ["retro", "retrospective", "what went well", "reflect", "learn from this"]
+
+# ─────────────────────────────────────────────────────────────────────────────
+# PRODUCT — Product thinking, discovery, strategy
+# ─────────────────────────────────────────────────────────────────────────────
+
+[[skill]]
+name = "product-thinker"
+description = "Think through product decisions: user needs, tradeoffs, prioritization, and validation strategy"
+bundle = "product"
+compatibility = "claude-code, cursor, opencode"
+trigger_phrases = ["product", "user need", "feature", "prioritize", "roadmap", "pm"]
+
+[[skill]]
+name = "product-discovery"
+description = "Systematic product discovery: user research, problem framing, opportunity sizing, solution validation"
+bundle = "product"
+compatibility = "claude-code, cursor, opencode"
+trigger_phrases = ["discovery", "user research", "problem", "opportunity", "validate demand"]
+
+[[skill]]
+name = "product-primitives"
+description = "Build with composable product primitives. Identify the atomic building blocks of a feature"
+bundle = "product"
+compatibility = "claude-code, cursor, opencode"
+trigger_phrases = ["primitives", "building blocks", "composable", "atomic", "component design"]
+
+[[skill]]
+name = "shaping-work"
+description = "Shape ambiguous work into well-defined bets. Appetite, boundaries, and rough design before detailed planning"
+bundle = "product"
+compatibility = "claude-code, cursor, opencode"
+trigger_phrases = ["shape", "appetite", "bet", "rough design", "boundaries", "what to build"]
+
+[[skill]]
+name = "curate-product-context"
+description = "Build and maintain a product context document that captures decisions, rationale, and evolving understanding"
+bundle = "product"
+compatibility = "claude-code, cursor, opencode"
+trigger_phrases = ["product context", "curate", "product decisions", "context doc", "product memory"]
+
+[[skill]]
+name = "strategic-thinker"
+description = "Strategic analysis: competitive positioning, tradeoff identification, long-term vs short-term decisions"
+bundle = "product"
+compatibility = "claude-code, cursor, opencode"
+trigger_phrases = ["strategy", "strategic", "position", "competitive", "tradeoff", "long term"]
+
+[[skill]]
+name = "design-language"
+description = "Design system thinking: visual language, component consistency, interaction patterns, accessibility"
+bundle = "product"
+compatibility = "claude-code, cursor, opencode"
+trigger_phrases = ["design", "design system", "visual", "ui design", "component library", "figma"]
+
+[[skill]]
+name = "tap-audit"
+description = "TAP (Timing-Accountability-Priority) audit for project health. Assesses delivery cadence and accountability"
+bundle = "product"
+compatibility = "claude-code, cursor, opencode"
+companion = "scripts/tap-audit.sh"
+trigger_phrases = ["tap audit", "project health", "accountability", "delivery", "progress"]
+
+# ─────────────────────────────────────────────────────────────────────────────
+# REGISTRY SUMMARY (auto-generated, for backward compat)
+# ─────────────────────────────────────────────────────────────────────────────
+
+# Bundle counts:
+#   define:   7 skills
+#   build:    6 skills
+#   verify:   9 skills
+#   ship:     5 skills
+#   meta:     9 skills
+#   product:  8 skills
+#   total:   44 skills
