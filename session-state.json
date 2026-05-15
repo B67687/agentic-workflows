@@ -140,7 +140,7 @@
       "timestamp": "2026-05-15T10:30:00Z",
       "type": "checkpoint",
       "milestone": "session-wrap",
-      "summary": "Session 83: Cognitive surrender mitigation --- CATFISH protocol (plan-challenge.sh), Recognition model (comprehension-gate.sh), Decision scaffold (decision.sh), Triple Debt tracking (triple-debt.sh), Research sufficiency (research-sufficiency.sh), Quality-speed gate (quality-speed-gate.sh), Unified phase gate (phase-gate.sh --check-quality), Post-failure decision (error-counter.sh decide/classify). 12 commits, 8 new scripts, 68 tests (up from 59). Remote synced.",
+      "summary": "Session 83: Cognitive surrender mitigation --- CATFISH protocol (plan-challenge.sh), Recognition model (comprehension-gate.sh), Decision scaffold (decision.sh), Triple Debt tracking (triple-debt.sh), Research sufficiency (research-sufficiency.sh), Quality-speed gate (quality-speed-gate.sh), Unified phase gate (phase-gate.sh --check-quality), Post-failure decision (error-counter.sh decide/classify), File-level edit decision (file-decision.sh), Commit signal (session-boundary.sh). 14 commits, 9 new scripts, 68 tests (up from 59). Remote synced.",
       "filesChanged": [
         "scripts/plan-challenge.sh (NEW --- 571 lines)",
         "scripts/plan-guard.sh (++ --challenge/--trivial)",
@@ -149,18 +149,19 @@
         "scripts/triple-debt.sh (NEW)",
         "scripts/research-sufficiency.sh (NEW)",
         "scripts/quality-speed-gate.sh (NEW)",
+        "scripts/file-decision.sh (NEW --- 302 lines)",
         "scripts/skill-toolset.py (++ audit trail)",
-        "scripts/error-counter.sh (++ decide/classify)",
-        "scripts/session-boundary.sh (++ commit suggestion)",
+        "scripts/error-counter.sh (++ decide/classify + auto-suggest)",
+        "scripts/session-boundary.sh (++ commit signal)",
         "scripts/phase-gate.sh (++ --check-quality flag)",
         "scripts/hooks/quality-gate.sh (++ 3 new checks)",
         "scripts/task-retrospect.sh (++ --debt flag)",
-        "commands/plan.md (++ CATFISH + research sufficiency)",
+        "commands/plan.md (++ CATFISH + research sufficiency + unified gate)",
         "commands/implement.md (++ decision + comprehension + unified gate)",
         "commands/task.md (++ decision point)",
         "research/cognitive-surrender-research.md (expanded 383 to 766 lines)"
       ],
-      "verification": "68 tests pass. Quality gate clean. JSON logs validate. Branch management: feat/recognition-participation merged, s82-decision-workflow merged, remote synced."
+      "verification": "68 tests pass. Quality gate clean. JSON logs validate. Branch management: multiple worktrees forked, merged, cleaned. Remote synced."
     }
   ]
 }
