@@ -356,7 +356,7 @@ check_pending_decisions() {
 
   echo ":: Checking for unresolved decisions..."
   local pending
-  pending=$(grep -c 'PENDING_\|status.*pending\|confidence.*null' "$decision_log" 2>/dev/null || echo 0)
+  pending=$(grep -c 'PENDING_\|status.*pending\|confidence.*null' "$decision_log" 2>/dev/null | tail -1 || echo 0)
 
   if [[ "$pending" -gt 0 ]]; then
     print_issue "WARN" "(session)" "$pending decision(s) still pending or unscored"
