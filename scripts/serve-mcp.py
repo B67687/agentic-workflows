@@ -261,6 +261,46 @@ def _execute_script(path, args_dict):
         }
 
 
+def _list_gate_plugins():
+    """Discover gate plugins from scripts/gates/<phase>/ and list them."""
+    gates_dir = REPO_ROOT / "scripts" / "gates"
+    if not gates_dir.exists():
+        return []
+    plugins = []
+    for phase_dir in sorted(gates_dir.iterdir()):
+        if not phase_dir.is_dir():
+            continue
+        for plugin_file in sorted(phase_dir.glob("*.sh")):
+            plugins.append({
+                "phase": phase_dir.name,
+                "name": plugin_file.stem,
+                "path": str(plugin_file.relative_to(REPO_ROOT)),
+            })
+    return plugins
+
+
+def _run_gate_plugin(phase, name):
+    """Run a specific gate plugin and return structured results."""
+    plugin_path = REPO_ROOT / "scripts" / "gates" / phase / f"{name}.sh"
+    if not plugin_path.exists():
+        return {"gate": f"{phase}/{name}", "passed": False, "output": f"Not found: {plugin_path}"}
+    try:
+        result = subprocess.run(
+            ["bash", str(plugin_path)],
+            capture_output=True, text=True, timeout=60,
+        )
+        return {
+            "gate": f"{phase}/{name}",
+            "passed": result.returncode == 0,
+            "warn": result.returncode == 2,
+            "skip": result.returncode == 3,
+            "output": (result.stdout or "").strip(),
+            "errors": (result.stderr or "").strip(),
+        }
+    except Exception as e:
+        return {"gate": f"{phase}/{name}", "passed": False, "output": str(e)}
+
+
 def _run_quality_gate(gate_name):
     """Run a named quality gate and return structured results."""
     gate_scripts = {
@@ -268,7 +308,14 @@ def _run_quality_gate(gate_name):
         "constitution": "scripts/constitution.sh check",
         "comprehension": "scripts/comprehension-gate.sh verify",
         "preflight": "scripts/implement-preflight.sh",
+        "autonomy": "scripts/autonomy-gate.sh status",
+        "dashboard": "scripts/session-dashboard.sh --json",
     }
+    # Gate plugin discovery
+    if gate_name == "gate-plugins":
+        plugins = _list_gate_plugins()
+        return {"gate": "gate-plugins", "passed": True, "plugins": plugins}
+
     gate = gate_scripts.get(gate_name)
     if not gate:
         return {"passed": False, "output": f"Unknown quality gate: {gate_name}"}
@@ -337,6 +384,8 @@ class MCPServer:
                 return self._handle_quality_check(params, req_id)
             elif method == "state/status":
                 return self._handle_state_status(params, req_id)
+            elif method == "pipeline/run":
+                return self._handle_pipeline_run(params, req_id)
             else:
                 return self._make_error(req_id, -32601, f"Method not found: {method}")
         except Exception as e:
@@ -400,7 +449,8 @@ class MCPServer:
         """
         gate_names = params.get("gates", _run_quality_gate.__defaults__)
         if not gate_names:
-            gate_names = ["quality", "constitution", "comprehension"]
+            gate_names = ["quality", "constitution", "comprehension",
+                          "autonomy", "dashboard", "gate-plugins"]
 
         results = []
         for gate in gate_names:
@@ -534,6 +584,18 @@ class MCPServer:
                 },
             })
 
+        # Gate plugin resources
+        plugins = _list_gate_plugins()
+        for p in plugins:
+            pid = f"gate://{p['phase']}/{p['name']}"
+            resources.append({
+                "uri": pid,
+                "name": f"Gate: {p['phase']}/{p['name']}",
+                "description": f"Gate plugin for phase '{p['phase']}': runs {p['name']} check",
+                "mimeType": "text/plain",
+                "annotations": {"audience": ["assistant"]},
+            })
+
         # Methodology resources
         METHODOLOGY = [
             ("methodology://workflow", "Workflow Methodology",
@@ -544,6 +606,8 @@ class MCPServer:
              "AGENTS.md --- full agent harness operating contract and governance rules"),
             ("methodology://research-prompt", "Research Methodology",
              "6-phase research methodology: frame, discover, gather, triangulate, apply, preserve"),
+            ("methodology://gate-plugins", "Gate Plugin System",
+             "Convention-based gate plugin discovery from scripts/gates/{phase}/*.sh. Each plugin is a standalone check with standard exit codes."),
         ]
         for uri, name, desc in METHODOLOGY:
             resources.append({
@@ -552,11 +616,25 @@ class MCPServer:
                 "annotations": {"audience": ["assistant"]},
             })
 
-        # State resource (dynamic)
+        # State resources (dynamic)
         resources.append({
             "uri": "state://session",
             "name": "Session State",
             "description": "Current session state.json (read-only)",
+            "mimeType": "application/json",
+            "annotations": {"audience": ["assistant"]},
+        })
+        resources.append({
+            "uri": "state://dashboard",
+            "name": "Session Dashboard",
+            "description": "Aggregated session dashboard: gate status, decisions, errors, debt, autonomy",
+            "mimeType": "application/json",
+            "annotations": {"audience": ["assistant"]},
+        })
+        resources.append({
+            "uri": "state://autonomy",
+            "name": "Autonomy State",
+            "description": "Current autonomy cascade state (level, signal counters, transition history)",
             "mimeType": "application/json",
             "annotations": {"audience": ["assistant"]},
         })
@@ -604,6 +682,21 @@ class MCPServer:
                 "contents": [{"uri": uri, "mimeType": mime, "text": text}]
             })
 
+        # Gate plugin resource (live execution)
+        if uri.startswith("gate://"):
+            parts = uri[7:].split("/", 1)
+            if len(parts) != 2:
+                return self._make_error(req_id, -32602, f"Invalid gate URI: {uri}")
+            phase, name = parts
+            result = _run_gate_plugin(phase, name)
+            return self._make_result(req_id, {
+                "contents": [{
+                    "uri": uri,
+                    "mimeType": "application/json",
+                    "text": json.dumps(result, indent=2),
+                }]
+            })
+
         # State resources
         if uri == "state://session":
             path = REPO_ROOT / "session-state.json"
@@ -612,7 +705,65 @@ class MCPServer:
                 "contents": [{"uri": uri, "mimeType": "application/json", "text": text}]
             })
 
+        if uri == "state://dashboard":
+            try:
+                result = subprocess.run(
+                    ["bash", "scripts/session-dashboard.sh", "--json"],
+                    capture_output=True, text=True, timeout=30, cwd=REPO_ROOT,
+                )
+                text = result.stdout if result.stdout else "{}"
+            except Exception as e:
+                text = json.dumps({"error": str(e)})
+            return self._make_result(req_id, {
+                "contents": [{"uri": uri, "mimeType": "application/json", "text": text}]
+            })
+
+        if uri == "state://autonomy":
+            path = REPO_ROOT / ".runtime" / "autonomy-state.json"
+            text = path.read_text() if path.exists() else "{}"
+            return self._make_result(req_id, {
+                "contents": [{"uri": uri, "mimeType": "application/json", "text": text}]
+            })
+
         return self._make_error(req_id, -32602, f"Unknown resource: {uri}")
+
+    # ── Decision Pipeline method ──────────────────────────────────────────
+    def _handle_pipeline_run(self, params, req_id):
+        """Run a decision pipeline transition. Returns structured results.
+
+        Params:
+            transition: transition string (e.g., "plan->implement")
+            task: optional task description
+        """
+        transition = params.get("transition", "")
+        task = params.get("task", "")
+
+        if not transition:
+            return self._make_error(req_id, -32602, "Missing required param: transition")
+
+        cmd = ["bash", "scripts/decision-pipeline.sh", transition]
+        if task:
+            cmd.append(task)
+
+        try:
+            result = subprocess.run(
+                cmd, capture_output=True, text=True, timeout=120, cwd=REPO_ROOT,
+            )
+            return self._make_result(req_id, {
+                "content": [{
+                    "type": "text",
+                    "text": (result.stdout or "").strip() or (result.stderr or "").strip(),
+                }],
+                "structuredContent": {
+                    "pipeline": {
+                        "transition": transition,
+                        "passed": result.returncode == 0,
+                        "exit_code": result.returncode,
+                    }
+                },
+            })
+        except subprocess.TimeoutExpired:
+            return self._make_error(req_id, -32603, "Pipeline timed out (120s)")
 
     # ── JSON-RPC helpers ────────────────────────────────────────────────────
     def _make_result(self, req_id, result):
