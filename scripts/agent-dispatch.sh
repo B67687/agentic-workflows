@@ -184,11 +184,11 @@ print(json.dumps(args))
     echo "$JOB_ID"
     echo "  Reasoning level: $REASONING"
     if [ "$REASONING" = "max" ]; then
-      echo "    (complex/agentic task — +5-20% on hard work, higher cost)"
+      echo "    (complex/agentic task --- +5-20% on hard work, higher cost)"
     elif [ "$REASONING" = "non-think" ]; then
-      echo "    (trivial task — no reasoning needed, cheapest)"
+      echo "    (trivial task --- no reasoning needed, cheapest)"
     else
-      echo "    (routine task — default, good balance)"
+      echo "    (routine task --- default, good balance)"
     fi
     ;;
 
@@ -416,7 +416,7 @@ with open('$JOBS_DIR/$JOB_ID.json') as f:
 # A2A Protocol: follow handoff chain
 handoff = job.get('handoff_child')
 if handoff:
-    print(f'[Parent job — delegated to child: {handoff}]')
+    print(f'[Parent job --- delegated to child: {handoff}]')
     print(f'  Agent: {job.get(\"handoff_agent\", \"?\")}')
     print(f'  Status: {job.get(\"status\", \"?\")}')
     print()

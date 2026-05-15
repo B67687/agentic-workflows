@@ -1,5 +1,5 @@
 # =============================================================================
-# skills.toml — Structured skill index for agentic-workflows
+# skills.toml --- Structured skill index for agentic-workflows
 #
 # Machine-readable index of all 46 skills with frontmatter, activation
 # criteria, and companion resources. Consumable by:
@@ -16,21 +16,21 @@
 version = "1.0"
 updated = "2026-05-15"
 skill_count = 44
-description = "Agentic Workflows — skill index"
+description = "Agentic Workflows --- skill index"
 
 # =============================================================================
 # SKILL CATEGORIES
 # =============================================================================
-# define    — spec, plan, break down work
-# build     — implement with discipline
-# verify    — debug, test, review, harden
-# ship      — release, document, automate
-# meta      — how we work
-# product   — product thinking, discovery, strategy
+# define    --- spec, plan, break down work
+# build     --- implement with discipline
+# verify    --- debug, test, review, harden
+# ship      --- release, document, automate
+# meta      --- how we work
+# product   --- product thinking, discovery, strategy
 # =============================================================================
 
 # ─────────────────────────────────────────────────────────────────────────────
-# DEFINE — Spec, plan, break down work
+# DEFINE --- Spec, plan, break down work
 # ─────────────────────────────────────────────────────────────────────────────
 
 [[skill]]
@@ -50,7 +50,7 @@ trigger_phrases = ["grill me", "push back", "challenge this", "is this solid"]
 
 [[skill]]
 name = "idea-refine"
-description = "Structured divergent → convergent refinement of raw ideas into actionable proposals"
+description = "Structured divergent -> convergent refinement of raw ideas into actionable proposals"
 bundle = "define"
 compatibility = "claude-code, cursor, opencode, gemini-cli, codex-cli"
 trigger_phrases = ["refine this idea", "shape this", "make this concrete"]
@@ -84,7 +84,7 @@ compatibility = "claude-code, cursor, opencode, gemini-cli, codex-cli"
 trigger_phrases = ["plan this", "break this down", "task list", "milestones"]
 
 # ─────────────────────────────────────────────────────────────────────────────
-# BUILD — Implement with discipline
+# BUILD --- Implement with discipline
 # ─────────────────────────────────────────────────────────────────────────────
 
 [[skill]]
@@ -110,7 +110,7 @@ trigger_phrases = ["source", "citation", "verify this claim", "where does it say
 
 [[skill]]
 name = "frontend-ui-engineering"
-description = "UI implementation patterns for agent-friendly frontend work — incremental, testable, accessible"
+description = "UI implementation patterns for agent-friendly frontend work --- incremental, testable, accessible"
 bundle = "build"
 compatibility = "claude-code, cursor, opencode, gemini-cli, codex-cli"
 trigger_phrases = ["ui", "frontend", "react", "component", "style", "layout"]
@@ -124,13 +124,13 @@ trigger_phrases = ["api", "endpoint", "interface", "contract", "schema"]
 
 [[skill]]
 name = "implementation-planning"
-description = "Bridge from strategy to execution — create structured implementation plans with files, steps, and verification criteria"
+description = "Bridge from strategy to execution --- create structured implementation plans with files, steps, and verification criteria"
 bundle = "build"
 compatibility = "claude-code, cursor, opencode"
 trigger_phrases = ["implementation plan", "how to build", "execution steps"]
 
 # ─────────────────────────────────────────────────────────────────────────────
-# VERIFY — Debug, test, review, harden
+# VERIFY --- Debug, test, review, harden
 # ─────────────────────────────────────────────────────────────────────────────
 
 [[skill]]
@@ -193,14 +193,14 @@ trigger_phrases = ["blast radius", "impact", "ripple effect", "what else changes
 
 [[skill]]
 name = "systems-health"
-description = "Check and improve system health metrics — test coverage, documentation freshness, dependency status"
+description = "Check and improve system health metrics --- test coverage, documentation freshness, dependency status"
 bundle = "verify"
 compatibility = "claude-code, cursor, opencode"
 companion = "scripts/systems-health.sh"
 trigger_phrases = ["systems health", "health check", "coverage", "freshness", "dependency check"]
 
 # ─────────────────────────────────────────────────────────────────────────────
-# SHIP — Release, document, automate
+# SHIP --- Release, document, automate
 # ─────────────────────────────────────────────────────────────────────────────
 
 [[skill]]
@@ -240,7 +240,7 @@ compatibility = "claude-code, cursor, opencode, gemini-cli, codex-cli"
 trigger_phrases = ["ship", "launch", "release", "go live", "production", "rollout"]
 
 # ─────────────────────────────────────────────────────────────────────────────
-# META — How we work
+# META --- How we work
 # ─────────────────────────────────────────────────────────────────────────────
 
 [[skill]]
@@ -308,7 +308,7 @@ companion = "scripts/tap-retrospective.sh"
 trigger_phrases = ["retro", "retrospective", "what went well", "reflect", "learn from this"]
 
 # ─────────────────────────────────────────────────────────────────────────────
-# PRODUCT — Product thinking, discovery, strategy
+# PRODUCT --- Product thinking, discovery, strategy
 # ─────────────────────────────────────────────────────────────────────────────
 
 [[skill]]

@@ -406,7 +406,7 @@ check_constitution_validity() {
   local template="$REPO_ROOT/templates/core/constitution-template.md"
 
   if [[ ! -f "$constitution" ]]; then
-    print_issue "WARN" "constitution.md" "Not found — run: bash scripts/constitution.sh init"
+    print_issue "WARN" "constitution.md" "Not found --- run: bash scripts/constitution.sh init"
     return
   fi
 
@@ -423,12 +423,12 @@ check_constitution_validity() {
   local article_count
   article_count=$(grep -c '^## Article ' "$constitution" 2>/dev/null || echo 0)
   if [[ "$article_count" -eq 0 ]]; then
-    print_issue "ERROR" "constitution.md" "No articles found — constitution is empty"
+    print_issue "ERROR" "constitution.md" "No articles found --- constitution is empty"
   fi
 
   # Check template staleness
   if [[ -f "$template" ]] && [[ "$constitution" -ot "$template" ]]; then
-    print_issue "WARN" "constitution.md" "Template is newer than constitution — consider regenerating: bash scripts/constitution.sh init --force"
+    print_issue "WARN" "constitution.md" "Template is newer than constitution --- consider regenerating: bash scripts/constitution.sh init --force"
   fi
 
   # Check for ambiguity markers in staged md files

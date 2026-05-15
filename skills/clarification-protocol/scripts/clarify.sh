@@ -334,11 +334,11 @@ do_question() {
             echo "│ Question: Do you mean [option A] or [option B]?"
             echo "│"
             echo "│ Options:"
-            echo "│   A) [Option A] — [description of what this means]"
-            echo "│   B) [Option B] — [description] (Recommended)"
+            echo "│   A) [Option A] --- [description of what this means]"
+            echo "│   B) [Option B] --- [description] (Recommended)"
             echo "│"
-            echo "│ Why: [1 line — why this matters]"
-            echo "│ Next: [1 line — what you'll do after answer]"
+            echo "│ Why: [1 line --- why this matters]"
+            echo "│ Next: [1 line --- what you'll do after answer]"
             echo "└─────────────────────────────────────────────────────┘"
             ;;
         risk_confirm)
@@ -348,9 +348,9 @@ do_question() {
             echo "│ Question: Confirm: should I [action]?"
             echo "│"
             echo "│ Options:"
-            echo "│   Yes — Proceed with [action]" 
-            echo "│   No — Skip this action"
-            echo "│   Modified — [user types custom]"
+            echo "│   Yes --- Proceed with [action]" 
+            echo "│   No --- Skip this action"
+            echo "│   Modified --- [user types custom]"
             echo "│"
             echo "│ Why: This action is irreversible / high-impact."
             echo "│ Next: If yes, I'll proceed immediately."
@@ -363,9 +363,9 @@ do_question() {
             echo "│ Question: What's the [missing parameter]?"
             echo "│"
             echo "│ Options:"
-            echo "│   A) [candidate 1] — [description]"
-            echo "│   B) [candidate 2] — [description] (Recommended)"
-            echo "│   C) [Custom — type your answer]"
+            echo "│   A) [candidate 1] --- [description]"
+            echo "│   B) [candidate 2] --- [description] (Recommended)"
+            echo "│   C) [Custom --- type your answer]"
             echo "│"
             echo "│ Why: I need this to proceed with [action]."
             echo "│ Next: Once specified, I'll [next step]."
@@ -378,9 +378,9 @@ do_question() {
             echo "│ Question: Should this apply to [scope A] or [scope B]?"
             echo "│"
             echo "│ Options:"
-            echo "│   A) [Scope A] — [description of boundaries]"
-            echo "│   B) [Scope B] — [description] (Recommended)"
-            echo "│   C) [Custom — describe the scope]"
+            echo "│   A) [Scope A] --- [description of boundaries]"
+            echo "│   B) [Scope B] --- [description] (Recommended)"
+            echo "│   C) [Custom --- describe the scope]"
             echo "│"
             echo "│ Why: Without scope boundaries I may over- or under-deliver."
             echo "│ Next: I'll work within the specified scope."
@@ -450,7 +450,7 @@ do_check() {
 
     # Check 6: Irreversible?
     if echo "$req_lower" | grep -qE '\b(delete|remove|destroy|overwrite|replace|deploy.*prod|send.*email|charge|pay)\b'; then
-        echo -e "  ${RED}⚠${NC} Action appears irreversible — clarification recommended regardless"
+        echo -e "  ${RED}⚠${NC} Action appears irreversible --- clarification recommended regardless"
     else
         echo -e "  ${GREEN}✓${NC} Action is reversible"
         ((checks_passed++))

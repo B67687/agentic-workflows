@@ -89,19 +89,19 @@ Learnings flow back to the hub via insight harvesting. Cross-project memory loop
 
 <table>
 <tr>
-  <td width="33%" valign="top"><b>🧠 Operating Contract</b><br><sub>AGENTS.md — shared conventions every agent reads on entry</sub></td>
-  <td width="33%" valign="top"><b>📚 Skill System</b><br><sub>Debug, review, ship, document — 42 engineering skills with scripts</sub></td>
+  <td width="33%" valign="top"><b>🧠 Operating Contract</b><br><sub>AGENTS.md --- shared conventions every agent reads on entry</sub></td>
+  <td width="33%" valign="top"><b>📚 Skill System</b><br><sub>Debug, review, ship, document --- 42 engineering skills with scripts</sub></td>
   <td width="33%" valign="top"><b>🔄 Knowledge Propagation</b><br><sub>Change once in the hub, sync templates to 15+ repos automatically</sub></td>
 </tr>
 <tr>
   <td width="33%" valign="top"><b>💾 Persistent Memory</b><br><sub>Agentmemory captures tool use, compresses observations across sessions</sub></td>
-  <td width="33%" valign="top"><b>⚡ Workflow Discipline</b><br><sub>Checkpoints, handoffs, pipeline dispatch — structured phases, not chaos</sub></td>
-  <td width="33%" valign="top"><b>🔬 Research Engine</b><br><sub>Frame → discover → triangulate → apply → preserve — 6-phase methodology</sub></td>
+  <td width="33%" valign="top"><b>⚡ Workflow Discipline</b><br><sub>Checkpoints, handoffs, pipeline dispatch --- structured phases, not chaos</sub></td>
+  <td width="33%" valign="top"><b>🔬 Research Engine</b><br><sub>Frame -> discover -> triangulate -> apply -> preserve --- 6-phase methodology</sub></td>
 </tr>
 <tr>
   <td width="33%" valign="top"><b>🛡️ Quality Guardrails</b><br><sub>A2H escalation, assumption expiry, pre-push gates, error counters</sub></td>
   <td width="33%" valign="top"><b>🌐 Multi-Repo Orchestration</b><br><sub>15+ topic folders, propagate templates, harvest insights across all repos</sub></td>
-  <td width="33%" valign="top"><b>🧪 Test-Driven Agents</b><br><sub>Every change verified before commit — TDD patterns and smoke tests</sub></td>
+  <td width="33%" valign="top"><b>🧪 Test-Driven Agents</b><br><sub>Every change verified before commit --- TDD patterns and smoke tests</sub></td>
 </tr>
 </table>
 

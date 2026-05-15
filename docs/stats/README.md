@@ -4,7 +4,7 @@ Interactive dashboard showing traffic analytics for [Agentic Workflows](https://
 
 ## How It Works
 
-This is a **static page** — no server-side code, no daily commits. All data is fetched client-side from GitHub Gists at page load time.
+This is a **static page** --- no server-side code, no daily commits. All data is fetched client-side from GitHub Gists at page load time.
 
 ### Data Collection
 
@@ -29,11 +29,11 @@ A [GitHub Actions workflow](../../.github/workflows/traffic-badges.yml) runs dai
 
 ### Tabbed Dashboard
 
-- **Overview** — Multi-metric toggleable chart (views, clones, unique counts, downloads)
-- **Installs** — Clone and download charts with organic vs CI breakdown, unique tracker counts
-- **Views** — Daily views chart, referrer table with mobile app annotations, popular pages
-- **Community** — Star history, forks, issues, daily community trends (dual-axis chart)
-- **Dev** — CI audit cards, raw vs organic clone chart, CI checkout breakdown, commit activity, code frequency, participation (maintainer vs community), punch card heat map, contributors list, operational status
+- **Overview** --- Multi-metric toggleable chart (views, clones, unique counts, downloads)
+- **Installs** --- Clone and download charts with organic vs CI breakdown, unique tracker counts
+- **Views** --- Daily views chart, referrer table with mobile app annotations, popular pages
+- **Community** --- Star history, forks, issues, daily community trends (dual-axis chart)
+- **Dev** --- CI audit cards, raw vs organic clone chart, CI checkout breakdown, commit activity, code frequency, participation (maintainer vs community), punch card heat map, contributors list, operational status
 
 ### Key Features
 
@@ -49,4 +49,4 @@ The dashboard is hosted on GitHub Pages:
 
 **https://b67687.github.io/agentic-workflows/stats/**
 
-You can also open `index.html` directly in a browser for local testing — the gist CDN has permissive CORS headers.
+You can also open `index.html` directly in a browser for local testing --- the gist CDN has permissive CORS headers.

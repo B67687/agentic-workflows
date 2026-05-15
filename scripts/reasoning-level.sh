@@ -80,7 +80,7 @@ check_match() {
 
 if check_match "${MAX_PATTERNS[@]}"; then
   if [ "$EXPLAIN" = true ]; then
-    echo "max — complex/agentic task detected"
+    echo "max --- complex/agentic task detected"
     echo "  Max gives +5-20% on complex coding and agentic browsing tasks."
     echo "  Worth the extra reasoning tokens for this type of work."
   else
@@ -91,7 +91,7 @@ fi
 
 if check_match "${NON_THINK_PATTERNS[@]}"; then
   if [ "$EXPLAIN" = true ]; then
-    echo "non-think — trivial/operational task detected"
+    echo "non-think --- trivial/operational task detected"
     echo "  No reasoning needed. Use non-think to save tokens."
   else
     echo "non-think"
@@ -99,9 +99,9 @@ if check_match "${NON_THINK_PATTERNS[@]}"; then
   exit 0
 fi
 
-# Default: high — covers planning, research, documentation, analysis
+# Default: high --- covers planning, research, documentation, analysis
 if [ "$EXPLAIN" = true ]; then
-  echo "high — routine or knowledge task (default)"
+  echo "high --- routine or knowledge task (default)"
   echo "  High is within 1-2 points of Max on most knowledge and planning tasks."
   echo "  Significantly cheaper than Max. Default unless task is complex/agentic."
 else

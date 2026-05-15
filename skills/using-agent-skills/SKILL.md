@@ -33,9 +33,9 @@ Instead of loading all 42 skills fully, you load only what you need, when you ne
 **Use the toolset to navigate progressively:**
 
 ```bash
-bash ./scripts/skill-toolset.sh list                     # L1 — browse all 42 skills (compact)
-bash ./scripts/skill-toolset.sh load <name>               # L2 — load a skill's full instructions
-bash ./scripts/skill-toolset.sh resource <name> <path>    # L3 — load a file (references/, assets/)
+bash ./scripts/skill-toolset.sh list                     # L1 --- browse all 42 skills (compact)
+bash ./scripts/skill-toolset.sh load <name>               # L2 --- load a skill's full instructions
+bash ./scripts/skill-toolset.sh resource <name> <path>    # L3 --- load a file (references/, assets/)
 bash ./scripts/skill-toolset.sh find <query>              # search by name/pattern/bundle
 bash ./scripts/skill-toolset.sh info <name>               # all metadata for one skill
 ```

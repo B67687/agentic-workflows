@@ -14,7 +14,7 @@ metadata:
 # Skill Creator
 
 Generate new, spec-compliant Agent Skills from a natural language description.
-This is a **meta-skill** — its purpose is to create other skills.
+This is a **meta-skill** --- its purpose is to create other skills.
 
 ## When to Use
 
@@ -33,8 +33,8 @@ Load them when the generation instructions below call for them:
 
 | Resource | When to load |
 |----------|-------------|
-| `references/agentskills-spec.md` | Read this FIRST — it defines the format rules |
-| `references/example-skill.md` | Read this SECOND — it shows a working example |
+| `references/agentskills-spec.md` | Read this FIRST --- it defines the format rules |
+| `references/example-skill.md` | Read this SECOND --- it shows a working example |
 
 ```bash
 # Load the spec (L3)
@@ -50,11 +50,11 @@ bash ./scripts/skill-toolset.sh resource skill-creator references/example-skill.
 
 Before generating anything, interview the user to understand:
 
-- **Topic** — What domain or task does the skill cover?
-- **Trigger** — What phrases should activate this skill? (for trigger-phrases)
-- **Output** — What should the skill produce? (checklist, template, pipeline, etc.)
-- **Pattern** — Which of the 5 design patterns fits best? (see below)
-- **Audience** — What agent tools should this skill work with? (default: all)
+- **Topic** --- What domain or task does the skill cover?
+- **Trigger** --- What phrases should activate this skill? (for trigger-phrases)
+- **Output** --- What should the skill produce? (checklist, template, pipeline, etc.)
+- **Pattern** --- Which of the 5 design patterns fits best? (see below)
+- **Audience** --- What agent tools should this skill work with? (default: all)
 
 Do NOT proceed to generation until these are clear. If the user says "just make
 something good," use your best judgment and state your assumptions explicitly.
@@ -68,7 +68,7 @@ The key constraints are:
 - `description`: 1-1024 chars, describes what AND when
 - `compatibility`: comma-separated tool list (optional but recommended)
 - `allowed-tools`: space-separated tool names (recommended)
-- `metadata`: arbitrary key-value map — put custom fields here
+- `metadata`: arbitrary key-value map --- put custom fields here
 
 ### Step 3: Choose the Design Pattern
 
@@ -95,11 +95,11 @@ with all recommended fields populated. Use it as a structural template.
 Write a complete SKILL.md with:
 
 1. **Valid YAML frontmatter** following the agentskills.io spec exactly
-2. **L1-optimized description** — must contain the keywords that will trigger
+2. **L1-optimized description** --- must contain the keywords that will trigger
    an agent to select this skill
 3. **Structured body** with overview, when-to-use, step-by-step instructions,
    and verification steps
-4. **L3 resource separation** — move templates to `assets/`, checklists to
+4. **L3 resource separation** --- move templates to `assets/`, checklists to
    `references/`, scripts to `scripts/`
 5. **Handoffs** to related skills (what comes before / after in a workflow)
 6. **Metadata** fields: `trigger-phrases`, `handoffs`, `pattern`, `bundle`,
@@ -152,10 +152,10 @@ metadata:
 
 ## Common Mistakes
 
-- **Using non-standard top-level fields** — `trigger-phrases`, `handoffs`, and
+- **Using non-standard top-level fields** --- `trigger-phrases`, `handoffs`, and
   `companion-script` must go under `metadata`, not at top level
-- **Uppercase in name** — kebab-case only (e.g., `code-review` not `CodeReview`)
-- **Directory mismatch** — the directory name and the `name` field must match
-- **Description too vague** — must include both WHAT and WHEN for L1 discovery
-- **Missing compatibility** — the skill works everywhere unless specified
-- **Skipping validation** — always run `validate-skill-frontmatter.py` after creation
+- **Uppercase in name** --- kebab-case only (e.g., `code-review` not `CodeReview`)
+- **Directory mismatch** --- the directory name and the `name` field must match
+- **Description too vague** --- must include both WHAT and WHEN for L1 discovery
+- **Missing compatibility** --- the skill works everywhere unless specified
+- **Skipping validation** --- always run `validate-skill-frontmatter.py` after creation

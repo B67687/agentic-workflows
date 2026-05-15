@@ -361,7 +361,7 @@ class MCPServer:
                 "serverInfo": {
                     "name": "agentic-workflows-mcp",
                     "version": "1.1.0",
-                    "description": "MCP server for agentic-workflows — quality verification, tool registry, skill index",
+                    "description": "MCP server for agentic-workflows --- quality verification, tool registry, skill index",
                 },
                 "instructions": (
                     "This server exposes the agentic-workflows orchestration methodology "
@@ -541,7 +541,7 @@ class MCPServer:
             ("methodology://full-stream-interface", "Full-Stream Interface Architecture",
              "Architecture document for the Layer 4↔3 interface contract"),
             ("methodology://agents-md", "Agent Operating Contract",
-             "AGENTS.md — full agent harness operating contract and governance rules"),
+             "AGENTS.md --- full agent harness operating contract and governance rules"),
             ("methodology://research-prompt", "Research Methodology",
              "6-phase research methodology: frame, discover, gather, triangulate, apply, preserve"),
         ]
@@ -645,7 +645,7 @@ def main():
             print(f"  Loaded: {len(skills)} skills")
 
         if error_count:
-            print(f"\n{error_count} error(s) found — check paths")
+            print(f"\n{error_count} error(s) found --- check paths")
             sys.exit(1)
         print("\nConfiguration OK")
         sys.exit(0)
