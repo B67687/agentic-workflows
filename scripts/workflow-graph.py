@@ -230,14 +230,21 @@ def vis_color(c):
 
 def make_node(uid, label, group, **kw):
     c = COLORS.get(group, COLORS["script"])
+    orphan = kw.pop("orphan", False)
     entry = {
         "id": uid, "label": label, "group": group,
         "shape": SHAPES.get(group, "dot"),
         "color": vis_color(c),
         "borderWidth": 2, "borderWidthSelected": 3,
+        "orphaned": orphan,
         "font": {"face": "Inter, system-ui, sans-serif", "strokeWidth": 2,
                  "strokeColor": "rgba(0,0,0,0.5)", "color": "#f0f2f5"},
     }
+    if orphan:
+        entry["borderWidth"] = 3
+        entry["borderWidthSelected"] = 4
+        entry["color"]["border"] = "#f85149"
+        entry["color"]["highlight"]["border"] = "#f85149"
     sz = {"phase": 28, "gate": 22, "decision": 14, "branch": 22, "agent": 18,
           "orchestrator": 26, "source": 24, "target": 24, "pipeline": 22,
           "folder": 18, "check": 20, "harness": 20}.get(group, 16)
@@ -548,6 +555,16 @@ def build_all_workflows():
           desc=f"Agent persona from {p['file']}",
           persona=p['file'])
 
+    # Wire up agent dispatch (pi, codex, claude) from implement
+    E("implement", "agent-dispatch", "branch_to")
+    E("agent-dispatch", "agent-pi", "dispatches")
+    E("agent-dispatch", "agent-codex", "dispatches")
+    E("agent-dispatch", "agent-claude", "dispatches")
+    E("agent-dispatch", "agent-sandbox", "dispatches")
+    E("agent-pi", "implement", "returns", smooth={"type": "curvedCW", "roundness": 0.2})
+    E("agent-codex", "implement", "returns", smooth={"type": "curvedCW", "roundness": 0.22})
+    E("agent-claude", "implement", "returns", smooth={"type": "curvedCW", "roundness": 0.24})
+
     # Wire up /ship fan-out to discovered personas
     N("ship-fanout", "/ship Fan-out\n(Parallel)", "branch",
       desc="Parallel dispatch to code-reviewer + security-auditor + test-engineer",
@@ -731,7 +748,24 @@ def build_all_workflows():
     E("tool-landscape", "route", "syncs",
       smooth={"type": "curvedCW", "roundness": 0.15})
 
-    return nodes, edges
+    # ── Orphan detection: mark nodes with zero edges (including hidden) ─
+    edge_node_ids = set()
+    for e in edges:
+        edge_node_ids.add(e["from"])
+        edge_node_ids.add(e["to"])
+    orphan_count = 0
+    for n in nodes:
+        if n["id"] not in edge_node_ids and n["group"] not in ("start_end",):
+            n["orphaned"] = True
+            orphan_count += 1
+
+    print(f"   ⚠ {orphan_count} orphaned nodes detected (not connected to any edge)")
+    if orphan_count > 0:
+        for n in nodes:
+            if n.get("orphaned"):
+                print(f"     · {n['id']} ({n['label'].replace(chr(10), ' ')})")
+
+    return nodes, edges, orphan_count
 
 
 # ═══════════════════════════════════════════════════════════════════════
@@ -934,11 +968,13 @@ HTML = r'''<!DOCTYPE html>
     <div class="legend-edge-item" data-legend-edge="all"><span class="edge-swatch main" style="border-top-color:#888;"></span><span class="legend-label">Show all</span></div>
   </div>
   <div class="legend-hint">Click to highlight · scroll to zoom · drag to pan</div>
+  <div class="legend-hint" style="color:#f85149;border:none;margin-top:2px;">🔴 Red border = orphaned (no connections)</div>
 </div>
 
 <div class="stats">
   <span><strong id="nodeCount">0</strong> nodes</span>
   <span><strong id="edgeCount">0</strong> edges</span>
+  <span><strong id="orphanCount" style="color:#f85149">0</strong> orphans</span>
 </div>
 
 <div class="physics-indicator" id="physicsIndicator">
@@ -959,6 +995,13 @@ HTML = r'''<!DOCTYPE html>
   document.getElementById('loading').style.display = 'none';
   document.getElementById('nodeCount').textContent = NODES.length;
   document.getElementById('edgeCount').textContent = EDGES.length;
+
+  // Count orphaned nodes (no connected edges)
+  const orphanedIds = new Set();
+  NODES.forEach(function(n) {
+    if (n.orphaned) orphanedIds.add(n.id);
+  });
+  document.getElementById('orphanCount').textContent = orphanedIds.size;
 
   // Separate hidden edges (gate decision chains)
   const visibleEdges = EDGES.filter(function(e) { return !e.hidden; });
@@ -1676,7 +1719,7 @@ def main():
           f"{sum(len(v) for v in GATE_PLUGINS.values())} gate plugins")
 
     if not svg_only:
-        nodes, edges = build_all_workflows()
+        nodes, edges, orphan_count = build_all_workflows()
         legend = build_legend()
 
         html = (HTML.replace("__NODES__", json.dumps(nodes, indent=2))

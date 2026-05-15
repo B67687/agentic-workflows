@@ -366,6 +366,24 @@ print('0')
   else
     test_skip "wg: arrow checks (SVG not found)"
   fi
+
+  # 11. Orphan detection: all nodes should have connections (0 orphans)
+  if python3 -c "
+import json, re
+with open('workflow-graph.html') as f:
+    html = f.read()
+m = re.search(r'const NODES = (\[.*?\]);', html, re.DOTALL)
+nodes = json.loads(m.group(1))
+orphans = [n for n in nodes if n.get('orphaned')]
+if orphans:
+    print('FAIL: ' + ', '.join(o['id'] for o in orphans))
+    exit(1)
+print('OK: 0 orphans')
+" 2>&1; then
+    test_pass "wg: no orphaned nodes (all connected)"
+  else
+    test_fail "wg: orphaned nodes detected"
+  fi
 else
   test_skip "workflow-graph.html not generated (run 'bash scripts/workflow-graph.sh' first)"
 fi
