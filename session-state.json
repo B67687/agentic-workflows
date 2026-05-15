@@ -1,18 +1,64 @@
 {
-  "session": 848,
-  "status": "in-progress",
+  "session": 850,
+  "status": "verified-phase",
   "interruptedCount": 0,
   "contextPressure": "healthy",
   "currentTask": {
-    "name": "Integration Test",
-    "status": "started",
-    "goal": ""
+    "name": "MCP gate-system tests + 115-pass smoke suite",
+    "status": "done",
+    "goal": "Add smoke tests for all MCP gate resources (dashboard, autonomy, gate://, gate-plugins, pipeline/run). Verify 115-pass suite."
   },
   "whatChanged": [
-    "test entry"
+    "test-smoke.sh: 8 new MCP integration tests for gate resources and pipeline/run method",
+    "test-smoke.sh: gate:// URI count check uses >=8 (de-flaked against new plugin additions)",
+    "115 tests pass (up from 108)"
   ],
-  "verification": [],
-  "keyLearnings": [],
-  "residualRisk": "",
-  "immediateNextSteps": []
+  "filesTouched": [
+    "scripts/test-smoke.sh (+29 lines, 8 new MCP gate-system tests)"
+  ],
+  "verification": [
+    "115 tests pass, 0 fail",
+    "state://dashboard resource listed and readable",
+    "state://autonomy resource listed",
+    "methodology://gate-plugins resource listed",
+    "gate://implement/autonomy returns structured JSON (mimeType: application/json)",
+    "state://dashboard read contains session data",
+    "pipeline/run implement->verify returns passed=true",
+    "gate:// URIs: >=8 found"
+  ],
+  "keyLearnings": [
+    "MCP tests are the most brittle (method count, resource count) — always use >= N instead of == N for dynamic counts"
+  ],
+  "residualRisk": "The original 3 pre-existing failures (tools.toml drift, ambiguity checker) appear to have been fixed in intervening commits. 115/115 clean.",
+  "immediateNextSteps": [
+    "Consider: add HTTP wrapper mode for MCP server (flake8-mcpserver or direct aiohttp binding)",
+    "Consider: wire session-dashboard.sh into session-start hook for automatic observability on resume"
+  ],
+  "resumeRules": [
+    "115 tests, all pass",
+    "MCP: 61+ resources (session, dashboard, autonomy, gate://, skill://, methodology://)",
+    "MCP pipeline: pipeline/run with transition + task params",
+    "Gate: phase-gate.sh <phase> --check-quality (comprehensive)",
+    "--check-quality auto-runs constitution + gates + decision pipeline",
+    "Autonomy: autonomy-gate.sh start | adjust | status",
+    "Dashboard: session-dashboard.sh [--json|--watch]"
+  ],
+  "doNotRepeat": [],
+  "lastRetrospect": "2026-05-15T23:00:00Z",
+  "learningsCount": 41,
+  "contextMetrics": {
+    "last": {
+      "status": "HEALTHY",
+      "score": 1,
+      "signals": {
+        "session_age_hours": 1,
+        "commits_today": 22,
+        "dirty_count": 0,
+        "dirty_new": 0,
+        "dirty_modified": 0,
+        "context_pressure": "healthy"
+      }
+    },
+    "trend": "stable"
+  }
 }
