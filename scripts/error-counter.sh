@@ -25,7 +25,15 @@
 #     Show all tracked operations.
 #
 # Environment:
-#   ERROR_THRESHOLD  Max retries before escalation (default: 3)
+#   ERROR_THRESHOLD    Max retries before escalation (default: 3)
+#   COOLDOWN_BASE      Base delay in seconds for exponential backoff (default: 30)
+#                      Actual cooldown = COOLDOWN_BASE * 2^(count-1)
+#
+# Cooldown behavior:
+#   After each increment, a cooldown period is set before the next retry.
+#   The cooldown grows exponentially: base * 2^count seconds.
+#   check subcommand shows cooldown status and remaining time.
+#   Use --retry-after on increment to override with explicit seconds.
 #
 # Principle: "Add error counters to prevent infinite retry loops. Escalate
 # to humans after N consecutive failures."
@@ -41,6 +49,7 @@ COUNTER_DIR="$REPO_ROOT/.runtime/error-counter"
 mkdir -p "$COUNTER_DIR"
 
 THRESHOLD="${ERROR_THRESHOLD:-3}"
+COOLDOWN_BASE="${COOLDOWN_BASE:-30}"
 
 CMD="${1:-help}"
 shift || true
@@ -48,11 +57,14 @@ shift || true
 usage() {
   cat <<'EOF'
 Usage:
-  error-counter.sh increment <operation> [error-message]
-    Increment counter. Escalate to human after threshold.
+  error-counter.sh increment <operation> [error-message] [--retry-after <N>]
+    Increment counter. Sets exponential backoff cooldown (base * 2^count).
+    Use --retry-after to override cooldown (e.g. from Retry-After header).
+    Escalates to human after threshold.
+    Example: error-counter.sh increment build "timeout" --retry-after 60
 
   error-counter.sh check <operation>
-    Show current count and escalation status.
+    Show current count, escalation status, and cooldown remaining.
 
   error-counter.sh reset <operation>
     Reset counter (on success).
@@ -72,10 +84,12 @@ Usage:
     Logs decision to .runtime/error-counter/decisions/ for audit trail.
 
   error-counter.sh list
-    Show all tracked operations.
+    Show all tracked operations with cooldown status.
 
 Environment:
   ERROR_THRESHOLD    Max retries before escalation (default: 3)
+  COOLDOWN_BASE      Base delay in seconds for exponential backoff (default: 30)
+                     Actual cooldown = COOLDOWN_BASE * 2^(count-1)
 EOF
 }
 
@@ -99,7 +113,7 @@ load_counter() {
   if [ -f "$file" ]; then
     cat "$file"
   else
-    echo '{"count": 0, "last_error": "", "last_failure": null, "created": null}'
+    echo '{"count": 0, "last_error": "", "last_failure": null, "created": null, "cooldown_until": null}'
   fi
 }
 
@@ -142,11 +156,31 @@ EOF
 
 do_increment() {
   local operation="$1"
-  local error_msg="${2:-unknown error}"
+  shift
+  local error_msg="unknown error"
+  local retry_after=""
   local file
   file=$(counter_path "$operation")
   local timestamp
   timestamp=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+
+  # Parse remaining args: error message and --retry-after flag
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      --retry-after)
+        retry_after="$2"
+        shift 2
+        ;;
+      --retry-after=*)
+        retry_after="${1#*=}"
+        shift
+        ;;
+      *)
+        error_msg="$1"
+        shift
+        ;;
+    esac
+  done
 
   # Read current or create new
   local counter_data
@@ -158,8 +192,25 @@ do_increment() {
 
   count=$((count + 1))
 
-  # Write updated counter
-  python3 - "$file" "$count" "$error_msg" "$timestamp" "$created" <<'PY'
+  # Calculate cooldown: base * 2^(count-1), or explicit retry-after
+  local cooldown_seconds="$COOLDOWN_BASE"
+  if [[ -n "$retry_after" ]]; then
+    cooldown_seconds="$retry_after"
+  else
+    # Exponential backoff: base * 2^(count-1)
+    cooldown_seconds=$((COOLDOWN_BASE * (2 ** (count - 1))))
+  fi
+  local cooldown_until
+  cooldown_until=$(python3 -c "
+import sys
+from datetime import datetime, timezone, timedelta
+now = datetime.now(timezone.utc)
+cd = now + timedelta(seconds=$cooldown_seconds)
+print(cd.strftime('%Y-%m-%dT%H:%M:%SZ'))
+" 2>/dev/null || echo "")
+
+  # Write updated counter with cooldown
+  python3 - "$file" "$count" "$error_msg" "$timestamp" "$created" "$cooldown_until" <<'PY'
 import json, sys
 
 file = sys.argv[1]
@@ -167,6 +218,7 @@ count = int(sys.argv[2])
 error = sys.argv[3]
 ts = sys.argv[4]
 created = sys.argv[5]
+cooldown_until = sys.argv[6] if len(sys.argv) > 6 and sys.argv[6] else None
 
 data = {
     "operation": file.split("/")[-1].replace(".json", ""),
@@ -174,7 +226,8 @@ data = {
     "last_error": error[:500],
     "last_failure": ts,
     "created": created,
-    "threshold": int(sys.argv[6]) if len(sys.argv) > 6 else 3
+    "threshold": int(sys.argv[7]) if len(sys.argv) > 7 else 3,
+    "cooldown_until": cooldown_until
 }
 
 with open(file, "w") as f:
@@ -182,6 +235,10 @@ with open(file, "w") as f:
 
 print(f"Error count for {data['operation']}: {count}")
 PY
+
+  # Show cooldown info
+  echo "  Cooldown: ${cooldown_seconds}s (until ${cooldown_until})"
+  echo "  Backoff: 2^$((count - 1)) × ${COOLDOWN_BASE}s = ${cooldown_seconds}s"
 
   # Check threshold
   if [ "$count" -ge "$THRESHOLD" ]; then
@@ -206,6 +263,7 @@ do_check() {
 
   python3 - "$file" "$THRESHOLD" <<'PY'
 import json, sys
+from datetime import datetime, timezone
 
 with open(sys.argv[1]) as f:
     d = json.load(f)
@@ -213,13 +271,28 @@ with open(sys.argv[1]) as f:
 threshold = int(sys.argv[2])
 count = d.get("count", 0)
 needs_escalation = count >= threshold
+cooldown_until = d.get("cooldown_until")
 
 print(f"Operation: {d.get('operation', '?')}")
 print(f"  Consecutive failures: {count}")
 print(f"  Threshold: {threshold}")
 print(f"  Escalation needed: {'YES' if needs_escalation else 'no'}")
 print(f"  Last failure: {d.get('last_failure', 'never')}")
-print(f"  Last error: {str(d.get('last_error', ''))[:80]}")
+if count > 0:
+    print(f"  Last error: {str(d.get('last_error', ''))[:80]}")
+
+# Cooldown status
+if cooldown_until:
+    try:
+        cd = datetime.fromisoformat(cooldown_until.replace('Z', '+00:00'))
+        now = datetime.now(timezone.utc)
+        remaining = (cd - now).total_seconds()
+        if remaining > 0:
+            print(f"  Cooldown: ACTIVE ({int(remaining)}s remaining, expires {cooldown_until})")
+        else:
+            print(f"  Cooldown: EXPIRED (was set to {cooldown_until})")
+    except Exception:
+        print(f"  Cooldown: until {cooldown_until}")
 PY
 }
 
@@ -635,6 +708,7 @@ do_list() {
     found=true
     python3 - "$f" "$THRESHOLD" <<'PY'
 import json, sys
+from datetime import datetime, timezone
 
 with open(sys.argv[1]) as f:
     d = json.load(f)
@@ -643,7 +717,22 @@ count = d.get("count", 0)
 threshold = int(sys.argv[2])
 needs_esc = "ESCALATE" if count >= threshold else "ok"
 
-print(f"  [{needs_esc}] {d.get('operation', '?')}")
+# Cooldown badge
+cooldown_until = d.get("cooldown_until")
+cd_status = ""
+if cooldown_until:
+    try:
+        cd = datetime.fromisoformat(cooldown_until.replace('Z', '+00:00'))
+        now = datetime.now(timezone.utc)
+        remaining = (cd - now).total_seconds()
+        if remaining > 0:
+            cd_status = f" CD:{int(remaining)}s"
+        else:
+            cd_status = " CD:expired"
+    except Exception:
+        pass
+
+print(f"  [{needs_esc}{cd_status}] {d.get('operation', '?')}")
 print(f"    failures: {count}/{threshold}")
 print(f"    last: {d.get('last_failure', 'never')}")
 PY
