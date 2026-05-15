@@ -5408,8 +5408,11 @@
     network.fit({ animation: true, duration: 300 });
   });
 
-  // Hover highlight
+  // Hover highlight (disabled when legend highlight active)
+  let highlightActive = false;
+
   network.on('hoverNode', function(params) {
+    if (highlightActive) return;
     const connected = network.getConnectedEdges(params.node);
     const connSet = new Set(connected);
     EDGES.forEach(function(e, i) {
@@ -5422,6 +5425,7 @@
   });
 
   network.on('blurNode', function() {
+    if (highlightActive) return;
     EDGES.forEach(function(e) {
       if (e._origColor) e.color = JSON.parse(JSON.stringify(e._origColor));
       if (e._origWidth) e.width = e._origWidth;
@@ -5579,16 +5583,23 @@
   }
 
   function applyHighlight() {
-    // Save original colors for all nodes first
+    highlightActive = true;
+    const hasNodeFilter = highlightGroup !== null;
+    const hasEdgeFilter = highlightEdge !== null;
+    const anyFilter = hasNodeFilter || hasEdgeFilter;
+
+    // Save original colors for all nodes
     NODES.forEach(function(n) { saveOrigColor(n.id); });
 
-    // Apply dimming to nodes
+    // Apply toggling to nodes: if a node filter is active, dim non-matching nodes;
+    // if only an edge filter is active, dim ALL nodes.
     NODES.forEach(function(n) {
-      const match = !highlightGroup || n.group === highlightGroup;
+      const match = hasNodeFilter ? n.group === highlightGroup : false;
+      const shouldDim = anyFilter && !match;
       const color = origColors.get(n.id);
       if (!color) return;
       const newColor = JSON.parse(JSON.stringify(color));
-      if (!match) {
+      if (shouldDim) {
         newColor.background = 'rgba(20,24,30,0.06)';
         newColor.border = 'rgba(40,48,60,0.15)';
         newColor.highlight = { background: 'rgba(20,24,30,0.1)', border: 'rgba(40,48,60,0.2)' };
@@ -5596,30 +5607,33 @@
       data.nodes.update({ id: n.id, color: newColor });
     });
 
-    // Apply dimming to edges
+    // Apply toggling to edges: if an edge filter is active, dim non-matching edges;
+    // if only a node filter is active, dim ALL edges.
     EDGES.forEach(function(e) {
       if (e.hidden) return;
       const eType = edgeLegendType(e);
-      const matchEdge = !highlightEdge || highlightEdge === 'all' || eType === highlightEdge;
-      // Save original color
-      if (!e._origColor) { e._origColor = JSON.parse(JSON.stringify(e.color)); e._origWidth = e.width; }
-      const orig = e._origColor;
-      if (!matchEdge) {
+      const matchEdge = hasEdgeFilter ? eType === highlightEdge : false;
+      const shouldDim = anyFilter && !matchEdge;
+      if (!e._origColor) {
+        e._origColor = JSON.parse(JSON.stringify(e.color));
+        e._origWidth = e.width;
+      }
+      if (shouldDim) {
         e.color = { color: 'rgba(20,24,30,0.02)' };
         e.width = 0.1;
       } else {
-        e.color = JSON.parse(JSON.stringify(orig));
+        e.color = JSON.parse(JSON.stringify(e._origColor));
         e.width = e._origWidth;
       }
     });
     data.edges.update(EDGES.filter(function(e) { return !e.hidden; }));
 
-    // Highlight legend items
+    // Toggle legend item styling
     document.querySelectorAll('.legend-item, .legend-edge-item').forEach(function(el) {
       el.classList.remove('active', 'dimmed');
-      if (!highlightGroup && !highlightEdge) return;
       const grp = el.dataset.legendGroup;
       const edge = el.dataset.legendEdge;
+      if (!anyFilter) return;
       if ((grp && grp !== highlightGroup) || (edge && edge !== highlightEdge && edge !== 'all')) {
         el.classList.add('dimmed');
       } else {
@@ -5629,6 +5643,7 @@
   }
 
   function resetHighlight() {
+    highlightActive = false;
     highlightGroup = null;
     highlightEdge = null;
     // Restore node colors
