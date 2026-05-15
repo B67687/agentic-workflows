@@ -1,61 +1,18 @@
 {
-  "session": 826,
-  "status": "verified-phase",
+  "session": 88,
+  "status": "in-progress",
   "interruptedCount": 0,
   "contextPressure": "healthy",
   "currentTask": {
-    "name": "Phase-gate.sh --check-quality now auto-runs constitution + decision pipeline",
-    "status": "done",
-    "goal": "Make --check-quality the single comprehensive flag: runs constitution gates, gate plugins, and decision pipeline automatically at every phase-gate invocation."
+    "name": "Integration Test",
+    "status": "started",
+    "goal": ""
   },
   "whatChanged": [
-    "phase-gate.sh --check-quality now auto-runs constitution gates for the phase transition",
-    "phase-gate.sh --check-quality now auto-runs the decision pipeline (research->plan, plan->implement, implement->verify)",
-    "Constitution gate failure now sets OVERALL_RESULT so exit code matches combined result",
-    "STATE_FILE defined early in phase-gate.sh for decision pipeline task extraction"
+    "test entry"
   ],
-  "filesTouched": [
-    "scripts/phase-gate.sh (--check-quality now comprehensive: constitution + gates + pipeline)"
-  ],
-  "verification": [
-    "phase-gate.sh plan --check-quality runs constitution + catfish + scope-check + research->plan pipeline",
-    "phase-gate.sh implement --check-quality runs constitution + 5 gate plugins + plan->implement pipeline",
-    "Constitution BLOCK correctly propagates to OVERALL_RESULT (exit 1)"
-  ],
-  "keyLearnings": [
-    "Making --check-quality the single comprehensive flag reduces agent cognitive load: one flag does everything",
-    "The constitution gate and decision pipeline were parallel tracks that should have been integrated from the start"
-  ],
-  "residualRisk": "Full-stream MCP interface not yet integrated with gate/decision infrastructure. session-state.json gets overwritten on every new session start (bare template pattern).",
-  "immediateNextSteps": [
-    "Integrate full-stream MCP interface (serve-mcp.py) with gate/decision pipeline",
-    "Fix session-state.json persistence issue (keep getting overwritten to bare template)",
-    "Investigate tools.toml tool count drift (3 pre-existing test failures)"
-  ],
-  "resumeRules": [
-    "Gate plugins: phase-gate.sh <phase> --check-quality auto-discovers from scripts/gates/<phase>/*.sh",
-    "Autonomy cascade: autonomy-gate.sh start | adjust | status",
-    "Decision pipeline: decision-pipeline.sh <from->to> chains gates at phase transitions",
-    "Dashboard: bash scripts/session-dashboard.sh [--json|--watch]",
-    "Error cooldown: error-counter.sh increment <op> [--retry-after N]",
-    "--check-quality now comprehensive: runs constitution + gates + pipeline in one flag"
-  ],
-  "doNotRepeat": [],
-  "lastRetrospect": "2026-05-15T21:00:00Z",
-  "learningsCount": 38,
-  "contextMetrics": {
-    "last": {
-      "status": "HEALTHY",
-      "score": 1,
-      "signals": {
-        "session_age_hours": 3,
-        "commits_today": 19,
-        "dirty_count": 1,
-        "dirty_new": 0,
-        "dirty_modified": 1,
-        "context_pressure": "healthy"
-      }
-    },
-    "trend": "stable"
-  }
+  "verification": [],
+  "keyLearnings": [],
+  "residualRisk": "",
+  "immediateNextSteps": []
 }

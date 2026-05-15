@@ -13,9 +13,9 @@
 
 # Metadata
 [registry]
-version = "1.0"
+version = "1.1"
 updated = "2026-05-15"
-tool_count = 95
+tool_count = 130
 command_count = 14
 binary_count = 6
 description = "Agentic Workflows --- agent harness tool registry"
@@ -445,6 +445,45 @@ category = "session"
 path = "scripts/prompt-contract.sh"
 type = "script"
 phases = ["plan", "implement", "verify"]
+
+[[tool]]
+name = "session-sync"
+description = "Session state auto-sync. Updates session-state.json from runtime events. start/update/append/phase/status"
+category = "session"
+path = "scripts/session-sync.sh"
+type = "script"
+phases = ["session"]
+
+[[tool]]
+name = "feedback-aggregator"
+description = "Cross-turn quality feedback aggregator. Records quality gate results, detects recurring failures"
+category = "quality"
+path = "scripts/feedback-aggregator.sh"
+type = "script"
+phases = ["verify"]
+
+[[tool]]
+name = "serve-mcp"
+description = "MCP stdio server launcher. Run with --check for validation, --mcp-add-self for DeepSeek-TUI config"
+category = "utility"
+path = "scripts/serve-mcp.sh"
+type = "script"
+
+[[tool]]
+name = "phase-safeguards"
+description = "Auto-trigger cognitive safeguards at phase transitions. Runs plan-challenge.sh, decision.sh, triple-debt.sh"
+category = "workflow"
+path = "scripts/phase-safeguards.sh"
+type = "script"
+phases = ["plan", "implement", "verify"]
+
+[[tool]]
+name = "test-mcp-client"
+description = "MCP client simulation test. 71-test protocol validation suite for serve-mcp.py"
+category = "quality"
+path = "scripts/test-mcp-client.py"
+type = "script"
+python = true
 
 # =============================================================================
 # GIT TOOLS
@@ -885,6 +924,14 @@ type = "hook"
 # =============================================================================
 
 [[tool]]
+name = "task-decompose"
+description = "Decompose plan artifacts into a structured task graph with dependencies, file paths, and verification targets"
+category = "workflow"
+path = "scripts/task-decompose.sh"
+type = "script"
+phases = ["plan"]
+
+[[tool]]
 name = "goal-decompose"
 description = "Decompose a high-level goal into a safety-gated pipeline with budget limits and human gates"
 category = "productivity"
@@ -898,6 +945,27 @@ description = "Companion script for systems-health skill. Runs system health che
 category = "quality"
 path = "scripts/systems-health.sh"
 type = "script"
+
+[[tool]]
+name = "tap-audit"
+description = "TAP (Timing-Accountability-Priority) audit companion. Assesses project delivery cadence"
+category = "utility"
+path = "scripts/tap-audit.sh"
+type = "script"
+
+[[tool]]
+name = "tap-retrospective"
+description = "TAP retrospective companion. Structured post-task reflection with learning capture"
+category = "utility"
+path = "scripts/tap-retrospective.sh"
+type = "script"
+
+[[tool]]
+name = "propagation-contract"
+description = "[INTERNAL] Propagation ownership contract — sourced by propagate-to-all.sh"
+category = "utility"
+path = "scripts/propagation-contract.sh"
+type = "internal"
 
 [[tool]]
 name = "ws"
