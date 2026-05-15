@@ -236,6 +236,8 @@ check_source_citation() {
           [[ -z "$ref" ]] && continue
           # Skip self-references
           echo "$ref" | grep -qE '^B67687/' && continue
+          # Skip internal path prefixes (scripts/, skills/, docs/, etc.)
+          echo "$ref" | grep -qE '^(scripts|skills|docs|research|commands|workflow)/' && continue
           # Skip file path patterns
           echo "$ref" | grep -qE '/\.' && continue
           # Skip if second part has a file extension (internal paths, not repos)

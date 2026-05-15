@@ -166,7 +166,7 @@ echo "Reason: $reason"
 echo "Next: $next"
 
 # ---------------------------------------------------------------------------
-# Quality checks (--check-quality or --all-checks)
+# Quality checks via plugin discovery (--check-quality or --all-checks)
 # ---------------------------------------------------------------------------
 if [[ "$CHECK_QUALITY" != true ]] && [[ "$ALL_CHECKS" != true ]]; then
   exit 0
@@ -174,105 +174,52 @@ fi
 
 echo ""
 echo "--- Phase Quality Checks ---"
+echo "  Phase: $PHASE"
+echo ""
 
-case "$PHASE" in
-  plan)
-    # Research -> Plan: check research sufficiency
-    echo "  Phase: research -> plan"
-    echo "  Quality checks: research sufficiency"
+# Discover gate plugins for this phase
+GATE_DIR="$REPO_ROOT/scripts/gates/$PHASE"
+OVERALL_RESULT=0
+PLUGIN_COUNT=0
+PASS_COUNT=0
+WARN_COUNT=0
+FAIL_COUNT=0
+SKIP_COUNT=0
 
-    # Find most recent .md in .runtime/ or repo root that looks like a research note
-    research_note=""
-    for candidate in "$REPO_ROOT"/research/*.md; do
-      if [[ -f "$candidate" ]]; then
-        research_note="$candidate"
-      fi
-    done
+if [[ -d "$GATE_DIR" ]]; then
+  for plugin in "$GATE_DIR"/*.sh; do
+    [[ ! -f "$plugin" ]] && continue
+    PLUGIN_COUNT=$((PLUGIN_COUNT + 1))
 
-    rs="$SCRIPT_DIR/research-sufficiency.sh"
-    if [[ -n "$research_note" ]] && [[ -f "$rs" ]]; then
-      echo ""
-      bash "$rs" note "$research_note" 2>/dev/null || true
-    else
-      echo "  SKIP   research-sufficiency.sh not available or no research note found"
-      echo "  Run:   bash scripts/research-sufficiency.sh assess --research-note <file>"
-    fi
-    ;;
+    # Run the plugin, capture its exit code
+    set +e
+    bash "$plugin" 2>/dev/null
+    rc=$?
+    set -e
 
-  implement)
-    # Plan -> Implement: check comprehension + CATFISH reconcile + decision
-    echo "  Phase: plan -> implement"
-    echo "  Quality checks: comprehension evidence, CATFISH reconcile, decision log"
+    case $rc in
+      0) PASS_COUNT=$((PASS_COUNT + 1)) ;;
+      1) FAIL_COUNT=$((FAIL_COUNT + 1)); OVERALL_RESULT=1 ;;
+      2) WARN_COUNT=$((WARN_COUNT + 1)); [[ "$OVERALL_RESULT" -eq 0 ]] && OVERALL_RESULT=2 ;;
+      3) SKIP_COUNT=$((SKIP_COUNT + 1)) ;;
+      *) echo "    ? UNKNOWN (exit $rc)"; SKIP_COUNT=$((SKIP_COUNT + 1)) ;;
+    esac
     echo ""
+  done
+fi
 
-    # Comprehension evidence
-    cg="$SCRIPT_DIR/comprehension-gate.sh"
-    if [[ -f "$cg" ]] && [[ -f "$RUNTIME_DIR/comprehension-evidence.md" ]]; then
-      bash "$cg" verify "$RUNTIME_DIR/comprehension-evidence.md" 2>/dev/null || true
-    else
-      echo "  SKIP   comprehension evidence --- run: comprehension-gate.sh extract <instruction-file>"
-    fi
+if [[ "$PLUGIN_COUNT" -eq 0 ]]; then
+  echo "  No gate plugins found for phase '$PHASE'"
+  echo "  Create scripts/gates/$PHASE/<name>.sh to add checks"
+  echo "  (This is not an error --- the phase has no gates defined)"
+fi
 
-    echo ""
+# Summary line
+echo "  ───────────────────────────────────────────"
+echo "  Gates: $PLUGIN_COUNT total"
+echo "    ✓ Pass: $PASS_COUNT"
+echo "    ⚠ Warn: $WARN_COUNT"
+echo "    ✗ Fail: $FAIL_COUNT"
+echo "    -- Skip: $SKIP_COUNT"
 
-    # CATFISH reconcile
-    pc="$SCRIPT_DIR/plan-challenge.sh"
-    if [[ -f "$RUNTIME_DIR/challenge-response.json" ]]; then
-      echo "  CATFISH reconcile:"
-      if [[ -f "$pc" ]]; then
-        bash "$pc" reconcile \
-          --plan "$RUNTIME_DIR/plan.json" \
-          --response "$RUNTIME_DIR/challenge-response.json" 2>/dev/null || true
-      fi
-    else
-      echo "  SKIP   CATFISH reconcile --- run: plan-guard.sh --challenge then dispatch subagent"
-    fi
-
-    echo ""
-
-    # Decision log check
-    if [[ -f "$RUNTIME_DIR/decision-log.jsonl" ]]; then
-      pending
-      pending=$(grep -c 'PENDING_\|status.*pending' "$RUNTIME_DIR/decision-log.jsonl" 2>/dev/null || echo 0)
-      if [[ "$pending" -gt 0 ]]; then
-        echo "  WARN   $pending unresolved decision(s) --- run: decision.sh audit --failed"
-      else
-        echo "  OK     No pending decisions"
-      fi
-    fi
-
-    echo ""
-
-    # Autonomy gate
-    ag="$SCRIPT_DIR/autonomy-gate.sh"
-    if [[ -f "$ag" ]]; then
-      echo "  Autonomy assessment:"
-      bash "$ag" quick 2>/dev/null || true
-    fi
-    ;;
-
-  review)
-    # Implement -> Review: check quality-speed gate
-    echo "  Phase: implement -> review"
-    echo "  Quality checks: verification depth recommendation"
-    echo ""
-
-    qsg="$SCRIPT_DIR/quality-speed-gate.sh"
-    if [[ -f "$qsg" ]]; then
-      echo "  Recommended verification depth:"
-      bash "$qsg" quick 2>/dev/null || true
-    else
-      echo "  Run:   quality-speed-gate.sh assess --changed-lines N --files N"
-    fi
-    ;;
-
-  research)
-    # No quality checks needed entering research
-    echo "  Phase: (any) -> research"
-    echo "  Quality checks: none --- research is always the safe entry lane"
-    echo "  Remember to produce a structured research note with:"
-    echo "    - Source URLs and confidence levels"
-    echo "    - Gaps and uncertainty section"
-    echo "    - Pre-research expectation vs actual findings"
-    ;;
-esac
+exit "$OVERALL_RESULT"
