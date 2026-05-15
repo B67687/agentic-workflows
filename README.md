@@ -22,6 +22,10 @@
   <a href="https://github.com/B67687/agentic-workflows/pulls"><img src="https://img.shields.io/github/issues-pr/B67687/agentic-workflows?style=flat-square" alt="PRs"></a>
   <a href="https://github.com/B67687/agentic-workflows/graphs/commit-activity"><img src="https://img.shields.io/github/commit-activity/m/B67687/agentic-workflows?style=flat-square" alt="Commits per month"></a>
   <a href="https://github.com/B67687/agentic-workflows/commits/main"><img src="https://img.shields.io/github/commit-activity/t/B67687/agentic-workflows?style=flat-square&label=total%20commits" alt="Total Commits"></a>
+  <br>
+  <a href="https://b67687.github.io/agentic-workflows/stats/#installs"><img src="https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/B67687/fed5bb761c0f8fa03776d33187d49435/raw/installs.json" alt="Installs"></a>
+  <a href="https://b67687.github.io/agentic-workflows/stats/#views"><img src="https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/B67687/fed5bb761c0f8fa03776d33187d49435/raw/views.json" alt="Views"></a>
+  <a href="https://b67687.github.io/agentic-workflows/stats/#installs"><img src="https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/B67687/fed5bb761c0f8fa03776d33187d49435/raw/clones.json" alt="Clones"></a>
   <br><br>
   <img src="docs/typing-animation.svg" width="100%" alt="Typing animation" style="max-width:760px;">
 </p>
