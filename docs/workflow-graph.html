@@ -5588,18 +5588,64 @@
     const hasEdgeFilter = highlightEdge !== null;
     const anyFilter = hasNodeFilter || hasEdgeFilter;
 
+    // Determine which nodes and edges should stay visible
+    let visibleNodeIds = null;   // null = all visible
+    let visibleEdgeIndices = null;
+
+    if (hasEdgeFilter) {
+      // Edge filter: edges of this type + their connected nodes stay visible
+      visibleEdgeIndices = new Set();
+      const connectedNodes = new Set();
+      EDGES.forEach(function(e, i) {
+        if (e.hidden) return;
+        const eType = edgeLegendType(e);
+        if (eType === highlightEdge) {
+          visibleEdgeIndices.add(i);
+          connectedNodes.add(e.from);
+          connectedNodes.add(e.to);
+        }
+      });
+      visibleNodeIds = connectedNodes;
+    }
+
+    if (hasNodeFilter) {
+      // Node filter: nodes of this group + edges connected to them stay visible
+      const groupNodes = new Set();
+      NODES.forEach(function(n) {
+        if (n.group === highlightGroup) groupNodes.add(n.id);
+      });
+      if (visibleNodeIds === null) {
+        visibleNodeIds = groupNodes;
+      }
+      // Only intersect if edge filter was already set
+      if (visibleEdgeIndices !== null) {
+        const intersection = new Set();
+        visibleNodeIds.forEach(function(id) {
+          if (groupNodes.has(id)) intersection.add(id);
+        });
+        visibleNodeIds = intersection;
+      }
+      if (visibleEdgeIndices === null) {
+        visibleEdgeIndices = new Set();
+        EDGES.forEach(function(e, i) {
+          if (e.hidden) return;
+          if (groupNodes.has(e.from) || groupNodes.has(e.to)) {
+            visibleEdgeIndices.add(i);
+          }
+        });
+      }
+    }
+
     // Save original colors for all nodes
     NODES.forEach(function(n) { saveOrigColor(n.id); });
 
-    // Apply toggling to nodes: if a node filter is active, dim non-matching nodes;
-    // if only an edge filter is active, dim ALL nodes.
+    // Apply toggling to nodes
     NODES.forEach(function(n) {
-      const match = hasNodeFilter ? n.group === highlightGroup : false;
-      const shouldDim = anyFilter && !match;
+      const match = visibleNodeIds === null || visibleNodeIds.has(n.id);
       const color = origColors.get(n.id);
       if (!color) return;
       const newColor = JSON.parse(JSON.stringify(color));
-      if (shouldDim) {
+      if (!match) {
         newColor.background = 'rgba(20,24,30,0.06)';
         newColor.border = 'rgba(40,48,60,0.15)';
         newColor.highlight = { background: 'rgba(20,24,30,0.1)', border: 'rgba(40,48,60,0.2)' };
@@ -5607,18 +5653,15 @@
       data.nodes.update({ id: n.id, color: newColor });
     });
 
-    // Apply toggling to edges: if an edge filter is active, dim non-matching edges;
-    // if only a node filter is active, dim ALL edges.
-    EDGES.forEach(function(e) {
+    // Apply toggling to edges
+    EDGES.forEach(function(e, i) {
       if (e.hidden) return;
-      const eType = edgeLegendType(e);
-      const matchEdge = hasEdgeFilter ? eType === highlightEdge : false;
-      const shouldDim = anyFilter && !matchEdge;
       if (!e._origColor) {
         e._origColor = JSON.parse(JSON.stringify(e.color));
         e._origWidth = e.width;
       }
-      if (shouldDim) {
+      const match = visibleEdgeIndices === null || visibleEdgeIndices.has(i);
+      if (!match) {
         e.color = { color: 'rgba(20,24,30,0.02)' };
         e.width = 0.1;
       } else {

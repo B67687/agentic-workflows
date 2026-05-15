@@ -260,6 +260,59 @@ assert_output_contains "search-index.sh finds content" \
 assert_file_exists "sync-commands.sh is executable" \
   "scripts/sync-commands.sh"
 
+# ═══════════════════════════════════════════════════════════════════════
+# Workflow graph regression tests
+# ═══════════════════════════════════════════════════════════════════════
+
+WGF="workflow-graph.html"
+
+if [ -f "$WGF" ]; then
+  # 1. Zoom limits present
+  assert_file_contains "wg: zoom MIN_ZOOM defined" "$WGF" "MIN_ZOOM = 0.12"
+  assert_file_contains "wg: zoom MAX_ZOOM defined" "$WGF" "MAX_ZOOM = 4.0"
+  assert_file_contains "wg: zoom uses zoomIn/zoomOut not moveTo" "$WGF" "zoomIn(MIN_ZOOM"
+  assert_file_contains "wg: zoom has re-entrance guard" "$WGF" "zoomCorrecting"
+
+  # 2. Legend has data attributes for highlight
+  assert_file_contains "wg: legend-item has data-legend-group" "$WGF" "data-legend-group="
+  assert_file_contains "wg: legend-edge-item has data-legend-edge" "$WGF" "data-legend-edge="
+
+  # 3. Legend dimming + highlight logic
+  assert_file_contains "wg: applyHighlight function" "$WGF" "function applyHighlight"
+  assert_file_contains "wg: resetHighlight function" "$WGF" "function resetHighlight"
+  assert_file_contains "wg: highlightActive flag" "$WGF" "highlightActive"
+  assert_file_contains "wg: hover disabled when highlight active" "$WGF" "if (highlightActive) return;"
+
+  # 4. Smart connected-node/edge dimming
+  assert_file_contains "wg: connected nodes from edge filter" "$WGF" "connectedNodes.add(e.from)"
+  assert_file_contains "wg: connected edges from node filter" "$WGF" "visibleEdgeIndices"
+  assert_file_contains "wg: edge LegendType helper" "$WGF" "function edgeLegendType"
+
+  # 5. SVG companion exists and is valid
+  if [ -f "workflow-graph.svg" ]; then
+    if python3 -c "import xml.etree.ElementTree as ET; ET.parse('workflow-graph.svg')" 2>/dev/null; then
+      test_pass "wg: SVG is valid XML"
+    else
+      test_fail "wg: SVG XML is invalid"
+    fi
+  else
+    test_fail "wg: SVG file missing"
+  fi
+
+  # 6. Generator script executable
+  assert_file_exists "wg: workflow-graph.py exists" "scripts/workflow-graph.py"
+  assert_file_exists "wg: workflow-graph.sh exists" "scripts/workflow-graph.sh"
+
+  # 7. docs/ copy exists for GitHub Pages
+  assert_file_exists "wg: docs/workflow-graph.html exists for Pages" "docs/workflow-graph.html"
+
+  # 8. README has the correct Workflows section
+  assert_file_contains "wg: README links SVG in workflows section" "README.md" "workflow-graph.svg"
+  assert_file_contains "wg: README links to hosted interactive" "README.md" "b67687.github.io/agentic-workflows/workflow-graph.html"
+else
+  test_skip "workflow-graph.html not generated (run 'bash scripts/workflow-graph.sh' first)"
+fi
+
 echo ""
 echo "--- Results ---"
 echo "  Pass: $PASS"
