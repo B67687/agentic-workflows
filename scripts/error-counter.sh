@@ -60,6 +60,14 @@ Usage:
   error-counter.sh context <operation>
     Output compact XML error context for LLM consumption.
 
+  error-counter.sh decide <operation>
+    Classify failure type and get recommended next action.
+    Outputs structured template: agent chooses C/S/E and records via 'classify'.
+
+  error-counter.sh classify <operation> <C|S|E> [--note "..."]
+    Record failure classification. C=comprehension, S=strategy, E=environment.
+    Logs decision to .runtime/error-counter/decisions/ for audit trail.
+
   error-counter.sh list
     Show all tracked operations.
 
@@ -224,6 +232,154 @@ do_reset() {
   fi
 }
 
+# ---------------------------------------------------------------------------
+# Post-failure decision support (QSAF-inspired failure classification)
+# ---------------------------------------------------------------------------
+
+do_decide() {
+  local operation="$1"
+  local file
+  file=$(counter_path "$operation")
+
+  if [ ! -f "$file" ]; then
+    echo "No error counter found for: $operation"
+    echo "Run: error-counter.sh increment '$operation' first"
+    return 1
+  fi
+
+  # Read error context
+  echo ""
+  echo "=========================================="
+  echo "  Post-Failure Decision"
+  echo "=========================================="
+  echo ""
+
+  python3 - "$file" "$THRESHOLD" <<'PY'
+import json, sys, time
+
+with open(sys.argv[1]) as f:
+    d = json.load(f)
+
+threshold = int(sys.argv[2])
+count = d.get("count", 0)
+error = d.get("last_error", "")[:300]
+ts = d.get("last_failure", "")
+op = d.get("operation", "?")
+created = d.get("created", "")
+
+print(f"Operation:    {op}")
+print(f"Failures:     {count}/{threshold}")
+print(f"Last failure: {ts}")
+print(f"")
+print(f"Last error:")
+for line in error.split("\n"):
+    print(f"  | {line}")
+print(f"")
+
+print(f"--- Failure Classification ---")
+print(f"")
+print(f"Three types of failure require different responses:")
+print(f"")
+print(f"  (C) Comprehension failure --- the agent didn't understand the task,")
+print(f"      context, or constraints. Error shows misunderstanding of")
+print(f"      requirements, wrong approach from the start, or missing")
+print(f"      context.")
+print(f"      -> Retry with expanded context (re-read instructions, add error details)")
+print(f"")
+print(f"  (S) Strategy failure --- the agent understood the task but chose")
+print(f"      the wrong approach. Error shows correct intent, wrong")
+print(f"      implementation, or incorrect tool choice.")
+print(f"      -> Change strategy (switch approach, document why previous failed)")
+print(f"")
+print(f"  (E) Environment failure --- external dependency is broken, tooling")
+print(f"      is unavailable, permissions are wrong, or infrastructure")
+print(f"      is down.")
+print(f"      -> Escalate (retrying won't help)")
+print(f"")
+
+PY
+
+  local decision_log="$COUNTER_DIR/decisions"
+  mkdir -p "$decision_log"
+  local existing
+  existing=$(ls "$decision_log"/"$(echo "$operation" | tr ' /' '__')"*.json 2>/dev/null | head -1 || echo "")
+  if [ -n "$existing" ]; then
+    echo "  Previous decision found: $existing"
+    cat "$existing" | python3 -c "
+import json, sys
+d = json.load(sys.stdin)
+print(f'  Previous classification: {d.get(\"classification\",\"?\")} on {d.get(\"timestamp\",\"?\")}')
+" 2>/dev/null || true
+  fi
+
+  echo ""
+  echo "Record your classification:"
+  echo "  bash error-counter.sh classify $operation <C|S|E> [--note \"...\"]"
+}
+
+do_classify() {
+  local operation="$1"
+  local classification="${2:-}"
+  local note=""
+
+  shift 2 2>/dev/null || true
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      --note) note="$2"; shift 2 ;;
+      *) echo "Unknown: $1" >&2; return 2 ;;
+    esac
+  done
+
+  if [ -z "$classification" ] || ! echo "C S E c s e" | grep -q "$classification"; then
+    echo "ERROR: classification must be C (comprehension), S (strategy), or E (environment)" >&2
+    return 2
+  fi
+
+  # Normalize to uppercase
+  classification=$(echo "$classification" | tr '[:lower:]' '[:upper:]')
+
+  local file
+  file=$(counter_path "$operation")
+
+  local decision_dir="$COUNTER_DIR/decisions"
+  mkdir -p "$decision_dir"
+  local timestamp
+  timestamp=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+  local decision_file="$decision_dir/$(echo "$operation" | tr ' /' '__')-$timestamp.json"
+
+  local failure_type=""
+  local recommendation=""
+  case "$classification" in
+    C)
+      failure_type="comprehension"
+      recommendation="retry with expanded context"
+      ;;
+    S)
+      failure_type="strategy"
+      recommendation="change approach"
+      ;;
+    E)
+      failure_type="environment"
+      recommendation="escalate to human"
+      ;;
+  esac
+
+  cat > "$decision_file" <<EOF
+{
+  "operation": $(echo "$operation" | python3 -c "import sys,json; print(json.dumps(sys.stdin.read().strip()))"),
+  "classification": "$classification",
+  "failure_type": "$failure_type",
+  "recommendation": "$recommendation",
+  "note": $(echo "$note" | python3 -c "import sys,json; print(json.dumps(sys.stdin.read().strip() if sys.stdin.read().strip() else ''))" || echo "\"\""),
+  "timestamp": "$timestamp"
+}
+EOF
+
+  echo "Classified: $operation -> $failure_type failure"
+  echo "Recommendation: $recommendation"
+  echo "Logged: $decision_file"
+}
+
 do_context() {
   local operation="$1"
   local file
@@ -323,12 +479,15 @@ case "$CMD" in
     fi
     do_reset "$1"
     ;;
+  decide)
+    do_decide "$1"
+    ;;
+
+  classify)
+    do_classify "$@"
+    ;;
+
   context)
-    if [ $# -lt 1 ]; then
-      echo "ERROR: operation name required" >&2
-      usage >&2
-      exit 2
-    fi
     do_context "$1"
     ;;
   list)
