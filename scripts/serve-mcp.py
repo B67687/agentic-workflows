@@ -304,7 +304,7 @@ def _run_gate_plugin(phase, name):
 def _run_quality_gate(gate_name):
     """Run a named quality gate and return structured results."""
     gate_scripts = {
-        "quality": "scripts/test-smoke.sh",
+        "quality": "scripts/hooks/quality-gate.sh",
         "constitution": "scripts/constitution.sh check",
         "comprehension": "scripts/comprehension-gate.sh verify",
         "preflight": "scripts/implement-preflight.sh",
@@ -325,8 +325,11 @@ def _run_quality_gate(gate_name):
     extra_args = parts[1:]
 
     cmd = [str(script_path)] + extra_args
+    env = os.environ.copy()
+    if gate_name == "quality":
+        env["COMPACT"] = "1"
     try:
-        result = subprocess.run(cmd, capture_output=True, text=True, timeout=60)
+        result = subprocess.run(cmd, capture_output=True, text=True, timeout=60, env=env)
         return {
             "gate": gate_name,
             "passed": result.returncode == 0,
