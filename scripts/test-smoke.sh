@@ -547,6 +547,67 @@ assert_output_not_contains "gate plugin: quality section absent without flag" \
   "bash scripts/phase-gate.sh plan --research-done 2>&1" \
   "Phase Quality Checks"
 
+# ===========================================================================
+echo ""
+echo "--- P13: Error Counter Cooldown ---"
+
+# Clean up any leftover test state
+rm -f .runtime/error-counter/cd-*.json .runtime/error-counter/escalations/cd-*.json 2>/dev/null || true
+
+# Test 1: Default cooldown after first increment (30s = COOLDOWN_BASE * 2^0)
+assert_output_contains "cooldown: first increment shows 30s" \
+  "bash scripts/error-counter.sh increment cd-basic 'test error' 2>&1" \
+  "Cooldown: 30s"
+
+# Test 2: Exponential backoff on second increment (60s = 30 * 2^1)
+assert_output_contains "cooldown: second increment shows 60s" \
+  "bash scripts/error-counter.sh increment cd-basic 'second error' 2>&1" \
+  "Cooldown: 60s"
+
+# Test 3: Check shows cooldown status
+assert_output_contains "cooldown: check shows ACTIVE" \
+  "bash scripts/error-counter.sh check cd-basic 2>&1" \
+  "Cooldown: ACTIVE"
+
+# Test 4: --retry-after override (120s instead of default 30s)
+assert_output_contains "cooldown: retry-after uses 120s" \
+  "bash scripts/error-counter.sh increment cd-retry 'rate limited' --retry-after 120 2>&1" \
+  "Cooldown: 120s"
+
+# Test 5: List shows cooldown badge (use separate ops so leftover escalation doesn't interfere)
+assert_output_contains "cooldown: list has CD badge" \
+  "bash scripts/error-counter.sh list 2>&1; true" \
+  "CD:"
+
+# Test 6-7: Escalation + cooldown at threshold (third increment triggers it)
+# ramp the counter to 3 in sequence, then check the third output
+ESC_OUTPUT=$(bash scripts/error-counter.sh increment cd-esc 'fail 1' 2>&1 && bash scripts/error-counter.sh increment cd-esc 'fail 2' 2>&1 && bash scripts/error-counter.sh increment cd-esc 'fail 3' 2>&1) || true
+assert_output_contains "cooldown: escalation at threshold" \
+  "echo \"$ESC_OUTPUT\"" \
+  "Escalating to human"
+assert_output_contains "cooldown: shows 120s during escalation" \
+  "echo \"$ESC_OUTPUT\"" \
+  "Cooldown: 120s"
+
+# Test 8: Backoff persists across multiple increments on same operation
+PERSIST_OUTPUT=$(bash scripts/error-counter.sh increment cd-persist 'first' 2>&1 && bash scripts/error-counter.sh increment cd-persist 'second' 2>&1 && bash scripts/error-counter.sh increment cd-persist 'third' 2>&1) || true
+assert_output_contains "cooldown: third increment 120s = 30*2^2" \
+  "echo \"$PERSIST_OUTPUT\"" \
+  "Cooldown: 120s"
+
+# Reset all test counters
+for op in cd-basic cd-retry cd-esc cd-persist; do
+  bash scripts/error-counter.sh reset "$op" 2>/dev/null || true
+done
+
+# Cleanup trace files
+rm -f .runtime/error-counter/cd-*.json .runtime/error-counter/escalations/cd-*.json 2>/dev/null || true
+
+# Test 9: Check shows no errors after reset
+assert_output_contains "cooldown: check reports no errors after reset" \
+  "bash scripts/error-counter.sh check cd-basic 2>&1" \
+  "No errors recorded"
+
 echo ""
 
 echo ""
