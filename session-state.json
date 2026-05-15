@@ -1,62 +1,18 @@
 {
-  "session": 851,
-  "status": "verified-phase",
+  "session": 856,
+  "status": "in-progress",
   "interruptedCount": 0,
   "contextPressure": "healthy",
   "currentTask": {
-    "name": "9Router complete: 5 structural upgrades + full integration + MCP exposure + 115 test suite",
-    "status": "done",
-    "goal": "Complete comparative analysis of agentic-workflows vs 9Router. Implement 5 structural upgrades (gate plugins, dynamic autonomy, decision pipeline, cooldown/backoff, session dashboard). Wire all tools into commands, AGENTS.md, workflow.md. Integrate constitution auto-gating. Expose all gate infrastructure via MCP. Add smoke tests."
+    "name": "Integration Test",
+    "status": "started",
+    "goal": ""
   },
   "whatChanged": [
-    "session-state.json populated with full session data (was bare template)",
-    "See prior sessions for the full change history across all 5 upgrades + integration work"
+    "test entry"
   ],
-  "filesTouched": [
-    "session-state.json (populated)"
-  ],
-  "verification": [
-    "115 tests pass, 0 fail",
-    "0 dirty files",
-    "On main, 5 commits ahead of origin/main"
-  ],
-  "keyLearnings": [
-    "Session-state.json keeps getting overwritten to bare template on new session start (session-start.sh behavior). Fix by checking session-state.json first on resume and repopulating if empty.",
-    "Previous learnings from prior sessions are summarized in the HEAD commit series"
-  ],
-  "residualRisk": "5 unpushed commits ahead of origin/main. The 3 pre-existing test failures appear resolved in intervening commits. Session-state.json bare-template issue persists across session resets.",
-  "immediateNextSteps": [
-    "Push 5 unpushed commits to origin/main",
-    "Consider: fix session-start.sh to preserve session-state.json across resets",
-    "Consider: HTTP wrapper mode for MCP server (non-stdio clients)",
-    "Consider: wire session-dashboard.sh into session-start hook"
-  ],
-  "resumeRules": [
-    "115 tests, all pass, repo clean",
-    "MCP: 61+ resources including gate://, state://dashboard, state://autonomy, methodology://gate-plugins",
-    "MCP pipeline: pipeline/run with transition + task params",
-    "Gate: phase-gate.sh <phase> --check-quality (comprehensive: constitution + gates + pipeline)",
-    "Autonomy: autonomy-gate.sh start | adjust | status",
-    "Dashboard: session-dashboard.sh [--json|--watch]",
-    "Error cooldown: error-counter.sh with exponential backoff"
-  ],
-  "doNotRepeat": [
-    "Session-state.json gets overwritten on every session reset — always check and repopulate before compacting"
-  ],
-  "lastRetrospect": "2026-05-15T23:30:00Z",
-  "learningsCount": 42,
-  "contextMetrics": {
-    "last": {
-      "status": "HEALTHY",
-      "score": 1,
-      "signals": {
-        "commits_today": 23,
-        "dirty_count": 0,
-        "dirty_new": 0,
-        "dirty_modified": 0,
-        "context_pressure": "healthy"
-      }
-    },
-    "trend": "stable"
-  }
+  "verification": [],
+  "keyLearnings": [],
+  "residualRisk": "",
+  "immediateNextSteps": []
 }

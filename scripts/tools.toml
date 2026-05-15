@@ -13,9 +13,9 @@
 
 # Metadata
 [registry]
-version = "1.1"
+version = "1.2"
 updated = "2026-05-15"
-tool_count = 130
+tool_count = 131
 command_count = 14
 binary_count = 6
 description = "Agentic Workflows --- agent harness tool registry"
@@ -1139,3 +1139,10 @@ description = "Classify, grill, shape, or slice a task before starting. Ambiguit
 category = "workflow"
 path = "commands/task.md"
 type = "command"
+
+[[tool]]
+name = "template-resolve"
+description = "Resolve template paths from priority stack (overrides > presets > extensions > core)"
+category = "utility"
+path = "scripts/template-resolve.sh"
+type = "script"

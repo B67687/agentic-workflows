@@ -18,6 +18,7 @@ Usage:
     python3 scripts/skill-toolset.py resource <name> <path> # L3 --- specific file
     python3 scripts/skill-toolset.py find <query>           # search by name/desc/pattern
     python3 scripts/skill-toolset.py info <name>            # detail for one skill (all metadata)
+    python3 scripts/skill-toolset.py template <cmd> [args]  # template resolution (priority stack)
 """
 
 import json
@@ -308,6 +309,27 @@ def cmd_info(args):
         print(f"  References: {len(refs)} files")
 
 
+def cmd_template(args):
+    """Template resolution via priority stack (delegates to template-resolve.sh).
+
+    Usage:
+        skill-toolset template find <name>    Resolve template path (first match by priority)
+        skill-toolset template list            List all templates with tier info
+        skill-toolset template show <name>     Print template content
+
+    Priority order: overrides > presets > extensions > core
+    """
+    script = pathlib.Path(__file__).resolve().parent / "template-resolve.sh"
+    if not script.exists():
+        print("ERROR: template-resolve.sh not found")
+        sys.exit(1)
+
+    import subprocess
+    cmd = [str(script)] + args
+    result = subprocess.run(cmd, capture_output=False)
+    sys.exit(result.returncode)
+
+
 def main():
     if len(sys.argv) < 2:
         print(__doc__.strip())
@@ -322,6 +344,7 @@ def main():
         "resource": cmd_resource,
         "find": cmd_find,
         "info": cmd_info,
+        "template": cmd_template,
     }
 
     if command not in commands:

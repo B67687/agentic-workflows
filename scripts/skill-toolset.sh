@@ -6,6 +6,7 @@
 #   L1 --- Metadata: list all skills with names and descriptions
 #   L2 --- Full load: load a skill's complete instructions
 #   L3 --- Resource:  load a specific file (reference, asset, script)
+#   Template --- Template resolution via priority stack (find/list/show)
 #
 # Delegates to skill-toolset.py for implementation.
 # =============================================================================
