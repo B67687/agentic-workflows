@@ -16,6 +16,19 @@ If `Implement decision: block`, do not implement. Send the task back exactly one
 
 If `Implement decision: caution`, fix the checkout state first or move the work into a worktree before implementing.
 
+### Decision Point
+
+Before implementing, evaluate the key approach decision if it wasn't already made during planning:
+
+```bash
+bash ./scripts/decision.sh evaluate \
+  "implementation strategy for this slice" \
+  --stakes medium \
+  --options "direct-edit,test-first,prototype-then-clean"
+```
+
+If the decision has multiple tradeoffs with no clear winner, use medium stakes (produces a weighted criteria matrix). If the path is clear, use low stakes (quick binary). If the decision is irreversible or costly, use high stakes (recommends multi-perspective review via counsel/parley).
+
 ### Comprehension Gate (Enforced Participation)
 
 Before implementing any task, the agent must demonstrate comprehension of the relevant instructions by producing a structured evidence file:

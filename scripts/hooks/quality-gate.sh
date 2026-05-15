@@ -345,6 +345,24 @@ check_ascii() {
   fi
 }
 
+check_pending_decisions() {
+  local decision_log="$REPO_ROOT/.runtime/decision-log.jsonl"
+
+  if [[ ! -f "$decision_log" ]]; then
+    return
+  fi
+
+  echo ":: Checking for unresolved decisions..."
+  local pending
+  pending=$(grep -c 'PENDING_\|status.*pending\|confidence.*null' "$decision_log" 2>/dev/null || echo 0)
+
+  if [[ "$pending" -gt 0 ]]; then
+    print_issue "WARN" "(session)" "$pending decision(s) still pending or unscored"
+    print_issue "WARN" "(session)" "  Review: bash scripts/decision.sh audit --failed"
+    print_issue "WARN" "(session)" "  Resolve: bash scripts/decision.sh log <id> <selected> --confidence N"
+  fi
+}
+
 check_comprehension_evidence() {
   local evidence_file="$REPO_ROOT/.runtime/comprehension-evidence.md"
 
@@ -398,6 +416,7 @@ check_source_citation
 check_ascii
 check_unaddressed_dissent
 check_comprehension_evidence
+check_pending_decisions
 
 echo ""
 echo "=========================================="

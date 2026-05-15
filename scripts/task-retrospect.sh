@@ -40,6 +40,16 @@ while [ $# -gt 0 ]; do
       awk '/^#!/{p=1;next} /^[^#]/ && p{exit} p{print}' "$0" | sed 's/^# \?//'
       exit 0
       ;;
+    --debt)
+      # Run triple debt assessment as part of retrospect
+      DEBT_SCRIPT="$(dirname "$0")/triple-debt.sh"
+      if [[ -f "$DEBT_SCRIPT" ]]; then
+        echo ""
+        bash "$DEBT_SCRIPT" assess
+        echo ""
+      fi
+      shift
+      ;;
     --session-end)
       MODE="session-end"
       ;;
