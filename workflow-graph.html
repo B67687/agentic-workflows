@@ -132,9 +132,21 @@
   }
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  .zoom-hint {
-    position: fixed; bottom: 62px; left: 16px; z-index: 100;
-    font-size: 8px; color: #484f58; pointer-events: none;
+  .legend-hint {
+    font-size: 8px; color: #484f58; margin-top: 5px; padding-top: 4px;
+    border-top: 1px solid rgba(255,255,255,0.04);
+    cursor: default;
+  }
+
+  .legend-item, .legend-edge-item {
+    cursor: pointer !important;
+    transition: opacity 0.2s;
+  }
+  .legend-item.dimmed, .legend-edge-item.dimmed {
+    opacity: 0.35;
+  }
+  .legend-item.active, .legend-edge-item.active {
+    opacity: 1;
   }
 </style>
 </head>
@@ -172,29 +184,31 @@
 
 <div class="legend">
   <h3>Node Types</h3>
-  <div class="legend-item"><div class="legend-dot" style="background:#2D7D9A"></div><span class="legend-label">Phase</span></div>
-<div class="legend-item"><div class="legend-dot" style="background:#D4943A"></div><span class="legend-label">Gate</span></div>
-<div class="legend-item"><div class="legend-dot" style="background:#7B5EA7"></div><span class="legend-label">Decision step</span></div>
-<div class="legend-item"><div class="legend-dot" style="background:#C74B4B"></div><span class="legend-label">Branch workflow</span></div>
-<div class="legend-item"><div class="legend-dot" style="background:#3D9E6A"></div><span class="legend-label">Agent / Persona</span></div>
-<div class="legend-item"><div class="legend-dot" style="background:#E8A838"></div><span class="legend-label">Entry point</span></div>
-<div class="legend-item"><div class="legend-dot" style="background:#C74B4B"></div><span class="legend-label">Pipeline step</span></div>
-<div class="legend-item"><div class="legend-dot" style="background:#2D7D9A"></div><span class="legend-label">Source dir</span></div>
-<div class="legend-item"><div class="legend-dot" style="background:#3D9E6A"></div><span class="legend-label">Target dir</span></div>
-<div class="legend-item"><div class="legend-dot" style="background:#C74B4B"></div><span class="legend-label">Ownership class</span></div>
-<div class="legend-item"><div class="legend-dot" style="background:#5A7A9A"></div><span class="legend-label">Topic folder</span></div>
-<div class="legend-item"><div class="legend-dot" style="background:#E8A838"></div><span class="legend-label">Check / status</span></div>
-<div class="legend-item"><div class="legend-dot" style="background:#8A7A5A"></div><span class="legend-label">Runtime harness</span></div>
-<div class="legend-item"><div class="legend-dot" style="background:#6A6A7A"></div><span class="legend-label">Start / End</span></div>
-<div class="legend-item"><div class="legend-dot" style="background:#5A7A9A"></div><span class="legend-label">Tool / Category</span></div>
+  <div class="legend-item" data-legend-group="phase"><div class="legend-dot" style="background:#2D7D9A"></div><span class="legend-label">Phase</span></div>
+<div class="legend-item" data-legend-group="gate"><div class="legend-dot" style="background:#D4943A"></div><span class="legend-label">Gate</span></div>
+<div class="legend-item" data-legend-group="decision"><div class="legend-dot" style="background:#7B5EA7"></div><span class="legend-label">Decision step</span></div>
+<div class="legend-item" data-legend-group="branch"><div class="legend-dot" style="background:#C74B4B"></div><span class="legend-label">Branch workflow</span></div>
+<div class="legend-item" data-legend-group="agent"><div class="legend-dot" style="background:#3D9E6A"></div><span class="legend-label">Agent / Persona</span></div>
+<div class="legend-item" data-legend-group="orchestrator"><div class="legend-dot" style="background:#E8A838"></div><span class="legend-label">Entry point</span></div>
+<div class="legend-item" data-legend-group="pipeline"><div class="legend-dot" style="background:#C74B4B"></div><span class="legend-label">Pipeline step</span></div>
+<div class="legend-item" data-legend-group="source"><div class="legend-dot" style="background:#2D7D9A"></div><span class="legend-label">Source dir</span></div>
+<div class="legend-item" data-legend-group="target"><div class="legend-dot" style="background:#3D9E6A"></div><span class="legend-label">Target dir</span></div>
+<div class="legend-item" data-legend-group="ownership"><div class="legend-dot" style="background:#C74B4B"></div><span class="legend-label">Ownership class</span></div>
+<div class="legend-item" data-legend-group="folder"><div class="legend-dot" style="background:#5A7A9A"></div><span class="legend-label">Topic folder</span></div>
+<div class="legend-item" data-legend-group="check"><div class="legend-dot" style="background:#E8A838"></div><span class="legend-label">Check / status</span></div>
+<div class="legend-item" data-legend-group="harness"><div class="legend-dot" style="background:#8A7A5A"></div><span class="legend-label">Runtime harness</span></div>
+<div class="legend-item" data-legend-group="start_end"><div class="legend-dot" style="background:#6A6A7A"></div><span class="legend-label">Start / End</span></div>
+<div class="legend-item" data-legend-group="script"><div class="legend-dot" style="background:#5A7A9A"></div><span class="legend-label">Tool / Category</span></div>
   <div class="legend-edge-section">
-    <div class="legend-edge-item"><span class="edge-swatch main"></span><span class="legend-label">Phase flow</span></div>
-    <div class="legend-edge-item"><span class="edge-swatch gate"></span><span class="legend-label">Gate check</span></div>
-    <div class="legend-edge-item"><span class="edge-swatch branch"></span><span class="legend-label">Branch flow</span></div>
-    <div class="legend-edge-item"><span class="edge-swatch dispatch"></span><span class="legend-label">Agent dispatch</span></div>
-    <div class="legend-edge-item"><span class="edge-swatch sync"></span><span class="legend-label">Sync / propagate</span></div>
-    <div class="legend-edge-item"><span class="edge-swatch rtn"></span><span class="legend-label">Return</span></div>
+    <div class="legend-edge-item" data-legend-edge="main_flow"><span class="edge-swatch main"></span><span class="legend-label">Phase flow</span></div>
+    <div class="legend-edge-item" data-legend-edge="gate_check"><span class="edge-swatch gate"></span><span class="legend-label">Gate check</span></div>
+    <div class="legend-edge-item" data-legend-edge="branch_to"><span class="edge-swatch branch"></span><span class="legend-label">Branch flow</span></div>
+    <div class="legend-edge-item" data-legend-edge="dispatches"><span class="edge-swatch dispatch"></span><span class="legend-label">Agent dispatch</span></div>
+    <div class="legend-edge-item" data-legend-edge="syncs"><span class="edge-swatch sync"></span><span class="legend-label">Sync / propagate</span></div>
+    <div class="legend-edge-item" data-legend-edge="returns"><span class="edge-swatch rtn"></span><span class="legend-label">Return</span></div>
+    <div class="legend-edge-item" data-legend-edge="all"><span class="edge-swatch main" style="border-top-color:#888;"></span><span class="legend-label">Show all</span></div>
   </div>
+  <div class="legend-hint">Click to highlight · scroll to zoom · drag to pan</div>
 </div>
 
 <div class="stats">
@@ -205,7 +219,6 @@
 <div class="physics-indicator" id="physicsIndicator">
   <span class="dot alive" id="physicsDot"></span><span id="physicsLabel">alive</span>
 </div>
-<div class="zoom-hint">Scroll to zoom · Drag to pan · Click for info</div>
 
 <script>
 (function() {
@@ -2913,7 +2926,8 @@
         "enabled": true,
         "scaleFactor": 0.7
       }
-    }
+    },
+    "legendEdge": "main_flow"
   },
   {
     "from": "question-gate",
@@ -2932,7 +2946,8 @@
         "enabled": true,
         "scaleFactor": 0.7
       }
-    }
+    },
+    "legendEdge": "main_flow"
   },
   {
     "from": "route",
@@ -2951,7 +2966,8 @@
         "enabled": true,
         "scaleFactor": 0.7
       }
-    }
+    },
+    "legendEdge": "main_flow"
   },
   {
     "from": "research",
@@ -2970,7 +2986,8 @@
         "enabled": true,
         "scaleFactor": 0.7
       }
-    }
+    },
+    "legendEdge": "main_flow"
   },
   {
     "from": "research-gate",
@@ -2989,7 +3006,8 @@
         "enabled": true,
         "scaleFactor": 0.7
       }
-    }
+    },
+    "legendEdge": "main_flow"
   },
   {
     "from": "plan",
@@ -3008,7 +3026,8 @@
         "enabled": true,
         "scaleFactor": 0.7
       }
-    }
+    },
+    "legendEdge": "main_flow"
   },
   {
     "from": "plan-gate",
@@ -3027,7 +3046,8 @@
         "enabled": true,
         "scaleFactor": 0.7
       }
-    }
+    },
+    "legendEdge": "main_flow"
   },
   {
     "from": "implement",
@@ -3046,7 +3066,8 @@
         "enabled": true,
         "scaleFactor": 0.7
       }
-    }
+    },
+    "legendEdge": "main_flow"
   },
   {
     "from": "implement-gate",
@@ -3065,7 +3086,8 @@
         "enabled": true,
         "scaleFactor": 0.7
       }
-    }
+    },
+    "legendEdge": "main_flow"
   },
   {
     "from": "verify",
@@ -3084,7 +3106,8 @@
         "enabled": true,
         "scaleFactor": 0.7
       }
-    }
+    },
+    "legendEdge": "main_flow"
   },
   {
     "from": "verify-gate",
@@ -3103,7 +3126,8 @@
         "enabled": true,
         "scaleFactor": 0.7
       }
-    }
+    },
+    "legendEdge": "main_flow"
   },
   {
     "from": "session",
@@ -3122,7 +3146,8 @@
         "enabled": true,
         "scaleFactor": 0.7
       }
-    }
+    },
+    "legendEdge": "main_flow"
   },
   {
     "from": "close",
@@ -3141,7 +3166,8 @@
         "enabled": true,
         "scaleFactor": 0.7
       }
-    }
+    },
+    "legendEdge": "main_flow"
   },
   {
     "from": "research-gate",
@@ -3161,6 +3187,7 @@
         "scaleFactor": 0.7
       }
     },
+    "legendEdge": "gate_check",
     "hidden": true
   },
   {
@@ -3181,6 +3208,7 @@
         "scaleFactor": 0.7
       }
     },
+    "legendEdge": "gate_check",
     "hidden": true
   },
   {
@@ -3201,6 +3229,7 @@
         "scaleFactor": 0.7
       }
     },
+    "legendEdge": "gate_check",
     "hidden": true
   },
   {
@@ -3221,6 +3250,7 @@
         "scaleFactor": 0.7
       }
     },
+    "legendEdge": "gate_check",
     "hidden": true
   },
   {
@@ -3241,6 +3271,7 @@
         "scaleFactor": 0.7
       }
     },
+    "legendEdge": "gate_check",
     "hidden": true
   },
   {
@@ -3261,6 +3292,7 @@
         "scaleFactor": 0.7
       }
     },
+    "legendEdge": "gate_check",
     "hidden": true
   },
   {
@@ -3281,6 +3313,7 @@
         "scaleFactor": 0.7
       }
     },
+    "legendEdge": "gate_check",
     "hidden": true
   },
   {
@@ -3301,6 +3334,7 @@
         "scaleFactor": 0.7
       }
     },
+    "legendEdge": "gate_check",
     "hidden": true
   },
   {
@@ -3321,6 +3355,7 @@
         "scaleFactor": 0.7
       }
     },
+    "legendEdge": "gate_check",
     "hidden": true
   },
   {
@@ -3341,6 +3376,7 @@
         "scaleFactor": 0.7
       }
     },
+    "legendEdge": "gate_check",
     "hidden": true
   },
   {
@@ -3361,6 +3397,7 @@
         "scaleFactor": 0.7
       }
     },
+    "legendEdge": "gate_check",
     "hidden": true
   },
   {
@@ -3381,6 +3418,7 @@
         "scaleFactor": 0.7
       }
     },
+    "legendEdge": "gate_check",
     "hidden": true
   },
   {
@@ -3401,6 +3439,7 @@
         "scaleFactor": 0.7
       }
     },
+    "legendEdge": "gate_check",
     "hidden": true
   },
   {
@@ -3421,6 +3460,7 @@
         "scaleFactor": 0.7
       }
     },
+    "legendEdge": "gate_check",
     "hidden": true
   },
   {
@@ -3441,6 +3481,7 @@
         "scaleFactor": 0.7
       }
     },
+    "legendEdge": "gate_check",
     "hidden": true
   },
   {
@@ -3461,6 +3502,7 @@
         "scaleFactor": 0.7
       }
     },
+    "legendEdge": "gate_check",
     "hidden": true
   },
   {
@@ -3481,6 +3523,7 @@
         "scaleFactor": 0.7
       }
     },
+    "legendEdge": "gate_check",
     "hidden": true
   },
   {
@@ -3501,6 +3544,7 @@
         "scaleFactor": 0.7
       }
     },
+    "legendEdge": "gate_check",
     "hidden": true
   },
   {
@@ -3521,6 +3565,7 @@
         "scaleFactor": 0.7
       }
     },
+    "legendEdge": "gate_check",
     "hidden": true
   },
   {
@@ -3540,7 +3585,8 @@
         "enabled": true,
         "scaleFactor": 0.7
       }
-    }
+    },
+    "legendEdge": "orchestrates"
   },
   {
     "from": "propagate-sh",
@@ -3559,7 +3605,8 @@
         "enabled": true,
         "scaleFactor": 0.7
       }
-    }
+    },
+    "legendEdge": "orchestrates"
   },
   {
     "from": "propagate-sh",
@@ -3578,7 +3625,8 @@
         "enabled": true,
         "scaleFactor": 0.7
       }
-    }
+    },
+    "legendEdge": "orchestrates"
   },
   {
     "from": "propagate-sh",
@@ -3597,7 +3645,8 @@
         "enabled": true,
         "scaleFactor": 0.7
       }
-    }
+    },
+    "legendEdge": "orchestrates"
   },
   {
     "from": "p-sync",
@@ -3616,7 +3665,8 @@
         "enabled": true,
         "scaleFactor": 0.7
       }
-    }
+    },
+    "legendEdge": "syncs"
   },
   {
     "from": "commands-dir",
@@ -3635,7 +3685,8 @@
         "enabled": true,
         "scaleFactor": 0.7
       }
-    }
+    },
+    "legendEdge": "syncs"
   },
   {
     "from": "commands-dir",
@@ -3654,7 +3705,8 @@
         "enabled": true,
         "scaleFactor": 0.7
       }
-    }
+    },
+    "legendEdge": "syncs"
   },
   {
     "from": "commands-dir",
@@ -3673,7 +3725,8 @@
         "enabled": true,
         "scaleFactor": 0.7
       }
-    }
+    },
+    "legendEdge": "syncs"
   },
   {
     "from": "propagation-dir",
@@ -3692,7 +3745,8 @@
         "enabled": true,
         "scaleFactor": 0.7
       }
-    }
+    },
+    "legendEdge": "belongs_to"
   },
   {
     "from": "propagation-dir",
@@ -3711,7 +3765,8 @@
         "enabled": true,
         "scaleFactor": 0.7
       }
-    }
+    },
+    "legendEdge": "belongs_to"
   },
   {
     "from": "propagation-dir",
@@ -3730,7 +3785,8 @@
         "enabled": true,
         "scaleFactor": 0.7
       }
-    }
+    },
+    "legendEdge": "belongs_to"
   },
   {
     "from": "propagation-dir",
@@ -3749,7 +3805,8 @@
         "enabled": true,
         "scaleFactor": 0.7
       }
-    }
+    },
+    "legendEdge": "belongs_to"
   },
   {
     "from": "propagation-dir",
@@ -3768,7 +3825,8 @@
         "enabled": true,
         "scaleFactor": 0.7
       }
-    }
+    },
+    "legendEdge": "belongs_to"
   },
   {
     "from": "tmpl-config",
@@ -3787,7 +3845,8 @@
         "enabled": true,
         "scaleFactor": 0.7
       }
-    }
+    },
+    "legendEdge": "ownership"
   },
   {
     "from": "tmpl-commands",
@@ -3806,7 +3865,8 @@
         "enabled": true,
         "scaleFactor": 0.7
       }
-    }
+    },
+    "legendEdge": "ownership"
   },
   {
     "from": "tmpl-scripts",
@@ -3825,7 +3885,8 @@
         "enabled": true,
         "scaleFactor": 0.7
       }
-    }
+    },
+    "legendEdge": "ownership"
   },
   {
     "from": "tmpl-pi",
@@ -3844,7 +3905,8 @@
         "enabled": true,
         "scaleFactor": 0.7
       }
-    }
+    },
+    "legendEdge": "ownership"
   },
   {
     "from": "tmpl-claude",
@@ -3863,7 +3925,8 @@
         "enabled": true,
         "scaleFactor": 0.7
       }
-    }
+    },
+    "legendEdge": "ownership"
   },
   {
     "from": "propagation-dir",
@@ -3882,7 +3945,8 @@
         "enabled": true,
         "scaleFactor": 0.7
       }
-    }
+    },
+    "legendEdge": "belongs_to"
   },
   {
     "from": "tmpl-bootstrap",
@@ -3901,7 +3965,8 @@
         "enabled": true,
         "scaleFactor": 0.7
       }
-    }
+    },
+    "legendEdge": "ownership"
   },
   {
     "from": "own-managed",
@@ -3920,7 +3985,8 @@
         "enabled": true,
         "scaleFactor": 0.7
       }
-    }
+    },
+    "legendEdge": "propagates"
   },
   {
     "from": "own-repo",
@@ -3939,7 +4005,8 @@
         "enabled": true,
         "scaleFactor": 0.7
       }
-    }
+    },
+    "legendEdge": "propagates"
   },
   {
     "from": "topic-folders",
@@ -3958,7 +4025,8 @@
         "enabled": true,
         "scaleFactor": 0.7
       }
-    }
+    },
+    "legendEdge": "propagates"
   },
   {
     "from": "topic-folders",
@@ -3977,7 +4045,8 @@
         "enabled": true,
         "scaleFactor": 0.7
       }
-    }
+    },
+    "legendEdge": "propagates"
   },
   {
     "from": "topic-folders",
@@ -3996,7 +4065,8 @@
         "enabled": true,
         "scaleFactor": 0.7
       }
-    }
+    },
+    "legendEdge": "propagates"
   },
   {
     "from": "check-status",
@@ -4016,6 +4086,7 @@
         "scaleFactor": 0.7
       }
     },
+    "legendEdge": "checks",
     "dashes": true
   },
   {
@@ -4036,6 +4107,7 @@
         "scaleFactor": 0.7
       }
     },
+    "legendEdge": "checks",
     "dashes": true
   },
   {
@@ -4056,6 +4128,7 @@
         "scaleFactor": 0.7
       }
     },
+    "legendEdge": "checks",
     "dashes": true
   },
   {
@@ -4076,6 +4149,7 @@
         "scaleFactor": 0.7
       }
     },
+    "legendEdge": "checks",
     "dashes": true
   },
   {
@@ -4095,7 +4169,8 @@
         "enabled": true,
         "scaleFactor": 0.7
       }
-    }
+    },
+    "legendEdge": "orchestrates"
   },
   {
     "from": "implement",
@@ -4114,7 +4189,8 @@
         "enabled": true,
         "scaleFactor": 0.7
       }
-    }
+    },
+    "legendEdge": "branch_to"
   },
   {
     "from": "agent-dispatch",
@@ -4134,6 +4210,7 @@
         "scaleFactor": 0.7
       }
     },
+    "legendEdge": "dispatches",
     "dashes": true
   },
   {
@@ -4154,6 +4231,7 @@
         "scaleFactor": 0.7
       }
     },
+    "legendEdge": "dispatches",
     "dashes": true
   },
   {
@@ -4174,6 +4252,7 @@
         "scaleFactor": 0.7
       }
     },
+    "legendEdge": "dispatches",
     "dashes": true
   },
   {
@@ -4194,6 +4273,7 @@
         "scaleFactor": 0.7
       }
     },
+    "legendEdge": "dispatches",
     "dashes": true
   },
   {
@@ -4214,6 +4294,7 @@
         "scaleFactor": 0.7
       }
     },
+    "legendEdge": "returns",
     "dashes": true
   },
   {
@@ -4234,6 +4315,7 @@
         "scaleFactor": 0.7
       }
     },
+    "legendEdge": "returns",
     "dashes": true
   },
   {
@@ -4254,6 +4336,7 @@
         "scaleFactor": 0.7
       }
     },
+    "legendEdge": "returns",
     "dashes": true
   },
   {
@@ -4273,7 +4356,8 @@
         "enabled": true,
         "scaleFactor": 0.7
       }
-    }
+    },
+    "legendEdge": "branch_to"
   },
   {
     "from": "ship-fanout",
@@ -4293,6 +4377,7 @@
         "scaleFactor": 0.7
       }
     },
+    "legendEdge": "dispatches",
     "dashes": true
   },
   {
@@ -4313,6 +4398,7 @@
         "scaleFactor": 0.7
       }
     },
+    "legendEdge": "dispatches",
     "dashes": true
   },
   {
@@ -4333,6 +4419,7 @@
         "scaleFactor": 0.7
       }
     },
+    "legendEdge": "dispatches",
     "dashes": true
   },
   {
@@ -4353,6 +4440,7 @@
         "scaleFactor": 0.7
       }
     },
+    "legendEdge": "returns",
     "dashes": true
   },
   {
@@ -4373,6 +4461,7 @@
         "scaleFactor": 0.7
       }
     },
+    "legendEdge": "returns",
     "dashes": true
   },
   {
@@ -4393,6 +4482,7 @@
         "scaleFactor": 0.7
       }
     },
+    "legendEdge": "returns",
     "dashes": true
   },
   {
@@ -4412,7 +4502,8 @@
         "enabled": true,
         "scaleFactor": 0.7
       }
-    }
+    },
+    "legendEdge": "branch_to"
   },
   {
     "from": "pipeline-run",
@@ -4431,7 +4522,8 @@
         "enabled": true,
         "scaleFactor": 0.7
       }
-    }
+    },
+    "legendEdge": "syncs"
   },
   {
     "from": "pipeline-plan",
@@ -4450,7 +4542,8 @@
         "enabled": true,
         "scaleFactor": 0.7
       }
-    }
+    },
+    "legendEdge": "main_flow"
   },
   {
     "from": "pipeline-dispatch",
@@ -4469,7 +4562,8 @@
         "enabled": true,
         "scaleFactor": 0.7
       }
-    }
+    },
+    "legendEdge": "main_flow"
   },
   {
     "from": "pipeline-dispatch",
@@ -4489,6 +4583,7 @@
         "scaleFactor": 0.7
       }
     },
+    "legendEdge": "dispatches",
     "dashes": true
   },
   {
@@ -4509,6 +4604,7 @@
         "scaleFactor": 0.7
       }
     },
+    "legendEdge": "dispatches",
     "dashes": true
   },
   {
@@ -4529,6 +4625,7 @@
         "scaleFactor": 0.7
       }
     },
+    "legendEdge": "dispatches",
     "dashes": true
   },
   {
@@ -4549,6 +4646,7 @@
         "scaleFactor": 0.7
       }
     },
+    "legendEdge": "returns",
     "dashes": true
   },
   {
@@ -4569,6 +4667,7 @@
         "scaleFactor": 0.7
       }
     },
+    "legendEdge": "returns",
     "dashes": true
   },
   {
@@ -4588,7 +4687,8 @@
         "enabled": true,
         "scaleFactor": 0.7
       }
-    }
+    },
+    "legendEdge": "branch_to"
   },
   {
     "from": "autopilot",
@@ -4607,7 +4707,8 @@
         "enabled": true,
         "scaleFactor": 0.7
       }
-    }
+    },
+    "legendEdge": "orchestrates"
   },
   {
     "from": "auto-plan",
@@ -4626,7 +4727,8 @@
         "enabled": true,
         "scaleFactor": 0.7
       }
-    }
+    },
+    "legendEdge": "main_flow"
   },
   {
     "from": "auto-implement",
@@ -4645,7 +4747,8 @@
         "enabled": true,
         "scaleFactor": 0.7
       }
-    }
+    },
+    "legendEdge": "main_flow"
   },
   {
     "from": "auto-verify",
@@ -4664,7 +4767,8 @@
         "enabled": true,
         "scaleFactor": 0.7
       }
-    }
+    },
+    "legendEdge": "main_flow"
   },
   {
     "from": "auto-checkpoint",
@@ -4684,6 +4788,7 @@
         "scaleFactor": 0.7
       }
     },
+    "legendEdge": "returns",
     "dashes": true
   },
   {
@@ -4703,7 +4808,8 @@
         "enabled": true,
         "scaleFactor": 0.7
       }
-    }
+    },
+    "legendEdge": "branch_to"
   },
   {
     "from": "plan",
@@ -4722,7 +4828,8 @@
         "enabled": true,
         "scaleFactor": 0.7
       }
-    }
+    },
+    "legendEdge": "branch_to"
   },
   {
     "from": "counsel",
@@ -4742,6 +4849,7 @@
         "scaleFactor": 0.7
       }
     },
+    "legendEdge": "checks",
     "dashes": true
   },
   {
@@ -4761,7 +4869,8 @@
         "enabled": true,
         "scaleFactor": 0.7
       }
-    }
+    },
+    "legendEdge": "syncs"
   },
   {
     "from": "counsel-gate",
@@ -4780,7 +4889,8 @@
         "enabled": true,
         "scaleFactor": 0.7
       }
-    }
+    },
+    "legendEdge": "syncs"
   },
   {
     "from": "counsel-run",
@@ -4800,6 +4910,7 @@
         "scaleFactor": 0.7
       }
     },
+    "legendEdge": "returns",
     "dashes": true
   },
   {
@@ -4820,6 +4931,7 @@
         "scaleFactor": 0.7
       }
     },
+    "legendEdge": "returns",
     "dashes": true
   },
   {
@@ -4839,7 +4951,8 @@
         "enabled": true,
         "scaleFactor": 0.7
       }
-    }
+    },
+    "legendEdge": "branch_to"
   },
   {
     "from": "session-lifecycle",
@@ -4858,7 +4971,8 @@
         "enabled": true,
         "scaleFactor": 0.7
       }
-    }
+    },
+    "legendEdge": "orchestrates"
   },
   {
     "from": "session-lifecycle",
@@ -4877,7 +4991,8 @@
         "enabled": true,
         "scaleFactor": 0.7
       }
-    }
+    },
+    "legendEdge": "orchestrates"
   },
   {
     "from": "session-lifecycle",
@@ -4896,7 +5011,8 @@
         "enabled": true,
         "scaleFactor": 0.7
       }
-    }
+    },
+    "legendEdge": "orchestrates"
   },
   {
     "from": "session-lifecycle",
@@ -4915,7 +5031,8 @@
         "enabled": true,
         "scaleFactor": 0.7
       }
-    }
+    },
+    "legendEdge": "orchestrates"
   },
   {
     "from": "session-lifecycle",
@@ -4935,6 +5052,7 @@
         "scaleFactor": 0.7
       }
     },
+    "legendEdge": "checks",
     "dashes": true
   },
   {
@@ -4955,6 +5073,7 @@
         "scaleFactor": 0.7
       }
     },
+    "legendEdge": "returns",
     "dashes": true
   },
   {
@@ -4975,6 +5094,7 @@
         "scaleFactor": 0.7
       }
     },
+    "legendEdge": "returns",
     "dashes": true
   },
   {
@@ -4994,7 +5114,8 @@
         "enabled": true,
         "scaleFactor": 0.7
       }
-    }
+    },
+    "legendEdge": "syncs"
   },
   {
     "from": "session-fork-wt",
@@ -5014,6 +5135,7 @@
         "scaleFactor": 0.7
       }
     },
+    "legendEdge": "returns",
     "dashes": true
   },
   {
@@ -5033,7 +5155,8 @@
         "enabled": true,
         "scaleFactor": 0.7
       }
-    }
+    },
+    "legendEdge": "belongs_to"
   },
   {
     "from": "tool-landscape",
@@ -5052,7 +5175,8 @@
         "enabled": true,
         "scaleFactor": 0.7
       }
-    }
+    },
+    "legendEdge": "belongs_to"
   },
   {
     "from": "tool-landscape",
@@ -5071,7 +5195,8 @@
         "enabled": true,
         "scaleFactor": 0.7
       }
-    }
+    },
+    "legendEdge": "belongs_to"
   },
   {
     "from": "tool-landscape",
@@ -5090,7 +5215,8 @@
         "enabled": true,
         "scaleFactor": 0.7
       }
-    }
+    },
+    "legendEdge": "belongs_to"
   },
   {
     "from": "tool-landscape",
@@ -5109,7 +5235,8 @@
         "enabled": true,
         "scaleFactor": 0.7
       }
-    }
+    },
+    "legendEdge": "belongs_to"
   },
   {
     "from": "tool-landscape",
@@ -5128,7 +5255,8 @@
         "enabled": true,
         "scaleFactor": 0.7
       }
-    }
+    },
+    "legendEdge": "belongs_to"
   },
   {
     "from": "tool-landscape",
@@ -5147,7 +5275,8 @@
         "enabled": true,
         "scaleFactor": 0.7
       }
-    }
+    },
+    "legendEdge": "belongs_to"
   },
   {
     "from": "tool-landscape",
@@ -5166,7 +5295,8 @@
         "enabled": true,
         "scaleFactor": 0.7
       }
-    }
+    },
+    "legendEdge": "belongs_to"
   },
   {
     "from": "tool-landscape",
@@ -5185,7 +5315,8 @@
         "enabled": true,
         "scaleFactor": 0.7
       }
-    }
+    },
+    "legendEdge": "belongs_to"
   },
   {
     "from": "tool-landscape",
@@ -5204,7 +5335,8 @@
         "enabled": true,
         "scaleFactor": 0.7
       }
-    }
+    },
+    "legendEdge": "syncs"
   }
 ];
 
@@ -5245,15 +5377,14 @@
   const network = new vis.Network(container, data, options);
   let physicsFrozen = false;
 
-  // Zoom limits: clamp scale between 0.12 and 4.0
+  // Zoom limits: clamp scale between 0.12 and 4.0, preserve view position
   const MIN_ZOOM = 0.12;
   const MAX_ZOOM = 4.0;
   network.on('zoom', function(params) {
-    if (params.scale < MIN_ZOOM) {
-      network.moveTo({ scale: MIN_ZOOM, animation: false });
-    }
-    if (params.scale > MAX_ZOOM) {
-      network.moveTo({ scale: MAX_ZOOM, animation: false });
+    const clamped = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, params.scale));
+    if (clamped !== params.scale) {
+      const pos = network.getViewPosition();
+      network.moveTo({ scale: clamped, position: pos, animation: false });
     }
   });
 
@@ -5421,6 +5552,117 @@
       network.fit({ animation: true, duration: 300 });
     }
     if ((e.ctrlKey || e.metaKey) && e.key === 'f') { e.preventDefault(); searchInput.focus(); }
+  });
+
+  // ── Legend click: dim/highlight by node group or edge type ──────────
+  let highlightGroup = null;
+  let highlightEdge = null;
+  const origColors = new Map();
+
+  function saveOrigColor(nodeId) {
+    const n = data.nodes.get(nodeId);
+    if (n && !origColors.has(nodeId)) {
+      origColors.set(nodeId, JSON.parse(JSON.stringify(n.color)));
+    }
+  }
+
+  function edgeLegendType(e) {
+    if (e.hidden) return null;
+    return e.legendEdge || 'main_flow';
+  }
+
+  function applyHighlight() {
+    // Save original colors for all nodes first
+    NODES.forEach(function(n) { saveOrigColor(n.id); });
+
+    // Apply dimming to nodes
+    NODES.forEach(function(n) {
+      const match = !highlightGroup || n.group === highlightGroup;
+      const color = origColors.get(n.id);
+      if (!color) return;
+      const newColor = JSON.parse(JSON.stringify(color));
+      if (!match) {
+        newColor.background = 'rgba(60,65,75,0.12)';
+        newColor.border = 'rgba(60,65,75,0.25)';
+        newColor.highlight = { background: 'rgba(60,65,75,0.2)', border: 'rgba(60,65,75,0.3)' };
+      }
+      data.nodes.update({ id: n.id, color: newColor });
+    });
+
+    // Apply dimming to edges
+    EDGES.forEach(function(e) {
+      if (e.hidden) return;
+      const eType = edgeLegendType(e);
+      const matchEdge = !highlightEdge || highlightEdge === 'all' || eType === highlightEdge;
+      // Save original color
+      if (!e._origColor) { e._origColor = JSON.parse(JSON.stringify(e.color)); e._origWidth = e.width; }
+      const orig = e._origColor;
+      if (!matchEdge) {
+        e.color = { color: 'rgba(60,65,75,0.08)' };
+        e.width = 0.3;
+      } else {
+        e.color = JSON.parse(JSON.stringify(orig));
+        e.width = e._origWidth;
+      }
+    });
+    data.edges.update(EDGES.filter(function(e) { return !e.hidden; }));
+
+    // Highlight legend items
+    document.querySelectorAll('.legend-item, .legend-edge-item').forEach(function(el) {
+      el.classList.remove('active', 'dimmed');
+      if (!highlightGroup && !highlightEdge) return;
+      const grp = el.dataset.legendGroup;
+      const edge = el.dataset.legendEdge;
+      if ((grp && grp !== highlightGroup) || (edge && edge !== highlightEdge && edge !== 'all')) {
+        el.classList.add('dimmed');
+      } else {
+        el.classList.add('active');
+      }
+    });
+  }
+
+  function resetHighlight() {
+    highlightGroup = null;
+    highlightEdge = null;
+    // Restore node colors
+    origColors.forEach(function(color, nodeId) {
+      if (data.nodes.get(nodeId)) {
+        data.nodes.update({ id: nodeId, color: JSON.parse(JSON.stringify(color)) });
+      }
+    });
+    origColors.clear();
+    // Restore edge colors
+    EDGES.forEach(function(e) {
+      if (e._origColor) e.color = JSON.parse(JSON.stringify(e._origColor));
+      if (e._origWidth) e.width = e._origWidth;
+    });
+    data.edges.update(EDGES.filter(function(e) { return !e.hidden; }));
+    document.querySelectorAll('.legend-item, .legend-edge-item').forEach(function(el) {
+      el.classList.remove('active', 'dimmed');
+    });
+  }
+
+  // Node type legend clicks
+  document.querySelectorAll('.legend-item').forEach(function(el) {
+    el.addEventListener('click', function() {
+      const grp = this.dataset.legendGroup;
+      if (highlightGroup === grp) { resetHighlight(); return; }
+      highlightGroup = grp;
+      highlightEdge = null;
+      applyHighlight();
+    });
+  });
+
+  // Edge type legend clicks
+  document.querySelectorAll('.legend-edge-item').forEach(function(el) {
+    el.addEventListener('click', function() {
+      const edge = this.dataset.legendEdge;
+      if (!edge || edge === 'all') { resetHighlight(); return; }
+      if (highlightEdge === edge) { resetHighlight(); return; }
+      highlightEdge = edge;
+      highlightGroup = null;
+      applyHighlight();
+    });
   });
 })();
 </script>

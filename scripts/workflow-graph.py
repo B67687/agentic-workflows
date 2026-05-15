@@ -203,6 +203,7 @@ def make_edge(fr, to, style="main_flow", **kw):
         "width": s["w"],
         "smooth": {"type": "curvedCW", "roundness": 0.1},
         "arrows": {"to": {"enabled": True, "scaleFactor": 0.7}},
+        "legendEdge": style,
     }
     if s.get("dash"):
         entry["dashes"] = True
@@ -815,9 +816,21 @@ HTML = r'''<!DOCTYPE html>
   }
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  .zoom-hint {
-    position: fixed; bottom: 62px; left: 16px; z-index: 100;
-    font-size: 8px; color: #484f58; pointer-events: none;
+  .legend-hint {
+    font-size: 8px; color: #484f58; margin-top: 5px; padding-top: 4px;
+    border-top: 1px solid rgba(255,255,255,0.04);
+    cursor: default;
+  }
+
+  .legend-item, .legend-edge-item {
+    cursor: pointer !important;
+    transition: opacity 0.2s;
+  }
+  .legend-item.dimmed, .legend-edge-item.dimmed {
+    opacity: 0.35;
+  }
+  .legend-item.active, .legend-edge-item.active {
+    opacity: 1;
   }
 </style>
 </head>
@@ -857,13 +870,15 @@ HTML = r'''<!DOCTYPE html>
   <h3>Node Types</h3>
   __LEGEND__
   <div class="legend-edge-section">
-    <div class="legend-edge-item"><span class="edge-swatch main"></span><span class="legend-label">Phase flow</span></div>
-    <div class="legend-edge-item"><span class="edge-swatch gate"></span><span class="legend-label">Gate check</span></div>
-    <div class="legend-edge-item"><span class="edge-swatch branch"></span><span class="legend-label">Branch flow</span></div>
-    <div class="legend-edge-item"><span class="edge-swatch dispatch"></span><span class="legend-label">Agent dispatch</span></div>
-    <div class="legend-edge-item"><span class="edge-swatch sync"></span><span class="legend-label">Sync / propagate</span></div>
-    <div class="legend-edge-item"><span class="edge-swatch rtn"></span><span class="legend-label">Return</span></div>
+    <div class="legend-edge-item" data-legend-edge="main_flow"><span class="edge-swatch main"></span><span class="legend-label">Phase flow</span></div>
+    <div class="legend-edge-item" data-legend-edge="gate_check"><span class="edge-swatch gate"></span><span class="legend-label">Gate check</span></div>
+    <div class="legend-edge-item" data-legend-edge="branch_to"><span class="edge-swatch branch"></span><span class="legend-label">Branch flow</span></div>
+    <div class="legend-edge-item" data-legend-edge="dispatches"><span class="edge-swatch dispatch"></span><span class="legend-label">Agent dispatch</span></div>
+    <div class="legend-edge-item" data-legend-edge="syncs"><span class="edge-swatch sync"></span><span class="legend-label">Sync / propagate</span></div>
+    <div class="legend-edge-item" data-legend-edge="returns"><span class="edge-swatch rtn"></span><span class="legend-label">Return</span></div>
+    <div class="legend-edge-item" data-legend-edge="all"><span class="edge-swatch main" style="border-top-color:#888;"></span><span class="legend-label">Show all</span></div>
   </div>
+  <div class="legend-hint">Click to highlight · scroll to zoom · drag to pan</div>
 </div>
 
 <div class="stats">
@@ -874,7 +889,6 @@ HTML = r'''<!DOCTYPE html>
 <div class="physics-indicator" id="physicsIndicator">
   <span class="dot alive" id="physicsDot"></span><span id="physicsLabel">alive</span>
 </div>
-<div class="zoom-hint">Scroll to zoom · Drag to pan · Click for info</div>
 
 <script>
 (function() {
@@ -918,15 +932,14 @@ HTML = r'''<!DOCTYPE html>
   const network = new vis.Network(container, data, options);
   let physicsFrozen = false;
 
-  // Zoom limits: clamp scale between 0.12 and 4.0
+  // Zoom limits: clamp scale between 0.12 and 4.0, preserve view position
   const MIN_ZOOM = 0.12;
   const MAX_ZOOM = 4.0;
   network.on('zoom', function(params) {
-    if (params.scale < MIN_ZOOM) {
-      network.moveTo({ scale: MIN_ZOOM, animation: false });
-    }
-    if (params.scale > MAX_ZOOM) {
-      network.moveTo({ scale: MAX_ZOOM, animation: false });
+    const clamped = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, params.scale));
+    if (clamped !== params.scale) {
+      const pos = network.getViewPosition();
+      network.moveTo({ scale: clamped, position: pos, animation: false });
     }
   });
 
@@ -1095,6 +1108,117 @@ HTML = r'''<!DOCTYPE html>
     }
     if ((e.ctrlKey || e.metaKey) && e.key === 'f') { e.preventDefault(); searchInput.focus(); }
   });
+
+  // ── Legend click: dim/highlight by node group or edge type ──────────
+  let highlightGroup = null;
+  let highlightEdge = null;
+  const origColors = new Map();
+
+  function saveOrigColor(nodeId) {
+    const n = data.nodes.get(nodeId);
+    if (n && !origColors.has(nodeId)) {
+      origColors.set(nodeId, JSON.parse(JSON.stringify(n.color)));
+    }
+  }
+
+  function edgeLegendType(e) {
+    if (e.hidden) return null;
+    return e.legendEdge || 'main_flow';
+  }
+
+  function applyHighlight() {
+    // Save original colors for all nodes first
+    NODES.forEach(function(n) { saveOrigColor(n.id); });
+
+    // Apply dimming to nodes
+    NODES.forEach(function(n) {
+      const match = !highlightGroup || n.group === highlightGroup;
+      const color = origColors.get(n.id);
+      if (!color) return;
+      const newColor = JSON.parse(JSON.stringify(color));
+      if (!match) {
+        newColor.background = 'rgba(60,65,75,0.12)';
+        newColor.border = 'rgba(60,65,75,0.25)';
+        newColor.highlight = { background: 'rgba(60,65,75,0.2)', border: 'rgba(60,65,75,0.3)' };
+      }
+      data.nodes.update({ id: n.id, color: newColor });
+    });
+
+    // Apply dimming to edges
+    EDGES.forEach(function(e) {
+      if (e.hidden) return;
+      const eType = edgeLegendType(e);
+      const matchEdge = !highlightEdge || highlightEdge === 'all' || eType === highlightEdge;
+      // Save original color
+      if (!e._origColor) { e._origColor = JSON.parse(JSON.stringify(e.color)); e._origWidth = e.width; }
+      const orig = e._origColor;
+      if (!matchEdge) {
+        e.color = { color: 'rgba(60,65,75,0.08)' };
+        e.width = 0.3;
+      } else {
+        e.color = JSON.parse(JSON.stringify(orig));
+        e.width = e._origWidth;
+      }
+    });
+    data.edges.update(EDGES.filter(function(e) { return !e.hidden; }));
+
+    // Highlight legend items
+    document.querySelectorAll('.legend-item, .legend-edge-item').forEach(function(el) {
+      el.classList.remove('active', 'dimmed');
+      if (!highlightGroup && !highlightEdge) return;
+      const grp = el.dataset.legendGroup;
+      const edge = el.dataset.legendEdge;
+      if ((grp && grp !== highlightGroup) || (edge && edge !== highlightEdge && edge !== 'all')) {
+        el.classList.add('dimmed');
+      } else {
+        el.classList.add('active');
+      }
+    });
+  }
+
+  function resetHighlight() {
+    highlightGroup = null;
+    highlightEdge = null;
+    // Restore node colors
+    origColors.forEach(function(color, nodeId) {
+      if (data.nodes.get(nodeId)) {
+        data.nodes.update({ id: nodeId, color: JSON.parse(JSON.stringify(color)) });
+      }
+    });
+    origColors.clear();
+    // Restore edge colors
+    EDGES.forEach(function(e) {
+      if (e._origColor) e.color = JSON.parse(JSON.stringify(e._origColor));
+      if (e._origWidth) e.width = e._origWidth;
+    });
+    data.edges.update(EDGES.filter(function(e) { return !e.hidden; }));
+    document.querySelectorAll('.legend-item, .legend-edge-item').forEach(function(el) {
+      el.classList.remove('active', 'dimmed');
+    });
+  }
+
+  // Node type legend clicks
+  document.querySelectorAll('.legend-item').forEach(function(el) {
+    el.addEventListener('click', function() {
+      const grp = this.dataset.legendGroup;
+      if (highlightGroup === grp) { resetHighlight(); return; }
+      highlightGroup = grp;
+      highlightEdge = null;
+      applyHighlight();
+    });
+  });
+
+  // Edge type legend clicks
+  document.querySelectorAll('.legend-edge-item').forEach(function(el) {
+    el.addEventListener('click', function() {
+      const edge = this.dataset.legendEdge;
+      if (!edge || edge === 'all') { resetHighlight(); return; }
+      if (highlightEdge === edge) { resetHighlight(); return; }
+      highlightEdge = edge;
+      highlightGroup = null;
+      applyHighlight();
+    });
+  });
 })();
 </script>
 </body>
@@ -1121,7 +1245,7 @@ def build_legend():
         c = COLORS.get(key)
         if c:
             items.append(
-                '<div class="legend-item">'
+                f'<div class="legend-item" data-legend-group="{key}">'
                 f'<div class="legend-dot" style="background:{c["bg"]}"></div>'
                 f'<span class="legend-label">{label}</span></div>')
     return "\n".join(items)
