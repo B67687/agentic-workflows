@@ -547,6 +547,38 @@ assert_output_not_contains "gate plugin: quality section absent without flag" \
   "bash scripts/phase-gate.sh plan --research-done 2>&1" \
   "Phase Quality Checks"
 
+# ===========================================================================
+echo ""
+echo "--- P13: Session Dashboard ---"
+
+# Test that dashboard runs and shows session info
+assert_output_contains "dashboard: shows session header" \
+  "bash scripts/session-dashboard.sh 2>&1; true" \
+  "Session.*Dashboard"
+
+# Test that dashboard shows gate plugins
+assert_output_contains "dashboard: shows gate plugins" \
+  "bash scripts/session-dashboard.sh 2>&1; true" \
+  "Gate Plugins"
+
+# Test that dashboard shows recommendation
+assert_output_contains "dashboard: shows recommendation" \
+  "bash scripts/session-dashboard.sh 2>&1; true" \
+  "Recommendation"
+
+# Test JSON mode
+assert_exit "dashboard: JSON mode" \
+  "bash scripts/session-dashboard.sh --json > /dev/null 2>&1"
+
+# Test that JSON output has required fields
+assert_output_contains "dashboard: JSON has session field" \
+  "bash scripts/session-dashboard.sh --json 2>&1; true" \
+  "\"session\""
+
+assert_output_contains "dashboard: JSON has recommendation" \
+  "bash scripts/session-dashboard.sh --json 2>&1; true" \
+  "\"recommendation\""
+
 echo ""
 
 echo ""
