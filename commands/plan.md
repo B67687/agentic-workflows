@@ -41,10 +41,15 @@ Run the unified phase gate with quality checks before planning:
 bash ./scripts/phase-gate.sh plan --research-done --check-quality
 ```
 
-This runs:
+The `--check-quality` flag auto-discovers gate plugins from `scripts/gates/plan/*.sh`.
+Each plugin is a standalone check. Current plugins for the plan phase:
 1. **State check**: research must be done (--research-done flag)
 2. **Research sufficiency**: if a research note exists, checks for red flags (source URLs, confidence levels, gaps section)
-3. If sufficiency check BLOCKs, go back to `/research`
+3. **Scope check**: task scope boundedness before implementation
+4. **CATFISH**: plan challenge data checked (if available)
+
+If sufficiency check BLOCKs, go back to `/research`.
+New gate plugins can be added by creating `scripts/gates/plan/<name>.sh`.
 
 ### Plan Challenge (CATFISH Protocol)
 

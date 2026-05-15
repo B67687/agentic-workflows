@@ -455,6 +455,39 @@ assert_output_contains "safety-escalate.sh help" \
   "bash scripts/safety-escalate.sh 2>&1" \
   "Safety Escalation Chain"
 
+# ===========================================================================
+echo ""
+echo "--- P12: Gate Plugin Discovery ---"
+
+# Test that phase-gate.sh discovers plugins for the plan phase
+assert_output_contains "gate plugin: plan discovers plugins" \
+  "bash scripts/phase-gate.sh plan --research-done --check-quality 2>&1; true" \
+  "Gates: 2 total"
+
+# Test that plan/scope-check runs and produces output
+assert_output_contains "gate plugin: scope-check runs" \
+  "bash scripts/gates/plan/scope-check.sh 2>&1; true" \
+  "session task"
+
+# Test that research gate discovers at least 1 plugin
+assert_output_contains "gate plugin: research discovers plugins" \
+  "bash scripts/phase-gate.sh research --check-quality 2>&1" \
+  "Gates: 1 total"
+
+# Test that a missing phase (with no gates) shows the info message
+assert_output_contains "gate plugin: missing phase shows info" \
+  "bash scripts/phase-gate.sh review --verification-known --check-quality 2>&1" \
+  "No gate plugins found for phase 'review'"
+
+# Test phase-gate.sh without --check-quality (should skip quality checks entirely)
+assert_output_contains "gate plugin: quality skipped without flag" \
+  "bash scripts/phase-gate.sh plan --research-done 2>&1" \
+  "Decision:"
+
+assert_output_not_contains "gate plugin: quality section absent without flag" \
+  "bash scripts/phase-gate.sh plan --research-done 2>&1" \
+  "Phase Quality Checks"
+
 echo ""
 
 echo ""

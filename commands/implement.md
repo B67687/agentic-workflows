@@ -26,11 +26,16 @@ bash ./scripts/phase-gate.sh implement \
   --check-quality
 ```
 
-This runs:
+The `--check-quality` flag auto-discovers gate plugins from `scripts/gates/implement/*.sh`.
+Each plugin is a standalone check. Current plugins for the implement phase:
 1. **State check**: research, plan, scope, and verification preconditions
-2. **Comprehension evidence**: verifies comprehension-gate evidence exists
+2. **Comprehension**: verifies comprehension-gate evidence exists
 3. **CATFISH reconcile**: checks plan challenges are addressed
 4. **Decision log**: warns of unresolved decisions
+5. **Autonomy assessment**: current autonomy level
+6. **Preflight check**: repo health and task fit
+
+New gate plugins can be added by creating `scripts/gates/implement/<name>.sh`.
 
 ### Comprehension Gate (Enforced Participation)
 

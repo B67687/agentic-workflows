@@ -4,9 +4,9 @@
   "interruptedCount": 0,
   "contextPressure": "healthy",
   "currentTask": {
-    "name": "Cognitive Surrender mitigation: CATFISH protocol + Recognition model + Decision scaffold + Triple Debt tracking",
+    "name": "Gate Plugin Discovery: convention-based gate plugins replacing hardcoded delegation in phase-gate.sh",
     "status": "done",
-    "goal": "Build three anti-cognitive-surrender subsystems based on research findings: CATFISH adversarial planning dissent, Recognition enforced-participation gate, unified Decision scaffold, and Triple Debt measurement"
+    "goal": "Implement the first structural upgrade from 9Router comparative analysis: convert phase-gate.sh from hardcoded delegation to convention-based plugin discovery. Create scripts/gates/{phase}/ directory structure with 8 plugin wrappers. Add scope-check gate plugin. Add smoke tests for plugin discovery."
   },
   "environment": {
     "note": "Configure per-workspace in your agent runtime config (e.g., OpenCode at `$HOME/.config/opencode/opencode.jsonc`, Claude Code at `.claude/settings.json`).",
@@ -15,64 +15,52 @@
     "topicFoldersPath": "Change to your topic folders parent"
   },
   "whatChanged": [
-    "Research: cognitive-surrender.md expanded from 383 to 766 lines with 40 sources, 6 agent-mitigation architecture families",
-    "CATFISH Protocol: scripts/plan-challenge.sh dynamic dissent engine + plan-guard.sh --challenge flag",
-    "Recognition Model: scripts/comprehension-gate.sh enforced participation + skill-toolset.py audit trail",
-    "Decision Scaffold: scripts/decision.sh DCI decision packet with evaluate/log/review/audit",
-    "Triple Debt: scripts/triple-debt.sh tracking technical/cognitive/intent debt with history",
-    "Research Sufficiency: scripts/research-sufficiency.sh 6-phase methodology + 7 red flag checks",
-    "Quality vs Speed: scripts/quality-speed-gate.sh heuristic test depth recommendation",
-    "Unified Phase Gate: extended phase-gate.sh --check-quality delegates to all anti-surrender checks",
-    "Post-Failure Decision: error-counter.sh decide/classify subcommands (C/S/E failure classification)",
-    "Commit signal: session-boundary.sh now outputs commit suggestion after verified phases",
-    "commands/*.md: updated all workflow commands to reference unified phase gate",
-    "Deep repo analysis: 16 comprehension gaps, 27 decision mechanisms mapped, 10 unsolved types"
+    "Gate Plugin Discovery: phase-gate.sh quality checks section replaced hardcoded case statement with auto-discovery from scripts/gates/{phase}/*.sh",
+    "scripts/gates/ directory created with 8 plugin wrappers (research/sufficiency, plan/catfish, plan/scope-check, implement/comprehension, implement/preflight, implement/decisions, implement/autonomy, verify/quality-speed)",
+    "plan/scope-check.sh NEW --- checks scope boundedness from plan.json, session-state, and task intake (previously unmplemented check)",
+    "Each gate plugin is a standalone script with standard exit codes: 0=pass, 1=fail, 2=warn, 3=skip",
+    "commands/plan.md and commands/implement.md updated to document plugin-based discovery",
+    "test-smoke.sh P12 added: 6 gate plugin discovery tests",
+    "Smoke tests expanded from 68 to 74"
   ],
   "filesTouched": [
-    "scripts/plan-challenge.sh (NEW --- 571 lines)",
-    "scripts/plan-guard.sh (+100 lines, --challenge/--trivial)",
-    "scripts/comprehension-gate.sh (NEW --- 377 lines)",
-    "scripts/decision.sh (NEW --- 517 lines)",
-    "scripts/triple-debt.sh (NEW)",
-    "scripts/research-sufficiency.sh (NEW)",
-    "scripts/quality-speed-gate.sh (NEW)",
-    "scripts/skill-toolset.py (+13 lines, audit trail)",
-    "scripts/error-counter.sh (+164 lines, decide/classify)",
-    "scripts/session-boundary.sh (+commit suggestion)",
-    "scripts/phase-gate.sh (+164 lines, --check-quality flag)",
-    "scripts/hooks/quality-gate.sh (+101 lines, 3 new checks)",
-    "scripts/task-retrospect.sh (+10 lines, --debt flag)",
-    "commands/plan.md (+28 lines, CATFISH + research sufficiency)",
-    "commands/implement.md (+31 lines, decision point + unified gate)",
-    "commands/task.md (+15 lines, decision point)",
-    "research/cognitive-surrender-research.md (expanded 383 to 766 lines)"
+    "scripts/gates/research/sufficiency.sh (NEW --- 2.1K, auto-discovers research note, calls research-sufficiency.sh)",
+    "scripts/gates/plan/catfish.sh (NEW --- 1.9K, checks challenge-response.json, calls plan-challenge.sh)",
+    "scripts/gates/plan/scope-check.sh (NEW --- 2.9K, checks scope boundedness from plan.json + session-state)",
+    "scripts/gates/implement/comprehension.sh (NEW --- 1.7K, auto-discovers comprehension evidence, calls comprehension-gate.sh)",
+    "scripts/gates/implement/preflight.sh (NEW --- 1.5K, reads current task from session-state, calls implement-preflight.sh)",
+    "scripts/gates/implement/decisions.sh (NEW --- 2.4K, checks decision-log.jsonl for pending decisions and key decision types)",
+    "scripts/gates/implement/autonomy.sh (NEW --- 1.2K, calls autonomy-gate.sh quick)",
+    "scripts/gates/verify/quality-speed.sh (NEW --- 1.2K, calls quality-speed-gate.sh quick)",
+    "scripts/phase-gate.sh (REWORKED --- quality checks section replaced with auto-discovery engine, -60 lines)",
+    "commands/plan.md (UPDATED --- references plugin-based gate discovery)",
+    "commands/implement.md (UPDATED --- references plugin-based gate discovery)",
+    "scripts/test-smoke.sh (ADDED --- P12: 6 gate plugin discovery tests)"
   ],
   "verification": [
-    "All 68 smoke tests pass (0 regressions, up from 59)",
-    "plan-challenge.sh tested with 6 real scenarios (trivial/bug/feature/architecture/iteration/pipeline)",
-    "comprehension-gate.sh tested with empty/filled/partial evidence",
-    "decision.sh tested with low/medium/high stakes + manual log + review + audit",
-    "error-counter.sh decide/classify tested end-to-end with real failure context",
-    "All JSON logs validate (no malformed entries)",
-    "Quality gate passes on all commits (non-ASCII normalized)",
-    "Remote synced: origin/main at latest",
-    "Branch management: feat/recognition-participation merged, s82-decision-workflow merged and deleted"
+    "All 74 smoke tests pass (0 regressions, up from 68)",
+    "phase-gate.sh plan --check-quality discovers 2 plugins (catfish + scope-check)",
+    "phase-gate.sh implement --check-quality discovers 4 plugins (autonomy, comprehension, decisions, preflight)",
+    "phase-gate.sh research --check-quality discovers 1 plugin (sufficiency)",
+    "phase-gate.sh review --check-quality shows info message (no gate plugins for review phase)",
+    "phase-gate.sh without --check-quality skips quality section entirely",
+    "All gate plugins return standard exit codes (0/1/2/3)",
+    "Each plugin can run independently: bash scripts/gates/<phase>/<name>.sh",
+    "Backward compatible: all existing 68 tests pass unchanged"
   ],
   "keyLearnings": [
-    "The repo has 16 read-to-act paths with zero comprehension enforcement. The most sophisticated workflow docs are entirely advisory --- the system diagnoses surrender but prescribes only self-medication.",
-    "A permanent devil's advocate makes things WORSE (adversarial fatigue). CATFISH dynamic injection (23% better) requires architectural heterogeneity --- subagent dispatch with fresh context and counterfactual framing.",
-    "The Recognition model principle: collapse is driven by interaction architecture, not model capability. 'Any system that does not enforce participation will train its users not to think.' Applied to agents this means: the system must require structured extraction before acting.",
-    "The Triple Debt model (Storey): AI makes cognitive debt and intent debt grow faster than technical debt. Code gets written but nobody understands why. The fix: measure all three explicitly at task boundaries.",
-    "DCI decision packet pattern (selected option + residual objections + reopen conditions) provides the audit trail for decision-making that prevents premature convergence.",
-    "Minimal design is a quality GATE, not a design CONSTRAINT. Systemic analysis first, then minimal as final optimization pass."
+    "7 of 10 unsolved Path D decision types (model-selection, file-level edit, escalation routing, plan confidence, risk-adjusted autonomy, commit-vs-checkpoint) are now natural gate plugin candidates --- each becomes a file in scripts/gates/<phase>/<name>.sh",
+    "The gate plugin pattern mirrors 9Router's executor/translator plugin architecture exactly: discovery by convention, standard interface, independent operation, composability through aggregation",
+    "Gate plugins exit 3 (SKIP) is critical --- it means plugins auto-detect missing evidence and gracefully skip rather than failing",
+    "Scope-check.sh demonstrates the pattern for NEW gates: add checks by creating files, not editing phase-gate.sh"
   ],
-  "residualRisk": "plan-challenge.sh, comprehension-gate.sh, decision.sh, and triple-debt.sh are committed to main but not yet used in production agent workflow. The quality-gate integration is advisory (WARN not ERROR) for most checks except CATFISH blocking findings. Decision workflow integration in commands/*.md is documented but agent-mediated. The 10 unsolved decision types (Path D) have 3 of 10 resolved (research sufficiency, quality/speed, post-failure). Remaining 7 (model selection, file-level edit, escalation routing, plan confidence, risk-adjusted autonomy, commit-vs-checkpoint) are ready for new session forks.",
+  "residualRisk": "Gate plugins are committed but not yet in production agent workflow (agent must remember to call --check-quality). The plugin wrappers forward to the underlying scripts but don't yet cache results or support the cooldown/backoff pattern from error-counter. Decision pipeline composition (Upgrade 3) and dynamic autonomy cascade (Upgrade 2) not yet implemented.",
   "immediateNextSteps": [
-    "New session 1: model-selection tool (model registry + task classifier)",
-    "New session 2: file-level edit decision tool",
-    "New session 3: risk-adjusted autonomy gate",
-    "Run triple-debt.sh assess at task boundaries to start tracking cognitive drift",
-    "No push needed --- origin/main is at latest commit 434b584"
+    "New session: Dynamic Autonomy Cascade (Upgrade 2) --- add start/adjust subcommands to autonomy-gate.sh for mid-phase adjustment",
+    "New session: Decision Pipeline Composition (Upgrade 3) --- create decision-pipeline.sh to chain decision types at phase transitions",
+    "New session: Cooldown + Backoff in error-counter.sh (Upgrade 4)",
+    "New session: Unified Dashboard (Upgrade 5) --- session-dashboard.sh aggregating all gate state",
+    "No push needed --- origin/main worktree; merge s83-gate-plugin-discovery when ready"
   ],
   "resumeRules": [
     "Read session-state.json first on every resume",
@@ -82,15 +70,15 @@
     "Recognition workflow: comprehension-gate.sh extract before implement, verify via quality-gate",
     "Decision workflow: decision.sh evaluate/log/review/audit for structured decision-making",
     "Triple Debt: triple-debt.sh assess at task boundaries; integrate with retrospect via --debt",
-    "Unified gate: phase-gate.sh <phase> --check-quality for all pre-phase checks",
-    "Post-failure: error-counter.sh increment <op> then decide <op> then classify <op> <C|S|E>",
-    "68 tests, quality gate clean"
+    "Gate plugins: phase-gate.sh <phase> --check-quality auto-discovers plugins from scripts/gates/<phase>/*.sh",
+    "Adding a gate check: create scripts/gates/<phase>/<name>.sh with standard exit codes (0=pass, 1=fail, 2=warn, 3=skip)",
+    "74 tests, quality gate clean"
   ],
   "doNotRepeat": [
     "2026-05-13: Researched cognitive surrender using only webfetch --- blind to Google results. Use websearch first."
   ],
   "lastRetrospect": "2026-05-15T10:30:00Z",
-  "learningsCount": 30,
+  "learningsCount": 31,
   "contextMetrics": {
     "history": [
       {
@@ -105,33 +93,20 @@
           "context_pressure": "healthy"
         },
         "timestamp": 1778850000
-      },
-      {
-        "status": "HEALTHY",
-        "score": 1,
-        "signals": {
-          "session_age_hours": 2,
-          "commits_today": 6,
-          "dirty_count": 0,
-          "dirty_new": 0,
-          "dirty_modified": 0,
-          "context_pressure": "healthy"
-        },
-        "timestamp": 1778805200
       }
     ],
     "last": {
       "status": "HEALTHY",
       "score": 1,
       "signals": {
-        "session_age_hours": 2,
-        "commits_today": 6,
+        "session_age_hours": 0,
+        "commits_today": 0,
         "dirty_count": 0,
         "dirty_new": 0,
         "dirty_modified": 0,
         "context_pressure": "healthy"
       },
-      "timestamp": 1778805200
+      "timestamp": 1778850000
     },
     "trend": "stable"
   },
@@ -162,6 +137,20 @@
         "research/cognitive-surrender-research.md (expanded 383 to 766 lines)"
       ],
       "verification": "68 tests pass. Quality gate clean. JSON logs validate. Branch management: multiple worktrees forked, merged, cleaned. Remote synced."
+    },
+    {
+      "timestamp": "2026-05-15T18:00:00Z",
+      "type": "checkpoint",
+      "milestone": "gate-plugin-discovery",
+      "summary": "Gate Plugin Discovery: phase-gate.sh converted from hardcoded delegation to convention-based plugin discovery. 8 gate plugins created in scripts/gates/{research,plan,implement,verify}/. New scope-check gate added. 74 tests (up from 68). All plugins independently runnable with standard exit codes.",
+      "filesChanged": [
+        "scripts/gates/ (NEW directory --- 8 plugins: research/sufficiency, plan/catfish, plan/scope-check, implement/comprehension, implement/preflight, implement/decisions, implement/autonomy, verify/quality-speed)",
+        "scripts/phase-gate.sh (REWORKED --- quality checks section replaced with auto-discovery engine)",
+        "commands/plan.md (UPDATED --- references plugin discovery)",
+        "commands/implement.md (UPDATED --- references plugin discovery)",
+        "scripts/test-smoke.sh (6 new P12 gate plugin discovery tests)"
+      ],
+      "verification": "74 tests pass (68 unchanged + 6 new). All 4 phases discover correct plugins. Plugins auto-skip on missing evidence."
     }
   ]
 }
