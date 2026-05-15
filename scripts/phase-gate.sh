@@ -121,6 +121,7 @@ done
 decision="allow"
 reason="phase prerequisites satisfied"
 next="proceed"
+OVERALL_RESULT=0   # Used by constitution + quality checks; 0=pass, 1=fail, 2=warn
 
 case "$PHASE" in
   research)
@@ -180,7 +181,7 @@ echo "Next: $next"
 # ---------------------------------------------------------------------------
 # Constitution article gates (--constitution or --all-checks)
 # ---------------------------------------------------------------------------
-if [[ "$CHECK_CONSTITUTION" == true ]] || [[ "$ALL_CHECKS" == true ]]; then
+if [[ "$CHECK_CONSTITUTION" == true ]] || [[ "$CHECK_QUALITY" == true ]] || [[ "$ALL_CHECKS" == true ]]; then
   CONSTITUTION_SCRIPT="$SCRIPT_DIR/constitution.sh"
   if [[ -f "$CONSTITUTION_SCRIPT" ]] && [[ -f "$REPO_ROOT/constitution.md" ]]; then
     echo ""
@@ -201,10 +202,13 @@ if [[ "$CHECK_CONSTITUTION" == true ]] || [[ "$ALL_CHECKS" == true ]]; then
         echo "  Constitution gate PASSED"
       else
         echo "  Constitution gate BLOCKED --- see above"
-        # Don't override a 'block' decision, but set a flag for combined result
         if [[ "$decision" == "allow" ]]; then
           decision="block"
           reason="constitution gate blocked this transition"
+        fi
+        # Also affect quality check result if --check-quality is active
+        if [[ "$CHECK_QUALITY" == true ]] || [[ "$ALL_CHECKS" == true ]]; then
+          [[ "$OVERALL_RESULT" -eq 0 ]] && OVERALL_RESULT=1
         fi
       fi
     else
