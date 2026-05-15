@@ -24,9 +24,11 @@ import json
 import os
 import pathlib
 import sys
+import time
 import yaml
 
 SKILLS_DIR = pathlib.Path(__file__).resolve().parent.parent / "skills"
+RUNTIME_DIR = pathlib.Path(__file__).resolve().parent.parent / ".runtime"
 
 # Colors (disabled if piped or non-interactive)
 USE_COLOR = sys.stdout.isatty()
@@ -159,6 +161,17 @@ def cmd_load(args):
     if not skill_dir.exists() or not (skill_dir / "SKILL.md").exists():
         print(f"Skill '{name}' not found.")
         sys.exit(1)
+
+    # Audit trail: write skill load event to .runtime/skill-audit.jsonl
+    audit_entry = {
+        "event": "skill_load",
+        "skill": name,
+        "timestamp": time.time(),
+        "session_id": os.environ.get("OPENCODE_SESSION_ID", os.environ.get("TERM_SESSION_ID", "unknown")),
+    }
+    RUNTIME_DIR.mkdir(parents=True, exist_ok=True)
+    with open(str(RUNTIME_DIR / "skill-audit.jsonl"), "a") as f:
+        f.write(json.dumps(audit_entry) + "\n")
 
     # Output the full SKILL.md body (stripping frontmatter for cleaner context)
     content = (skill_dir / "SKILL.md").read_text(encoding="utf-8")

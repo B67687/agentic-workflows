@@ -16,6 +16,27 @@ If `Implement decision: block`, do not implement. Send the task back exactly one
 
 If `Implement decision: caution`, fix the checkout state first or move the work into a worktree before implementing.
 
+### Comprehension Gate (Enforced Participation)
+
+Before implementing any task, the agent must demonstrate comprehension of the relevant instructions by producing a structured evidence file:
+
+```bash
+# Extract the comprehension template from the primary instruction file
+bash ./scripts/comprehension-gate.sh extract commands/implement.md
+
+# Fill in each <!--REQUIRED--> section in .runtime/comprehension-evidence.md
+# Then verify it passes:
+bash ./scripts/comprehension-gate.sh verify .runtime/comprehension-evidence.md
+```
+
+This implements the Recognition model (Attaguile 2026): the system requires participation rather than suggesting it. The four required sections force the agent to extract:
+1. **Verification target** --- what proves this task is done correctly
+2. **Relevant anti-rationalization** --- which shortcut from the instructions applies to this specific task
+3. **Red flag to avoid** --- which danger signal is most relevant
+4. **Out of scope** --- what this task explicitly does not include
+
+The quality gate checks for filled sections at commit time.
+
 ### Human-in-the-Loop Gate (12-Factor F7/F8)
 
 For high-risk operations (production data, destructive commands, billing actions),

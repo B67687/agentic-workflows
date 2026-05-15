@@ -345,6 +345,42 @@ check_ascii() {
   fi
 }
 
+check_comprehension_evidence() {
+  local evidence_file="$REPO_ROOT/.runtime/comprehension-evidence.md"
+
+  if [[ ! -f "$evidence_file" ]]; then
+    # No evidence file: only warn if there's skill-load activity
+    local audit_file="$REPO_ROOT/.runtime/skill-audit.jsonl"
+    if [[ -f "$audit_file" ]] && [[ "$(wc -l < "$audit_file" 2>/dev/null || echo 0)" -gt 0 ]]; then
+      print_issue "WARN" "(session)" "Skills loaded but no comprehension evidence found in .runtime/comprehension-evidence.md"
+      print_issue "WARN" "(session)" "  Run: bash scripts/comprehension-gate.sh extract <skill-or-command>"
+    fi
+    return
+  fi
+
+  # Check for required markers and content via the comprehension-gate verify command
+  local gate_script="$REPO_ROOT/scripts/comprehension-gate.sh"
+  if [[ ! -f "$gate_script" ]]; then
+    return
+  fi
+
+  echo ":: Checking comprehension evidence..."
+  local verify_output
+  verify_output=$(bash "$gate_script" verify "$evidence_file" 2>&1 || true)
+
+  local verify_exit=$?
+  if [[ "$verify_exit" -eq 1 ]]; then
+    # FAIL
+    print_issue "ERROR" ".runtime/comprehension-evidence.md" "Comprehension gate FAILED"
+    echo "  $verify_output" | while IFS= read -r line; do echo "         $line"; done
+  elif [[ "$verify_exit" -eq 2 ]]; then
+    # WARN
+    print_issue "WARN" ".runtime/comprehension-evidence.md" "Comprehension gate has warnings"
+    echo "  $verify_output" | while IFS= read -r line; do echo "         $line"; done
+  fi
+  # exit 0: PASS, nothing to report
+}
+
 # ---- Main ----
 
 echo "=========================================="
@@ -361,6 +397,7 @@ check_shellcheck
 check_source_citation
 check_ascii
 check_unaddressed_dissent
+check_comprehension_evidence
 
 echo ""
 echo "=========================================="
