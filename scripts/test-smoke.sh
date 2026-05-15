@@ -547,10 +547,35 @@ assert_output_not_contains "gate plugin: quality section absent without flag" \
   "bash scripts/phase-gate.sh plan --research-done 2>&1" \
   "Phase Quality Checks"
 
+# ===========================================================================
 echo ""
+echo "--- P13: Decision Pipeline ---"
+
+# Test syntax
+assert_exit "decision-pipeline.sh syntax" \
+  "bash -n scripts/decision-pipeline.sh"
+
+# Test list command
+assert_output_contains "decision-pipeline: list" \
+  "bash scripts/decision-pipeline.sh list 2>&1" \
+  "plan->implement"
+
+# Test help/usage
+assert_output_contains "decision-pipeline: help" \
+  "bash scripts/decision-pipeline.sh --help 2>&1" \
+  "research->plan"
+
+# Test implement->verify pipeline (runs quickly, 1 step)
+assert_output_contains "decision-pipeline: implement->verify" \
+  "bash scripts/decision-pipeline.sh implement->verify 'smoke test' 2>&1; true" \
+  "Pipeline complete: implement->verify"
+
+# Test unknown transition error
+assert_output_contains "decision-pipeline: unknown transition" \
+  "bash scripts/decision-pipeline.sh bad->transition 2>&1; true" \
+  "Unknown transition"
 
 echo ""
-echo "=== Results ==="
 echo "  Pass: $PASS"
 echo "  Fail: $FAIL"
 echo "  Skip: $SKIP"
