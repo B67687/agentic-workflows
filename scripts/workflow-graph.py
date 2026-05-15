@@ -918,6 +918,18 @@ HTML = r'''<!DOCTYPE html>
   const network = new vis.Network(container, data, options);
   let physicsFrozen = false;
 
+  // Zoom limits: clamp scale between 0.12 and 4.0
+  const MIN_ZOOM = 0.12;
+  const MAX_ZOOM = 4.0;
+  network.on('zoom', function(params) {
+    if (params.scale < MIN_ZOOM) {
+      network.moveTo({ scale: MIN_ZOOM, animation: false });
+    }
+    if (params.scale > MAX_ZOOM) {
+      network.moveTo({ scale: MAX_ZOOM, animation: false });
+    }
+  });
+
   network.once('stabilizationIterationsDone', function() {
     network.setOptions({
       physics: {
