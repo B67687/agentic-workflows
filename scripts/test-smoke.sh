@@ -625,13 +625,14 @@ assert_output_contains "decision-pipeline: help" \
   "research->plan"
 
 # Test implement->verify pipeline (runs quickly, 1 step)
+# Note: -> must be quoted to prevent shell redirect interpretation
 assert_output_contains "decision-pipeline: implement->verify" \
-  "bash scripts/decision-pipeline.sh implement->verify 'smoke test' 2>&1; true" \
+  "bash scripts/decision-pipeline.sh 'implement->verify' 'smoke test' 2>&1; true" \
   "Pipeline complete: implement->verify"
 
 # Test unknown transition error
 assert_output_contains "decision-pipeline: unknown transition" \
-  "bash scripts/decision-pipeline.sh bad->transition 2>&1; true" \
+  "bash scripts/decision-pipeline.sh 'bad->transition' 2>&1; true" \
   "Unknown transition"
 
 # ===========================================================================
