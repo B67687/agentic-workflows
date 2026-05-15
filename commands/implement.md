@@ -32,19 +32,41 @@ Each plugin is a standalone check. Current plugins for the implement phase:
 2. **Comprehension**: verifies comprehension-gate evidence exists
 3. **CATFISH reconcile**: checks plan challenges are addressed
 4. **Decision log**: warns of unresolved decisions
-5. **Autonomy assessment**: current autonomy level
+5. **Autonomy assessment**: current autonomy level (dynamic cascade --- see below)
 6. **Preflight check**: repo health and task fit
 
-The `--constitution` flag runs Articles IV (CATFISH), V (Comprehension), VI (Simplicity), VIII (Phase Order):
-- Checks adversarial challenge evidence exists
-- Checks comprehension evidence is filled
-- Checks simplicity rationale documented
-- Checks phase artifacts exist
-
-The `--check-ambiguity` flag scans plan and spec files for `[NEEDS CLARIFICATION]` markers.
-Any unresolved markers BLOCK the implement phase — forcing resolution before coding.
-
 New gate plugins can be added by creating `scripts/gates/implement/<name>.sh`.
+
+### Dynamic Autonomy Cascade (9Router-inspired)
+
+Autonomy adjusts MID-PHASE based on accumulated signals, not just once at task start.
+
+**First invocation** --- initializes state and sets baseline level:
+```bash
+bash ./scripts/autonomy-gate.sh start
+# Or with explicit override:
+bash ./scripts/autonomy-gate.sh start --initial FULL
+```
+
+**Mid-phase adjustment** --- re-evaluates based on error counter, comprehension audit, and file decision signals:
+```bash
+bash ./scripts/autonomy-gate.sh adjust
+```
+
+**Current status** --- shows level, signal counters, and transition history:
+```bash
+bash ./scripts/autonomy-gate.sh status
+```
+
+**Cascade rules:**
+| Signal Source | Threshold | Adjustment |
+|--------------|-----------|------------|
+| Error counter streak | >= 2 | Drop one level (FULL->SUPERVISED->RESTRICTED) |
+| Comprehension audit fail/warn | >= 1 | Drop one level |
+| File decision warns | >= 1 | Non-blocking suggestion |
+| Clean operations (no errors) | >= 5 | Restore one level |
+
+The implement/autonomy gate plugin calls `start` on first run and `adjust` subsequently, so the cascade happens automatically whenever the phase gate is invoked.
 
 ### Comprehension Gate (Enforced Participation)
 
