@@ -26,6 +26,9 @@
 
 set -euo pipefail
 
+COMPACT=${COMPACT:-1}
+say() { [[ "$COMPACT" == "0" ]] && echo "$@"; :; }
+
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || echo "$SCRIPT_DIR/..")"
 RUNTIME_DIR="$REPO_ROOT/.runtime"
@@ -164,8 +167,8 @@ verify_evidence() {
 
   if [[ ! -f "$evidence_file" ]]; then
     echo "FAIL: comprehension evidence not found: $evidence_file"
-    echo "  Run: bash scripts/comprehension-gate.sh extract <instruction-file> --out $evidence_file"
-    echo "  Then fill in the <!--REQUIRED--> sections before implementing."
+    say "  Run: bash scripts/comprehension-gate.sh extract <instruction-file> --out $evidence_file"
+    say "  Then fill in the <!--REQUIRED--> sections before implementing."
     log_audit "verify" "$evidence_file" "fail_not_found"
     exit 1
   fi
@@ -178,12 +181,11 @@ verify_evidence() {
   # Check 1: Required markers exist
   if ! echo "$content" | grep -q '<!--REQUIRED-->'; then
     echo "FAIL: No <!--REQUIRED--> markers found in $evidence_file"
-    echo "  The template requires filling in specific sections from the instruction."
+    say "  The template requires filling in specific sections from the instruction."
     failures=$((failures + 1))
   fi
 
   # Check 2: Each required section has substantive content
-  # Count non-empty lines between <!--REQUIRED--> and the next heading or end
   local sections_filled=0
   local in_section=false
   local has_content=false
@@ -202,17 +204,17 @@ verify_evidence() {
   done <<< "$content"
 
   if [[ "$sections_filled" -lt 3 ]]; then
-    echo "WARN: Only $sections_filled of 4 required sections have substantive content."
-    echo "  At least 3 sections must be filled to demonstrate comprehension."
-    echo "  Fill each <!--REQUIRED--> section between the marker and next heading."
+    say "WARN: Only $sections_filled of 4 required sections have substantive content."
+    say "  At least 3 sections must be filled to demonstrate comprehension."
+    say "  Fill each <!--REQUIRED--> section between the marker and next heading."
     warnings=$((warnings + 1))
   fi
 
-  # Check 3: Evidence file has reasonable size (not empty boilerplate)
+  # Check 3: Evidence file has reasonable size
   local line_count
   line_count=$(echo "$content" | wc -l)
   if [[ "$line_count" -lt 15 ]]; then
-    echo "WARN: Evidence file is very short ($line_count lines). Expected ~25+ lines of extracted content."
+    say "WARN: Evidence file is very short ($line_count lines). Expected ~25+ lines of extracted content."
     warnings=$((warnings + 1))
   fi
 
@@ -228,7 +230,11 @@ verify_evidence() {
     exit 2
   fi
 
-  echo "PASS: Comprehension evidence verified"
+  if [[ "$COMPACT" == "1" ]]; then
+    echo "✓ Comprehension evidence verified"
+  else
+    echo "PASS: Comprehension evidence verified"
+  fi
   log_audit "verify" "$evidence_file" "pass"
   exit 0
 }

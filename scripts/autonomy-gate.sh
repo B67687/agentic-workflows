@@ -24,6 +24,9 @@ set -euo pipefail
 # =============================================================================
 
 
+COMPACT=${COMPACT:-1}
+say() { [[ "$COMPACT" == "0" ]] && echo "$@"; :; }
+
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || echo "$SCRIPT_DIR/..")"
 RUNTIME_DIR="$REPO_ROOT/.runtime"
@@ -217,6 +220,11 @@ print_autonomy() {
   fi
   if echo "$reason" | grep -q "verify before commit\|present diff"; then
     verify_before_commit=true
+  fi
+
+  if [[ "$COMPACT" == "1" ]]; then
+    echo "Autonomy: $autonomy | $source | $reason (risk=$risk, files=$files, cross=$cross_module, ctx=$context_score)"
+    return
   fi
 
   echo "=========================================="
@@ -564,16 +572,19 @@ cmd_adjust() {
   local updated_state
 
   if [[ -n "$adjustments" ]]; then
-    # Strip leading |
     adjustments="${adjustments#|}"
-    echo "=========================================="
-    echo "  Autonomy Adjustment"
-    echo "=========================================="
-    echo ""
-    echo "  Previous: $level"
-    echo "  New:      $new_level"
-    echo "  Reasons:  $adjustments"
-    echo ""
+    if [[ "$COMPACT" == "1" ]]; then
+      echo "Autonomy: $level -> $new_level | $adjustments"
+    else
+      echo "=========================================="
+      echo "  Autonomy Adjustment"
+      echo "=========================================="
+      echo ""
+      echo "  Previous: $level"
+      echo "  New:      $new_level"
+      echo "  Reasons:  $adjustments"
+      echo ""
+    fi
 
     updated_state=$(python3 -c "
 import json
@@ -623,11 +634,14 @@ print(json.dumps(s, indent=2))
     esac
     echo ""
   else
-    # No adjustment needed
-    echo "  Autonomy stable: $level (no signal crosses threshold)"
-    echo "    error_streak=$error_streak (threshold: 2)"
-    echo "    comprehension_fails=$comprehension_fails (threshold: 1)"
-    echo "    file_decision_warns=$file_decision_warns (threshold: 1, non-blocking)"
+    if [[ "$COMPACT" == "1" ]]; then
+      echo "Autonomy stable: $level | errors=$error_streak comp=$comprehension_fails warns=$file_decision_warns"
+    else
+      echo "  Autonomy stable: $level (no signal crosses threshold)"
+      echo "    error_streak=$error_streak (threshold: 2)"
+      echo "    comprehension_fails=$comprehension_fails (threshold: 1)"
+      echo "    file_decision_warns=$file_decision_warns (threshold: 1, non-blocking)"
+    fi
     updated_state=$(python3 -c "
 import json
 with open('$STATE_FILE') as f:
@@ -663,7 +677,22 @@ cmd_status() {
     exit 3
   fi
 
-  python3 -c "
+  if [[ "$COMPACT" == "1" ]]; then
+    python3 -c "
+import json, sys
+with open('$STATE_FILE') as f:
+    s = json.load(f)
+level = s.get('level', 'unknown')
+initial = s.get('initial_level', level)
+history = s.get('history', [])
+signals = s.get('signals', {})
+ctx = s.get('context', {})
+transitions = len(history)
+sig = ', '.join(f'{k}={v}' for k, v in signals.items())
+print(f'Autonomy: {level} | initial: {initial} | transitions: {transitions} | signals: {sig}')
+" 2>/dev/null || echo "  Could not parse state file"
+  else
+    python3 -c "
 import json, sys
 with open('$STATE_FILE') as f:
     s = json.load(f)
@@ -702,6 +731,7 @@ for entry in history[-5:]:
     print(f'  {prev} -> {new}  [{source}] {reason}')
 print('')
 " 2>/dev/null || echo "  Could not parse state file"
+  fi
 
   exit 0
 }
