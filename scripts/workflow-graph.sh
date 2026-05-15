@@ -20,19 +20,22 @@ if [[ "${1:-}" == "--inline" ]]; then
     echo "--- Copy this into README.md ---"
     echo ""
     echo '<p align="center">'
-    echo '  <a href="workflow-graph.html">'
+    echo '  <a href="https://b67687.github.io/agentic-workflows/workflow-graph.html">'
     echo '    <picture>'
     echo '      <source media="(prefers-color-scheme: dark)" srcset="workflow-graph.svg">'
     echo '      <img src="workflow-graph.svg" width="100%" alt="Workflow Diagram" style="max-width:1100px;">'
     echo '    </picture>'
     echo '  </a>'
-    echo '  <br><sub><a href="workflow-graph.html">Open interactive version ↗</a></sub>'
+    echo '  <br><sub><a href="https://b67687.github.io/agentic-workflows/workflow-graph.html" target="_blank">Open interactive version ↗</a> (click nodes for details, expand gates to see decision chains)</sub>'
     echo '</p>'
     echo ""
     echo "--- End snippet ---"
 else
     echo "🧩 Building Workflow DAG..."
     python3 scripts/workflow-graph.py "$@"
+    # Deploy interactive HTML to docs/ for GitHub Pages
+    cp workflow-graph.html docs/workflow-graph.html 2>/dev/null
+    echo "📄 Deployed to docs/workflow-graph.html (GitHub Pages)"
     echo ""
     echo "📄 To update README: bash scripts/workflow-graph.sh --inline"
 fi

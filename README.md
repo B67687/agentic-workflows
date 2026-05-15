@@ -94,7 +94,7 @@ The system orchestrates work across five interlocking workflows. The diagram bel
       <img src="workflow-graph.svg" width="100%" alt="Workflow Diagram" style="max-width:1100px;">
     </picture>
   </a>
-  <br><sub><a href="workflow-graph.html">Open interactive version ↗</a> (click nodes for details, expand gates to see decision chains)</sub>
+  <br><sub><a href="https://b67687.github.io/agentic-workflows/workflow-graph.html" target="_blank">Open interactive version ↗</a> (click nodes for details, expand gates to see decision chains — hosted on GitHub Pages)</sub>
 </p>
 
 <p align="center">

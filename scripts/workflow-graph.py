@@ -1126,6 +1126,7 @@ def build_svg_diagram():
     W = 1100
     H = 720
     CX = W // 2  # center x = 550
+    FONT = "-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif"
 
     # Colors (dark theme, matching the repo's style)
     BG = "#0d1117"
@@ -1162,13 +1163,13 @@ def build_svg_diagram():
 
     # -- Helper: rounded rect --
     def rect(x, y, w, h, fill, stroke, label, opts=""):
-        push(f'<rect x="{x}" y="{y}" width="{w}" height="{h}" rx="6" fill="{fill}" stroke="{stroke}" stroke-width="1.5" {opts}/>')
-        push(f'<text x="{x + w//2}" y="{y + h//2 + 4}" text-anchor="middle" fill="{NODE_TEXT}" font-family="system-ui,sans-serif" font-size="11" font-weight="600">{label}</text>')
+        push(f'<rect x="{x}" y="{y}" width="{w}" height="{h}" fill="{fill}" stroke="{stroke}" stroke-width="1.5" {opts}/>')
+        push(f'<text x="{x + w//2}" y="{y + h//2 + 4}" text-anchor="middle" fill="{NODE_TEXT}" font-family="-apple-system,BlinkMacSystemFont,\'Segoe UI\',sans-serif" font-size="11" font-weight="600">{label}</text>')
 
     def diamond(cx, cy, size, fill, stroke, label, opts=""):
         s = size // 2
         push(f'<polygon points="{cx},{cy-s} {cx+s},{cy} {cx},{cy+s} {cx-s},{cy}" fill="{fill}" stroke="{stroke}" stroke-width="1.5" {opts}/>')
-        push(f'<text x="{cx}" y="{cy + 3}" text-anchor="middle" fill="{NODE_TEXT}" font-family="system-ui,sans-serif" font-size="9" font-weight="500">{label}</text>')
+        push(f'<text x="{cx}" y="{cy + 3}" text-anchor="middle" fill="{NODE_TEXT}" font-family="{FONT}" font-size="9" font-weight="500">{label}</text>')
 
     def arrow(x1, y1, x2, y2, color=LINE_MAIN, label="", dash=""):
         style = f'stroke="{color}" stroke-width="1.5" marker-end="url(#arrow)"'
@@ -1177,10 +1178,10 @@ def build_svg_diagram():
         push(f'<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" {style}/>')
         if label:
             mx, my = (x1 + x2) // 2, (y1 + y2) // 2 - 10
-            push(f'<text x="{mx}" y="{my}" text-anchor="middle" fill="{TEXT_MUTED}" font-family="system-ui,sans-serif" font-size="8">{label}</text>')
+            push(f'<text x="{mx}" y="{my}" text-anchor="middle" fill="{TEXT_MUTED}" font-family="{FONT}" font-size="8">{label}</text>')
 
     def section_title(x, y, title):
-        push(f'<text x="{x}" y="{y}" fill="{SECTION_TITLE}" font-family="system-ui,sans-serif" font-size="10" font-weight="600" text-transform="uppercase" letter-spacing="1">{title}</text>')
+        push(f'<text x="{x}" y="{y}" fill="{SECTION_TITLE}" font-family="{FONT}" font-size="10" font-weight="600" text-transform="uppercase" letter-spacing="1">{title}</text>')
 
     # ──────────────────────────────────────────────────────────────────
     # TIER 1: PROPAGATION + TOOL LANDSCAPE (y=30..120)
@@ -1200,12 +1201,13 @@ def build_svg_diagram():
     rect(540, 25, 80, 22, TOOL_BG, TOOL_BD, "commands/")
     rect(540, 53, 80, 22, TOOL_BG, TOOL_BD, "CLAUDE.md")
 
-    # Topic folders
-    rect(660, 35, 110, 28, "#6e7681", "#848d97", "14 topic folders", opts='rx="14"')
+    # Topic folders (larger radius)
+    push(f'<rect x="660" y="35" width="110" height="28" rx="14" fill="#6e7681" stroke="#848d97" stroke-width="1.5"/>')
+    push(f'<text x="715" y="53" text-anchor="middle" fill="{NODE_TEXT}" font-family="-apple-system,BlinkMacSystemFont,\'Segoe UI\',sans-serif" font-size="11" font-weight="600">14 topic folders</text>')
     # Status check
     rect(810, 35, 90, 28, GATE_BG, GATE_BD, "✓ sync status")
 
-    push(f'<text x="{W - 30}" y="25" text-anchor="end" fill="{TEXT_MUTED}" font-family="system-ui,sans-serif" font-size="9">{PROP_DATA["total_pairs"]} file targets per folder</text>')
+    push(f'<text x="{W - 30}" y="25" text-anchor="end" fill="{TEXT_MUTED}" font-family="{FONT}" font-size="9">{PROP_DATA["total_pairs"]} file targets per folder</text>')
 
     # Edges
     arrow(130, 49, 170, 49, LINE_MAIN)
@@ -1243,7 +1245,7 @@ def build_svg_diagram():
 
     # End ellipse
     push(f'<ellipse cx="1090" cy="255" rx="30" ry="16" fill="none" stroke="{LINE_CLR}" stroke-width="1.5"/>')
-    push(f'<text x="1090" y="259" text-anchor="middle" fill="{TEXT_MUTED}" font-family="system-ui,sans-serif" font-size="11">End</text>')
+    push(f'<text x="1090" y="259" text-anchor="middle" fill="{TEXT_MUTED}" font-family="{FONT}" font-size="11">End</text>')
 
     # Main flow arrows
     arrow(180, 255, 210, 255, LINE_MAIN)
@@ -1273,15 +1275,15 @@ def build_svg_diagram():
         pass  # skip for SVG (too detailed)
 
     # Gate details as floating label
-    push(f'<text x="270" y="295" text-anchor="middle" fill="{TEXT_MUTED}" font-family="system-ui,sans-serif" font-size="7">model-select · sufficiency · scope-check</text>')
-    push(f'<text x="420" y="295" text-anchor="middle" fill="{TEXT_MUTED}" font-family="system-ui,sans-serif" font-size="7">model-select · catfish · scope · comprehension · decisions · autonomy · preflight</text>')
-    push(f'<text x="560" y="295" text-anchor="middle" fill="{TEXT_MUTED}" font-family="system-ui,sans-serif" font-size="7">quality-speed check (full suite or smoke?)</text>')
-    push(f'<text x="700" y="295" text-anchor="middle" fill="{TEXT_MUTED}" font-family="system-ui,sans-serif" font-size="7">test-smoke · test-workflows · counsel-run</text>')
-    push(f'<text x="840" y="295" text-anchor="middle" fill="{TEXT_MUTED}" font-family="system-ui,sans-serif" font-size="7">checkpoint-commit · context-save · handoff</text>')
+    push(f'<text x="270" y="295" text-anchor="middle" fill="{TEXT_MUTED}" font-family="{FONT}" font-size="7">model-select · sufficiency · scope-check</text>')
+    push(f'<text x="420" y="295" text-anchor="middle" fill="{TEXT_MUTED}" font-family="{FONT}" font-size="7">model-select · catfish · scope · comprehension · decisions · autonomy · preflight</text>')
+    push(f'<text x="560" y="295" text-anchor="middle" fill="{TEXT_MUTED}" font-family="{FONT}" font-size="7">quality-speed check (full suite or smoke?)</text>')
+    push(f'<text x="700" y="295" text-anchor="middle" fill="{TEXT_MUTED}" font-family="{FONT}" font-size="7">test-smoke · test-workflows · counsel-run</text>')
+    push(f'<text x="840" y="295" text-anchor="middle" fill="{TEXT_MUTED}" font-family="{FONT}" font-size="7">checkpoint-commit · context-save · handoff</text>')
 
     # Question Gate before Route
     diamond(145, 255, 30, GATE_BG, GATE_BD, "Q")
-    push(f'<text x="145" y="230" text-anchor="middle" fill="{TEXT_MUTED}" font-family="system-ui,sans-serif" font-size="7">Question</text>')
+    push(f'<text x="145" y="230" text-anchor="middle" fill="{TEXT_MUTED}" font-family="{FONT}" font-size="7">Question</text>')
     arrow(50, 274, 50, 255, LINE_MAIN)  # Start -> Q gate
     arrow(160, 255, 210, 255, LINE_MAIN)
 
@@ -1309,18 +1311,18 @@ def build_svg_diagram():
 
     for bx, blabel, bscript, bcolor in branch_data:
         rect(bx - 60, branch_y + 10, 120, 38, bcolor, BRANCH_BD, blabel)
-        push(f'<text x="{bx}" y="{branch_y + 58}" text-anchor="middle" fill="{TEXT_MUTED}" font-family="system-ui,sans-serif" font-size="7">{bscript}</text>')
+        push(f'<text x="{bx}" y="{branch_y + 58}" text-anchor="middle" fill="{TEXT_MUTED}" font-family="{FONT}" font-size="7">{bscript}</text>')
         # Arrow from horizontal line down to branch
         push(f'<line x1="{bx}" y1="{branch_y}" x2="{bx}" y2="{branch_y + 10}" stroke="{LINE_CLR}" stroke-width="1" stroke-dasharray="2,2"/>')
 
     # Agent dispatch targets (small boxes below agent dispatch)
     ad_y = branch_y + 50
-    push(f'<text x="160" y="{ad_y + 55}" text-anchor="middle" fill="{TEXT_MUTED}" font-family="system-ui,sans-serif" font-size="8">→ pi · codex · claude</text>')
-    push(f'<text x="160" y="{ad_y + 66}" text-anchor="middle" fill="{TEXT_MUTED}" font-family="system-ui,sans-serif" font-size="8">/ship: reviewer + security + test</text>')
+    push(f'<text x="160" y="{ad_y + 55}" text-anchor="middle" fill="{TEXT_MUTED}" font-family="{FONT}" font-size="8">→ pi · codex · claude</text>')
+    push(f'<text x="160" y="{ad_y + 66}" text-anchor="middle" fill="{TEXT_MUTED}" font-family="{FONT}" font-size="8">/ship: reviewer + security + test</text>')
 
     # Pipeline run targets
-    push(f'<text x="390" y="{ad_y + 55}" text-anchor="middle" fill="{TEXT_MUTED}" font-family="system-ui,sans-serif" font-size="8">@worker · @explore · @review</text>')
-    push(f'<text x="390" y="{ad_y + 66}" text-anchor="middle" fill="{TEXT_MUTED}" font-family="system-ui,sans-serif" font-size="8">on_error: abort/continue/retry:N</text>')
+    push(f'<text x="390" y="{ad_y + 55}" text-anchor="middle" fill="{TEXT_MUTED}" font-family="{FONT}" font-size="8">@worker · @explore · @review</text>')
+    push(f'<text x="390" y="{ad_y + 66}" text-anchor="middle" fill="{TEXT_MUTED}" font-family="{FONT}" font-size="8">on_error: abort/continue/retry:N</text>')
 
     # ──────────────────────────────────────────────────────────────────
     # TIER 4: SESSION LIFECYCLE (y=550..650)
@@ -1351,10 +1353,10 @@ def build_svg_diagram():
     # ──────────────────────────────────────────────────────────────────
     panel_x = 50
     panel_y = 610
-    push(f'<text x="{panel_x}" y="630" fill="{SECTION_TITLE}" font-family="system-ui,sans-serif" font-size="10" font-weight="600">▸ Tool Landscape: {sum(TOOL_COUNTS.values())} registered</text>')
+    push(f'<text x="{panel_x}" y="630" fill="{SECTION_TITLE}" font-family="{FONT}" font-size="10" font-weight="600">▸ Tool Landscape: {sum(TOOL_COUNTS.values())} registered</text>')
     tool_str = " · ".join(f"{cat}: {cnt}" for cat, cnt in sorted(TOOL_COUNTS.items(), key=lambda x: -x[1]) if cnt > 0)
-    push(f'<text x="{panel_x}" y="648" fill="{TEXT_MUTED}" font-family="system-ui,sans-serif" font-size="9">{tool_str}</text>')
-    push(f'<text x="{panel_x}" y="664" fill="{TEXT_MUTED}" font-family="system-ui,sans-serif" font-size="9">14 commands · 46 skills · 8 agents · {TMPL_DATA["templates"]} propagation templates</text>')
+    push(f'<text x="{panel_x}" y="648" fill="{TEXT_MUTED}" font-family="{FONT}" font-size="9">{tool_str}</text>')
+    push(f'<text x="{panel_x}" y="664" fill="{TEXT_MUTED}" font-family="{FONT}" font-size="9">14 commands · 46 skills · 8 agents · {TMPL_DATA["templates"]} propagation templates</text>')
 
     # ──────────────────────────────────────────────────────────────────
     # FOOTER / LEGEND
@@ -1373,10 +1375,10 @@ def build_svg_diagram():
     lx = 30
     for lcolor, llabel in legend_items:
         push(f'<rect x="{lx}" y="{ly}" width="10" height="10" rx="2" fill="{lcolor}" stroke="{lcolor}" stroke-width="1"/>')
-        push(f'<text x="{lx + 15}" y="{ly + 9}" fill="{TEXT}" font-family="system-ui,sans-serif" font-size="9">{llabel}</text>')
+        push(f'<text x="{lx + 15}" y="{ly + 9}" fill="{TEXT}" font-family="{FONT}" font-size="9">{llabel}</text>')
         lx += 90
 
-    push(f'<text x="{W - 240}" y="{ly + 9}" fill="{TEXT_MUTED}" font-family="system-ui,sans-serif" font-size="8">Interactive: open workflow-graph.html in browser</text>')
+    push(f'<text x="{W - 260}" y="{ly + 9}" fill="{TEXT_MUTED}" font-family="{FONT}" font-size="8">Interactive: b67687.github.io/agentic-workflows/workflow-graph.html</text>')
 
     push('</svg>')
     return "\n".join(svg)
