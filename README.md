@@ -145,12 +145,12 @@ See [docs/workflow.md](docs/workflow.md) for the full system, [docs/hub-quicksta
     AutoGen · <a href="https://github.com/google/adk-python"><b>*Google ADK</b></a> · Claude Agent SDK · <a href="https://platform.openai.com/docs/guides/agents"><b>*OpenAI Agents SDK</b></a> · <a href="https://github.com/pydantic/pydantic-ai"><b>*Pydantic AI</b></a> · AutoGPT · MetaGPT · <a href="https://github.com/a2aproject/A2A"><b>*A2A Protocol</b></a> · <a href="https://github.com/NousResearch/hermes-agent"><b>*Hermes Agent</b></a> · AgentScope · Open-SWE · <a href="https://github.com/crewAIInc/crewAI"><b>*crewAI</b></a>
   </td>
   <td width="33%" valign="top">
-    <img src="https://img.shields.io/badge/Developer%20Tools-11-0ea5e9?style=flat-square" alt="Dev Tools"><br>
-    <a href="https://code.claude.com/docs/en/best-practices"><b>*Claude Code</b></a> · <a href="https://github.com/Aider-AI/aider"><b>*Aider</b></a> · <a href="https://github.com/humanlayer/humanlayer"><b>*HumanLayer</b></a> · <a href="https://github.com/garrytan/gstack"><b>*GStack</b></a> · <a href="https://github.com/anthropics/claude-plugins-official"><b>*Claude Plugins</b></a> · UI-TARS · Deer Flow · <a href="https://github.com/browser-use/browser-use"><b>*browser-use</b></a> · <a href="https://github.com/anomalyco/opencode"><b>*OpenCode</b></a> · Pi · <a href="https://github.com/SWE-agent/SWE-agent"><b>*SWE-agent</b></a>
+    <img src="https://img.shields.io/badge/Developer%20Tools-12-0ea5e9?style=flat-square" alt="Dev Tools"><br>
+    <a href="https://code.claude.com/docs/en/best-practices"><b>*Claude Code</b></a> · <a href="https://github.com/Aider-AI/aider"><b>*Aider</b></a> · <a href="https://github.com/humanlayer/humanlayer"><b>*HumanLayer</b></a> · <a href="https://github.com/garrytan/gstack"><b>*GStack</b></a> · <a href="https://github.com/anthropics/claude-plugins-official"><b>*Claude Plugins</b></a> · UI-TARS · Deer Flow · <a href="https://github.com/browser-use/browser-use"><b>*browser-use</b></a> · <a href="https://github.com/anomalyco/opencode"><b>*OpenCode</b></a> · Pi · <a href="https://github.com/SWE-agent/SWE-agent"><b>*SWE-agent</b></a> · <a href="https://github.com/Hmbown/DeepSeek-TUI"><b>*DeepSeek-TUI</b></a>
   </td>
   <td width="33%" valign="top">
-    <img src="https://img.shields.io/badge/Skills%20%26%20Quality-5-3fb950?style=flat-square" alt="Skills"><br>
-    <a href="https://github.com/addyosmani/agent-skills"><b>*Agent-Skills</b></a> · <a href="https://github.com/humanlayer/12-factor-agents"><b>*12-Factor Agents</b></a> · System Design Primer · <a href="https://github.com/tree-sitter/tree-sitter"><b>*tree-sitter</b></a> · <a href="https://github.com/promptfoo/promptfoo"><b>*promptfoo</b></a>
+    <img src="https://img.shields.io/badge/Skills%20%26%20Quality-6-3fb950?style=flat-square" alt="Skills"><br>
+    <a href="https://github.com/addyosmani/agent-skills"><b>*Agent-Skills</b></a> · <a href="https://github.com/humanlayer/12-factor-agents"><b>*12-Factor Agents</b></a> · <a href="https://github.com/github/spec-kit"><b>*Spec Kit</b></a> · System Design Primer · <a href="https://github.com/tree-sitter/tree-sitter"><b>*tree-sitter</b></a> · <a href="https://github.com/promptfoo/promptfoo"><b>*promptfoo</b></a>
   </td>
 </tr>
 </table>
