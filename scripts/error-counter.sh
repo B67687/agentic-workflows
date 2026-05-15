@@ -187,6 +187,7 @@ PY
   fi
 
   echo "  Retries remaining: $((THRESHOLD - count)) before escalation"
+  echo "  To classify failure: error-counter.sh decide \"$operation\""
   return 0
 }
 

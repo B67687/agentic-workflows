@@ -134,7 +134,18 @@ elif [[ "$VERIFIED" == true || "$TURNS" -ge 8 ]]; then
   NEXT="update session-state.json now; restart if the next step changes phase"
 fi
 
+# Commit signal: always recommend commit after a verified phase or at task boundary
+COMMIT_SUGGEST=""
+if [[ "$VERIFIED" == true ]]; then
+  COMMIT_SUGGEST="commit verified work: bash ./scripts/checkpoint-commit.sh -m 'phase: summary'"
+elif [[ "$TASK_COMPLETE" == true ]]; then
+  COMMIT_SUGGEST="commit completed task before new session"
+fi
+
 echo "Decision: $DECISION"
 echo "Phase: ${PHASE:-unspecified}"
 echo "Reason: $WHY"
 echo "Next: $NEXT"
+if [[ -n "$COMMIT_SUGGEST" ]]; then
+  echo "Commit:  $COMMIT_SUGGEST"
+fi
