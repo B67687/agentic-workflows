@@ -1,0 +1,1073 @@
+# =============================================================================
+# tools.toml — Structured tool manifest for agentic-workflows
+#
+# Machine-readable registry of all agent-callable tools. Consumable by:
+#   - MCP servers (register each tool programmatically)
+#   - Agent runtimes (DeepSeek-TUI, OpenCode, Claude Code via MCP)
+#   - scripts/tools.sh (generate human-readable + JSON output)
+#   - Quality gates (determine which gates fire after which tools)
+#
+# Schema version: 1.0
+# Last updated: 2026-05-15
+# =============================================================================
+
+# Metadata
+[registry]
+version = "1.0"
+updated = "2026-05-15"
+tool_count = 95
+command_count = 14
+binary_count = 6
+description = "Agentic Workflows — agent harness tool registry"
+
+# =============================================================================
+# TOOL CATEGORIES
+# =============================================================================
+# workflow    — phase gates, planning, implementation orchestration
+# quality     — quality gates, verification, checks
+# session     — session state, checkpoint, resume, handoff
+# git         — git operations, worktree management
+# agent       — agent dispatch, sub-agents, pipeline, sandbox
+# memory      — learnings, memory stores, consolidation
+# research    — research methodology, analysis
+# skill       — skill management, progressive loading
+# safety      — error handling, escalation, guardrails
+# experiment  — benchmarks, experiments, optimization
+# comms       — agent-to-human, parley multi-agent
+# productivity — north-star, goal-decompose, product-shape
+# utility     — general utilities, tool registry, indexing
+# constitution — governance, policy
+# =============================================================================
+
+# =============================================================================
+# WORKFLOW TOOLS
+# =============================================================================
+
+[[tool]]
+name = "task-intake"
+description = "Deterministic task intake with git-aware default routing"
+category = "workflow"
+path = "scripts/task-intake.sh"
+type = "script"
+phases = ["intake"]
+quality_gates = []
+inputs.verbose = { type = "boolean", description = "Verbose output", default = false }
+
+[[tool]]
+name = "phase-gate"
+description = "Decide whether the next phase is allowed to proceed. Gate plugin discovery from scripts/gates/{phase}/*.sh"
+category = "workflow"
+path = "scripts/phase-gate.sh"
+type = "script"
+phases = ["research", "plan", "implement", "verify", "session"]
+quality_gates = ["constitution", "comprehension", "preflight"]
+inputs.phase = { type = "string", description = "Phase name", enum = ["research", "plan", "implement", "verify", "session"] }
+inputs.check_quality = { type = "boolean", description = "Run quality gate plugin discovery", default = false }
+
+[[tool]]
+name = "plan-guard"
+description = "Keep planning from expanding beyond the next executable slice. Includes --challenge flag for CATFISH protocol"
+category = "workflow"
+path = "scripts/plan-guard.sh"
+type = "script"
+phases = ["plan"]
+quality_gates = []
+inputs.challenge = { type = "boolean", description = "Run CATFISH adversarial challenge", default = false }
+inputs.trivial = { type = "boolean", description = "Skip guard for trivial tasks", default = false }
+
+[[tool]]
+name = "plan-challenge"
+description = "Dynamic dissent engine for CATFISH protocol. Submits plans to adversarial counterfactual review"
+category = "workflow"
+path = "scripts/plan-challenge.sh"
+type = "script"
+phases = ["plan"]
+quality_gates = []
+
+[[tool]]
+name = "implement-preflight"
+description = "Deterministic repo + phase preflight before implementation begins"
+category = "workflow"
+path = "scripts/implement-preflight.sh"
+type = "script"
+phases = ["implement"]
+quality_gates = ["comprehension", "constitution"]
+
+[[tool]]
+name = "milestone-shape"
+description = "Turn a big goal into one bounded milestone bet"
+category = "workflow"
+path = "scripts/milestone-shape.sh"
+type = "script"
+phases = ["intake", "plan"]
+quality_gates = []
+
+[[tool]]
+name = "task-slice"
+description = "Force oversized tasks into a milestone ladder plus first slice"
+category = "workflow"
+path = "scripts/task-slice.sh"
+type = "script"
+phases = ["intake", "plan"]
+quality_gates = []
+
+[[tool]]
+name = "task-tree"
+description = "Break a large goal into a navigable domain/milestone/slice tree"
+category = "workflow"
+path = "scripts/task-tree.sh"
+type = "script"
+phases = ["intake"]
+quality_gates = []
+
+[[tool]]
+name = "north-star"
+description = "Preserve the large goal while preventing one-shot execution"
+category = "workflow"
+path = "scripts/north-star.sh"
+type = "script"
+phases = ["intake"]
+quality_gates = []
+
+[[tool]]
+name = "product-shape"
+description = "Extract product intent before milestone or slice planning"
+category = "workflow"
+path = "scripts/product-shape.sh"
+type = "script"
+phases = ["intake"]
+quality_gates = []
+
+[[tool]]
+name = "close-task"
+description = "Deterministic task closure classification (fixed/obsolete/parked)"
+category = "workflow"
+path = "scripts/close-task.sh"
+type = "script"
+phases = ["verify"]
+quality_gates = []
+
+[[tool]]
+name = "finish-task"
+description = "Deterministic close-task + checkpoint composite"
+category = "workflow"
+path = "scripts/finish-task.sh"
+type = "script"
+phases = ["verify"]
+quality_gates = ["checkpoint"]
+
+[[tool]]
+name = "session-boundary"
+description = "Decide whether to continue, checkpoint, or restart based on session health"
+category = "workflow"
+path = "scripts/session-boundary.sh"
+type = "script"
+phases = ["session"]
+quality_gates = ["checkpoint"]
+inputs.commit_signal = { type = "boolean", description = "Check if changes justify a commit", default = false }
+
+[[tool]]
+name = "workflow-router"
+description = "Normal-language request router — classify intent and route to correct lane"
+category = "workflow"
+path = "scripts/workflow-router.sh"
+type = "script"
+phases = ["intake"]
+quality_gates = []
+
+[[tool]]
+name = "pipeline-run"
+description = "Subagent pipeline state manager with async dispatch + collect workflow"
+category = "workflow"
+path = "scripts/pipeline-run.sh"
+type = "script"
+phases = ["implement"]
+
+[[tool]]
+name = "experiment-loop"
+description = "Experiment state manager for skill optimization and A/B testing"
+category = "experiment"
+path = "scripts/experiment-loop.sh"
+type = "script"
+phases = ["verify"]
+
+# =============================================================================
+# QUALITY & VERIFICATION TOOLS
+# =============================================================================
+
+[[tool]]
+name = "quality-gate"
+description = "Pre-commit quality check hook — enforces set flags, shellcheck, ASCII, and constitution compliance"
+category = "quality"
+path = "scripts/hooks/quality-gate.sh"
+type = "script"
+phases = ["verify"]
+quality_gates = []
+
+[[tool]]
+name = "test-smoke"
+description = "Smoke test suite (74 tests) for all agentic-workflows scripts. Tests gate plugins, phase gates, quality gates"
+category = "quality"
+path = "scripts/test-smoke.sh"
+type = "script"
+phases = ["verify"]
+quality_gates = []
+
+[[tool]]
+name = "test-workflows"
+description = "Structural and cross-reference tests for workflows and documentation"
+category = "quality"
+path = "scripts/test-workflows.sh"
+type = "script"
+phases = ["verify"]
+quality_gates = []
+
+[[tool]]
+name = "comprehension-gate"
+description = "Recognition-pattern enforced participation gate. Requires structured evidence before implementation"
+category = "quality"
+path = "scripts/comprehension-gate.sh"
+type = "script"
+phases = ["implement"]
+quality_gates = ["constitution"]
+inputs.action = { type = "string", description = "Action", enum = ["extract", "verify"], default = "verify" }
+
+[[tool]]
+name = "quality-speed-gate"
+description = "Decision gate: run full test suite or just smoke tests?"
+category = "quality"
+path = "scripts/quality-speed-gate.sh"
+type = "script"
+phases = ["verify"]
+quality_gates = []
+inputs.quick = { type = "boolean", description = "Quick mode (auto-decide)", default = false }
+
+[[tool]]
+name = "research-sufficiency"
+description = "Structured gate: 'is research complete enough?' with evidence requirements"
+category = "quality"
+path = "scripts/research-sufficiency.sh"
+type = "script"
+phases = ["research"]
+quality_gates = []
+
+[[tool]]
+name = "autonomy-gate"
+description = "Risk-adjusted agent autonomy levels. Controls how much freedom the agent has"
+category = "quality"
+path = "scripts/autonomy-gate.sh"
+type = "script"
+phases = ["implement", "verify"]
+quality_gates = []
+
+[[tool]]
+name = "counsel-gate"
+description = "Decide when a multi-perspective review is worth the cost"
+category = "quality"
+path = "scripts/counsel-gate.sh"
+type = "script"
+phases = ["plan", "verify"]
+quality_gates = []
+
+[[tool]]
+name = "counsel-run"
+description = "Optional OpenRouter-backed multi-model counsel runner"
+category = "quality"
+path = "scripts/counsel-run.sh"
+type = "script"
+phases = ["verify"]
+quality_gates = []
+
+[[tool]]
+name = "counsel-model-select"
+description = "Explain current counsel role/model policy and selection"
+category = "quality"
+path = "scripts/counsel-model-select.sh"
+type = "script"
+phases = ["verify"]
+quality_gates = []
+
+[[tool]]
+name = "optimize-gate"
+description = "Decide when and how optimization should happen. Blocks optimization without measurement evidence"
+category = "quality"
+path = "scripts/optimize-gate.sh"
+type = "script"
+phases = ["verify"]
+quality_gates = []
+
+[[tool]]
+name = "quality-readme-svg"
+description = "README & SVG Architecture Quality Checks — validates documentation and diagram quality"
+category = "quality"
+path = "scripts/quality-readme-svg.sh"
+type = "script"
+phases = ["verify"]
+quality_gates = []
+
+[[tool]]
+name = "audit-folder-quality"
+description = "Audit a folder for quality standards compliance (set flags, structure, docs)"
+category = "quality"
+path = "scripts/audit-folder-quality.sh"
+type = "script"
+phases = ["verify"]
+quality_gates = []
+
+[[tool]]
+name = "triple-debt"
+description = "Track cognitive + intent + technical debt (Storey, 2026). Assess at task boundaries"
+category = "quality"
+path = "scripts/triple-debt.sh"
+type = "script"
+phases = ["verify", "session"]
+
+[[tool]]
+name = "error-counter"
+description = "Error counter with human escalation (12-factor F9). Supports inc/check/reset/decide/classify"
+category = "safety"
+path = "scripts/error-counter.sh"
+type = "script"
+phases = ["implement", "verify"]
+inputs.action = { type = "string", description = "Action", enum = ["inc", "check", "reset", "decide", "classify", "list", "context", "escalate"] }
+inputs.key = { type = "string", description = "Error key for targeting specific error counters" }
+
+[[tool]]
+name = "decision"
+description = "Unified decision scaffold (DCI Decision Packet pattern). evaluate/log/review/audit for structured decision-making"
+category = "quality"
+path = "scripts/decision.sh"
+type = "script"
+phases = ["plan", "implement", "verify"]
+quality_gates = ["constitution"]
+
+[[tool]]
+name = "file-decision"
+description = "Decision: edit existing file or create a new one? Analyzes scope and existing structure"
+category = "quality"
+path = "scripts/file-decision.sh"
+type = "script"
+phases = ["implement"]
+quality_gates = []
+
+# =============================================================================
+# SESSION & STATE TOOLS
+# =============================================================================
+
+[[tool]]
+name = "checkpoint-commit"
+description = "Create a verified local checkpoint commit safely. Runs quality gate, creates atomic commit"
+category = "session"
+path = "scripts/checkpoint-commit.sh"
+type = "script"
+phases = ["session"]
+quality_gates = ["quality"]
+inputs.m = { type = "string", description = "Commit message" }
+inputs.skip_quality = { type = "boolean", description = "Bypass quality gate", default = false }
+
+[[tool]]
+name = "checkpoint-review"
+description = "Deterministic checkpoint and restart review — what just happened and what's next"
+category = "session"
+path = "scripts/checkpoint-review.sh"
+type = "script"
+phases = ["session"]
+
+[[tool]]
+name = "context-save"
+description = "Save working context (git state, decisions, remaining work) for resume"
+category = "session"
+path = "scripts/context-save.sh"
+type = "script"
+phases = ["session"]
+
+[[tool]]
+name = "context-restore"
+description = "Restore working context from a saved snapshot"
+category = "session"
+path = "scripts/context-restore.sh"
+type = "script"
+phases = ["session"]
+
+[[tool]]
+name = "context-pressure"
+description = "Session health monitor — detects context rot (age, dirt, commit count)"
+category = "session"
+path = "scripts/context-pressure.sh"
+type = "script"
+phases = ["session"]
+
+[[tool]]
+name = "handoff"
+description = "Build a compact continuation packet for session switches and worktree transitions"
+category = "session"
+path = "scripts/handoff.sh"
+type = "script"
+phases = ["session"]
+
+[[tool]]
+name = "session-status"
+description = "Compact one-shot workspace orientation — branch, health, tools, tests"
+category = "session"
+path = "scripts/session-status.sh"
+type = "script"
+phases = ["session"]
+
+[[tool]]
+name = "session-fork"
+description = "Fork current session into an isolated worktree branch for parallel work"
+category = "session"
+path = "scripts/session-fork.sh"
+type = "script"
+phases = ["session"]
+inputs.attach = { type = "string", description = "Attach to existing branch instead of creating new" }
+
+[[tool]]
+name = "prefetch-context"
+description = "Deterministic pre-fetch of context data (12-factor F13). XML, JSON, and compact modes"
+category = "session"
+path = "scripts/prefetch-context.sh"
+type = "script"
+phases = ["intake", "research"]
+
+[[tool]]
+name = "retrieve-context"
+description = "Pull only the local context relevant to this step. Token-efficient targeted retrieval"
+category = "session"
+path = "scripts/retrieve-context.sh"
+type = "script"
+phases = ["research", "implement"]
+
+[[tool]]
+name = "prompt-contract"
+description = "Self-prompt checklist before phase work — outcome, context, constraints, verification, ask/proceed"
+category = "session"
+path = "scripts/prompt-contract.sh"
+type = "script"
+phases = ["plan", "implement", "verify"]
+
+# =============================================================================
+# GIT TOOLS
+# =============================================================================
+
+[[tool]]
+name = "git-agent"
+description = "Session-based git management for autonomous agents. Manages commit sequence, branch lifecycle"
+category = "git"
+path = "scripts/git-agent.sh"
+type = "script"
+
+[[tool]]
+name = "git-session-start"
+description = "Probe branch, upstream, worktree, and dirt state before editing. Safety-first git entry point"
+category = "git"
+path = "scripts/git-session-start.sh"
+type = "script"
+phases = ["intake"]
+
+[[tool]]
+name = "git-worktree-branch"
+description = "Create an isolated short-lived worktree branch for single-focus tasks"
+category = "git"
+path = "scripts/git-worktree-branch.sh"
+type = "script"
+
+# =============================================================================
+# AGENT TOOLS
+# =============================================================================
+
+[[tool]]
+name = "agent-dispatch"
+description = "Async agent task dispatcher. Run/status/list/cancel/log for external coding agents (pi, codex, claude)"
+category = "agent"
+path = "scripts/agent-dispatch.sh"
+type = "script"
+inputs.action = { type = "string", enum = ["run", "status", "list", "cancel", "log"] }
+inputs.agent = { type = "string", description = "Agent backend", enum = ["pi", "codex", "claude"] }
+inputs.task = { type = "string", description = "Task description for the sub-agent" }
+inputs.role = { type = "string", description = "Sub-agent role", enum = ["general", "explore", "review", "implement", "verify"] }
+inputs.dir = { type = "string", description = "Working directory for sub-agent" }
+
+[[tool]]
+name = "agent-sandbox"
+description = "Run agent operations in an isolated environment (bwrap + Docker). YOLO-mode safe execution"
+category = "agent"
+path = "scripts/agent-sandbox.sh"
+type = "script"
+
+[[tool]]
+name = "autopilot"
+description = "Autonomous goal execution loop. Cycles: plan → implement → verify → checkpoint"
+category = "agent"
+path = "scripts/autopilot.sh"
+type = "script"
+phases = ["implement", "verify", "session"]
+
+[[tool]]
+name = "task-retrospect"
+description = "Structured post-task reflection. Captures learnings to buglog and session-state"
+category = "agent"
+path = "scripts/task-retrospect.sh"
+type = "script"
+phases = ["session"]
+inputs.debt = { type = "boolean", description = "Run triple-debt assessment as part of retrospect", default = false }
+
+# =============================================================================
+# MEMORY TOOLS
+# =============================================================================
+
+[[tool]]
+name = "learnings-save"
+description = "Save a durable project learning/insight to .learnings.jsonl with optional tags"
+category = "memory"
+path = "scripts/learnings-save.sh"
+type = "script"
+inputs.insight = { type = "string", description = "The learning or insight to persist" }
+inputs.tags = { type = "string", description = "Comma-separated tags for categorization" }
+
+[[tool]]
+name = "learnings-search"
+description = "Search saved learnings for relevant context by keyword query"
+category = "memory"
+path = "scripts/learnings-search.sh"
+type = "script"
+inputs.query = { type = "string", description = "Search keywords" }
+
+[[tool]]
+name = "consolidate-memory"
+description = "Deduplicate and merge similar learnings from .learnings.jsonl"
+category = "memory"
+path = "scripts/consolidate-memory.sh"
+type = "script"
+
+[[tool]]
+name = "memory-query"
+description = "Unified memory query across all stores (learnings, agentmemory MCP, ruflo). Use --all for cross-store"
+category = "memory"
+path = "scripts/memory-query.sh"
+type = "script"
+inputs.query = { type = "string", description = "Search query" }
+inputs.all = { type = "boolean", description = "Search across all memory stores", default = false }
+
+[[tool]]
+name = "sync-learnings"
+description = "Push consolidated learnings from .learnings.jsonl into agentmemory MCP for semantic retrieval"
+category = "memory"
+path = "scripts/sync-learnings.sh"
+type = "script"
+
+# =============================================================================
+# RESEARCH TOOLS
+# =============================================================================
+
+[[tool]]
+name = "repo-map"
+description = "Build a compact, ranked map of the workspace using tree-sitter. Use before unfamiliar folder navigation"
+category = "research"
+path = "scripts/repo-map.sh"
+type = "script"
+phases = ["research"]
+inputs.max_tokens = { type = "integer", description = "Maximum tokens for output", default = 512 }
+
+[[tool]]
+name = "repo-graph"
+description = "Generate an interactive repo knowledge graph (Obsidian-style network visualization)"
+category = "research"
+path = "scripts/repo-graph.sh"
+type = "script"
+
+[[tool]]
+name = "search-index"
+description = "Query the workspace BM25 text index. Ranked results across all text files"
+category = "research"
+path = "scripts/search-index.sh"
+type = "script"
+phases = ["research"]
+inputs.query = { type = "string", description = "BM25 search query" }
+
+[[tool]]
+name = "build-index"
+description = "Build or rebuild the BM25 text index for the workspace"
+category = "research"
+path = "scripts/build-index.sh"
+type = "script"
+
+[[tool]]
+name = "blast-radius"
+description = "Companion script for blast-radius skill. Analyzes change impact across the codebase"
+category = "research"
+path = "scripts/blast-radius.sh"
+type = "script"
+
+[[tool]]
+name = "browser"
+description = "Browser automation via Playwright. Navigate, screenshot, extract text/html/pdf"
+category = "research"
+path = "scripts/browser.sh"
+type = "script"
+
+[[tool]]
+name = "reasoning-level"
+description = "DeepSeek V4 reasoning effort classifier. Determines off/high/max based on task complexity"
+category = "research"
+path = "scripts/reasoning-level.sh"
+type = "script"
+
+[[tool]]
+name = "model-select"
+description = "Task-driven model selection. Classifies task as simple/complex/architectural and selects appropriate model"
+category = "research"
+path = "scripts/model-select.sh"
+type = "script"
+
+[[tool]]
+name = "harvest-topic-insights"
+description = "Harvest topic insights from topic folders for cross-project knowledge retrieval"
+category = "research"
+path = "scripts/harvest-topic-insights.sh"
+type = "script"
+
+# =============================================================================
+# SKILL TOOLS
+# =============================================================================
+
+[[tool]]
+name = "skill-toolset"
+description = "Progressive disclosure for agent skills (L1 list / L2 load / L3 resource). 46 skills with frontmatter"
+category = "skill"
+path = "scripts/skill-toolset.sh"
+type = "script"
+inputs.action = { type = "string", enum = ["list", "load", "resource", "find"] }
+inputs.name = { type = "string", description = "Skill name (for load/resource actions)" }
+inputs.path = { type = "string", description = "Resource path (for resource action)" }
+inputs.query = { type = "string", description = "Search query (for find action)" }
+
+[[tool]]
+name = "skill-bench"
+description = "Benchmark runner for agent skills. Measures execution time, consistency, and output quality"
+category = "skill"
+path = "scripts/skill-bench.sh"
+type = "script"
+
+[[tool]]
+name = "self-improve"
+description = "Learn from autonomous execution. Analyzes past behavior and suggests improvements"
+category = "skill"
+path = "scripts/self-improve.sh"
+type = "script"
+
+[[tool]]
+name = "meta-standardize"
+description = "Self-standardization for autonomous runtime. Normalizes formatting, structure, and conventions"
+category = "skill"
+path = "scripts/meta-standardize.sh"
+type = "script"
+
+[[tool]]
+name = "sync-commands"
+description = "Synchronize commands/ to .opencode/commands/ and .pi/prompts/ mirrors"
+category = "skill"
+path = "scripts/sync-commands.sh"
+type = "script"
+
+# =============================================================================
+# SAFETY TOOLS
+# =============================================================================
+
+[[tool]]
+name = "safety-guard"
+description = "Blast radius, budget limits, and human escalation gates for autonomous operations"
+category = "safety"
+path = "scripts/safety-guard.sh"
+type = "script"
+phases = ["implement", "verify"]
+
+[[tool]]
+name = "safety-escalate"
+description = "Retry logic, human escalation, and rollback for failed autonomous operations"
+category = "safety"
+path = "scripts/safety-escalate.sh"
+type = "script"
+phases = ["implement", "verify"]
+
+[[tool]]
+name = "freeze"
+description = "Restrict file edits to one directory. Hard block — creates .gstack-freeze lockfile"
+category = "safety"
+path = "scripts/freeze.sh"
+type = "script"
+inputs.path = { type = "string", description = "Directory path to restrict to" }
+
+[[tool]]
+name = "unfreeze"
+description = "Remove file-edit restriction created by freeze.sh"
+category = "safety"
+path = "scripts/unfreeze.sh"
+type = "script"
+
+[[tool]]
+name = "log-error"
+description = "Capture an error for agent triage. Pipeable — feeds into triage system"
+category = "safety"
+path = "scripts/log-error.sh"
+type = "script"
+
+[[tool]]
+name = "assumption-expiry"
+description = "Check and manage assumption staleness. Enforces TTL on non-verifiable claims in session-state"
+category = "safety"
+path = "scripts/assumption-expiry.sh"
+type = "script"
+inputs.action = { type = "string", enum = ["check", "update", "audit"] }
+
+# =============================================================================
+# CONSTITUTION & GOVERNANCE TOOLS
+# =============================================================================
+
+[[tool]]
+name = "constitution"
+description = "Workspace Constitution management — 7 subcommands, 9-article gates. check/compliance/enforce/list/version/etc."
+category = "constitution"
+path = "scripts/constitution.sh"
+type = "script"
+phases = ["intake", "research", "plan", "implement", "verify", "session"]
+quality_gates = []
+inputs.action = { type = "string", description = "Constitution action", enum = ["check", "compliance", "enforce", "list", "version", "help"] }
+
+# =============================================================================
+# COMMUNICATION TOOLS
+# =============================================================================
+
+[[tool]]
+name = "a2h-contact"
+description = "Agent-to-Human contact protocol (12-factor F7, A2H spec). Contact/approve/respond/list"
+category = "comms"
+path = "scripts/a2h-contact.sh"
+type = "script"
+
+[[tool]]
+name = "parley"
+description = "Interactive multi-agent conversation. Coordinates sequential debates between AI agents"
+category = "comms"
+path = "scripts/parley.sh"
+type = "script"
+
+[[tool]]
+name = "parley-analyze"
+description = "Post-hoc analysis of Parley sessions — extract consensus, disagreement, and insights"
+category = "comms"
+path = "scripts/parley-analyze.sh"
+type = "script"
+
+# =============================================================================
+# UTILITY TOOLS
+# =============================================================================
+
+[[tool]]
+name = "tools"
+description = "Workspace tool registry. Lists all agent-callable tools with descriptions. With --json flag for machine output"
+category = "utility"
+path = "scripts/tools.sh"
+type = "script"
+inputs.json = { type = "boolean", description = "Output JSON format (reads tools.toml)", default = false }
+
+[[tool]]
+name = "google-models"
+description = "List or sync Gemini models from Google's model endpoint"
+category = "utility"
+path = "scripts/google-models.sh"
+type = "script"
+
+[[tool]]
+name = "opencode-auth-profile"
+description = "Save and switch whole OpenCode auth profiles (API keys, models, providers)"
+category = "utility"
+path = "scripts/opencode-auth-profile.sh"
+type = "script"
+
+[[tool]]
+name = "opencode-model-profile"
+description = "Manage OpenCode model profiles for quick switching"
+category = "utility"
+path = "scripts/opencode-model-profile.sh"
+type = "script"
+
+[[tool]]
+name = "create-hl-agent"
+description = "Scaffold a new 12-factor agent project from template"
+category = "utility"
+path = "scripts/create-hl-agent.sh"
+type = "script"
+
+[[tool]]
+name = "build-cross-domain-candidates"
+description = "Build cross-domain review queue candidates for propagation"
+category = "utility"
+path = "scripts/build-cross-domain-candidates.sh"
+type = "script"
+
+[[tool]]
+name = "merge-and-propagate"
+description = "Merge approved candidate from review queue and propagate changes"
+category = "utility"
+path = "scripts/merge-and-propagate.sh"
+type = "script"
+
+[[tool]]
+name = "check-sync-status"
+description = "Check propagation status by ownership class across workspace folders"
+category = "utility"
+path = "scripts/check-sync-status.sh"
+type = "script"
+
+[[tool]]
+name = "propagate"
+description = "Unified propagation entry point for cross-repo capability distribution"
+category = "utility"
+path = "scripts/propagate.sh"
+type = "script"
+
+[[tool]]
+name = "propagate-to-all"
+description = "Bootstrap missing files and refresh managed core files across all propagation targets"
+category = "utility"
+path = "scripts/propagate-to-all.sh"
+type = "script"
+
+# =============================================================================
+# HOOKS (internal lifecycle hooks)
+# =============================================================================
+
+[[tool]]
+name = "hook-session-start"
+description = "[INTERNAL] Session-start diagnostics — branch, recent commits, state health"
+category = "utility"
+path = "scripts/hooks/session-start.sh"
+type = "hook"
+
+[[tool]]
+name = "hook-detect-gaps"
+description = "[INTERNAL] Gap detection — stale index, missing state, propagation drift"
+category = "utility"
+path = "scripts/hooks/detect-gaps.sh"
+type = "hook"
+
+[[tool]]
+name = "hook-pre-compact"
+description = "[INTERNAL] Pre-compaction context snapshot"
+category = "utility"
+path = "scripts/hooks/pre-compact.sh"
+type = "hook"
+
+[[tool]]
+name = "hook-post-compact"
+description = "[INTERNAL] Post-compaction context restoration reminder"
+category = "utility"
+path = "scripts/hooks/post-compact.sh"
+type = "hook"
+
+[[tool]]
+name = "hook-log-agent"
+description = "[INTERNAL] Sub-agent audit trail (start event)"
+category = "utility"
+path = "scripts/hooks/log-agent.sh"
+type = "hook"
+
+[[tool]]
+name = "hook-log-agent-stop"
+description = "[INTERNAL] Sub-agent audit trail (stop event)"
+category = "utility"
+path = "scripts/hooks/log-agent-stop.sh"
+type = "hook"
+
+# =============================================================================
+# ADDITIONAL SCRIPTS (auto-categorized)
+# =============================================================================
+
+[[tool]]
+name = "goal-decompose"
+description = "Decompose a high-level goal into a safety-gated pipeline with budget limits and human gates"
+category = "productivity"
+path = "scripts/goal-decompose.sh"
+type = "script"
+phases = ["intake"]
+
+[[tool]]
+name = "systems-health"
+description = "Companion script for systems-health skill. Runs system health checks on workspace"
+category = "quality"
+path = "scripts/systems-health.sh"
+type = "script"
+
+[[tool]]
+name = "ws"
+description = "Workspace state query tool"
+category = "utility"
+path = "scripts/ws.sh"
+type = "script"
+
+[[tool]]
+name = "build-index-py"
+description = "Python-based BM25 index builder (called by build-index.sh)"
+category = "research"
+path = "scripts/build-index.py"
+type = "internal"
+python = true
+
+[[tool]]
+name = "search-index-py"
+description = "Python-based BM25 index query (called by search-index.sh)"
+category = "research"
+path = "scripts/search-index.py"
+type = "internal"
+python = true
+
+[[tool]]
+name = "repo-map-py"
+description = "Python-based tree-sitter repo map builder (called by repo-map.sh)"
+category = "research"
+path = "scripts/repo-map.py"
+type = "internal"
+python = true
+
+[[tool]]
+name = "repo-graph-py"
+description = "Python-based repo knowledge graph generator (called by repo-graph.sh)"
+category = "research"
+path = "scripts/repo-graph.py"
+type = "internal"
+python = true
+
+[[tool]]
+name = "skill-toolset-py"
+description = "Python-based skill processor (companion to skill-toolset.sh)"
+category = "skill"
+path = "scripts/skill-toolset.py"
+type = "internal"
+python = true
+
+[[tool]]
+name = "agent-runner-py"
+description = "Python runner for async agent dispatch (avoids shell quoting issues)"
+category = "agent"
+path = "scripts/_agent_runner.py"
+type = "internal"
+python = true
+
+[[tool]]
+name = "session-helper-py"
+description = "Python helper for session state management"
+category = "session"
+path = "scripts/_session_helper.py"
+type = "internal"
+python = true
+
+[[tool]]
+name = "workspace-files-py"
+description = "Python helper for workspace file discovery"
+category = "utility"
+path = "scripts/_workspace_files.py"
+type = "internal"
+python = true
+
+# =============================================================================
+# COMMANDS (OpenCode slash commands)
+# =============================================================================
+
+[[tool]]
+name = "cmd-counsel"
+description = "Multi-perspective review from multiple model viewpoints. Use for architecture/tradeoff decisions"
+category = "workflow"
+path = "commands/counsel.md"
+type = "command"
+
+[[tool]]
+name = "cmd-git"
+description = "Probe branch state, create worktree branches, manage git lifecycle"
+category = "git"
+path = "commands/git.md"
+type = "command"
+
+[[tool]]
+name = "cmd-implement"
+description = "Execute the plan in small verified slices. Includes preflight + comprehension gates"
+category = "workflow"
+path = "commands/implement.md"
+type = "command"
+
+[[tool]]
+name = "cmd-optimize"
+description = "Governance gate for optimization. Blocks without measurement evidence"
+category = "quality"
+path = "commands/optimize.md"
+type = "command"
+
+[[tool]]
+name = "cmd-parley"
+description = "Sequential multi-agent conversation via OpenRouter. Broad exploration or council advice"
+category = "comms"
+path = "commands/parley.md"
+type = "command"
+
+[[tool]]
+name = "cmd-pipeline"
+description = "Multi-task asynchronous dispatch to isolated @worker subagents"
+category = "workflow"
+path = "commands/pipeline.md"
+type = "command"
+
+[[tool]]
+name = "cmd-plan"
+description = "Turn research into explicit steps. Defines files, verification, and invariants"
+category = "workflow"
+path = "commands/plan.md"
+type = "command"
+
+[[tool]]
+name = "cmd-prompt-contract"
+description = "Self-prompt checklist: outcome, context, constraints, verification, ask/proceed policy"
+category = "session"
+path = "commands/prompt-contract.md"
+type = "command"
+
+[[tool]]
+name = "cmd-query"
+description = "Targeted context retrieval — faster than manual grepping for specific information"
+category = "research"
+path = "commands/query.md"
+type = "command"
+
+[[tool]]
+name = "cmd-repo-map"
+description = "Compact workspace map — control files, content areas, key symbols. Use before unfamiliar folders"
+category = "research"
+path = "commands/repo-map.md"
+type = "command"
+
+[[tool]]
+name = "cmd-research"
+description = "Understand system before changing. Read files, retrieve context, map dependencies"
+category = "workflow"
+path = "commands/research.md"
+type = "command"
+
+[[tool]]
+name = "cmd-route"
+description = "Default intake — route natural-language requests to correct lane"
+category = "workflow"
+path = "commands/route.md"
+type = "command"
+
+[[tool]]
+name = "cmd-session"
+description = "Checkpoint, update state, decide whether to restart fresh"
+category = "session"
+path = "commands/session.md"
+type = "command"
+
+[[tool]]
+name = "cmd-task"
+description = "Classify, grill, shape, or slice a task before starting. Ambiguity-safe intake"
+category = "workflow"
+path = "commands/task.md"
+type = "command"

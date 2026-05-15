@@ -95,13 +95,17 @@ assert_output_contains "agent-sandbox.sh bwrap: echo works" \
 echo ""
 echo "--- P1: Tool Registry ---"
 
-assert_output_contains "tools.sh lists scripts" \
+assert_output_contains "tools.sh lists tools (toml mode)" \
   "bash scripts/tools.sh" \
-  "script/"
+  "phase-gate"
 
-assert_output_contains "tools.sh lists commands" \
+assert_output_contains "tools.sh lists workflow tools" \
   "bash scripts/tools.sh" \
-  "command/"
+  "[workflow]"
+
+assert_output_contains "tools.sh --json valid" \
+  "bash scripts/tools.sh --json" \
+  "\"tool_count\": 121"
 
 assert_exit "session-start.sh runs cleanly" \
   "bash scripts/hooks/session-start.sh"
