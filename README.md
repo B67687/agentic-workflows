@@ -83,6 +83,35 @@ bash ./scripts/propagate.sh all --apply    # push templates to your repos
 Learnings flow back to the hub via insight harvesting. Cross-project memory loops keep knowledge circulating instead of siloed in individual projects.
 
 
+<h2 id="workflows">Workflows</h2>
+
+The system orchestrates work across five interlocking workflows. The diagram below shows how tasks flow through the pipeline, how agents get dispatched, how templates propagate to sibling repos, and how sessions are managed.
+
+<p align="center">
+  <a href="workflow-graph.html">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="workflow-graph.svg">
+      <img src="workflow-graph.svg" width="100%" alt="Workflow Diagram" style="max-width:1100px;">
+    </picture>
+  </a>
+  <br><sub><a href="workflow-graph.html">Open interactive version ↗</a> (click nodes for details, expand gates to see decision chains)</sub>
+</p>
+
+<p align="center">
+<img src="https://img.shields.io/badge/Propagation-97%20file%20targets%20per%20folder-%239e6a03?style=flat-square" alt="Propagation">
+<img src="https://img.shields.io/badge/Pipeline-7%20phases%2C%205%20gates-%23238636?style=flat-square" alt="Pipeline">
+<img src="https://img.shields.io/badge/Gates-11%20decision%20steps-%23d29922?style=flat-square" alt="Gates">
+<img src="https://img.shields.io/badge/Agents-8%20personas%2C%203%20backends-%231f6feb?style=flat-square" alt="Agents">
+<img src="https://img.shields.io/badge/Tools-132%20registered-%233d444d?style=flat-square" alt="Tools">
+</p>
+
+Regenerate with:
+
+```bash
+bash scripts/workflow-graph.sh
+```
+
+
 <h2 id="features">Features</h2>
 
 <div align="center">

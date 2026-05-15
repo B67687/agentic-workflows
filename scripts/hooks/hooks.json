@@ -75,10 +75,17 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash ./scripts/hooks/log-agent.sh",
-            "description": "Log subagent invocation to audit trail",
-            "id": "subagent:start:audit",
-            "timeout": 5
+            "command": "bash ./scripts/hooks/detect-gaps.sh",
+            "description": "Detect stale indexes, missing state, propagation drift",
+            "id": "session:start:gap-detection",
+            "timeout": 15
+          },
+          {
+            "type": "command",
+            "command": "bash ./scripts/workflow-graph.sh --svg-only 2>/dev/null || true",
+            "description": "Auto-refresh workflow DAG diagram if source files changed",
+            "id": "session:start:workflow-graph",
+            "timeout": 10
           }
         ]
       }

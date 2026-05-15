@@ -1,0 +1,159 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 720" width="100%" style="max-width:1100px">
+<rect width="1100" height="720" fill="#0d1117" rx="8"/>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#58a6ff"/></marker><marker id="arrow-sub" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="#30363d"/></marker></defs>
+<text x="30" y="25" fill="#58a6ff" font-family="system-ui,sans-serif" font-size="10" font-weight="600" text-transform="uppercase" letter-spacing="1">▸ Cross-Repo Propagation</text>
+<rect x="30" y="35" width="100" height="28" rx="6" fill="#9e6a03" stroke="#bb8009" stroke-width="1.5" />
+<text x="80" y="53" text-anchor="middle" fill="#f0f6fc" font-family="system-ui,sans-serif" font-size="11" font-weight="600">propagate.sh</text>
+<rect x="170" y="35" width="100" height="28" rx="6" fill="#1f6feb" stroke="#388bfd" stroke-width="1.5" />
+<text x="220" y="53" text-anchor="middle" fill="#f0f6fc" font-family="system-ui,sans-serif" font-size="11" font-weight="600">sync commands</text>
+<rect x="310" y="35" width="100" height="28" rx="6" fill="#1f6feb" stroke="#388bfd" stroke-width="1.5" />
+<text x="360" y="53" text-anchor="middle" fill="#f0f6fc" font-family="system-ui,sans-serif" font-size="11" font-weight="600">propagate templates</text>
+<rect x="450" y="25" width="80" height="22" rx="6" fill="#3d444d" stroke="#484f58" stroke-width="1.5" />
+<text x="490" y="40" text-anchor="middle" fill="#f0f6fc" font-family="system-ui,sans-serif" font-size="11" font-weight="600">.opencode/</text>
+<rect x="450" y="53" width="80" height="22" rx="6" fill="#3d444d" stroke="#484f58" stroke-width="1.5" />
+<text x="490" y="68" text-anchor="middle" fill="#f0f6fc" font-family="system-ui,sans-serif" font-size="11" font-weight="600">.pi/prompts/</text>
+<rect x="540" y="25" width="80" height="22" rx="6" fill="#3d444d" stroke="#484f58" stroke-width="1.5" />
+<text x="580" y="40" text-anchor="middle" fill="#f0f6fc" font-family="system-ui,sans-serif" font-size="11" font-weight="600">commands/</text>
+<rect x="540" y="53" width="80" height="22" rx="6" fill="#3d444d" stroke="#484f58" stroke-width="1.5" />
+<text x="580" y="68" text-anchor="middle" fill="#f0f6fc" font-family="system-ui,sans-serif" font-size="11" font-weight="600">CLAUDE.md</text>
+<rect x="660" y="35" width="110" height="28" rx="6" fill="#6e7681" stroke="#848d97" stroke-width="1.5" rx="14"/>
+<text x="715" y="53" text-anchor="middle" fill="#f0f6fc" font-family="system-ui,sans-serif" font-size="11" font-weight="600">14 topic folders</text>
+<rect x="810" y="35" width="90" height="28" rx="6" fill="#d29922" stroke="#bb8009" stroke-width="1.5" />
+<text x="855" y="53" text-anchor="middle" fill="#f0f6fc" font-family="system-ui,sans-serif" font-size="11" font-weight="600">✓ sync status</text>
+<text x="1070" y="25" text-anchor="end" fill="#8b949e" font-family="system-ui,sans-serif" font-size="9">97 file targets per folder</text>
+<line x1="130" y1="49" x2="170" y2="49" stroke="#58a6ff" stroke-width="1.5" marker-end="url(#arrow)"/>
+<line x1="270" y1="49" x2="310" y2="49" stroke="#58a6ff" stroke-width="1.5" marker-end="url(#arrow)"/>
+<line x1="410" y1="49" x2="450" y2="36" stroke="#30363d" stroke-width="1.5" marker-end="url(#arrow)"/>
+<line x1="410" y1="49" x2="540" y2="36" stroke="#30363d" stroke-width="1.5" marker-end="url(#arrow)"/>
+<line x1="410" y1="49" x2="450" y2="64" stroke="#30363d" stroke-width="1.5" marker-end="url(#arrow)"/>
+<line x1="410" y1="49" x2="540" y2="64" stroke="#30363d" stroke-width="1.5" marker-end="url(#arrow)"/>
+<line x1="630" y1="49" x2="660" y2="49" stroke="#848d97" stroke-width="1.5" marker-end="url(#arrow)" stroke-dasharray="4"/>
+<text x="645" y="39" text-anchor="middle" fill="#8b949e" font-family="system-ui,sans-serif" font-size="8">92 managed + 5 repo-owned</text>
+<line x1="770" y1="49" x2="810" y2="49" stroke="#58a6ff" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="30" y="155" fill="#58a6ff" font-family="system-ui,sans-serif" font-size="10" font-weight="600" text-transform="uppercase" letter-spacing="1">▸ Task Execution Pipeline</text>
+<rect x="1030" y="280" width="60" height="28" rx="6" fill="none" stroke="none" stroke-width="1.5" />
+<text x="1060" y="298" text-anchor="middle" fill="#f0f6fc" font-family="system-ui,sans-serif" font-size="11" font-weight="600"></text>
+<rect x="50" y="235" width="130" height="40" rx="6" fill="#238636" stroke="#2ea043" stroke-width="1.5" />
+<text x="115" y="259" text-anchor="middle" fill="#f0f6fc" font-family="system-ui,sans-serif" font-size="11" font-weight="600">Start</text>
+<rect x="210" y="235" width="130" height="40" rx="6" fill="#238636" stroke="#2ea043" stroke-width="1.5" />
+<text x="275" y="259" text-anchor="middle" fill="#f0f6fc" font-family="system-ui,sans-serif" font-size="11" font-weight="600">Route
+Intake</text>
+<rect x="350" y="235" width="130" height="40" rx="6" fill="#238636" stroke="#2ea043" stroke-width="1.5" />
+<text x="415" y="259" text-anchor="middle" fill="#f0f6fc" font-family="system-ui,sans-serif" font-size="11" font-weight="600">Research
+(6 tools)</text>
+<rect x="490" y="235" width="130" height="40" rx="6" fill="#238636" stroke="#2ea043" stroke-width="1.5" />
+<text x="555" y="259" text-anchor="middle" fill="#f0f6fc" font-family="system-ui,sans-serif" font-size="11" font-weight="600">Plan
+(4 tools)</text>
+<rect x="630" y="235" width="130" height="40" rx="6" fill="#238636" stroke="#2ea043" stroke-width="1.5" />
+<text x="695" y="259" text-anchor="middle" fill="#f0f6fc" font-family="system-ui,sans-serif" font-size="11" font-weight="600">Implement
+(4 tools)</text>
+<rect x="770" y="235" width="130" height="40" rx="6" fill="#238636" stroke="#2ea043" stroke-width="1.5" />
+<text x="835" y="259" text-anchor="middle" fill="#f0f6fc" font-family="system-ui,sans-serif" font-size="11" font-weight="600">Verify
+(7 tools)</text>
+<rect x="910" y="235" width="130" height="40" rx="6" fill="#238636" stroke="#2ea043" stroke-width="1.5" />
+<text x="975" y="259" text-anchor="middle" fill="#f0f6fc" font-family="system-ui,sans-serif" font-size="11" font-weight="600">Session
+Checkpoint</text>
+<ellipse cx="1090" cy="255" rx="30" ry="16" fill="none" stroke="#30363d" stroke-width="1.5"/>
+<text x="1090" y="259" text-anchor="middle" fill="#8b949e" font-family="system-ui,sans-serif" font-size="11">End</text>
+<line x1="180" y1="255" x2="210" y2="255" stroke="#58a6ff" stroke-width="1.5" marker-end="url(#arrow)"/>
+<line x1="340" y1="255" x2="350" y2="255" stroke="#58a6ff" stroke-width="1.5" marker-end="url(#arrow)"/>
+<line x1="480" y1="255" x2="490" y2="255" stroke="#58a6ff" stroke-width="1.5" marker-end="url(#arrow)"/>
+<line x1="620" y1="255" x2="630" y2="255" stroke="#58a6ff" stroke-width="1.5" marker-end="url(#arrow)"/>
+<line x1="760" y1="255" x2="770" y2="255" stroke="#58a6ff" stroke-width="1.5" marker-end="url(#arrow)"/>
+<line x1="900" y1="255" x2="910" y2="255" stroke="#58a6ff" stroke-width="1.5" marker-end="url(#arrow)"/>
+<line x1="1040" y1="255" x2="1060" y2="255" stroke="#30363d" stroke-width="1.5" marker-end="url(#arrow)"/>
+<polygon points="270,237 288,255 270,273 252,255" fill="#d29922" stroke="#bb8009" stroke-width="1.5" />
+<text x="270" y="258" text-anchor="middle" fill="#f0f6fc" font-family="system-ui,sans-serif" font-size="9" font-weight="500">Research
+Gate</text>
+<polygon points="420,237 438,255 420,273 402,255" fill="#d29922" stroke="#bb8009" stroke-width="1.5" />
+<text x="420" y="258" text-anchor="middle" fill="#f0f6fc" font-family="system-ui,sans-serif" font-size="9" font-weight="500">Plan
+Gate</text>
+<polygon points="560,237 578,255 560,273 542,255" fill="#d29922" stroke="#bb8009" stroke-width="1.5" />
+<text x="560" y="258" text-anchor="middle" fill="#f0f6fc" font-family="system-ui,sans-serif" font-size="9" font-weight="500">Implement
+Gate</text>
+<polygon points="700,237 718,255 700,273 682,255" fill="#d29922" stroke="#bb8009" stroke-width="1.5" />
+<text x="700" y="258" text-anchor="middle" fill="#f0f6fc" font-family="system-ui,sans-serif" font-size="9" font-weight="500">Verify
+Gate</text>
+<polygon points="840,237 858,255 840,273 822,255" fill="#d29922" stroke="#bb8009" stroke-width="1.5" />
+<text x="840" y="258" text-anchor="middle" fill="#f0f6fc" font-family="system-ui,sans-serif" font-size="9" font-weight="500">Session
+Gate</text>
+<text x="270" y="295" text-anchor="middle" fill="#8b949e" font-family="system-ui,sans-serif" font-size="7">model-select · sufficiency · scope-check</text>
+<text x="420" y="295" text-anchor="middle" fill="#8b949e" font-family="system-ui,sans-serif" font-size="7">model-select · catfish · scope · comprehension · decisions · autonomy · preflight</text>
+<text x="560" y="295" text-anchor="middle" fill="#8b949e" font-family="system-ui,sans-serif" font-size="7">quality-speed check (full suite or smoke?)</text>
+<text x="700" y="295" text-anchor="middle" fill="#8b949e" font-family="system-ui,sans-serif" font-size="7">test-smoke · test-workflows · counsel-run</text>
+<text x="840" y="295" text-anchor="middle" fill="#8b949e" font-family="system-ui,sans-serif" font-size="7">checkpoint-commit · context-save · handoff</text>
+<polygon points="145,240 160,255 145,270 130,255" fill="#d29922" stroke="#bb8009" stroke-width="1.5" />
+<text x="145" y="258" text-anchor="middle" fill="#f0f6fc" font-family="system-ui,sans-serif" font-size="9" font-weight="500">Q</text>
+<text x="145" y="230" text-anchor="middle" fill="#8b949e" font-family="system-ui,sans-serif" font-size="7">Question</text>
+<line x1="50" y1="274" x2="50" y2="255" stroke="#58a6ff" stroke-width="1.5" marker-end="url(#arrow)"/>
+<line x1="160" y1="255" x2="210" y2="255" stroke="#58a6ff" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="30" y="365" fill="#58a6ff" font-family="system-ui,sans-serif" font-size="10" font-weight="600" text-transform="uppercase" letter-spacing="1">▸ Branch Workflows</text>
+<line x1="120" y1="375" x2="1000" y2="375" stroke="#30363d" stroke-width="1" stroke-dasharray="4,3"/>
+<line x1="630" y1="275" x2="630" y2="350" stroke="#30363d" stroke-width="1.5" marker-end="url(#arrow)" stroke-dasharray="4,3"/>
+<text x="630" y="302" text-anchor="middle" fill="#8b949e" font-family="system-ui,sans-serif" font-size="8">branches</text>
+<line x1="630" y1="350" x2="630" y2="375" stroke="#30363d" stroke-width="1" stroke-dasharray="4,3"/>
+<rect x="100" y="385" width="120" height="38" rx="6" fill="#1f6feb" stroke="#388bfd" stroke-width="1.5" />
+<text x="160" y="408" text-anchor="middle" fill="#f0f6fc" font-family="system-ui,sans-serif" font-size="11" font-weight="600">Agent Dispatch
+Fan-out (pi/codex/claude)</text>
+<text x="160" y="433" text-anchor="middle" fill="#8b949e" font-family="system-ui,sans-serif" font-size="7">scripts/agent-dispatch.sh</text>
+<line x1="160" y1="375" x2="160" y2="385" stroke="#30363d" stroke-width="1" stroke-dasharray="2,2"/>
+<rect x="330" y="385" width="120" height="38" rx="6" fill="#1f6feb" stroke="#388bfd" stroke-width="1.5" />
+<text x="390" y="408" text-anchor="middle" fill="#f0f6fc" font-family="system-ui,sans-serif" font-size="11" font-weight="600">Pipeline Run
+Sequenced task dispatch</text>
+<text x="390" y="433" text-anchor="middle" fill="#8b949e" font-family="system-ui,sans-serif" font-size="7">scripts/pipeline-run.sh</text>
+<line x1="390" y1="375" x2="390" y2="385" stroke="#30363d" stroke-width="1" stroke-dasharray="2,2"/>
+<rect x="560" y="385" width="120" height="38" rx="6" fill="#1f6feb" stroke="#388bfd" stroke-width="1.5" />
+<text x="620" y="408" text-anchor="middle" fill="#f0f6fc" font-family="system-ui,sans-serif" font-size="11" font-weight="600">Counsel / Parley
+Multi-perspective review</text>
+<text x="620" y="433" text-anchor="middle" fill="#8b949e" font-family="system-ui,sans-serif" font-size="7">scripts/counsel-gate.sh</text>
+<line x1="620" y1="375" x2="620" y2="385" stroke="#30363d" stroke-width="1" stroke-dasharray="2,2"/>
+<rect x="790" y="385" width="120" height="38" rx="6" fill="#1f6feb" stroke="#388bfd" stroke-width="1.5" />
+<text x="850" y="408" text-anchor="middle" fill="#f0f6fc" font-family="system-ui,sans-serif" font-size="11" font-weight="600">Autopilot
+Autonomous execution loop</text>
+<text x="850" y="433" text-anchor="middle" fill="#8b949e" font-family="system-ui,sans-serif" font-size="7">scripts/autopilot.sh</text>
+<line x1="850" y1="375" x2="850" y2="385" stroke="#30363d" stroke-width="1" stroke-dasharray="2,2"/>
+<text x="160" y="480" text-anchor="middle" fill="#8b949e" font-family="system-ui,sans-serif" font-size="8">→ pi · codex · claude</text>
+<text x="160" y="491" text-anchor="middle" fill="#8b949e" font-family="system-ui,sans-serif" font-size="8">/ship: reviewer + security + test</text>
+<text x="390" y="480" text-anchor="middle" fill="#8b949e" font-family="system-ui,sans-serif" font-size="8">@worker · @explore · @review</text>
+<text x="390" y="491" text-anchor="middle" fill="#8b949e" font-family="system-ui,sans-serif" font-size="8">on_error: abort/continue/retry:N</text>
+<text x="30" y="555" fill="#58a6ff" font-family="system-ui,sans-serif" font-size="10" font-weight="600" text-transform="uppercase" letter-spacing="1">▸ Session Lifecycle</text>
+<line x1="80" y1="565" x2="860" y2="565" stroke="#30363d" stroke-width="1" stroke-dasharray="4,3"/>
+<rect x="90" y="575" width="100" height="32" rx="6" fill="#3d444d" stroke="#484f58" stroke-width="1.5" />
+<text x="140" y="595" text-anchor="middle" fill="#f0f6fc" font-family="system-ui,sans-serif" font-size="11" font-weight="600">Checkpoint
+Commit</text>
+<line x1="140" y1="565" x2="140" y2="575" stroke="#30363d" stroke-width="1" stroke-dasharray="2,2"/>
+<rect x="250" y="575" width="100" height="32" rx="6" fill="#3d444d" stroke="#484f58" stroke-width="1.5" />
+<text x="300" y="595" text-anchor="middle" fill="#f0f6fc" font-family="system-ui,sans-serif" font-size="11" font-weight="600">Session
+Fork (worktree)</text>
+<line x1="300" y1="565" x2="300" y2="575" stroke="#30363d" stroke-width="1" stroke-dasharray="2,2"/>
+<rect x="410" y="575" width="100" height="32" rx="6" fill="#3d444d" stroke="#484f58" stroke-width="1.5" />
+<text x="460" y="595" text-anchor="middle" fill="#f0f6fc" font-family="system-ui,sans-serif" font-size="11" font-weight="600">Handoff
+(continuation)</text>
+<line x1="460" y1="565" x2="460" y2="575" stroke="#30363d" stroke-width="1" stroke-dasharray="2,2"/>
+<rect x="570" y="575" width="100" height="32" rx="6" fill="#3d444d" stroke="#484f58" stroke-width="1.5" />
+<text x="620" y="595" text-anchor="middle" fill="#f0f6fc" font-family="system-ui,sans-serif" font-size="11" font-weight="600">Context
+Restore</text>
+<line x1="620" y1="565" x2="620" y2="575" stroke="#30363d" stroke-width="1" stroke-dasharray="2,2"/>
+<rect x="730" y="575" width="100" height="32" rx="6" fill="#3d444d" stroke="#484f58" stroke-width="1.5" />
+<text x="780" y="595" text-anchor="middle" fill="#f0f6fc" font-family="system-ui,sans-serif" font-size="11" font-weight="600">Context
+Pressure</text>
+<line x1="780" y1="565" x2="780" y2="575" stroke="#30363d" stroke-width="1" stroke-dasharray="2,2"/>
+<line x1="910" y1="275" x2="910" y2="565" stroke="#30363d" stroke-width="1" stroke-dasharray="4,3"/>
+<line x1="910" y1="345" x2="910" y2="560" stroke="#30363d" stroke-width="1.5" marker-end="url(#arrow)" stroke-dasharray="4,3"/>
+<text x="910" y="442" text-anchor="middle" fill="#8b949e" font-family="system-ui,sans-serif" font-size="8">session lifecycle</text>
+<text x="50" y="630" fill="#58a6ff" font-family="system-ui,sans-serif" font-size="10" font-weight="600">▸ Tool Landscape: 132 registered</text>
+<text x="50" y="648" fill="#8b949e" font-family="system-ui,sans-serif" font-size="9">workflow: 24 · utility: 23 · quality: 20 · session: 15 · research: 15 · safety: 7 · agent: 6 · skill: 6 · memory: 5 · git: 4 · comms: 4 · experiment: 1 · constitution: 1 · productivity: 1</text>
+<text x="50" y="664" fill="#8b949e" font-family="system-ui,sans-serif" font-size="9">14 commands · 46 skills · 8 agents · 79 propagation templates</text>
+<line x1="30" y1="682" x2="1070" y2="682" stroke="#30363d" stroke-width="0.5"/>
+<rect x="30" y="690" width="10" height="10" rx="2" fill="#238636" stroke="#238636" stroke-width="1"/>
+<text x="45" y="699" fill="#e6edf3" font-family="system-ui,sans-serif" font-size="9">Phase</text>
+<rect x="120" y="690" width="10" height="10" rx="2" fill="#d29922" stroke="#d29922" stroke-width="1"/>
+<text x="135" y="699" fill="#e6edf3" font-family="system-ui,sans-serif" font-size="9">Gate</text>
+<rect x="210" y="690" width="10" height="10" rx="2" fill="#1f6feb" stroke="#1f6feb" stroke-width="1"/>
+<text x="225" y="699" fill="#e6edf3" font-family="system-ui,sans-serif" font-size="9">Branch</text>
+<rect x="300" y="690" width="10" height="10" rx="2" fill="#9e6a03" stroke="#9e6a03" stroke-width="1"/>
+<text x="315" y="699" fill="#e6edf3" font-family="system-ui,sans-serif" font-size="9">Propagation</text>
+<rect x="390" y="690" width="10" height="10" rx="2" fill="#3d444d" stroke="#3d444d" stroke-width="1"/>
+<text x="405" y="699" fill="#e6edf3" font-family="system-ui,sans-serif" font-size="9">Tool / Target</text>
+<text x="860" y="699" fill="#8b949e" font-family="system-ui,sans-serif" font-size="8">Interactive: open workflow-graph.html in browser</text>
+</svg>

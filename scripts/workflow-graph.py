@@ -1118,9 +1118,284 @@ def build_legend():
 # ═══════════════════════════════════════════════════════════════════════
 # MAIN
 # ═══════════════════════════════════════════════════════════════════════
+# SVG DIAGRAM GENERATOR
+# ═══════════════════════════════════════════════════════════════════════
+
+def build_svg_diagram():
+    """Generate a clean static SVG diagram of all workflows for README embedding."""
+    W = 1100
+    H = 720
+    CX = W // 2  # center x = 550
+
+    # Colors (dark theme, matching the repo's style)
+    BG = "#0d1117"
+    TEXT = "#e6edf3"
+    TEXT_MUTED = "#8b949e"
+    PHASE_BG = "#238636"
+    PHASE_BD = "#2ea043"
+    GATE_BG = "#d29922"
+    GATE_BD = "#bb8009"
+    BRANCH_BG = "#1f6feb"
+    BRANCH_BD = "#388bfd"
+    LINE_CLR = "#30363d"
+    LINE_MAIN = "#58a6ff"
+    ARROW_CLR = "#58a6ff"
+    PROP_BG = "#9e6a03"
+    TOOL_BG = "#3d444d"
+    TOOL_BD = "#484f58"
+    START_BG = "#1f6feb"
+    NODE_TEXT = "#f0f6fc"
+    SECTION_TITLE = "#58a6ff"
+
+    svg = []
+    push = svg.append
+
+    # -- Header --
+    push(f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="100%" style="max-width:{W}px">')
+    push(f'<rect width="{W}" height="{H}" fill="{BG}" rx="8"/>')
+    push(f'<defs>'
+          '<marker id="arrow" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="6" markerHeight="6" orient="auto">'
+          f'<path d="M 0 0 L 10 5 L 0 10 z" fill="{LINE_MAIN}"/></marker>'
+          '<marker id="arrow-sub" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="5" markerHeight="5" orient="auto">'
+          f'<path d="M 0 0 L 10 5 L 0 10 z" fill="{LINE_CLR}"/></marker>'
+          '</defs>')
+
+    # -- Helper: rounded rect --
+    def rect(x, y, w, h, fill, stroke, label, opts=""):
+        push(f'<rect x="{x}" y="{y}" width="{w}" height="{h}" rx="6" fill="{fill}" stroke="{stroke}" stroke-width="1.5" {opts}/>')
+        push(f'<text x="{x + w//2}" y="{y + h//2 + 4}" text-anchor="middle" fill="{NODE_TEXT}" font-family="system-ui,sans-serif" font-size="11" font-weight="600">{label}</text>')
+
+    def diamond(cx, cy, size, fill, stroke, label, opts=""):
+        s = size // 2
+        push(f'<polygon points="{cx},{cy-s} {cx+s},{cy} {cx},{cy+s} {cx-s},{cy}" fill="{fill}" stroke="{stroke}" stroke-width="1.5" {opts}/>')
+        push(f'<text x="{cx}" y="{cy + 3}" text-anchor="middle" fill="{NODE_TEXT}" font-family="system-ui,sans-serif" font-size="9" font-weight="500">{label}</text>')
+
+    def arrow(x1, y1, x2, y2, color=LINE_MAIN, label="", dash=""):
+        style = f'stroke="{color}" stroke-width="1.5" marker-end="url(#arrow)"'
+        if dash:
+            style += f' stroke-dasharray="{dash}"'
+        push(f'<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" {style}/>')
+        if label:
+            mx, my = (x1 + x2) // 2, (y1 + y2) // 2 - 10
+            push(f'<text x="{mx}" y="{my}" text-anchor="middle" fill="{TEXT_MUTED}" font-family="system-ui,sans-serif" font-size="8">{label}</text>')
+
+    def section_title(x, y, title):
+        push(f'<text x="{x}" y="{y}" fill="{SECTION_TITLE}" font-family="system-ui,sans-serif" font-size="10" font-weight="600" text-transform="uppercase" letter-spacing="1">{title}</text>')
+
+    # ──────────────────────────────────────────────────────────────────
+    # TIER 1: PROPAGATION + TOOL LANDSCAPE (y=30..120)
+    # ──────────────────────────────────────────────────────────────────
+    section_title(30, 25, "▸ Cross-Repo Propagation")
+
+    # Propagate entry
+    rect(30, 35, 100, 28, PROP_BG, "#bb8009", "propagate.sh")
+    # Command sync
+    rect(170, 35, 100, 28, BRANCH_BG, BRANCH_BD, "sync commands")
+    # Template propagate
+    rect(310, 35, 100, 28, BRANCH_BG, BRANCH_BD, "propagate templates")
+
+    # Destinations
+    rect(450, 25, 80, 22, TOOL_BG, TOOL_BD, ".opencode/")
+    rect(450, 53, 80, 22, TOOL_BG, TOOL_BD, ".pi/prompts/")
+    rect(540, 25, 80, 22, TOOL_BG, TOOL_BD, "commands/")
+    rect(540, 53, 80, 22, TOOL_BG, TOOL_BD, "CLAUDE.md")
+
+    # Topic folders
+    rect(660, 35, 110, 28, "#6e7681", "#848d97", "14 topic folders", opts='rx="14"')
+    # Status check
+    rect(810, 35, 90, 28, GATE_BG, GATE_BD, "✓ sync status")
+
+    push(f'<text x="{W - 30}" y="25" text-anchor="end" fill="{TEXT_MUTED}" font-family="system-ui,sans-serif" font-size="9">{PROP_DATA["total_pairs"]} file targets per folder</text>')
+
+    # Edges
+    arrow(130, 49, 170, 49, LINE_MAIN)
+    arrow(270, 49, 310, 49, LINE_MAIN)
+    arrow(410, 49, 450, 36, LINE_CLR, "")
+    arrow(410, 49, 540, 36, LINE_CLR, "")
+    arrow(410, 49, 450, 64, LINE_CLR, "")
+    arrow(410, 49, 540, 64, LINE_CLR, "")
+    arrow(630, 49, 660, 49, "#848d97", f"{PROP_DATA['managed']} managed + {PROP_DATA['repo_owned']} repo-owned", "4")
+    arrow(770, 49, 810, 49, LINE_MAIN)
+
+    # ──────────────────────────────────────────────────────────────────
+    # TIER 2: MAIN PHASE PIPELINE (y=160..330)
+    # ──────────────────────────────────────────────────────────────────
+    section_title(30, 155, "▸ Task Execution Pipeline")
+
+    phases_x = [50, 210, 350, 490, 630, 770, 910]
+
+    phase_data = [
+        (50, "Start"),
+        (210, "Route\nIntake"),
+        (350, "Research\n(6 tools)"),
+        (490, "Plan\n(4 tools)"),
+        (630, "Implement\n(4 tools)"),
+        (770, "Verify\n(7 tools)"),
+        (910, "Session\nCheckpoint"),
+    ]
+
+    # Close / End off to the right
+    rect(1030, 280, 60, 28, "none", "none", "", "")  # placeholder for end
+
+    # Phase boxes
+    for px, plabel in phase_data:
+        rect(px, 235, 130, 40, PHASE_BG, PHASE_BD, plabel)
+
+    # End ellipse
+    push(f'<ellipse cx="1090" cy="255" rx="30" ry="16" fill="none" stroke="{LINE_CLR}" stroke-width="1.5"/>')
+    push(f'<text x="1090" y="259" text-anchor="middle" fill="{TEXT_MUTED}" font-family="system-ui,sans-serif" font-size="11">End</text>')
+
+    # Main flow arrows
+    arrow(180, 255, 210, 255, LINE_MAIN)
+    arrow(340, 255, 350, 255, LINE_MAIN)
+    arrow(480, 255, 490, 255, LINE_MAIN)
+    arrow(620, 255, 630, 255, LINE_MAIN)
+    arrow(760, 255, 770, 255, LINE_MAIN)
+    arrow(900, 255, 910, 255, LINE_MAIN)
+    arrow(1040, 255, 1060, 255, LINE_CLR)
+
+    # Gate diamonds between phases
+    gate_x_positions = [270, 420, 560, 700, 840]
+    gate_labels = ["Research\nGate", "Plan\nGate", "Implement\nGate", "Verify\nGate", "Session\nGate"]
+
+    for gx, glabel in zip(gate_x_positions, gate_labels):
+        diamond(gx, 255, 36, GATE_BG, GATE_BD, glabel)
+        # Connect phase -> gate -> phase
+        # Already handled by main flow arrows
+
+    # Decision sub-steps below gates (small labels)
+    decision_labels = [
+        ("270", ["Model", "Select"]),
+        ("420", ["Model", "Select"]),
+        ("560", ["Quality", "Speed"]),
+    ]
+    for dx, dlabels in decision_labels:
+        pass  # skip for SVG (too detailed)
+
+    # Gate details as floating label
+    push(f'<text x="270" y="295" text-anchor="middle" fill="{TEXT_MUTED}" font-family="system-ui,sans-serif" font-size="7">model-select · sufficiency · scope-check</text>')
+    push(f'<text x="420" y="295" text-anchor="middle" fill="{TEXT_MUTED}" font-family="system-ui,sans-serif" font-size="7">model-select · catfish · scope · comprehension · decisions · autonomy · preflight</text>')
+    push(f'<text x="560" y="295" text-anchor="middle" fill="{TEXT_MUTED}" font-family="system-ui,sans-serif" font-size="7">quality-speed check (full suite or smoke?)</text>')
+    push(f'<text x="700" y="295" text-anchor="middle" fill="{TEXT_MUTED}" font-family="system-ui,sans-serif" font-size="7">test-smoke · test-workflows · counsel-run</text>')
+    push(f'<text x="840" y="295" text-anchor="middle" fill="{TEXT_MUTED}" font-family="system-ui,sans-serif" font-size="7">checkpoint-commit · context-save · handoff</text>')
+
+    # Question Gate before Route
+    diamond(145, 255, 30, GATE_BG, GATE_BD, "Q")
+    push(f'<text x="145" y="230" text-anchor="middle" fill="{TEXT_MUTED}" font-family="system-ui,sans-serif" font-size="7">Question</text>')
+    arrow(50, 274, 50, 255, LINE_MAIN)  # Start -> Q gate
+    arrow(160, 255, 210, 255, LINE_MAIN)
+
+    # ──────────────────────────────────────────────────────────────────
+    # TIER 3: BRANCH WORKFLOWS (y=370..520)
+    # ──────────────────────────────────────────────────────────────────
+    section_title(30, 365, "▸ Branch Workflows")
+
+    branch_y = 375
+    branch_data = [
+        (160, "Agent Dispatch\nFan-out (pi/codex/claude)", "scripts/agent-dispatch.sh", BRANCH_BG),
+        (390, "Pipeline Run\nSequenced task dispatch", "scripts/pipeline-run.sh", BRANCH_BG),
+        (620, "Counsel / Parley\nMulti-perspective review", "scripts/counsel-gate.sh", BRANCH_BG),
+        (850, "Autopilot\nAutonomous execution loop", "scripts/autopilot.sh", BRANCH_BG),
+    ]
+
+    # Branch from Implement (x=630) down to branches
+    # Horizontal line at y=375
+    branch_start_x = 120
+    branch_end_x = 1000
+    push(f'<line x1="{branch_start_x}" y1="{branch_y}" x2="{branch_end_x}" y2="{branch_y}" stroke="{LINE_CLR}" stroke-width="1" stroke-dasharray="4,3"/>')
+    arrow(630, 275, 630, 350, LINE_CLR, "branches", "4,3")
+    # Vertical line from implement down to branch horizontal
+    push(f'<line x1="630" y1="{branch_y - 25}" x2="630" y2="{branch_y}" stroke="{LINE_CLR}" stroke-width="1" stroke-dasharray="4,3"/>')
+
+    for bx, blabel, bscript, bcolor in branch_data:
+        rect(bx - 60, branch_y + 10, 120, 38, bcolor, BRANCH_BD, blabel)
+        push(f'<text x="{bx}" y="{branch_y + 58}" text-anchor="middle" fill="{TEXT_MUTED}" font-family="system-ui,sans-serif" font-size="7">{bscript}</text>')
+        # Arrow from horizontal line down to branch
+        push(f'<line x1="{bx}" y1="{branch_y}" x2="{bx}" y2="{branch_y + 10}" stroke="{LINE_CLR}" stroke-width="1" stroke-dasharray="2,2"/>')
+
+    # Agent dispatch targets (small boxes below agent dispatch)
+    ad_y = branch_y + 50
+    push(f'<text x="160" y="{ad_y + 55}" text-anchor="middle" fill="{TEXT_MUTED}" font-family="system-ui,sans-serif" font-size="8">→ pi · codex · claude</text>')
+    push(f'<text x="160" y="{ad_y + 66}" text-anchor="middle" fill="{TEXT_MUTED}" font-family="system-ui,sans-serif" font-size="8">/ship: reviewer + security + test</text>')
+
+    # Pipeline run targets
+    push(f'<text x="390" y="{ad_y + 55}" text-anchor="middle" fill="{TEXT_MUTED}" font-family="system-ui,sans-serif" font-size="8">@worker · @explore · @review</text>')
+    push(f'<text x="390" y="{ad_y + 66}" text-anchor="middle" fill="{TEXT_MUTED}" font-family="system-ui,sans-serif" font-size="8">on_error: abort/continue/retry:N</text>')
+
+    # ──────────────────────────────────────────────────────────────────
+    # TIER 4: SESSION LIFECYCLE (y=550..650)
+    # ──────────────────────────────────────────────────────────────────
+    section_title(30, 555, "▸ Session Lifecycle")
+
+    sess_y = 565
+    sess_items = [
+        (140, "Checkpoint\nCommit"),
+        (300, "Session\nFork (worktree)"),
+        (460, "Handoff\n(continuation)"),
+        (620, "Context\nRestore"),
+        (780, "Context\nPressure"),
+    ]
+
+    push(f'<line x1="80" y1="{sess_y}" x2="860" y2="{sess_y}" stroke="{LINE_CLR}" stroke-width="1" stroke-dasharray="4,3"/>')
+
+    for sx, slabel in sess_items:
+        rect(sx - 50, sess_y + 10, 100, 32, TOOL_BG, TOOL_BD, slabel)
+        push(f'<line x1="{sx}" y1="{sess_y}" x2="{sx}" y2="{sess_y + 10}" stroke="{LINE_CLR}" stroke-width="1" stroke-dasharray="2,2"/>')
+
+    # Connection from Session phase to sessions
+    push(f'<line x1="910" y1="275" x2="910" y2="{sess_y}" stroke="{LINE_CLR}" stroke-width="1" stroke-dasharray="4,3"/>')
+    arrow(910, 345, 910, sess_y - 5, LINE_CLR, "session lifecycle", "4,3")
+
+    # ──────────────────────────────────────────────────────────────────
+    # TOOL LANDSCAPE (right side panel)
+    # ──────────────────────────────────────────────────────────────────
+    panel_x = 50
+    panel_y = 610
+    push(f'<text x="{panel_x}" y="630" fill="{SECTION_TITLE}" font-family="system-ui,sans-serif" font-size="10" font-weight="600">▸ Tool Landscape: {sum(TOOL_COUNTS.values())} registered</text>')
+    tool_str = " · ".join(f"{cat}: {cnt}" for cat, cnt in sorted(TOOL_COUNTS.items(), key=lambda x: -x[1]) if cnt > 0)
+    push(f'<text x="{panel_x}" y="648" fill="{TEXT_MUTED}" font-family="system-ui,sans-serif" font-size="9">{tool_str}</text>')
+    push(f'<text x="{panel_x}" y="664" fill="{TEXT_MUTED}" font-family="system-ui,sans-serif" font-size="9">14 commands · 46 skills · 8 agents · {TMPL_DATA["templates"]} propagation templates</text>')
+
+    # ──────────────────────────────────────────────────────────────────
+    # FOOTER / LEGEND
+    # ──────────────────────────────────────────────────────────────────
+    ly = 690
+    push(f'<line x1="30" y1="{ly - 8}" x2="{W - 30}" y2="{ly - 8}" stroke="{LINE_CLR}" stroke-width="0.5"/>')
+
+    legend_items = [
+        (PHASE_BG, "Phase"),
+        (GATE_BG, "Gate"),
+        (BRANCH_BG, "Branch"),
+        (PROP_BG, "Propagation"),
+        (TOOL_BG, "Tool / Target"),
+    ]
+
+    lx = 30
+    for lcolor, llabel in legend_items:
+        push(f'<rect x="{lx}" y="{ly}" width="10" height="10" rx="2" fill="{lcolor}" stroke="{lcolor}" stroke-width="1"/>')
+        push(f'<text x="{lx + 15}" y="{ly + 9}" fill="{TEXT}" font-family="system-ui,sans-serif" font-size="9">{llabel}</text>')
+        lx += 90
+
+    push(f'<text x="{W - 240}" y="{ly + 9}" fill="{TEXT_MUTED}" font-family="system-ui,sans-serif" font-size="8">Interactive: open workflow-graph.html in browser</text>')
+
+    push('</svg>')
+    return "\n".join(svg)
+
+
+# ═══════════════════════════════════════════════════════════════════════
 
 def main():
-    output_path = sys.argv[1] if len(sys.argv) > 1 else "workflow-graph.html"
+    output_html = "workflow-graph.html"
+    output_svg = "workflow-graph.svg"
+
+    # Support override for HTML path, and --svg-only
+    svg_only = False
+    for arg in sys.argv[1:]:
+        if arg == "--svg-only":
+            svg_only = True
+        elif not arg.startswith("--"):
+            output_html = arg
+
     repo_root = Path(__file__).resolve().parent.parent
     os.chdir(repo_root)
 
@@ -1129,22 +1404,34 @@ def main():
           f"{PROP_DATA['total_pairs']} propagation pairs · "
           f"{TMPL_DATA['templates']} template files")
 
-    nodes, edges = build_all_workflows()
-    legend = build_legend()
+    if not svg_only:
+        nodes, edges = build_all_workflows()
+        legend = build_legend()
 
-    html = (HTML.replace("__NODES__", json.dumps(nodes, indent=2))
-                .replace("__EDGES__", json.dumps(edges, indent=2))
-                .replace("__LEGEND__", legend))
+        html = (HTML.replace("__NODES__", json.dumps(nodes, indent=2))
+                    .replace("__EDGES__", json.dumps(edges, indent=2))
+                    .replace("__LEGEND__", legend))
 
-    with open(output_path, "w", encoding="utf-8") as f:
-        f.write(html)
+        with open(output_html, "w", encoding="utf-8") as f:
+            f.write(html)
 
-    real_path = os.path.abspath(output_path)
-    print(f"\n✅ Generated: {real_path}")
-    print(f"   {len(nodes)} nodes · {len(edges)} edges")
-    print(f"\n   Open: file://{real_path}")
-    print(f"\n   💡 Gate decision chains are hidden by default.")
-    print(f"      Click a Gate node → click 'Show gate decision chain' to expand.")
+        real_html = os.path.abspath(output_html)
+        print(f"\n✅ HTML: {real_html}")
+        print(f"   {len(nodes)} nodes · {len(edges)} edges")
+        print(f"   Open: file://{real_html}")
+        print(f"   💡 Gate decision chains are hidden by default.")
+        print(f"      Click a Gate → 'Show gate decision chain' to expand.")
+        print()
+
+    # Always generate SVG
+    svg_content = build_svg_diagram()
+    with open(output_svg, "w", encoding="utf-8") as f:
+        f.write(svg_content)
+
+    real_svg = os.path.abspath(output_svg)
+    svg_lines = svg_content.count("\n")
+    print(f"✅ SVG: {real_svg} ({svg_lines} lines)")
+    print(f"   Embed in README.md with: <img src=\"workflow-graph.svg\" width=\"100%\" alt=\"Workflow Diagram\">")
 
 
 if __name__ == "__main__":
