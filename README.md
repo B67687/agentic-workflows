@@ -192,6 +192,10 @@ See [docs/workflow.md](docs/workflow.md) for the full system, [docs/hub-quicksta
 | [RTK](https://github.com/ericseppanen/rtk) | File counting & analysis |
 | [git-filter-repo](https://github.com/newren/git-filter-repo) | Git history management |
 | [*promptfoo](https://github.com/promptfoo/promptfoo) | Prompt evaluation (eval-report) |
+| [bm25s](https://github.com/xhluca/bm25s) | Workspace search index (BM25) |
+| [bubblewrap](https://github.com/containers/bubblewrap) | Sandboxed agent execution |
+| [jq](https://github.com/jqlang/jq) | JSON processing in scripts |
+| [@agentmemory/mcp](https://github.com/rohitg00/agentmemory) | Persistent memory MCP server (npx) |
 
 </div>
 
