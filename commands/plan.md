@@ -33,6 +33,22 @@ Return a compact plan with:
 - what is explicitly out of scope
 - where to checkpoint or restart between phases
 
+### Research Sufficiency Gate (Before Planning)
+
+Before planning, ensure research is sufficient:
+
+```bash
+# If you have a research note file:
+bash ./scripts/research-sufficiency.sh note <research-note-file>
+
+# For full assessment:
+bash ./scripts/research-sufficiency.sh assess --research-note <research-note-file>
+```
+
+- **PASS** (exit 0) -> proceed to planning
+- **CONTINUE** (exit 1) -> address warnings before or during planning
+- **BLOCK** (exit 2) -> go back to research, critical gaps remain
+
 ### Plan Challenge (CATFISH Protocol)
 
 After producing the plan and saving it to `.runtime/plan.json`, re-run the plan guard with the challenge flag:
