@@ -709,6 +709,46 @@ assert_output_contains "dashboard: JSON has recommendation" \
 
 echo ""
 
+# ===========================================================================
+echo ""
+echo "--- P15: Opencode DB Integrity ---"
+
+OPENCODE_DB="${OPENCODE_DB:-$HOME/.local/share/opencode/opencode.db}"
+
+if [ -f "$OPENCODE_DB" ]; then
+  assert_output_contains "opencode-db: project names are non-empty" \
+    "sqlite3 '$OPENCODE_DB' \"SELECT COUNT(*) FROM project WHERE (name IS NULL OR name = '') AND worktree != '/';\" 2>/dev/null | grep -q '^0$' && echo ok || echo BROKEN" \
+    "ok"
+
+  assert_output_contains "opencode-db: no orphan messages" \
+    "sqlite3 '$OPENCODE_DB' \"SELECT COUNT(*) FROM message WHERE session_id NOT IN (SELECT id FROM session);\" 2>/dev/null | grep -q '^0$' && echo ok || echo BROKEN" \
+    "ok"
+
+  assert_output_contains "opencode-db: no orphan parts" \
+    "sqlite3 '$OPENCODE_DB' \"SELECT COUNT(*) FROM part WHERE session_id NOT IN (SELECT id FROM session);\" 2>/dev/null | grep -q '^0$' && echo ok || echo BROKEN" \
+    "ok"
+
+  assert_output_contains "opencode-db: no FK violations" \
+    "sqlite3 '$OPENCODE_DB' 'PRAGMA foreign_key_check;' 2>/dev/null | grep -q . && echo VIOLATIONS || echo ok" \
+    "ok"
+
+  assert_output_contains "opencode-db: no duplicate session IDs" \
+    "sqlite3 '$OPENCODE_DB' \"SELECT COUNT(*) FROM (SELECT id FROM session GROUP BY id HAVING COUNT(*) > 1);\" 2>/dev/null | grep -q '^0$' && echo ok || echo BROKEN" \
+    "ok"
+
+  assert_output_contains "opencode-db: no duplicate message IDs" \
+    "sqlite3 '$OPENCODE_DB' \"SELECT COUNT(*) FROM (SELECT id FROM message GROUP BY id HAVING COUNT(*) > 1);\" 2>/dev/null | grep -q '^0$' && echo ok || echo BROKEN" \
+    "ok"
+
+  assert_output_contains "opencode-db: no broken timestamps (year 1601)" \
+    "sqlite3 '$OPENCODE_DB' \"SELECT COUNT(*) FROM session WHERE time_created > 0 AND time_created < 1000000000000;\" 2>/dev/null | grep -q '^0$' && echo ok || echo BROKEN" \
+    "ok"
+else
+  test_skip "opencode-db: all checks (DB not found at $OPENCODE_DB)"
+fi
+
+echo ""
+
 echo "  Pass: $PASS"
 echo "  Fail: $FAIL"
 echo "  Skip: $SKIP"
