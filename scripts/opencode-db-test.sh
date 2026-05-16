@@ -101,7 +101,9 @@ check "no year-1601 timestamps" \
 check "no future timestamps (>2030)" \
   "SELECT COUNT(*) FROM session WHERE time_created > 1893456000000;"
 
-# ── Path sanity ──
+# ── ID format checks (opencode server validates ses_ prefix; crashes if invalid) ──
+check "session IDs start with ses_" \
+  "SELECT COUNT(*) FROM session WHERE id NOT LIKE 'ses_%' AND id NOT LIKE 'test_%';"
 # Sessions from imported Windows DB may have M:\ paths; they're expected
 check_no_linux_windows_mix() {
   local label="no Linux-session Windows paths"
