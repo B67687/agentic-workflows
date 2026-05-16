@@ -743,6 +743,18 @@ if [ -f "$OPENCODE_DB" ]; then
   assert_output_contains "opencode-db: no broken timestamps (year 1601)" \
     "sqlite3 '$OPENCODE_DB' \"SELECT COUNT(*) FROM session WHERE time_created > 0 AND time_created < 1000000000000;\" 2>/dev/null | grep -q '^0$' && echo ok || echo BROKEN" \
     "ok"
+
+  assert_output_contains "opencode-db: model fields are valid JSON" \
+    "sqlite3 '$OPENCODE_DB' \"SELECT COUNT(*) FROM session WHERE model IS NOT NULL AND model != '' AND substr(model,1,1) != '{' AND substr(model,1,1) != '\"';\" 2>/dev/null | grep -q '^0$' && echo ok || echo BROKEN" \
+    "ok"
+
+  assert_output_contains "opencode-db: permission fields are valid JSON" \
+    "sqlite3 '$OPENCODE_DB' \"SELECT COUNT(*) FROM session WHERE permission IS NOT NULL AND permission != '' AND substr(permission,1,1) != '{' AND substr(permission,1,1) != '[';\" 2>/dev/null | grep -q '^0$' && echo ok || echo BROKEN" \
+    "ok"
+
+  assert_output_contains "opencode-db: summary_diffs fields are valid JSON" \
+    "sqlite3 '$OPENCODE_DB' \"SELECT COUNT(*) FROM session WHERE summary_diffs IS NOT NULL AND summary_diffs != '' AND substr(summary_diffs,1,1) != '{' AND substr(summary_diffs,1,1) != '[';\" 2>/dev/null | grep -q '^0$' && echo ok || echo BROKEN" \
+    "ok"
 else
   test_skip "opencode-db: all checks (DB not found at $OPENCODE_DB)"
 fi
