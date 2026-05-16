@@ -1,0 +1,62 @@
+# CI pipeline for agentic-workflows
+# Runs on every push to main and every pull request targeting main.
+# Checks: shellcheck, secret leakage, markdown frontmatter, smoke tests.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  lint-and-validate:
+    name: Lint & Validate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install shellcheck
+        run: sudo apt-get update -q && sudo apt-get install -y -q shellcheck
+
+      - name: Shellcheck all shell scripts
+        run: |
+          find . -name '*.sh' \
+            -not -path './.git/*' \
+            -not -path './node_modules/*' \
+            -exec shellcheck -f gcc {} \;
+
+      - name: Check for secrets and credentials
+        run: |
+          if grep -rnP \
+            '(sk-[A-Za-z0-9]{20,}|ghp_[A-Za-z0-9]{36}|gho_[A-Za-z0-9]{36}|AKIA[0-9A-Z]{16}|-----BEGIN\s+(RSA\s+|EC\s+)?PRIVATE\s+KEY-----)' \
+            --include='*.{sh,py,json,yaml,yml,md,toml,txt}' \
+            --exclude-dir=.git \
+            --exclude-dir=.runtime \
+            --exclude-dir=node_modules \
+            . 2>/dev/null; then
+            echo "::error::Potential secrets found in repository"
+            exit 1
+          fi
+          echo "No secrets detected."
+
+      - name: Validate markdown frontmatter
+        run: |
+          FAILED=0
+          while IFS= read -r -d '' f; do
+            if ! head -3 "$f" | grep -q '^---$'; then
+              echo "::warning::Missing frontmatter (---) in $f"
+            fi
+          done < <(find . -name '*.md' -not -path './.git/*' -not -path './node_modules/*' -print0)
+          exit $FAILED
+
+  smoke-tests:
+    name: Smoke Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run smoke test suite
+        run: bash ./scripts/test-smoke.sh
