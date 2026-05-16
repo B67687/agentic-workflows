@@ -1,0 +1,56 @@
+# Weekly stale branch cleanup
+# Scans for branches that are stale, merged, or far behind main.
+name: Branch Cleanup
+
+on:
+  schedule:
+    - cron: '0 6 * * 1'  # 6:00 AM UTC every Monday
+  workflow_dispatch:      # manual trigger
+
+permissions:
+  contents: write
+  pull-requests: read
+
+jobs:
+  scan:
+    name: Scan stale branches
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: List stale branches (>14 days)
+        run: |
+          echo "### Branches older than 14 days" >> $GITHUB_STEP_SUMMARY
+          for branch in $(git branch -r --merged origin/main | grep -v 'origin/main\|origin/HEAD' | sed 's/origin\///'); do
+            age=$(git log -1 --format=%ci "origin/$branch" 2>/dev/null | cut -d' ' -f1)
+            if [ -n "$age" ]; then
+              days_ago=$(( ($(date +%s) - $(date -d "$age" +%s)) / 86400 ))
+              if [ "$days_ago" -gt 14 ]; then
+                echo "- \`$branch\` (last commit: $age, ${days_ago} days ago)" >> $GITHUB_STEP_SUMMARY
+              fi
+            fi
+          done
+
+      - name: List merged branches (safe to delete)
+        run: |
+          echo "### Merged branches (safe to delete)" >> $GITHUB_STEP_SUMMARY
+          merged=$(git branch -r --merged origin/main | grep -v 'origin/main\|origin/HEAD' | sed 's/origin\///')
+          if [ -z "$merged" ]; then
+            echo "None." >> $GITHUB_STEP_SUMMARY
+          else
+            for branch in $merged; do
+              echo "- \`$branch\`" >> $GITHUB_STEP_SUMMARY
+            done
+          fi
+
+      - name: List diverged branches (>50 commits behind main)
+        run: |
+          echo "### Branches far behind main (>50 commits)" >> $GITHUB_STEP_SUMMARY
+          for branch in $(git branch -r | grep -v 'origin/main\|origin/HEAD' | sed 's/origin\///'); do
+            behind=$(git rev-list --count "origin/main..origin/$branch" 2>/dev/null || echo 0)
+            if [ "$behind" -gt 50 ]; then
+              echo "- \`$branch\` ($behind commits behind main)" >> $GITHUB_STEP_SUMMARY
+            fi
+          done
