@@ -48,7 +48,8 @@ declare -A PIPELINES
 PIPELINES["research->plan"]='research->plan|pipeline prereq check
 model_select|scripts/model-select.sh|classify __TASK__
 research_sufficiency|scripts/gates/research/sufficiency.sh|__TASK__
-scope_check|scripts/gates/plan/scope-check.sh|plan->implement'
+scope_check|scripts/gates/plan/scope-check.sh|plan->implement
+populate_state|scripts/session-state-populate.sh|--phase=research'
 
 # plan -> implement  (full decision chain)
 PIPELINES["plan->implement"]='plan->implement|pipeline prereq check
@@ -58,11 +59,13 @@ scope_check|scripts/gates/plan/scope-check.sh|plan->implement
 comprehension|scripts/gates/implement/comprehension.sh|__TASK__
 decisions_check|scripts/gates/implement/decisions.sh|__TASK__
 autonomy|scripts/gates/implement/autonomy.sh|__TASK__
-preflight|scripts/gates/implement/preflight.sh|__TASK__'
+preflight|scripts/gates/implement/preflight.sh|__TASK__
+populate_state|scripts/session-state-populate.sh|--phase=plan'
 
 # implement -> verify
 PIPELINES["implement->verify"]='implement->verify|pipeline prereq check
-quality_speed|scripts/gates/verify/quality-speed.sh|__TASK__'
+quality_speed|scripts/gates/verify/quality-speed.sh|__TASK__
+populate_state|scripts/session-state-populate.sh|--phase=implement'
 
 # ── Colors ──
 GREEN='\033[0;32m'
@@ -127,7 +130,7 @@ print(json.dumps(entry))
 
   if [[ "$entry" != "{}" ]]; then
     mkdir -p "$RUNTIME_DIR"
-    echo "$entry" >> "$DECISION_LOG"
+    echo "$entry" >>"$DECISION_LOG"
     echo ""
     echo "  Decision packet logged: $(echo "$entry" | python3 -c "import json,sys; d=json.load(sys.stdin); print(d['id'])" 2>/dev/null || echo "unknown")"
   fi
@@ -184,7 +187,7 @@ print(s.get('currentTask', {}).get('name', ''))
   local packet_file
   packet_file=$(mktemp /tmp/decision-packet-XXXXXX.json)
   # Initialize packet structure
-  echo '{"steps":[],"overall":{"passed":0,"warned":0,"failed":0,"skipped":0,"blocked_by":null}}' > "$packet_file"
+  echo '{"steps":[],"overall":{"passed":0,"warned":0,"failed":0,"skipped":0,"blocked_by":null}}' >"$packet_file"
 
   local overall_status="pass"
   local blocked_by=""
@@ -226,32 +229,32 @@ print(s.get('currentTask', {}).get('name', ''))
 
     local step_status
     case $rc in
-      0)
-        step_status="pass"
-        overall_status="pass"
-        echo -e "    ${GREEN}✓ PASS${NC}"
-        ;;
-      1)
-        step_status="fail"
-        overall_status="fail"
-        [[ -z "$blocked_by" ]] && blocked_by="$step_name"
-        echo -e "    ${RED}✗ FAIL${NC}"
-        ;;
-      2)
-        step_status="warn"
-        [[ "$overall_status" != "fail" ]] && overall_status="warn"
-        echo -e "    ${YELLOW}⚠ WARN${NC}"
-        ;;
-      3)
-        step_status="skip"
-        echo "    -- SKIP"
-        ;;
-      *)
-        step_status="error"
-        [[ "$overall_status" != "fail" ]] && overall_status="fail"
-        [[ -z "$blocked_by" ]] && blocked_by="$step_name"
-        echo -e "    ${RED}? ERROR (exit $rc)${NC}"
-        ;;
+    0)
+      step_status="pass"
+      overall_status="pass"
+      echo -e "    ${GREEN}✓ PASS${NC}"
+      ;;
+    1)
+      step_status="fail"
+      overall_status="fail"
+      [[ -z "$blocked_by" ]] && blocked_by="$step_name"
+      echo -e "    ${RED}✗ FAIL${NC}"
+      ;;
+    2)
+      step_status="warn"
+      [[ "$overall_status" != "fail" ]] && overall_status="warn"
+      echo -e "    ${YELLOW}⚠ WARN${NC}"
+      ;;
+    3)
+      step_status="skip"
+      echo "    -- SKIP"
+      ;;
+    *)
+      step_status="error"
+      [[ "$overall_status" != "fail" ]] && overall_status="fail"
+      [[ -z "$blocked_by" ]] && blocked_by="$step_name"
+      echo -e "    ${RED}? ERROR (exit $rc)${NC}"
+      ;;
     esac
 
     echo ""
@@ -286,7 +289,7 @@ with open('$packet_file', 'w') as f:
       rm -f "$packet_file"
       exit 1
     fi
-  done <<< "$pipeline_def"
+  done <<<"$pipeline_def"
 
   # All steps completed
   echo -e "  ${GREEN}═══ Pipeline complete: $transition ($overall_status)${NC}"
@@ -309,9 +312,9 @@ with open('$packet_file', 'w') as f:
   rm -f "$packet_file"
 
   case "$overall_status" in
-    fail) exit 1 ;;
-    warn) exit 2 ;;
-    *)    exit 0 ;;
+  fail) exit 1 ;;
+  warn) exit 2 ;;
+  *) exit 0 ;;
   esac
 }
 
