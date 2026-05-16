@@ -1,5 +1,5 @@
 {
-  "session": 7,
+  "session": 8,
   "status": "implement",
   "interruptedCount": 0,
   "contextPressure": "healthy",
@@ -9,11 +9,14 @@
     "goal": ""
   },
   "whatChanged": [
+    "1cd5835 feat: wire session-state population \u2014 populates whatChanged, verification, keyLearnings, immediateNextSteps from runtime data; auto-runs as final step in all decision pipelines",
     "1223a67 Merge s4-tool-integration-commands: activate decision pipeline, autonomy gate, session dashboard, error cooldown",
     "020efde fix: add model JSON structure check; comprehensive analysis of remaining edge cases",
-    "bf55f67 fix: rename 2141 message IDs + 2141 part IDs from codex_/cursor_ to msg_/prt_ prefix; add FK ref regression tests",
-    "?? scripts/session-state-populate.sh",
-    "1 dirty file(s)"
+    "M commands/session.md",
+    "M scripts/decision-pipeline.sh",
+    "M session-state.json",
+    "?? scripts/feedback-loop.sh",
+    "4 dirty file(s)"
   ],
   "verification": [
     "comprehension_gate: pass",
