@@ -48,6 +48,24 @@ init_state() {
 }
 
 # ---------------------------------------------------------------------------
+# Branch protection detection
+# ---------------------------------------------------------------------------
+# Returns 0 if the remote branch has protection enabled (PR required),
+# 1 otherwise, 2 if we can't determine (no gh, no remote, etc.)
+check_branch_protection() {
+  local branch="${1:-main}"
+  local remote="${2:-origin}"
+  # Check if gh is available and origin exists
+  if ! command -v gh &>/dev/null; then return 2; fi
+  if ! git show-ref --verify "refs/remotes/$remote/$branch" &>/dev/null; then return 2; fi
+  if gh api "repos/:owner/:repo/branches/$branch/protection" --jq '.required_pull_request_reviews.url' 2>/dev/null | grep -q .; then
+    return 0
+  else
+    return 1
+  fi
+}
+
+# ---------------------------------------------------------------------------
 # Help
 # ---------------------------------------------------------------------------
 show_help() {
@@ -351,6 +369,20 @@ end)
   fi
   BASE_BRANCH="${BASE_BRANCH:-main}"
 
+  # Auto-convert --merge to --pr if base branch is protected
+  if [ "$MERGE_FLAG" = true ]; then
+    check_branch_protection "$BASE_BRANCH"
+    bp_rc=$?
+    if [ "$bp_rc" -eq 0 ]; then
+      echo "  ⚠  $BASE_BRANCH is protected (PR required). Auto-converting --merge to --pr."
+      MERGE_FLAG=false
+      PR_FLAG=true
+    elif [ "$bp_rc" -eq 2 ]; then
+      echo "  ℹ  Cannot verify branch protection for $BASE_BRANCH. Proceeding with --merge."
+    fi
+    unset bp_rc
+  fi
+
   echo "Ending session: $NAME (base: $BASE_BRANCH)"
 
   # cd to worktree if it exists
@@ -399,7 +431,18 @@ end)
       git checkout "$BASE_BRANCH" 2>/dev/null || true
       git merge "$BRANCH" --squash 2>/dev/null && git commit -m "${PR_TITLE:-Merge session: $NAME}" 2>/dev/null ||
         echo "  (merge skipped: no changes or conflicts)"
-      git push 2>&1 || echo "  (push failed or no remote configured)"
+      if git push 2>&1; then
+        echo "  ✅ Merged into $BASE_BRANCH"
+      else
+        echo "  ❌ Push to $BASE_BRANCH failed (branch protection likely blocks direct pushes)."
+        echo "  Resetting local $BASE_BRANCH..."
+        git reset --hard "origin/$BASE_BRANCH" 2>/dev/null || git checkout "$BRANCH" 2>/dev/null || true
+        echo "  Branch $BRANCH and worktree preserved for recovery."
+        echo "  Tip: use 'git-agent.sh end --pr' to create a PR instead."
+        update_session "$SESSION_ID" "status" '"warning_merge_failed"'
+        echo "Session status set to: warning_merge_failed"
+        exit 1
+      fi
       git checkout "$BRANCH" 2>/dev/null || true
     fi
 
