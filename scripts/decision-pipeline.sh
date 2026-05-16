@@ -67,6 +67,10 @@ PIPELINES["implement->verify"]='implement->verify|pipeline prereq check
 quality_speed|scripts/gates/verify/quality-speed.sh|__TASK__
 populate_state|scripts/session-state-populate.sh|--phase=implement'
 
+# verify -> done (task completion pipeline)
+PIPELINES["verify->done"]='verify->done|pipeline prereq check
+feedback_loop|scripts/feedback-loop.sh|'
+
 # ── Colors ──
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
