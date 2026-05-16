@@ -119,7 +119,7 @@ bash scripts/workflow-graph.sh
 <table>
 <tr>
   <td width="33%" valign="top"><b>🧠 Operating Contract</b><br><sub>AGENTS.md --- shared conventions every agent reads on entry</sub></td>
-  <td width="33%" valign="top"><b>📚 Skill System</b><br><sub>Debug, review, ship, document --- 42 engineering skills with scripts</sub></td>
+  <td width="33%" valign="top"><b>📚 Skill System</b><br><sub>Debug, review, ship, document --- 46 engineering skills with companion scripts</sub></td>
   <td width="33%" valign="top"><b>🔄 Knowledge Propagation</b><br><sub>Change once in the hub, sync templates to 15+ repos automatically</sub></td>
 </tr>
 <tr>
@@ -128,9 +128,14 @@ bash scripts/workflow-graph.sh
   <td width="33%" valign="top"><b>🔬 Research Engine</b><br><sub>Frame -> discover -> triangulate -> apply -> preserve --- 6-phase methodology</sub></td>
 </tr>
 <tr>
-  <td width="33%" valign="top"><b>🛡️ Quality Guardrails</b><br><sub>A2H escalation, assumption expiry, pre-push gates, error counters</sub></td>
-  <td width="33%" valign="top"><b>🌐 Multi-Repo Orchestration</b><br><sub>15+ topic folders, propagate templates, harvest insights across all repos</sub></td>
-  <td width="33%" valign="top"><b>🧪 Test-Driven Agents</b><br><sub>Every change verified before commit --- TDD patterns and smoke tests</sub></td>
+  <td width="33%" valign="top"><b>🛡️ Quality Guardrails</b><br><sub>A2H escalation, assumption expiry, decision pipelines, error cooldown with backoff</sub></td>
+  <td width="33%" valign="top"><b>🌐 Multi-Repo Orchestration</b><br><sub>17 topic folders, propagate templates, harvest insights across all repos</sub></td>
+  <td width="33%" valign="top"><b>🧪 Test-Driven Agents</b><br><sub>Every change verified before commit --- TDD patterns and 112-test smoke suite</sub></td>
+</tr>
+<tr>
+  <td width="33%" valign="top"><b>🔁 Methodology Feedback Loop</b><br><sub>Verification failures automatically flagged as methodology vs execution gaps</sub></td>
+  <td width="33%" valign="top"><b>📊 Session Observability</b><br><sub>Dashboard aggregates phase, gate decisions, errors, and debt live</sub></td>
+  <td width="33%" valign="top"><b>🧠 Self-Documenting State</b><br><sub>session-state.json auto-populated from git + runtime data after every phase</sub></td>
 </tr>
 </table>
 
@@ -152,6 +157,9 @@ bash scripts/workflow-graph.sh
 bash ./scripts/session-status.sh        # Workspace health
 bash ./scripts/tools.sh                 # Tool registry
 bash ./scripts/search-index.sh "query"  # BM25 search
+bash ./scripts/session-dashboard.sh     # Live observability dashboard
+bash ./scripts/decision-pipeline.sh list  # Show all phase transition gates
+bash ./scripts/session-state-populate.sh --check  # Verify state is populated
 bash ./scripts/propagate.sh status      # Sync status
 bash ./scripts/checkpoint-commit.sh -m "msg"  # Verified commit
 ```
