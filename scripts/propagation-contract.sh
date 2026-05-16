@@ -29,6 +29,10 @@ declare -a PROPAGATION_MANAGED_CORE=(
   "command/git.template.md:.opencode/commands/git.md"
   "command/counsel.template.md:commands/counsel.md"
   "command/counsel.template.md:.opencode/commands/counsel.md"
+  "command/counsel.template.md:.pi/prompts/counsel.md"
+  "command/cleanup.template.md:commands/cleanup.md"
+  "command/cleanup.template.md:.opencode/commands/cleanup.md"
+  "command/cleanup.template.md:.pi/prompts/cleanup.md"
   "command/plan.template.md:commands/plan.md"
   "command/plan.template.md:.opencode/commands/plan.md"
   "command/implement.template.md:commands/implement.md"
@@ -115,19 +119,19 @@ propagation_iter_entries() {
   local scope="${1:-all}"
 
   case "$scope" in
-    managed)
-      printf '%s\n' "${PROPAGATION_MANAGED_CORE[@]}"
-      ;;
-    repo-owned)
-      printf '%s\n' "${PROPAGATION_REPO_OWNED_BOOTSTRAP[@]}"
-      ;;
-    all)
-      printf '%s\n' "${PROPAGATION_MANAGED_CORE[@]}" "${PROPAGATION_REPO_OWNED_BOOTSTRAP[@]}"
-      ;;
-    *)
-      echo "ERROR: unknown propagation scope: $scope" >&2
-      return 2
-      ;;
+  managed)
+    printf '%s\n' "${PROPAGATION_MANAGED_CORE[@]}"
+    ;;
+  repo-owned)
+    printf '%s\n' "${PROPAGATION_REPO_OWNED_BOOTSTRAP[@]}"
+    ;;
+  all)
+    printf '%s\n' "${PROPAGATION_MANAGED_CORE[@]}" "${PROPAGATION_REPO_OWNED_BOOTSTRAP[@]}"
+    ;;
+  *)
+    echo "ERROR: unknown propagation scope: $scope" >&2
+    return 2
+    ;;
   esac
 }
 

@@ -30,3 +30,4 @@ autopilot: task 1 done for pipeline pipeline-20260514155035
 autopilot: task 1 done for pipeline pipeline-20260514155342
 ### Traffic Tracker Setup
 {"ts":"2026-05-15T07:34:40Z","insight":"GitHub Traffic Tracker (djdarcy/github-traffic-tracker) set up for permanent clone/view history — PAT needs both 'gist' and 'repo' scopes for traffic API access\n","tags":"traffic,analytics,github-actions","source":"agent"}
+{"ts":"2026-05-16T02:42:18Z","insight":"Dashboard refactored to be repo-agnostic: auto-detects repo from URL pathname, looks up gist IDs from config map, populates all links dynamically via JS. Only needs one config entry per repo.\n","tags":"dashboard,repo-agnostic,refactor,traffic","source":"agent"}

@@ -1153,3 +1153,20 @@ description = "Cross-agent manifest registry — list, register, inspect, sync a
 category = "agent"
 path = "scripts/agent-registry.sh"
 type = "script"
+
+[[tool]]
+name = "cleanup"
+description = "Analyze and clean project disk bloat — caches, build artifacts, git bloat, IDE detritus"
+category = "utility"
+path = "commands/cleanup.md"
+type = "command"
+
+[[tool]]
+name = "cleanup-project"
+description = "Scan a project directory for reclaimable space: git bloat, node_modules, Gradle/Dart/Rust build artifacts, Python caches"
+category = "utility"
+path = "scripts/cleanup-project.sh"
+type = "script"
+inputs.target = { type = "string", description = "Project directory path (default: current repo root)" }
+inputs.apply = { type = "boolean", description = "Apply safe cleanups", default = false }
+inputs.aggressive = { type = "boolean", description = "Apply + clean big artifacts", default = false }
