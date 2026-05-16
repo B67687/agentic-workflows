@@ -1,36 +1,41 @@
 {
-  "session": 107,
+  "session": 108,
   "status": "completed",
   "interruptedCount": 0,
   "contextPressure": "healthy",
   "currentTask": {
-    "name": "Git workflow overhaul completed — all phases implemented and verified",
+    "name": "Git workflow overhaul — all gaps addressed including nice-to-haves",
     "status": "completed",
-    "goal": "Audit and fix all git workflow gaps identified in the initial scan"
+    "goal": "Audit and fix all git workflow gaps, then add auto-merge, branch cleanup, and commit-msg hook"
   },
   "whatChanged": [
     "scripts/git-agent.sh: removed --no-verify from 4 commit paths (kept in WIP trap only)",
     "scripts/git-agent.sh: added check_branch_protection() — auto-converts end --merge to --pr",
     "scripts/git-agent.sh: improved merge failure handling (reset + preserve branch)",
+    "scripts/git-agent.sh: added --auto-merge flag (creates PR, waits for CI, merges automatically)",
     ".github/CODEOWNERS: created with * @B67687",
-    ".github/workflows/ci.yml: CI pipeline (shellcheck, secrets, frontmatter, smoke tests, Playwright)",
+    ".github/workflows/ci.yml: CI pipeline with shellcheck, secrets, frontmatter, smoke tests, Playwright",
     ".github/workflows/ci.yml: added 5 quality gate checks (console.log, TODOs, large files, error handling, ASCII)",
-    ".github/pull_request_template.md: new PR template with verification checklist",
+    ".github/workflows/branch-cleanup.yml: weekly Monday 6AM stale branch scan",
+    ".github/pull_request_template.md: PR template with verification checklist",
     "rules/common/git-workflow.md: two-tier commit system (checkpoint English + PR conventional)",
     "scripts/checkpoint-commit.sh: conventional commit advisory linting",
     "scripts/test-smoke.sh: 3 pre-existing failures fixed (bwrap skip, tool_count 132→134, broken pipe)",
     "scripts/test-smoke.sh: assert_output_contains broken pipe hazard fixed (2>/dev/null)",
-    "skills/git-workflow-and-versioning/SKILL.md: repo-specific agent workflow section added",
-    "session-state.json: updated after each phase"
+    "skills/git-workflow-and-versioning/SKILL.md: repo-specific agent workflow + hook note",
+    "~/.config/git/hooks/commit-msg: conventional commit validation hook (outside repo)"
   ],
   "verification": [
     "Branch protection: PR required, strict checks [Lint & Validate, Smoke Tests], linear history, no force-push, deletions blocked, enforce admins — all API-verified",
     "CI fully green: 115/115 smoke tests pass, Lint & Validate passes on every PR",
-    "end --merge auto-converts to --pr when branch protection detected (tested: returns 0 for protected main)",
+    "end --merge auto-converts to --pr when branch protection detected (API-verified)",
+    "end --auto-merge: creates PR, waits for CI, marks ready, merges (tested end-to-end)",
+    "Branch cleanup workflow: valid YAML, triggers on cron + workflow_dispatch",
+    "commit-msg hook: passes conventional commits + English imperative, rejects bad messages",
     "Global pre-commit hook (identity gate) passes: B67687 <111849193+B67687@users.noreply.github.com>",
-    "Only WIP crash trap retains --no-verify (confirmed: 1 match in scripts/git-agent.sh line 175)",
+    "Only WIP crash trap retains --no-verify (confirmed: 1 match, line 175)",
     "All branches cleaned: only main + s4-tool-integration-commands worktree remain",
-    "PR #2, #3, #4 all merged via protected-branch flow with CI passing"
+    "PR #2, #3, #4, #5, #6 all merged via protected-branch flow with CI green"
   ],
   "keyLearnings": [
     "tools.sh --json output is large — piping through echo+grep causes SIGPIPE. Fixed by pre-extracting with python.",
@@ -39,8 +44,9 @@
     "Branch protection detection via gh API is reliable for environment-agnostic scripts.",
     "gh pr merge sometimes returns no output despite succeeding — verify via gh pr view.",
     "Quality gate runs on staged changes only; CI must replicate checks on full tree.",
-    "Smoke test expectations (tool_count) drift when tools are added — needs updating after new tools."
+    "Smoke test expectations (tool_count) drift when tools are added — needs updating after new tools.",
+    "Global hooks path (~/.config/git/hooks/) is set via core.hookspath and applies across all repos."
   ],
-  "residualRisk": "branch protection prevents direct push to main — agents must use end --pr. The auto-convert from --merge to --pr handles this, but existing scripts using --merge directly will be redirected. WIP crash trap still uses --no-verify by design (must succeed even if hooks fail).",
+  "residualRisk": "branch protection prevents direct push to main — agents must use end --pr (or end --auto-merge). The auto-convert from --merge to --pr handles this. commit-msg hook is in global hooks dir (~/.config/git/hooks/) not in repo — other agents cloning this repo won't have it. WIP crash trap still uses --no-verify by design.",
   "immediateNextSteps": []
 }

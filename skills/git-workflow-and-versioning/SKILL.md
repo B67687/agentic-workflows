@@ -34,6 +34,10 @@ This repo uses `scripts/git-agent.sh` for session-based agent work. The key work
 - **Pre-commit hook** verifies committer identity (`B67687 <111849193+B67687@users.noreply.github.com>`). This runs on every commit (no `--no-verify` except in crash WIP trap).
 - **Pre-push hook** verifies all pushed commits have valid SSH signatures.
 
+**Commit-msg hook** at `~/.config/git/hooks/commit-msg` (outside repo — set via `core.hookspath`):
+Validates conventional commit format (`feat:`, `fix:`, etc.) and English imperative checkpoint
+commits. Only activates for `B67687/agentic-workflows` — pass-through for all other repos.
+
 **Companion script:** `scripts/git-branch-cleanup.sh` --- scans branches for staleness, merge status, and divergence. Run from the skill directory:
 ```bash
 bash ./scripts/git-branch-cleanup.sh scan              # all branches
