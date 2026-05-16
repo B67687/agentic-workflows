@@ -1,5 +1,16 @@
 <p align="center">
   <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://img.shields.io/badge/status-archived-8b949e?style=for-the-badge&logo=github&logoColor=white&labelColor=181717">
+    <img alt="status-archived" src="https://img.shields.io/badge/status-archived-d0d7de?style=for-the-badge&logo=github&logoColor=white">
+  </picture>
+</p>
+
+<p align="center">This repository is no longer under active development. The code and documentation remain available for reference.</p>
+
+---
+
+<p align="center">
+  <picture>
     <source media="(prefers-color-scheme: dark)" srcset="https://img.shields.io/badge/agentic--workflows-ffffff?style=for-the-badge&logo=github&logoColor=white&labelColor=181717">
     <img alt="agentic-workflows" src="https://img.shields.io/badge/agentic--workflows-000000?style=for-the-badge&logo=github&logoColor=white">
   </picture>
