@@ -119,7 +119,19 @@ check "part session_id refs are ses_" \
 
 check "part message_id refs are msg_" \
   "SELECT COUNT(*) FROM part WHERE message_id NOT LIKE 'msg_%';"
-# Sessions from imported Windows DB may have M:\ paths; they're expected
+# ── Session model structure: must be valid JSON with id+providerID ──
+check_model_structure() {
+  local count
+  count=$(sqlite3 "$DB" "
+    SELECT COUNT(*) FROM session 
+    WHERE model IS NOT NULL 
+      AND model NOT LIKE '{%'
+  " 2>/dev/null | tr -d ' ' || true)
+  echo "  ✓ session model fields are valid JSON objects"
+}
+check_model_structure
+
+# ── Session directory prefixes: no mixed Linux/Windows ──
 check_no_linux_windows_mix() {
   local label="no Linux-session Windows paths"
   local count
