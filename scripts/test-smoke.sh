@@ -60,7 +60,7 @@ assert_exit() {
 assert_output_contains() {
   local name="$1" cmd="$2" pattern="$3"
   if output=$(eval "$cmd" 2>&1); then
-    if echo "$output" | grep -q "$pattern"; then
+    if echo "$output" 2>/dev/null | grep -q "$pattern"; then
       test_pass "$name"
     else
       test_fail "$name (output missing: '$pattern')"

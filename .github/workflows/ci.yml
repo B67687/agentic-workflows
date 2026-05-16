@@ -53,6 +53,66 @@ jobs:
           done < <(find . -name '*.md' -not -path './.git/*' -not -path './node_modules/*' -print0)
           exit $FAILED
 
+      - name: Check for console.log in shell scripts
+        run: |
+          if grep -rn 'console\.log' --include='*.sh' \
+            --exclude-dir=.git --exclude-dir=node_modules . 2>/dev/null; then
+            echo "::warning::console.log found in shell scripts (likely debug leftover)"
+          else
+            echo "No console.log in shell scripts."
+          fi
+
+      - name: Check for TODO/FIXME markers
+        run: |
+          FOUND=$(grep -rn 'TODO\|FIXME\|HACK\|XXX' \
+            --include='*.{sh,py,js,ts,md,yaml,yml}' \
+            --exclude-dir=.git --exclude-dir=node_modules --exclude-dir=.runtime \
+            . 2>/dev/null | grep -v 'node_modules' | grep -v '.git/' | grep -v 'LICENSE' | head -30)
+          if [ -n "$FOUND" ]; then
+            echo "::warning::Found TODO/FIXME markers in code (consider addressing before merging)"
+            echo "$FOUND"
+          fi
+
+      - name: Check for large files (>1MB)
+        run: |
+          LARGE=$(find . -not -path './.git/*' -not -path './node_modules/*' \
+            -size +1M -type f 2>/dev/null)
+          if [ -n "$LARGE" ]; then
+            echo "::warning::Large files found (>1MB):"
+            echo "$LARGE" | while read -r f; do
+              SIZE=$(stat -c%s "$f" 2>/dev/null)
+              echo "  $f ($(echo "scale=1; $SIZE/1048576" | bc)MB)"
+            done
+          else
+            echo "No files >1MB."
+          fi
+
+      - name: Check error handling (set -euo pipefail) in shell scripts
+        run: |
+          MISSING=0
+          while IFS= read -r -d '' f; do
+            if ! head -15 "$f" | grep -q 'set\s\+-[a-z]*[a-z]*[a-z]*e[a-z]*u[a-z]*o[a-z]*\b'; then
+              echo "::warning::$f: missing 'set -euo pipefail'"
+              MISSING=$((MISSING + 1))
+            fi
+          done < <(find . -name '*.sh' -not -path './.git/*' -not -path './node_modules/*' -print0)
+          if [ "$MISSING" -eq 0 ]; then
+            echo "All shell scripts have set -euo pipefail."
+          fi
+
+      - name: Check for non-ASCII characters in shell scripts
+        run: |
+          FOUND=0
+          while IFS= read -r -d '' f; do
+            if grep -Pn '[^\x00-\x7F]' "$f" 2>/dev/null | head -5 | grep -q .; then
+              echo "::warning::$f contains non-ASCII characters"
+              FOUND=$((FOUND + 1))
+            fi
+          done < <(find . -name '*.sh' -not -path './.git/*' -not -path './node_modules/*' -print0)
+          if [ "$FOUND" -eq 0 ]; then
+            echo "All shell scripts are ASCII-only."
+          fi
+
   smoke-tests:
     name: Smoke Tests
     runs-on: ubuntu-latest
