@@ -65,6 +65,36 @@ Run:
 Return a compact handoff packet with: goal, current phase, verified so far, key decisions, open risks, exact files, next command.
 Keep the packet short. Preserve only what the next session needs.
 
+## Feedback Loop (post-verification methodology check)
+
+Use after verification completes. Checks whether any verification failures indicate a methodology gap (the process needs updating) or an execution gap (agent mistake). Logs meta-learnings for iterative methodology improvement.
+
+Run:
+`bash ./scripts/feedback-loop.sh`
+
+Check-only mode:
+`bash ./scripts/feedback-loop.sh --check-only`
+
+View feedback history:
+`bash ./scripts/feedback-loop.sh --status`
+
+**Automatically runs** as the final step in the `verify->done` decision pipeline.
+
+## Session State Populate (update session-state.json from runtime data)
+
+Use this after any phase transition to populate `whatChanged`, `verification`, `keyLearnings`, and `immediateNextSteps` fields in session-state.json from live runtime data.
+
+Run:
+`bash ./scripts/session-state-populate.sh`
+
+With a specific phase:
+`bash ./scripts/session-state-populate.sh --phase=verify`
+
+Check for empty fields:
+`bash ./scripts/session-state-populate.sh --check`
+
+**Automatically runs** as the final step of each decision pipeline (research→plan, plan→implement, implement→verify).
+
 ## Checkpoint (wrap up a verified phase)
 
 Use this at the end of a phase. If the task is actually over, obsolete, or misframed, use Close Task first so the ending gets classified cleanly.
