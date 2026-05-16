@@ -78,9 +78,11 @@ For SwarmVault graph queries, read `wiki/graph/report.md` first (falls back to `
 | `scripts/gates/` | Convention-based gate plugin directory (add checks by creating files) |
 | `scripts/agent-dispatch.sh` | Async task dispatcher for external coding agents (pi, codex, claude) |
 | `scripts/context-pressure.sh` | Session health monitor --- detects context rot (age, dirt, commit count) |
+| `scripts/feedback-loop.sh` | Post-verification methodology gap detection (closes feedback loop) |
+| `scripts/session-state-populate.sh` | Populate session-state.json empty fields from runtime data |
 | `scripts/browser.sh` | Browser automation via Playwright (navigate, screenshot, text, html, pdf) |
 | `scripts/pipeline-run.sh` | Pipeline state manager with async dispatch + collect commands |
-| `scripts/test-smoke.sh` | 108-test smoke suite covering all tools |
+| `scripts/test-smoke.sh` | 112-test smoke suite covering all tools |
 | `skills/bash-explore/core/explore.py` | Structured file discovery companion script |
 | `skills/debugging-and-error-recovery/scripts/triage.sh` | Failure context capture as structured JSON |
 | `skills/documentation-and-adrs/scripts/create-adr.sh` | Auto-numbered ADR creation from template |
@@ -132,7 +134,7 @@ For SwarmVault graph queries, read `wiki/graph/report.md` first (falls back to `
 - **Stop planning loops after two refinements**: choose the next verified slice and move toward implementation.
 - **Optimize by evidence**: measure first. Only do architecture review for hard-to-reverse risks.
 - **Probe repo before edits**: check branch, divergence, dirt, upstream state. Use worktrees for risky or parallel tasks.
-- **Batch file reads to 3 at a time**: avoid dispatching 6+ parallel reads mixed with a long-running build --- memory pressure on 4GB WSL2 can interrupt tool execution.
+- **Memory pressure awareness**: avoid dispatching many parallel reads mixed with a long-running build --- 12GB WSL2 can still spike under heavy concurrency.
 - **Use `gradle-build` for Gradle projects**: instead of bare `./gradlew`. The wrapper runs the build then stops the daemon, freeing ~600MB--1.8GB RSS.
 - **Resist cognitive surrender by default**: Cognitive surrender is adopting AI output without forming an independent view. The calibration question is: *"Am I forming my own understanding of this output, or adopting the agent's answer wholesale?"* These feel identical from the inside. Before every generative action (research summary, plan, code, review), construct an expectation of what the output should contain before running the tool. After the output, verify independently --- don't let "looks right" replace "I know this is right." For decisions with tradeoffs, ask the model to argue against its own answer. This is not optional for high-verification work; it is the difference between offloading (strategic delegation with oversight) and surrender (uncritical adoption). See `research/cognitive-surrender-research.md` for the full evidence.
 
