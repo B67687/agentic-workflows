@@ -8,7 +8,7 @@
 # Usage:
 #   bash ./scripts/test-smoke.sh            # run all tests
 #   bash ./scripts/test-smoke.sh --list     # list available tests
-#   bash ./scripts/test-smoke.sh --quick    # only fast tests (skip sandbox)
+#   bash ./scripts/test-smoke.sh --quick    # only fast tests (skip slow tests)
 # =============================================================================
 set -euo pipefail
 
