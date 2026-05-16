@@ -55,6 +55,26 @@ The `--constitution` flag runs Article I (Macro-to-Micro) gates:
 If sufficiency check or constitution gate BLOCKs, go back to `/research`.
 New gate plugins can be added by creating `scripts/gates/plan/<name>.sh`.
 
+### Check Current State
+
+Before refining the plan, check current session state:
+
+```bash
+bash ./scripts/session-dashboard.sh
+```
+
+### Decision Pipeline (plan -> implement)
+
+When planning is complete and you're ready to transition to implementation, run the full
+decision pipeline to auto-execute all pre-implementation gates:
+
+```bash
+bash ./scripts/decision-pipeline.sh 'plan->implement' "<task-description>"
+```
+
+This chains: model selection -> CATFISH -> scope check -> comprehension ->
+decisions check -> autonomy assessment -> preflight, with short-circuit on failure.
+
 ### Plan Challenge (CATFISH Protocol)
 
 After producing the plan and saving it to `.runtime/plan.json`, re-run the plan guard with the challenge flag:
@@ -93,21 +113,3 @@ The quality gate will also check for unaddressed blocking findings at commit tim
 - Verification target is vague ("make it work") instead of specific ("tests pass + build succeeds + endpoint returns 200")
 - No explicit "out of scope" section
 </red_flags>
-
-### Next Step
-
-After the plan is approved, decompose the first milestone into executable tasks:
-
-```bash
-bash ./scripts/task-decompose.sh "$ARGUMENTS" \
-  --from research/ --story "<story>" \
-  --output .runtime/tasks.md --check-gates
-```
-
-Then run the implementation phase gate with all checks:
-
-```bash
-bash ./scripts/phase-gate.sh implement \
-  --research-done --plan-done --scope-bounded --verification-known \
-  --check-quality --constitution --check-ambiguity
-```
