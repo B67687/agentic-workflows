@@ -744,8 +744,8 @@ if [ -f "$OPENCODE_DB" ]; then
     "sqlite3 '$OPENCODE_DB' \"SELECT COUNT(*) FROM session WHERE time_created > 0 AND time_created < 1000000000000;\" 2>/dev/null | grep -q '^0$' && echo ok || echo BROKEN" \
     "ok"
 
-  assert_output_contains "opencode-db: model fields are valid JSON" \
-    "sqlite3 '$OPENCODE_DB' \"SELECT COUNT(*) FROM session WHERE model IS NOT NULL AND model != '' AND substr(model,1,1) != '{' AND substr(model,1,1) != '\"';\" 2>/dev/null | grep -q '^0$' && echo ok || echo BROKEN" \
+  assert_output_contains "opencode-db: model fields are valid JSON objects" \
+    "sqlite3 '$OPENCODE_DB' \"SELECT COUNT(*) FROM session WHERE model IS NOT NULL AND model != '' AND model NOT LIKE '{%' COLLATE NOCASE;\" 2>/dev/null | grep -q '^0$' && echo ok || echo BROKEN" \
     "ok"
 
   assert_output_contains "opencode-db: permission fields are valid JSON" \
