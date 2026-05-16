@@ -75,7 +75,7 @@ show_help() {
   echo "  start <name> [--allow <paths>] [--base <b>]  Create session from base branch (default: auto-detect)"
   echo "  commit [-m <msg>]                             Commit changes with quality gate"
   echo "  status [session-id]                           List active sessions (or details for one)"
-  echo "  end [session-id] [--pr] [--pr-title x] [--merge]  Squash, cleanup (--pr: PR, --merge into base)"
+  echo "  end [session-id] [--pr] [--pr-title x] [--auto-merge] [--merge]  Squash, cleanup (--pr: PR, --auto-merge: CI+merge)"
   echo "  abort <session-id>                                        Discard session entirely"
   echo "  ci-wait <session-id> [--timeout N]          Wait for CI to pass"
   echo ""
@@ -84,6 +84,7 @@ show_help() {
   echo "  git-agent.sh start fork-task --base feat/autonomous-runtime"
   echo "  git-agent.sh commit -m 'Implement feature X'"
   echo "  git-agent.sh end --pr                          # Push, create PR, cleanup"
+  echo "  git-agent.sh end --auto-merge                  # Push, create PR, wait for CI, auto-merge"
   echo "  git-agent.sh end --merge                       # Merge into base branch, cleanup"
   echo "  git-agent.sh ci-wait --timeout 300"
 }
@@ -327,6 +328,7 @@ end)
   PR_FLAG=false
   PR_TITLE=""
   MERGE_FLAG=false
+  AUTO_MERGE_FLAG=false
 
   # Try to auto-detect session from worktree
   SESSION_ID=$(find_session_by_cwd)
@@ -344,6 +346,11 @@ end)
       ;;
     --merge)
       MERGE_FLAG=true
+      shift
+      ;;
+    --auto-merge)
+      AUTO_MERGE_FLAG=true
+      PR_FLAG=true
       shift
       ;;
     *)
@@ -416,9 +423,53 @@ end)
       if command -v gh &>/dev/null; then
         echo "  Creating PR..."
         if [ -n "$PR_TITLE" ]; then
-          gh pr create --title "$PR_TITLE" --fill --draft 2>&1 || echo "  (PR creation failed)"
+          PR_URL=$(gh pr create --title "$PR_TITLE" --fill --draft 2>&1) || PR_URL=""
         else
-          gh pr create --fill --draft 2>&1 || echo "  (PR creation failed)"
+          PR_URL=$(gh pr create --fill --draft 2>&1) || PR_URL=""
+        fi
+        if [ -n "$PR_URL" ] && echo "$PR_URL" | grep -q 'github.com'; then
+          echo "  PR: $PR_URL"
+
+          # Auto-merge: wait for CI, mark ready, merge
+          if [ "$AUTO_MERGE_FLAG" = true ]; then
+            echo "  Auto-merge enabled. Waiting for CI..."
+            # Extract PR number from URL
+            PR_NUM=$(echo "$PR_URL" | grep -oP '/pull/\K[0-9]+' || true)
+            TIMEOUT=300
+            ELAPSED=0
+            SLEEP=10
+            CI_PASSED=false
+            while [ "$ELAPSED" -lt "$TIMEOUT" ]; do
+              RUN=$(gh run list --branch "$BRANCH" --limit 1 --json conclusion,status 2>/dev/null || echo "")
+              STATUS=$(echo "$RUN" | python3 -c "import json,sys; d=json.load(sys.stdin); print(d[0].get('status','')) if isinstance(d,list) and d else print('no_runs')" 2>/dev/null || echo "error")
+              CONCLUSION=$(echo "$RUN" | python3 -c "import json,sys; d=json.load(sys.stdin); print(d[0].get('conclusion','')) if isinstance(d,list) and d else print('')" 2>/dev/null || echo "")
+              if [ "$STATUS" = "completed" ]; then
+                if [ "$CONCLUSION" = "success" ]; then
+                  echo "  CI PASSED after ${ELAPSED}s"
+                  CI_PASSED=true
+                  break
+                elif [ "$CONCLUSION" = "failure" ] || [ "$CONCLUSION" = "cancelled" ]; then
+                  echo "  CI FAILED after ${ELAPSED}s (conclusion: $CONCLUSION)"
+                  echo "  PR left as draft at $PR_URL"
+                  break
+                fi
+              fi
+              sleep "$SLEEP"
+              ELAPSED=$((ELAPSED + SLEEP))
+            done
+
+            if [ "$CI_PASSED" = true ] && [ -n "$PR_NUM" ]; then
+              echo "  Marking PR as ready..."
+              gh pr ready "$PR_NUM" 2>/dev/null || true
+              echo "  Merging PR #$PR_NUM..."
+              gh pr merge "$PR_NUM" --squash 2>&1 || echo "  (PR merge failed, merge manually: $PR_URL)"
+            elif [ "$ELAPSED" -ge "$TIMEOUT" ]; then
+              echo "  CI wait TIMEOUT after ${TIMEOUT}s"
+              echo "  PR left as draft at $PR_URL"
+            fi
+          fi
+        else
+          echo "  (PR creation failed)"
         fi
       else
         echo "  gh CLI not found. Skipping PR creation."
