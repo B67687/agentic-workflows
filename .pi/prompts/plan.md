@@ -1,5 +1,8 @@
 ---
-description: Turn the researched task into an explicit implementation plan
+description: >
+  Turn the researched task into an explicit implementation plan.
+  Includes optional CATFISH-style adversarial challenge (plan-challenge.sh)
+  to detect premature convergence and inject structured dissent.
 ---
 
 This is planning mode only.
@@ -30,6 +33,51 @@ Return a compact plan with:
 - what is explicitly out of scope
 - where to checkpoint or restart between phases
 
+### Phase Gate with Quality + Constitution Checks
+
+Run the unified phase gate with quality checks and constitution compliance before planning:
+
+```bash
+bash ./scripts/phase-gate.sh plan --research-done --check-quality --constitution
+```
+
+The `--check-quality` flag auto-discovers gate plugins from `scripts/gates/plan/*.sh`.
+Each plugin is a standalone check. Current plugins for the plan phase:
+1. **State check**: research must be done (--research-done flag)
+2. **Research sufficiency**: if a research note exists, checks for red flags (source URLs, confidence levels, gaps section)
+3. **Scope check**: task scope boundedness before implementation
+4. **CATFISH**: plan challenge data checked (if available)
+
+The `--constitution` flag runs Article I (Macro-to-Micro) gates:
+- Research note with system understanding exists
+- Relevant source files have been read
+
+If sufficiency check or constitution gate BLOCKs, go back to `/research`.
+New gate plugins can be added by creating `scripts/gates/plan/<name>.sh`.
+
+### Plan Challenge (CATFISH Protocol)
+
+After producing the plan and saving it to `.runtime/plan.json`, re-run the plan guard with the challenge flag:
+
+`bash ./scripts/plan-guard.sh "$ARGUMENTS" --challenge`
+
+This checks for collapse signals (premature convergence, missing risks, vague verification).
+If the challenge is required, the guard will print instructions to dispatch a @worker subagent with structured dissent.
+
+The challenge uses **counterfactual post-mortem framing**:
+> "Assume this plan has already failed catastrophically --- what caused it?"
+
+This is NOT a "find flaws" review. It surfaces risks that a same-context review would miss.
+
+After the challenge response is collected, run:
+`bash ./scripts/plan-challenge.sh reconcile --plan .runtime/plan.json --response .runtime/challenge-response.json`
+
+- **PASS** -> proceed with implementation
+- **FAIL** (blocking findings) -> address each before proceeding
+- **WARN** (significant findings) -> address or document as residual risk
+
+The quality gate will also check for unaddressed blocking findings at commit time.
+
 <rationalizations>
 | Shortcut | Why It Fails |
 |---|---|
@@ -45,3 +93,21 @@ Return a compact plan with:
 - Verification target is vague ("make it work") instead of specific ("tests pass + build succeeds + endpoint returns 200")
 - No explicit "out of scope" section
 </red_flags>
+
+### Next Step
+
+After the plan is approved, decompose the first milestone into executable tasks:
+
+```bash
+bash ./scripts/task-decompose.sh "$ARGUMENTS" \
+  --from research/ --story "<story>" \
+  --output .runtime/tasks.md --check-gates
+```
+
+Then run the implementation phase gate with all checks:
+
+```bash
+bash ./scripts/phase-gate.sh implement \
+  --research-done --plan-done --scope-bounded --verification-known \
+  --check-quality --constitution --check-ambiguity
+```

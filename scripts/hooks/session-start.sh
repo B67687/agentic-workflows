@@ -14,7 +14,10 @@ set -euo pipefail
 COMPACT=${COMPACT:-1}
 FOUND_GAP=false
 
-say() { [[ "$COMPACT" == "0" ]] && echo "$@"; :; }
+say() {
+  [[ "$COMPACT" == "0" ]] && echo "$@"
+  :
+}
 
 REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || echo "$(cd "$(dirname "$0")/../.." && pwd)")"
 
@@ -34,7 +37,7 @@ STATE_FILE="$REPO_ROOT/session-state.json"
 STATE_HEALTH="ok"
 STATE_TASK=""
 if [ -f "$STATE_FILE" ]; then
-  STATE_AGE=$(( ($(date +%s) - $(stat -c %Y "$STATE_FILE" 2>/dev/null || echo 0)) / 3600 ))
+  STATE_AGE=$((($(date +%s) - $(stat -c %Y "$STATE_FILE" 2>/dev/null || echo 0)) / 3600))
   [ "$STATE_AGE" -gt 24 ] && STATE_HEALTH="stale (${STATE_AGE}h old)"
   STATE_TASK=$(python3 -c "
 import json
@@ -72,6 +75,14 @@ if [[ "$COMPACT" == "1" ]]; then
     CSIZE=$(stat -c%s "$REPO_ROOT/.runtime/challenge-response.json" 2>/dev/null || echo 0)
     [ "$CSIZE" -ge 10 ] && echo "⚠  Unaddressed plan dissent found. Run: bash scripts/decision.sh audit"
   fi
+
+  # Compact cleanup check (only warn above 500M)
+  PRUNE=$(git -C "$REPO_ROOT" count-objects -v 2>/dev/null | grep "prune-packable" | awk '{print $2}' || echo 0)
+  PACK_KB=$(git -C "$REPO_ROOT" count-objects -v 2>/dev/null | grep "size-pack" | awk '{print $2}' || echo 0)
+  if [ "${PRUNE:-0}" -gt "50" ] || [ "${PACK_KB:-0}" -gt "204800" ]; then
+    echo "💾  Project bloat detected. Run: /cleanup"
+  fi
+
   echo "=== End ==="
   exit 0
 fi
@@ -93,19 +104,19 @@ git log --oneline -5 2>/dev/null | sed 's/^/  /' || echo "  (no commits)"
 
 # Dirty worktree
 if [ "$DIRTY" -gt 0 ]; then
-    echo ""
-    echo "⚠  Uncommitted changes: $DIRTY file(s)"
-    git status --short 2>/dev/null | head -10 | sed 's/^/  /'
-    [ "$DIRTY" -gt 10 ] && echo "  ... and $(($DIRTY - 10)) more"
+  echo ""
+  echo "⚠  Uncommitted changes: $DIRTY file(s)"
+  git status --short 2>/dev/null | head -10 | sed 's/^/  /'
+  [ "$DIRTY" -gt 10 ] && echo "  ... and $(($DIRTY - 10)) more"
 fi
 
 # Session state
 echo ""
 if [ -f "$STATE_FILE" ]; then
-    echo "✓  session-state.json is current ($STATE_AGE hours old)"
-    [ -n "$STATE_TASK" ] && echo "  Current task: $STATE_TASK"
+  echo "✓  session-state.json is current ($STATE_AGE hours old)"
+  [ -n "$STATE_TASK" ] && echo "  Current task: $STATE_TASK"
 else
-    echo "⚠  session-state.json not found"
+  echo "⚠  session-state.json not found"
 fi
 
 # Interruption check
@@ -117,14 +128,14 @@ try:
 except: print(0)
 " 2>/dev/null || echo 0)
 if [ "$INTERRUPTED" -gt 0 ] && [ "$INTERRUPTED" -lt 3 ]; then
-    echo "ℹ  Session had $INTERRUPTED interruption(s)"
+  echo "ℹ  Session had $INTERRUPTED interruption(s)"
 fi
 
 # Context snapshot
 SNAPSHOT="$REPO_ROOT/.runtime/session-snapshot.json"
 if [ -f "$SNAPSHOT" ]; then
-    SNAP_AGE=$(( ($(date +%s) - $(stat -c %Y "$SNAPSHOT" 2>/dev/null || echo 0)) / 60 ))
-    [ "$SNAP_AGE" -lt 120 ] && echo "ℹ  Recent context snapshot ($SNAP_AGE min old)"
+  SNAP_AGE=$((($(date +%s) - $(stat -c %Y "$SNAPSHOT" 2>/dev/null || echo 0)) / 60))
+  [ "$SNAP_AGE" -lt 120 ] && echo "ℹ  Recent context snapshot ($SNAP_AGE min old)"
 fi
 
 # Reasoning level

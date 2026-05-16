@@ -8,7 +8,24 @@ alwaysApply: true
 
 ## Commit Format
 
-Use conventional commits:
+This workspace uses a **two-tier commit system** depending on the type of change:
+
+### Tier 1: Checkpoint Commits (agent save points)
+
+Used by `git-agent.sh commit` and `checkpoint-commit.sh`. These are intermediate
+save points during development. Use imperative mood English descriptions that
+explain *what* and *why*, not a formal type prefix:
+
+```
+Add validation to registration endpoint
+Fix duplicate task creation bug
+Refactor auth module to extract shared utilities
+```
+
+### Tier 2: PR Merge Commits (permanent history)
+
+Used when merging a session via PR (`git-agent.sh end --pr`). Use conventional
+commits for changelog compatibility:
 
 ```
 <type>: <short description>
@@ -28,6 +45,10 @@ Use conventional commits:
 | `chore` | Build, config, dependencies, tooling |
 | `perf` | Performance improvement |
 | `ci` | CI/CD configuration |
+
+Both tier conventions use the same commit-message body guidelines:
+- First line: concise summary (≤72 chars)
+- Body (optional): explains *why* the change was made, not what the diff already shows
 
 ## Branch Strategy
 

@@ -16,6 +16,79 @@ If `Implement decision: block`, do not implement. Send the task back exactly one
 
 If `Implement decision: caution`, fix the checkout state first or move the work into a worktree before implementing.
 
+### Phase Gate with Quality + Constitution + Ambiguity Checks
+
+Before implementing, run the unified phase gate with all quality, constitution, and ambiguity checks:
+
+```bash
+bash ./scripts/phase-gate.sh implement \
+  --research-done --plan-done --scope-bounded --verification-known \
+  --check-quality --constitution --check-ambiguity
+```
+
+The `--check-quality` flag auto-discovers gate plugins from `scripts/gates/implement/*.sh`.
+Each plugin is a standalone check. Current plugins for the implement phase:
+1. **State check**: research, plan, scope, and verification preconditions
+2. **Comprehension**: verifies comprehension-gate evidence exists
+3. **CATFISH reconcile**: checks plan challenges are addressed
+4. **Decision log**: warns of unresolved decisions
+5. **Autonomy assessment**: current autonomy level (dynamic cascade --- see below)
+6. **Preflight check**: repo health and task fit
+
+New gate plugins can be added by creating `scripts/gates/implement/<name>.sh`.
+
+### Dynamic Autonomy Cascade (9Router-inspired)
+
+Autonomy adjusts MID-PHASE based on accumulated signals, not just once at task start.
+
+**First invocation** --- initializes state and sets baseline level:
+```bash
+bash ./scripts/autonomy-gate.sh start
+# Or with explicit override:
+bash ./scripts/autonomy-gate.sh start --initial FULL
+```
+
+**Mid-phase adjustment** --- re-evaluates based on error counter, comprehension audit, and file decision signals:
+```bash
+bash ./scripts/autonomy-gate.sh adjust
+```
+
+**Current status** --- shows level, signal counters, and transition history:
+```bash
+bash ./scripts/autonomy-gate.sh status
+```
+
+**Cascade rules:**
+| Signal Source | Threshold | Adjustment |
+|--------------|-----------|------------|
+| Error counter streak | >= 2 | Drop one level (FULL->SUPERVISED->RESTRICTED) |
+| Comprehension audit fail/warn | >= 1 | Drop one level |
+| File decision warns | >= 1 | Non-blocking suggestion |
+| Clean operations (no errors) | >= 5 | Restore one level |
+
+The implement/autonomy gate plugin calls `start` on first run and `adjust` subsequently, so the cascade happens automatically whenever the phase gate is invoked.
+
+### Comprehension Gate (Enforced Participation)
+
+Before implementing any task, the agent must demonstrate comprehension of the relevant instructions by producing a structured evidence file:
+
+```bash
+# Extract the comprehension template from the primary instruction file
+bash ./scripts/comprehension-gate.sh extract commands/implement.md
+
+# Fill in each <!--REQUIRED--> section in .runtime/comprehension-evidence.md
+# Then verify it passes:
+bash ./scripts/comprehension-gate.sh verify .runtime/comprehension-evidence.md
+```
+
+This implements the Recognition model (Attaguile 2026): the system requires participation rather than suggesting it. The four required sections force the agent to extract:
+1. **Verification target** --- what proves this task is done correctly
+2. **Relevant anti-rationalization** --- which shortcut from the instructions applies to this specific task
+3. **Red flag to avoid** --- which danger signal is most relevant
+4. **Out of scope** --- what this task explicitly does not include
+
+The quality gate checks for filled sections at commit time.
+
 ### Human-in-the-Loop Gate (12-Factor F7/F8)
 
 For high-risk operations (production data, destructive commands, billing actions),

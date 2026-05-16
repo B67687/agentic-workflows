@@ -25,6 +25,27 @@ If the intake output looks too optimistic or too pessimistic, explain why briefl
 
 Based on the lane, follow the appropriate section below instead of generic output.
 
+### Decision Point
+
+After intake, before proceeding to the next phase, evaluate the key decision the agent faces:
+
+```bash
+bash ./scripts/decision.sh evaluate \
+  "what approach for this task?" \
+  --stakes low \
+  --options "research-first,plan-first,direct"
+```
+
+Adjust `--stakes` based on task risk (from intake output). The decision scaffold produces a structured packet with selected option, residual objections, and reopen conditions. This creates an audit trail and makes the tradeoff explicit instead of implicit.
+
+If the decision reveals objections that aren't addressed, run:
+```bash
+bash ./scripts/decision.sh audit --failed
+```
+to review pending decisions before proceeding.
+
+The quality gate warns about unresolved decisions at commit time.
+
 ## Grill (when ambiguous or costly to misunderstand)
 
 Use this when the request has multiple possible interpretations, wrong assumptions would create wasted code, or the task is expensive or upstream-facing.
@@ -125,6 +146,42 @@ Return a compact slice note with:
 - the next command to use
 
 If the slice output says normal planning is enough, recommend `/plan $ARGUMENTS` instead.
+
+## Decompose (after plan, before implement)
+
+Use this after the plan is written to decompose the first milestone into
+structured, executable tasks with parallel markers, dependency ordering,
+file paths, verification targets, and constitution gate references.
+
+Run:
+```bash
+bash ./scripts/task-decompose.sh "$ARGUMENTS" \
+  --from research/ \
+  --story "<user story 1>" \
+  --story "<user story 2>" \
+  --check-gates
+```
+
+Produces a tasks.md with:
+- **Tasks T1, T2, ...** --- each with file paths, verification, dependencies
+- **`[P]` markers** --- parallel tasks dispatchable concurrently
+- **Constitution references** --- which articles each task triggers
+- **Checkpoints** --- verification gates between user stories
+
+Save to `.runtime/tasks.md` for structured tracking:
+```bash
+bash ./scripts/task-decompose.sh "$ARGUMENTS" \
+  --from research/ \
+  --output .runtime/tasks.md \
+  --check-gates
+```
+
+Then proceed to implementation:
+```bash
+bash ./scripts/phase-gate.sh implement \
+  --research-done --plan-done --scope-bounded --verification-known \
+  --check-quality --constitution --check-ambiguity
+```
 
 <rationalizations>
 | Shortcut | Why It Fails |
