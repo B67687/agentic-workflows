@@ -50,35 +50,45 @@ USAGE
 }
 
 case "$CMD" in
-  status)
-    exec bash "$SCRIPT_DIR/check-sync-status.sh" "$@"
-    ;;
+status)
+  exec bash "$SCRIPT_DIR/check-sync-status.sh" "$@"
+  ;;
 
-  sync)
-    echo "=== Sync: commands/ -> harness mirrors ==="
-    bash "$SCRIPT_DIR/sync-commands.sh" "$@"
-    ;;
+sync)
+  echo "=== Sync: commands/ -> harness mirrors ==="
+  # Filter out --apply (not recognized by sync-commands.sh)
+  SYNC_ARGS=()
+  for arg in "$@"; do
+    [[ "$arg" != "--apply" ]] && SYNC_ARGS+=("$arg")
+  done
+  bash "$SCRIPT_DIR/sync-commands.sh" "${SYNC_ARGS[@]}"
+  ;;
 
-  propagate)
-    echo "=== Propagate: templates -> topic folders ==="
-    bash "$SCRIPT_DIR/propagate-to-all.sh" "$@"
-    ;;
+propagate)
+  echo "=== Propagate: templates -> topic folders ==="
+  bash "$SCRIPT_DIR/propagate-to-all.sh" "$@"
+  ;;
 
-  all)
-    echo "=== Full Propagation Pipeline ==="
-    echo ""
-    bash "$SCRIPT_DIR/sync-commands.sh" "$@"
-    echo ""
-    bash "$SCRIPT_DIR/propagate-to-all.sh" "$@"
-    ;;
+all)
+  echo "=== Full Propagation Pipeline ==="
+  echo ""
+  # Filter --apply for sync-commands (it doesn't recognize it)
+  SYNC_ARGS=()
+  for arg in "$@"; do
+    [[ "$arg" != "--apply" ]] && SYNC_ARGS+=("$arg")
+  done
+  bash "$SCRIPT_DIR/sync-commands.sh" "${SYNC_ARGS[@]}"
+  echo ""
+  bash "$SCRIPT_DIR/propagate-to-all.sh" "$@"
+  ;;
 
-  help|--help|-h)
-    usage
-    ;;
+help | --help | -h)
+  usage
+  ;;
 
-  *)
-    echo "Unknown command: $CMD"
-    usage
-    exit 2
-    ;;
+*)
+  echo "Unknown command: $CMD"
+  usage
+  exit 2
+  ;;
 esac
