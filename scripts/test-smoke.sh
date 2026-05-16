@@ -120,8 +120,8 @@ assert_output_contains "tools.sh lists workflow tools" \
   "[workflow]"
 
 assert_output_contains "tools.sh --json valid" \
-  "bash scripts/tools.sh --json" \
-  "\"tool_count\": 134"
+  "bash scripts/tools.sh --json 2>/dev/null | python3 -c \"import json,sys; d=json.load(sys.stdin); print(d.get('tool_count'))\"" \
+  "134"
 
 assert_exit "session-start.sh runs cleanly" \
   "bash scripts/hooks/session-start.sh"
