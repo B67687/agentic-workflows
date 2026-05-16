@@ -31,39 +31,39 @@ USAGE
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
-    -m|--message)
-      MESSAGE="${2:-}"
-      shift 2
-      ;;
-    -d|--detail)
-      DETAIL="${2:-}"
-      shift 2
-      ;;
-    --no-stage)
-      STAGE_ALL=false
-      shift
-      ;;
-    --show-diff)
-      SHOW_DIFF=true
-      shift
-      ;;
-    --skip-quality)
-      SKIP_QUALITY=true
-      shift
-      ;;
-    --dry-run)
-      DRY_RUN=true
-      shift
-      ;;
-    -h|--help)
-      usage
-      exit 0
-      ;;
-    *)
-      echo "Unknown option: $1" >&2
-      usage >&2
-      exit 2
-      ;;
+  -m | --message)
+    MESSAGE="${2:-}"
+    shift 2
+    ;;
+  -d | --detail)
+    DETAIL="${2:-}"
+    shift 2
+    ;;
+  --no-stage)
+    STAGE_ALL=false
+    shift
+    ;;
+  --show-diff)
+    SHOW_DIFF=true
+    shift
+    ;;
+  --skip-quality)
+    SKIP_QUALITY=true
+    shift
+    ;;
+  --dry-run)
+    DRY_RUN=true
+    shift
+    ;;
+  -h | --help)
+    usage
+    exit 0
+    ;;
+  *)
+    echo "Unknown option: $1" >&2
+    usage >&2
+    exit 2
+    ;;
   esac
 done
 
@@ -71,6 +71,12 @@ if [[ -z "$MESSAGE" ]]; then
   echo "ERROR: commit message is required." >&2
   usage >&2
   exit 2
+fi
+
+# Advisory: suggest conventional commit format for PR-visible commits
+if ! echo "$MESSAGE" | grep -qE '^(feat|fix|refactor|docs|test|chore|perf|ci)(\(.+\))?!?:\s'; then
+  echo "  ℹ  Tip: Consider conventional commit format: type(scope): description"
+  echo "     (checkpoint commits in English are also acceptable)"
 fi
 
 if ! git rev-parse --show-toplevel >/dev/null 2>&1; then
