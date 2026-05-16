@@ -1,16 +1,35 @@
 {
-  "session": 105,
-  "status": "started",
+  "session": 106,
+  "status": "completed",
   "interruptedCount": 0,
   "contextPressure": "healthy",
   "currentTask": {
-    "name": "",
-    "status": "pending",
-    "goal": ""
+    "name": "Git workflow overhaul — enable branch protection, CI pipeline, and fix smoke tests",
+    "status": "completed",
+    "goal": "Audit and fix all git workflow gaps identified in the initial scan"
   },
-  "whatChanged": [],
-  "verification": [],
-  "keyLearnings": [],
-  "residualRisk": "",
+  "whatChanged": [
+    "scripts/git-agent.sh: removed --no-verify from 4 commit paths (kept in WIP trap)",
+    ".github/CODEOWNERS: created with * @B67687",
+    ".github/workflows/ci.yml: created with shellcheck, secrets scan, smoke tests, Playwright",
+    "rules/common/git-workflow.md: documented two-tier commit system (checkpoint English + PR conventional)",
+    "scripts/checkpoint-commit.sh: added conventional commit advisory linting",
+    "scripts/test-smoke.sh: fixed 3 pre-existing failures (bwrap skip, tool_count 132→134, broken pipe)"
+  ],
+  "verification": [
+    "Branch protection active on main: PR required, strict checks [Lint & Validate, Smoke Tests], linear history, no force-push, enforce admins",
+    "CI fully green: 115/115 smoke tests pass, Lint & Validate passes",
+    "Global pre-commit hook (identity gate) confirmed passing",
+    "Only WIP crash trap retains --no-verify (confirmed via grep)",
+    "5 stale branches cleaned (local+remote)"
+  ],
+  "keyLearnings": [
+    "tools.sh --json output is large — piping through echo+grep causes SIGPIPE. Fixed by pre-extracting with python.",
+    "npm install -g doesn't help node -e require() — must install locally for browser.sh to work in CI.",
+    "gh api --field stringifies objects. Must pipe JSON body via --input - for nested structures.",
+    "Branch protection applies server-side only — local commits are unaffected until push.",
+    "Smoke test expectations (tool_count) drift when tools are added — needs regular updating."
+  ],
+  "residualRisk": "branch protection prevents direct push to main. Agent sessions must use end --pr instead of end --merge. The WIP trap in git-agent.sh still uses --no-verify (intentional, crash safety net).",
   "immediateNextSteps": []
 }

@@ -12,6 +12,28 @@ metadata:
 ---
 # Git Workflow and Versioning
 
+## Repo-Specific Workflow
+
+This repo uses `scripts/git-agent.sh` for session-based agent work. The key workflow:
+
+| Step | Command | Description |
+|------|---------|-------------|
+| Start | `git-agent.sh start <name>` | Creates worktree + branch from main |
+| Commit | `git-agent.sh commit -m "msg"` | Stages all, runs quality gate, commits without `--no-verify` |
+| End | `git-agent.sh end --pr` | Squashes, pushes branch, creates PR **(required — main is protected)** |
+| Abort | `git-agent.sh abort <id>` | Discards worktree and branch |
+
+### Critical Rules (this repo)
+
+- **`end --merge` is NOT supported** on protected branches. The script auto-converts `--merge` to `--pr` when detected.
+- **`end --pr` is required** to land changes on `main`. Branch protection enforces PR-only merges.
+- **Two-tier commit system:**
+  - **Checkpoint commits** (during development): Use imperative mood English. Example: `Add validation to registration endpoint`
+  - **PR merge commits** (permanent history): Use conventional commits. Example: `feat: add validation to registration endpoint`
+- **CI must pass** before PRs can merge. Required checks: `Lint & Validate` + `Smoke Tests`.
+- **Pre-commit hook** verifies committer identity (`B67687 <111849193+B67687@users.noreply.github.com>`). This runs on every commit (no `--no-verify` except in crash WIP trap).
+- **Pre-push hook** verifies all pushed commits have valid SSH signatures.
+
 **Companion script:** `scripts/git-branch-cleanup.sh` --- scans branches for staleness, merge status, and divergence. Run from the skill directory:
 ```bash
 bash ./scripts/git-branch-cleanup.sh scan              # all branches
