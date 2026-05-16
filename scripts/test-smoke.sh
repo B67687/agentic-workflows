@@ -13,7 +13,10 @@
 set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-cd "$REPO_ROOT" || { echo "ERROR: cannot cd to $REPO_ROOT"; exit 1; }
+cd "$REPO_ROOT" || {
+  echo "ERROR: cannot cd to $REPO_ROOT"
+  exit 1
+}
 
 PASS=0
 FAIL=0
@@ -23,9 +26,18 @@ MODE="${1:-all}"
 
 # === Test framework ===
 
-test_pass() { PASS=$((PASS + 1)); echo "  ✓ $1"; }
-test_fail() { FAIL=$((FAIL + 1)); echo "  ✗ $1"; }
-test_skip() { SKIP=$((SKIP + 1)); echo "  - $1 (skipped)"; }
+test_pass() {
+  PASS=$((PASS + 1))
+  echo "  ✓ $1"
+}
+test_fail() {
+  FAIL=$((FAIL + 1))
+  echo "  ✗ $1"
+}
+test_skip() {
+  SKIP=$((SKIP + 1))
+  echo "  - $1 (skipped)"
+}
 
 assert_exit() {
   local name="$1" cmd="$2" expected="${3:-0}"
@@ -33,7 +45,7 @@ assert_exit() {
     test_skip "$name"
     return
   fi
-  if eval "$cmd" > /dev/null 2>&1; then
+  if eval "$cmd" >/dev/null 2>&1; then
     actual=0
   else
     actual=$?
@@ -87,9 +99,13 @@ assert_output_contains "agent-sandbox.sh help text" \
   "bash scripts/agent-sandbox.sh help" \
   "Bubblewrap"
 
-assert_output_contains "agent-sandbox.sh bwrap: echo works" \
-  "bash scripts/agent-sandbox.sh bwrap 'echo hello_sandbox'" \
-  "hello_sandbox"
+if command -v bwrap &>/dev/null; then
+  assert_output_contains "agent-sandbox.sh bwrap: echo works" \
+    "bash scripts/agent-sandbox.sh bwrap 'echo hello_sandbox'" \
+    "hello_sandbox"
+else
+  test_skip "agent-sandbox.sh bwrap: echo works (bwrap not installed)"
+fi
 
 # ===========================================================================
 echo ""
@@ -105,7 +121,7 @@ assert_output_contains "tools.sh lists workflow tools" \
 
 assert_output_contains "tools.sh --json valid" \
   "bash scripts/tools.sh --json" \
-  "\"tool_count\": 132"
+  "\"tool_count\": 134"
 
 assert_exit "session-start.sh runs cleanly" \
   "bash scripts/hooks/session-start.sh"
@@ -123,7 +139,7 @@ assert_output_contains "serve-mcp.py initialize responds" \
 
 assert_output_contains "serve-mcp.py lists tools" \
   "printf '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"initialize\",\"params\":{}}\n{\"jsonrpc\":\"2.0\",\"id\":2,\"method\":\"tools/list\",\"params\":{}}\n' | python3 scripts/serve-mcp.py 2>/dev/null | python3 -c \"import sys,json; d=json.loads(sys.stdin.read().split(chr(10))[1]); print(len(d['result']['tools']))\"" \
-  "132"
+  "134"
 
 assert_output_contains "serve-mcp.py lists 44 skills" \
   "printf '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"initialize\",\"params\":{}}\n{\"jsonrpc\":\"2.0\",\"id\":2,\"method\":\"resources/list\",\"params\":{}}\n' | python3 scripts/serve-mcp.py 2>/dev/null | python3 -c \"import sys,json; d=json.loads(sys.stdin.read().split(chr(10))[1]); skills=[r for r in d['result']['resources'] if r['uri'].startswith('skill://')]; print(len(skills))\"" \
