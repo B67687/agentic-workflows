@@ -1,5 +1,5 @@
 {
-  "session": 22,
+  "session": 23,
   "status": "implement",
   "interruptedCount": 0,
   "contextPressure": "healthy",
@@ -9,15 +9,14 @@
     "goal": ""
   },
   "whatChanged": [
+    "8f1bfdd chore: propagate SCHEMA.md, update session-start hook, archive workflow-router.sh",
     "45d6577 feat: add review, docs, refactor workflows \u2014 10 total workflow definitions covering all common task types",
     "ca8c254 feat: propagate workflow definitions to all 17 topic repos \u2014 7 workflow.d/ YAML state machines now available everywhere",
-    "2991c95 refactor: Phase 5 \u2014 reorganize 152 scripts into categorized directories",
-    "M scripts/hooks/session-start.sh",
-    "M scripts/propagation-contract.sh",
-    "T scripts/workflow-router.sh",
+    "M commands/route.md",
+    "M docs/session-checkpoint.md",
+    "M docs/workflow.md",
     "M session-state.json",
-    "?? propagation/workflow-schema.template.md",
-    "5 dirty file(s)"
+    "4 dirty file(s)"
   ],
   "verification": [
     "comprehension_gate: pass",

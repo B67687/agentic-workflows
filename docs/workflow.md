@@ -1,42 +1,33 @@
 # Workflow
 
-The full execution shape for non-trivial tasks. Replace the 4 docs this merges: core-agent-doctrine, phase-based-agent-workflow, agentic-workflows, and workspace-system-overview.
+The harness uses **workflow-driven execution** — state machines in `workflow.d/` that route and execute tasks. This doc is a reference for the patterns underlying the workflow definitions. For the active workflow system, see `workflow.d/SCHEMA.md` and the workflow definitions in `workflow.d/`.
 
 ---
 
-## One-Sentence Summary
+## Quick Reference
 
-Start with the real goal in normal language, let the system classify and shrink it, research only what is needed, plan only the next slice, implement in small verified chunks, checkpoint often, and restart cleanly when the phase or topic changes.
+| Component | Location | Purpose |
+|-----------|----------|---------|
+| Workflow definitions | `workflow.d/*.yaml` | State machines with deterministic/deliberative steps |
+| State persistence | `workflow-state.json` | Tracks current workflow, step, context, and trace |
+| Schema | `workflow.d/SCHEMA.md` | YAML format for workflow definitions |
+| Root entry point | `workflow.d/root.yaml` | Classifies requests and branches to matching workflow |
+| Deterministic scripts | `scripts/workflow/` | Scripts run automatically for deterministic steps |
+| Tool scripts | `scripts/tools/` | Utilities callable by workflows or directly |
 
-```mermaid
-flowchart TD
-    A["You state the real goal in normal language"] --> Q{"Question Gate"}
-    Q -->|Request is vague / missing context| Q1["Agent auto-probes with 5W+H"]
-    Q1 --> Q2["You clarify"]
-    Q2 --> Q
-    Q -->|Request is well-formed| B["Route / intake"]
-    B --> C{"What kind of task is this?"}
-    C -->|Ambiguous or costly to misunderstand| D["Grill the task"]
-    C -->|Too big| E["Shape / milestone / slice"]
-    C -->|Clear enough| F["Research"]
-    D --> E
-    E --> F
-    F --> G["Plan only the next verified slice"]
-    G --> H["Implement in small steps"]
-    H --> I["Verify"]
-    I --> J{"Done?"}
-    J -->|No| K["Checkpoint / handoff / new session if needed"]
-    K --> F
-    J -->|Yes| L["Close task / checkpoint commit / restart fresh"]
+## Auto Cycle
 
-    style Q fill:#ff6,stroke:#333,stroke-width:2px
-    style Q1 fill:#ff6,stroke:#333,stroke-width:1px
-    style Q2 fill:#ff6,stroke:#333,stroke-width:1px
+For complex tasks, workflows chain automatically via the `next:` field:
+
+```
+research → design → implement → verify → done
 ```
 
----
+The agent proposes each transition. The user authorizes or redirects. The same session, same agent — context carries across phases.
 
-## Phase System
+## Phase System (Legacy Reference)
+
+The old phase-based system is superseded by `workflow.d/` definitions. This section remains as reference for the patterns that the workflow definitions implement.
 
 ### Question Gate (automatic, no command needed)
 
@@ -140,7 +131,7 @@ Use: `commands/query.md`
 Tests, scripted scenarios, diff review, or explicit residual risk. Verification is not optional.
 
 ### Checkpoint
-Update session-state.json, commit automatically, and decide whether to restart fresh.
+Update workflow-state.json (or session-state.json for legacy), commit automatically, and decide whether to restart fresh.
 
 Use: `commands/session.md`
 
@@ -315,7 +306,7 @@ Bypass: `--skip-quality` flag on checkpoint-commit (not recommended)
 ## Retrieval Order
 
 On every resume, read in this order:
-1. `session-state.json` --- current task, last work, next action
+1. `workflow-state.json` --- active workflow, current step, context, trace
 2. `AGENTS.md` --- operating contract
 3. `docs/workflow.md` --- this file (fast orientation)
 4. Task-specific files only when needed
@@ -325,7 +316,7 @@ On every resume, read in this order:
 ## Startup Flow
 
 ```
-session-state.json -> AGENTS.md -> workflow.md -> task-specific files
+workflow-state.json -> AGENTS.md -> workflow.d/ -> task-specific files
 ```
 
 Do not read archive, research, or deep reference docs unless the task explicitly needs them.
