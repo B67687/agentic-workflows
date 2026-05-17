@@ -96,6 +96,9 @@ declare -a PROPAGATION_MANAGED_CORE=(
   "workflow-verify.template.yaml:workflow.d/verify.yaml"
   "workflow-debug.template.yaml:workflow.d/debug.yaml"
   "workflow-propagate.template.yaml:workflow.d/propagate.yaml"
+  "workflow-review.template.yaml:workflow.d/review.yaml"
+  "workflow-docs.template.yaml:workflow.d/docs.yaml"
+  "workflow-refactor.template.yaml:workflow.d/refactor.yaml"
 )
 
 declare -a PROPAGATION_REPO_OWNED_BOOTSTRAP=(

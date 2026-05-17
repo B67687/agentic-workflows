@@ -1,5 +1,5 @@
 {
-  "session": 20,
+  "session": 21,
   "status": "implement",
   "interruptedCount": 0,
   "contextPressure": "healthy",
@@ -9,20 +9,19 @@
     "goal": ""
   },
   "whatChanged": [
+    "ca8c254 feat: propagate workflow definitions to all 17 topic repos \u2014 7 workflow.d/ YAML state machines now available everywhere",
+    "2991c95 refactor: Phase 5 \u2014 reorganize 152 scripts into categorized directories",
     "fd839c7 refactor: Phase 4 \u2014 collapse AGENTS.md from 623 to 190 lines (70% reduction)",
-    "146d573 refactor: Phase 3 \u2014 collapse command triplication, 17 duplicate entries removed from propagation contract",
-    "c8d3b03 feat: Phase 2 \u2014 propagate workflow definition wraps propagate-to-all.sh with deliberative alignment steps",
-    "T scripts/_agent_runner.py",
-    "T scripts/_session_helper.py",
-    "T scripts/_workspace_files.py",
-    "T scripts/a2h-contact.sh",
-    "T scripts/agent-dispatch.sh",
-    "T scripts/agent-registry.sh",
-    "T scripts/agent-sandbox.sh",
-    "T scripts/assumption-expiry.sh",
-    "T scripts/autonomy-gate.sh",
-    "T scripts/autopilot.sh",
-    "111 dirty file(s)"
+    "M scripts/propagation-contract.sh",
+    "M session-state.json",
+    "M workflow.d/root.yaml",
+    "?? propagation/workflow-docs.template.yaml",
+    "?? propagation/workflow-refactor.template.yaml",
+    "?? propagation/workflow-review.template.yaml",
+    "?? workflow.d/docs.yaml",
+    "?? workflow.d/refactor.yaml",
+    "?? workflow.d/review.yaml",
+    "9 dirty file(s)"
   ],
   "verification": [
     "comprehension_gate: pass",
