@@ -1,5 +1,5 @@
 {
-  "session": 14,
+  "session": 20,
   "status": "implement",
   "interruptedCount": 0,
   "contextPressure": "healthy",
@@ -9,12 +9,20 @@
     "goal": ""
   },
   "whatChanged": [
+    "fd839c7 refactor: Phase 4 \u2014 collapse AGENTS.md from 623 to 190 lines (70% reduction)",
     "146d573 refactor: Phase 3 \u2014 collapse command triplication, 17 duplicate entries removed from propagation contract",
     "c8d3b03 feat: Phase 2 \u2014 propagate workflow definition wraps propagate-to-all.sh with deliberative alignment steps",
-    "8d25cf9 feat: Phase 1 complete \u2014 workflow-state.json authoritative across all 18 repos, history deprecated, map-current-state.sh bugfix",
-    "M AGENTS.md",
-    "M session-state.json",
-    "2 dirty file(s)"
+    "T scripts/_agent_runner.py",
+    "T scripts/_session_helper.py",
+    "T scripts/_workspace_files.py",
+    "T scripts/a2h-contact.sh",
+    "T scripts/agent-dispatch.sh",
+    "T scripts/agent-registry.sh",
+    "T scripts/agent-sandbox.sh",
+    "T scripts/assumption-expiry.sh",
+    "T scripts/autonomy-gate.sh",
+    "T scripts/autopilot.sh",
+    "111 dirty file(s)"
   ],
   "verification": [
     "comprehension_gate: pass",
