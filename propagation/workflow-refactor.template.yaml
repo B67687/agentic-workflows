@@ -24,7 +24,8 @@ steps:
     description: |
       Implement one slice at a time. After each:
       - Verify tests still pass (no behavior change)
-      - Show the diff
+      - Show the **actual diff** (`git diff`), not a summary
+      - Run the real command or scenario (not just unit tests)
       - Ask: "Ready for next slice?"
       Loop until all slices done.
 

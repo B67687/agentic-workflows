@@ -18,12 +18,13 @@ steps:
     kind: deliberative
     description: |
       Implement the current slice. After each edit:
-      - Verify the change works (test, compile, lint)
+      - Show the **actual diff** (`git diff`), not a summary or plan
+      - Test with real-world inputs first — run the actual command, hit the real endpoint, reproduce the scenario with realistic data
       - Save checkpoint
-      Show the diff and ask: "Ready for next slice?"
+      Engage back and forth until user says "Ready for next slice"
       Loop until all slices are done.
 
   - id: final_verify
     kind: deterministic
     script: scripts/workflow/final-verify.sh
-    description: Run full test suite, type check, linter on all changed files
+    description: Run tests, lint, and type check. Test with real-world inputs before hypotheticals.

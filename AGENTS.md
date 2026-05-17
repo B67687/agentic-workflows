@@ -84,6 +84,9 @@ Deterministic steps run automatically. Deliberative steps require user engagemen
 - **Force fast slices**: break broad tasks into a milestone ladder, execute one slice at a time.
 - **Think big, map coarsely, bet medium, execute tiny**: compress the goal, map domains, shape one milestone, implement one slice.
 - **Resist cognitive surrender by default**: Before every generative action (research summary, plan, code, review), construct an expectation of what the output should contain before running the tool. After the output, verify independently. See `research/cognitive-surrender-research.md` for the full evidence.
+- **Read code diffs, not plan files.** After implementation, review the actual diff (`git diff`), not a plan document or summary. The diff is truth; plans are intentions.
+- **Test with real-world inputs first.** Before writing unit tests or hypothetical scenarios, run the actual command, hit the real endpoint, reproduce the bug with real data. Theoretical tests come after.
+- **Respect the instruction budget.** Workflow definitions: <40 instructions each. AGENTS.md: target ~150 lines. If either grows beyond, flag it for compression.
 
 ## Structure Rules
 

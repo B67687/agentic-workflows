@@ -13,8 +13,8 @@ steps:
   - id: assess_quality
     kind: deliberative
     description: |
-      Review the diff for:
-      - Does the code match the agreed design?
+      Review the diff for correctness. **Read the actual diff (`git diff`), not plan documents.**
+      - Is the change correct (judged from code, not design docs)?
       - Are there edge cases or error paths not handled?
       - Test coverage adequate?
       - Any security concerns?

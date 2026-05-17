@@ -12,10 +12,11 @@ steps:
   - id: assess_quality
     kind: deliberative
     description: |
-      Review the diff for correctness. Check:
-      - Does the code match the agreed design?
+      Review the diff for correctness. **Read the actual diff (`git diff`), not plan documents.** Check:
+      - Is the change correct and complete (judged from code, not design docs)?
       - Are there edge cases or error paths not handled?
       - Is the test coverage adequate?
+      - Were real-world inputs tested first?
       Propose findings. Back and forth until user signs off.
     branches:
       needs_fixes: workflow/implement.yaml
