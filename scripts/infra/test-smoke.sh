@@ -259,25 +259,34 @@ rm -rf .runtime/triage/ 2>/dev/null || true
 echo ""
 echo "--- Browser ---"
 
-assert_output_contains "browser.sh help" \
-  "bash scripts/browser.sh help" \
-  "navigate"
+# Skip browser tests if Playwright is not available
+BROWSER_AVAILABLE=1
+if ! python3 -c "import playwright" 2>/dev/null; then
+  BROWSER_AVAILABLE=0
+  echo "  ⚠  Playwright not available — skipping browser tests"
+fi
 
-assert_output_contains "browser.sh navigate" \
-  "bash scripts/browser.sh navigate https://example.com" \
-  "Example Domain"
+if [ "$BROWSER_AVAILABLE" = "1" ]; then
+  assert_output_contains "browser.sh help" \
+    "bash scripts/browser.sh help" \
+    "navigate"
 
-assert_output_contains "browser.sh text" \
-  "bash scripts/browser.sh text https://example.com" \
-  "Example Domain"
+  assert_output_contains "browser.sh navigate" \
+    "bash scripts/browser.sh navigate https://example.com" \
+    "Example Domain"
 
-assert_output_contains "browser.sh check (found)" \
-  "bash scripts/browser.sh check https://example.com 'Example'" \
-  "FOUND"
+  assert_output_contains "browser.sh text" \
+    "bash scripts/browser.sh text https://example.com" \
+    "Example Domain"
 
-assert_output_contains "browser.sh check (not found)" \
-  "bash scripts/browser.sh check https://example.com 'NonexistentTextXYZ'" \
-  "NOT FOUND"
+  assert_output_contains "browser.sh check (found)" \
+    "bash scripts/browser.sh check https://example.com 'Example'" \
+    "FOUND"
+
+  assert_output_contains "browser.sh check (not found)" \
+    "bash scripts/browser.sh check https://example.com 'NonexistentTextXYZ'" \
+    "NOT FOUND"
+fi
 
 # ===========================================================================
 echo ""
@@ -470,22 +479,24 @@ assert_exit "post-default.sh syntax" \
 echo ""
 echo "--- P7: Browser.sh Argument Validation ---"
 
-# Test that click and section modes reject missing arguments
-assert_exit "browser.sh click rejects missing selector" \
-  "bash scripts/browser.sh click https://example.com 2>&1" \
-  1
+if [ "$BROWSER_AVAILABLE" = "1" ]; then
+  # Test that click and section modes reject missing arguments
+  assert_exit "browser.sh click rejects missing selector" \
+    "bash scripts/browser.sh click https://example.com 2>&1" \
+    1
 
-assert_exit "browser.sh section rejects missing selector" \
-  "bash scripts/browser.sh section https://example.com 2>&1" \
-  1
+  assert_exit "browser.sh section rejects missing selector" \
+    "bash scripts/browser.sh section https://example.com 2>&1" \
+    1
 
-assert_output_contains "browser.sh help shows new modes" \
-  "bash scripts/browser.sh help" \
-  "click <url> <selector>"
+  assert_output_contains "browser.sh help shows new modes" \
+    "bash scripts/browser.sh help" \
+    "click <url> <selector>"
 
-assert_output_contains "browser.sh help shows section mode" \
-  "bash scripts/browser.sh help" \
-  "section <url> <selector>"
+  assert_output_contains "browser.sh help shows section mode" \
+    "bash scripts/browser.sh help" \
+    "section <url> <selector>"
+fi
 
 # ===========================================================================
 echo ""

@@ -1,5 +1,5 @@
 {
-  "session": 27,
+  "session": 28,
   "status": "implement",
   "interruptedCount": 0,
   "contextPressure": "healthy",
@@ -9,13 +9,12 @@
     "goal": ""
   },
   "whatChanged": [
+    "7b0840c docs: rewrite README for workflow-driven system, fix test-smoke.sh REPO_ROOT resolution",
     "18edfdf chore: final polish \u2014 route.md updated, docs migrated to workflow-state.json, session-checkpoint.md deprecated",
     "8f1bfdd chore: propagate SCHEMA.md, update session-start hook, archive workflow-router.sh",
-    "45d6577 feat: add review, docs, refactor workflows \u2014 10 total workflow definitions covering all common task types",
-    "M README.md",
     "M scripts/infra/test-smoke.sh",
     "M session-state.json",
-    "3 dirty file(s)"
+    "2 dirty file(s)"
   ],
   "verification": [
     "comprehension_gate: pass",
