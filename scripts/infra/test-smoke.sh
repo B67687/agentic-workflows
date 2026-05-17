@@ -12,7 +12,20 @@
 # =============================================================================
 set -euo pipefail
 
-REPO_ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
+# Resolve symlinks so REPO_ROOT works from any call path (symlink vs real path)
+resolve_script_root() {
+  local script_path="$0"
+  while [[ -L "$script_path" ]]; do
+    local link_target
+    link_target="$(readlink "$script_path")"
+    [[ "$link_target" != /* ]] && link_target="$(dirname "$script_path")/$link_target"
+    script_path="$link_target"
+  done
+  cd "$(dirname "$script_path")" && pwd
+}
+SCRIPT_DIR="$(resolve_script_root)"
+# SCRIPT_DIR is now scripts/infra/ (always resolved)
+REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 cd "$REPO_ROOT" || {
   echo "ERROR: cannot cd to $REPO_ROOT"
   exit 1
