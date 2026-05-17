@@ -39,7 +39,7 @@ Companion: `bash ./skills/clarification-protocol/scripts/clarify.sh gate "reques
 
 ## Startup Order
 
-1. `session-state.json` --- active session state; read first on every resume
+1. `workflow-state.json` --- active workflow state; read first on every resume
 2. Lifecycle hooks run automatically (printed to conversation):
    - `bash ./scripts/hooks/session-start.sh` --- branch, recent commits, state health, constitution status
    - `bash ./scripts/hooks/detect-gaps.sh` --- stale indexes, missing state, drift
@@ -48,7 +48,7 @@ Companion: `bash ./skills/clarification-protocol/scripts/clarify.sh gate "reques
 5. `docs/workflow.md` --- fast orientation (replaces multi-file startup --- merged from core-agent-doctrine + phase-based + agentic-workflows + system-overview)
 6. Task-specific files only when needed
 
-For topic-folder work: root `session-state.json`, then lifecycle hooks, then `AGENTS.md`, then `docs/workflow.md`, then `meta/` files only when deeper context is needed.
+For topic-folder work: root `workflow-state.json` (or `session-state.json` for backward compat), then lifecycle hooks, then `AGENTS.md`, then `docs/workflow.md`, then `meta/` files only when deeper context is needed.
 
 For SwarmVault graph queries, read `wiki/graph/report.md` first (falls back to `wiki/index.md`).
 
@@ -56,7 +56,8 @@ For SwarmVault graph queries, read `wiki/graph/report.md` first (falls back to `
 
 | File | Purpose |
 |------|---------|
-| `session-state.json` | Active session; read first on resume |
+| `workflow-state.json` | Active workflow state; read first on every resume |
+| `workflow.d/` | Workflow definitions (state machines) |
 | `docs/workflow.md` | Compact workflow summary (fast orientation) |
 | `docs/session-checkpoint.md` | Checkpoint and recovery rules |
 | `docs/repo-quality-analysis-protocol.md` | Compression, deletion, and redundancy protocol |
@@ -99,6 +100,21 @@ For SwarmVault graph queries, read `wiki/graph/report.md` first (falls back to `
 | `scripts/hooks/log-agent.sh` | Subagent audit trail (start) |
 | `scripts/hooks/log-agent-stop.sh` | Subagent audit trail (stop) |
 | `scripts/hooks/hooks.json` | Claude Code-compatible hook lifecycle configuration |
+
+## Workflow-Driven Execution
+
+The workflow runtime manages task execution as a state machine. Workflow definitions live in `workflow.d/`. State persists in `workflow-state.json`.
+
+1. **Session start.** Read `workflow-state.json`. If a workflow is active, load the definition from `workflow.d/<id>.yaml` and resume at the current step.
+2. **No active workflow?** Read `workflow.d/root.yaml`, run the `classify` step to route the user's request.
+3. **Deterministic steps.** Run the script from `script:` field. Capture stdout as step result. Advance to next step.
+4. **Deliberative steps.** Reason, propose options, back and forth with user until consensus. Advance on agreement.
+5. **Branches.** If a step has `branches:`, match the result against branch keys and follow the target (next step or another workflow file).
+6. **Persistence.** After each step, write step result to `workflow-state.json` under `context` and append to `trace`. This is automatic — do not rely on manual state population.
+7. **Completion proposes next.** When all steps finish, check `next:` in the workflow definition. If set, propose to user: "X is done. Proceed to Y?" They authorize or redirect. Do NOT re-enter root — continue in the same session.
+8. **No next?** Mark workflow complete. Report summary. The next user request starts fresh from root.
+
+Deterministic steps run automatically. Deliberative steps require user engagement — you propose, they react, you refine, consensus advances. This replaces manual routing, phase gates, and session-state management. The agent drives the cycle; the user steers.
 
 ## Key Rules
 
