@@ -1,25 +1,18 @@
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://img.shields.io/badge/status-archived-8b949e?style=for-the-badge&logo=github&logoColor=white&labelColor=181717">
-    <img alt="status-archived" src="https://img.shields.io/badge/status-archived-d0d7de?style=for-the-badge&logo=github&logoColor=white">
-  </picture>
-</p>
-
-<p align="center">This repository is no longer under active development. The code and documentation remain available for reference.</p>
-
----
-
-<p align="center">
-  <picture>
     <source media="(prefers-color-scheme: dark)" srcset="https://img.shields.io/badge/agentic--workflows-ffffff?style=for-the-badge&logo=github&logoColor=white&labelColor=181717">
     <img alt="agentic-workflows" src="https://img.shields.io/badge/agentic--workflows-000000?style=for-the-badge&logo=github&logoColor=white">
   </picture>
 </p>
 
 <p align="center">
+  An agent harness for orchestrating, managing, and extending AI agents across 18 repos. Not a code project — a systems engineering workspace for agent workflows, cross-repo orchestration, and capability propagation.
+</p>
+
+<p align="center">
   <a href="#quick-start">Quick Start</a>&ensp;·&ensp;
+  <a href="#workflow-tree">Workflow Tree</a>&ensp;·&ensp;
   <a href="#features">Features</a>&ensp;·&ensp;
-  <a href="#how-it-works">How It Works</a>&ensp;·&ensp;
   <a href="#orientation">Orientation</a>&ensp;·&ensp;
   <a href="#ecosystem">Ecosystem</a>
 </p>
@@ -34,35 +27,20 @@
   <a href="https://github.com/B67687/agentic-workflows/graphs/commit-activity"><img src="https://img.shields.io/github/commit-activity/m/B67687/agentic-workflows?style=flat-square" alt="Commits per month"></a>
   <a href="https://github.com/B67687/agentic-workflows/commits/main"><img src="https://img.shields.io/github/commit-activity/t/B67687/agentic-workflows?style=flat-square&label=total%20commits" alt="Total Commits"></a>
   <br>
-  <a href="https://b67687.github.io/agentic-workflows/stats/#installs"><img src="https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/B67687/fed5bb761c0f8fa03776d33187d49435/raw/installs.json" alt="Installs"></a>
-  <a href="https://b67687.github.io/agentic-workflows/stats/#views"><img src="https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/B67687/fed5bb761c0f8fa03776d33187d49435/raw/views.json" alt="Views"></a>
-  <a href="https://b67687.github.io/agentic-workflows/stats/#installs"><img src="https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/B67687/fed5bb761c0f8fa03776d33187d49435/raw/clones.json" alt="Clones"></a>
-  <br><br>
-  <img src="docs/typing-animation.svg" width="100%" alt="Typing animation" style="max-width:760px;">
-</p>
-
-<p align="center">
-  <a href="docs/hub-architecture.svg">
-    <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="docs/hub-architecture.svg">
-      <img src="docs/hub-architecture-light.svg" width="100%" alt="Hub Architecture Diagram" style="max-width:900px;">
-    </picture>
-  </a>
-</p>
-
-<p align="center">
-  <img src="https://img.shields.io/badge/Shell-121011?style=flat-square&logo=gnubash&logoColor=white" alt="Shell">
-  <img src="https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white" alt="Python">
-  <img src="https://img.shields.io/badge/Markdown-000000?style=flat-square&logo=markdown&logoColor=white" alt="Markdown">
-  <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black" alt="JavaScript">
+  <img src="https://img.shields.io/badge/Workflow%20Defs-10-%23238636?style=flat-square" alt="10 Workflow Definitions">
+  <img src="https://img.shields.io/badge/Deterministic%20Steps-5-%239e6a03?style=flat-square" alt="5 Deterministic Steps">
+  <img src="https://img.shields.io/badge/Propagation-90%20targets%20per%20folder-%239e6a03?style=flat-square" alt="Propagation">
+  <img src="https://img.shields.io/badge/Scripts-152%20reorganized-%233d444d?style=flat-square" alt="Scripts">
+  <img src="https://img.shields.io/badge/Skills-46-%231f6feb?style=flat-square" alt="Skills">
+  <img src="https://img.shields.io/badge/Tests-112-%23238636?style=flat-square" alt="Tests">
 </p>
 
 <p align="center">
   <b>Works with</b>&ensp;
   <img src="https://img.shields.io/badge/Claude_Code-CC5A9C?style=flat-square&logo=anthropic&logoColor=white" alt="Claude Code">
   <img src="https://img.shields.io/badge/Pi-777777?style=flat-square" alt="Pi">
-  <img src="https://img.shields.io/badge/Cursor-6C47FF?style=flat-square&logo=cursor&logoColor=white" alt="Cursor">
   <img src="https://img.shields.io/badge/OpenCode-333333?style=flat-square" alt="OpenCode">
+  <img src="https://img.shields.io/badge/Cursor-6C47FF?style=flat-square&logo=cursor&logoColor=white" alt="Cursor">
   <img src="https://img.shields.io/badge/Codex_CLI-000000?style=flat-square&logo=openai&logoColor=white" alt="Codex CLI">
   <img src="https://img.shields.io/badge/Any_AGENTS.md_AI-555555?style=flat-square" alt="AGENTS.md compatible">
 </p>
@@ -74,54 +52,44 @@ git clone https://github.com/B67687/agentic-workflows.git
 cd agentic-workflows
 ```
 
-Open **[`AGENTS.md`](AGENTS.md)** -- that's the operating contract. Every agent reads it first. Then verify everything works:
+Open **[`AGENTS.md`](AGENTS.md)** — that's the operating contract (190 lines, 11 sections). The agent reads it first, then routes through the [workflow tree](#workflow-tree).
 
 ```bash
-bash ./scripts/test-smoke.sh
-bash ./scripts/propagate.sh all --apply    # push templates to your repos
+bash scripts/infra/test-smoke.sh          # 112-test suite
+bash scripts/infra/propagate-to-all.sh --apply  # Push templates to 17 sibling repos
 ```
 
+<h2 id="workflow-tree">Workflow Tree</h2>
 
-<h2 id="how-it-works">How It Works</h2>
+The harness runs on **workflow-driven execution** — state machines in `workflow.d/` that classify requests and route through deterministic or deliberative steps. Inspired by HumanLayer's session state machine architecture.
 
-<h3>Define</h3>
-<a href="AGENTS.md"><code>AGENTS.md</code></a> sets the operating contract. Every agent reads it on entry. Skills, commands, and propagation templates inherit from this single source of truth.
-
-<h3>Propagate</h3>
-<a href="scripts/propagate.sh"><code>propagate.sh</code></a> pushes templates to topic folders. One change in the hub updates 15+ repos. Commands, scripts, and configs all synced.
-
-<h3>Harvest</h3>
-Learnings flow back to the hub via insight harvesting. Cross-project memory loops keep knowledge circulating instead of siloed in individual projects.
-
-
-<h2 id="workflows">Workflows</h2>
-
-The system orchestrates work across five interlocking workflows. The diagram below shows how tasks flow through the pipeline, how agents get dispatched, how templates propagate to sibling repos, and how sessions are managed.
-
-<p align="center">
-  <a href="https://b67687.github.io/agentic-workflows/workflow-graph.html">
-    <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="workflow-graph.svg">
-      <img src="workflow-graph.svg" width="100%" alt="Workflow Diagram" style="max-width:1000px;">
-    </picture>
-  </a>
-  <br><sub><a href="https://b67687.github.io/agentic-workflows/workflow-graph.html" target="_blank">Open interactive version ↗</a> (click nodes for details, expand gates to see decision chains)</sub>
-</p>
-
-<p align="center">
-<img src="https://img.shields.io/badge/Propagation-97%20file%20targets%20per%20folder-%239e6a03?style=flat-square" alt="Propagation">
-<img src="https://img.shields.io/badge/Pipeline-7%20phases%2C%205%20gates-%23238636?style=flat-square" alt="Pipeline">
-<img src="https://img.shields.io/badge/Gates-11%20decision%20steps-%23d29922?style=flat-square" alt="Gates">
-<img src="https://img.shields.io/badge/Agents-8%20personas%2C%203%20backends-%231f6feb?style=flat-square" alt="Agents">
-<img src="https://img.shields.io/badge/Tools-132%20registered-%233d444d?style=flat-square" alt="Tools">
-</p>
-
-Regenerate with:
-
-```bash
-bash scripts/workflow-graph.sh
+```
+User request
+  → root.yaml classify (deliberative)
+    → research → design → implement → verify (auto-cycle via next:)
+    → debug (bug diagnosis)
+    → review (code review)
+    → docs (documentation)
+    → refactor (restructure)
+    → propagate (sync templates to repos)
 ```
 
+Each workflow is a YAML state machine with ordered steps. Deterministic steps run scripts automatically. Deliberative steps reason with the user and go back and forth until consensus. State persists in `workflow-state.json` — populated automatically as the agent advances.
+
+| Workflow | Steps | Description |
+|----------|-------|-------------|
+| `root.yaml` | classify | Entry point — classifies requests and branches |
+| `research.yaml` | 3 | Formulate questions → gather facts (deterministic) → review |
+| `design.yaml` | 3 | Map state → design discussion → structure outline |
+| `implement.yaml` | 3 | Slice scope → execute slices → final verify (deterministic) |
+| `verify.yaml` | 2 | Review diff (deterministic) → assess quality |
+| `debug.yaml` | 3 | Reproduce → diagnose (deterministic) → propose fix |
+| `propagate.yaml` | 5 | Select targets → preview → review → apply → verify |
+| `review.yaml` | 2 | Collect diff (deterministic) → assess quality |
+| `docs.yaml` | 2 | Research existing → write and iterate |
+| `refactor.yaml` | 4 | Map current → design target → execute → verify |
+
+See [`workflow.d/SCHEMA.md`](workflow.d/SCHEMA.md) for the full YAML schema.
 
 <h2 id="features">Features</h2>
 
@@ -129,29 +97,28 @@ bash scripts/workflow-graph.sh
 
 <table>
 <tr>
-  <td width="33%" valign="top"><b>🧠 Operating Contract</b><br><sub>AGENTS.md --- shared conventions every agent reads on entry</sub></td>
-  <td width="33%" valign="top"><b>📚 Skill System</b><br><sub>Debug, review, ship, document --- 46 engineering skills with companion scripts</sub></td>
-  <td width="33%" valign="top"><b>🔄 Knowledge Propagation</b><br><sub>Change once in the hub, sync templates to 15+ repos automatically</sub></td>
+  <td width="33%" valign="top"><b>🧠 Workflow-Driven Execution</b><br><sub>State machines in workflow.d/ route every request. Deterministic steps auto-run, deliberative steps align with you.</sub></td>
+  <td width="33%" valign="top"><b>📚 Skill System</b><br><sub>Debug, review, ship, document — 46 engineering skills with progressive loading (L1/L2/L3)</sub></td>
+  <td width="33%" valign="top"><b>🔄 Knowledge Propagation</b><br><sub>Change once in the hub, sync templates to 17 repos automatically via propagation contract</sub></td>
 </tr>
 <tr>
-  <td width="33%" valign="top"><b>💾 Persistent Memory</b><br><sub>Agentmemory captures tool use, compresses observations across sessions</sub></td>
-  <td width="33%" valign="top"><b>⚡ Workflow Discipline</b><br><sub>Checkpoints, handoffs, pipeline dispatch --- structured phases, not chaos</sub></td>
-  <td width="33%" valign="top"><b>🔬 Research Engine</b><br><sub>Frame -> discover -> triangulate -> apply -> preserve --- 6-phase methodology</sub></td>
+  <td width="33%" valign="top"><b>💾 Auto-Generated State</b><br><sub>workflow-state.json populates as side effect of advancing steps. No manual session management needed.</sub></td>
+  <td width="33%" valign="top"><b>⚡ Deterministic + Deliberative Split</b><br><sub>Scripts for deterministic operations (search, read, verify). AI + human for deliberative decisions.</sub></td>
+  <td width="33%" valign="top"><b>🔬 Research Engine</b><br><sub>Frame → discover → triangulate → apply → preserve — 6-phase methodology</sub></td>
 </tr>
 <tr>
-  <td width="33%" valign="top"><b>🛡️ Quality Guardrails</b><br><sub>A2H escalation, assumption expiry, decision pipelines, error cooldown with backoff</sub></td>
-  <td width="33%" valign="top"><b>🌐 Multi-Repo Orchestration</b><br><sub>17 topic folders, propagate templates, harvest insights across all repos</sub></td>
-  <td width="33%" valign="top"><b>🧪 Test-Driven Agents</b><br><sub>Every change verified before commit --- TDD patterns and 112-test smoke suite</sub></td>
+  <td width="33%" valign="top"><b>🛡️ Human-Inspired Architecture</b><br><sub>Patterns from HumanLayer's daemon/session model — session-scoped runtime, tree-based workflow state</sub></td>
+  <td width="33%" valign="top"><b>🌐 Multi-Repo Orchestration</b><br><sub>17 topic folders, each with workflow.d/ + workflow-state.json via propagation</sub></td>
+  <td width="33%" valign="top"><b>🧪 112-Test Smoke Suite</b><br><sub>Every change verified before commit. Covers tools, hooks, gates, pipelines, MCP.</sub></td>
 </tr>
 <tr>
-  <td width="33%" valign="top"><b>🔁 Methodology Feedback Loop</b><br><sub>Verification failures automatically flagged as methodology vs execution gaps</sub></td>
-  <td width="33%" valign="top"><b>📊 Session Observability</b><br><sub>Dashboard aggregates phase, gate decisions, errors, and debt live</sub></td>
-  <td width="33%" valign="top"><b>🧠 Self-Documenting State</b><br><sub>session-state.json auto-populated from git + runtime data after every phase</sub></td>
+  <td width="33%" valign="top"><b>🔁 Auto Cycle</b><br><sub>research → design → implement → verify flows automatically. Agent proposes next; you authorize.</sub></td>
+  <td width="33%" valign="top"><b>📊 Session Observability</b><br><sub>Dashboard aggregates workflow state, trace history, and current context live</sub></td>
+  <td width="33%" valign="top"><b>🧰 Organized Scripts</b><br><sub>152 scripts reorganized into tools/ (48), infra/ (27), archive/ (18). Symlinks at old paths.</sub></td>
 </tr>
 </table>
 
 </div>
-
 
 <h2 id="orientation">Orientation</h2>
 
@@ -165,22 +132,20 @@ bash scripts/workflow-graph.sh
 <h3 id="commands">Common Commands</h3>
 
 ```bash
-bash ./scripts/session-status.sh        # Workspace health
-bash ./scripts/tools.sh                 # Tool registry
-bash ./scripts/search-index.sh "query"  # BM25 search
-bash ./scripts/session-dashboard.sh     # Live observability dashboard
-bash ./scripts/decision-pipeline.sh list  # Show all phase transition gates
-bash ./scripts/session-state-populate.sh --check  # Verify state is populated
-bash ./scripts/propagate.sh status      # Sync status
-bash ./scripts/checkpoint-commit.sh -m "msg"  # Verified commit
+bash scripts/infra/test-smoke.sh            # 112-test suite
+bash scripts/tools/session-status.sh        # Workspace health
+bash scripts/tools/tools.sh                 # Tool registry
+bash scripts/tools/search-index.sh "query"  # BM25 search
+bash scripts/tools/session-dashboard.sh     # Live observability dashboard
+bash scripts/infra/checkpoint-commit.sh -m "msg"  # Verified commit
+bash scripts/infra/propagate-to-all.sh --preview  # Preview template sync
 ```
 
-See [docs/workflow.md](docs/workflow.md) for the full system, [docs/hub-quickstart.md](docs/hub-quickstart.md) to set up your own project, or open [session-state.json](session-state.json) to resume interrupted work.
-
+See [`docs/workflow.md`](docs/workflow.md) for the reference, [`workflow.d/SCHEMA.md`](workflow.d/SCHEMA.md) for the schema, or open [`workflow-state.json`](workflow-state.json) to check active workflow.
 
 <h2 id="ecosystem">Ecosystem</h2>
 
-<p>This harness was built by studying and integrating patterns from <b>80+ open-source projects</b> across the agent ecosystem. Projects with <code>*</code> have patterns extracted into skills, scripts, or documentation. The remaining 48 are context citations --- each evaluated and classified during the source extraction audit.</p>
+This harness was built by studying and integrating patterns from **80+ open-source projects** across the agent ecosystem. Projects with `*` have patterns extracted into skills, scripts, or documentation.
 
 <h3>Core Inspirations</h3>
 
@@ -205,9 +170,7 @@ See [docs/workflow.md](docs/workflow.md) for the full system, [docs/hub-quicksta
 
 </div>
 
-<h3>Full Ecosystem</h3>
-
-<details open>
+<details>
 <summary>60+ projects across 9 more categories</summary>
 
 <div align="center">
@@ -226,39 +189,10 @@ See [docs/workflow.md](docs/workflow.md) for the full system, [docs/hub-quicksta
 
 </details>
 
-<blockquote>
-<p><b>Note:</b> Projects listed without <code>*</code> are research/citation references --- not extraction targets. These 46 projects were evaluated during the <a href="https://github.com/B67687/agentic-workflows/tree/main/workflow/source-extraction">source extraction audit</a> and classified as either having no extractable pattern that maps to a workspace subsystem, or having their core insight already covered by another extracted pattern.</p>
-</blockquote>
-
-<h3>Tools Used</h3>
-
-<details open>
-<summary>Software that helped build this project</summary>
-
-<div align="center">
-
-| Tool | Use |
-|------|-----|
-| [tree-sitter](https://github.com/tree-sitter/tree-sitter) | Repo-map generation |
-| [*Playwright](https://github.com/microsoft/playwright) | Browser automation (POM) |
-| [RTK](https://github.com/ericseppanen/rtk) | File counting & analysis |
-| [git-filter-repo](https://github.com/newren/git-filter-repo) | Git history management |
-| [*promptfoo](https://github.com/promptfoo/promptfoo) | Prompt evaluation (eval-report) |
-| [bm25s](https://github.com/xhluca/bm25s) | Workspace search index (BM25) |
-| [bubblewrap](https://github.com/containers/bubblewrap) | Sandboxed agent execution |
-| [jq](https://github.com/jqlang/jq) | JSON processing in scripts |
-| [@agentmemory/mcp](https://github.com/rohitg00/agentmemory) | Persistent memory MCP server (npx) |
-| [github-traffic-tracker](https://github.com/djdarcy/github-traffic-tracker) | Permanent traffic analytics + CI separation |
-
-</div>
-
-</details>
-
 <br>
 <p align="center"><sub>Ready to start? Read <a href="#quick-start">Quick Start</a> or open <a href="AGENTS.md">AGENTS.md</a> to begin.</sub></p>
 
 <p align="center"><sub>&ensp;&middot;&ensp;&middot;&ensp;&middot;&ensp;</sub></p>
-<p align="center"><sub>If you maintain a project listed here and would prefer different attribution or removal, please <a href="https://github.com/B67687/agentic-workflows/issues">open an issue</a>.</sub></p>
 
 <p align="center">
   <sub>

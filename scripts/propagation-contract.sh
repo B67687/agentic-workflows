@@ -22,37 +22,20 @@ declare -a PROPAGATION_MANAGED_CORE=(
   "quality-standards.template.md:propagated/quality-standards.md"
   "buglog.template.json:buglog.json"
   "command/task.template.md:commands/task.md"
-  "command/task.template.md:.opencode/commands/task.md"
   "command/session.template.md:commands/session.md"
-  "command/session.template.md:.opencode/commands/session.md"
   "command/git.template.md:commands/git.md"
-  "command/git.template.md:.opencode/commands/git.md"
   "command/counsel.template.md:commands/counsel.md"
-  "command/counsel.template.md:.opencode/commands/counsel.md"
-  "command/counsel.template.md:.pi/prompts/counsel.md"
   "command/cleanup.template.md:commands/cleanup.md"
-  "command/cleanup.template.md:.opencode/commands/cleanup.md"
-  "command/cleanup.template.md:.pi/prompts/cleanup.md"
   "command/plan.template.md:commands/plan.md"
-  "command/plan.template.md:.opencode/commands/plan.md"
   "command/implement.template.md:commands/implement.md"
-  "command/implement.template.md:.opencode/commands/implement.md"
   "command/research.template.md:commands/research.md"
-  "command/research.template.md:.opencode/commands/research.md"
   "command/route.template.md:commands/route.md"
-  "command/route.template.md:.opencode/commands/route.md"
   "command/optimize.template.md:commands/optimize.md"
-  "command/optimize.template.md:.opencode/commands/optimize.md"
   "command/parley.template.md:commands/parley.md"
-  "command/parley.template.md:.opencode/commands/parley.md"
   "command/pipeline.template.md:commands/pipeline.md"
-  "command/pipeline.template.md:.opencode/commands/pipeline.md"
   "command/prompt-contract.template.md:commands/prompt-contract.md"
-  "command/prompt-contract.template.md:.opencode/commands/prompt-contract.md"
   "command/repo-map.template.md:commands/repo-map.md"
-  "command/repo-map.template.md:.opencode/commands/repo-map.md"
   "command/query.template.md:commands/query.md"
-  "command/query.template.md:.opencode/commands/query.md"
   "a2h-contact.template.sh:propagated/a2h-contact.sh"
   "audit-folder-quality.template.sh:propagated/audit-folder-quality.sh"
   "check-sync-status.template.sh:propagated/check-sync-status.sh"
@@ -105,14 +88,27 @@ declare -a PROPAGATION_MANAGED_CORE=(
   "log-error.template.sh:propagated/log-error.sh"
   "prefetch-context.template.sh:propagated/prefetch-context.sh"
   "propagate.template.sh:propagated/propagate.sh"
+  # Workflow definitions --- state machine files for the workflow runtime
+  "workflow-schema.template.md:workflow.d/SCHEMA.md"
+  "workflow-root.template.yaml:workflow.d/root.yaml"
+  "workflow-research.template.yaml:workflow.d/research.yaml"
+  "workflow-design.template.yaml:workflow.d/design.yaml"
+  "workflow-implement.template.yaml:workflow.d/implement.yaml"
+  "workflow-verify.template.yaml:workflow.d/verify.yaml"
+  "workflow-debug.template.yaml:workflow.d/debug.yaml"
+  "workflow-propagate.template.yaml:workflow.d/propagate.yaml"
+  "workflow-review.template.yaml:workflow.d/review.yaml"
+  "workflow-docs.template.yaml:workflow.d/docs.yaml"
+  "workflow-refactor.template.yaml:workflow.d/refactor.yaml"
 )
 
 declare -a PROPAGATION_REPO_OWNED_BOOTSTRAP=(
   "topic-insights.template.md:topic-insights.md"
-  "session-state.template.json:session-state.json"
+  "session-state.template.json:session-state.json"   # DEPRECATED — use workflow-state.json
+  "workflow-state.template.json:workflow-state.json" # REPLACES session-state.json
   ".cleanup-protect.template.md:.cleanup-protect"
-  "history-index.template.md:archive/history-index.md"
-  "history-full-detailed.template.md:archive/history-full-detailed.md"
+  "history-index.template.md:archive/history-index.md"                 # DEPRECATED — workflow trace replaces
+  "history-full-detailed.template.md:archive/history-full-detailed.md" # DEPRECATED — workflow trace replaces
 )
 
 propagation_iter_entries() {

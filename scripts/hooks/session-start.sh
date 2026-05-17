@@ -31,7 +31,11 @@ IS_WORKTREE=false
 RECENT=$(git log --oneline -3 2>/dev/null | paste -sd '|' - || echo "(no commits)")
 DIRTY=$(git status --short 2>/dev/null | wc -l | tr -d ' ')
 UNTRACKED=$(git ls-files --others --exclude-standard 2>/dev/null | wc -l | tr -d ' ')
-STATE_FILE="$REPO_ROOT/session-state.json"
+# Check workflow-state.json first, fall back to session-state.json
+STATE_FILE="$REPO_ROOT/workflow-state.json"
+if [ ! -f "$STATE_FILE" ]; then
+  STATE_FILE="$REPO_ROOT/session-state.json"
+fi
 
 # Session state health
 STATE_HEALTH="ok"
@@ -112,11 +116,12 @@ fi
 
 # Session state
 echo ""
+STATE_NAME="$(basename "$STATE_FILE")"
 if [ -f "$STATE_FILE" ]; then
-  echo "✓  session-state.json is current ($STATE_AGE hours old)"
+  echo "✓  $STATE_NAME is current ($STATE_AGE hours old)"
   [ -n "$STATE_TASK" ] && echo "  Current task: $STATE_TASK"
 else
-  echo "⚠  session-state.json not found"
+  echo "⚠  $STATE_NAME not found"
 fi
 
 # Interruption check

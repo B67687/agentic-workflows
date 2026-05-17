@@ -1,5 +1,7 @@
 # Session Checkpoint System
 
+> **Note:** This doc describes the legacy session-state system. The workflow runtime (`workflow-state.json` + `workflow.d/`) replaces manual session state management. The agent now auto-populates state as a side effect of advancing through workflow steps. This doc is preserved as reference.
+
 ## The Problem
 
 Any multi-step task in this workspace hits a recurring wall:
@@ -16,9 +18,9 @@ Session state file + proactive checkpointing breaks this cycle.
 
 ## The Solution: Two-Part System
 
-### Part A --- Session State File (`session-state.json`)
+### Part A --- Session State File (`session-state.json` — DEPRECATED, use `workflow-state.json`)
 
-**On every resume**: Read `session-state.json` first. Always. Before touching any other file.
+**On every resume**: Read the active state file first. Always. Before touching any other file.
 
 ```
 Cost: ~500 tokens

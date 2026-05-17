@@ -1,5 +1,5 @@
 {
-  "session": 8,
+  "session": 28,
   "status": "implement",
   "interruptedCount": 0,
   "contextPressure": "healthy",
@@ -9,14 +9,12 @@
     "goal": ""
   },
   "whatChanged": [
-    "1cd5835 feat: wire session-state population \u2014 populates whatChanged, verification, keyLearnings, immediateNextSteps from runtime data; auto-runs as final step in all decision pipelines",
-    "1223a67 Merge s4-tool-integration-commands: activate decision pipeline, autonomy gate, session dashboard, error cooldown",
-    "020efde fix: add model JSON structure check; comprehensive analysis of remaining edge cases",
-    "M commands/session.md",
-    "M scripts/decision-pipeline.sh",
+    "7b0840c docs: rewrite README for workflow-driven system, fix test-smoke.sh REPO_ROOT resolution",
+    "18edfdf chore: final polish \u2014 route.md updated, docs migrated to workflow-state.json, session-checkpoint.md deprecated",
+    "8f1bfdd chore: propagate SCHEMA.md, update session-start hook, archive workflow-router.sh",
+    "M scripts/infra/test-smoke.sh",
     "M session-state.json",
-    "?? scripts/feedback-loop.sh",
-    "4 dirty file(s)"
+    "2 dirty file(s)"
   ],
   "verification": [
     "comprehension_gate: pass",
