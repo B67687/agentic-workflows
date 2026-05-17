@@ -13,8 +13,8 @@
 set -uo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
-source "$SCRIPT_DIR/propagation-contract.sh"
+REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
+source "$REPO_ROOT/scripts/propagation-contract.sh"
 
 PARENT_DIR="${AI_PROMPTING_WORKSPACE_ROOT:-$(propagation_parent_dir)}"
 
@@ -30,21 +30,21 @@ MANAGED_ONLY=false
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
-    --apply|-a)
-      MODE="apply"
-      ;;
-    --check|-c|--preview|-p)
-      MODE="preview"
-      ;;
-    --folder)
-      TARGET_FOLDER="$2"
-      shift
-      ;;
-    --managed-only)
-      MANAGED_ONLY=true
-      ;;
-    --help|-h)
-      cat <<'EOF'
+  --apply | -a)
+    MODE="apply"
+    ;;
+  --check | -c | --preview | -p)
+    MODE="preview"
+    ;;
+  --folder)
+    TARGET_FOLDER="$2"
+    shift
+    ;;
+  --managed-only)
+    MANAGED_ONLY=true
+    ;;
+  --help | -h)
+    cat <<'EOF'
 Usage: ./scripts/propagate-to-all.sh [options]
 
 Options:
@@ -54,12 +54,12 @@ Options:
   --managed-only    Refresh only hub-owned managed core files
   --help, -h        Show this help
 EOF
-      exit 0
-      ;;
-    *)
-      echo "Unknown option: $1"
-      exit 1
-      ;;
+    exit 0
+    ;;
+  *)
+    echo "Unknown option: $1"
+    exit 1
+    ;;
   esac
   shift
 done
