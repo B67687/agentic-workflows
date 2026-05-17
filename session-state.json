@@ -1,5 +1,5 @@
 {
-  "session": 21,
+  "session": 22,
   "status": "implement",
   "interruptedCount": 0,
   "contextPressure": "healthy",
@@ -9,19 +9,15 @@
     "goal": ""
   },
   "whatChanged": [
+    "45d6577 feat: add review, docs, refactor workflows \u2014 10 total workflow definitions covering all common task types",
     "ca8c254 feat: propagate workflow definitions to all 17 topic repos \u2014 7 workflow.d/ YAML state machines now available everywhere",
     "2991c95 refactor: Phase 5 \u2014 reorganize 152 scripts into categorized directories",
-    "fd839c7 refactor: Phase 4 \u2014 collapse AGENTS.md from 623 to 190 lines (70% reduction)",
+    "M scripts/hooks/session-start.sh",
     "M scripts/propagation-contract.sh",
+    "T scripts/workflow-router.sh",
     "M session-state.json",
-    "M workflow.d/root.yaml",
-    "?? propagation/workflow-docs.template.yaml",
-    "?? propagation/workflow-refactor.template.yaml",
-    "?? propagation/workflow-review.template.yaml",
-    "?? workflow.d/docs.yaml",
-    "?? workflow.d/refactor.yaml",
-    "?? workflow.d/review.yaml",
-    "9 dirty file(s)"
+    "?? propagation/workflow-schema.template.md",
+    "5 dirty file(s)"
   ],
   "verification": [
     "comprehension_gate: pass",

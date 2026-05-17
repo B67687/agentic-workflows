@@ -89,6 +89,7 @@ declare -a PROPAGATION_MANAGED_CORE=(
   "prefetch-context.template.sh:propagated/prefetch-context.sh"
   "propagate.template.sh:propagated/propagate.sh"
   # Workflow definitions --- state machine files for the workflow runtime
+  "workflow-schema.template.md:workflow.d/SCHEMA.md"
   "workflow-root.template.yaml:workflow.d/root.yaml"
   "workflow-research.template.yaml:workflow.d/research.yaml"
   "workflow-design.template.yaml:workflow.d/design.yaml"
