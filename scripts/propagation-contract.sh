@@ -88,6 +88,14 @@ declare -a PROPAGATION_MANAGED_CORE=(
   "log-error.template.sh:propagated/log-error.sh"
   "prefetch-context.template.sh:propagated/prefetch-context.sh"
   "propagate.template.sh:propagated/propagate.sh"
+  # Workflow definitions --- state machine files for the workflow runtime
+  "workflow-root.template.yaml:workflow.d/root.yaml"
+  "workflow-research.template.yaml:workflow.d/research.yaml"
+  "workflow-design.template.yaml:workflow.d/design.yaml"
+  "workflow-implement.template.yaml:workflow.d/implement.yaml"
+  "workflow-verify.template.yaml:workflow.d/verify.yaml"
+  "workflow-debug.template.yaml:workflow.d/debug.yaml"
+  "workflow-propagate.template.yaml:workflow.d/propagate.yaml"
 )
 
 declare -a PROPAGATION_REPO_OWNED_BOOTSTRAP=(
