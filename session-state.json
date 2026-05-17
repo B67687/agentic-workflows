@@ -1,5 +1,5 @@
 {
-  "session": 8,
+  "session": 11,
   "status": "implement",
   "interruptedCount": 0,
   "contextPressure": "healthy",
@@ -9,14 +9,16 @@
     "goal": ""
   },
   "whatChanged": [
-    "1cd5835 feat: wire session-state population \u2014 populates whatChanged, verification, keyLearnings, immediateNextSteps from runtime data; auto-runs as final step in all decision pipelines",
-    "1223a67 Merge s4-tool-integration-commands: activate decision pipeline, autonomy gate, session dashboard, error cooldown",
-    "020efde fix: add model JSON structure check; comprehensive analysis of remaining edge cases",
-    "M commands/session.md",
-    "M scripts/decision-pipeline.sh",
+    "deea9d0 feat: workflow runtime \u2014 state-machine driven execution tree with deterministic/deliberative split, inspired by HumanLayer's daemon/session patterns",
+    "6069cd7 docs: add comprehensive opencode DB session lineage reference (429 sessions across 4 sources)",
+    "a2e906e Add archived status banner to README",
+    "M AGENTS.md",
+    "M scripts/propagation-contract.sh",
+    "M scripts/workflow/map-current-state.sh",
     "M session-state.json",
-    "?? scripts/feedback-loop.sh",
-    "4 dirty file(s)"
+    "M workflow-state.json",
+    "?? propagation/workflow-state.template.json",
+    "6 dirty file(s)"
   ],
   "verification": [
     "comprehension_gate: pass",

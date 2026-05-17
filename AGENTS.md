@@ -173,7 +173,9 @@ Deterministic steps run automatically. Deliberative steps require user engagemen
 
 ## Session Documentation
 
-At the end of meaningful work, update `session-state.json`. Write `archive/history-index.md` for compact lookup and `archive/history-full-detailed.md` for the full narrative. **History is NOT read by default** --- it's for long-break resumes only.
+The workflow runtime (`workflow-state.json` trace) replaces manual session documentation. As the agent advances through workflow steps, it appends to `trace` automatically. No manual history writing needed.
+
+**Deprecated** (do not create new entries): `archive/history-index.md`, `archive/history-full-detailed.md`. The workflow trace in `workflow-state.json` serves the same purpose and is auto-generated.
 
 ## Compression And Cleanup
 
