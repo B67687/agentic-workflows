@@ -1,5 +1,5 @@
 {
-  "session": 12,
+  "session": 13,
   "status": "implement",
   "interruptedCount": 0,
   "contextPressure": "healthy",
@@ -9,14 +9,13 @@
     "goal": ""
   },
   "whatChanged": [
+    "c8d3b03 feat: Phase 2 \u2014 propagate workflow definition wraps propagate-to-all.sh with deliberative alignment steps",
     "8d25cf9 feat: Phase 1 complete \u2014 workflow-state.json authoritative across all 18 repos, history deprecated, map-current-state.sh bugfix",
     "deea9d0 feat: workflow runtime \u2014 state-machine driven execution tree with deterministic/deliberative split, inspired by HumanLayer's daemon/session patterns",
-    "6069cd7 docs: add comprehensive opencode DB session lineage reference (429 sessions across 4 sources)",
+    "M scripts/propagation-contract.sh",
     "M session-state.json",
     "M workflow-state.json",
-    "M workflow.d/root.yaml",
-    "?? workflow.d/propagate.yaml",
-    "4 dirty file(s)"
+    "3 dirty file(s)"
   ],
   "verification": [
     "comprehension_gate: pass",

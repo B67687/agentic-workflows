@@ -1,16 +1,13 @@
 {
   "workflow": "implement",
-  "step": null,
+  "step": "execute_slice",
   "context": {
-    "phase": 2,
-    "title": "Migrate propagation to workflow",
-    "completed": true,
-    "changed_files": ["workflow.d/propagate.yaml", "workflow.d/root.yaml"]
+    "phase": 3,
+    "slice": "3a",
+    "description": "Remove .opencode/commands/* duplicate entries from propagation contract"
   },
   "trace": [
     {"step":"classify","workflow":"root","result":"implement"},
-    {"step":"slice_scope","workflow":"implement","result":"2 slices approved"},
-    {"step":"execute_slice","workflow":"implement","result":"propagate workflow created + smoke tested"},
-    {"step":"final_verify","workflow":"implement","result":"112/112 pass"}
+    {"step":"slice_scope","workflow":"implement","result":"3 slices approved"}
   ]
 }
