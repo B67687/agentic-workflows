@@ -12,7 +12,17 @@
 
 set -uo pipefail
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# Resolve symlinks so this works from any call path (symlink vs real path)
+resolve_script_root() {
+  local script_path="${BASH_SOURCE[0]}"
+  while [[ -L "$script_path" ]]; do
+    script_path="$(readlink "$script_path")"
+    [[ "$script_path" != /* ]] && script_path="$(dirname "${BASH_SOURCE[0]}")/$script_path"
+  done
+  cd "$(dirname "$script_path")" && pwd
+}
+SCRIPT_DIR="$(resolve_script_root)"
+# SCRIPT_DIR is now scripts/infra/ (always resolved)
 REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 source "$REPO_ROOT/scripts/propagation-contract.sh"
 
