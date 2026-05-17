@@ -104,11 +104,8 @@ declare -a PROPAGATION_MANAGED_CORE=(
 
 declare -a PROPAGATION_REPO_OWNED_BOOTSTRAP=(
   "topic-insights.template.md:topic-insights.md"
-  "session-state.template.json:session-state.json"   # DEPRECATED — use workflow-state.json
-  "workflow-state.template.json:workflow-state.json" # REPLACES session-state.json
+  "workflow-state.template.json:workflow-state.json"
   ".cleanup-protect.template.md:.cleanup-protect"
-  "history-index.template.md:archive/history-index.md"                 # DEPRECATED — workflow trace replaces
-  "history-full-detailed.template.md:archive/history-full-detailed.md" # DEPRECATED — workflow trace replaces
 )
 
 propagation_iter_entries() {
