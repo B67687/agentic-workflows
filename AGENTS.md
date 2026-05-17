@@ -25,6 +25,7 @@ When the request is clear enough and risk is low, proactively:
 ## Startup Order
 
 1. `workflow-state.json` --- active workflow state; read first on every resume
+   - **Stale check:** If the trace is empty or the context is from a clearly different session, mark it complete and re-classify from root.
 2. Lifecycle hooks run automatically:
    - `bash ./scripts/hooks/session-start.sh` --- branch, recent commits, state health, constitution status
    - `bash ./scripts/hooks/detect-gaps.sh` --- stale indexes, missing state, drift
@@ -40,6 +41,7 @@ For topic-folder work: root `workflow-state.json` (or `session-state.json` for b
 The workflow runtime manages task execution as a state machine. Workflow definitions live in `workflow.d/`. State persists in `workflow-state.json`.
 
 1. **Session start.** Read `workflow-state.json`. If a workflow is active, load the definition from `workflow.d/<id>.yaml` and resume at the current step.
+   - **Stale check:** If the trace is empty, the context is from a clearly different session, or the user's first request is unrelated to the active workflow → mark it complete, reset `workflow-state.json`, and re-classify from root.
 2. **No active workflow?** Read `workflow.d/root.yaml`, run the `classify` step to route the user's request.
 3. **Deterministic steps.** Run the script from `script:` field. Capture stdout as step result. Advance to next step.
 4. **Deliberative steps.** Reason, propose options, back and forth with user until consensus. Advance on agreement.
