@@ -1,24 +1,16 @@
 {
-  "workflow": "verify",
+  "workflow": "implement",
   "step": null,
   "context": {
-    "phase": 1,
-    "status": "approved",
-    "changed_files": ["AGENTS.md", "scripts/propagation-contract.sh", "propagation/workflow-state.template.json", "scripts/workflow/map-current-state.sh"],
-    "verification": "112/112 smoke tests pass. No regressions. Backward compatible."
+    "phase": 2,
+    "title": "Migrate propagation to workflow",
+    "completed": true,
+    "changed_files": ["workflow.d/propagate.yaml", "workflow.d/root.yaml"]
   },
   "trace": [
-    {"step":"classify","workflow":"root","result":"research"},
-    {"step":"formulate_questions","workflow":"research","result":"5 questions agreed"},
-    {"step":"gather_facts","workflow":"research","result":"grep + file reads"},
-    {"step":"review_findings","workflow":"research","result":"findings approved"},
-    {"step":"current_state","workflow":"design","result":"state mapped"},
-    {"step":"design_discussion","workflow":"design","result":"4-phase plan agreed"},
-    {"step":"structure_outline","workflow":"design","result":"structure approved"},
-    {"step":"slice_scope","workflow":"implement","result":"3 slices approved"},
-    {"step":"execute_slice","workflow":"implement","result":"all slices implemented"},
-    {"step":"final_verify","workflow":"implement","result":"112/112 pass"},
-    {"step":"review_diff","workflow":"verify","result":"5 changed 1 new"},
-    {"step":"assess_quality","workflow":"verify","result":"approved - no issues found"}
+    {"step":"classify","workflow":"root","result":"implement"},
+    {"step":"slice_scope","workflow":"implement","result":"2 slices approved"},
+    {"step":"execute_slice","workflow":"implement","result":"propagate workflow created + smoke tested"},
+    {"step":"final_verify","workflow":"implement","result":"112/112 pass"}
   ]
 }

@@ -13,5 +13,6 @@ steps:
       design: workflow/design.yaml
       implement: workflow/implement.yaml
       verify: workflow/verify.yaml
+      propagate: workflow/propagate.yaml
       question: ~           # handle inline — just answer
       debug: workflow/debug.yaml
