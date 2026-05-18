@@ -65,6 +65,7 @@ Deterministic steps run automatically. Deliberative steps require user engagemen
 
 | File | Purpose |
 |------|---------|
+| `.runtime/goal-tree.json` | Goal tree — macro/meso/micro hierarchy (persists across sessions). Read on resume for context; `scripts/goal-tree.sh` for operations |
 | `workflow-state.json` | Active workflow state; read first on every resume |
 | `workflow.d/` | Workflow definitions (state machines) |
 | `docs/workflow.md` | Compact workflow summary (fast orientation) |
