@@ -15,8 +15,11 @@ set -euo pipefail
 REPO_ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
 STATE_FILE="$REPO_ROOT/workflow-state.json"
 
-# ── Read state ────────────────────────────────────────────────────────────────
+# ── Read and validate state ────────────────────────────────────────────────────
 if [ ! -f "$STATE_FILE" ]; then
+  echo '{"workflow":null,"step":null,"context":{},"trace":[]}' >"$STATE_FILE"
+elif ! python3 -c "import json,sys; json.load(open('$STATE_FILE'))" 2>/dev/null; then
+  echo "!!! workflow-state.json is corrupt. Resetting."
   echo '{"workflow":null,"step":null,"context":{},"trace":[]}' >"$STATE_FILE"
 fi
 
@@ -24,15 +27,6 @@ STATE=$(cat "$STATE_FILE")
 WORKFLOW=$(echo "$STATE" | python3 -c "import json,sys; d=json.load(sys.stdin); w=d.get('workflow'); print(w if w else '')")
 STEP=$(echo "$STATE" | python3 -c "import json,sys; d=json.load(sys.stdin); print(d.get('step') or '')")
 TRACE_COUNT=$(echo "$STATE" | python3 -c "import json,sys; d=json.load(sys.stdin); print(len(d.get('trace', [])))")
-
-# ── Validate JSON ─────────────────────────────────────────────────────────────
-if ! echo "$STATE" | python3 -c "import json,sys; json.load(sys.stdin)" 2>/dev/null; then
-  echo "!!! workflow-state.json is corrupt. Resetting."
-  echo '{"workflow":null,"step":null,"context":{},"trace":[]}' >"$STATE_FILE"
-  WORKFLOW=""
-  STEP=""
-  TRACE_COUNT=0
-fi
 
 # ── Output ────────────────────────────────────────────────────────────────────
 echo ""
@@ -55,7 +49,7 @@ if [ -z "$WORKFLOW" ] || [ "$WORKFLOW" = "None" ]; then
   echo "  Available workflows:"
   for f in "$REPO_ROOT"/workflow.d/*.yaml; do
     name=$(basename "$f" .yaml)
-    [ "$name" = "root" ] || [ "$name" = "SCHEMA" ] && continue
+    { [ "$name" = "root" ] || [ "$name" = "SCHEMA" ]; } && continue
     desc=$(grep '^description:' "$f" | sed 's/description: *//')
     [ -z "$desc" ] && desc="(no description)"
     printf "    %-15s  %s\n" "$name" "$desc"
