@@ -1,6 +1,6 @@
 # Research workflow — objective codebase investigation
 # 1. Formulate objective questions (deliberative)
-# 2. Execute research against codebase (deterministic)
+# 2. Fan out parallel research agents for each question (parallel)
 # 3. Review findings with user (deliberative)
 
 id: research
@@ -15,15 +15,22 @@ steps:
       Questions must be factual — no opinions, no solution assumptions.
       Example: "How does module X handle auth?" not "Should we rewrite auth?"
       Back and forth with user until consensus on the question set.
+      The agreed questions are saved to context.questions — they feed the parallel research step.
 
-  - id: gather_facts
-    kind: deterministic
-    script: scripts/workflow/gather-facts.sh
-    description: Execute each question against the codebase using search, grep, glob, read
+  - id: parallel_research
+    kind: parallel
+    description: |
+      Fan out one research agent per question, all running concurrently.
+      Each agent explores its question independently using search, grep, glob, read.
+      Results are merged into a unified findings document.
+    sub_step_template:
+      script: scripts/research/explore.sh
+      args_from: questions       # reads context.questions, creates one sub-step per question
+    merge_with: scripts/research/merge-findings.sh
 
   - id: review_findings
     kind: deliberative
     description: |
-      Present compressed findings. No opinions, no proposed solutions.
+      Present the merged parallel findings. No opinions, no proposed solutions.
       Ask: "Is anything missing? Should we investigate further?"
       If more needed, user can choose to loop back or advance.

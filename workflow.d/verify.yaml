@@ -1,21 +1,44 @@
 # Verify workflow — check that changes are correct
+# 1. Collect changed files (deterministic)
+# 2. Run LSP, tests, and type checks in parallel (parallel)
+# 3. Review all results with user (deliberative)
 
 id: verify
 description: Verify implementation correctness
 
 steps:
-  - id: review_diff
+  - id: collect_diff
     kind: deterministic
     script: scripts/workflow/review-diff.sh
     description: Collect all changed files and their diffs
 
+  - id: parallel_verify
+    kind: parallel
+    description: |
+      Run verification checks in parallel: LSP diagnostics, tests, and type checking.
+      Each check runs independently. Results are merged into a unified report.
+    sub_steps:
+      - id: check_lsp
+        script: scripts/verify/check-lsp.sh
+        description: Run LSP diagnostics on changed files
+      - id: check_tests
+        script: scripts/verify/check-tests.sh
+        description: Run project test suite
+      - id: check_types
+        script: scripts/verify/check-types.sh
+        description: Run type checker
+    merge_with: scripts/verify/merge-results.sh
+
   - id: assess_quality
     kind: deliberative
     description: |
-      Review the diff for correctness. **Read the actual diff (`git diff`), not plan documents.** Check:
+      Review the diff AND verification results together.
+      **Read the actual diff (`git diff`), not plan documents.**
+      Check:
       - Is the change correct and complete (judged from code, not design docs)?
+      - What do the parallel verification results say? Any LSP errors? Test failures?
       - Are there edge cases or error paths not handled?
-      - Is the test coverage adequate?
+      - Was test coverage adequate?
       - Were real-world inputs tested first?
       Propose findings. Back and forth until user signs off.
     branches:
