@@ -23,16 +23,9 @@ steps:
       Fan out one research agent per question, all running concurrently.
       Each agent explores its question independently using search, grep, glob, read.
       Results are merged into a unified findings document.
-    sub_steps:
-      - id: explore_q1
-        script: scripts/research/explore.sh
-        description: Research question 1
-      - id: explore_q2
-        script: scripts/research/explore.sh
-        description: Research question 2
-      - id: explore_q3
-        script: scripts/research/explore.sh
-        description: Research question 3
+    sub_step_template:
+      script: scripts/research/explore.sh
+      args_from: questions       # reads context.questions, creates one sub-step per question
     merge_with: scripts/research/merge-findings.sh
 
   - id: review_findings

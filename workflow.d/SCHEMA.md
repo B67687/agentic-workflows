@@ -21,9 +21,12 @@ steps:
     kind: deterministic | deliberative | parallel
     script: <path>        # only for deterministic — path relative to repo root
     description: <string> # what this step does (for the agent)
-    sub_steps:            # only for parallel — list of sub-steps to run concurrently
-      - id: <string>      # unique sub-step identifier within this step
-        script: <path>    # path to the script (deterministic only for now)
+    sub_step_template:    # for parallel — template for dynamic sub-steps (same script, varied args)
+      script: <path>      # path to the script (deterministic only)
+      args_from: <string> # context key to populate args (e.g. "questions" → one sub-step per item)
+    sub_steps:            # for parallel — explicit list of different sub-steps (different scripts)
+      - id: <string>      # unique sub-step identifier
+        script: <path>    # path to the script
         description: <string>
     merge_with: <path>    # optional, only for parallel — script that combines sub-step results
     branches:             # optional — only for branching workflows
@@ -36,7 +39,10 @@ steps:
 2. **Deterministic steps** run a script, capture stdout as `result`. The agent does not converse — it executes, reads, advances. Do not read the script first or second-guess it. If it fails, capture the error and let branches handle it.
 3. **Deliberative steps** have no script. The agent reasons, proposes options, and goes back and forth with the user until consensus. The `result` is the agreed outcome. Do not advance without confirmation.
 4. **Branches** replace the linear advance. The agent matches the step result against branch keys and follows the target (next step id or another workflow file).
-5. **Parallel steps** fan out sub-steps concurrently. The agent calls `scripts/workflow/parallel-dispatch.sh` with the sub-step definitions as JSON. The dispatcher runs all sub-step scripts in parallel (`&` + `wait`), captures stdout per sub-step, and runs the `merge_with` script if specified. The merged output is the step result.
+5. **Parallel steps** fan out sub-steps concurrently. Two modes:
+   - **Explicit** (`sub_steps:`): A list of different scripts to run in parallel. Each sub-step has its own `id` and `script`. Use this when checks are different (e.g. LSP + tests + types).
+   - **Template** (`sub_step_template:` + `args_from:`): One script run N times with different args. The agent reads the context key (e.g. `questions` from `context.questions`) and creates one sub-step per item. Use this for fan-out patterns.
+   In both modes, the agent calls `scripts/workflow/parallel-dispatch.sh` with the resolved sub-step JSON. The dispatcher runs all scripts concurrently, captures stdout per sub-step, and runs `merge_with:` if specified. The merged output is the step result.
 6. **Context passing.** The agent writes step results to `workflow-state.json` under `context`. Subsequent steps read from context to know what to do.
 7. **Resume.** If `workflow-state.json` has an active workflow at session start, the agent resumes at the current step instead of reading root.
 8. **Completion proposes next.** When all steps complete, check `next:`. If set, the agent proposes to the user: "X is done. Proceed to Y?" User authorizes or redirects. This keeps the cycle flowing without re-entering root.

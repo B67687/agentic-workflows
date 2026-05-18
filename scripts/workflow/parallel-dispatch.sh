@@ -18,7 +18,9 @@
 # Exit code: 0 if all sub-steps passed, 1 if any failed.
 # =============================================================================
 
-set -euo pipefail
+set -u
+# Note: no 'set -e' — the Python dispatcher may return non-zero when sub-steps fail.
+# The exit code is captured and propagated manually.
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
@@ -52,9 +54,9 @@ trap 'rm -rf "$WORKSPACE"' EXIT
 
 # ── Run sub-steps in parallel ──
 
-# Write sub-step definitions as JSON for Python runner
 echo "$SUB_STEPS" >"$WORKSPACE/sub_steps.json"
 
+# Run dispatcher (may return non-zero when checks fail — that's expected)
 python3 "$SCRIPT_DIR/parallel-dispatch.py" "$WORKSPACE" "$REPO_ROOT" "$MERGE_WITH"
 EXIT_CODE=$?
 
