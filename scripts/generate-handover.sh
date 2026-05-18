@@ -147,7 +147,6 @@ try:
     active = d.get('active')
     if active and active in d.get('nodes', {}):
         n = d['nodes'][active]
-        # Build path
         path = []; cur = active
         while cur:
             if cur in d['nodes']: path.insert(0, d['nodes'][cur]['title'][:50]); cur = d['nodes'][cur].get('parent')
@@ -158,6 +157,20 @@ try:
 except:
     print('(no goal tree)')
 " 2>/dev/null) || ACTIVE_GOAL="(no goal tree)"
+
+# Entry prompt summary line
+ENTRY_SUMMARY=$(python3 -c "
+import json
+with open('$GOAL_TREE_FILE') as f: d = json.load(f)
+active = d.get('active')
+if active and active in d.get('nodes', {}):
+    n = d['nodes'][active]
+    done_ct = sum(1 for nd in d['nodes'].values() if nd.get('status') == 'done' and nd.get('parent') is not None)
+    active_ct = sum(1 for nd in d['nodes'].values() if nd.get('status') == 'active' and nd.get('depth', 0) <= 1)
+    print(f'{done_ct} meso goals done, {active_ct} active. Active: {n[\"title\"]}')
+else:
+    print('All goals complete — start a new branch')
+" 2>/dev/null) || ENTRY_SUMMARY="See goal tree below"
 
 # ── Build dynamic section ──
 DYNAMIC=$(
@@ -198,6 +211,26 @@ bash scripts/goal-tree.sh branch <parent> "<title>"  # start new work
 
 \`\`\`
 $COMMITS
+\`\`\`
+
+## Entry Prompt
+
+Copy this block to the top of the next session:
+
+\`\`\`
+Read HANDOVER.md for complete context before responding.
+
+Current state: $ENTRY_SUMMARY
+
+All pushed to origin/main.
+
+The next session follows the research→plan→implement→verify cycle.
+Browse the goal tree and branch into the next item:
+
+  bash scripts/goal-tree.sh current   # active path
+  bash scripts/goal-tree.sh status    # full tree
+  bash scripts/goal-tree.sh branch <parent> \"<title>\"  # start new work
+  bash scripts/workflow-check.sh      # validate state
 \`\`\`
 DYNAMICEOF
 )
