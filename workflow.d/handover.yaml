@@ -1,0 +1,34 @@
+# Handover workflow — produce a compact, data-driven HANDOVER.md
+# Auto-generates from live state, then you review and commit.
+# Replaces the manual "what do I write?" question at session end.
+
+id: handover
+description: Generate, review, and commit session handover document
+
+steps:
+  - id: generate
+    kind: deterministic
+    script: scripts/generate-handover.sh
+    description: |
+      Reads goal-tree.json + workflow-state.json + git log to produce
+      a compact (≤200 line) HANDOVER.md. Deterministic — same state
+      always produces the same output.
+
+  - id: review
+    kind: deliberative
+    description: |
+      Show the generated HANDOVER.md. Ask:
+      - "Is the session summary accurate?"
+      - "Anything missing from the next-actions section?"
+      - "Should any known issues/risks be added?"
+      User reviews, suggests edits. Iterate until approved.
+    branches:
+      approved: ~
+      needs_edit: generate
+
+  - id: commit
+    kind: deterministic
+    script: scripts/infra/checkpoint-commit.sh
+    description: |
+      Stage and commit HANDOVER.md.
+      Uses the standard checkpoint-commit script.
