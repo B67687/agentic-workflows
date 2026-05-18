@@ -28,8 +28,8 @@ steps:
 ## Rules
 
 1. **Linear by default.** If a step has no `branches`, the agent advances to the next step in the list on completion.
-2. **Deterministic steps** run a script, capture stdout as `result`. The agent does not converse — it executes, reads, advances.
-3. **Deliberative steps** have no script. The agent reasons, proposes options, and goes back and forth with the user until consensus. The `result` is the agreed outcome.
+2. **Deterministic steps** run a script, capture stdout as `result`. The agent does not converse — it executes, reads, advances. Do not read the script first or second-guess it. If it fails, capture the error and let branches handle it.
+3. **Deliberative steps** have no script. The agent reasons, proposes options, and goes back and forth with the user until consensus. The `result` is the agreed outcome. Do not advance without confirmation.
 4. **Branches** replace the linear advance. The agent matches the step result against branch keys and follows the target (next step id or another workflow file).
 5. **Context passing.** The agent writes step results to `workflow-state.json` under `context`. Subsequent steps read from context to know what to do.
 6. **Resume.** If `workflow-state.json` has an active workflow at session start, the agent resumes at the current step instead of reading root.

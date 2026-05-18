@@ -1,5 +1,5 @@
 {
-  "session": 28,
+  "session": 29,
   "status": "implement",
   "interruptedCount": 0,
   "contextPressure": "healthy",
@@ -9,12 +9,14 @@
     "goal": ""
   },
   "whatChanged": [
-    "7b0840c docs: rewrite README for workflow-driven system, fix test-smoke.sh REPO_ROOT resolution",
-    "18edfdf chore: final polish \u2014 route.md updated, docs migrated to workflow-state.json, session-checkpoint.md deprecated",
-    "8f1bfdd chore: propagate SCHEMA.md, update session-start hook, archive workflow-router.sh",
-    "M scripts/infra/test-smoke.sh",
+    "d764597 Add stale workflow check to Startup Order and Execution rules (#16)",
+    "aa09d62 Bake 4 workflow rules, sync templates with live files",
+    "21c116f Fix test-smoke.sh symlink path resolution (same bug as propagate-to-all) (#14)",
+    "M AGENTS.md",
+    "M scripts/hooks/session-start.sh",
     "M session-state.json",
-    "2 dirty file(s)"
+    "?? scripts/workflow/startup-gate.sh",
+    "4 dirty file(s)"
   ],
   "verification": [
     "comprehension_gate: pass",
