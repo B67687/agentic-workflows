@@ -120,7 +120,7 @@ repo-graph.html
 # ------------------------------------------------------------------
 # Archive (optional --- uncomment if archive contents exceed threshold)
 # ------------------------------------------------------------------
-archive/
+/archive/
 # research/
 # Generated workflow state (personal paths)
 workflow/cross-domain-candidates.md
