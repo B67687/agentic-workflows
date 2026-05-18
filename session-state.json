@@ -1,5 +1,5 @@
 {
-  "session": 28,
+  "session": 38,
   "status": "implement",
   "interruptedCount": 0,
   "contextPressure": "healthy",
@@ -9,9 +9,9 @@
     "goal": ""
   },
   "whatChanged": [
-    "7b0840c docs: rewrite README for workflow-driven system, fix test-smoke.sh REPO_ROOT resolution",
-    "18edfdf chore: final polish \u2014 route.md updated, docs migrated to workflow-state.json, session-checkpoint.md deprecated",
-    "8f1bfdd chore: propagate SCHEMA.md, update session-start hook, archive workflow-router.sh",
+    "312b11d Integrate workflow startup gate \u2014 session-start.sh now runs workflow runtime startup-gate.sh; AGENTS.md consolidated Startup Order with stale-check and classification",
+    "d764597 Add stale workflow check to Startup Order and Execution rules (#16)",
+    "aa09d62 Bake 4 workflow rules, sync templates with live files",
     "M scripts/infra/test-smoke.sh",
     "M session-state.json",
     "2 dirty file(s)"

@@ -162,3 +162,6 @@ fi
 
 echo ""
 echo "=== End Diagnostics ==="
+
+# ── Workflow gate (runs every session start) ──
+bash "$(cd "$(dirname "$0")/../.." && pwd)/scripts/workflow/startup-gate.sh"
