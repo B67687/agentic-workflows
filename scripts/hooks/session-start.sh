@@ -87,6 +87,32 @@ if [[ "$COMPACT" == "1" ]]; then
     echo "💾  Project bloat detected. Run: /cleanup"
   fi
 
+  # Goal tree display (compact mode — always show)
+  GOAL_TREE="$REPO_ROOT/.runtime/goal-tree.json"
+  if [ -f "$GOAL_TREE" ]; then
+    python3 -c "
+import json
+try:
+    with open('$GOAL_TREE') as f:
+        d = json.load(f)
+    active_id = d.get('active')
+    root_id = d.get('root')
+    if active_id and active_id in d.get('nodes', {}):
+        n = d['nodes'][active_id]
+        path = []; cur = active_id
+        while cur:
+            if cur in d.get('nodes', {}):
+                path.append(d['nodes'][cur]['title'][:50])
+                cur = d['nodes'][cur].get('parent')
+            else:
+                break
+        path.reverse()
+        print('  🎯 ' + ' → '.join(path))
+except:
+    pass
+" 2>/dev/null || true
+  fi
+
   echo "=== End ==="
   exit 0
 fi
