@@ -1086,6 +1086,94 @@
         "coding"
       ],
       "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "terminal-find-largest-file",
+      "name": "Find the largest file in the repository",
+      "category": "harness",
+      "difficulty": "easy",
+      "skills": [
+        "terminal-workflow",
+        "bash-explore"
+      ],
+      "path": "benchmarks/harness/find-largest-file.md"
+    },
+    {
+      "id": "terminal-merge-csv-files",
+      "name": "Merge multiple CSV files with a new column",
+      "category": "harness",
+      "difficulty": "medium",
+      "skills": [
+        "terminal-workflow",
+        "data-processing"
+      ],
+      "path": "benchmarks/harness/merge-csv-files.md"
+    },
+    {
+      "id": "terminal-json-recursive-sort",
+      "name": "Recursively sort JSON object keys",
+      "category": "harness",
+      "difficulty": "medium",
+      "skills": [
+        "terminal-workflow",
+        "data-processing"
+      ],
+      "path": "benchmarks/harness/json-recursive-sort.md"
+    },
+    {
+      "id": "terminal-batch-text-dryrun",
+      "name": "Batch search across files with pattern counting",
+      "category": "harness",
+      "difficulty": "medium",
+      "skills": [
+        "terminal-workflow",
+        "bash-explore"
+      ],
+      "path": "benchmarks/harness/batch-text-dryrun.md"
+    },
+    {
+      "id": "terminal-file-type-inventory",
+      "name": "File type inventory across the repository",
+      "category": "harness",
+      "difficulty": "easy",
+      "skills": [
+        "terminal-workflow",
+        "bash-explore"
+      ],
+      "path": "benchmarks/harness/file-type-inventory.md"
+    },
+    {
+      "id": "terminal-data-pipeline-chained",
+      "name": "Multi-step data pipeline with extraction, transformation, and summarization",
+      "category": "harness",
+      "difficulty": "hard",
+      "skills": [
+        "terminal-workflow",
+        "data-processing"
+      ],
+      "path": "benchmarks/harness/data-pipeline-chained.md"
+    },
+    {
+      "id": "terminal-git-history-stats",
+      "name": "Git log analysis and commit statistics",
+      "category": "harness",
+      "difficulty": "medium",
+      "skills": [
+        "terminal-workflow",
+        "bash-explore"
+      ],
+      "path": "benchmarks/harness/git-history-stats.md"
+    },
+    {
+      "id": "terminal-temp-directory-operations",
+      "name": "Temporary directory creation, manipulation, and cleanup",
+      "category": "harness",
+      "difficulty": "hard",
+      "skills": [
+        "terminal-workflow",
+        "bash-explore"
+      ],
+      "path": "benchmarks/harness/temp-directory-operations.md"
     }
   ]
 }
