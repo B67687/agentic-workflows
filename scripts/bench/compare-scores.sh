@@ -1,72 +1,187 @@
 #!/usr/bin/env bash
 # =============================================================================
-# compare-scores.sh — Compare post-proposal scores against baseline
+# compare-scores.sh — Phase 3: Compare post-proposal scores against baseline
 #
-# Phase 3 placeholder. Full implementation deferred until run-proposal.sh
-# produces the post-change scores.
-#
-# Current behavior:
-#   - Reads baseline scores (from context.baseline or file)
-#   - Reads post-change scores (from stdin, file, or context)
-#   - If both available, computes delta per benchmark
-#   - If not available, prints spec for future implementation
-#   - Exits with status 0 (no-op for Phase 0 workflow)
-#
-# Future implementation (Phase 3):
-#   - Parse baseline and post-change score JSON
-#   - Compute delta per benchmark, per category, overall
-#   - Classify change: improved (>+5%), degraded (<-5%), neutral
-#   - Output structured comparison for decide step
+# Computes deltas between baseline and post-change benchmark scores and
+# classifies the change as IMPROVED, DEGRADED, or NEUTRAL.
 #
 # Usage:
-#   bash scripts/bench/compare-scores.sh [--baseline <file>] [--post <file>]
+#   bash scripts/bench/compare-scores.sh
+#     Uses .runtime/baseline-scores.json and .runtime/post-scores.json
 #
-# Output: JSON with fields: overall_delta, per_benchmark, classification
+#   bash scripts/bench/compare-scores.sh --baseline <file> --post <file>
+#     Explicit baseline and post-change score files
+#
+# Output: JSON with overall_delta, per_benchmark deltas, and classification
+#
+# Classification thresholds:
+#   IMPROVED: overall pass_rate delta > +0.05
+#   DEGRADED: overall pass_rate delta < -0.05
+#   NEUTRAL:  delta between -0.05 and +0.05
 # =============================================================================
 
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
+RUNTIME_DIR="$REPO_ROOT/.runtime"
 
-# Try to read baseline from context if available
-BASELINE_FILE="${1:-}"
-POST_FILE="${2:-}"
+BASELINE_FILE="$RUNTIME_DIR/baseline-scores.json"
+POST_FILE="$RUNTIME_DIR/post-scores.json"
 
-# If no explicit files, try runtime context
-if [[ -z "$BASELINE_FILE" ]]; then
-  # Check if script received piped input
-  if [[ ! -t 0 ]]; then
-    POST_INPUT=$(cat)
-  fi
+usage() {
+  cat <<'USAGE'
+Usage: bash scripts/bench/compare-scores.sh [options]
+
+Options:
+  --baseline <file>     Baseline scores file (default: .runtime/baseline-scores.json)
+  --post <file>         Post-change scores file (default: .runtime/post-scores.json)
+  --save                Save result to .runtime/comparison-result.json
+  --help                Show this help
+
+Without options, uses .runtime/baseline-scores.json and .runtime/post-scores.json.
+USAGE
+}
+
+SAVE_RESULT=false
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+  --baseline)
+    BASELINE_FILE="$2"
+    shift 2
+    ;;
+  --post)
+    POST_FILE="$2"
+    shift 2
+    ;;
+  --save)
+    SAVE_RESULT=true
+    shift
+    ;;
+  --help)
+    usage
+    exit 0
+    ;;
+  *)
+    echo "Unknown option: $1" >&2
+    usage
+    exit 2
+    ;;
+  esac
+done
+
+# ── Validate inputs ──
+
+if [[ ! -f "$BASELINE_FILE" ]]; then
+  echo "Error: baseline file not found: $BASELINE_FILE" >&2
+  echo "Run 'bash scripts/bench/aggregate.sh export > .runtime/baseline-scores.json' first" >&2
+  exit 1
 fi
 
-# Check if baseline exists in context
-RUNTIME_BASELINE="$REPO_ROOT/.runtime/baseline-scores.json"
-RUNTIME_POST="$REPO_ROOT/.runtime/post-scores.json"
-
-echo "{"
-echo "  \"status\": \"placeholder\","
-echo "  \"phase\": \"3\","
-echo "  \"message\": \"compare-scores.sh — IMPLEMENTATION PENDING (Phase 3)\","
-
-if [[ -f "$RUNTIME_BASELINE" && -f "$RUNTIME_POST" ]]; then
-  echo "  \"baseline_found\": true,"
-  echo "  \"post_found\": true,"
-  echo "  \"note\": \"Both baseline and post scores found — ready for Phase 3 implementation\""
-else
-  echo "  \"baseline_found\": false,"
-  echo "  \"post_found\": false,"
-  echo "  \"note\": \"Placeholder mode — Phase 3 will implement delta computation\","
-  echo "  \"pipeline\": ["
-  echo "    \"1. Read baseline scores from context.baseline\","
-  echo "    \"2. Read post-change scores from run-proposal.sh output\","
-  echo "    \"3. Compute per-benchmark delta: post - baseline\","
-  echo "    \"4. Compute per-category weighted delta\","
-  echo "    \"5. Compute overall score change\","
-  echo "    \"6. Classify: IMPROVED / DEGRADED / NEUTRAL\","
-  echo "    \"7. Output structured comparison for decide step\""
-  echo "  ]"
+if [[ ! -f "$POST_FILE" ]]; then
+  echo "Error: post-change scores file not found: $POST_FILE" >&2
+  echo "Run run-proposal.sh first to generate post-change scores" >&2
+  exit 1
 fi
 
-echo "}"
+# ── Compute comparison ──
+
+python3 -c "
+import json, sys
+
+with open('$BASELINE_FILE') as f:
+    baseline = json.load(f)
+
+with open('$POST_FILE') as f:
+    post = json.load(f)
+
+baseline_bms = baseline.get('by_benchmark', {})
+post_bms = post.get('by_benchmark', {})
+baseline_cats = baseline.get('by_category', {})
+post_cats = post.get('by_category', {})
+
+baseline_overall = baseline.get('overall', {})
+post_overall = post.get('overall', {})
+
+# ── Overall delta ──
+base_rate = baseline_overall.get('pass_rate', 0.0)
+post_rate = post_overall.get('pass_rate', 0.0)
+overall_delta = round(post_rate - base_rate, 3)
+
+# ── Per-benchmark deltas ──
+all_benchmark_ids = sorted(set(list(baseline_bms.keys()) + list(post_bms.keys())))
+per_benchmark = {}
+
+for bid in all_benchmark_ids:
+    base = baseline_bms.get(bid, {})
+    pst = post_bms.get(bid, {})
+    base_rate_b = base.get('pass_rate', 0.0)
+    post_rate_b = pst.get('pass_rate', 0.0)
+    base_runs = base.get('total', 0)
+    post_runs = pst.get('total', 0)
+    delta = round(post_rate_b - base_rate_b, 3)
+    per_benchmark[bid] = {
+        'baseline_pass_rate': base_rate_b,
+        'post_pass_rate': post_rate_b,
+        'delta': delta,
+        'baseline_runs': base_runs,
+        'post_runs': post_runs,
+        'classification': 'IMPROVED' if delta > 0.05 else ('DEGRADED' if delta < -0.05 else 'NEUTRAL')
+    }
+
+# ── Per-category deltas ──
+all_cat_ids = sorted(set(list(baseline_cats.keys()) + list(post_cats.keys())))
+per_category = {}
+
+for cid in all_cat_ids:
+    base = baseline_cats.get(cid, {})
+    pst = post_cats.get(cid, {})
+    base_rate_c = base.get('pass_rate', 0.0)
+    post_rate_c = pst.get('pass_rate', 0.0)
+    delta = round(post_rate_c - base_rate_c, 3)
+    per_category[cid] = {
+        'baseline_pass_rate': base_rate_c,
+        'post_pass_rate': post_rate_c,
+        'baseline_weighted': base.get('avg_weighted_score', 0.0),
+        'post_weighted': pst.get('avg_weighted_score', 0.0),
+        'delta': delta,
+        'classification': 'IMPROVED' if delta > 0.05 else ('DEGRADED' if delta < -0.05 else 'NEUTRAL')
+    }
+
+# ── Overall classification ──
+if overall_delta > 0.05:
+    classification = 'IMPROVED'
+elif overall_delta < -0.05:
+    classification = 'DEGRADED'
+else:
+    classification = 'NEUTRAL'
+
+# ── Summary counts ──
+improved = sum(1 for b in per_benchmark.values() if b['classification'] == 'IMPROVED')
+degraded = sum(1 for b in per_benchmark.values() if b['classification'] == 'DEGRADED')
+neutral = sum(1 for b in per_benchmark.values() if b['classification'] == 'NEUTRAL')
+
+result = {
+    'comparison_id': 'compare-$(date -u +%Y%m%d%H%M%S)',
+    'compared_at': '$(date -u +%Y-%m-%dT%H:%M:%SZ)',
+    'classification': classification,
+    'overall_delta': overall_delta,
+    'baseline_pass_rate': base_rate,
+    'post_pass_rate': post_rate,
+    'baseline_run_count': baseline_overall.get('total', 0),
+    'post_run_count': post_overall.get('total', 0),
+    'summary': {
+        'improved': improved,
+        'degraded': degraded,
+        'neutral': neutral,
+        'total_benchmarks': len(per_benchmark)
+    },
+    'per_benchmark': per_benchmark,
+    'per_category': per_category
+}
+
+print(json.dumps(result, indent=2))
+" 2>/dev/null
+
+exit 0
