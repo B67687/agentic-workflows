@@ -15,10 +15,10 @@ architecture. Goal: strengthen both until Pi-Star can self-iterate, then shift.
 
 | Repo | Branch | Last Commit |
 |------|--------|-------------|
-| agentic-workflows | main | c1f4fb6 feat: add decomposition enforcement gate — milestone ladder before implementation (#19) |
+| agentic-workflows | main | 9bf6d64 docs: next initiatives shaped — proposals, goal tree branches, full handoff (#21) |
 | pi-star | main | f7045d9b handover: update with verification results and bug fixes |
 
-Changes: 1 modified, 1 untracked
+Changes: 0 modified, 0 untracked
 
   Workflow: none  Step: none  Trace: 0 entries
 
@@ -39,7 +39,7 @@ Changes: 1 modified, 1 untracked
   ○   First-Principles Methodology — Phase 0 decomposition step [d:1]
   ○   Research Methodology Audit — tighten research-prompt.md [d:1]
   ○   Benchmark Baseline — hybrid public+custom measurement [d:1]
-  ✓   Self-Improving Framework — closed-loop improvement (done) [d:1]
+  ○   Self-Improving Framework — closed-loop improvement [d:1]
 
   Path: Pi-Star Mastery — best agent harness via research-backed arc
 ```
@@ -50,12 +50,14 @@ Changes: 1 modified, 1 untracked
 
 ## Session Changes
 
-  Session Changelog (4 session(s)):
+  Session Changelog (6 session(s)):
   ───────────────────────────────────────
   1  2026-05-19  20 files  +4311/-81  5 commit(s)
   2  2026-05-19  12 files  +697/-264  3 commit(s)
   3  2026-05-19  0 files  +0/-0  0 commit(s)
   4  2026-05-19  0 files  +0/-0  0 commit(s)
+  5  2026-05-19  0 files  +0/-0  0 commit(s)
+  6  2026-05-19  2 files  +168/-9  1 commit(s)
 
 ## Next
 
@@ -71,11 +73,11 @@ bash scripts/goal-tree.sh branch <parent> "<title>"  # start new work
 ## Recent Commits
 
 ```
+  9bf6d64 docs: next initiatives shaped — proposals, goal tree branches, full handoff (#21)
   c1f4fb6 feat: add decomposition enforcement gate — milestone ladder before implementation (#19)
   2f8dbff Sprint: Pi-Star Mastery — all 6 meso goals complete (#20)
   0a916e1 feat: parallel step kind for workflow — research fan-out + verify checks (#18)
   261d347 Integrate workflow startup gate — session-start.sh, AGENTS.md Startup Order, deep-references.md, SCHEMA.md (#17)
-  d764597 Add stale workflow check to Startup Order and Execution rules (#16)
 ```
 
 ## Entry Prompt
@@ -85,7 +87,7 @@ Copy this block to the top of the next session:
 ```
 Read HANDOVER.md for complete context before responding.
 
-Current state: 11 meso goals done, 4 active. Active: Pi-Star Mastery — best agent harness via research-backed architecture
+Current state: 10 meso goals done, 5 active. Active: Pi-Star Mastery — best agent harness via research-backed architecture
 
 All pushed to origin/main.
 
