@@ -1,0 +1,72 @@
+{
+  "version": 1,
+  "created": "2026-05-19",
+  "description": "Registry of all known benchmarks for harness effectiveness measurement",
+  "categories": {
+    "generic": {
+      "name": "Generic Agent Skills",
+      "description": "Benchmarks for core agent capabilities — file search, code review, debugging, questioning",
+      "weight": 1.0
+    },
+    "harness": {
+      "name": "Harness-Specific",
+      "description": "Benchmarks for agentic-workflows harness features — workflow execution, goal tree, research methodology",
+      "weight": 1.5
+    },
+    "public": {
+      "name": "Public Benchmarks",
+      "description": "External standardized benchmarks (SWE-bench, etc.) — for calibration only",
+      "weight": 2.0
+    }
+  },
+  "benchmarks": [
+    {
+      "id": "generic-count-files",
+      "name": "Count files by extension",
+      "category": "generic",
+      "difficulty": "easy",
+      "skills": ["bash-explore"],
+      "path": "benchmarks/generic/count-files.md"
+    },
+    {
+      "id": "generic-search-todo",
+      "name": "Search for TODO comments",
+      "category": "generic",
+      "difficulty": "easy",
+      "skills": ["bash-explore", "code-review-and-quality"],
+      "path": "benchmarks/generic/search-todo.md"
+    },
+    {
+      "id": "generic-debug-traceback",
+      "name": "Debug a Python traceback",
+      "category": "generic",
+      "difficulty": "medium",
+      "skills": ["debugging-and-error-recovery"],
+      "path": "benchmarks/generic/debug-traceback.md"
+    },
+    {
+      "id": "generic-grill-questions",
+      "name": "Generate probing questions for a feature",
+      "category": "generic",
+      "difficulty": "medium",
+      "skills": ["grill-me"],
+      "path": "benchmarks/generic/grill-questions.md"
+    },
+    {
+      "id": "generic-review-code",
+      "name": "Review a sample Python file for code quality",
+      "category": "generic",
+      "difficulty": "medium",
+      "skills": ["code-review-and-quality"],
+      "path": "benchmarks/generic/review-code.md"
+    },
+    {
+      "id": "generic-structure-questions",
+      "name": "Decompose a topic into structured questions",
+      "category": "generic",
+      "difficulty": "medium",
+      "skills": ["structured-questioning"],
+      "path": "benchmarks/generic/structure-questions.md"
+    }
+  ]
+}
