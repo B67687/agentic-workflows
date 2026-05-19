@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # =============================================================================
-# run-bigcodebench.sh — Run BigCodeBench against the agent and export results
+# run-bigcodebench.sh -- Run BigCodeBench against the agent and export results
 #
 # Pipeline:
 #   1. Activates the bench-env venv (created by setup.sh)
@@ -117,11 +117,16 @@ import json, sys, os
 problems = json.load(sys.stdin)
 runs_dir = '$RUNS_DIR'
 
+import re
+
 for pid, problem in problems.items():
     task_id = problem.get('task_id', pid)
     
+    # Normalize benchmark ID: BigCodeBench/0 -> bigcodebench-0
+    normalized_pid = re.sub(r'[^a-zA-Z0-9]', '-', pid).lower()
+    
     # Create run directory
-    run_id = f'bigcodebench-{pid}-' + os.popen('date -u +%Y%m%d%H%M%S').read().strip()
+    run_id = f'bigcodebench-{normalized_pid}-' + os.popen('date -u +%Y%m%d%H%M%S').read().strip()
     run_dir = os.path.join(runs_dir, run_id)
     os.makedirs(run_dir, exist_ok=True)
     
