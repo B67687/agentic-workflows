@@ -1,0 +1,118 @@
+# Self-Improving Framework — closed-loop improvement
+#
+# Core loop: measure → detect gaps → generate proposal → test → verify → decide
+#
+# Phases:
+#   Phase 0 (this definition):  Loop design as workflow definition
+#   Phase 1 (TO BE IMPLEMENTED): Detection — bench monitoring, plateau detection
+#   Phase 2 (TO BE IMPLEMENTED): Proposal format — structured improvement packet
+#   Phase 3 (TO BE IMPLEMENTED): Test harness — run proposal, compare scores
+#   Phase 4 (TO BE IMPLEMENTED): Meta-loop — improve the improver
+#
+# Key risk: Self-improving can produce negative outcomes if the benchmark
+# signal is bad. All keep/discard decisions require human confirmation.
+
+id: self-improve
+description: |
+  Self-improving framework loop for harness effectiveness.
+  Measure benchmark scores → detect gaps → generate improvement proposals
+  using first-principles methodology → test against benchmarks →
+  verify score change → keep/discard with human confirmation.
+
+next: null
+
+steps:
+  # ── Step 1: Measure ─────────────────────────────────────────────────
+  - id: measure_baseline
+    kind: deterministic
+    script: scripts/bench/aggregate.sh export
+    description: |
+      Capture current benchmark scores as the baseline for comparison.
+      Uses the existing aggregate.sh export mode to get full score data.
+      Result is saved to context.baseline for later comparison.
+
+  # ── Step 2: Detect gaps ─────────────────────────────────────────────
+  - id: detect_gaps
+    kind: deliberative
+    description: |
+      Analyze benchmark scores against expectations. Look for:
+
+      - **Degradation**: scores that dropped since last verified improvement
+      - **Plateaus**: scores flatlined across multiple measurement cycles
+      - **Coverage gaps**: harness features without benchmark coverage
+      - **Signal gaps**: benchmarks with too few runs for confidence
+
+      Review the aggregated scores from the baseline measurement.
+      Identify concrete gaps with evidence, not hunches.
+      Each gap must cite specific data from the score report.
+
+      Output: prioritized list of detected gaps with severity and evidence.
+
+  # ── Step 3: Generate proposal ───────────────────────────────────────
+  - id: generate_proposal
+    kind: deliberative
+    description: |
+      Using first-principles methodology, generate an improvement proposal
+      for the highest-priority gap. Apply FP decomposition:
+
+      1. **Core entities**: What are the irreducible components of this gap?
+      2. **Strip to fundamentals**: What MUST be true for the harness to work?
+      3. **Reconstruct from axioms**: Simplest approach that satisfies fundamentals
+      4. **Gap analysis**: Where does current state diverge from fundamentals?
+      5. **Reframe**: What specific change closes this gap?
+
+      Output: structured improvement proposal with:
+      - Hypothesis (what will improve and why)
+      - Specific change (what to modify)
+      - Predicted score impact (direction and magnitude)
+      - Scope (files, phases, dependencies)
+      - Risk level (low/medium/high)
+      - Verification (how to know if it worked)
+
+  # ── Step 4: Test ────────────────────────────────────────────────────
+  - id: test_on_bench
+    kind: deterministic
+    script: scripts/bench/run-proposal.sh
+    description: |
+      Execute the improvement proposal against the benchmark suite.
+      Runs benchmarks that are relevant to the proposed change.
+
+      NOTE: Full implementation deferred to Phase 3.
+      Current behavior: prints proposal and awaits implementation.
+
+  # ── Step 5: Verify ──────────────────────────────────────────────────
+  - id: verify_score_change
+    kind: deterministic
+    script: scripts/bench/compare-scores.sh
+    description: |
+      Compare post-proposal benchmark scores against the baseline.
+      Computes delta per benchmark, per category, and overall score change.
+
+      NOTE: Full implementation deferred to Phase 3.
+      Current behavior: prints comparison placeholder.
+
+  # ── Step 6: Decide ──────────────────────────────────────────────────
+  - id: decide
+    kind: deliberative
+    branches:
+      keep: null          # mark improvement as verified, update baseline
+      discard: null       # reject, log learnings
+      iterate: detect_gaps  # loop back to gap detection for refinement
+    description: |
+      Review the score change and decide:
+
+      - **Score improved** → KEEP: incorporate the change, update the
+        baseline for the next cycle. The improvement becomes part of
+        the harness baseline.
+
+      - **Score degraded** → DISCARD: revert the change. Analyze what
+        went wrong and capture learnings for future proposals. The
+        signal was negative — this prevents self-inflicted damage.
+
+      - **Score unchanged** → ITERATE: refine the proposal and retest.
+        The hypothesis was wrong but the direction may still be valid.
+        Return to gap detection with the learning.
+
+      Risk guard: Self-improving can produce negative outcomes if the
+      signal is bad. All decisions require human confirmation.
+      The agent presents the evidence and recommends, the user decides.
