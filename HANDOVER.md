@@ -15,7 +15,7 @@ architecture. Goal: strengthen both until Pi-Star can self-iterate, then shift.
 
 | Repo | Branch | Last Commit |
 |------|--------|-------------|
-| agentic-workflows | main | 12a26f5 feat: I3 Phase 3 -- harness benchmarks category |
+| agentic-workflows | main | 9630524 feat: create harness-orientation skill |
 
 Changes: 1 modified (HANDOVER.md), 0 untracked
 
@@ -50,13 +50,13 @@ Changes: 1 modified (HANDOVER.md), 0 untracked
 
 ## Benchmark System
 
-**17 benchmarks from 3 categories, 23 runs, 100% pass rate:**
+**17 benchmarks from 3 categories, 24 runs, 100% pass rate:**
 
 | Category | Weight | Benchmarks | Runs |
 |----------|--------|------------|------|
 | generic | 1.0x | 6 (agent skills) | 18 |
 | public | 2.0x | 5 (BigCodeBench) | 5 |
-| harness | 1.5x | 6 (workflow, goal tree, methodology) | 0 |
+| harness | 1.5x | 6 (workflow, goal tree, methodology) | 1 |
 
 Scripts:
 - `scripts/bench/detect-gaps.sh` -- gap detection
@@ -73,10 +73,10 @@ Workflow: `workflow.d/self-improve.yaml`
 
 ## Next Session Options
 
-1. **Run harness benchmarks** -- 6 benchmarks registered but zero runs. Run some to validate the full pipeline: `bash scripts/tools/skill-bench.sh prepare --skill <skill> --benchmark benchmarks/harness/<bench>.md`
+1. **Run more harness benchmarks** -- 5 of 6 still have zero runs. Run goal-tree.md next: `bash scripts/tools/skill-bench.sh prepare --skill harness-orientation --benchmark benchmarks/harness/goal-tree.md`
 2. **Scale BigCodeBench** -- run more than 5 problems, integrate into the improvement cycle
 3. **Start new north star** -- `bash scripts/goal-tree.sh init "<title>"`
-4. **Debug Gradio endpoint** -- BigCodeBench cloud evaluation still failing with "Missing problems in samples" -- local unittest evaluation works fine
+4. **Debug Gradio endpoint** -- BigCodeBench cloud evaluation still failing with "Missing problems in samples"
 5. **Run project cleanup** -- `bash scripts/tools/cleanup-project.sh` (bloat flagged at startup)
 
 ## Key Files Created/Modified This Session
@@ -100,6 +100,8 @@ Workflow: `workflow.d/self-improve.yaml`
 | `benchmarks/harness/macro-micro-funnel.md` | Harness benchmark: diagnostic funnel |
 | `benchmarks/harness/workflow-state-management.md` | Harness benchmark: state management |
 | `benchmarks/registry.json` | Updated -- 11 to 17 benchmarks, harness category filled |
+| `skills/harness-orientation/SKILL.md` | Created -- minimal harness orientation skill |
+| `skills/manifest.json` | Updated -- added harness-orientation to meta bundle |
 
 ## Entry Prompt
 
@@ -107,9 +109,9 @@ Workflow: `workflow.d/self-improve.yaml`
 Read HANDOVER.md for complete context before responding.
 
 Current state: Pi-Star Mastery 100% complete. All 7 PRs (#23-#28) merged.
-Goal tree fully done. Benchmark system live: 17 benchmarks, 23 runs, 100% pass.
-Harness category filled (6 benchmarks: workflow, goal tree, methodology).
+Goal tree fully done. Benchmark system live: 17 benchmarks, 24 runs, 100% pass.
+Harness category filled (6 benchmarks, 1 run completed -- PASS).
 
-No active workflow. Next session can run harness benchmarks or pick a new direction.
+No active workflow. Next session can run more harness benchmarks or pick a new direction.
 ```
 <!-- session-data:end -->
