@@ -48,13 +48,27 @@ bigcodebench)
 
   # Configure HF token for faster downloads
   HF_CACHE_DIR="$HOME/.cache/huggingface"
-  if [[ ! -f "$HF_CACHE_DIR/token" ]]; then
-    echo "[setup] No HF token found. BigCodeBench will work but downloads may be slow." >&2
-    echo "[setup] To speed up: save a HuggingFace read token to $HF_CACHE_DIR/token" >&2
-    echo "[setup] Get one at: https://huggingface.co/settings/tokens" >&2
-  else
+  HF_TOKEN_SET=false
+
+  # Method 1: huggingface-cli (standard, handles permissions securely)
+  if command -v huggingface-cli &>/dev/null && huggingface-cli whoami &>/dev/null 2>&1; then
+    echo "[setup] HuggingFace CLI authenticated — using existing login" >&2
+    HF_TOKEN_SET=true
+  fi
+
+  # Method 2: Manual token file (chmod 600 for security)
+  if [[ "$HF_TOKEN_SET" = false && -f "$HF_CACHE_DIR/token" ]]; then
+    chmod 600 "$HF_CACHE_DIR/token" 2>/dev/null || true
     export HF_TOKEN=$(cat "$HF_CACHE_DIR/token")
-    echo "[setup] HF token configured — authenticated downloads enabled" >&2
+    echo "[setup] HF token loaded from $HF_CACHE_DIR/token" >&2
+    HF_TOKEN_SET=true
+  fi
+
+  if [[ "$HF_TOKEN_SET" = false ]]; then
+    echo "[setup] No HF authentication found. Downloads may be rate-limited." >&2
+    echo "[setup] To speed up: run 'huggingface-cli login' or save token to:" >&2
+    echo "[setup]   $HF_CACHE_DIR/token (chmod 600)" >&2
+    echo "[setup] Token: https://huggingface.co/settings/tokens" >&2
   fi
   echo "[setup] BigCodeBench ready. Usage: bash scripts/bench/public/run-bigcodebench.sh" >&2
   ;;
