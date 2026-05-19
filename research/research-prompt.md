@@ -69,8 +69,9 @@ produces a clear output before advancing.
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│ Phase 0: Frame the Question                             │
-│ Output: Sharpened scope + "done" criteria               │
+│ Phase 0: Frame the Question + FP Decomposition          │
+│ Output: Sharpened scope + "done" criteria + gap-driven  │
+│         research questions from FP decomposition        │
 └─────────────────────────────────────────────────────────┘
                               │
                               ▼
@@ -133,7 +134,29 @@ vague findings.
 5. **Check what you already know** --- write down current assumptions. This makes bias
    explicit and helps later triangulation.
 
+6. **First-Principles Decomposition** --- Before looking at external sources or existing
+   knowledge, decompose the problem to fundamental axioms and rebuild from there.
+   This prevents assumptions from the current system or existing solutions from limiting
+   your thinking.
+
+   a. **Identify core entities/forces** --- What are the irreducible components of this
+      problem? What are the actors, constraints, and dynamics at play?
+   b. **Strip to fundamentals** --- What MUST be true? Strip away all domain-specific
+      assumptions, implementation details, and existing approaches. Ask: "If I had no
+      existing system, no tools, no constraints — what is the essence of this problem?"
+   c. **Reconstruct from axioms** --- Starting from the fundamentals, build up a minimal
+      solution. What is the simplest possible approach that satisfies the core entities
+      and forces?
+   d. **Gap analysis** --- Compare the reconstructed model to the stated problem. What
+      fundamentals are unknown or uncertain? Where does the reconstruction diverge from
+      the expected solution space?
+   e. **Reframe research questions from gaps** --- The gaps identified in (d) become the
+      primary research questions. The research is now driven by what we don't know, not
+      by what we want to confirm. Each gap maps to a specific claim that needs evidence.
+
 **Output:** Sharpened research question + scope + "done" criteria + known assumptions.
+First-principles decomposition with core entities, fundamentals, reconstructed model, gap
+analysis, and gap-driven research questions.
 
 ### Phase 1: Discover Local Knowledge
 
