@@ -3,11 +3,12 @@
 # Core loop: measure → detect gaps → generate proposal → test → verify → decide
 #
 # Phases:
-#   Phase 0 (this definition):  Loop design as workflow definition
-#   Phase 1 (TO BE IMPLEMENTED): Detection — bench monitoring, plateau detection
-#   Phase 2 (TO BE IMPLEMENTED): Proposal format — structured improvement packet
-#   Phase 3 (TO BE IMPLEMENTED): Test harness — run proposal, compare scores
-#   Phase 4 (TO BE IMPLEMENTED): Meta-loop — improve the improver
+#   Phase 0 (this definition):      Loop design as workflow definition
+#   Phase 1 (detect-gaps.sh):       Detection — bench monitoring, plateau detection
+#   Phase 2 (validate-proposal.sh): Proposal format — structured improvement packet
+#   Phase 3 (run-proposal.sh +      Test harness — run proposal, compare scores
+#            compare-scores.sh):
+#   Phase 4 (meta-report.sh):       Meta-loop — improve the improver
 #
 # Key risk: Self-improving can produce negative outcomes if the benchmark
 # signal is bad. All keep/discard decisions require human confirmation.
@@ -35,16 +36,22 @@ steps:
   - id: detect_gaps
     kind: deliberative
     description: |
-      Analyze benchmark scores against expectations. Look for:
+      Analyze benchmark scores against expectations. Run the detection
+      script first to get automated gap analysis:
 
-      - **Degradation**: scores that dropped since last verified improvement
-      - **Plateaus**: scores flatlined across multiple measurement cycles
-      - **Coverage gaps**: harness features without benchmark coverage
-      - **Signal gaps**: benchmarks with too few runs for confidence
+      ```
+      bash scripts/bench/detect-gaps.sh
+      ```
 
-      Review the aggregated scores from the baseline measurement.
-      Identify concrete gaps with evidence, not hunches.
-      Each gap must cite specific data from the score report.
+      The detector identifies four gap types:
+
+      - **Coverage gaps** (severity: high): benchmarks with zero runs
+      - **Signal gaps** (severity: medium): benchmarks with <3 runs
+      - **Degradation** (severity: high/medium): scores dropped vs baseline
+      - **Plateaus** (severity: medium): scores unchanged across cycles
+
+      Review the detected gaps, validate with your own analysis, and
+      select the highest-priority gap for the proposal step.
 
       Output: prioritized list of detected gaps with severity and evidence.
 
@@ -61,13 +68,16 @@ steps:
       4. **Gap analysis**: Where does current state diverge from fundamentals?
       5. **Reframe**: What specific change closes this gap?
 
-      Output: structured improvement proposal with:
-      - Hypothesis (what will improve and why)
-      - Specific change (what to modify)
-      - Predicted score impact (direction and magnitude)
-      - Scope (files, phases, dependencies)
-      - Risk level (low/medium/high)
-      - Verification (how to know if it worked)
+      Output: structured improvement proposal (must conform to
+      benchmarks/proposal-schema.json). Validate with:
+
+      ```
+      bash scripts/bench/validate-proposal.sh < proposal.json
+      ```
+
+      Required fields: proposal_id, title, target_gap, hypothesis, change,
+      predicted_impact (direction/magnitude/details), scope (files/phases),
+      risk (low/medium/high), verification.
 
   # ── Step 4: Test ────────────────────────────────────────────────────
   - id: test_on_bench
@@ -75,10 +85,11 @@ steps:
     script: scripts/bench/run-proposal.sh
     description: |
       Execute the improvement proposal against the benchmark suite.
-      Runs benchmarks that are relevant to the proposed change.
+      The script reads the proposal from the preceding step (stdin or file),
+      validates it, creates a test branch, runs relevant benchmarks, and
+      outputs post-change scores to .runtime/post-scores.json.
 
-      NOTE: Full implementation deferred to Phase 3.
-      Current behavior: prints proposal and awaits implementation.
+      Usage: bash scripts/bench/run-proposal.sh --proposal <proposal.json>
 
   # ── Step 5: Verify ──────────────────────────────────────────────────
   - id: verify_score_change
@@ -87,9 +98,12 @@ steps:
     description: |
       Compare post-proposal benchmark scores against the baseline.
       Computes delta per benchmark, per category, and overall score change.
+      Classifies the change as IMPROVED, DEGRADED, or NEUTRAL.
 
-      NOTE: Full implementation deferred to Phase 3.
-      Current behavior: prints comparison placeholder.
+      Reads .runtime/baseline-scores.json (from step 1) and
+      .runtime/post-scores.json (from step 4).
+
+      Usage: bash scripts/bench/compare-scores.sh
 
   # ── Step 6: Decide ──────────────────────────────────────────────────
   - id: decide
@@ -99,7 +113,12 @@ steps:
       discard: null       # reject, log learnings
       iterate: detect_gaps  # loop back to gap detection for refinement
     description: |
-      Review the score change and decide:
+      Review the score change (from step 5) and decide. Optionally review
+      the meta-report for cycle health context:
+
+      ```
+      bash scripts/bench/meta-report.sh
+      ```
 
       - **Score improved** → KEEP: incorporate the change, update the
         baseline for the next cycle. The improvement becomes part of
