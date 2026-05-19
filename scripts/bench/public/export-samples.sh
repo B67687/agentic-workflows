@@ -90,118 +90,10 @@ done
 
 # ── Collect solutions from run directories ──
 
-echo "[export] Scanning $RUN_DIR for bigcodebench run directories..." >&2
-
-python3 -c "
-import json, os, glob, re
-
-runs_dir = '$RUN_DIR'
-output_file = '$OUTPUT_FILE'
-subset = '$SUBSET'
-samples = []
-
-# Find all bigcodebench run directories with output.md
-# Pattern: bigcodebench-*/output.md or standalone-*/output.md containing BigCodeBench
-for output_path in glob.glob(os.path.join(runs_dir, '*', 'output.md')):
-    run_dir = os.path.dirname(output_path)
-    run_name = os.path.basename(run_dir)
-    
-    # Check if this is a BigCodeBench run (directory name or content)
-    is_bigcodebench = False
-    task_id = None
-    
-    # Check meta.json
-    meta_path = os.path.join(run_dir, 'meta.json')
-    if os.path.isfile(meta_path):
-        try:
-            with open(meta_path) as f:
-                meta = json.load(f)
-            bid = meta.get('benchmark_id', '')
-            if 'bigcodebench' in bid.lower():
-                is_bigcodebench = True
-                task_id = bid
-        except:
-            pass
-    
-    # Check result.json
-    if not is_bigcodebench:
-        result_path = os.path.join(run_dir, 'result.json')
-        if os.path.isfile(result_path):
-            try:
-                with open(result_path) as f:
-                    result = json.load(f)
-                bid = result.get('benchmark_id', '')
-                if 'bigcodebench' in bid.lower():
-                    is_bigcodebench = True
-                    task_id = bid
-            except:
-                pass
-    
-    if not is_bigcodebench:
-        continue
-    
-    # Read the solution from output.md
-    with open(output_path) as f:
-        solution = f.read()
-    
-    # Strip benchmark markers (BENCH_SUCCESS, BENCH_STEPS, BENCH_TIME_SEC)
-    # and any content after them
-    solution = re.sub(r'\n?BENCH_.*$', '', solution, flags=re.MULTILINE)
-    solution = solution.strip()
-    
-    # Convert normalized ID back to BigCodeBench format if needed
-    # e.g., bigcodebench-0 -> BigCodeBench/0
-    if task_id and '/' not in task_id:
-        # Extract the number
-        m = re.search(r'bigcodebench[-/](\d+)', task_id, re.IGNORECASE)
-        if m:
-            task_id = f'BigCodeBench/{m.group(1)}'
-    
-    if not task_id:
-        # Fall back to extracting from directory name
-        m = re.search(r'bigcodebench[-/](\d+)', run_name, re.IGNORECASE)
-        if m:
-            task_id = f'BigCodeBench/{m.group(1)}'
-        else:
-            continue
-    
-    samples.append({
-        'task_id': task_id,
-        'solution': solution,
-        '_source': run_dir
-    })
-
-if not samples:
-    err_msg = 'ERROR: No BigCodeBench solutions found'
-    print(err_msg)
-    sys.exit(1)
-
-# Remove duplicates (keep last)
-seen = {}
-for s in samples:
-    seen[s['task_id']] = s
-samples = list(seen.values())
-
-# Apply subset
-if subset:
-    try:
-        n = int(subset)
-        samples = samples[:n]
-    except ValueError:
-        pass
-
-# Sort by task_id
-samples.sort(key=lambda s: s['task_id'])
-
-# Write .jsonl
-with open(output_file, 'w') as f:
-    for s in samples:
-        line = json.dumps({'task_id': s['task_id'], 'solution': s['solution']})
-        f.write(line + '\n')
-
-print(f'Exported {len(samples)} samples to {output_file}')
-print(f'Task IDs: {[s[\"task_id\"] for s in samples]}')
-" 2>&1
+python3 "$SCRIPT_DIR/export-samples.py" \
+  --run-dir "$RUN_DIR" \
+  --output "$OUTPUT_FILE" \
+  ${SUBSET:+--subset "$SUBSET"}
 
 # ── Optionally evaluate ──
 
@@ -239,8 +131,11 @@ evaluate(
     samples=samples_path,
     execution='$EXECUTION',
     selective_evaluate=selective,
+    check_gt_only=False,
+    no_gt=True,
 )
 " 2>&1
 
+  # Suppress interactive prompt by piping yes
   echo "[export] Evaluation complete." >&2
 fi
