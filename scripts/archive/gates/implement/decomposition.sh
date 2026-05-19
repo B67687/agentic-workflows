@@ -47,7 +47,9 @@ echo "    Artifact: $(basename "$MILESTONE_FILE")"
 echo ""
 
 # Run the validation
-output=$(bash "$dg" validate "$MILESTONE_FILE" 2>&1) || true
+# Note: $? captures exit code from $( ) correctly even without || true.
+# $( ) subshell failures do not propagate to the outer script with set -e.
+output=$(bash "$dg" validate "$MILESTONE_FILE" 2>&1)
 rc=$?
 echo "$output" | sed 's/^/      /'
 

@@ -5,9 +5,10 @@
   </picture>
 </p>
 
-<p align="center">
   An agent harness for orchestrating, managing, and extending AI agents across 18 repos. Not a code project — a systems engineering workspace for agent workflows, cross-repo orchestration, and capability propagation.
 </p>
+
+# agentic-workflows
 
 <p align="center">
   <a href="#quick-start">Quick Start</a>&ensp;·&ensp;

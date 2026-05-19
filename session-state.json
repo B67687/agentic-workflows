@@ -1,5 +1,5 @@
 {
-  "session": 38,
+  "session": 212,
   "status": "implement",
   "interruptedCount": 0,
   "contextPressure": "healthy",
@@ -9,12 +9,13 @@
     "goal": ""
   },
   "whatChanged": [
-    "312b11d Integrate workflow startup gate \u2014 session-start.sh now runs workflow runtime startup-gate.sh; AGENTS.md consolidated Startup Order with stale-check and classification",
-    "d764597 Add stale workflow check to Startup Order and Execution rules (#16)",
-    "aa09d62 Bake 4 workflow rules, sync templates with live files",
-    "M scripts/infra/test-smoke.sh",
+    "94b65aa feat: change visibility \u2014 auto-diff, session changelog, visibility gate",
+    "7e45de0 feat: add quality-snapshot.sh \u2014 trend tracking wired into implement/quality-check gate",
+    "96f506b feat: add implement/quality-check gate \u2014 wires audit-folder-quality into implement phase",
     "M session-state.json",
-    "2 dirty file(s)"
+    "?? scripts/archive/gates/implement/reliability.sh",
+    "?? scripts/archive/gates/review/",
+    "3 dirty file(s)"
   ],
   "verification": [
     "comprehension_gate: pass",
@@ -42,6 +43,7 @@
     "Run implement gate pipeline",
     "Run plan gate pipeline",
     "Run research gate pipeline",
+    "Run review gate pipeline",
     "Run verify gate pipeline"
   ]
 }

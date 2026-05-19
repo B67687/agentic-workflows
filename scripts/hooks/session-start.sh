@@ -85,6 +85,33 @@ if [[ "$COMPACT" == "1" ]]; then
   PACK_KB=$(git -C "$REPO_ROOT" count-objects -v 2>/dev/null | grep "size-pack" | awk '{print $2}' || echo 0)
   if [ "${PRUNE:-0}" -gt "50" ] || [ "${PACK_KB:-0}" -gt "204800" ]; then
     echo "💾  Project bloat detected. Run: /cleanup"
+    echo "    or: bash scripts/tools/cleanup-project.sh"
+  fi
+
+  # Goal tree display (compact mode — always show)
+  GOAL_TREE="$REPO_ROOT/.runtime/goal-tree.json"
+  if [ -f "$GOAL_TREE" ]; then
+    python3 -c "
+import json
+try:
+    with open('$GOAL_TREE') as f:
+        d = json.load(f)
+    active_id = d.get('active')
+    root_id = d.get('root')
+    if active_id and active_id in d.get('nodes', {}):
+        n = d['nodes'][active_id]
+        path = []; cur = active_id
+        while cur:
+            if cur in d.get('nodes', {}):
+                path.append(d['nodes'][cur]['title'][:50])
+                cur = d['nodes'][cur].get('parent')
+            else:
+                break
+        path.reverse()
+        print('  🎯 ' + ' → '.join(path))
+except:
+    pass
+" 2>/dev/null || true
   fi
 
   echo "=== End ==="
@@ -158,6 +185,36 @@ if [ "$IS_WORKTREE" = false ] && [ "$BRANCH" = "main" ] && [ "$DIRTY" -eq 0 ]; t
   echo "On main with a clean state. Multi-file task? bash scripts/session-fork.sh \"<name>\""
 elif [ "$IS_WORKTREE" = true ]; then
   echo "Worktree session. Finish: session-fork.sh --merge or --close"
+fi
+
+# ── Goal Tree display ──
+GOAL_TREE="$REPO_ROOT/.runtime/goal-tree.json"
+if [ -f "$GOAL_TREE" ]; then
+  python3 -c "
+import json
+try:
+    with open('$GOAL_TREE') as f:
+        d = json.load(f)
+    active_id = d.get('active')
+    root_id = d.get('root')
+    if active_id and active_id in d.get('nodes', {}):
+        n = d['nodes'][active_id]
+        # Build path to root
+        path = []
+        cur = active_id
+        while cur:
+            if cur in d.get('nodes', {}):
+                path.append(d['nodes'][cur]['title'][:50])
+                cur = d['nodes'][cur].get('parent')
+            else:
+                break
+        path.reverse()
+        print('🎯 ' + ' → '.join(path))
+    elif root_id and root_id in d.get('nodes', {}):
+        print(f'🎯 {d[\"nodes\"][root_id][\"title\"][:60]}')
+except:
+    pass
+" 2>/dev/null || true
 fi
 
 echo ""
