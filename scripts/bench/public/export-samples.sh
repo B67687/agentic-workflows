@@ -144,6 +144,11 @@ for output_path in glob.glob(os.path.join(runs_dir, '*', 'output.md')):
     with open(output_path) as f:
         solution = f.read()
     
+    # Strip benchmark markers (BENCH_SUCCESS, BENCH_STEPS, BENCH_TIME_SEC)
+    # and any content after them
+    solution = re.sub(r'\n?BENCH_.*$', '', solution, flags=re.MULTILINE)
+    solution = solution.strip()
+    
     # Convert normalized ID back to BigCodeBench format if needed
     # e.g., bigcodebench-0 -> BigCodeBench/0
     if task_id and '/' not in task_id:
