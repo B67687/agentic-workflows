@@ -1,0 +1,107 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "agentic-workflows://benchmarks/proposal-schema.json",
+  "title": "Improvement Proposal",
+  "description": "Schema for structured improvement proposals in the self-improving framework loop",
+  "type": "object",
+  "required": [
+    "proposal_id", "title", "target_gap", "hypothesis",
+    "change", "predicted_impact", "scope", "risk", "verification"
+  ],
+  "properties": {
+    "proposal_id": {
+      "type": "string",
+      "pattern": "^prop-[0-9]{3,}$",
+      "description": "Unique proposal identifier (auto-assigned by the workflow)",
+      "example": "prop-001"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 5,
+      "maxLength": 120,
+      "description": "Short human-readable title for the improvement"
+    },
+    "target_gap": {
+      "type": "string",
+      "description": "The gap ID from detect-gaps.sh output that this proposal addresses",
+      "pattern": "^(coverage|signal|degraded|plateau)-"
+    },
+    "hypothesis": {
+      "type": "string",
+      "minLength": 20,
+      "description": "What will improve and why — the causal chain from change to effect"
+    },
+    "change": {
+      "type": "string",
+      "minLength": 20,
+      "description": "Specific description of what to modify, at the level of files and logic"
+    },
+    "predicted_impact": {
+      "type": "object",
+      "required": ["direction", "magnitude", "details"],
+      "properties": {
+        "direction": {
+          "type": "string",
+          "enum": ["improve", "degrade", "neutral"],
+          "description": "Expected direction of score change"
+        },
+        "magnitude": {
+          "type": "string",
+          "enum": ["small", "medium", "large"],
+          "description": "Expected magnitude of change in pass rate (small: <5%, medium: 5-15%, large: >15%)"
+        },
+        "details": {
+          "type": "string",
+          "description": "Specific predicted delta (e.g., 'increase generic-structure-questions from 70% to 85%')"
+        }
+      }
+    },
+    "scope": {
+      "type": "object",
+      "required": ["files", "phases"],
+      "properties": {
+        "files": {
+          "type": "array",
+          "items": { "type": "string" },
+          "minItems": 1,
+          "description": "Files to be created or modified"
+        },
+        "phases": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["Phase 0", "Phase 1", "Phase 2", "Phase 3", "Phase 4", "Phase 5"]
+          },
+          "description": "Research methodology phases affected"
+        },
+        "dependencies": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^prop-[0-9]{3,}$"
+          },
+          "description": "Proposal IDs that must be implemented first"
+        }
+      }
+    },
+    "risk": {
+      "type": "string",
+      "enum": ["low", "medium", "high"],
+      "description": "Risk assessment: low (confident), medium (uncertain), high (exploratory)"
+    },
+    "verification": {
+      "type": "string",
+      "minLength": 20,
+      "description": "How to verify the improvement — specific benchmarks, pass rate targets, measurement method"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of proposal creation (auto-filled)"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Additional context, rationale, or caveats"
+    }
+  }
+}
