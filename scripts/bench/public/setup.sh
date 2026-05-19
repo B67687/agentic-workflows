@@ -45,6 +45,17 @@ bigcodebench)
   setup_venv
   echo "[setup] Installing BigCodeBench..." >&2
   pip install -q bigcodebench 2>/dev/null
+
+  # Configure HF token for faster downloads
+  HF_CACHE_DIR="$HOME/.cache/huggingface"
+  if [[ ! -f "$HF_CACHE_DIR/token" ]]; then
+    echo "[setup] No HF token found. BigCodeBench will work but downloads may be slow." >&2
+    echo "[setup] To speed up: save a HuggingFace read token to $HF_CACHE_DIR/token" >&2
+    echo "[setup] Get one at: https://huggingface.co/settings/tokens" >&2
+  else
+    export HF_TOKEN=$(cat "$HF_CACHE_DIR/token")
+    echo "[setup] HF token configured — authenticated downloads enabled" >&2
+  fi
   echo "[setup] BigCodeBench ready. Usage: bash scripts/bench/public/run-bigcodebench.sh" >&2
   ;;
 humaneval)
