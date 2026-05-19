@@ -15,7 +15,7 @@ architecture. Goal: strengthen both until Pi-Star can self-iterate, then shift.
 
 | Repo | Branch | Last Commit |
 |------|--------|-------------|
-| agentic-workflows | main | 9630524 feat: create harness-orientation skill |
+| agentic-workflows | main | (new session) feat: new north star -- Real BigCodeBench Scores |
 
 Changes: 1 modified (HANDOVER.md), 0 untracked
 
@@ -108,10 +108,12 @@ Workflow: `workflow.d/self-improve.yaml`
 ```
 Read HANDOVER.md for complete context before responding.
 
-Current state: Pi-Star Mastery 100% complete. All 7 PRs (#23-#28) merged.
-Goal tree fully done. Benchmark system live: 17 benchmarks, 24 runs, 100% pass.
-Harness category filled (6 benchmarks, 1 run completed -- PASS).
+Current state: Self-improving workflow completed. All 17 benchmarks at 3 runs (signal strength).
+51 runs, 100% pass rate, 0 gaps across all 3 categories.
+Gradio evaluation pipeline validated end-to-end (export-samples.sh -> Gradio -> results).
+HF token configured (no more rate limit warnings).
 
-No active workflow. Next session can run more harness benchmarks or pick a new direction.
+Active goal tree: Real BigCodeBench Scores -- solve actual coding problems and get genuine pass/fail.
+New north star needs meso-level goals. Next session branches the goal tree and solves BigCodeBench problems.
 ```
 <!-- session-data:end -->
