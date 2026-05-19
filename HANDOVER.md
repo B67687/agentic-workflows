@@ -1,4 +1,4 @@
-# Session Handover — 2026-05-18
+# Session Handover — 2026-05-19
 
 ## North Star
 
@@ -15,113 +15,92 @@ architecture. Goal: strengthen both until Pi-Star can self-iterate, then shift.
 
 | Repo | Branch | Last Commit |
 |------|--------|-------------|
-| agentic-workflows | main | 9bf6d64 docs: next initiatives shaped — proposals, goal tree branches, full handoff (#21) |
-| pi-star | main | f7045d9b handover: update with verification results and bug fixes |
+| agentic-workflows | main | 6c702e9 feat: BigCodeBench public benchmark integration |
 
-Changes: 0 modified, 0 untracked
+Changes: 1 modified (HANDOVER.md), 0 untracked
 
   Workflow: none  Step: none  Trace: 0 entries
 
-## Goal Tree
+## Goal Tree — 100% COMPLETE
 
 ```
-→ ○ Pi-Star Mastery — best agent harness via research-backed architecture
-  ✓   Goal Tree System (done) [d:1]
-  ✓   Determinism Framework (done) [d:1]
-  ✓   Code Quality (done) [d:1]
-  ✓     Code Quality — enforce quality standards via deterministic gates (done) [d:2]
-  ✓   Change Visibility (done) [d:1]
-  ✓     Change Visibility — diff layer, decision logging, session transparency (done) [d:2]
-  ✓   Reliability (done) [d:1]
-  ✓     Reliability — error handling, recovery, smoke test hardening (done) [d:2]
-  ✓   Daily Use (done) [d:1]
-  ✓     Daily Use — prompt refinement, session ergonomics, workflow polish (done) [d:2]
-  ○   First-Principles Methodology — Phase 0 decomposition step [d:1]
-  ○   Research Methodology Audit — tighten research-prompt.md [d:1]
-  ○   Benchmark Baseline — hybrid public+custom measurement [d:1]
-  ○   Self-Improving Framework — closed-loop improvement [d:1]
-
-  Path: Pi-Star Mastery — best agent harness via research-backed arc
+→ ✓ Pi-Star Mastery — best agent harness via research-backed architecture (done)
+  ✓ Goal Tree System (done) [d:1]
+  ✓ Determinism Framework (done) [d:1]
+  ✓ Code Quality (done) [d:1]
+  ✓ Change Visibility (done) [d:1]
+  ✓ Reliability (done) [d:1]
+  ✓ Daily Use (done) [d:1]
+  ✓ First-Principles Methodology — Phase 0 decomposition step [d:1]
+  ✓ Research Methodology Audit — tighten research-prompt.md [d:1]
+  ✓ Benchmark Baseline — hybrid public+custom measurement [d:1]
+  ✓ Self-Improving Framework — closed-loop improvement [d:1]
 ```
 
-## Last Session Summary
+## All PRs Merged
 
-(no trace entries)
+| PR | What | Status |
+|----|------|--------|
+| #23 | FP Decomposition step | MERGED |
+| #24 | Research Audit, verification-gate.sh | MERGED |
+| #25 | Benchmark registry, aggregator | MERGED |
+| #26 | Self-Improving Framework Phase 0 | MERGED |
+| #27 | I4 Phases 1-4 implementations | MERGED |
+| #28 | BigCodeBench public benchmark integration | MERGED |
 
-## Session Changes
+## Benchmark System
 
-  Session Changelog (6 session(s)):
-  ───────────────────────────────────────
-  1  2026-05-19  20 files  +4311/-81  5 commit(s)
-  2  2026-05-19  12 files  +697/-264  3 commit(s)
-  3  2026-05-19  0 files  +0/-0  0 commit(s)
-  4  2026-05-19  0 files  +0/-0  0 commit(s)
-  5  2026-05-19  0 files  +0/-0  0 commit(s)
-  6  2026-05-19  2 files  +168/-9  1 commit(s)
+**18 benchmarks from 3 categories, 23 runs, 100% pass rate:**
 
-## Next
+| Category | Weight | Benchmarks | Runs |
+|----------|--------|------------|------|
+| generic | 1.0× | 6 (agent skills) | 18 |
+| public | 2.0× | 5 (BigCodeBench) | 5 |
+| harness | 1.5× | 0 (not created yet) | — |
 
-Pi-Star Mastery — best agent harness via research-
+Scripts:
+- `scripts/bench/detect-gaps.sh` — gap detection
+- `scripts/bench/aggregate.sh` — score aggregation (6 views)
+- `scripts/bench/compare-scores.sh` — baseline vs post score comparison
+- `scripts/bench/run-proposal.sh` — test improvement proposals
+- `scripts/bench/validate-proposal.sh` — validate proposal format
+- `scripts/bench/meta-report.sh` — meta-loop instrumentation
+- `scripts/bench/public/setup.sh` — install BigCodeBench venv
+- `scripts/bench/public/run-bigcodebench.sh` — run BigCodeBench
+- `scripts/bench/public/import-results.sh` — import external results
 
-```bash
-# Quick start
-bash scripts/goal-tree.sh current   # see where you are
-bash scripts/goal-tree.sh status    # full tree
-bash scripts/goal-tree.sh branch <parent> "<title>"  # start new work
-```
+Workflow: `workflow.d/self-improve.yaml`
 
-## Recent Commits
+## Next Session Options
 
-```
-  9bf6d64 docs: next initiatives shaped — proposals, goal tree branches, full handoff (#21)
-  c1f4fb6 feat: add decomposition enforcement gate — milestone ladder before implementation (#19)
-  2f8dbff Sprint: Pi-Star Mastery — all 6 meso goals complete (#20)
-  0a916e1 feat: parallel step kind for workflow — research fan-out + verify checks (#18)
-  261d347 Integrate workflow startup gate — session-start.sh, AGENTS.md Startup Order, deep-references.md, SCHEMA.md (#17)
-```
+1. **Create harness benchmarks** — `benchmarks/harness/` for workflow engine, goal tree, methodology gates (harness category currently empty)
+2. **Scale BigCodeBench** — run more than 5 problems, integrate into the improvement cycle
+3. **Start new north star** — `bash scripts/goal-tree.sh init "<title>"`
+4. **Debug Gradio endpoint** — BigCodeBench cloud evaluation still failing with "Missing problems in samples" — local unittest evaluation works fine
+
+## Key Files Created/Modified This Session
+
+| File | Purpose |
+|------|---------|
+| `scripts/bench/detect-gaps.sh` | Phase 1: gap detection (4 types) |
+| `scripts/bench/validate-proposal.sh` | Phase 2: proposal format validation |
+| `benchmarks/proposal-schema.json` | Phase 2: JSON Schema for proposals |
+| `scripts/bench/run-proposal.sh` | Phase 3: test harness runner |
+| `scripts/bench/compare-scores.sh` | Phase 3: score comparison |
+| `scripts/bench/meta-report.sh` | Phase 4: meta-loop instrumentation |
+| `scripts/bench/public/setup.sh` | Public benchmark venv setup |
+| `scripts/bench/public/run-bigcodebench.sh` | BigCodeBench runner |
+| `scripts/bench/public/import-results.sh` | Public benchmark result importer |
+| `workflow.d/self-improve.yaml` | Updated — all phases reference live scripts |
 
 ## Entry Prompt
-
-Copy this block to the top of the next session:
 
 ```
 Read HANDOVER.md for complete context before responding.
 
-Current state: 10 meso goals done, 5 active. Active: Pi-Star Mastery — best agent harness via research-backed architecture
+Current state: Pi-Star Mastery 100% complete. All 6 PRs (#23-#28) merged.
+Goal tree fully done. Benchmark system live: 11 benchmarks, 23 runs, 100% pass.
 
-All pushed to origin/main.
-
-The next session follows the research→plan→implement→verify cycle.
-Browse the goal tree and branch into the next item:
-
-  bash scripts/goal-tree.sh current   # active path
-  bash scripts/goal-tree.sh status    # full tree
-  bash scripts/goal-tree.sh branch <parent> "<title>"  # start new work
-  bash scripts/workflow-check.sh      # validate state
+No active workflow. Next session chooses a new direction.
 ```
 <!-- session-data:end -->
-
-## Next Session
-
-Start with **Initiative 1: First-Principles Methodology** — read the full proposals at:
-
-```
-research/next-initiatives-proposals.md
-```
-
-Then branch into it:
-```bash
-bash scripts/goal-tree.sh status
-bash scripts/goal-tree.sh branch first-principles-methodology-phase-0-decomposition-step \
-  "Implement FP methodology — write the doc, slot into Phase 0"
-```
-
-## Key Links
-
-| Doc | Location |
-|-----|----------|
-| 4 initiative proposals | `research/next-initiatives-proposals.md` |
-| Goal tree | `.runtime/goal-tree.json` |
-| Workflow state | `workflow-state.json` |
-| Architecture | `ARCHITECTURE.md` (pi-star) |
-| Determinism framework | `docs/determinism-framework.md` |
