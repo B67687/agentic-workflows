@@ -18,7 +18,7 @@ verification: |
   summary_line=$(grep -E '^\*\*Summary:\*\*' "$output" 2>/dev/null | head -1)
   if [ -z "$summary_line" ]; then echo "FAIL: missing 'Summary:' section"; exit 1; fi
   # Check for the pipeline diagram
-  pipeline_count=$(grep -cE '(extract|transform|summarize|load|pipeline|step|chain|pipe)' "$output" 2>/dev/null || echo 0)
+  pipeline_count=$(grep -cE -i '(extract|transform|summarize|load|pipeline|step|chain|pipe)' "$output" 2>/dev/null || echo 0)
   if [ "$pipeline_count" -lt 5 ]; then echo "FAIL: fewer than 5 pipeline-related terms in output"; exit 1; fi
   # Check for at least one command block
   cmd_block=$(grep -cE '^```(bash|sh)' "$output" 2>/dev/null || echo 0)

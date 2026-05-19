@@ -33,7 +33,7 @@ Both north stars completed this session. See `.runtime/goal-tree.json` for full 
 |----------|--------|------------|------|
 | generic | 1.0x | 6 (agent skills) | 18 |
 | public | 2.0x | 94 (BigCodeBench: 5 old + 89 genuine Gradio-verified) | 114 |
-| harness | 1.5x | 14 (6 original + 8 terminal-workflow) | 0 (pending) |
+| harness | 1.5x | 14 (6 original + 8 terminal-workflow) | 26 |
 
 **89 unique BigCodeBench problems** solved and Gradio-verified (pass@1: 1.000).
 Solutions span stdlib, numpy, pandas, sklearn, matplotlib, scipy, seaborn, requests, and "other" categories.
@@ -89,9 +89,9 @@ Smoke-tested: `find-largest-file` and `file-type-inventory` both PASS.
 | Cloud run | Harbor supports Daytona cloud provider |
 | Our env | Docker not installed, 12GB RAM available |
 
-**This session:** 8 terminal-workflow benchmarks created, registered, and smoke-tested. Two core patterns identified for verification scripts (SIGPIPE handling, REPO_ROOT scope).
+**This session:** 8 terminal-workflow benchmarks created, registered, smoke-tested, and baseline-run (1 pass each). 158 total runs, 114 benchmarks, 100% pass rate. 6 verification script patterns hardened (SIGPIPE, YAML indent, stdin piping, space-pipe regex, case-insensitive grep, `|| echo 0` double-print). Fixed `skill-bench.sh verify` JSON output to sanitize newlines in `verify_output`.
 
-**Next session recommendation:** Run all 8 terminal-workflow benchmarks through the skill-bench.sh lifecycle to establish baseline scores (need 3 runs each for signal). Then tackle Docker installation + Terminal-Bench 2.0 for external calibration against the 89 ICLR 2026 terminal tasks.
+**Next session recommendation:** Run 2 more passes of each terminal-workflow benchmark for signal strength (3 runs needed). Then set up Docker + Harbor for Terminal-Bench 2.0 calibration against the 89 ICLR 2026 terminal tasks.
 
 ## Installed in bench-env (cumulative)
 

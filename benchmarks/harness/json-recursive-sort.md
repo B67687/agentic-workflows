@@ -13,24 +13,24 @@ verification: |
   if [ -z "$sorted_json" ]; then echo "FAIL: no JSON code block in output.md"; exit 1; fi
   # Verify it's valid JSON
   if ! echo "$sorted_json" | python3 -m json.tool >/dev/null 2>&1; then echo "FAIL: output is not valid JSON"; exit 1; fi
-  # Verify keys are sorted recursively
-  python3 -c "
-import json, sys
-data = json.loads('''$sorted_json''')
-def check(obj, path=''):
-    if isinstance(obj, dict):
-        keys = list(obj.keys())
-        if keys != sorted(keys):
-            print(f'FAIL: keys not sorted at {path}: {keys}')
-            sys.exit(1)
-        for k, v in obj.items():
-            check(v, f'{path}.{k}')
-    elif isinstance(obj, list):
-        for i, v in enumerate(obj):
-            check(v, f'{path}[{i}]')
-check(data)
-print('PASS: all keys sorted at all nesting levels')
-" 2>&1 || exit 1
+  # Verify keys are sorted recursively (pass JSON via stdin to avoid quoting issues)
+  echo "$sorted_json" | python3 -c "
+  import json, sys
+  data = json.load(sys.stdin)
+  def check(obj, path=''):
+      if isinstance(obj, dict):
+          keys = list(obj.keys())
+          if keys != sorted(keys):
+              print(f'FAIL: keys not sorted at {path}: {keys}')
+              sys.exit(1)
+          for k, v in obj.items():
+              check(v, f'{path}.{k}')
+      elif isinstance(obj, list):
+          for i, v in enumerate(obj):
+              check(v, f'{path}[{i}]')
+  check(data)
+  print('PASS: all keys sorted at all nesting levels')
+  " 2>&1 || exit 1
   # Verify it's pretty-printed with 2-space indent
   if ! echo "$sorted_json" | grep -qE '^  "'; then echo "FAIL: output is not pretty-printed with 2-space indentation"; exit 1; fi
   exit 0

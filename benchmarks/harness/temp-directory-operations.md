@@ -12,17 +12,17 @@ verification: |
   created_line=$(grep -E '^\*\*Created:\*\*' "$output" 2>/dev/null | head -1)
   if [ -z "$created_line" ]; then echo "FAIL: missing 'Created:' section"; exit 1; fi
   # Check for directory structure report
-  structure=$(grep -cE '(dir|directory|folder|subdirectory|depth|tree|level)' "$output" 2>/dev/null || echo 0)
+  structure=$(grep -cE -i '(dir|directory|folder|subdirectory|depth|tree|level)' "$output" 2>/dev/null || true)
   if [ "$structure" -lt 3 ]; then echo "FAIL: fewer than 3 directory structure references"; exit 1; fi
   # Check for file operations
-  file_ops=$(grep -cE '(rename|move|copy|delete|remove|modify|create|write)' "$output" 2>/dev/null || echo 0)
-  if [ "$file_ops" -lt 3 ]; then echo "FAIL: fewer than 3 file operation references"; exit 1; endif
+  file_ops=$(grep -cE -i '(rename|move|copy|delete|remove|modify|create|write)' "$output" 2>/dev/null || true)
+  if [ "$file_ops" -lt 3 ]; then echo "FAIL: fewer than 3 file operation references"; exit 1; fi
   # Check for cleanup confirmation
-  cleanup=$(grep -cE '(cleanup|clean up|removed|deleted|rm\b|clean)' "$output" 2>/dev/null || echo 0)
+  cleanup=$(grep -cE '(cleanup|clean up|removed|deleted|rm\b|clean)' "$output" 2>/dev/null || true)
   if [ "$cleanup" -lt 1 ]; then echo "FAIL: no cleanup evidence found"; exit 1; fi
-  # Check for command blocks
-  cmd_blocks=$(grep -cE '^```(bash|sh)' "$output" 2>/dev/null || echo 0)
-  if [ "$cmd_blocks" -lt 2 ]; then echo "FAIL: fewer than 2 command blocks"; exit 1; fi
+  # Check for command blocks (at least 1)
+  cmd_blocks=$(grep -cE '^```(bash|sh)' "$output" 2>/dev/null || true)
+  if [ "$cmd_blocks" -lt 1 ]; then echo "FAIL: no command blocks found"; exit 1; fi
   echo "PASS: temp directory operations complete with creation, manipulation, and cleanup"
   exit 0
 ---

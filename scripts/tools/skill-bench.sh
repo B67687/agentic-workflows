@@ -344,8 +344,10 @@ verify)
   SKILL_NAME="$(python3 -c "import json; print(json.load(open('$META_FILE')).get('skill',''))" 2>/dev/null || echo "")"
   BENCH_ID="$(python3 -c "import json; print(json.load(open('$META_FILE')).get('benchmark_id',''))" 2>/dev/null || echo "")"
 
-  # Write result
+  # Write result (sanitize verify_output to avoid breaking JSON with newlines)
   RESULT_FILE="$TARGET_RUN/result.json"
+  SAFE_VERIFY_OUTPUT="${VERIFY_OUTPUT//$'\n'/ }"      # newlines -> spaces
+  SAFE_VERIFY_OUTPUT="${SAFE_VERIFY_OUTPUT//\"/\\\"}" # double quotes -> escaped
   cat >"$RESULT_FILE" <<REOF
 {
   "run_id": "$(basename "$TARGET_RUN")",
@@ -355,7 +357,7 @@ verify)
   "steps": ${BENCH_STEPS:-null},
   "time_seconds": ${BENCH_TIME:-null},
   "output_exists": $OUTPUT_EXISTS,
-  "verify_output": "${VERIFY_OUTPUT:-}",
+  "verify_output": "${SAFE_VERIFY_OUTPUT:-}",
   "verified_at": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
   "status": "verified"
 }

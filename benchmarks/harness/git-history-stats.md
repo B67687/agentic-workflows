@@ -8,12 +8,12 @@ skills: [terminal-workflow, bash-explore]
 verification: |
   output="$RUN_DIR/output.md"
   if [ ! -f "$output" ]; then echo "FAIL: no output file at $output"; exit 1; fi
-  # Check for total commit count
-  commit_line=$(grep -E '^\*\*Total commits:\*\*' "$output" 2>/dev/null | head -1)
+  # Check for total commit count (in table cell or standalone)
+  commit_line=$(grep -E '\*\*Total commits?\*\*' "$output" 2>/dev/null | head -1)
   if [ -z "$commit_line" ]; then echo "FAIL: missing 'Total commits' line"; exit 1; fi
   # Check for author breakdown
   author_section=$(grep -cE '^\|.*author.*\|' "$output" 2>/dev/null || echo 0)
-  author_data=$(grep -cE '^\|.*[0-9]+\|' "$output" 2>/dev/null || echo 0)
+  author_data=$(grep -cE '^\|.*\|[[:space:]]*[0-9]+[[:space:]]*\|' "$output" 2>/dev/null || echo 0)
   if [ "$author_data" -lt 2 ]; then echo "FAIL: fewer than 2 author data rows"; exit 1; fi
   # Check for time-based stats
   time_stats=$(grep -cE '(day|week|month|hour|date|202[0-9])' "$output" 2>/dev/null || echo 0)

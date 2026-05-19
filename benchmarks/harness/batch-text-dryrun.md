@@ -17,7 +17,7 @@ verification: |
   table_rows=$(grep -cE '^\|.*\|.*\|' "$output" 2>/dev/null || echo 0)
   if [ "$table_rows" -lt 3 ]; then echo "FAIL: fewer than 3 table rows in output (need header + separator + at least 1 data row)"; exit 1; fi
   # Check for reported top files
-  top_file=$(grep -E '^\|.*[0-9]+\|' "$output" 2>/dev/null | head -1)
+  top_file=$(grep -E '^\|.*\|[[:space:]]*[0-9]+[[:space:]]*\|' "$output" 2>/dev/null | head -1)
   if [ -z "$top_file" ]; then echo "FAIL: no data rows with counts found"; exit 1; fi
   echo "PASS: agent found $total matches across scripts/ with proper per-file breakdown"
   exit 0
