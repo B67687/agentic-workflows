@@ -69,9 +69,9 @@ produces a clear output before advancing.
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│ Phase 0: Frame the Question + FP Decomposition          │
+│ Phase 0: Frame the Question + FP Decomp + UU Surfacing │
 │ Output: Sharpened scope + "done" criteria + gap-driven  │
-│         research questions from FP decomposition        │
+│         research questions + blind spots from UU        │
 └─────────────────────────────────────────────────────────┘
                               │
                               ▼
@@ -89,7 +89,12 @@ produces a clear output before advancing.
                               ▼
 ┌─────────────────────────────────────────────────────────┐
 │ Phase 3: Triangulate & Synthesize                       │
-│ Output: Coherent model with confidence per claim        │
+│ Output: Every claim tagged with confidence level        │
+└─────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────┐
+│ ⚠ Verification Gate — run verification-gate.sh here     │
 └─────────────────────────────────────────────────────────┘
                               │
                               ▼
@@ -154,9 +159,23 @@ vague findings.
       primary research questions. The research is now driven by what we don't know, not
       by what we want to confirm. Each gap maps to a specific claim that needs evidence.
 
+7. **Surface unknown-unknowns** --- Beyond known gaps, what could be entirely outside
+   your current frame? We don't know what we don't know, but we can anticipate blind
+   spots. Ask:
+
+   - What would change my understanding completely?
+   - What domain expertise am I likely lacking?
+   - What perspective or stakeholder am I not considering?
+   - If my core assumptions are wrong, what alternative explanations exist?
+   - What would someone with opposing goals point out?
+
+   Document these as a "blind spots" section, distinct from known gaps. The purpose
+   is not to answer them — it is to enter Phase 1 aware of the limits of your frame.
+
 **Output:** Sharpened research question + scope + "done" criteria + known assumptions.
 First-principles decomposition with core entities, fundamentals, reconstructed model, gap
-analysis, and gap-driven research questions.
+analysis, and gap-driven research questions. Documented blind spots from unknown-unknowns
+surfacing.
 
 ### Phase 1: Discover Local Knowledge
 
@@ -227,6 +246,12 @@ Now process the raw claims into a coherent model.
    - 1 high-authority source -> PLAUSIBLE
    - 0-1 low-authority sources -> SPECULATIVE
 
+   **Enforcement:** Output each claim with its assigned confidence level tagged inline
+   in brackets: `[ESTABLISHED]`, `[CONFIRMED]`, `[PLAUSIBLE]`, `[SPECULATIVE]`.
+   Every claim MUST have a confidence label. Unlabeled claims are treated as
+   SPECULATIVE by default and cannot be used in decision-making (see Integration
+   Rules below).
+
 2. **Identify conflicts** --- Where do sources disagree?
    - If authoritative sources conflict, note the disagreement explicitly
    - If a low-authority source conflicts with high-authority, discard the low
@@ -244,9 +269,14 @@ Now process the raw claims into a coherent model.
    - Describe the topic, concept, or architecture in your own words
    - Include key properties, constraints, relationships
    - Note which parts are well-understood vs uncertain
+   - **Every claim in the model MUST have its confidence level tagged inline.**
+     Use the bracket format: `[ESTABLISHED]`, `[CONFIRMED]`, `[PLAUSIBLE]`,
+     `[SPECULATIVE]`.
 
-**Output:** Coherent research model with confidence per claim, explicit gaps,
-and conflict notes.
+**Output:** Coherent research model with **every claim tagged with a confidence
+level** (`[ESTABLISHED]` / `[CONFIRMED]` / `[PLAUSIBLE]` / `[SPECULATIVE]`),
+explicit gaps, conflict notes, and uncertainty encoding. Claims without explicit
+confidence labels are treated as SPECULATIVE and blocked from decision use.
 
 ### Phase 4: Apply to the Problem
 
@@ -264,6 +294,12 @@ Map the research findings to the specific problem or decision at hand.
 - Map findings to current architecture components
 - Identify mismatches between current and best practice
 - Rank changes by impact and effort
+
+**Verification checkpoint (MANDATORY):** Before entering Phase 4, run:
+```bash
+bash scripts/research/verification-gate.sh check <research-output.md>
+```
+If the gate FAILS, address errors and re-run. Do not proceed to Phase 4 until the gate passes (exit 0 or 2).
 
 **Decision gate:** Is the research sufficient for the "done" criteria from Phase 0?
 - YES -> proceed to Phase 5, then implement
@@ -426,11 +462,36 @@ you know and learn from doing.
 
 ## Integration Rules
 
+### Verification Gate (MANDATORY)
+
+Before any research output is used for decision-making, implementation, or design,
+it MUST pass the verification gate:
+
+```bash
+bash scripts/research/verification-gate.sh check <research-output.md>
+```
+
+The gate verifies:
+1. Every claim has an explicit confidence label (`[ESTABLISHED]` / `[CONFIRMED]` /
+   `[PLAUSIBLE]` / `[SPECULATIVE]`)
+2. No unresolved `NEEDS_VERIFICATION` flags remain
+3. Sources are cited with URLs
+4. Claims are time-stamped (`[YYYY-MM-DD]`)
+
+A FAIL (exit 1) from the gate means the research is NOT ready for integration.
+Address the errors and re-run the gate before proceeding.
+
+### Integration Rules
+
 - Only integrate claims at Confidence Level 2+ into decision-making
 - Level 1 claims get flagged as "pending verification" and not used for design decisions
 - If a decision depends on a Level 1 claim, escalate to human review
+- Claims without explicit confidence labels are treated as SPECULATIVE and blocked
+  from integration
 - Time-stamp all claims: `[YYYY-MM-DD]`
 - Link to specific sources, not just "research says"
+- Run the verification gate before Phase 4 (Apply to the Problem). This is the
+  mandatory checkpoint between synthesis and application.
 
 ---
 
