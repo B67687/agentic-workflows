@@ -5,6 +5,15 @@ description: Execute implementation one vertical slice at a time
 next: workflow/verify.yaml
 
 steps:
+  - id: decomposition_check
+    kind: deterministic
+    script: scripts/gates/implement/decomposition.sh
+    description: |
+      Ensures a documented milestone ladder exists before implementation.
+      If this step SKIPs (exit 3), run:
+        bash scripts/decomposition-gate.sh init "<task description>"
+      Then edit .runtime/milestone-ladder.json and re-run this step.
+
   - id: slice_scope
     kind: deliberative
     description: |

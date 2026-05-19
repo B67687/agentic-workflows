@@ -56,6 +56,7 @@ PIPELINES["plan->implement"]='plan->implement|pipeline prereq check
 model_select|scripts/model-select.sh|classify __TASK__
 catfish|scripts/gates/plan/catfish.sh|__TASK__
 scope_check|scripts/gates/plan/scope-check.sh|plan->implement
+decomposition|scripts/gates/implement/decomposition.sh|__TASK__
 comprehension|scripts/gates/implement/comprehension.sh|__TASK__
 decisions_check|scripts/gates/implement/decisions.sh|__TASK__
 autonomy|scripts/gates/implement/autonomy.sh|__TASK__

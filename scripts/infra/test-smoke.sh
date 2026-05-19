@@ -586,10 +586,10 @@ assert_output_contains "gate plugin: research discovers plugins" \
   "bash scripts/phase-gate.sh research --check-quality 2>&1" \
   "Gates: 1 total"
 
-# Test that a missing phase (with no gates) shows the info message
-assert_output_contains "gate plugin: missing phase shows info" \
+# Test that review phase discovers the smoke-test gate
+assert_output_contains "gate plugin: review has smoke-test gate" \
   "bash scripts/phase-gate.sh review --verification-known --check-quality 2>&1" \
-  "No gate plugins found for phase 'review'"
+  "Gate: review/smoke-test"
 
 # Test phase-gate.sh without --check-quality (should skip quality checks entirely)
 assert_output_contains "gate plugin: quality skipped without flag" \

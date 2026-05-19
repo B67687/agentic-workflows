@@ -31,20 +31,20 @@ NC='\033[0m'
 
 # Parse arguments
 while [[ $# -gt 0 ]]; do
-    case "$1" in
-        --verbose|-v)
-            VERBOSE=true
-            ;;
-        --help|-h)
-            echo "Usage: $0 [options]"
-            echo ""
-            echo "Options:"
-            echo "  --verbose, -v  Show detailed output"
-            echo "  --help, -h     Show this help"
-            exit 0
-            ;;
-    esac
-    shift
+  case "$1" in
+  --verbose | -v)
+    VERBOSE=true
+    ;;
+  --help | -h)
+    echo "Usage: $0 [options]"
+    echo ""
+    echo "Options:"
+    echo "  --verbose, -v  Show detailed output"
+    echo "  --help, -h     Show this help"
+    exit 0
+    ;;
+  esac
+  shift
 done
 
 log_info() { echo -e "${CYAN}[INFO]${NC} $1"; }
@@ -72,27 +72,27 @@ naming_issues=0
 
 # Check files use kebab-case
 for f in *; do
-    [[ -f "$f" ]] || continue
-    # Skip special files
-    [[ "$f" == .git* ]] && continue
-    [[ "$f" == .* ]] && continue
-    
-    # Check if name contains uppercase or spaces
-    if [[ "$f" =~ [A-Z] ]] || [[ "$f" =~ [[:space:]] ]]; then
-        # Allow certain exceptions
-        [[ "$f" == *.md ]] && continue
-        [[ "$f" == *.json ]] && continue
-        [[ "$f" == *.ps1 ]] && continue
-        [[ "$f" == *.sh ]] && continue
-        log_warn "File should use lowercase: $f"
-        ((naming_issues++))
-    fi
+  [[ -f "$f" ]] || continue
+  # Skip special files
+  [[ "$f" == .git* ]] && continue
+  [[ "$f" == .* ]] && continue
+
+  # Check if name contains uppercase or spaces
+  if [[ "$f" =~ [A-Z] ]] || [[ "$f" =~ [[:space:]] ]]; then
+    # Allow certain exceptions
+    [[ "$f" == *.md ]] && continue
+    [[ "$f" == *.json ]] && continue
+    [[ "$f" == *.ps1 ]] && continue
+    [[ "$f" == *.sh ]] && continue
+    log_warn "File should use lowercase: $f"
+    ((naming_issues++))
+  fi
 done
 
 if [[ $naming_issues -eq 0 ]]; then
-    log_pass "All files use kebab-case"
+  log_pass "All files use kebab-case"
 else
-    echo "  Found $naming_issues naming issues"
+  echo "  Found $naming_issues naming issues"
 fi
 
 # =============================================================================
@@ -105,12 +105,12 @@ required_files=("AGENTS.md" "topic-insights.md")
 missing_files=0
 
 for req in "${required_files[@]}"; do
-    if [[ -f "$req" ]]; then
-        log_pass "Found: $req"
-    else
-        log_warn "Missing: $req"
-        ((missing_files++))
-    fi
+  if [[ -f "$req" ]]; then
+    log_pass "Found: $req"
+  else
+    log_warn "Missing: $req"
+    ((missing_files++))
+  fi
 done
 
 # =============================================================================
@@ -123,24 +123,24 @@ scripts_found=0
 script_issues=0
 
 for script in *.sh; do
-    [[ -f "$script" ]] || continue
-    
-    ((scripts_found++))
-    
-    # Check for shebang
-    first_line=$(head -n1 "$script")
-    if [[ ! "$first_line" =~ ^#! ]]; then
-        log_warn "$script: Missing shebang"
-        ((script_issues++))
-    fi
+  [[ -f "$script" ]] || continue
+
+  ((scripts_found++))
+
+  # Check for shebang
+  first_line=$(head -n1 "$script")
+  if [[ ! "$first_line" =~ ^#! ]]; then
+    log_warn "$script: Missing shebang"
+    ((script_issues++))
+  fi
 done
 
 if [[ $scripts_found -eq 0 ]]; then
-    log_info "No scripts found to audit"
+  log_info "No scripts found to audit"
 elif [[ $script_issues -eq 0 ]]; then
-    log_pass "All scripts have proper headers"
+  log_pass "All scripts have proper headers"
 else
-    echo "  Found $script_issues script issues"
+  echo "  Found $script_issues script issues"
 fi
 
 # =============================================================================
@@ -153,24 +153,24 @@ md_files=0
 md_issues=0
 
 for md in *.md; do
-    [[ -f "$md" ]] || continue
-    [[ "$md" == *.md ]] || continue
-    
-    ((md_files++))
-    
-    # Check for placeholder text
-    if grep -qiE "(TODO|FIXME|add your|replace this|click to edit)" "$md" 2>/dev/null; then
-        log_warn "$md: Contains placeholder text"
-        ((md_issues++))
-    fi
+  [[ -f "$md" ]] || continue
+  [[ "$md" == *.md ]] || continue
+
+  ((md_files++))
+
+  # Check for placeholder text
+  if grep -qiE "(TODO|FIXME|add your|replace this|click to edit)" "$md" 2>/dev/null; then
+    log_warn "$md: Contains placeholder text"
+    ((md_issues++))
+  fi
 done
 
 if [[ $md_files -eq 0 ]]; then
-    log_info "No markdown files found"
+  log_info "No markdown files found"
 elif [[ $md_issues -eq 0 ]]; then
-    log_pass "All markdown files are content-ready"
+  log_pass "All markdown files are content-ready"
 else
-    echo "  Found $md_issues markdown issues"
+  echo "  Found $md_issues markdown issues"
 fi
 
 # =============================================================================
@@ -183,19 +183,63 @@ has_h1=0
 heading_issues=0
 
 for md in *.md; do
-    [[ -f "$md" ]] || continue
-    
-    # Check for H1
-    if head -n1 "$md" | grep -q "^# "; then
-        ((has_h1++))
-    else
-        log_warn "$md: Missing H1 heading"
-        ((heading_issues++))
+  [[ -f "$md" ]] || continue
+
+  # Check for H1 — scan full file, skip frontmatter, comments, and code blocks
+  found_h1=false
+  in_frontmatter=false
+  in_html_comment=false
+  in_code_block=false
+  while IFS= read -r line; do
+    # Code block fences
+    if echo "$line" | grep -q '^```'; then
+      if [[ "$in_code_block" == true ]]; then in_code_block=false; else in_code_block=true; fi
+      continue
     fi
+    $in_code_block && continue
+
+    # YAML frontmatter
+    if [[ "$line" == "---" ]] && [[ "$in_frontmatter" == false ]] && [[ "$in_html_comment" == false ]]; then
+      in_frontmatter=true
+      continue
+    elif [[ "$line" == "---" ]] && [[ "$in_frontmatter" == true ]]; then
+      in_frontmatter=false
+      continue
+    fi
+    $in_frontmatter && continue
+
+    # HTML comment start/end
+    if [[ "$line" =~ ^\<!\-\- ]]; then
+      if [[ "$line" =~ \-\-\>$ ]]; then
+        continue
+      fi
+      in_html_comment=true
+      continue
+    fi
+    if [[ "$in_html_comment" == true ]]; then
+      if [[ "$line" =~ \-\-\>$ ]]; then
+        in_html_comment=false
+      fi
+      continue
+    fi
+
+    # Found a heading line
+    if echo "$line" | grep -q "^# "; then
+      found_h1=true
+      break
+    fi
+  done <"$md"
+
+  if [[ "$found_h1" == true ]]; then
+    ((has_h1++))
+  else
+    log_warn "$md: Missing H1 heading"
+    ((heading_issues++))
+  fi
 done
 
-if [[ $has_h1 -gt 0 ]]; then
-    log_pass "All markdown files have H1 headings"
+if [[ $has_h1 -gt 0 ]] && [[ $heading_issues -eq 0 ]]; then
+  log_pass "All markdown files have H1 headings"
 fi
 
 # =============================================================================
@@ -213,9 +257,9 @@ echo ""
 total_issues=$((naming_issues + missing_files + script_issues + md_issues + heading_issues))
 
 if [[ $total_issues -eq 0 ]]; then
-    log_pass "Audit passed - no issues found"
-    exit 0
+  log_pass "Audit passed - no issues found"
+  exit 0
 else
-    log_warn "Audit complete - $total_issues issues found"
-    exit 0
+  log_warn "Audit complete - $total_issues issues found"
+  exit 0
 fi
