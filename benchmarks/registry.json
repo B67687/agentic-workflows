@@ -5,17 +5,17 @@
   "categories": {
     "generic": {
       "name": "Generic Agent Skills",
-      "description": "Benchmarks for core agent capabilities — file search, code review, debugging, questioning",
+      "description": "Benchmarks for core agent capabilities -- file search, code review, debugging, questioning",
       "weight": 1.0
     },
     "harness": {
       "name": "Harness-Specific",
-      "description": "Benchmarks for agentic-workflows harness features — workflow execution, goal tree, research methodology",
+      "description": "Benchmarks for agentic-workflows harness features -- workflow execution, goal tree, research methodology",
       "weight": 1.5
     },
     "public": {
       "name": "Public Benchmarks",
-      "description": "External standardized benchmarks (SWE-bench, etc.) — for calibration only",
+      "description": "External standardized benchmarks (SWE-bench, etc.) -- for calibration only",
       "weight": 2.0
     }
   },
@@ -70,7 +70,7 @@
     },
     {
       "id": "bigcodebench-0",
-      "name": "BigCodeBench problem 0 — permutation difference averages",
+      "name": "BigCodeBench problem 0 -- permutation difference averages",
       "category": "public",
       "difficulty": "medium",
       "skills": ["coding"],
@@ -78,7 +78,7 @@
     },
     {
       "id": "bigcodebench-1",
-      "name": "BigCodeBench problem 1 — random string char counts",
+      "name": "BigCodeBench problem 1 -- random string char counts",
       "category": "public",
       "difficulty": "medium",
       "skills": ["coding"],
@@ -86,7 +86,7 @@
     },
     {
       "id": "bigcodebench-2",
-      "name": "BigCodeBench problem 2 — sorted random dict by mean",
+      "name": "BigCodeBench problem 2 -- sorted random dict by mean",
       "category": "public",
       "difficulty": "medium",
       "skills": ["coding"],
@@ -94,7 +94,7 @@
     },
     {
       "id": "bigcodebench-3",
-      "name": "BigCodeBench problem 3 — letter mean values (numpy)",
+      "name": "BigCodeBench problem 3 -- letter mean values (numpy)",
       "category": "public",
       "difficulty": "medium",
       "skills": ["coding"],
@@ -102,11 +102,59 @@
     },
     {
       "id": "bigcodebench-4",
-      "name": "BigCodeBench problem 4 — count integer occurrences",
+      "name": "BigCodeBench problem 4 -- count integer occurrences",
       "category": "public",
       "difficulty": "medium",
       "skills": ["coding"],
       "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "harness-workflow-steps",
+      "name": "Identify and report workflow step structure",
+      "category": "harness",
+      "difficulty": "easy",
+      "skills": ["workflow-execution", "harness-orientation"],
+      "path": "benchmarks/harness/workflow-steps.md"
+    },
+    {
+      "id": "harness-goal-tree",
+      "name": "Navigate and report goal tree hierarchy",
+      "category": "harness",
+      "difficulty": "easy",
+      "skills": ["goal-tree-navigation", "harness-orientation"],
+      "path": "benchmarks/harness/goal-tree.md"
+    },
+    {
+      "id": "harness-research-decomposition",
+      "name": "First-principles decomposition of a harness design problem",
+      "category": "harness",
+      "difficulty": "medium",
+      "skills": ["first-principles-methodology", "structured-questioning"],
+      "path": "benchmarks/harness/research-decomposition.md"
+    },
+    {
+      "id": "harness-benchmark-diagnostics",
+      "name": "Interpret benchmark scores and identify coverage gaps",
+      "category": "harness",
+      "difficulty": "medium",
+      "skills": ["benchmark-analysis", "data-interpretation"],
+      "path": "benchmarks/harness/benchmark-diagnostics.md"
+    },
+    {
+      "id": "harness-macro-micro-funnel",
+      "name": "Apply macro-to-micro funnel to diagnose a harness issue",
+      "category": "harness",
+      "difficulty": "medium",
+      "skills": ["debugging-and-error-recovery", "harness-orientation"],
+      "path": "benchmarks/harness/macro-micro-funnel.md"
+    },
+    {
+      "id": "harness-workflow-state",
+      "name": "Manage workflow state through a multi-step scenario",
+      "category": "harness",
+      "difficulty": "hard",
+      "skills": ["workflow-execution", "state-management"],
+      "path": "benchmarks/harness/workflow-state-management.md"
     }
   ]
 }
