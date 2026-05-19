@@ -15,10 +15,10 @@ architecture. Goal: strengthen both until Pi-Star can self-iterate, then shift.
 
 | Repo | Branch | Last Commit |
 |------|--------|-------------|
-| agentic-workflows | main | de5976b fix: gate exit code swallowing + session-start goal tree in compact mode |
+| agentic-workflows | main | 7e45de0 feat: add quality-snapshot.sh — trend tracking wired into implement/quality-check gate |
 | pi-star | main | f7045d9b handover: update with verification results and bug fixes |
 
-Changes: 10 modified, 10 untracked
+Changes: 4 modified, 2 untracked
 
   Workflow: none  Step: none  Trace: 0 entries
 
@@ -28,22 +28,31 @@ Changes: 10 modified, 10 untracked
   ○ Pi-Star Mastery — best agent harness via research-backed architecture
   ✓   Goal Tree System (done) [d:1]
   ✓   Determinism Framework (done) [d:1]
-  ○   Code Quality [d:1]
-→ ○     Code Quality — enforce quality standards via deterministic gates [d:2]
+  ✓   Code Quality (done) [d:1]
+  ✓     Code Quality — enforce quality standards via deterministic gates (done) [d:2]
   ○   Change Visibility [d:1]
+→ ○     Change Visibility — diff layer, decision logging, session transparency [d:2]
   ○   Reliability [d:1]
   ○   Daily Use [d:1]
 
-  Path: Pi-Star Mastery — best agent harness via research-backed arc → Code Quality → Code Quality — enforce quality standards via deterministic g
+  Path: Pi-Star Mastery — best agent harness via research-backed arc → Change Visibility → Change Visibility — diff layer, decision logging, session tr
 ```
 
 ## Last Session Summary
 
 (no trace entries)
 
+## Session Changes
+
+  Session Changelog (3 session(s)):
+  ───────────────────────────────────────
+  1  2026-05-19  20 files  +4311/-81  5 commit(s)
+  2  2026-05-19  0 files  +0/-0  0 commit(s)
+  3  2026-05-19  0 files  +0/-0  0 commit(s)
+
 ## Next
 
-Pi-Star Mastery — best agent harness via research- → Code Quality → Code Quality — enforce quality standards via deter
+Pi-Star Mastery — best agent harness via research- → Change Visibility → Change Visibility — diff layer, decision logging, 
 
 ```bash
 # Quick start
@@ -55,11 +64,11 @@ bash scripts/goal-tree.sh branch <parent> "<title>"  # start new work
 ## Recent Commits
 
 ```
-  de5976b fix: gate exit code swallowing + session-start goal tree in compact mode
+  7e45de0 feat: add quality-snapshot.sh — trend tracking wired into implement/quality-check gate
+  96f506b feat: add implement/quality-check gate — wires audit-folder-quality into implement phase
+  d77ccf6 fix: resolve all 5 audit issues — LICENSE rename, topic-insights.md, H1 detection + README H1
+  25480f0 docs: add local HANDOVER.md with verification updates
   ad3a288 feat: add Entry Prompt to handover generator
-  b6b93a0 feat: add auto-handover workflow — generate-handover.sh + handover.yaml
-  a322b4e feat: add determinism-framework.md — classify all gates and workflow steps
-  8d4e032 feat: add goal-tree.sh — persistent hierarchical goal tracking
 ```
 
 ## Entry Prompt
@@ -69,7 +78,7 @@ Copy this block to the top of the next session:
 ```
 Read HANDOVER.md for complete context before responding.
 
-Current state: 2 meso goals done, 5 active. Active: Code Quality — enforce quality standards via deterministic gates
+Current state: 4 meso goals done, 4 active. Active: Change Visibility — diff layer, decision logging, session transparency
 
 All pushed to origin/main.
 
@@ -78,7 +87,7 @@ Browse the goal tree and branch into the next item:
 
   bash scripts/goal-tree.sh current   # active path
   bash scripts/goal-tree.sh status    # full tree
-  bash scripts/goal-tree.sh branch <parent> \"<title>\"  # start new work
+  bash scripts/goal-tree.sh branch <parent> "<title>"  # start new work
   bash scripts/workflow-check.sh      # validate state
 ```
 <!-- session-data:end -->

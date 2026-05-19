@@ -7,7 +7,7 @@ set -euo pipefail
 
 STAGE_ALL=true
 DRY_RUN=false
-SHOW_DIFF=false
+SHOW_DIFF=true
 SKIP_QUALITY=false
 MESSAGE=""
 DETAIL=""
@@ -22,7 +22,8 @@ Options:
   -m, --message TEXT   Commit summary (required)
   -d, --detail TEXT    Optional commit body paragraph
   --no-stage           Commit only what is already staged
-  --show-diff          Show staged diff summary before committing
+  --show-diff          Show staged diff summary (default: on, use --no-show-diff to hide)
+  --no-show-diff       Hide diff summary before committing
   --skip-quality       Skip the pre-commit quality gate
   --dry-run            Validate and stage, but do not commit
   -h, --help           Show this help
@@ -45,6 +46,10 @@ while [[ $# -gt 0 ]]; do
     ;;
   --show-diff)
     SHOW_DIFF=true
+    shift
+    ;;
+  --no-show-diff)
+    SHOW_DIFF=false
     shift
     ;;
   --skip-quality)

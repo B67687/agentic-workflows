@@ -172,6 +172,12 @@ else:
     print('All goals complete — start a new branch')
 " 2>/dev/null) || ENTRY_SUMMARY="See goal tree below"
 
+# ── Record changelog entry for this session ──
+CHANGELOG_SCRIPT="$REPO_ROOT/scripts/session-changelog.sh"
+if [[ -f "$CHANGELOG_SCRIPT" ]]; then
+  bash "$CHANGELOG_SCRIPT" record 2>/dev/null || true
+fi
+
 # ── Build dynamic section ──
 DYNAMIC=$(
   cat <<DYNAMICEOF
@@ -195,6 +201,10 @@ $GOAL_TREE_TEXT
 ## Last Session Summary
 
 $TRACE_SUMMARY
+
+## Session Changes
+
+$([[ -f "$REPO_ROOT/.runtime/session-changelog.jsonl" ]] && bash "$REPO_ROOT/scripts/session-changelog.sh" show 2>/dev/null || echo "  (no changelog)")
 
 ## Next
 
