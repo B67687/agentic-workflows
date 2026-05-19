@@ -45,7 +45,13 @@ All gates in `scripts/gates/` are run by `phase-gate.sh`.
 |------|------|-----|
 | `quality-speed.sh` | **Deterministic** | Checks verification speed against threshold — timing data |
 
-All **14 gate plugins are deterministic**. There are zero non-deterministic
+### Research Phase Gates
+
+| Gate | Kind | Why |
+|------|------|-----|
+| `verification-gate.sh` | **Deterministic** | Checks research output for confidence labels, NEEDS_VERIFICATION flags, source citations, and timestamps — deterministic text pattern matching on the same input always produces the same result |
+
+All **15 gate plugins are deterministic**. There are zero non-deterministic
 gates — deliberate by design. Gates either pass/fail on verifiable data.
 
 ---
