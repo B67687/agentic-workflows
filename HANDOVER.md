@@ -15,10 +15,10 @@ architecture. Goal: strengthen both until Pi-Star can self-iterate, then shift.
 
 | Repo | Branch | Last Commit |
 |------|--------|-------------|
-| agentic-workflows | main | 950c05c feat: daily use — session overview, cleanup fix, compressed prompts |
+| agentic-workflows | main | c1f4fb6 feat: add decomposition enforcement gate — milestone ladder before implementation (#19) |
 | pi-star | main | f7045d9b handover: update with verification results and bug fixes |
 
-Changes: 0 modified, 0 untracked
+Changes: 1 modified, 1 untracked
 
   Workflow: none  Step: none  Trace: 0 entries
 
@@ -36,6 +36,10 @@ Changes: 0 modified, 0 untracked
   ✓     Reliability — error handling, recovery, smoke test hardening (done) [d:2]
   ✓   Daily Use (done) [d:1]
   ✓     Daily Use — prompt refinement, session ergonomics, workflow polish (done) [d:2]
+  ○   First-Principles Methodology — Phase 0 decomposition step [d:1]
+  ○   Research Methodology Audit — tighten research-prompt.md [d:1]
+  ○   Benchmark Baseline — hybrid public+custom measurement [d:1]
+  ✓   Self-Improving Framework — closed-loop improvement (done) [d:1]
 
   Path: Pi-Star Mastery — best agent harness via research-backed arc
 ```
@@ -46,10 +50,12 @@ Changes: 0 modified, 0 untracked
 
 ## Session Changes
 
-  Session Changelog (2 session(s)):
+  Session Changelog (4 session(s)):
   ───────────────────────────────────────
   1  2026-05-19  20 files  +4311/-81  5 commit(s)
   2  2026-05-19  12 files  +697/-264  3 commit(s)
+  3  2026-05-19  0 files  +0/-0  0 commit(s)
+  4  2026-05-19  0 files  +0/-0  0 commit(s)
 
 ## Next
 
@@ -65,11 +71,11 @@ bash scripts/goal-tree.sh branch <parent> "<title>"  # start new work
 ## Recent Commits
 
 ```
-  950c05c feat: daily use — session overview, cleanup fix, compressed prompts
-  4eb9fe8 feat: reliability — smoke test gate, reliability gate, recovery hints
-  94b65aa feat: change visibility — auto-diff, session changelog, visibility gate
-  7e45de0 feat: add quality-snapshot.sh — trend tracking wired into implement/quality-check gate
-  96f506b feat: add implement/quality-check gate — wires audit-folder-quality into implement phase
+  c1f4fb6 feat: add decomposition enforcement gate — milestone ladder before implementation (#19)
+  2f8dbff Sprint: Pi-Star Mastery — all 6 meso goals complete (#20)
+  0a916e1 feat: parallel step kind for workflow — research fan-out + verify checks (#18)
+  261d347 Integrate workflow startup gate — session-start.sh, AGENTS.md Startup Order, deep-references.md, SCHEMA.md (#17)
+  d764597 Add stale workflow check to Startup Order and Execution rules (#16)
 ```
 
 ## Entry Prompt
@@ -79,7 +85,7 @@ Copy this block to the top of the next session:
 ```
 Read HANDOVER.md for complete context before responding.
 
-Current state: 10 meso goals done, 1 active. Active: Pi-Star Mastery — best agent harness via research-backed architecture
+Current state: 11 meso goals done, 4 active. Active: Pi-Star Mastery — best agent harness via research-backed architecture
 
 All pushed to origin/main.
 
@@ -93,10 +99,26 @@ Browse the goal tree and branch into the next item:
 ```
 <!-- session-data:end -->
 
+## Next Session
+
+Start with **Initiative 1: First-Principles Methodology** — read the full proposals at:
+
+```
+research/next-initiatives-proposals.md
+```
+
+Then branch into it:
+```bash
+bash scripts/goal-tree.sh status
+bash scripts/goal-tree.sh branch first-principles-methodology-phase-0-decomposition-step \
+  "Implement FP methodology — write the doc, slot into Phase 0"
+```
+
 ## Key Links
 
 | Doc | Location |
 |-----|----------|
+| 4 initiative proposals | `research/next-initiatives-proposals.md` |
 | Goal tree | `.runtime/goal-tree.json` |
 | Workflow state | `workflow-state.json` |
 | Architecture | `ARCHITECTURE.md` (pi-star) |
