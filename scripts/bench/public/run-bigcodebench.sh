@@ -76,12 +76,11 @@ source "$VENV_DIR/bin/activate"
 # ── Pull problems from BigCodeBench ──
 echo "[bigcodebench] Loading BigCodeBench ($SPLIT split)..." >&2
 PROBLEMS_JSON=$(python3 -c "
-from bigcodebench import BigCodeBench
+from bigcodebench.data import get_bigcodebench
 import json
 
-dataset = BigCodeBench(trust_remote_code=True)
-problems = dataset.get_problems()
-# Filter by split
+problems = get_bigcodebench()
+# Filter by split (Complete is default, contains all)
 split_problems = {k: v for k, v in problems.items() if v.get('split') == '$SPLIT' or '$SPLIT' == 'Complete'}
 print(json.dumps(split_problems, indent=2))
 " 2>/dev/null)
@@ -112,12 +111,10 @@ FAILED=0
 TOTAL=0
 
 echo "$PROBLEMS_JSON" | python3 -c "
-import json, sys, os
+import json, sys, os, re
 
 problems = json.load(sys.stdin)
 runs_dir = '$RUNS_DIR'
-
-import re
 
 for pid, problem in problems.items():
     task_id = problem.get('task_id', pid)
