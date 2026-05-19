@@ -85,6 +85,7 @@ if [[ "$COMPACT" == "1" ]]; then
   PACK_KB=$(git -C "$REPO_ROOT" count-objects -v 2>/dev/null | grep "size-pack" | awk '{print $2}' || echo 0)
   if [ "${PRUNE:-0}" -gt "50" ] || [ "${PACK_KB:-0}" -gt "204800" ]; then
     echo "💾  Project bloat detected. Run: /cleanup"
+    echo "    or: bash scripts/tools/cleanup-project.sh"
   fi
 
   # Goal tree display (compact mode — always show)
