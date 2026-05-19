@@ -29,6 +29,12 @@ echo "    Running folder quality audit..."
 output=$(bash "$AUDIT_SCRIPT" 2>&1) || true
 rc=$?
 
+# Record snapshot for trend tracking
+SNAPSHOT_SCRIPT="$REPO_ROOT/scripts/quality-snapshot.sh"
+if [[ -f "$SNAPSHOT_SCRIPT" ]]; then
+  bash "$SNAPSHOT_SCRIPT" record 2>/dev/null || true
+fi
+
 # Count warnings in output
 warn_count=$(echo "$output" | grep -c '\[WARN\]' 2>/dev/null || true)
 error_count=$(echo "$output" | grep -c '\[ERROR\]' 2>/dev/null || true)
