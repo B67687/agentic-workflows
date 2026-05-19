@@ -33,7 +33,7 @@ OUTPUT_FILE="$DEFAULT_OUTPUT"
 DO_EVALUATE=false
 EXECUTION="gradio"
 SUBSET=""
-SPLIT="Complete"
+SPLIT="complete"
 
 usage() {
   cat <<'USAGE'
@@ -215,10 +215,32 @@ if $DO_EVALUATE; then
 
   source "$VENV_DIR/bin/activate"
 
-  python3 -m bigcodebench.evaluate \
-    --split "$SPLIT" \
-    --samples "$OUTPUT_FILE" \
-    --execution "$EXECUTION" 2>&1
+  # Use Python API directly (CLI has Fire parsing issues with selective_evaluate)
+  python3 -c "
+from bigcodebench.evaluate import evaluate
+
+# Determine selective_evaluate from the samples file
+import json
+samples_path = '$OUTPUT_FILE'
+task_ids = []
+with open(samples_path) as f:
+    for line in f:
+        if line.strip():
+            sample = json.loads(line)
+            tid = sample['task_id']
+            # Extract numeric ID: BigCodeBench/0 -> 0
+            task_ids.append(tid.split('/')[-1])
+
+selective = ','.join(task_ids) if task_ids else ''
+
+evaluate(
+    split='$SPLIT',
+    subset='full',
+    samples=samples_path,
+    execution='$EXECUTION',
+    selective_evaluate=selective,
+)
+" 2>&1
 
   echo "[export] Evaluation complete." >&2
 fi
