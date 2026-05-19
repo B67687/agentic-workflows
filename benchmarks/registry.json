@@ -67,6 +67,46 @@
       "difficulty": "medium",
       "skills": ["structured-questioning"],
       "path": "benchmarks/generic/structure-questions.md"
+    },
+    {
+      "id": "bigcodebench-0",
+      "name": "BigCodeBench problem 0 — permutation difference averages",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": ["coding"],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-1",
+      "name": "BigCodeBench problem 1 — random string char counts",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": ["coding"],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-2",
+      "name": "BigCodeBench problem 2 — sorted random dict by mean",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": ["coding"],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-3",
+      "name": "BigCodeBench problem 3 — letter mean values (numpy)",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": ["coding"],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-4",
+      "name": "BigCodeBench problem 4 — count integer occurrences",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": ["coding"],
+      "path": "benchmarks/public/bigcodebench.md"
     }
   ]
 }
