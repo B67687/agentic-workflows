@@ -63,6 +63,7 @@ Produce a summary with:
 **Extracted:** N task references from benchmarks/ .md files
 
 ### Stage 2: Transformation
+**Transformed:** harness=N, generic=M, public=P tasks categorized
 | Category | Count | Avg Title Length |
 |----------|-------|-----------------|
 | harness  | 6     | 45.2            |
@@ -70,6 +71,7 @@ Produce a summary with:
 | public   | 5     | 42.0            |
 
 ### Stage 3: Summary
+**Summary:** Total N tasks, most in X category
 **Total tasks found:** N
 **Most populated category:** harness (N tasks)
 **Top 3 longest titles:**
