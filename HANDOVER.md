@@ -15,7 +15,7 @@ architecture. Goal: strengthen both until Pi-Star can self-iterate, then shift.
 
 | Repo | Branch | Last Commit |
 |------|--------|-------------|
-| agentic-workflows | main | (current) fix: harden cleanup-runs.sh and quality-gate.sh guardrails |
+| agentic-workflows | main | (current) Add benchmark-dispatch.sh batch orchestrator + benchmark-dispatch.yaml workflow; re-establish 18 generic benchmark runs |
 
 Changes: 0 uncommitted (run data in .runtime/bench-runs/ is gitignored)
 
@@ -24,10 +24,8 @@ Changes: 0 uncommitted (run data in .runtime/bench-runs/ is gitignored)
   - quality-gate.sh (check_dangerous_rm catches -fr, --force variants) -- HARDENED
   - AGENTS.md (rule forbid raw rm -rf on .runtime/bench-runs/)
 
-  NOTE: All 168 previous benchmark runs were lost to the empty-rid bug discovered
-  during guardrail testing. 24 runs have been re-established for terminal-workflow
-  benchmarks (3 passes each). BigCodeBench and generic runs need re-running when
-  signal data is needed again.
+  Total runs: 42 (24 harness + 18 generic) — 100% pass rate.
+  168 pre-existing runs still lost to empty-rid bug. BigCodeBench runs still need re-running.
 
   Workflow: none  Step: none  Trace: 0 entries
 
@@ -37,15 +35,17 @@ Both north stars completed this session. See `.runtime/goal-tree.json` for full 
 
 ## Benchmark System
 
-**8 terminal-workflow benchmarks, 24 runs, 100% pass rate:**
+**42 runs across 14 benchmarks, 100% pass rate:**
 
 | Category | Benchmarks | Runs |
 |----------|------------|------|
 | harness (terminal-workflow) | 8 | 24 (3 passes each) |
+| generic (system skills) | 6 | 18 (3 passes each) |
 
-**Note:** All BigCodeBench (94 benchmarks, 114 runs) and generic (6 benchmarks, 18 runs)
-data was lost during guardrail vulnerability testing. Infrastructure is intact and
-re-runnable. The original 162-run, 114-benchmark result was verified before loss.
+**Note:** BigCodeBench (94 benchmarks, ~114 runs) data was lost during guardrail
+vulnerability testing. Infrastructure is intact (BigCodeBench 0.2.5 installed in
+`.runtime/bench-env/`). The original 162-run, 114-benchmark result was verified
+before loss.
 
 ## Guardrail Hardening (This Session -- Critical)
 
@@ -139,11 +139,21 @@ bash scripts/tools/worker-dispatch.sh \
 **Residual:**
 - `opencode-model-profile.sh` is all-or-nothing (sets all agents to same model). Per-agent profiles would enable (orchestrator:flash, explorer:minimax, worker:flash).
 
-### P2: Re-establish BigCodeBench + generic benchmark runs
-All 114 previous benchmarks (162 runs) were lost to the empty-rid bug.
-Infrastructure is intact and re-runnable. Scripts at `scripts/bench/public/`.
+### P2: Done — Benchmark dispatch system + generic benchmark runs re-established (this session)
+**Problem:** All benchmark runs lost to empty-rid bug. Needed structured dispatch and re-running.
 
-### P3 (Optional): Docker + Terminal-Bench 2.0 calibration
+**Implementations:**
+- **`scripts/tools/benchmark-dispatch.sh`** — Batch benchmark orchestrator. Commands: `list`, `prepare` (with step-budgeted prompts), `manifest`, `verify` (batch-verify all). Integrates `skill-bench.sh` + `worker-dispatch.sh` patterns.
+- **`workflow.d/benchmark-dispatch.yaml`** — 5-step guided workflow: select category → prepare → dispatch → verify → aggregate.
+- **Fixed unique-ID collision bug** — `skill-bench.sh` has 1s granularity in run IDs, causing collisions for multi-pass runs. Dispatch script now appends `-passN` suffix and updates `verify.sh` paths.
+- **Generic benchmarks re-established** — 6 benchmarks × 3 passes = 18 runs, 100% pass rate.
+
+### P3: Re-establish BigCodeBench benchmark runs
+All BigCodeBench data (94 benchmarks, ~114 runs) still lost.
+Infrastructure intact: `scripts/bench/public/run-bigcodebench.sh` (requires `.runtime/bench-env/` — ready).
+Run with: `bash scripts/bench/public/run-bigcodebench.sh --subset 20`
+
+### P4 (Optional): Docker + Terminal-Bench 2.0 calibration
 Install Docker, set up Harbor, calibrate against the 89 ICLR 2026 tasks.
 
 ## Entry Prompt
@@ -151,41 +161,30 @@ Install Docker, set up Harbor, calibrate against the 89 ICLR 2026 tasks.
 ```
 Read HANDOVER.md for complete context before responding.
 
-Current state: 24 runs across 8 terminal-workflow benchmarks (100% pass rate).
+Current state: 42 runs across 14 benchmarks (24 harness + 18 generic, 100% pass rate).
 Guardrails hardened: cleanup-runs.sh (empty-rid, path-traversal, wildcards)
 + quality-gate.sh (flag-ordering, -fr, --force variants).
-All 168 pre-existing runs lost to empty-rid bug discovered during testing.
-Benchmarks at 3 runs each (signal strength).
+168 pre-existing runs lost to empty-rid bug (BigCodeBench still needs re-running).
 
-Key guardrail findings:
-- empty-rid bug: rm '' deleted entire bench-runs dir (FIXED)
-- rm -fr bench-runs/* was missed by quality gate (FIXED)
-- rm -r --force bench-runs/* was missed (FIXED)
-- All 8 patterns now tested with sandbox verification
+P1: DONE — Worker timeout / parent-fallback system.
+   See HANDOVER.md body for worker-dispatch.sh docs.
 
-P1: DONE this session — Worker timeout / parent-fallback system.
-   - scripts/tools/worker-dispatch.sh (step budget, model selection, fallback)
-   - Worker prompt includes: "at most 8 tool calls" step budget
-   - Worker model: opencode/minimax-m2.5-free (orchestrator: flash)
-   - See HANDOVER.md body for dispatch docs
+P2: DONE — Benchmark dispatch system + generic benchmarks re-established.
+   - scripts/tools/benchmark-dispatch.sh (batch prepare/manifest/verify)
+   - workflow.d/benchmark-dispatch.yaml (5-step guided workflow)
+   - 6 generic benchmarks × 3 passes = 18 runs, 100% pass
 
-PRIORITY 1: Re-establish BigCodeBench + generic benchmark runs
-   (all 114 benchmarks / 162 runs lost to empty-rid bug, infra intact).
-   Scripts at scripts/bench/public/.
+PRIORITY 1: Re-establish BigCodeBench runs (~114 runs lost, infra intact).
+   bash scripts/bench/public/run-bigcodebench.sh --subset 20
 
 PRIORITY 2 (Optional): Docker + Terminal-Bench 2.0 calibration.
 
-Tools added this session:
-- bash scripts/tools/context-pressure.sh <percent> — context window guidance
-  (check % in OpenCode UI top bar, e.g. 18% = yellow zone)
-- bash scripts/tools/worker-dispatch.sh --task "..." --run-dir <path>
-  (structured worker dispatch with timeout/fallback)
-
-Key files: scripts/bench/cleanup-runs.sh (safe deletion),
-scripts/hooks/quality-gate.sh (check_dangerous_rm),
-AGENTS.md line 95 (rm -rf rule),
-benchmarks/harness/*.md (8 terminal-workflow benchmarks, 3 passes each),
-scripts/tools/worker-dispatch.sh (worker dispatch),
-scripts/tools/context-pressure.sh (context monitoring)
+Key files:
+- scripts/tools/benchmark-dispatch.sh (batch benchmark dispatch)
+- scripts/tools/worker-dispatch.sh (worker dispatch with step budget)
+- scripts/tools/context-pressure.sh (context monitoring)
+- scripts/bench/cleanup-runs.sh (safe deletion)
+- scripts/hooks/quality-gate.sh (dangerous rm detection)
+- workflow.d/benchmark-dispatch.yaml (guided workflow)
 ```
 <!-- session-data:end -->
