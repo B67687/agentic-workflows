@@ -24,7 +24,7 @@ Changes: 0 uncommitted (run data in .runtime/bench-runs/ is gitignored)
   - quality-gate.sh (check_dangerous_rm catches -fr, --force variants) -- HARDENED
   - AGENTS.md (rule forbid raw rm -rf on .runtime/bench-runs/)
 
-  Total runs: 145 (24 harness + 18 generic + 100 BigCodeBench) — 100% pass rate.
+  Total runs: 145 (24 harness + 18 generic + 100 BigCodeBench) --- 100% pass rate.
   0 BigCodeBench failures (3 version-compat issues fixed via compat shim).
   Docker installed (moby-engine v29.4.3), Harbor 0.7.1, Docker Compose (moby-compose v5.1.3).
   Terminal-Bench 2.0 oracle baseline status unknown (last session ~91% mean).
@@ -63,7 +63,7 @@ Changes: 0 uncommitted (run data in .runtime/bench-runs/ is gitignored)
 | Git analysis | git-history-stats | 3/3 PASS |
 | Dir lifecycle | temp-directory-operations | 3/3 PASS |
 
-## Terminal-Bench 2.0 — Calibrated (Oracle Baseline: 95.5%)
+## Terminal-Bench 2.0 --- Calibrated (Oracle Baseline: 95.5%)
 
 **Published at ICLR 2026.** 89 Docker-sandboxed terminal tasks. Setup complete:
 
@@ -85,7 +85,7 @@ Reward 1.0: 85 tasks
 Reward 0.0: 4 tasks
 ```
 
-**4 oracle failures** — all environment/package-version pinning issues (not agent failures):
+**4 oracle failures** --- all environment/package-version pinning issues (not agent failures):
 
 | Task | Cause |
 |------|-------|
@@ -146,11 +146,13 @@ This is future-proof: any new problems hitting the same API removals will auto-r
    - Currently 100 problems, 1,040 remaining in dataset
    - Could push to 200, 500, or all 1,140
 
-**3. Mini PC research (COMPLETED — see decision below)**
-   - ✅ Decision made: **Minisforum MS-A2** (Ryzen 9 7945HX, 16C/32T) — purchased ~$828 loaded
-   - Chose over original MS-01 pick: 2–2.5× more CPU power, all PCIe 4.0 NVMe slots, $64 cheaper
-   - Mac Mini M4 Pro 64GB deferred as AI/ML future pivot (~$2,400, 4–5 month delays)
-   - Build: $559 barebone + $189 Crucial 64GB DDR5-5600 + ~$80 1TB NVMe SSD
+**3. Mini PC research (COMPLETED --- see decision below)**
+   - ✅ Final decision: **Minisforum MS-A2** (Ryzen 9 **9955HX**, 16C/32T **Zen 5**) --- purchasing from HK store
+   - 7945HX was out of stock; upgraded to 9955HX Zen 5 barebone at HK$6,599 (~SGD $1,135)
+   - Supporting build: Crucial 64GB DDR5-5600 SODIMM (~$260) + Samsung 990 Pro 1TB ($180 Challenger SG)
+   - Total: **~SGD $1,575** --- ships from HK to SG, 5-7 business days
+   - PCIe x16 slot hedges against future AI/ML pivot (add GPU later)
+   - Mac Mini M4 Pro 64GB deferred as AI/ML primary pivot (~$3,200, delays, Docker VM overhead)
 
 ## Entry Prompt
 
@@ -167,7 +169,7 @@ COMPLETED:
 - P4: Docker installed, Harbor 0.7.1, Docker Compose, Terminal-Bench infra set up.
 - P5: Fixed 3 BigCodeBench version-compat failures -- added compat shim (100/100, 100%).
 - P6: Terminal-Bench oracle baseline completed: 89/89, mean 0.955.
-- P7: Mini PC research completed. Purchased Minisforum MS-A2 (Ryzen 9 7945HX) ~$828 loaded.
+- P7: Mini PC research completed. Purchasing Minisforum MS-A2 (Ryzen 9 9955HX Zen 5) from HK store ~SGD $1,575 loaded.
 
 REMAINING:
 1. Run actual agent on Terminal-Bench for leaderboard submission.

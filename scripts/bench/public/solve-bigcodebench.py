@@ -13,6 +13,53 @@ import json
 import os
 import glob
 import sys
+import multiprocessing as _mp
+import queue as _queue
+
+
+class _TimeoutError(Exception):
+    """Raised when verification exceeds the hard timeout."""
+
+    pass
+
+
+def _verify_in_process(code, test_code, entry_point, result_queue):
+    """Run untrusted_check in a dedicated subprocess (runs in worker)."""
+    try:
+        from bigcodebench.eval import untrusted_check
+
+        s, d = untrusted_check(
+            code=code,
+            test_code=test_code,
+            entry_point=entry_point,
+            max_as_limit=30 * 1024,
+            max_data_limit=30 * 1024,
+            max_stack_limit=10,
+            min_time_limit=5,
+        )
+        result_queue.put(("ok", s, d))
+    except BaseException as e:
+        result_queue.put(("error", str(e), None))
+
+
+def _verify_with_timeout(code, test_code, entry_point, timeout=60):
+    """Run untrusted_check in a subprocess with a hard kill timeout."""
+    q = _mp.Queue()
+    p = _mp.Process(target=_verify_in_process, args=(code, test_code, entry_point, q))
+    p.start()
+    p.join(timeout=timeout)
+    if p.is_alive():
+        p.kill()
+        p.join(timeout=3)
+        raise _TimeoutError("Verification timed out")
+    try:
+        kind, val, d = q.get_nowait()
+    except _queue.Empty:
+        raise _TimeoutError("No result from verifier")
+    if kind == "error":
+        raise RuntimeError(f"Verifier error: {val}")
+    return val, d
+
 
 from bigcodebench.data import load_solutions
 from bigcodebench.eval import untrusted_check
@@ -175,15 +222,13 @@ def main():
             print("SKIP (no test code)", file=sys.stderr)
             continue
 
+        # Verify (with SIGALRM safety net for WSL2 hangs)
         try:
-            status, details = untrusted_check(
+            status, details = _verify_with_timeout(
                 code=code_for_eval,
                 test_code=test_code,
                 entry_point=entry_point,
-                max_as_limit=30 * 1024,
-                max_data_limit=30 * 1024,
-                max_stack_limit=10,
-                min_time_limit=5,
+                timeout=60,
             )
             success = status == "pass"
             if success:
@@ -191,6 +236,11 @@ def main():
             else:
                 failed += 1
             print(f"{'PASS' if success else 'FAIL'} ({status})", file=sys.stderr)
+        except _TimeoutError:
+            failed += 1
+            print("TIMEOUT", file=sys.stderr)
+            status = "timeout"
+            success = False
         except Exception as e:
             failed += 1
             print(f"ERROR: {e}", file=sys.stderr)
