@@ -112,10 +112,10 @@ echo "--- audit-state.sh ---"
 
 if [ -d .runtime/bench-runs ]; then
   assert_exit "audit-state.sh runs cleanly" \
-    "bash scripts/bench/audit-state.sh" 0
+    "timeout 30 bash scripts/bench/audit-state.sh" 0
 
   assert_output_contains "audit-state.sh shows BigCodeBench state" \
-    "bash scripts/bench/audit-state.sh" \
+    "timeout 30 bash scripts/bench/audit-state.sh" \
     "BigCodeBench"
 else
   test_skip "audit-state.sh (no bench-runs directory)"
