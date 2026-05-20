@@ -63,7 +63,7 @@ Changes: 0 uncommitted (run data in .runtime/bench-runs/ is gitignored)
 | Git analysis | git-history-stats | 3/3 PASS |
 | Dir lifecycle | temp-directory-operations | 3/3 PASS |
 
-## Terminal-Bench 2.0 — Calibrating
+## Terminal-Bench 2.0 — Calibrated (Oracle Baseline: 95.5%)
 
 **Published at ICLR 2026.** 89 Docker-sandboxed terminal tasks. Setup complete:
 
@@ -75,18 +75,38 @@ Changes: 0 uncommitted (run data in .runtime/bench-runs/ is gitignored)
 | Docker Compose | moby-compose 5.1.3 (installed) |
 | Tasks | 89, Docker-sandboxed |
 | Our env | 8 CPUs, 11.68GB RAM, 914GB free |
-| Oracle baseline | In progress (~91% mean) |
+| Oracle baseline | **Completed:** 89/89, mean 0.955, 0 exceptions |
 
-**To run oracle baseline (from terminal):**
-```bash
-source /home/namikaz/projects/dev/agentic-workflows/.runtime/bench-env/bin/activate
-harbor run -d terminal-bench/terminal-bench-2 -a oracle
+### Oracle Results
+
 ```
+89/89 Mean: 0.955
+Reward 1.0: 85 tasks
+Reward 0.0: 4 tasks
+```
+
+**4 oracle failures** — all environment/package-version pinning issues (not agent failures):
+
+| Task | Cause |
+|------|-------|
+| `protein-assembly` | pip install of pinned library versions timed out or failed |
+| `rstan-to-pystan` | apt package version mismatch: `curl=8.5.0-2ubuntu10.6` not found |
+| `build-pmars` | apt package version mismatch: `dpkg-dev=1.22.21` not found |
+| `make-doom-for-mips` | apt package installation timed out (huge dependency chain) |
+
+These 4 tasks would fail for any agent in the current Docker environment due to
+hardcoded version pinning in the oracle scripts. Effective ceiling: **~95.5%**.
 
 **To run with an agent (for leaderboard):**
 ```bash
+source .runtime/bench-env/bin/activate
 harbor run -d terminal-bench@2.0 -a "agent-name" -m "model" -k 5
 ```
+
+### Earlier In-Progress Run
+
+There is also a partially-complete oracle job at `jobs/2026-05-20__12-06-46/`
+(9/89 trials complete, 76 pending). This can be resumed or cleaned up.
 
 ## Fix Applied: Library Version-Compatibility Shim
 
@@ -112,30 +132,25 @@ This is future-proof: any new problems hitting the same API removals will auto-r
 - **P3**: BigCodeBench pipeline + scale to 100 problems (97/100, 97%)
 - **P4**: Docker/Harbor/Terminal-Bench infrastructure set up
 - **P5**: Fixed 3 BigCodeBench version-compat failures (100/100, 100%)
+- **P6**: Terminal-Bench oracle baseline completed: 89/89, mean 0.955, 85 reward 1.0
 
 ### Backlog (remaining work):
 
-**1. Complete Terminal-Bench oracle baseline**
-   - Last known state: ~91% mean progress (pre-session info)
-   - Check if Harbor has a pending/running/completed job
-   - Re-launch if needed: `harbor run -d terminal-bench/terminal-bench-2 -a oracle`
-   - Investigate any failures, note expected Docker env quirks
-    
-**2. Run agent on Terminal-Bench for leaderboard**
+**1. Run agent on Terminal-Bench for leaderboard**
    - Adapt OpenCode/agent harness to Harbor's agent interface (`-a "agent"`)
    - Run with `-k 5` (5 trials per task for statistical significance)
+   - Effective ceiling: ~95.5% (4 oracle failures are env-version pinning, not agent reachable)
    - Submit results via PR to `harborframework/terminal-bench-2-leaderboard` on HuggingFace
 
-**3. Scale BigCodeBench further**
+**2. Scale BigCodeBench further**
    - Currently 100 problems, 1,040 remaining in dataset
    - Could push to 200, 500, or all 1,140
 
-**4. Mini PC research (NEW, side quest)**
-   - Find dedicated hardware for running benchmarks long-term
-   - Requirements: headless Linux, 32GB+ RAM, 1TB NVMe, 8+ cores
-   - Budget: ~$500-700
-   - Candidates: Intel NUC, ASUS NUC, Minisforum, Beelink SER series
-   - Goal: always-on benchmark runner, no laptop tied up
+**3. Mini PC research (COMPLETED — see decision below)**
+   - ✅ Decision made: **Minisforum MS-A2** (Ryzen 9 7945HX, 16C/32T) — purchased ~$828 loaded
+   - Chose over original MS-01 pick: 2–2.5× more CPU power, all PCIe 4.0 NVMe slots, $64 cheaper
+   - Mac Mini M4 Pro 64GB deferred as AI/ML future pivot (~$2,400, 4–5 month delays)
+   - Build: $559 barebone + $189 Crucial 64GB DDR5-5600 + ~$80 1TB NVMe SSD
 
 ## Entry Prompt
 
@@ -143,20 +158,20 @@ This is future-proof: any new problems hitting the same API removals will auto-r
 Read HANDOVER.md for complete context before responding.
 
 Current state: 145 runs across 114 benchmarks (24 harness + 18 generic + 100 BigCodeBench, 100%).
-Docker/Harbor/Terminal-Bench infrastructure ready. Oracle baseline TBD.
+Docker/Harbor/Terminal-Bench infrastructure ready. Oracle baseline: 95.5% (89/89, 85 reward 1.0).
 
 COMPLETED:
 - P1: Worker timeout/parent-fallback system.
 - P2: Benchmark dispatch + generic benchmarks re-established (18/18).
 - P3: BigCodeBench pipeline + scale to 100 problems (97/100 pass).
-- P4: Docker installed, Harbor 0.7.1, Docker Compose, Terminal-Bench oracle running.
+- P4: Docker installed, Harbor 0.7.1, Docker Compose, Terminal-Bench infra set up.
 - P5: Fixed 3 BigCodeBench version-compat failures -- added compat shim (100/100, 100%).
+- P6: Terminal-Bench oracle baseline completed: 89/89, mean 0.955.
+- P7: Mini PC research completed. Purchased Minisforum MS-A2 (Ryzen 9 7945HX) ~$828 loaded.
 
 REMAINING:
-1. Complete Terminal-Bench oracle baseline, verify results.
-2. Run actual agent on Terminal-Bench for leaderboard submission.
-3. Scale BigCodeBench further (from 100 toward 1,140).
-4. Research mini PC for dedicated benchmark hardware (~$500-700).
+1. Run actual agent on Terminal-Bench for leaderboard submission.
+2. Scale BigCodeBench further (from 100 toward 1,140).
 
 Key files:
 - scripts/tools/benchmark-dispatch.sh (batch benchmark dispatch)
