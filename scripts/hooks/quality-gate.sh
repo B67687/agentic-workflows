@@ -58,7 +58,7 @@ check_console_log() {
     if git diff --cached -U0 "$file" 2>/dev/null | grep '^+.*console\.\(log\|debug\|warn\|error\)' | grep -v '//.*console\.' >/dev/null 2>&1; then
       print_issue "WARN" "$file" "Contains console.log (staged)"
     fi
-  done <<< "$files"
+  done <<<"$files"
 }
 
 check_secrets() {
@@ -72,10 +72,10 @@ check_secrets() {
 
   # API key patterns
   local secrets_patterns=(
-    'sk-[A-Za-z0-9]{20,}'           # OpenAI keys
-    'ghp_[A-Za-z0-9]{36}'            # GitHub PAT
-    'gho_[A-Za-z0-9]{36}'            # GitHub OAuth
-    'AKIA[0-9A-Z]{16}'               # AWS access key
+    'sk-[A-Za-z0-9]{20,}' # OpenAI keys
+    'ghp_[A-Za-z0-9]{36}' # GitHub PAT
+    'gho_[A-Za-z0-9]{36}' # GitHub OAuth
+    'AKIA[0-9A-Z]{16}'    # AWS access key
     '-----BEGIN (RSA |EC )?PRIVATE KEY-----'
     'password\s*[:=]\s*["'"'"'][^"'"'"']+["'"'"']'
     'secret\s*[:=]\s*["'"'"'][^"'"'"']+["'"'"']'
@@ -98,7 +98,7 @@ check_secrets() {
         break
       fi
     done
-  done <<< "$files"
+  done <<<"$files"
 }
 
 check_todo_fixme() {
@@ -113,7 +113,7 @@ check_todo_fixme() {
     if git diff --cached -U0 "$file" 2>/dev/null | grep '^+.*\b\(TODO\|FIXME\|HACK\|XXX\)\b' | grep -v '//.*TODO' | grep -v '#.*TODO' >/dev/null 2>&1; then
       print_issue "WARN" "$file" "Contains TODO/FIXME marker (staged)"
     fi
-  done <<< "$files"
+  done <<<"$files"
 }
 
 check_large_files() {
@@ -162,14 +162,17 @@ check_error_handling() {
 
     if [[ ${#missing[@]} -gt 0 ]]; then
       local joined
-      joined=$(IFS=,; echo "${missing[*]}")
+      joined=$(
+        IFS=,
+        echo "${missing[*]}"
+      )
       if $has_errexit || $has_nounset || $has_pipefail; then
         print_issue "WARN" "$file" "Missing: $joined (expected: set -euo pipefail)"
       else
         print_issue "WARN" "$file" "Missing ALL error handling: $joined (consider adding set -euo pipefail)"
       fi
     fi
-  done <<< "$files"
+  done <<<"$files"
 }
 
 check_shellcheck() {
@@ -194,9 +197,9 @@ check_shellcheck() {
     output=$(shellcheck -f gcc "$file" 2>/dev/null || true)
     if [[ -n "$output" ]]; then
       local err_count
-      err_count=$(grep -c 'error:' <<< "$output" 2>/dev/null || true)
+      err_count=$(grep -c 'error:' <<<"$output" 2>/dev/null || true)
       local warn_count
-      warn_count=$(grep -c 'warning:' <<< "$output" 2>/dev/null || true)
+      warn_count=$(grep -c 'warning:' <<<"$output" 2>/dev/null || true)
       if [[ "$err_count" -gt 0 ]]; then
         print_issue "WARN" "$file" "shellcheck: $err_count error(s), $warn_count warning(s)"
 
@@ -208,7 +211,7 @@ check_shellcheck() {
         print_issue "WARN" "$file" "shellcheck: $warn_count warnings (consider reviewing)"
       fi
     fi
-  done <<< "$files"
+  done <<<"$files"
 }
 
 check_source_citation() {
@@ -251,10 +254,10 @@ check_source_citation() {
           echo "$ref" | grep -qE '/[a-zA-Z0-9._-]+\.[a-zA-Z]{1,4}$' && continue
           print_issue "WARN" "$file" "External reference '${ref}' without URL citation"
           issues=$((issues + 1))
-        done <<< "$repo_refs"
+        done <<<"$repo_refs"
       fi
-    done <<< "$added_lines"
-  done <<< "$files"
+    done <<<"$added_lines"
+  done <<<"$files"
 
   if [[ "$issues" -gt 0 ]]; then
     say "   See workflow/source-citation.md for citation requirements."
@@ -347,7 +350,7 @@ check_ascii() {
       python3 "$norm_script" check --file "$file" 2>&1 | grep -v "OK:" | head -3
       has_issues=true
     fi
-  done <<< "$files"
+  done <<<"$files"
 
   if [[ "$has_issues" == true ]]; then
     print_issue "ERROR" "(staged files)" "Non-ASCII characters found. Run: python3 scripts/normalize-ascii.py fix"
@@ -386,7 +389,7 @@ check_comprehension_evidence() {
   if [[ ! -f "$evidence_file" ]]; then
     # No evidence file: only warn if there's skill-load activity
     local audit_file="$REPO_ROOT/.runtime/skill-audit.jsonl"
-    if [[ -f "$audit_file" ]] && [[ "$(wc -l < "$audit_file" 2>/dev/null || echo 0)" -gt 0 ]]; then
+    if [[ -f "$audit_file" ]] && [[ "$(wc -l <"$audit_file" 2>/dev/null || echo 0)" -gt 0 ]]; then
       print_issue "WARN" "(session)" "Skills loaded but no comprehension evidence found in .runtime/comprehension-evidence.md"
       print_issue "WARN" "(session)" "  Run: bash scripts/comprehension-gate.sh extract <skill-or-command>"
     fi
@@ -458,8 +461,35 @@ check_constitution_validity() {
       if [[ "$count" -gt 0 ]]; then
         print_issue "WARN" "$f" "$count unresolved [NEEDS CLARIFICATION] marker(s)"
       fi
-    done <<< "$ambiguous_files"
+    done <<<"$ambiguous_files"
   fi
+}
+
+check_dangerous_rm() {
+  say ":: Checking staged .sh files for dangerous rm patterns..."
+  local files
+  files=$(check_staged -- '*.sh' 2>/dev/null || true)
+  if [[ -z "$files" ]]; then
+    return
+  fi
+
+  while IFS= read -r file; do
+    [[ -z "$file" ]] && continue
+    local staged
+    staged=$(git show :"$file" 2>/dev/null || cat "$file" 2>/dev/null)
+    local line_num=0
+    while IFS= read -r line; do
+      line_num=$((line_num + 1))
+      # Check for rm -rf with glob/wildcard on .runtime or bench-runs paths
+      if echo "$line" | grep -qE 'rm\s+-rf.*\*' && echo "$line" | grep -qE '\.runtime|bench-runs'; then
+        print_issue "ERROR" "$file:$line_num" "Dangerous rm -rf with glob targeting .runtime/bench-runs/ -- use scripts/bench/cleanup-runs.sh instead"
+      fi
+      # Check for rm -rf on the bench-runs directory itself
+      if echo "$line" | grep -qE 'rm\s+-rf.*bench-runs'; then
+        print_issue "WARN" "$file:$line_num" "rm -rf on bench-runs directory -- use scripts/bench/cleanup-runs.sh instead"
+      fi
+    done <<<"$staged"
+  done <<<"$files"
 }
 
 # ---- Main ----
@@ -483,6 +513,7 @@ check_unaddressed_dissent
 check_comprehension_evidence
 check_pending_decisions
 check_constitution_validity
+check_dangerous_rm
 
 if [[ "$COMPACT" == "0" ]]; then
   echo ""
