@@ -10,13 +10,11 @@ environment:
   # type: daytona
   force_build: true
   delete: true
-  # env:
-  #   ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY}
-  #   ANTHROPIC_BASE_URL: ${ANTHROPIC_BASE_URL}
-  #   DAYTONA_API_KEY: ${DAYTONA_API_KEY}
+  env:
+    OPENCODE_API_KEY: ${OPENCODE_API_KEY}
 agents:
   - name: oracle
-  # - name: claude-code
-  #   model_name: anthropic/claude-haiku-4-5
+  - name: opencode
+    model_name: opencode-go/deepseek-v4-flash
 datasets:
-  - path: datasets/terminal-bench-2
+  - path: /home/namikaz/projects/dev/agentic-workflows/adapters/terminal-bench/datasets/terminal-bench-2

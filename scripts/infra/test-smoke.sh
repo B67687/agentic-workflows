@@ -727,6 +727,16 @@ assert_exit "opencode-db: all integrity checks pass" \
 
 echo ""
 
+# ===========================================================================
+echo ""
+echo "--- P16: Benchmark Tools ---"
+echo ""
+
+assert_exit "benchmark-tools: full test suite passes" \
+  "bash scripts/infra/test-benchmark-tools.sh"
+
+echo ""
+
 echo "  Pass: $PASS"
 echo "  Fail: $FAIL"
 echo "  Skip: $SKIP"
