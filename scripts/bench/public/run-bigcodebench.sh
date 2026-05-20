@@ -105,45 +105,13 @@ print(json.dumps(limited))
   echo "[bigcodebench] Limited to $SUBSET problems" >&2
 fi
 
-# ── Process each problem ──
+# ── Process each problem via standalone Python script ──
 PASSED=0
 FAILED=0
 TOTAL=0
 
-echo "$PROBLEMS_JSON" | python3 -c "
-import json, sys, os, re
-
-problems = json.load(sys.stdin)
-runs_dir = '$RUNS_DIR'
-
-for pid, problem in problems.items():
-    task_id = problem.get('task_id', pid)
-    
-    # Normalize benchmark ID: BigCodeBench/0 -> bigcodebench-0
-    normalized_pid = re.sub(r'[^a-zA-Z0-9]', '-', pid).lower()
-    
-    # Create run directory
-    run_id = f'bigcodebench-{normalized_pid}-' + os.popen('date -u +%Y%m%d%H%M%S').read().strip()
-    run_dir = os.path.join(runs_dir, run_id)
-    os.makedirs(run_dir, exist_ok=True)
-    
-    # Write prompt
-    prompt_path = os.path.join(run_dir, 'prompt.md')
-    with open(prompt_path, 'w') as f:
-        f.write(f'# BigCodeBench: {pid}\n\n')
-        f.write(f'## Problem\n\n{problem.get(\"prompt\", \"\")}\n\n')
-        f.write(f'## Instructions\n\n')
-        f.write(f'Complete the function. Write your solution to output.md.\n')
-        f.write(f'Report: BENCH_SUCCESS: true/false, BENCH_STEPS: N, BENCH_TIME_SEC: N\n')
-    
-    print(f'PREPARED:{run_id}:{pid}')
-
-# Write full problem set for agent processing
-problems_path = os.path.join(runs_dir, 'bigcodebench-problems.json')
-with open(problems_path, 'w') as f:
-    json.dump(problems, f, indent=2)
-print(f'DONE:{problems_path}')
-" 2>/dev/null
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+echo "$PROBLEMS_JSON" | python3 "$SCRIPT_DIR/prepare-bigcodebench.py" "$RUNS_DIR" 2>/dev/null
 
 echo "[bigcodebench] Problems prepared. Each will appear in .runtime/bench-runs/bigcodebench-*" >&2
 echo "[bigcodebench] After running: each run dir needs output.md with the solution" >&2
