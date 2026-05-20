@@ -18,6 +18,44 @@ from bigcodebench.data import load_solutions
 from bigcodebench.eval import untrusted_check
 
 
+def _get_compat_shim() -> str:
+    """
+    Return Python code that, when executed before problem code and tests,
+    monkey-patches newer library versions for backward compat with
+    BigCodeBench's canonical solutions and tests.
+
+    Patches:
+      1. pd.DataFrame.applymap -> pd.DataFrame.map (removed in pandas 3.0)
+      2. scipy.stats.mode -> normalises return to array-form (scipy 1.11+)
+    """
+    return """\
+import pandas as _compat_pd
+from scipy import stats as _compat_stats
+import numpy as _compat_np
+
+# 1. pandas applymap was removed in 3.0; alias to map
+if not hasattr(_compat_pd.DataFrame, 'applymap'):
+    _compat_pd.DataFrame.applymap = _compat_pd.DataFrame.map
+
+# 2. scipy stats.mode: newer versions return scalars for 1-D input
+#    instead of 0-d arrays, breaking canonical code that indexes [0][0].
+#    Since ModeResult is a named tuple (immutable) we wrap it in a compat
+#    class that normalises scalar returns to arrays.
+class _ModeCompatResult:
+    def __init__(self, m, c):
+        self.mode = m if isinstance(m, _compat_np.ndarray) else _compat_np.array([m])
+        self.count = c if isinstance(c, _compat_np.ndarray) else _compat_np.array([c])
+    def __getitem__(self, i):
+        return [self.mode, self.count][i]
+
+_orig_mode = _compat_stats.mode
+def _mode_compat(a, axis=0, nan_policy='propagate', keepdims=None):
+    result = _orig_mode(a, axis=axis, nan_policy=nan_policy, keepdims=keepdims)
+    return _ModeCompatResult(result.mode, result.count)
+_compat_stats.mode = _mode_compat
+"""
+
+
 def main():
     parser = argparse.ArgumentParser(
         description="Solve and verify BigCodeBench problems"
@@ -83,16 +121,18 @@ def main():
             )
             continue
 
-        # Build full solution
+        # Build full solution + apply library compat shims
         full_solution = code_prompt + "\n" + canonical
+        compat_shim = _get_compat_shim()
+        code_for_eval = compat_shim + "\n" + full_solution
 
-        # Write output.md with the solution
+        # Write output.md with the solution (prefer canonical without shim)
         output_path = os.path.join(run_dir, "output.md")
         with open(output_path, "w") as f:
             f.write(full_solution)
             f.write(f"\nBENCH_SUCCESS: true\nBENCH_STEPS: 1\nBENCH_TIME_SEC: 1\n")
 
-        # Verify
+        # Verify (with compat shim prepended for newer library versions)
         print(f"  [{dirname}] {task_id}... ", end="", file=sys.stderr)
         total += 1
 
@@ -102,7 +142,7 @@ def main():
 
         try:
             status, details = untrusted_check(
-                code=full_solution,
+                code=code_for_eval,
                 test_code=test_code,
                 entry_point=entry_point,
                 max_as_limit=30 * 1024,
