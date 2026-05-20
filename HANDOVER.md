@@ -1,4 +1,4 @@
-# Session Handover -- 2026-05-20 (Final Session State)
+# Session Handover -- 2026-05-20 (Session 2 Final State)
 
 ## North Star
 
@@ -19,7 +19,7 @@ We are in **Phase 3 of 5** -- Benchmark Infrastructure & Validation.
 |-------|-------|--------|
 | 1. Agent core | Worker dispatch, step budget, parent-fallback | DONE |
 | 2. Harness tooling | Benchmark dispatch, generic benchmarks, run aggregate | DONE |
-| **3. Benchmark infra** | **BigCodeBench pipeline, Terminal-Bench setup, compat shim** | **~80%** |
+| **3. Benchmark infra** | **BigCodeBench pipeline, Terminal-Bench setup, compat shim** | **~85%** |
 | 4. Cross-repo propagation | Pi-Star integration, pattern porting | NOT STARTED |
 | 5. Self-iteration | Pi-Star self-modification, capability propagation | NOT STARTED |
 
@@ -35,11 +35,12 @@ North Star: Best agent harness from evidence-based research
      |     +-- BigCodeBench pipeline (100% problems prepared, 100% verified)
      |     |     +-- Compat shim (DONE -- 6 failure modes, pandas _setitem bug removed)
      |     |     +-- 482 remaining verification (DONE -- subprocess.run + os.setsid + SIGKILL)
-     |     |     +-- 35 failures cleanup (DONE -- 26 fixed, 1 hard timeout, 1 headless, 9 legit fails)
-  |     |
-  |     +-- Terminal-Bench 2.0 (oracle baseline DONE -- 95.5%)
-  |     |     +-- Harbor adapter (NOT STARTED)
-  |     |     +-- Agent run + leaderboard submission (NOT STARTED)
+     |     |     +-- 35 failures cleanup (DONE -- 26 fixed, 1 hard timeout, 1 headless, 35 legit fails)
+     |     |     +-- Harness self-tests (DONE -- 24 new tests for benchmark/dispatch tools)
+     |     |
+     |     +-- Terminal-Bench 2.0 (oracle baseline DONE -- 95.5%)
+     |     |     +-- Harbor adapter (DONE -- scaffolded, downloads 89 tasks from registry)
+     |     |     +-- Agent run + leaderboard submission (NOT STARTED)
   |     |
   |     +-- Generic benchmarks (DONE -- 18/18)
   |     +-- Harness benchmarks (DONE -- 24/24)
@@ -52,19 +53,21 @@ North Star: Best agent harness from evidence-based research
 
 | Repo | Branch | Last Commit |
 |------|--------|-------------|
-| agentic-workflows | main | Scale BigCodeBench to 623 verified, add compat shim for pandas scipy NLTK sklearn matplotlib API changes |
+| agentic-workflows | main | test: add benchmark harness tool tests (24 tests for dispatch/verify/audit/adapter tools) |
 
-Changes: 0 uncommitted (run data in .runtime/bench-runs/ is gitignored)
+Changes: 0 uncommitted
 
   Guardrails active:
   - cleanup-runs.sh (empty-rid/glob/path-traversal rejection) -- HARDENED
   - quality-gate.sh (check_dangerous_rm catches -fr, --force variants) -- HARDENED
   - AGENTS.md (rule forbid raw rm -rf on .runtime/bench-runs/)
 
-  BigCodeBench: 1103/1140 passing (96.8% overall, 37 known failures, 0 unverified).
+  BigCodeBench: 1103/1140 passing (96.8%), 37 fail, 0 unknown. FULLY VERIFIED.
   Terminal-Bench oracle: 89/89, 95.5% mean.
-  All missing benchmark packages installed (pytesseract, statsmodels, tensorflow, etc.).
-  Compat shim in solve-bigcodebench.py covers 7+ failure modes across pandas, scipy, NLTK, sklearn, matplotlib.
+  Terminal-Bench adapter: scaffolded at adapters/terminal-bench/, downloads 89 tasks from registry.
+  Harness tests: 24 new tests in scripts/infra/test-benchmark-tools.sh.
+  All missing benchmark packages installed.
+  Compat shim fixed (pandas _setitem_single_column removed for 3.0.3 compat).
 
   Workflow: none  Step: none  Trace: 0 entries
 
@@ -234,6 +237,40 @@ Not started. Need to:
 
 ## Entry Prompt
 
+```
+Read HANDOVER.md for complete context before responding.
+
+Current state:
+- BigCodeBench: 1103/1140 passing (96.8%), 37 fail, 0 unknown. FULLY VERIFIED.
+- Terminal-Bench oracle baseline: 89/89, 95.5% mean
+- Terminal-Bench adapter: scaffolded at adapters/terminal-bench/, downloads 89 tasks
+- Harness tests: 24 new tests for benchmark/dispatch/audit tools
+- No uncommitted changes
+
+COMPLETED:
+- P1-P5: Worker system, dispatch, BigCodeBench pipeline, Docker/Harbor infra, compat shim
+- P6: Terminal-Bench oracle baseline: 89/89, mean 0.955
+- P7: BigCodeBench scaled to all 1140 problems prepared, fully verified: 1103/1140 pass
+- P8: Harness self-tests for benchmark/dispatch tooling (24 tests)
+- P9: Terminal-Bench Harbor adapter scaffolded and working
+
+SESSION STARTUP (mandatory order):
+1. `bash ./scripts/hooks/session-start.sh` -- startup gate + workflow detection
+2. `bash scripts/bench/audit-state.sh` -- deterministic health probe, verify handover
+3. If drift detected: STOP, report discrepancy, reconcile before proceeding
+4. Then proceed with backlog:
+
+BACKLOG:
+(All items from previous session completed. Next priorities below.)
+
+NEXT PRIORITIES:
+1. Terminal-Bench agent run — test with `harbor run -k 2` then full `-k 5`
+   Config at: adapters/terminal-bench/run_terminal-bench.yaml
+   Adapter at: adapters/terminal-bench/src/terminal_bench/adapter.py
+   Run script: scripts/tools/run-terminal-bench-adapter.sh
+   Dataset: adapters/terminal-bench/datasets/terminal-bench-2/ (89 tasks)
+2. Wire smoke tests — integrate test-benchmark-tools.sh into main test-smoke.sh
+3. Phase 4: Pi-Star propagation (NOT STARTED)
 ```
 Read HANDOVER.md for complete context before responding.
 
