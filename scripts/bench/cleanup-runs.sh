@@ -79,6 +79,13 @@ cmd_rm() {
     die "Usage: cleanup-runs.sh rm <run-id> [run-id ...]"
   fi
 
+  # Protect against empty IDs (would target the runs dir itself)
+  for arg in "$@"; do
+    if [ -z "$arg" ]; then
+      die "Empty run IDs are not allowed."
+    fi
+  done
+
   # Protect against glob/wildcard patterns
   for arg in "$@"; do
     case "$arg" in
@@ -86,6 +93,7 @@ cmd_rm() {
     *\?*) die "Wildcards are not allowed. Use explicit run IDs." ;;
     *\[*) die "Wildcards are not allowed. Use explicit run IDs." ;;
     *\;*) die "Semicolons are not allowed." ;;
+    . | ..) die "Path traversal is not allowed. Use explicit run IDs." ;;
     esac
   done
 

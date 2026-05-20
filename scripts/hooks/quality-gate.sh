@@ -480,13 +480,18 @@ check_dangerous_rm() {
     local line_num=0
     while IFS= read -r line; do
       line_num=$((line_num + 1))
-      # Check for rm -rf with glob/wildcard on .runtime or bench-runs paths
-      if echo "$line" | grep -qE 'rm\s+-rf.*\*' && echo "$line" | grep -qE '\.runtime|bench-runs'; then
-        print_issue "ERROR" "$file:$line_num" "Dangerous rm -rf with glob targeting .runtime/bench-runs/ -- use scripts/bench/cleanup-runs.sh instead"
+      # Check for rm with glob/wildcard on .runtime or bench-runs paths
+      # Catches: -rf, -fr, -r --force, -rfv, and any flag ordering
+      if echo "$line" | grep -qE 'rm\s+.*\*' && echo "$line" | grep -qE '\.runtime|bench-runs'; then
+        print_issue "ERROR" "$file:$line_num" "Dangerous rm with glob targeting .runtime/bench-runs/ -- use scripts/bench/cleanup-runs.sh instead"
       fi
-      # Check for rm -rf on the bench-runs directory itself
-      if echo "$line" | grep -qE 'rm\s+-rf.*bench-runs'; then
-        print_issue "WARN" "$file:$line_num" "rm -rf on bench-runs directory -- use scripts/bench/cleanup-runs.sh instead"
+      # Check for any rm command targeting bench-runs (catches all flag variants)
+      if echo "$line" | grep -qE 'rm\s+.*bench-runs'; then
+        print_issue "WARN" "$file:$line_num" "rm targeting bench-runs directory -- use scripts/bench/cleanup-runs.sh instead"
+      fi
+      # Check for rm with wildcard targeting .runtime (catches broad .runtime/* patterns)
+      if echo "$line" | grep -qE 'rm\s+.*\*.*\.runtime'; then
+        print_issue "WARN" "$file:$line_num" "rm with wildcard on .runtime path may affect bench-runs -- use scripts/bench/cleanup-runs.sh instead"
       fi
     done <<<"$staged"
   done <<<"$files"
