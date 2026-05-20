@@ -1,0 +1,56 @@
+{
+    "id": "c61308c7-1e9b-4980-bb35-4c78179a535a",
+    "started_at": "2026-05-20T21:27:52.702955",
+    "updated_at": "2026-05-20T13:36:49.514323Z",
+    "finished_at": null,
+    "n_total_trials": 178,
+    "stats": {
+        "n_completed_trials": 15,
+        "n_errored_trials": 1,
+        "n_running_trials": 1,
+        "n_pending_trials": 162,
+        "n_cancelled_trials": 1,
+        "n_retries": 0,
+        "evals": {
+            "oracle__terminal-bench-2": {
+                "n_trials": 14,
+                "n_errors": 1,
+                "metrics": [
+                    {
+                        "mean": 0.9333333333333333
+                    }
+                ],
+                "pass_at_k": {},
+                "reward_stats": {
+                    "reward": {
+                        "1.0": [
+                            "raman-fitting__VbURKW5",
+                            "feal-differential-cryptanalysis__vbahed4",
+                            "configure-git-webserver__Lp3Ub8w",
+                            "break-filter-js-from-html__u4XwxSn",
+                            "winning-avg-corewars__srecsmE",
+                            "train-fasttext__trGJ8d8",
+                            "nginx-request-logging__yzyycDm",
+                            "vulnerable-secret__uirRzwx",
+                            "regex-chess__UhJwbaQ",
+                            "make-mips-interpreter__es8vK3g",
+                            "git-multibranch__GUrXDp7",
+                            "extract-elf__WP8fVx8",
+                            "headless-terminal__meAHGGp",
+                            "filter-js-from-html__95gpFuk"
+                        ]
+                    }
+                },
+                "exception_stats": {
+                    "CancelledError": [
+                        "path-tracing__YLayGBt"
+                    ]
+                }
+            }
+        },
+        "n_input_tokens": null,
+        "n_cache_tokens": null,
+        "n_output_tokens": null,
+        "cost_usd": null
+    }
+}
