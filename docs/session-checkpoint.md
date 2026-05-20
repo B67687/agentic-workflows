@@ -254,18 +254,30 @@ The point is to preserve fast iteration. Planning is there to unblock execution,
 
 ## Context Pressure Signs
 
-Even without token counts, these signal rising pressure:
+Use `bash scripts/tools/context-pressure.sh <percent>` with the percentage
+visible in the OpenCode UI top bar for precise guidance. The thresholds:
 
-- **Low (~20%)**: Normal output, fluent responses
-- **Medium (~40%)**: Responses getting slightly more generic
-- **High (~60%)**: Repeating explanations, losing track of done items
-- **Critical (~80%)**: Output quality drops noticeably
+| Zone       | %        | Signal                          | Action |
+|------------|----------|---------------------------------|--------|
+| 🟢 Green   | 0-15%    | Full capacity                   | Continue normally |
+| 🟡 Yellow  | 15-25%   | Getting warm                    | Plan handover in 5-10 turns |
+| 🟠 Orange  | 25-40%   | Warm                            | Checkpoint in 3-5 turns. No new broad tasks |
+| 🔴 Red     | 40-60%   | Hot                             | Checkpoint NOW. Handover recommended |
+| 🚨 Critical| 60-80%   | Overheated                      | Immediate handover. Quality degrading |
+| 💀 Fatal   | 80%+     | Saturated                       | STOP. Force fresh session |
 
-**Checkpoint trigger**: Write state at medium. Heavy operations only after writing state.
+**At 18-20% (Yellow zone, most common mid-session):**
+- Still safe for focused work
+- AVOID: large file reads, broad searches, multi-phase planning
+- PREFER: single concrete tasks, direct execution, narrow scope
+- Plan your next handover point before crossing 25%
+
+**Checkpoint trigger**: Write state at Orange (25%). Heavy operations only after writing state.
 
 **Recovery shortcut**: Instead of re-reading many files, run:
 - `bash ./scripts/search-index.sh "task keywords"` --- ranked retrieval of relevant docs
 - `bash ./scripts/repo-map.sh --max-tokens 512` --- quick orientation map
+- `bash scripts/tools/context-pressure.sh <percent>` --- check your current zone
 
 ---
 
