@@ -465,6 +465,46 @@ check_constitution_validity() {
   fi
 }
 
+check_branch_name() {
+  say ":: Checking branch name convention..."
+  local branch
+  branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null || true)
+  if [[ -z "$branch" ]]; then
+    return
+  fi
+
+  # Protected branches
+  if [[ "$branch" == "main" || "$branch" == "master" ]]; then
+    print_issue "WARN" "(branch)" "Committing directly to $branch — consider using a feature branch"
+    return
+  fi
+
+  # Allowed prefix patterns
+  if echo "$branch" | grep -qE '^(feat|fix|chore|docs|refactor|test|sprint|handover)/'; then
+    return
+  fi
+
+  print_issue "WARN" "(branch)" "Branch '$branch' doesn't follow naming convention (feat/, fix/, chore/, docs/, refactor/, test/, sprint/, handover/)"
+}
+
+check_propagation_drift() {
+  say ":: Checking propagation drift..."
+  local propagate_script="$REPO_ROOT/scripts/propagate-to-all.sh"
+  if [[ ! -f "$propagate_script" ]]; then
+    say "   (propagate-to-all.sh not found, skipping)"
+    return
+  fi
+
+  local output
+  output=$(bash "$propagate_script" --preview 2>&1 || true)
+
+  if echo "$output" | grep -q "WOULD REFRESH"; then
+    local count
+    count=$(echo "$output" | grep -c "WOULD REFRESH" 2>/dev/null || echo 0)
+    print_issue "WARN" "(propagation)" "$count propagated file(s) have drifted — run: bash scripts/propagate-to-all.sh --apply"
+  fi
+}
+
 check_dangerous_rm() {
   say ":: Checking staged .sh files for dangerous rm patterns..."
   local files
@@ -518,6 +558,8 @@ check_unaddressed_dissent
 check_comprehension_evidence
 check_pending_decisions
 check_constitution_validity
+check_branch_name
+check_propagation_drift
 check_dangerous_rm
 
 if [[ "$COMPACT" == "0" ]]; then
