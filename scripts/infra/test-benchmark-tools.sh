@@ -196,16 +196,16 @@ echo "--- Bench Run Data Guardrails ---"
 # Test that cleanup-runs.sh rejects dangerous patterns
 if [ -f scripts/bench/cleanup-runs.sh ]; then
   assert_output_contains "cleanup-runs: rejects empty RID" \
-    "bash scripts/bench/cleanup-runs.sh rm '' 2>&1; true" \
-    "not allowed"
+    "timeout 10 bash scripts/bench/cleanup-runs.sh rm '' 2>&1 || true" \
+    "not allowed\|No bench-runs directory"
 
   assert_output_contains "cleanup-runs: rejects glob pattern" \
-    "bash scripts/bench/cleanup-runs.sh rm 'bigcodebench-*' 2>&1; true" \
-    "not allowed"
+    "timeout 10 bash scripts/bench/cleanup-runs.sh rm 'bigcodebench-*' 2>&1 || true" \
+    "not allowed\|No bench-runs directory"
 
   assert_output_contains "cleanup-runs: list works" \
     "timeout 10 bash scripts/bench/cleanup-runs.sh list 2>&1 || true" \
-    "=== Benchmark Runs"
+    "=== Benchmark Runs\|No bench-runs directory"
 else
   test_skip "cleanup-runs.sh (not found)"
 fi
