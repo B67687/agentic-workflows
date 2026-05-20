@@ -1,0 +1,91 @@
+{
+    "id": "3640144c-0925-4931-adde-4b96886f858f",
+    "task_name": "terminal-bench/sanitize-git-repo",
+    "trial_name": "sanitize-git-repo__yD8RXVp",
+    "trial_uri": "file:///home/namikaz/projects/dev/agentic-workflows/jobs/2026-05-20__12-05-07/sanitize-git-repo__yD8RXVp",
+    "task_id": {
+        "org": "terminal-bench",
+        "name": "sanitize-git-repo",
+        "ref": "sha256:3cc99805fb56bae9db14851e0e61b75108e851cb6b8bb0a817defd39336f6b4b"
+    },
+    "source": "terminal-bench/terminal-bench-2",
+    "task_checksum": "ffc7f59e1357595f6222e3c1719e71bc63928a9653a713d6151b2f7b834a6dee",
+    "config": {
+        "task": {
+            "path": null,
+            "git_url": null,
+            "git_commit_id": null,
+            "name": "terminal-bench/sanitize-git-repo",
+            "ref": "sha256:3cc99805fb56bae9db14851e0e61b75108e851cb6b8bb0a817defd39336f6b4b",
+            "overwrite": false,
+            "download_dir": null,
+            "source": "terminal-bench/terminal-bench-2"
+        },
+        "trial_name": "sanitize-git-repo__yD8RXVp",
+        "trials_dir": "jobs/2026-05-20__12-05-07",
+        "timeout_multiplier": 1.0,
+        "agent_timeout_multiplier": null,
+        "verifier_timeout_multiplier": null,
+        "agent_setup_timeout_multiplier": null,
+        "environment_build_timeout_multiplier": null,
+        "agent": {
+            "name": "oracle",
+            "import_path": null,
+            "model_name": null,
+            "skills": [],
+            "override_timeout_sec": null,
+            "override_setup_timeout_sec": null,
+            "max_timeout_sec": null,
+            "kwargs": {},
+            "env": {},
+            "mcp_servers": []
+        },
+        "environment": {
+            "type": "docker",
+            "import_path": null,
+            "force_build": false,
+            "delete": true,
+            "override_cpus": null,
+            "override_memory_mb": null,
+            "override_storage_mb": null,
+            "override_gpus": null,
+            "suppress_override_warnings": false,
+            "mounts": null,
+            "extra_docker_compose": [],
+            "env": {},
+            "kwargs": {}
+        },
+        "verifier": {
+            "override_timeout_sec": null,
+            "max_timeout_sec": null,
+            "env": {},
+            "disable": false
+        },
+        "artifacts": [],
+        "extra_instruction_paths": [],
+        "job_id": "667f81aa-7962-4363-ae7d-e9aefd39b28a"
+    },
+    "agent_info": {
+        "name": "oracle",
+        "version": "1.0.0",
+        "model_info": null
+    },
+    "agent_result": null,
+    "verifier_result": null,
+    "exception_info": {
+        "exception_type": "RuntimeError",
+        "exception_message": "Docker compose command failed for environment terminal-bench/sanitize-git-repo. Command: docker compose --project-name sanitize-git-repo__yd8rxvp --project-directory /home/namikaz/.cache/harbor/tasks/packages/terminal-bench/sanitize-git-repo/3cc99805fb56bae9db14851e0e61b75108e851cb6b8bb0a817defd39336f6b4b/environment -f /home/namikaz/projects/dev/agentic-workflows/.runtime/bench-env/lib/python3.12/site-packages/harbor/environments/docker/docker-compose-base.yaml -f /home/namikaz/projects/dev/agentic-workflows/.runtime/bench-env/lib/python3.12/site-packages/harbor/environments/docker/docker-compose-prebuilt.yaml -f /tmp/tmpj2rfdrme/docker-compose-mounts.json up --detach --wait. Return code: 125. Stdout: unknown flag: --project-name\n\nUsage:  docker [OPTIONS] COMMAND [ARG...]\n\nRun 'docker --help' for more information\n. Stderr: None. ",
+        "exception_traceback": "Traceback (most recent call last):\n  File \"/home/namikaz/projects/dev/agentic-workflows/.runtime/bench-env/lib/python3.12/site-packages/harbor/trial/trial.py\", line 160, in run\n    await self._prepare()\n  File \"/home/namikaz/projects/dev/agentic-workflows/.runtime/bench-env/lib/python3.12/site-packages/harbor/trial/trial.py\", line 187, in _prepare\n    await self._setup_agent_environment()\n  File \"/home/namikaz/projects/dev/agentic-workflows/.runtime/bench-env/lib/python3.12/site-packages/harbor/trial/trial.py\", line 617, in _setup_agent_environment\n    await self._start_agent_environment()\n  File \"/home/namikaz/projects/dev/agentic-workflows/.runtime/bench-env/lib/python3.12/site-packages/harbor/trial/trial.py\", line 623, in _start_agent_environment\n    await asyncio.wait_for(\n  File \"/usr/lib/python3.12/asyncio/tasks.py\", line 520, in wait_for\n    return await fut\n           ^^^^^^^^^\n  File \"/home/namikaz/projects/dev/agentic-workflows/.runtime/bench-env/lib/python3.12/site-packages/harbor/environments/docker/docker.py\", line 484, in start\n    await self._run_docker_compose_command([\"up\", \"--detach\", \"--wait\"])\n  File \"/home/namikaz/projects/dev/agentic-workflows/.runtime/bench-env/lib/python3.12/site-packages/harbor/environments/docker/docker.py\", line 369, in _run_docker_compose_command\n    raise RuntimeError(\nRuntimeError: Docker compose command failed for environment terminal-bench/sanitize-git-repo. Command: docker compose --project-name sanitize-git-repo__yd8rxvp --project-directory /home/namikaz/.cache/harbor/tasks/packages/terminal-bench/sanitize-git-repo/3cc99805fb56bae9db14851e0e61b75108e851cb6b8bb0a817defd39336f6b4b/environment -f /home/namikaz/projects/dev/agentic-workflows/.runtime/bench-env/lib/python3.12/site-packages/harbor/environments/docker/docker-compose-base.yaml -f /home/namikaz/projects/dev/agentic-workflows/.runtime/bench-env/lib/python3.12/site-packages/harbor/environments/docker/docker-compose-prebuilt.yaml -f /tmp/tmpj2rfdrme/docker-compose-mounts.json up --detach --wait. Return code: 125. Stdout: unknown flag: --project-name\n\nUsage:  docker [OPTIONS] COMMAND [ARG...]\n\nRun 'docker --help' for more information\n. Stderr: None. \n",
+        "occurred_at": "2026-05-20T12:05:25.275232"
+    },
+    "started_at": "2026-05-20T04:05:24.979114Z",
+    "finished_at": "2026-05-20T04:05:25.639210Z",
+    "environment_setup": {
+        "started_at": "2026-05-20T04:05:24.982144Z",
+        "finished_at": "2026-05-20T04:05:25.274811Z"
+    },
+    "agent_setup": null,
+    "agent_execution": null,
+    "verifier": null,
+    "step_results": null
+}

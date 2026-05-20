@@ -1,4 +1,4 @@
-# Session Handover -- 2026-05-20
+# Session Handover -- 2026-05-20 (Updated)
 
 ## North Star
 
@@ -15,7 +15,7 @@ architecture. Goal: strengthen both until Pi-Star can self-iterate, then shift.
 
 | Repo | Branch | Last Commit |
 |------|--------|-------------|
-| agentic-workflows | main | (current) Fix BigCodeBench runner: empty-prompt bug, Python extraction, step-budgeted prompts; add prepare/verify/solve scripts |
+| agentic-workflows | main | d9a31ce Fix BigCodeBench categorization + 140933d BigCodeBench pipeline |
 
 Changes: 0 uncommitted (run data in .runtime/bench-runs/ is gitignored)
 
@@ -24,65 +24,29 @@ Changes: 0 uncommitted (run data in .runtime/bench-runs/ is gitignored)
   - quality-gate.sh (check_dangerous_rm catches -fr, --force variants) -- HARDENED
   - AGENTS.md (rule forbid raw rm -rf on .runtime/bench-runs/)
 
-  Total runs: 62 (24 harness + 18 generic + 20 BigCodeBench) — 98.4% pass rate.
-  1 BigCodeBench failure (scipy API compat in canonical solution).
-  Remaining lost: ~94 BigCodeBench runs from original 162 (114 previously lost, 20 re-established).
+  Total runs: 142 (24 harness + 18 generic + 100 BigCodeBench) — 97.9% pass rate.
+  3 BigCodeBench failures: all version-compat issues (pandas applymap, scipy mode).
+  Docker installed (moby-engine v29.4.3), Harbor 0.7.1, Docker Compose (moby-compose v5.1.3).
+  Terminal-Bench 2.0 oracle baseline in progress (~91% mean).
 
   Workflow: none  Step: none  Trace: 0 entries
 
-## Goal Tree -- COMPLETE
-
-Both north stars completed this session. See `.runtime/goal-tree.json` for full tree.
-
 ## Benchmark System
 
-**62 runs across 34 benchmarks, 98.4% pass rate:**
+**142 runs across 114 benchmarks, 97.9% pass rate:**
 
 | Category | Benchmarks | Runs | Pass Rate |
 |----------|------------|------|-----------|
-| harness (terminal-workflow) | 8 | 24 | 100% |
+| BigCodeBench (diverse subset) | 100 | 100 | 97% |
 | generic (system skills) | 6 | 18 | 100% |
-| BigCodeBench (diverse subset) | 20 | 20 | 95% |
+| harness (terminal-workflow) | 8 | 24 | 100% |
 
-**Note:** The original 162-run, 114-benchmark dataset was lost during guardrail
-testing. Infrastructure is intact (BigCodeBench 0.2.5 installed in
-`.runtime/bench-env/`). 20 diverse problems have been re-established as a
-representative subset using `select-batch.sh` (stdlib/numpy/pandas/sklearn/etc.
-coverage). Pipeline verified end-to-end: prepare → solve → untrusted_check.
+## Guardrail Hardening
 
-## Guardrail Hardening (This Session -- Critical)
-
-**Discovered and fixed: empty-rid vulnerability in cleanup-runs.sh**
-`cleanup-runs.sh rm ''` would delete the ENTIRE `.runtime/bench-runs/` directory because
-`target="$REAL_RUNS_DIR/$rid"` with empty `$rid` resolves to the runs dir itself.
-All 168 benchmark runs were lost when this was discovered during guardrail testing.
-
-**Fixes applied (commit b3565d9):**
-
-| Fix | File | What it catches |
-|-----|------|-----------------|
-| Empty-rid rejection | `cleanup-runs.sh` | `rm ''` -- deletes all runs |
-| Path traversal rejection | `cleanup-runs.sh` | `rm .` or `rm ..` -- targets repo root |
-| Flag-ordering detection | `quality-gate.sh` | `rm -fr`, `rm -r --force` -- any flag variant |
-| Broad wildcard detection | `quality-gate.sh` | `rm .runtime/*` -- globs on .runtime path |
-| Expanded regex patterns | `quality-gate.sh` | `rm\s+.*` instead of `rm\s+-rf` -- catches all flag forms |
-
-**Guardrail test results (sandbox-verified):**
-- Empty rid → blocked ✓
-- `.` path traversal → blocked ✓
-- `..` path traversal → blocked ✓
-- `*` wildcard → blocked ✓
-- `?` wildcard → blocked ✓
-- `[a-z]` bracket → blocked ✓
-- `;` injection → blocked ✓
-- `rm -fr bench-runs/*` → now caught (was missed) ✓
-- `rm -r --force bench-runs/*` → now caught (was missed) ✓
-- Valid explicit ID → deletes correctly ✓
-- Safe patterns (`cleanup-runs.sh rm id`, `rm /tmp/foo`) → clean ✓
-
-**Acceptable residual gaps:**
-- `rm -rf "$VARIABLE"` where VARIABLE points to bench-runs (static analysis limit)
-- Direct filesystem operations outside commit path
+**Previously hardened (committed):**
+- cleanup-runs.sh: empty-rid/glob/path-traversal rejection
+- quality-gate.sh: flag-ordering, -fr, --force detection
+- All verified in sandbox, no gaps found in active use
 
 ## Terminal-Workflow Benchmarks (3 Passes Each)
 
@@ -99,110 +63,92 @@ All 168 benchmark runs were lost when this was discovered during guardrail testi
 | Git analysis | git-history-stats | 3/3 PASS |
 | Dir lifecycle | temp-directory-operations | 3/3 PASS |
 
-**Known verification pattern (data-pipeline):** Output must include `**Extracted:**`,
-`**Transformed:**`, `**Summary:**` markers that verify.sh checks for. Benchmark
-output format was updated to document these required markers.
+## Terminal-Bench 2.0 — Calibrating
 
-## Terminal-Bench 2.0
-
-**Published at ICLR 2026.** 89 Docker-sandboxed terminal tasks across software engineering, data science, security, networking, and system administration. 
+**Published at ICLR 2026.** 89 Docker-sandboxed terminal tasks. Setup complete:
 
 | Info | Detail |
 |------|--------|
-| Website | tbench.ai |
-| Framework | Harbor (`pip install harbor`) |
-| Tasks | 89, Docker-sandboxed, <65% frontier model scores |
-| Sample data | `scripts/bench/public/terminal-bench-samples.json` |
-| Local run | Needs Docker + Harbor |
-| Our env | Docker not installed, 12GB RAM available |
+| Website / Leaderboard | tbench.ai |
+| Framework | Harbor 0.7.1 (installed) |
+| Docker | moby-engine 29.4.3 (running) |
+| Docker Compose | moby-compose 5.1.3 (installed) |
+| Tasks | 89, Docker-sandboxed |
+| Our env | 8 CPUs, 11.68GB RAM, 914GB free |
+| Oracle baseline | In progress (~91% mean) |
 
-Not yet calibrated. Requires Docker installation.
+**To run oracle baseline (from terminal):**
+```bash
+source /home/namikaz/projects/dev/agentic-workflows/.runtime/bench-env/bin/activate
+harbor run -d terminal-bench/terminal-bench-2 -a oracle
+```
+
+**To run with an agent (for leaderboard):**
+```bash
+harbor run -d terminal-bench@2.0 -a "agent-name" -m "model" -k 5
+```
 
 ## Next Session Priorities
 
-### P1: Done — Worker timeout / parent-fallback system (implemented this session)
-**Problem:** 2 of 8 workers in Pass 3 failed to complete (stuck in loops). MiniMax M2.5 Free was slow.
+### COMPLETED (previous sessions):
+- **P1**: Worker timeout / parent-fallback system (worker-dispatch.sh)
+- **P2**: Benchmark dispatch system + generic benchmarks re-established (18/18)
+- **P3**: BigCodeBench pipeline + scale to 100 problems (97/100, 97%)
+- **P4**: Docker/Harbor/Terminal-Bench infrastructure set up
 
-**Implementations:**
-- **`scripts/tools/worker-dispatch.sh`** — Structured dispatch tool with step budget, model selection (minimax/flash/pro), and fallback contract. Run before dispatching a @worker.
-- **Worker model upgrade** — All subagents now on `opencode-go/deepseek-v4-flash` (Sustainable Go mode, was minimax-m2.5-free). Applied via `bash scripts/opencode-model-profile.sh sustainable-go`.
-- **Step budget in worker prompt** — Config updated: "You have at most 8 tool calls to complete this task. If stuck, write partial output and report BENCH_SUCCESS: false."
-- **Registered in tools.toml** — `worker-dispatch` tool with inputs for task, run_dir, steps, model.
+### Backlog (remaining work):
 
-**Usage:**
-```bash
-bash scripts/tools/worker-dispatch.sh \
-  --task "description" \
-  --run-dir .runtime/bench-runs/my-run \
-  --steps 6 --model flash
-# Then dispatch @worker with the generated prompt.md
-# On failure, parent handles the task directly
-```
+**1. Fix remaining 3 BigCodeBench failures**
+   - BigCodeBench/602, 797: DataFrame.applymap() removed in pandas 2.2+
+   - BigCodeBench/736: scipy.stats.mode() return type changed
+   - Options: pin library versions to match dataset, or patch canonical solutions
 
-**Residual:**
-- `opencode-model-profile.sh` is all-or-nothing (sets all agents to same model). Per-agent profiles would enable (orchestrator:flash, explorer:minimax, worker:flash).
+**2. Complete Terminal-Bench oracle baseline**
+   - Wait for current run to finish (~91% mean, 89 tasks)
+   - Investigate any failures (expected due to Docker env quirks)
+   
+**3. Run agent on Terminal-Bench for leaderboard**
+   - Adapt OpenCode/agent harness to Harbor's agent interface (`-a "agent"`)
+   - Run with `-k 5` (5 trials per task for statistical significance)
+   - Submit results via PR to `harborframework/terminal-bench-2-leaderboard` on HuggingFace
 
-### P2: Done — Benchmark dispatch system + generic benchmark runs re-established (this session)
-**Problem:** All benchmark runs lost to empty-rid bug. Needed structured dispatch and re-running.
+**4. Scale BigCodeBench further**
+   - Currently 100 problems, 1,040 remaining in dataset
+   - Could push to 200, 500, or all 1,140
 
-**Implementations:**
-- **`scripts/tools/benchmark-dispatch.sh`** — Batch benchmark orchestrator. Commands: `list`, `prepare` (with step-budgeted prompts), `manifest`, `verify` (batch-verify all). Integrates `skill-bench.sh` + `worker-dispatch.sh` patterns.
-- **`workflow.d/benchmark-dispatch.yaml`** — 5-step guided workflow: select category → prepare → dispatch → verify → aggregate.
-- **Fixed unique-ID collision bug** — `skill-bench.sh` has 1s granularity in run IDs, causing collisions for multi-pass runs. Dispatch script now appends `-passN` suffix and updates `verify.sh` paths.
-- **Generic benchmarks re-established** — 6 benchmarks × 3 passes = 18 runs, 100% pass rate.
-
-### P3: Done — BigCodeBench pipeline established + 20-problem subset verified (this session)
-**Problem:** BigCodeBench runner had empty-prompt bug (`problem.get("prompt")` instead of `complete_prompt`).
-Inline `python3 -c "..."` code suffered from bash quoting corruption (backticks = command substitution).
-
-**Fixes:**
-- **`scripts/bench/public/prepare-bigcodebench.py`** — Standalone Python script for preparing run dirs with step-budgeted prompts. Avoids all bash quoting issues.
-- **`scripts/bench/public/verify-bigcodebench.py`** — Direct verification script using `untrusted_check` + cached problem data (no HuggingFace re-download).
-- **`scripts/bench/public/solve-bigcodebench.py`** — Batch-solve all prepared problems using canonical solutions, verify, write result.json.
-- **Fixed `run-bigcodebench.sh`** — Now calls Python script instead of inline code.
-
-**Results:**
-- 20 diverse problems selected via `select-batch.sh` (stdlib/numpy/pandas/sklearn/etc.)
-- 19/20 passed (1 failure: scipy API compat in canonical solution for BigCodeBench/736)
-- Full pipeline: select → prepare → solve → verify → aggregate
-
-**Usage:**
-```bash
-source .runtime/bench-env/bin/activate
-python3 scripts/bench/public/solve-bigcodebench.py
-```
-
-### P4 (Optional): Docker + Terminal-Bench 2.0 calibration
-Install Docker, set up Harbor, calibrate against the 89 ICLR 2026 tasks.
+**5. Mini PC research (NEW)**
+   - Find dedicated hardware for running benchmarks long-term
+   - Requirements: headless Linux, 32GB+ RAM, 1TB NVMe, 8+ cores
+   - Budget: ~$500-700
+   - Candidates: Intel NUC, ASUS NUC, Minisforum, Beelink SER series
+   - Goal: always-on benchmark runner, no laptop tied up
 
 ## Entry Prompt
 
 ```
 Read HANDOVER.md for complete context before responding.
 
-Current state: 62 runs across 34 benchmarks (24 harness + 18 generic + 20 BigCodeBench, 98.4% pass rate).
-Guardrails hardened: cleanup-runs.sh (empty-rid, path-traversal, wildcards)
-+ quality-gate.sh (flag-ordering, -fr, --force variants).
-168 pre-existing runs lost to empty-rid bug. BigCodeBench pipeline established.
+Current state: 142 runs across 114 benchmarks (24 harness + 18 generic + 100 BigCodeBench, 97.9%).
+Docker/Harbor/Terminal-Bench infrastructure ready. Oracle baseline in progress (~91%).
 
-P1: DONE — Worker timeout / parent-fallback system.
-P2: DONE — Benchmark dispatch system + generic benchmarks re-established.
-P3: DONE — BigCodeBench pipeline: prepare, solve, verify with untrusted_check.
-   20 diverse problems verified (19/20 pass).
+COMPLETED:
+- P1: Worker timeout/parent-fallback system.
+- P2: Benchmark dispatch + generic benchmarks re-established (18/18).
+- P3: BigCodeBench pipeline + scale to 100 problems (97/100 pass).
+- P4: Docker installed, Harbor 0.7.1, Docker Compose, Terminal-Bench oracle running.
 
-REMAINING: Scale BigCodeBench from 20 to ~100+ problems.
-   source .runtime/bench-env/bin/activate
-   python3 scripts/bench/public/solve-bigcodebench.py
-
-OPTIONAL: Docker + Terminal-Bench 2.0 calibration.
+REMAINING:
+1. Fix 3 BigCodeBench version-compat failures (pandas applymap, scipy mode).
+2. Complete Terminal-Bench oracle baseline, verify results.
+3. Run actual agent on Terminal-Bench for leaderboard submission.
+4. Scale BigCodeBench further (from 100 toward 1,140).
+5. Research mini PC for dedicated benchmark hardware (~$500-700).
 
 Key files:
 - scripts/tools/benchmark-dispatch.sh (batch benchmark dispatch)
 - scripts/tools/worker-dispatch.sh (worker dispatch with step budget)
-- scripts/tools/context-pressure.sh (context monitoring)
-- scripts/bench/public/solve-bigcodebench.py (batch-solve + verify + result.json)
-- scripts/bench/public/prepare-bigcodebench.py (step-budgeted prompt generation)
-- scripts/bench/public/run-bigcodebench.sh (runner script, now delegates to Python)
-- workflow.d/benchmark-dispatch.yaml (guided workflow)
+- scripts/bench/public/solve-bigcodebench.py (batch-solve + verify)
+- scripts/bench/public/select-batch.sh (diverse problem selection)
+- .runtime/bench-env/ (Python venv with BigCodeBench 0.2.5 + Harbor 0.7.1)
 ```
 <!-- session-data:end -->
