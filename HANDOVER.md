@@ -15,9 +15,13 @@ architecture. Goal: strengthen both until Pi-Star can self-iterate, then shift.
 
 | Repo | Branch | Last Commit |
 |------|--------|-------------|
-| agentic-workflows | main | (current) feat: 8 terminal-workflow harness benchmarks inspired by Terminal-Bench patterns |
+| agentic-workflows | main | (current) fix: harden verification scripts + baseline all 8 terminal-workflow benchmarks |
 
 Changes: 1 modified (HANDOVER.md), 0 untracked
+
+NOTE: Original 6 harness benchmarks lost 2 runs each (12 total) in cleanup.
+Re-run for full signal. See: bash scripts/tools/skill-bench.sh verify --run <dir>
+Then: bash scripts/bench/aggregate.sh summary
 
   Workflow: none  Step: none  Trace: 0 entries
 
@@ -33,7 +37,7 @@ Both north stars completed this session. See `.runtime/goal-tree.json` for full 
 |----------|--------|------------|------|
 | generic | 1.0x | 6 (agent skills) | 18 |
 | public | 2.0x | 94 (BigCodeBench: 5 old + 89 genuine Gradio-verified) | 114 |
-| harness | 1.5x | 14 (6 original + 8 terminal-workflow) | 26 |
+| harness | 1.5x | 14 (6 original + 8 terminal-workflow) | 14 |
 
 **89 unique BigCodeBench problems** solved and Gradio-verified (pass@1: 1.000).
 Solutions span stdlib, numpy, pandas, sklearn, matplotlib, scipy, seaborn, requests, and "other" categories.
@@ -89,7 +93,7 @@ Smoke-tested: `find-largest-file` and `file-type-inventory` both PASS.
 | Cloud run | Harbor supports Daytona cloud provider |
 | Our env | Docker not installed, 12GB RAM available |
 
-**This session:** 8 terminal-workflow benchmarks created, registered, smoke-tested, and baseline-run (1 pass each). 158 total runs, 114 benchmarks, 100% pass rate. 6 verification script patterns hardened (SIGPIPE, YAML indent, stdin piping, space-pipe regex, case-insensitive grep, `|| echo 0` double-print). Fixed `skill-bench.sh verify` JSON output to sanitize newlines in `verify_output`.
+**This session:** 8 terminal-workflow benchmarks created, registered, smoke-tested, and baseline-run (1 pass each). 146 total runs, 114 benchmarks, 100% pass rate. 6 verification script patterns hardened (SIGPIPE, YAML indent, stdin piping, space-pipe regex, case-insensitive grep, `|| echo 0` double-print). Fixed `skill-bench.sh verify` JSON output to sanitize newlines in `verify_output`. Note: 12 original harness runs were accidentally deleted in session cleanup -- the 6 original harness benchmarks now have 1 run each instead of 3.
 
 **Next session recommendation:** Run 2 more passes of each terminal-workflow benchmark for signal strength (3 runs needed). Then set up Docker + Harbor for Terminal-Bench 2.0 calibration against the 89 ICLR 2026 terminal tasks.
 
@@ -102,19 +106,26 @@ Smoke-tested: `find-largest-file` and `file-type-inventory` both PASS.
 ```
 Read HANDOVER.md for complete context before responding.
 
-Current state: 89 BigCodeBench solves, all Gradio-verified (pass@1: 1.000).
-150 runs across 106 benchmarks. Gradio pipeline working.
-Harness benchmarks at 6/6 but only 1 run each (3 needed for signal).
+Current state: 146 runs across 114 benchmarks (100% pass rate).
+89 BigCodeBench Gradio-verified solves + 8 terminal-workflow benchmarks.
+Harness benchmarks at 14/14 (14 benchmarks, 1 run each).
+NOTE: 12 original harness runs were lost in cleanup -- need re-runs for full signal.
+Brand-new terminal-workflow benchmarks have 1 run each (3 needed for signal).
 
-BigCodeBench is a coding benchmark -- one-shottable by the model.
-For harness testing, Terminal-Bench 2.0 (ICLR 2026) was discovered:
-89 Docker-sandboxed terminal tasks, <65% frontier model scores.
+Key verification patterns discovered (see HANDOVER.md body):
+- SIGPIPE: pipefail + head -1 needs || true
+- YAML indent: Python in verification: | must be indented
+- JSON quoting: pipe to stdin, not triple quotes in python3 -c
+- Grep case: use -i for content pattern checks
+- Double-print: use || true, not || echo 0 in grep -c
 
-Next session: design Docker-independent harness benchmarks inspired
-by Terminal-Bench patterns. Multi-step terminal workflows that test
-the harness directly and can run via skill-bench.sh.
+Next session recommendation: run 2 more passes of each
+terminal-workflow benchmark for signal strength (need 3 runs each),
+then optionally set up Docker + Harbor for Terminal-Bench 2.0
+calibration against the 89 ICLR 2026 terminal tasks.
 
-Key files: scripts/bench/public/export-samples.py, select-batch.sh,
-.runtime/terminal-bench-samples.json
+Key files: benchmarks/harness/*.md (8 terminal-workflow benchmarks),
+scripts/tools/skill-bench.sh (JSON verify fix baked in),
+.runtime/terminal-bench-samples.json, AGENTS.md, HANDOVER.md
 ```
 <!-- session-data:end -->
