@@ -39,7 +39,9 @@ The following MUST execute in order before any user-facing output or conversatio
 
 4. **Read** `docs/workflow.md` -- fast orientation for workflow-driven execution.
 
-5. **Task-specific files** only when needed.
+5. **Read** `HANDOVER.md` -- session handover state, current progress, and next-session backlog. This replaces manual state classification when resuming from a prior session.
+
+6. **Task-specific files** only when needed.
 
 **One task per session.** When phase/topic shifts or the thread gets long, checkpoint and restart fresh. The startup gate will detect the fresh state and guide re-classification.
 
