@@ -153,6 +153,55 @@ After re-running verification with packages installed, these should reduce signi
 | NLTK compat | Download `averaged_perceptron_tagger_eng` (NLTK 3.9+ name) | Old `averaged_perceptron_tagger` | NLTK 3.9 renamed the resource |
 | Pandas string dtype | `pd.options.future.infer_string = False` | Per-column conversion | Global option is simpler, matches old pandas behavior |
 
+## Session Start Rules (Enforced)
+
+These rules apply to EVERY session start, before any work begins:
+
+### Rule 1: Run the health probe before trusting handover claims
+
+Do NOT trust HANDOVER.md numbers blindly. Run the state audit first:
+
+```bash
+source .runtime/bench-env/bin/activate
+python3 scripts/bench/public/verify-bigcodebench.py --audit  # TODO: implement this flag
+# Or manually:
+python3 -c "
+import json, glob, os
+run_dirs = glob.glob('.runtime/bench-runs/bigcodebench-*')
+p = sum(1 for d in run_dirs if os.path.exists(f'{d}/result.json') and json.load(open(f'{d}/result.json')).get('success'))
+f = sum(1 for d in run_dirs if os.path.exists(f'{d}/result.json') and not json.load(open(f'{d}/result.json')).get('success'))
+u = len(run_dirs) - p - f
+print(f'BIGCODEBENCH STATE: {p} pass, {f} fail, {u} unknown (total {len(run_dirs)})')
+print(f'HANDOVER CLAIMS: 623 pass, 35 fail, 483 unknown')
+if p != 623 or f != 35:
+    print('WARNING: handover state drift detected! Report discrepancy before proceeding.')
+"
+```
+
+### Rule 2: Report drift honestly (anti-hallucination)
+
+If the health probe reveals numbers different from what HANDOVER.md claims:
+1. STOP. Do NOT proceed with backlog work.
+2. Report the exact discrepancy. Say: "Handover claims X passing but actual count is Y. Possible causes: [list]."
+3. Reconcile before proceeding. Either update HANDOVER.md to match reality, or investigate what changed.
+4. If you cannot reconcile, checkpoint the discovery and ask the user.
+
+### Rule 3: Verify before claim
+
+Before making any claim about benchmark results:
+- Run the actual command. Do not summarize from memory or from plan files.
+- Read `result.json` files directly. Do NOT trust output.md (it may contain stale BENCH_SUCCESS markers).
+- Read `git diff` for what changed, not a plan document.
+
+### Rule 4: Start cycle (always)
+
+```
+1. bash ./scripts/hooks/session-start.sh   # startup gate + workflow detection
+2. Health probe (Rule 1)                    # handover verification
+3. Report state honestly (Rule 2)           # discrepancy handling
+4. Classify / resume workflow               # per AGENTS.md
+```
+
 ## Next Session Priority
 
 ### BigCodeBench Finish: Verify Remaining 483 + Fix the 35
@@ -214,9 +263,15 @@ COMPLETED:
 - P6: Terminal-Bench oracle baseline: 89/89, mean 0.955
 - P7: BigCodeBench scaled to all 1140 problems prepared, 623 verified
 
-NEXT SESSION WORK:
-1. Fix `build_test_script` in finish-bigcodebench.py to properly embed COMPAT_CODE
-   as string concatenation (not f-strings) with subprocess.run + os.setsid + SIGKILL.
+SESSION STARTUP (mandatory order):
+1. `bash ./scripts/hooks/session-start.sh` -- startup gate + workflow detection
+2. `bash scripts/bench/audit-state.sh` -- deterministic health probe, verify handover
+3. If drift detected: STOP, report discrepancy, reconcile before proceeding
+4. Then proceed with backlog:
+
+BACKLOG:
+1. Fix `build_test_script` to properly embed COMPAT_CODE as string concatenation
+   (not f-strings) with subprocess.run + os.setsid + SIGKILL.
    Then verify remaining 483 + re-verify 35 failures.
 2. Harbor adapter scaffold for Terminal-Bench agent run.
    Run `harbor adapter init`, wire to OpenCode, test with -k 2, full run with -k 5.
@@ -230,6 +285,7 @@ Governance references:
 - workflow-state.json (active workflow state)
 
 Key tool files:
+- scripts/bench/audit-state.sh (deterministic health probe -- run FIRST)
 - scripts/bench/public/solve-bigcodebench.py (has compat shim, batch solver + verifier)
 - scripts/bench/public/verify-bigcodebench.py (standalone verifier -- has compat shim)
 - scripts/bench/public/select-batch.sh (diverse problem selection)
