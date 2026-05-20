@@ -120,6 +120,9 @@ def _mode_compat(a, axis=0, nan_policy='propagate', keepdims=None):
 _compat_stats.mode = _mode_compat
 
 # 4. Ensure NLTK data is findable inside the eval subprocess
+
+# Removed: pandas _setitem_single_column patch -- internal API changed in pandas 3.0.3
+# BigCodeBench/680 handled as per-problem solution patch below
 try:
     import nltk as _compat_nltk
     _compat_nltk.data.path.append('/home/namikaz/nltk_data')

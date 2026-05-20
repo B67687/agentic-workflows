@@ -21,9 +21,9 @@ RUNS_DIR="$REPO_ROOT/.runtime/bench-runs"
 HANDOVER="$REPO_ROOT/HANDOVER.md"
 
 # Expected values from HANDOVER.md (update these when HANDOVER changes)
-HANDOVER_BC_PASS=623
-HANDOVER_BC_FAIL=35
-HANDOVER_BC_UNKNOWN=482
+HANDOVER_BC_PASS=1103
+HANDOVER_BC_FAIL=37
+HANDOVER_BC_UNKNOWN=0
 HANDOVER_BC_TOTAL=1140
 
 echo "=== Health Probe: Benchmark State Audit ==="

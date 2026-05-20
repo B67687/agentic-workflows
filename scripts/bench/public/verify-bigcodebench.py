@@ -70,21 +70,8 @@ def _mode_compat(a, axis=0, nan_policy='propagate', keepdims=None):
         return _ModeCompatResult(unique[idx], counts[idx])
 _compat_stats.mode = _mode_compat
 
-# 4. Pandas 3.0 strict loc assignment: auto-upcast int→float when needed
-#    (fixes sklearn StandardScaler assigning float64 to int64 columns)
-import pandas.core.indexing as _pdx
-_orig_setitem_single = _pdx._LocIndexer._setitem_single_column
-def _compat_setitem_single(self, loc, value, name):
-    try:
-        return _orig_setitem_single(self, loc, value, name)
-    except TypeError as e:
-        msg = str(e)
-        if 'Invalid value' in msg and hasattr(value, 'astype'):
-            return _orig_setitem_single(self, loc, value.astype(float), name)
-        raise
-_pdx._LocIndexer._setitem_single_column = _compat_setitem_single
-
-# 5. Ensure NLTK data is findable inside the eval subprocess
+# 4. Ensure NLTK data is findable inside the eval subprocess
+#    (Removed: pandas _setitem_single_column patch -- internal API changed in 3.0.3)
 try:
     import nltk as _compat_nltk
     _compat_nltk.data.path.append('/home/namikaz/nltk_data')
