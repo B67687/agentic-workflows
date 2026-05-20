@@ -93,7 +93,14 @@ Smoke-tested: `find-largest-file` and `file-type-inventory` both PASS.
 | Cloud run | Harbor supports Daytona cloud provider |
 | Our env | Docker not installed, 12GB RAM available |
 
-**This session:** 8 terminal-workflow benchmarks created, registered, smoke-tested, and baseline-run (1 pass each). 146 total runs, 114 benchmarks, 100% pass rate. 6 verification script patterns hardened (SIGPIPE, YAML indent, stdin piping, space-pipe regex, case-insensitive grep, `|| echo 0` double-print). Fixed `skill-bench.sh verify` JSON output to sanitize newlines in `verify_output`. Note: 12 original harness runs were accidentally deleted in session cleanup -- the 6 original harness benchmarks now have 1 run each instead of 3.
+**This session:** 8 terminal-workflow benchmarks created, registered, smoke-tested, and baseline-run (1 pass each). 146 total runs, 114 benchmarks, 100% pass rate. 6 verification script patterns hardened. Fixed `skill-bench.sh verify` JSON output. 
+
+**Guardrails added to prevent run data loss:**
+- `scripts/bench/cleanup-runs.sh` -- safe cleanup that rejects wildcards
+- `quality-gate.sh:check_dangerous_rm` -- catches `rm -rf` with globs on `.runtime/` paths
+- `AGENTS.md` rule -- documents the safe pattern and forbids raw `rm -rf` on bench-runs
+
+**Note:** 12 original harness runs were accidentally deleted in session cleanup -- need re-runs.
 
 **Next session recommendation:** Run 2 more passes of each terminal-workflow benchmark for signal strength (3 runs needed). Then set up Docker + Harbor for Terminal-Bench 2.0 calibration against the 89 ICLR 2026 terminal tasks.
 
@@ -126,6 +133,7 @@ calibration against the 89 ICLR 2026 terminal tasks.
 
 Key files: benchmarks/harness/*.md (8 terminal-workflow benchmarks),
 scripts/tools/skill-bench.sh (JSON verify fix baked in),
+scripts/bench/cleanup-runs.sh (safe deletion -- use this, never raw rm -rf),
 .runtime/terminal-bench-samples.json, AGENTS.md, HANDOVER.md
 ```
 <!-- session-data:end -->
