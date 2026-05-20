@@ -163,16 +163,29 @@ Key guardrail findings:
 - rm -r --force bench-runs/* was missed (FIXED)
 - All 8 patterns now tested with sandbox verification
 
-PRIORITY 1: Worker timeout / parent-fallback system.
-   Design, implement, and verify a timeout mechanism for worker subagents
-   that prevents runaway workers and falls back to parent execution.
+P1: DONE this session — Worker timeout / parent-fallback system.
+   - scripts/tools/worker-dispatch.sh (step budget, model selection, fallback)
+   - Worker prompt includes: "at most 8 tool calls" step budget
+   - Worker model: opencode/minimax-m2.5-free (orchestrator: flash)
+   - See HANDOVER.md body for dispatch docs
 
-PRIORITY 2: Re-establish BigCodeBench + generic benchmark runs
-   (lost to the empty-rid bug, infrastructure intact).
+PRIORITY 1: Re-establish BigCodeBench + generic benchmark runs
+   (all 114 benchmarks / 162 runs lost to empty-rid bug, infra intact).
+   Scripts at scripts/bench/public/.
+
+PRIORITY 2 (Optional): Docker + Terminal-Bench 2.0 calibration.
+
+Tools added this session:
+- bash scripts/tools/context-pressure.sh <percent> — context window guidance
+  (check % in OpenCode UI top bar, e.g. 18% = yellow zone)
+- bash scripts/tools/worker-dispatch.sh --task "..." --run-dir <path>
+  (structured worker dispatch with timeout/fallback)
 
 Key files: scripts/bench/cleanup-runs.sh (safe deletion),
 scripts/hooks/quality-gate.sh (check_dangerous_rm),
 AGENTS.md line 95 (rm -rf rule),
-benchmarks/harness/*.md (8 terminal-workflow benchmarks, 3 passes each)
+benchmarks/harness/*.md (8 terminal-workflow benchmarks, 3 passes each),
+scripts/tools/worker-dispatch.sh (worker dispatch),
+scripts/tools/context-pressure.sh (context monitoring)
 ```
 <!-- session-data:end -->
