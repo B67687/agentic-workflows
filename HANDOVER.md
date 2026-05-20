@@ -15,13 +15,13 @@ architecture. Goal: strengthen both until Pi-Star can self-iterate, then shift.
 
 | Repo | Branch | Last Commit |
 |------|--------|-------------|
-| agentic-workflows | main | (current) fix: harden verification scripts + baseline all 8 terminal-workflow benchmarks |
+| agentic-workflows | main | (current) docs: update HANDOVER.md with guardrails summary and entry prompt |
 
 Changes: 1 modified (HANDOVER.md), 0 untracked
 
-NOTE: Original 6 harness benchmarks lost 2 runs each (12 total) in cleanup.
-Re-run for full signal. See: bash scripts/tools/skill-bench.sh verify --run <dir>
-Then: bash scripts/bench/aggregate.sh summary
+  Guardrails active: cleanup-runs.sh (wildcard rejection), quality-gate.sh (check_dangerous_rm), AGENTS.md (rule forbid raw rm -rf on .runtime/bench-runs/)
+
+  NOTE: Original 6 harness benchmarks lost 2 runs each (12 total) in cleanup.
 
   Workflow: none  Step: none  Trace: 0 entries
 
@@ -102,7 +102,12 @@ Smoke-tested: `find-largest-file` and `file-type-inventory` both PASS.
 
 **Note:** 12 original harness runs were accidentally deleted in session cleanup -- need re-runs.
 
-**Next session recommendation:** Run 2 more passes of each terminal-workflow benchmark for signal strength (3 runs needed). Then set up Docker + Harbor for Terminal-Bench 2.0 calibration against the 89 ICLR 2026 terminal tasks.
+**Next session priority 1:** Verify guardrails work. Before any benchmark work:
+1. Test `bash scripts/bench/cleanup-runs.sh list` + `rm <exact-id>` -- confirm wildcard rejection
+2. Test `check_dangerous_rm` in quality gate by staging a script with `rm -rf *.runtime*`
+3. Confirm AGENTS.md rule is read and understood on session start
+
+**Next session priority 2:** Run 2 more passes of each terminal-workflow benchmark for signal strength (3 runs needed). Then set up Docker + Harbor for Terminal-Bench 2.0 calibration against the 89 ICLR 2026 terminal tasks.
 
 ## Installed in bench-env (cumulative)
 
@@ -126,14 +131,17 @@ Key verification patterns discovered (see HANDOVER.md body):
 - Grep case: use -i for content pattern checks
 - Double-print: use || true, not || echo 0 in grep -c
 
-Next session recommendation: run 2 more passes of each
-terminal-workflow benchmark for signal strength (need 3 runs each),
-then optionally set up Docker + Harbor for Terminal-Bench 2.0
-calibration against the 89 ICLR 2026 terminal tasks.
+PRIORITY 1: Verify guardrails work before anything else.
+   Test: bash scripts/bench/cleanup-runs.sh list
+   Test: bash scripts/bench/cleanup-runs.sh rm 'wildcard-*' (should reject)
+   Read AGENTS.md line 94 (rm -rf rule)
+   Confirm quality gate catches dangerous rm patterns
+PRIORITY 2: Run 2 more passes of each terminal-workflow benchmark
+for signal strength (need 3 runs each).
 
-Key files: benchmarks/harness/*.md (8 terminal-workflow benchmarks),
-scripts/tools/skill-bench.sh (JSON verify fix baked in),
-scripts/bench/cleanup-runs.sh (safe deletion -- use this, never raw rm -rf),
-.runtime/terminal-bench-samples.json, AGENTS.md, HANDOVER.md
+Key files: AGENTS.md (read first), HANDOVER.md (this file),
+scripts/bench/cleanup-runs.sh (safe deletion tool),
+scripts/hooks/quality-gate.sh (check_dangerous_rm check),
+benchmarks/harness/*.md (8 terminal-workflow benchmarks)
 ```
 <!-- session-data:end -->
