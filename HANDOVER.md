@@ -34,7 +34,7 @@ North Star: Best agent harness from evidence-based research
   |     |
   |     +-- BigCodeBench pipeline (100% problems prepared, 55% verified)
   |     |     +-- Compat shim (DONE -- 7 failure modes)
-  |     |     +-- 483 remaining verification (BLOCKED -- build_test_script fix needed)
+  |     |     +-- 482 remaining verification (BLOCKED -- build_test_script fix needed)
   |     |     +-- 35 failures cleanup (15 packages installed, 5 hard remaining)
   |     |
   |     +-- Terminal-Bench 2.0 (oracle baseline DONE -- 95.5%)
@@ -61,7 +61,7 @@ Changes: 0 uncommitted (run data in .runtime/bench-runs/ is gitignored)
   - quality-gate.sh (check_dangerous_rm catches -fr, --force variants) -- HARDENED
   - AGENTS.md (rule forbid raw rm -rf on .runtime/bench-runs/)
 
-  BigCodeBench: 623/1141 passing (98.1% on verified set, 35 known failures, 483 unverified).
+  BigCodeBench: 623/1140 passing (94.7% on verified set, 35 known failures, 482 unverified).
   Terminal-Bench oracle: 89/89, 95.5% mean.
   All missing benchmark packages installed (pytesseract, statsmodels, tensorflow, etc.).
   Compat shim in solve-bigcodebench.py covers 7+ failure modes across pandas, scipy, NLTK, sklearn, matplotlib.
@@ -75,7 +75,7 @@ Changes: 0 uncommitted (run data in .runtime/bench-runs/ is gitignored)
 | Category | Benchmarks | Runs | Pass Rate |
 |----------|------------|------|-----------|
 | BigCodeBench (partial) | 658 verified | 658 | 94.7% (623 pass / 35 fail) |
-| BigCodeBench (unknown) | 483 | 0 | -- (needs verification) |
+| BigCodeBench (unknown) | 482 | 0 | -- (needs verification) |
 | generic (system skills) | 6 | 18 | 100% |
 | harness (terminal-workflow) | 8 | 24 | 100% |
 
@@ -124,10 +124,10 @@ Monkey-patches applied before solution evaluation via `exec()`:
 ## BigCodeBench Current State
 
 - **Total problems in dataset:** 1,140
-- **Run dirs created:** 1,141 (all problems)
+- **Run dirs created:** 1,140 (all problems)
 - **Verified passing:** 623
 - **Known failures:** 35 (most are now-fixed missing packages; see below)
-- **Unknown (needs re-verify):** 483 (the `build_test_script` in finish script had a systemic error)
+- **Unknown (needs re-verify):** 482 (the `build_test_script` in finish script had a systemic error)
 
 ### 35 Failures
 
@@ -172,7 +172,7 @@ p = sum(1 for d in run_dirs if os.path.exists(f'{d}/result.json') and json.load(
 f = sum(1 for d in run_dirs if os.path.exists(f'{d}/result.json') and not json.load(open(f'{d}/result.json')).get('success'))
 u = len(run_dirs) - p - f
 print(f'BIGCODEBENCH STATE: {p} pass, {f} fail, {u} unknown (total {len(run_dirs)})')
-print(f'HANDOVER CLAIMS: 623 pass, 35 fail, 483 unknown')
+print(f'HANDOVER CLAIMS: 623 pass, 35 fail, 482 unknown')
 if p != 623 or f != 35:
     print('WARNING: handover state drift detected! Report discrepancy before proceeding.')
 "
@@ -204,7 +204,7 @@ Before making any claim about benchmark results:
 
 ## Next Session Priority
 
-### BigCodeBench Finish: Verify Remaining 483 + Fix the 35
+### BigCodeBench Finish: Verify Remaining 482 + Fix the 35
 
 **Root cause of unverified problems:** The `build_test_script()` in `finish-bigcodebench.py`
 (now removed from commit but code exists in history) had a systemic issue where embedding
@@ -214,7 +214,7 @@ Before making any claim about benchmark results:
 
 Option A (fastest): Write a simple loop that uses `subprocess.run()` to run each test script
 individually with `os.setsid` process group and `SIGKILL` on timeout. Test ONE problem first
-before running all 483:
+before running all 482:
 
 ```python
 import subprocess, tempfile, signal, os
@@ -252,9 +252,9 @@ Not started. Need to:
 Read HANDOVER.md for complete context before responding.
 
 Current state:
-- 623/1141 BigCodeBench passing (98.1% on verified set)
+- 623/1140 BigCodeBench passing (94.7% on verified set)
 - 35 known failures (15 fixed by now-installed packages, 3 timeouts, 2 hard)
-- 483 unverified (need re-run with fixed build_test_script approach)
+- 482 unverified (need re-run with fixed build_test_script approach)
 - Terminal-Bench oracle: 89/89, 95.5% mean
 - 40+ missing packages installed across sessions
 
@@ -272,7 +272,7 @@ SESSION STARTUP (mandatory order):
 BACKLOG:
 1. Fix `build_test_script` to properly embed COMPAT_CODE as string concatenation
    (not f-strings) with subprocess.run + os.setsid + SIGKILL.
-   Then verify remaining 483 + re-verify 35 failures.
+   Then verify remaining 482 + re-verify 35 failures.
 2. Harbor adapter scaffold for Terminal-Bench agent run.
    Run `harbor adapter init`, wire to OpenCode, test with -k 2, full run with -k 5.
 

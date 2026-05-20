@@ -23,8 +23,8 @@ HANDOVER="$REPO_ROOT/HANDOVER.md"
 # Expected values from HANDOVER.md (update these when HANDOVER changes)
 HANDOVER_BC_PASS=623
 HANDOVER_BC_FAIL=35
-HANDOVER_BC_UNKNOWN=483
-HANDOVER_BC_TOTAL=1141
+HANDOVER_BC_UNKNOWN=482
+HANDOVER_BC_TOTAL=1140
 
 echo "=== Health Probe: Benchmark State Audit ==="
 echo "Timestamp: $(date -u '+%Y-%m-%dT%H:%M:%SZ')"
