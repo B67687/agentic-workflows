@@ -11,6 +11,43 @@ and harden concepts there first, then port patterns to Pi-Star's extension
 architecture. Goal: strengthen both until Pi-Star can self-iterate, then shift.
 
 <!-- session-data:start -->
+## Project Phase
+
+We are in **Phase 3 of 5** -- Benchmark Infrastructure & Validation.
+
+| Phase | Focus | Status |
+|-------|-------|--------|
+| 1. Agent core | Worker dispatch, step budget, parent-fallback | DONE |
+| 2. Harness tooling | Benchmark dispatch, generic benchmarks, run aggregate | DONE |
+| **3. Benchmark infra** | **BigCodeBench pipeline, Terminal-Bench setup, compat shim** | **~60%** |
+| 4. Cross-repo propagation | Pi-Star integration, pattern porting | NOT STARTED |
+| 5. Self-iteration | Pi-Star self-modification, capability propagation | NOT STARTED |
+
+### Milestone Tree
+
+```
+North Star: Best agent harness from evidence-based research
+  |
+  +-- Phase 1-2: Core harness + tooling (DONE)
+  |
+  +-- Phase 3: Benchmark Infrastructure (HERE)
+  |     |
+  |     +-- BigCodeBench pipeline (100% problems prepared, 55% verified)
+  |     |     +-- Compat shim (DONE -- 7 failure modes)
+  |     |     +-- 483 remaining verification (BLOCKED -- build_test_script fix needed)
+  |     |     +-- 35 failures cleanup (15 packages installed, 5 hard remaining)
+  |     |
+  |     +-- Terminal-Bench 2.0 (oracle baseline DONE -- 95.5%)
+  |     |     +-- Harbor adapter (NOT STARTED)
+  |     |     +-- Agent run + leaderboard submission (NOT STARTED)
+  |     |
+  |     +-- Generic benchmarks (DONE -- 18/18)
+  |     +-- Harness benchmarks (DONE -- 24/24)
+  |
+  +-- Phase 4: Pi-Star propagation (PENDING Phase 3 completion)
+  +-- Phase 5: Self-iteration (PENDING Phase 4)
+```
+
 ## Current State
 
 | Repo | Branch | Last Commit |
@@ -106,6 +143,16 @@ flask-login, wordninja`
 
 After re-running verification with packages installed, these should reduce significantly.
 
+## Key Technical Decisions
+
+| Decision | Chosen | Rejected | Rationale |
+|----------|--------|----------|-----------|
+| Library compat for BigCodeBench | Monkey-patch shim in verifier | Pin library versions | Shim is future-proof; new problems auto-resolve. Pin is brittle. |
+| Benchmark verifier | Flat `subprocess.run` + `os.setsid` + `SIGKILL` | `untrusted_check` (nested multiprocessing) | `untrusted_check` hangs on WSL2 due to nested multiprocess + orphan zombies |
+| Test script generation | String concatenation (`+ "\n" +`) | f-strings | Test code contains `{` `}` that break f-string interpolation |
+| NLTK compat | Download `averaged_perceptron_tagger_eng` (NLTK 3.9+ name) | Old `averaged_perceptron_tagger` | NLTK 3.9 renamed the resource |
+| Pandas string dtype | `pd.options.future.infer_string = False` | Per-column conversion | Global option is simpler, matches old pandas behavior |
+
 ## Next Session Priority
 
 ### BigCodeBench Finish: Verify Remaining 483 + Fix the 35
@@ -174,10 +221,25 @@ NEXT SESSION WORK:
 2. Harbor adapter scaffold for Terminal-Bench agent run.
    Run `harbor adapter init`, wire to OpenCode, test with -k 2, full run with -k 5.
 
-Key files:
-- scripts/bench/public/solve-bigcodebench.py (has compat shim, best verifier)
-- scripts/bench/public/verify-bigcodebench.py (standalone verifier)
-- .runtime/bench-runs/ (all problem data + results)
-- .runtime/bench-env/ (venv with all packages)
+Governance references:
+- AGENTS.md (operating contract -- read first on every session start)
+- constitution.md (immutable principles -- article gates enforced)
+- docs/workflow.md (workflow-driven execution)
+- docs/session-checkpoint.md (checkpoint and recovery rules)
+- workflow.d/root.yaml (classify step routing)
+- workflow-state.json (active workflow state)
+
+Key tool files:
+- scripts/bench/public/solve-bigcodebench.py (has compat shim, batch solver + verifier)
+- scripts/bench/public/verify-bigcodebench.py (standalone verifier -- has compat shim)
+- scripts/bench/public/select-batch.sh (diverse problem selection)
+- scripts/tools/benchmark-dispatch.sh (batch benchmark dispatch)
+- scripts/tools/worker-dispatch.sh (worker dispatch with step budget)
+- scripts/hooks/session-start.sh (lifecycle hooks + workflow startup gate)
+
+Data:
+- .runtime/bench-runs/ (all problem data + results -- gitignored)
+- .runtime/bench-env/ (venv with all packages -- gitignored)
+- /mnt/c/Users/Namikaz/jobs/ (Harbor job output for Terminal-Bench oracle)
 ```
 <!-- session-data:end -->
