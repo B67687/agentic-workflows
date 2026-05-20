@@ -39,6 +39,7 @@ Thumbs.db
 .triage/
 .agent-jobs/
 adapters/terminal-bench/jobs/
+.env*
 .bench-runs/
 .experiments/
 

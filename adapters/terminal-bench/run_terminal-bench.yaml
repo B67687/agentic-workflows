@@ -10,11 +10,13 @@ environment:
   # type: daytona
   force_build: true
   delete: true
-  env:
-    OPENCODE_API_KEY: ${OPENCODE_API_KEY}
+  # env:
+  #   OPENCODE_API_KEY: ${OPENCODE_API_KEY}
 agents:
-  - name: oracle
   - name: opencode
-    model_name: opencode-go/deepseek-v4-flash
+    model_name: openai/ds/deepseek-v4-flash
+    env:
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      OPENAI_BASE_URL: http://172.17.0.1:20128/v1
 datasets:
   - path: /home/namikaz/projects/dev/agentic-workflows/adapters/terminal-bench/datasets/terminal-bench-2
