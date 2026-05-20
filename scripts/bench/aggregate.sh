@@ -118,7 +118,7 @@ for r in runs:
     time_s = r.get('time_seconds')
 
     bm = benchmarks.get(bid, {})
-    cat = bm.get('category', 'uncategorized')
+    cat = bm.get('category') or r.get('category', 'uncategorized')
     cat_weight = categories.get(cat, {}).get('weight', 1.0)
     skills = bm.get('skills', [])
 

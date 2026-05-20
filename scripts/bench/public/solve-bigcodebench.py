@@ -127,6 +127,7 @@ def main():
             "run_id": dirname,
             "skill": "bigcodebench",
             "benchmark_id": task_id,
+            "category": "bigcodebench",
             "success": success,
             "steps": 1,
             "time_seconds": 1,
