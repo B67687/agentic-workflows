@@ -204,8 +204,8 @@ if [ -f scripts/bench/cleanup-runs.sh ]; then
     "not allowed"
 
   assert_output_contains "cleanup-runs: list works" \
-    "bash scripts/bench/cleanup-runs.sh list 2>&1; true" \
-    "==="
+    "timeout 10 bash scripts/bench/cleanup-runs.sh list 2>&1 || true" \
+    "=== Benchmark Runs"
 else
   test_skip "cleanup-runs.sh (not found)"
 fi
