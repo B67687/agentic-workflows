@@ -35,22 +35,61 @@ import numpy as _compat_np
 if not hasattr(_compat_pd.DataFrame, 'applymap'):
     _compat_pd.DataFrame.applymap = _compat_pd.DataFrame.map
 
-# 2. scipy stats.mode: newer versions return scalars for 1-D input
+# 2. Restore old pandas string inference (object vs str) for compat with
+#    tests that check dtype.name == 'object'.  (pandas 3.0 defaults to str)
+_compat_pd.options.future.infer_string = False
+
+# 3. scipy stats.mode: newer versions return scalars for 1-D input
 #    instead of 0-d arrays, breaking canonical code that indexes [0][0].
+#    Also: scipy 1.11+ rejects non-numeric input; fall back to np.unique.
 #    Since ModeResult is a named tuple (immutable) we wrap it in a compat
-#    class that normalises scalar returns to arrays.
+#    class that normalises scalar returns to arrays and handles empty input.
 class _ModeCompatResult:
     def __init__(self, m, c):
-        self.mode = m if isinstance(m, _compat_np.ndarray) else _compat_np.array([m])
-        self.count = c if isinstance(c, _compat_np.ndarray) else _compat_np.array([c])
+        if isinstance(m, _compat_np.ndarray):
+            self.mode = m
+            self.count = c if isinstance(c, _compat_np.ndarray) else _compat_np.array([c])
+        else:
+            self.mode = _compat_np.array([m]) if m is not None else _compat_np.array([])
+            self.count = _compat_np.array([c]) if c is not None else _compat_np.array([])
     def __getitem__(self, i):
         return [self.mode, self.count][i]
 
 _orig_mode = _compat_stats.mode
 def _mode_compat(a, axis=0, nan_policy='propagate', keepdims=None):
-    result = _orig_mode(a, axis=axis, nan_policy=nan_policy, keepdims=keepdims)
-    return _ModeCompatResult(result.mode, result.count)
+    # Handle empty input
+    if hasattr(a, '__len__') and len(a) == 0:
+        return _ModeCompatResult(_compat_np.array([]), _compat_np.array([]))
+    try:
+        result = _orig_mode(a, axis=axis, nan_policy=nan_policy, keepdims=keepdims)
+        return _ModeCompatResult(result.mode, result.count)
+    except TypeError:
+        # Non-numeric input: fall back to manual mode
+        unique, counts = _compat_np.unique(a, return_counts=True)
+        idx = _compat_np.argmax(counts)
+        return _ModeCompatResult(unique[idx], counts[idx])
 _compat_stats.mode = _mode_compat
+
+# 4. Pandas 3.0 strict loc assignment: auto-upcast int→float when needed
+#    (fixes sklearn StandardScaler assigning float64 to int64 columns)
+import pandas.core.indexing as _pdx
+_orig_setitem_single = _pdx._LocIndexer._setitem_single_column
+def _compat_setitem_single(self, loc, value, name):
+    try:
+        return _orig_setitem_single(self, loc, value, name)
+    except TypeError as e:
+        msg = str(e)
+        if 'Invalid value' in msg and hasattr(value, 'astype'):
+            return _orig_setitem_single(self, loc, value.astype(float), name)
+        raise
+_pdx._LocIndexer._setitem_single_column = _compat_setitem_single
+
+# 5. Ensure NLTK data is findable inside the eval subprocess
+try:
+    import nltk as _compat_nltk
+    _compat_nltk.data.path.append('/home/namikaz/nltk_data')
+except Exception:
+    pass
 """
 
 
