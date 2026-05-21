@@ -1,0 +1,68 @@
+# Quality gate CI — runs on every push to main and PRs targeting main
+# Checks propagation drift and pre-push quality gate logic.
+# Benchmark smoke requires Docker + 9router (runs locally).
+
+name: Quality Gate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+  pull-requests: write  # for PR comments
+
+jobs:
+  propagation-check:
+    name: Propagation Drift Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check propagation drift
+        run: |
+          if bash scripts/propagate-to-all.sh --preview 2>&1 | grep -q "WOULD REFRESH"; then
+            echo "::error::Propagated files have drifted from templates"
+            bash scripts/propagate-to-all.sh --preview 2>&1 | grep "WOULD REFRESH"
+            exit 1
+          fi
+          echo "Propagation is clean."
+
+  branch-convention:
+    name: Branch Name Convention
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check branch name
+        run: |
+          BRANCH="${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}"
+          if [[ "$BRANCH" == "main" ]]; then
+            echo "On main branch — skipping convention check."
+            exit 0
+          fi
+          if echo "$BRANCH" | grep -qE '^(feat|fix|chore|docs|refactor|test|sprint|handover)/'; then
+            echo "Branch '$BRANCH' follows naming convention."
+          else
+            echo "::warning::Branch '$BRANCH' doesn't follow naming convention"
+            echo "Expected: feat/, fix/, chore/, docs/, refactor/, test/, sprint/, or handover/"
+          fi
+
+  quality-summary:
+    name: Quality Summary
+    needs: [propagation-check, branch-convention]
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Summarize results
+        run: |
+          echo "## Quality Gate Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Check | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|-------|--------|" >> $GITHUB_STEP_SUMMARY
+          for job in propagation-check branch-convention; do
+            STATUS="${{ needs.propagation-check.result }}"
+            echo "| $job | $STATUS |" >> $GITHUB_STEP_SUMMARY
+          done
