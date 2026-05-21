@@ -1,0 +1,22 @@
+Traceback (most recent call last):
+  File "/home/namikaz/projects/dev/agentic-workflows/.runtime/bench-env/lib/python3.12/site-packages/harbor/trial/trial.py", line 160, in run
+    await self._prepare()
+  File "/home/namikaz/projects/dev/agentic-workflows/.runtime/bench-env/lib/python3.12/site-packages/harbor/trial/trial.py", line 187, in _prepare
+    await self._setup_agent_environment()
+  File "/home/namikaz/projects/dev/agentic-workflows/.runtime/bench-env/lib/python3.12/site-packages/harbor/trial/trial.py", line 617, in _setup_agent_environment
+    await self._start_agent_environment()
+  File "/home/namikaz/projects/dev/agentic-workflows/.runtime/bench-env/lib/python3.12/site-packages/harbor/trial/trial.py", line 623, in _start_agent_environment
+    await asyncio.wait_for(
+  File "/usr/lib/python3.12/asyncio/tasks.py", line 520, in wait_for
+    return await fut
+           ^^^^^^^^^
+  File "/home/namikaz/projects/dev/agentic-workflows/.runtime/bench-env/lib/python3.12/site-packages/harbor/environments/docker/docker.py", line 484, in start
+    await self._run_docker_compose_command(["up", "--detach", "--wait"])
+  File "/home/namikaz/projects/dev/agentic-workflows/.runtime/bench-env/lib/python3.12/site-packages/harbor/environments/docker/docker.py", line 369, in _run_docker_compose_command
+    raise RuntimeError(
+RuntimeError: Docker compose command failed for environment terminal-bench/sam-cell-seg. Command: docker compose --project-name sam-cell-seg__9pytuyq --project-directory /home/namikaz/.cache/harbor/tasks/packages/terminal-bench/sam-cell-seg/a141c1f364a9a69e27545a062f5238a27dfde68dfa0a04921966ada2854bf1db/environment -f /home/namikaz/projects/dev/agentic-workflows/.runtime/bench-env/lib/python3.12/site-packages/harbor/environments/docker/docker-compose-base.yaml -f /home/namikaz/projects/dev/agentic-workflows/.runtime/bench-env/lib/python3.12/site-packages/harbor/environments/docker/docker-compose-prebuilt.yaml -f /tmp/tmp78ukz2iw/docker-compose-mounts.json up --detach --wait. Return code: 125. Stdout: unknown flag: --project-name
+
+Usage:  docker [OPTIONS] COMMAND [ARG...]
+
+Run 'docker --help' for more information
+. Stderr: None. 

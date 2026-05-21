@@ -1,0 +1,91 @@
+{
+    "id": "f7fe8ed4-75ab-4781-8039-050b1e6bbfc2",
+    "task_name": "terminal-bench/break-filter-js-from-html",
+    "trial_name": "break-filter-js-from-html__5hLdDXZ",
+    "trial_uri": "file:///home/namikaz/projects/dev/agentic-workflows/jobs/2026-05-20__12-05-07/break-filter-js-from-html__5hLdDXZ",
+    "task_id": {
+        "org": "terminal-bench",
+        "name": "break-filter-js-from-html",
+        "ref": "sha256:59a2641df9bca789642ad4ab3f5790de5ffed6eb4a594ca7846d26422a55c4a8"
+    },
+    "source": "terminal-bench/terminal-bench-2",
+    "task_checksum": "3d0f7651479ff6739729cc962b44510501fa83a3df4cfc874583d4de3e4ef610",
+    "config": {
+        "task": {
+            "path": null,
+            "git_url": null,
+            "git_commit_id": null,
+            "name": "terminal-bench/break-filter-js-from-html",
+            "ref": "sha256:59a2641df9bca789642ad4ab3f5790de5ffed6eb4a594ca7846d26422a55c4a8",
+            "overwrite": false,
+            "download_dir": null,
+            "source": "terminal-bench/terminal-bench-2"
+        },
+        "trial_name": "break-filter-js-from-html__5hLdDXZ",
+        "trials_dir": "jobs/2026-05-20__12-05-07",
+        "timeout_multiplier": 1.0,
+        "agent_timeout_multiplier": null,
+        "verifier_timeout_multiplier": null,
+        "agent_setup_timeout_multiplier": null,
+        "environment_build_timeout_multiplier": null,
+        "agent": {
+            "name": "oracle",
+            "import_path": null,
+            "model_name": null,
+            "skills": [],
+            "override_timeout_sec": null,
+            "override_setup_timeout_sec": null,
+            "max_timeout_sec": null,
+            "kwargs": {},
+            "env": {},
+            "mcp_servers": []
+        },
+        "environment": {
+            "type": "docker",
+            "import_path": null,
+            "force_build": false,
+            "delete": true,
+            "override_cpus": null,
+            "override_memory_mb": null,
+            "override_storage_mb": null,
+            "override_gpus": null,
+            "suppress_override_warnings": false,
+            "mounts": null,
+            "extra_docker_compose": [],
+            "env": {},
+            "kwargs": {}
+        },
+        "verifier": {
+            "override_timeout_sec": null,
+            "max_timeout_sec": null,
+            "env": {},
+            "disable": false
+        },
+        "artifacts": [],
+        "extra_instruction_paths": [],
+        "job_id": "667f81aa-7962-4363-ae7d-e9aefd39b28a"
+    },
+    "agent_info": {
+        "name": "oracle",
+        "version": "1.0.0",
+        "model_info": null
+    },
+    "agent_result": null,
+    "verifier_result": null,
+    "exception_info": {
+        "exception_type": "RuntimeError",
+        "exception_message": "Docker compose command failed for environment terminal-bench/break-filter-js-from-html. Command: docker compose --project-name break-filter-js-from-html__5hlddxz --project-directory /home/namikaz/.cache/harbor/tasks/packages/terminal-bench/break-filter-js-from-html/59a2641df9bca789642ad4ab3f5790de5ffed6eb4a594ca7846d26422a55c4a8/environment -f /home/namikaz/projects/dev/agentic-workflows/.runtime/bench-env/lib/python3.12/site-packages/harbor/environments/docker/docker-compose-base.yaml -f /home/namikaz/projects/dev/agentic-workflows/.runtime/bench-env/lib/python3.12/site-packages/harbor/environments/docker/docker-compose-prebuilt.yaml -f /tmp/tmpmvsd9a4a/docker-compose-mounts.json up --detach --wait. Return code: 125. Stdout: unknown flag: --project-name\n\nUsage:  docker [OPTIONS] COMMAND [ARG...]\n\nRun 'docker --help' for more information\n. Stderr: None. ",
+        "exception_traceback": "Traceback (most recent call last):\n  File \"/home/namikaz/projects/dev/agentic-workflows/.runtime/bench-env/lib/python3.12/site-packages/harbor/trial/trial.py\", line 160, in run\n    await self._prepare()\n  File \"/home/namikaz/projects/dev/agentic-workflows/.runtime/bench-env/lib/python3.12/site-packages/harbor/trial/trial.py\", line 187, in _prepare\n    await self._setup_agent_environment()\n  File \"/home/namikaz/projects/dev/agentic-workflows/.runtime/bench-env/lib/python3.12/site-packages/harbor/trial/trial.py\", line 617, in _setup_agent_environment\n    await self._start_agent_environment()\n  File \"/home/namikaz/projects/dev/agentic-workflows/.runtime/bench-env/lib/python3.12/site-packages/harbor/trial/trial.py\", line 623, in _start_agent_environment\n    await asyncio.wait_for(\n  File \"/usr/lib/python3.12/asyncio/tasks.py\", line 520, in wait_for\n    return await fut\n           ^^^^^^^^^\n  File \"/home/namikaz/projects/dev/agentic-workflows/.runtime/bench-env/lib/python3.12/site-packages/harbor/environments/docker/docker.py\", line 484, in start\n    await self._run_docker_compose_command([\"up\", \"--detach\", \"--wait\"])\n  File \"/home/namikaz/projects/dev/agentic-workflows/.runtime/bench-env/lib/python3.12/site-packages/harbor/environments/docker/docker.py\", line 369, in _run_docker_compose_command\n    raise RuntimeError(\nRuntimeError: Docker compose command failed for environment terminal-bench/break-filter-js-from-html. Command: docker compose --project-name break-filter-js-from-html__5hlddxz --project-directory /home/namikaz/.cache/harbor/tasks/packages/terminal-bench/break-filter-js-from-html/59a2641df9bca789642ad4ab3f5790de5ffed6eb4a594ca7846d26422a55c4a8/environment -f /home/namikaz/projects/dev/agentic-workflows/.runtime/bench-env/lib/python3.12/site-packages/harbor/environments/docker/docker-compose-base.yaml -f /home/namikaz/projects/dev/agentic-workflows/.runtime/bench-env/lib/python3.12/site-packages/harbor/environments/docker/docker-compose-prebuilt.yaml -f /tmp/tmpmvsd9a4a/docker-compose-mounts.json up --detach --wait. Return code: 125. Stdout: unknown flag: --project-name\n\nUsage:  docker [OPTIONS] COMMAND [ARG...]\n\nRun 'docker --help' for more information\n. Stderr: None. \n",
+        "occurred_at": "2026-05-20T12:05:15.044648"
+    },
+    "started_at": "2026-05-20T04:05:14.713597Z",
+    "finished_at": "2026-05-20T04:05:15.434112Z",
+    "environment_setup": {
+        "started_at": "2026-05-20T04:05:14.806496Z",
+        "finished_at": "2026-05-20T04:05:15.044185Z"
+    },
+    "agent_setup": null,
+    "agent_execution": null,
+    "verifier": null,
+    "step_results": null
+}

@@ -1,0 +1,91 @@
+{
+    "id": "814a9cd4-8c52-4ee3-8783-f4a7634991c2",
+    "task_name": "terminal-bench/bn-fit-modify",
+    "trial_name": "bn-fit-modify__vJcnTcL",
+    "trial_uri": "file:///home/namikaz/projects/dev/agentic-workflows/jobs/2026-05-20__12-05-07/bn-fit-modify__vJcnTcL",
+    "task_id": {
+        "org": "terminal-bench",
+        "name": "bn-fit-modify",
+        "ref": "sha256:48b71fbf20c4dfb661fe49d8fb6cfb91417be422c87889dd30110626a1d1f7eb"
+    },
+    "source": "terminal-bench/terminal-bench-2",
+    "task_checksum": "f34f2473e83fd1cd5b3558403f4a9a3116419b5dd415817cb5aef2e953a9736f",
+    "config": {
+        "task": {
+            "path": null,
+            "git_url": null,
+            "git_commit_id": null,
+            "name": "terminal-bench/bn-fit-modify",
+            "ref": "sha256:48b71fbf20c4dfb661fe49d8fb6cfb91417be422c87889dd30110626a1d1f7eb",
+            "overwrite": false,
+            "download_dir": null,
+            "source": "terminal-bench/terminal-bench-2"
+        },
+        "trial_name": "bn-fit-modify__vJcnTcL",
+        "trials_dir": "jobs/2026-05-20__12-05-07",
+        "timeout_multiplier": 1.0,
+        "agent_timeout_multiplier": null,
+        "verifier_timeout_multiplier": null,
+        "agent_setup_timeout_multiplier": null,
+        "environment_build_timeout_multiplier": null,
+        "agent": {
+            "name": "oracle",
+            "import_path": null,
+            "model_name": null,
+            "skills": [],
+            "override_timeout_sec": null,
+            "override_setup_timeout_sec": null,
+            "max_timeout_sec": null,
+            "kwargs": {},
+            "env": {},
+            "mcp_servers": []
+        },
+        "environment": {
+            "type": "docker",
+            "import_path": null,
+            "force_build": false,
+            "delete": true,
+            "override_cpus": null,
+            "override_memory_mb": null,
+            "override_storage_mb": null,
+            "override_gpus": null,
+            "suppress_override_warnings": false,
+            "mounts": null,
+            "extra_docker_compose": [],
+            "env": {},
+            "kwargs": {}
+        },
+        "verifier": {
+            "override_timeout_sec": null,
+            "max_timeout_sec": null,
+            "env": {},
+            "disable": false
+        },
+        "artifacts": [],
+        "extra_instruction_paths": [],
+        "job_id": "667f81aa-7962-4363-ae7d-e9aefd39b28a"
+    },
+    "agent_info": {
+        "name": "oracle",
+        "version": "1.0.0",
+        "model_info": null
+    },
+    "agent_result": null,
+    "verifier_result": null,
+    "exception_info": {
+        "exception_type": "RuntimeError",
+        "exception_message": "Docker compose command failed for environment terminal-bench/bn-fit-modify. Command: docker compose --project-name bn-fit-modify__vjcntcl --project-directory /home/namikaz/.cache/harbor/tasks/packages/terminal-bench/bn-fit-modify/48b71fbf20c4dfb661fe49d8fb6cfb91417be422c87889dd30110626a1d1f7eb/environment -f /home/namikaz/projects/dev/agentic-workflows/.runtime/bench-env/lib/python3.12/site-packages/harbor/environments/docker/docker-compose-base.yaml -f /home/namikaz/projects/dev/agentic-workflows/.runtime/bench-env/lib/python3.12/site-packages/harbor/environments/docker/docker-compose-prebuilt.yaml -f /tmp/tmpxak1c5jr/docker-compose-mounts.json up --detach --wait. Return code: 125. Stdout: unknown flag: --project-name\n\nUsage:  docker [OPTIONS] COMMAND [ARG...]\n\nRun 'docker --help' for more information\n. Stderr: None. ",
+        "exception_traceback": "Traceback (most recent call last):\n  File \"/home/namikaz/projects/dev/agentic-workflows/.runtime/bench-env/lib/python3.12/site-packages/harbor/trial/trial.py\", line 160, in run\n    await self._prepare()\n  File \"/home/namikaz/projects/dev/agentic-workflows/.runtime/bench-env/lib/python3.12/site-packages/harbor/trial/trial.py\", line 187, in _prepare\n    await self._setup_agent_environment()\n  File \"/home/namikaz/projects/dev/agentic-workflows/.runtime/bench-env/lib/python3.12/site-packages/harbor/trial/trial.py\", line 617, in _setup_agent_environment\n    await self._start_agent_environment()\n  File \"/home/namikaz/projects/dev/agentic-workflows/.runtime/bench-env/lib/python3.12/site-packages/harbor/trial/trial.py\", line 623, in _start_agent_environment\n    await asyncio.wait_for(\n  File \"/usr/lib/python3.12/asyncio/tasks.py\", line 520, in wait_for\n    return await fut\n           ^^^^^^^^^\n  File \"/home/namikaz/projects/dev/agentic-workflows/.runtime/bench-env/lib/python3.12/site-packages/harbor/environments/docker/docker.py\", line 484, in start\n    await self._run_docker_compose_command([\"up\", \"--detach\", \"--wait\"])\n  File \"/home/namikaz/projects/dev/agentic-workflows/.runtime/bench-env/lib/python3.12/site-packages/harbor/environments/docker/docker.py\", line 369, in _run_docker_compose_command\n    raise RuntimeError(\nRuntimeError: Docker compose command failed for environment terminal-bench/bn-fit-modify. Command: docker compose --project-name bn-fit-modify__vjcntcl --project-directory /home/namikaz/.cache/harbor/tasks/packages/terminal-bench/bn-fit-modify/48b71fbf20c4dfb661fe49d8fb6cfb91417be422c87889dd30110626a1d1f7eb/environment -f /home/namikaz/projects/dev/agentic-workflows/.runtime/bench-env/lib/python3.12/site-packages/harbor/environments/docker/docker-compose-base.yaml -f /home/namikaz/projects/dev/agentic-workflows/.runtime/bench-env/lib/python3.12/site-packages/harbor/environments/docker/docker-compose-prebuilt.yaml -f /tmp/tmpxak1c5jr/docker-compose-mounts.json up --detach --wait. Return code: 125. Stdout: unknown flag: --project-name\n\nUsage:  docker [OPTIONS] COMMAND [ARG...]\n\nRun 'docker --help' for more information\n. Stderr: None. \n",
+        "occurred_at": "2026-05-20T12:05:29.881390"
+    },
+    "started_at": "2026-05-20T04:05:29.592077Z",
+    "finished_at": "2026-05-20T04:05:30.359866Z",
+    "environment_setup": {
+        "started_at": "2026-05-20T04:05:29.596198Z",
+        "finished_at": "2026-05-20T04:05:29.880919Z"
+    },
+    "agent_setup": null,
+    "agent_execution": null,
+    "verifier": null,
+    "step_results": null
+}

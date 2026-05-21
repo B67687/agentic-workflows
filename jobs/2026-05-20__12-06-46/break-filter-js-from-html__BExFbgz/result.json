@@ -1,0 +1,106 @@
+{
+    "id": "23c7a6b6-de41-4c0c-80c8-08dbe77c1241",
+    "task_name": "terminal-bench/break-filter-js-from-html",
+    "trial_name": "break-filter-js-from-html__BExFbgz",
+    "trial_uri": "file:///home/namikaz/projects/dev/agentic-workflows/jobs/2026-05-20__12-06-46/break-filter-js-from-html__BExFbgz",
+    "task_id": {
+        "org": "terminal-bench",
+        "name": "break-filter-js-from-html",
+        "ref": "sha256:59a2641df9bca789642ad4ab3f5790de5ffed6eb4a594ca7846d26422a55c4a8"
+    },
+    "source": "terminal-bench/terminal-bench-2",
+    "task_checksum": "3d0f7651479ff6739729cc962b44510501fa83a3df4cfc874583d4de3e4ef610",
+    "config": {
+        "task": {
+            "path": null,
+            "git_url": null,
+            "git_commit_id": null,
+            "name": "terminal-bench/break-filter-js-from-html",
+            "ref": "sha256:59a2641df9bca789642ad4ab3f5790de5ffed6eb4a594ca7846d26422a55c4a8",
+            "overwrite": false,
+            "download_dir": null,
+            "source": "terminal-bench/terminal-bench-2"
+        },
+        "trial_name": "break-filter-js-from-html__BExFbgz",
+        "trials_dir": "jobs/2026-05-20__12-06-46",
+        "timeout_multiplier": 1.0,
+        "agent_timeout_multiplier": null,
+        "verifier_timeout_multiplier": null,
+        "agent_setup_timeout_multiplier": null,
+        "environment_build_timeout_multiplier": null,
+        "agent": {
+            "name": "oracle",
+            "import_path": null,
+            "model_name": null,
+            "skills": [],
+            "override_timeout_sec": null,
+            "override_setup_timeout_sec": null,
+            "max_timeout_sec": null,
+            "kwargs": {},
+            "env": {},
+            "mcp_servers": []
+        },
+        "environment": {
+            "type": "docker",
+            "import_path": null,
+            "force_build": false,
+            "delete": true,
+            "override_cpus": null,
+            "override_memory_mb": null,
+            "override_storage_mb": null,
+            "override_gpus": null,
+            "suppress_override_warnings": false,
+            "mounts": null,
+            "extra_docker_compose": [],
+            "env": {},
+            "kwargs": {}
+        },
+        "verifier": {
+            "override_timeout_sec": null,
+            "max_timeout_sec": null,
+            "env": {},
+            "disable": false
+        },
+        "artifacts": [],
+        "extra_instruction_paths": [],
+        "job_id": "96c591a5-bd05-46ae-9f94-d91664870bc5"
+    },
+    "agent_info": {
+        "name": "oracle",
+        "version": "1.0.0",
+        "model_info": null
+    },
+    "agent_result": {
+        "n_input_tokens": null,
+        "n_cache_tokens": null,
+        "n_output_tokens": null,
+        "cost_usd": null,
+        "rollout_details": null,
+        "metadata": null
+    },
+    "verifier_result": {
+        "rewards": {
+            "reward": 1.0
+        }
+    },
+    "exception_info": null,
+    "started_at": "2026-05-20T04:08:12.816574Z",
+    "finished_at": "2026-05-20T04:08:47.545395Z",
+    "environment_setup": {
+        "started_at": "2026-05-20T04:08:12.817538Z",
+        "finished_at": "2026-05-20T04:08:28.669412Z"
+    },
+    "agent_setup": {
+        "started_at": "2026-05-20T04:08:28.669432Z",
+        "finished_at": "2026-05-20T04:08:28.669454Z"
+    },
+    "agent_execution": {
+        "started_at": "2026-05-20T04:08:28.669497Z",
+        "finished_at": "2026-05-20T04:08:29.145988Z"
+    },
+    "verifier": {
+        "started_at": "2026-05-20T04:08:29.592454Z",
+        "finished_at": "2026-05-20T04:08:36.059565Z"
+    },
+    "step_results": null
+}

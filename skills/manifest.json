@@ -54,7 +54,8 @@
         "skill-creator",
         "skill-evaluator",
         "using-agent-skills",
-        "bash-explore"
+        "bash-explore",
+        "harness-orientation"
       ]
     },
     "product": {

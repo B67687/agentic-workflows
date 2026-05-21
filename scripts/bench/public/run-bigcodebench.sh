@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # =============================================================================
-# run-bigcodebench.sh — Run BigCodeBench against the agent and export results
+# run-bigcodebench.sh -- Run BigCodeBench against the agent and export results
 #
 # Pipeline:
 #   1. Activates the bench-env venv (created by setup.sh)
@@ -76,12 +76,11 @@ source "$VENV_DIR/bin/activate"
 # ── Pull problems from BigCodeBench ──
 echo "[bigcodebench] Loading BigCodeBench ($SPLIT split)..." >&2
 PROBLEMS_JSON=$(python3 -c "
-from bigcodebench import BigCodeBench
+from bigcodebench.data import get_bigcodebench
 import json
 
-dataset = BigCodeBench(trust_remote_code=True)
-problems = dataset.get_problems()
-# Filter by split
+problems = get_bigcodebench()
+# Filter by split (Complete is default, contains all)
 split_problems = {k: v for k, v in problems.items() if v.get('split') == '$SPLIT' or '$SPLIT' == 'Complete'}
 print(json.dumps(split_problems, indent=2))
 " 2>/dev/null)
@@ -106,42 +105,13 @@ print(json.dumps(limited))
   echo "[bigcodebench] Limited to $SUBSET problems" >&2
 fi
 
-# ── Process each problem ──
+# ── Process each problem via standalone Python script ──
 PASSED=0
 FAILED=0
 TOTAL=0
 
-echo "$PROBLEMS_JSON" | python3 -c "
-import json, sys, os
-
-problems = json.load(sys.stdin)
-runs_dir = '$RUNS_DIR'
-
-for pid, problem in problems.items():
-    task_id = problem.get('task_id', pid)
-    
-    # Create run directory
-    run_id = f'bigcodebench-{pid}-' + os.popen('date -u +%Y%m%d%H%M%S').read().strip()
-    run_dir = os.path.join(runs_dir, run_id)
-    os.makedirs(run_dir, exist_ok=True)
-    
-    # Write prompt
-    prompt_path = os.path.join(run_dir, 'prompt.md')
-    with open(prompt_path, 'w') as f:
-        f.write(f'# BigCodeBench: {pid}\n\n')
-        f.write(f'## Problem\n\n{problem.get(\"prompt\", \"\")}\n\n')
-        f.write(f'## Instructions\n\n')
-        f.write(f'Complete the function. Write your solution to output.md.\n')
-        f.write(f'Report: BENCH_SUCCESS: true/false, BENCH_STEPS: N, BENCH_TIME_SEC: N\n')
-    
-    print(f'PREPARED:{run_id}:{pid}')
-
-# Write full problem set for agent processing
-problems_path = os.path.join(runs_dir, 'bigcodebench-problems.json')
-with open(problems_path, 'w') as f:
-    json.dump(problems, f, indent=2)
-print(f'DONE:{problems_path}')
-" 2>/dev/null
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+echo "$PROBLEMS_JSON" | python3 "$SCRIPT_DIR/prepare-bigcodebench.py" "$RUNS_DIR" 2>/dev/null
 
 echo "[bigcodebench] Problems prepared. Each will appear in .runtime/bench-runs/bigcodebench-*" >&2
 echo "[bigcodebench] After running: each run dir needs output.md with the solution" >&2

@@ -1,0 +1,20 @@
+[project]
+name = "harbor-terminal-bench-adapter"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "B67687", email = "111849193+B67687@users.noreply.github.com" }
+]
+requires-python = ">=3.12"
+dependencies = []
+
+[project.scripts]
+terminal-bench = "terminal_bench.main:main"
+
+[build-system]
+requires = ["uv_build>=0.11.8,<0.12.0"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "terminal_bench"

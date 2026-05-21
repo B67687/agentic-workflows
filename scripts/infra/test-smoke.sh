@@ -134,7 +134,7 @@ assert_output_contains "tools.sh lists workflow tools" \
 
 assert_output_contains "tools.sh --json valid" \
   "bash scripts/tools.sh --json 2>/dev/null | python3 -c \"import json,sys; d=json.load(sys.stdin); print(d.get('tool_count'))\"" \
-  "134"
+  "136"
 
 assert_exit "session-start.sh runs cleanly" \
   "bash scripts/hooks/session-start.sh"
@@ -152,7 +152,7 @@ assert_output_contains "serve-mcp.py initialize responds" \
 
 assert_output_contains "serve-mcp.py lists tools" \
   "printf '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"initialize\",\"params\":{}}\n{\"jsonrpc\":\"2.0\",\"id\":2,\"method\":\"tools/list\",\"params\":{}}\n' | python3 scripts/serve-mcp.py 2>/dev/null | python3 -c \"import sys,json; d=json.loads(sys.stdin.read().split(chr(10))[1]); print(len(d['result']['tools']))\"" \
-  "134"
+  "136"
 
 assert_output_contains "serve-mcp.py lists 44 skills" \
   "printf '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"initialize\",\"params\":{}}\n{\"jsonrpc\":\"2.0\",\"id\":2,\"method\":\"resources/list\",\"params\":{}}\n' | python3 scripts/serve-mcp.py 2>/dev/null | python3 -c \"import sys,json; d=json.loads(sys.stdin.read().split(chr(10))[1]); skills=[r for r in d['result']['resources'] if r['uri'].startswith('skill://')]; print(len(skills))\"" \
@@ -724,6 +724,16 @@ echo ""
 
 assert_exit "opencode-db: all integrity checks pass" \
   "bash scripts/opencode-db-test.sh"
+
+echo ""
+
+# ===========================================================================
+echo ""
+echo "--- P16: Benchmark Tools ---"
+echo ""
+
+assert_exit "benchmark-tools: full test suite passes" \
+  "bash scripts/infra/test-benchmark-tools.sh"
 
 echo ""
 

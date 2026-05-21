@@ -1,18 +1,27 @@
 ---
-description: Route a normal-language request into the right workflow lane
+description: Route a normal-language request through the workflow tree
 ---
 
-Use this internally when the user types a serious task in normal language and does not name a command.
+Use this when the user types a task in normal language and no workflow is active.
 
-Run:
-`bash ./scripts/workflow-router.sh "$ARGUMENTS"`
+The agent reads `workflow.d/root.yaml` and runs the `classify` step automatically at session start. This command is only needed when you need to re-route mid-session.
 
-Then respond compactly with:
-- the current lane
-- why
-- whether the task is a north-star, slice-first, research, grill, or direct task
-- the single next action
+Procedure:
+1. Read `workflow-state.json` — if a workflow is active, resume it
+2. If no active workflow, load `workflow.d/root.yaml` and run the `classify` step
+3. The classify step is deliberative: propose a category, get user confirmation, branch to the matching workflow
+4. Execute the routed workflow's steps
 
-If a repo map preview appears, use it only as orientation. Do not treat it as proof.
+Categories matching workflow definitions:
+- research — investigate the codebase objectively
+- design — design discussion before implementation
+- implement — execute verified vertical slices
+- verify — review changes for correctness
+- review — code review
+- docs — create or update documentation
+- refactor — restructure without behavior change
+- debug — diagnose and fix bugs
+- propagate — sync templates to topic repos
+- question — handle inline, no workflow needed
 
-Do not give the user a command menu. Either proceed with the next action or explain the one next action.
+Do not run a script. The workflow definitions in `workflow.d/` are the routing system.

@@ -1,0 +1,57 @@
+# Benchmark dispatch workflow — batch-prepare, dispatch, verify, aggregate
+#
+# Runs N passes of all benchmarks in a category through the skill-bench pipeline.
+# Uses benchmark-dispatch.sh for batch preparation and verification,
+# and worker-dispatch.sh-style step-budgeted prompts for worker agents.
+#
+# Usage: classify the request as "implement" and select this workflow,
+#   or run steps manually:
+#   1. prepare - creates run dirs with step-budgeted prompts
+#   2. dispatch - orchestrator dispatches @worker for each run
+#   3. verify - batch-verify all completed runs
+#   4. aggregate - show final scores
+
+id: benchmark-dispatch
+description: Batch-prepare, dispatch workers, verify, and aggregate benchmark runs
+
+steps:
+  - id: select_category
+    kind: deliberative
+    description: |
+      Select the benchmark category and number of passes.
+      Available categories:
+        - generic  (6 benchmarks — system skills like file counting, TODO search)
+        - harness  (14 benchmarks — agent workflow capabilities)
+        - public   (BigCodeBench 1,140 — Python code generation, Docker-optional)
+      Propose a category and pass count. Back and forth until consensus.
+
+  - id: prepare_runs
+    kind: deterministic
+    script: scripts/tools/benchmark-dispatch.sh prepare --category generic --passes 3
+    description: |
+      Prepare all benchmark runs with step-budgeted worker prompts.
+      Creates run dirs with meta.json, prompt.md, verify.sh for each pass.
+      Writes dispatch manifest to .runtime/dispatch-manifest.json.
+
+  - id: review_manifest
+    kind: deliberative
+    description: |
+      Review the dispatch manifest showing all prepared runs.
+      Decide which runs to dispatch to @worker vs handle directly.
+      For each run: read the prompt, then dispatch.
+      Ensure all runs get output.md written before proceeding.
+
+  - id: batch_verify
+    kind: deterministic
+    script: bash scripts/tools/benchmark-dispatch.sh verify --all
+    description: |
+      Batch-verify all completed runs (those with output.md but no result.json).
+      Runs verify.sh in each run dir, writes result.json.
+      Reports pass/fail/error counts.
+
+  - id: aggregate
+    kind: deterministic
+    script: bash scripts/bench/aggregate.sh summary
+    description: |
+      Show aggregate benchmark scores across all verified runs.
+      Reports pass rate, per-benchmark breakdown, category breakdown.

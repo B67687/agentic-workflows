@@ -5,17 +5,17 @@
   "categories": {
     "generic": {
       "name": "Generic Agent Skills",
-      "description": "Benchmarks for core agent capabilities — file search, code review, debugging, questioning",
+      "description": "Benchmarks for core agent capabilities -- file search, code review, debugging, questioning",
       "weight": 1.0
     },
     "harness": {
       "name": "Harness-Specific",
-      "description": "Benchmarks for agentic-workflows harness features — workflow execution, goal tree, research methodology",
+      "description": "Benchmarks for agentic-workflows harness features -- workflow execution, goal tree, research methodology",
       "weight": 1.5
     },
     "public": {
       "name": "Public Benchmarks",
-      "description": "External standardized benchmarks (SWE-bench, etc.) — for calibration only",
+      "description": "External standardized benchmarks (SWE-bench, etc.) -- for calibration only",
       "weight": 2.0
     }
   },
@@ -25,7 +25,9 @@
       "name": "Count files by extension",
       "category": "generic",
       "difficulty": "easy",
-      "skills": ["bash-explore"],
+      "skills": [
+        "bash-explore"
+      ],
       "path": "benchmarks/generic/count-files.md"
     },
     {
@@ -33,7 +35,10 @@
       "name": "Search for TODO comments",
       "category": "generic",
       "difficulty": "easy",
-      "skills": ["bash-explore", "code-review-and-quality"],
+      "skills": [
+        "bash-explore",
+        "code-review-and-quality"
+      ],
       "path": "benchmarks/generic/search-todo.md"
     },
     {
@@ -41,7 +46,9 @@
       "name": "Debug a Python traceback",
       "category": "generic",
       "difficulty": "medium",
-      "skills": ["debugging-and-error-recovery"],
+      "skills": [
+        "debugging-and-error-recovery"
+      ],
       "path": "benchmarks/generic/debug-traceback.md"
     },
     {
@@ -49,7 +56,9 @@
       "name": "Generate probing questions for a feature",
       "category": "generic",
       "difficulty": "medium",
-      "skills": ["grill-me"],
+      "skills": [
+        "grill-me"
+      ],
       "path": "benchmarks/generic/grill-questions.md"
     },
     {
@@ -57,7 +66,9 @@
       "name": "Review a sample Python file for code quality",
       "category": "generic",
       "difficulty": "medium",
-      "skills": ["code-review-and-quality"],
+      "skills": [
+        "code-review-and-quality"
+      ],
       "path": "benchmarks/generic/review-code.md"
     },
     {
@@ -65,48 +76,1104 @@
       "name": "Decompose a topic into structured questions",
       "category": "generic",
       "difficulty": "medium",
-      "skills": ["structured-questioning"],
+      "skills": [
+        "structured-questioning"
+      ],
       "path": "benchmarks/generic/structure-questions.md"
     },
     {
       "id": "bigcodebench-0",
-      "name": "BigCodeBench problem 0 — permutation difference averages",
+      "name": "BigCodeBench problem 0 -- permutation difference averages",
       "category": "public",
       "difficulty": "medium",
-      "skills": ["coding"],
+      "skills": [
+        "coding"
+      ],
       "path": "benchmarks/public/bigcodebench.md"
     },
     {
       "id": "bigcodebench-1",
-      "name": "BigCodeBench problem 1 — random string char counts",
+      "name": "BigCodeBench problem 1 -- random string char counts",
       "category": "public",
       "difficulty": "medium",
-      "skills": ["coding"],
+      "skills": [
+        "coding"
+      ],
       "path": "benchmarks/public/bigcodebench.md"
     },
     {
       "id": "bigcodebench-2",
-      "name": "BigCodeBench problem 2 — sorted random dict by mean",
+      "name": "BigCodeBench problem 2 -- sorted random dict by mean",
       "category": "public",
       "difficulty": "medium",
-      "skills": ["coding"],
+      "skills": [
+        "coding"
+      ],
       "path": "benchmarks/public/bigcodebench.md"
     },
     {
       "id": "bigcodebench-3",
-      "name": "BigCodeBench problem 3 — letter mean values (numpy)",
+      "name": "BigCodeBench problem 3 -- letter mean values (numpy)",
       "category": "public",
       "difficulty": "medium",
-      "skills": ["coding"],
+      "skills": [
+        "coding"
+      ],
       "path": "benchmarks/public/bigcodebench.md"
     },
     {
       "id": "bigcodebench-4",
-      "name": "BigCodeBench problem 4 — count integer occurrences",
+      "name": "BigCodeBench problem 4 -- count integer occurrences",
       "category": "public",
       "difficulty": "medium",
-      "skills": ["coding"],
+      "skills": [
+        "coding"
+      ],
       "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "harness-workflow-steps",
+      "name": "Identify and report workflow step structure",
+      "category": "harness",
+      "difficulty": "easy",
+      "skills": [
+        "workflow-execution",
+        "harness-orientation"
+      ],
+      "path": "benchmarks/harness/workflow-steps.md"
+    },
+    {
+      "id": "harness-goal-tree",
+      "name": "Navigate and report goal tree hierarchy",
+      "category": "harness",
+      "difficulty": "easy",
+      "skills": [
+        "goal-tree-navigation",
+        "harness-orientation"
+      ],
+      "path": "benchmarks/harness/goal-tree.md"
+    },
+    {
+      "id": "harness-research-decomposition",
+      "name": "First-principles decomposition of a harness design problem",
+      "category": "harness",
+      "difficulty": "medium",
+      "skills": [
+        "first-principles-methodology",
+        "structured-questioning"
+      ],
+      "path": "benchmarks/harness/research-decomposition.md"
+    },
+    {
+      "id": "harness-benchmark-diagnostics",
+      "name": "Interpret benchmark scores and identify coverage gaps",
+      "category": "harness",
+      "difficulty": "medium",
+      "skills": [
+        "benchmark-analysis",
+        "data-interpretation"
+      ],
+      "path": "benchmarks/harness/benchmark-diagnostics.md"
+    },
+    {
+      "id": "harness-macro-micro-funnel",
+      "name": "Apply macro-to-micro funnel to diagnose a harness issue",
+      "category": "harness",
+      "difficulty": "medium",
+      "skills": [
+        "debugging-and-error-recovery",
+        "harness-orientation"
+      ],
+      "path": "benchmarks/harness/macro-micro-funnel.md"
+    },
+    {
+      "id": "harness-workflow-state",
+      "name": "Manage workflow state through a multi-step scenario",
+      "category": "harness",
+      "difficulty": "hard",
+      "skills": [
+        "workflow-execution",
+        "state-management"
+      ],
+      "path": "benchmarks/harness/workflow-state-management.md"
+    },
+    {
+      "id": "bigcodebench-254",
+      "name": "BigCodeBench problem 254",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-260",
+      "name": "BigCodeBench problem 260",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-330",
+      "name": "BigCodeBench problem 330",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-380",
+      "name": "BigCodeBench problem 380",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-6",
+      "name": "BigCodeBench problem 6",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-98",
+      "name": "BigCodeBench problem 98",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-738",
+      "name": "BigCodeBench problem 738",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-863",
+      "name": "BigCodeBench problem 863",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-379",
+      "name": "BigCodeBench problem 379",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-695",
+      "name": "BigCodeBench problem 695",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-60",
+      "name": "BigCodeBench problem 60",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-297",
+      "name": "BigCodeBench problem 297",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-672",
+      "name": "BigCodeBench problem 672",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-733",
+      "name": "BigCodeBench problem 733",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-737",
+      "name": "BigCodeBench problem 737",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-137",
+      "name": "BigCodeBench problem 137",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-674",
+      "name": "BigCodeBench problem 674",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-735",
+      "name": "BigCodeBench problem 735",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-736",
+      "name": "BigCodeBench problem 736",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-749",
+      "name": "BigCodeBench problem 749",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-32",
+      "name": "BigCodeBench problem 32",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-52",
+      "name": "BigCodeBench problem 52",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-56",
+      "name": "BigCodeBench problem 56",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-59",
+      "name": "BigCodeBench problem 59",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-183",
+      "name": "BigCodeBench problem 183",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-195",
+      "name": "BigCodeBench problem 195",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-207",
+      "name": "BigCodeBench problem 207",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-266",
+      "name": "BigCodeBench problem 266",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-275",
+      "name": "BigCodeBench problem 275",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-312",
+      "name": "BigCodeBench problem 312",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-316",
+      "name": "BigCodeBench problem 316",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-324",
+      "name": "BigCodeBench problem 324",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-371",
+      "name": "BigCodeBench problem 371",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-383",
+      "name": "BigCodeBench problem 383",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-404",
+      "name": "BigCodeBench problem 404",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-543",
+      "name": "BigCodeBench problem 543",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-545",
+      "name": "BigCodeBench problem 545",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-572",
+      "name": "BigCodeBench problem 572",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-574",
+      "name": "BigCodeBench problem 574",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-596",
+      "name": "BigCodeBench problem 596",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-602",
+      "name": "BigCodeBench problem 602",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-605",
+      "name": "BigCodeBench problem 605",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-606",
+      "name": "BigCodeBench problem 606",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-620",
+      "name": "BigCodeBench problem 620",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-621",
+      "name": "BigCodeBench problem 621",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-623",
+      "name": "BigCodeBench problem 623",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-625",
+      "name": "BigCodeBench problem 625",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-628",
+      "name": "BigCodeBench problem 628",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-632",
+      "name": "BigCodeBench problem 632",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-665",
+      "name": "BigCodeBench problem 665",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-667",
+      "name": "BigCodeBench problem 667",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-668",
+      "name": "BigCodeBench problem 668",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-681",
+      "name": "BigCodeBench problem 681",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-683",
+      "name": "BigCodeBench problem 683",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-687",
+      "name": "BigCodeBench problem 687",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-688",
+      "name": "BigCodeBench problem 688",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-690",
+      "name": "BigCodeBench problem 690",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-694",
+      "name": "BigCodeBench problem 694",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-696",
+      "name": "BigCodeBench problem 696",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-701",
+      "name": "BigCodeBench problem 701",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-705",
+      "name": "BigCodeBench problem 705",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-710",
+      "name": "BigCodeBench problem 710",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-711",
+      "name": "BigCodeBench problem 711",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-718",
+      "name": "BigCodeBench problem 718",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-719",
+      "name": "BigCodeBench problem 719",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-720",
+      "name": "BigCodeBench problem 720",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-723",
+      "name": "BigCodeBench problem 723",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-730",
+      "name": "BigCodeBench problem 730",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-732",
+      "name": "BigCodeBench problem 732",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-739",
+      "name": "BigCodeBench problem 739",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-745",
+      "name": "BigCodeBench problem 745",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-757",
+      "name": "BigCodeBench problem 757",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-763",
+      "name": "BigCodeBench problem 763",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-769",
+      "name": "BigCodeBench problem 769",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-773",
+      "name": "BigCodeBench problem 773",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-783",
+      "name": "BigCodeBench problem 783",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-785",
+      "name": "BigCodeBench problem 785",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-793",
+      "name": "BigCodeBench problem 793",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-818",
+      "name": "BigCodeBench problem 818",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-824",
+      "name": "BigCodeBench problem 824",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-920",
+      "name": "BigCodeBench problem 920",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-983",
+      "name": "BigCodeBench problem 983",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-1030",
+      "name": "BigCodeBench problem 1030",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-1047",
+      "name": "BigCodeBench problem 1047",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-1048",
+      "name": "BigCodeBench problem 1048",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-1064",
+      "name": "BigCodeBench problem 1064",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-1108",
+      "name": "BigCodeBench problem 1108",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-1125",
+      "name": "BigCodeBench problem 1125",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "bigcodebench-1137",
+      "name": "BigCodeBench problem 1137",
+      "category": "public",
+      "difficulty": "medium",
+      "skills": [
+        "coding"
+      ],
+      "path": "benchmarks/public/bigcodebench.md"
+    },
+    {
+      "id": "terminal-find-largest-file",
+      "name": "Find the largest file in the repository",
+      "category": "harness",
+      "difficulty": "easy",
+      "skills": [
+        "terminal-workflow",
+        "bash-explore"
+      ],
+      "path": "benchmarks/harness/find-largest-file.md"
+    },
+    {
+      "id": "terminal-merge-csv-files",
+      "name": "Merge multiple CSV files with a new column",
+      "category": "harness",
+      "difficulty": "medium",
+      "skills": [
+        "terminal-workflow",
+        "data-processing"
+      ],
+      "path": "benchmarks/harness/merge-csv-files.md"
+    },
+    {
+      "id": "terminal-json-recursive-sort",
+      "name": "Recursively sort JSON object keys",
+      "category": "harness",
+      "difficulty": "medium",
+      "skills": [
+        "terminal-workflow",
+        "data-processing"
+      ],
+      "path": "benchmarks/harness/json-recursive-sort.md"
+    },
+    {
+      "id": "terminal-batch-text-dryrun",
+      "name": "Batch search across files with pattern counting",
+      "category": "harness",
+      "difficulty": "medium",
+      "skills": [
+        "terminal-workflow",
+        "bash-explore"
+      ],
+      "path": "benchmarks/harness/batch-text-dryrun.md"
+    },
+    {
+      "id": "terminal-file-type-inventory",
+      "name": "File type inventory across the repository",
+      "category": "harness",
+      "difficulty": "easy",
+      "skills": [
+        "terminal-workflow",
+        "bash-explore"
+      ],
+      "path": "benchmarks/harness/file-type-inventory.md"
+    },
+    {
+      "id": "terminal-data-pipeline-chained",
+      "name": "Multi-step data pipeline with extraction, transformation, and summarization",
+      "category": "harness",
+      "difficulty": "hard",
+      "skills": [
+        "terminal-workflow",
+        "data-processing"
+      ],
+      "path": "benchmarks/harness/data-pipeline-chained.md"
+    },
+    {
+      "id": "terminal-git-history-stats",
+      "name": "Git log analysis and commit statistics",
+      "category": "harness",
+      "difficulty": "medium",
+      "skills": [
+        "terminal-workflow",
+        "bash-explore"
+      ],
+      "path": "benchmarks/harness/git-history-stats.md"
+    },
+    {
+      "id": "terminal-temp-directory-operations",
+      "name": "Temporary directory creation, manipulation, and cleanup",
+      "category": "harness",
+      "difficulty": "hard",
+      "skills": [
+        "terminal-workflow",
+        "bash-explore"
+      ],
+      "path": "benchmarks/harness/temp-directory-operations.md"
     }
   ]
 }

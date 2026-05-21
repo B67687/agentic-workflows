@@ -138,21 +138,17 @@ prepare)
   done
 
   # Validate
-  if [ -z "$SKILL_NAME" ]; then
-    log "ERROR: --skill is required"
-    log "Usage: bash ./scripts/skill-bench.sh prepare --skill <name> --benchmark <path> [--out <dir>]"
-    exit 1
-  fi
-
   if [ -z "$BENCHMARK_FILE" ]; then
     log "ERROR: --benchmark is required"
     exit 1
   fi
 
-  SKILL_FILE="$SKILLS_DIR/$SKILL_NAME/SKILL.md"
-  if [ ! -f "$SKILL_FILE" ]; then
-    log "ERROR: skill not found at $SKILL_FILE"
-    exit 1
+  if [ -n "$SKILL_NAME" ]; then
+    SKILL_FILE="$SKILLS_DIR/$SKILL_NAME/SKILL.md"
+    if [ ! -f "$SKILL_FILE" ]; then
+      log "ERROR: skill not found at $SKILL_FILE"
+      exit 1
+    fi
   fi
 
   if [ ! -f "$BENCHMARK_FILE" ]; then
@@ -161,7 +157,12 @@ prepare)
   fi
 
   if [ -z "$RUN_DIR" ]; then
-    RUN_ID="$(gen_run_id "$SKILL_NAME" "$BENCHMARK_FILE")"
+    if [ -n "$SKILL_NAME" ]; then
+      RUN_ID="$(gen_run_id "$SKILL_NAME" "$BENCHMARK_FILE")"
+    else
+      BENCH_NAME="$(basename "$BENCHMARK_FILE" .md)"
+      RUN_ID="standalone-${BENCH_NAME}-$(date -u +%Y%m%d%H%M%S)"
+    fi
     RUN_DIR="$RUNS_DIR/$RUN_ID"
   fi
 
@@ -178,8 +179,12 @@ else:
     print(content.strip())
 ")"
 
-  # Read skill content
-  SKILL_CONTENT="$(cat "$SKILL_FILE")"
+  # Read skill content (or use default)
+  if [ -n "$SKILL_NAME" ]; then
+    SKILL_CONTENT="$(cat "$SKILL_FILE")"
+  else
+    SKILL_CONTENT="You are running a standalone benchmark. Read the task below carefully, follow the specified output format, and write your solution to the output file. No specialized skill guidance is needed -- use general best practices."
+  fi
 
   # Extract verification script from benchmark frontmatter
   VERIFY_SCRIPT="$(parse_frontmatter "$BENCHMARK_FILE" "verification")"
@@ -192,7 +197,7 @@ else:
   cat >"$RUN_DIR/meta.json" <<MEOF
 {
   "run_id": "$(basename "$RUN_DIR")",
-  "skill": "$SKILL_NAME",
+  "skill": "${SKILL_NAME:-standalone}",
   "benchmark_id": "$BENCH_ID",
   "benchmark_name": "$BENCH_NAME",
   "benchmark_file": "$BENCHMARK_FILE",
@@ -217,9 +222,9 @@ VEOF
 
   # Write the worker prompt
   cat >"$RUN_DIR/prompt.md" <<PROMPT
-You are running a benchmark for the **${SKILL_NAME}** skill.
+You are running a benchmark${SKILL_NAME:+ for the **${SKILL_NAME}** skill}.
 
-## Skill Instructions
+## ${SKILL_NAME:+Skill }Instructions
 
 \`\`\`
 ${SKILL_CONTENT}
@@ -243,7 +248,11 @@ PROMPT
 
   echo "$(basename "$RUN_DIR")"
   log "Prepared benchmark run:"
-  log "  Skill:     $SKILL_NAME"
+  if [ -n "$SKILL_NAME" ]; then
+    log "  Skill:     $SKILL_NAME"
+  else
+    log "  Skill:     (standalone -- no skill required)"
+  fi
   log "  Benchmark: $BENCH_NAME ($BENCH_ID)"
   log "  Run dir:   $RUN_DIR"
   log "  Prompt:    $RUN_DIR/prompt.md"
@@ -335,8 +344,10 @@ verify)
   SKILL_NAME="$(python3 -c "import json; print(json.load(open('$META_FILE')).get('skill',''))" 2>/dev/null || echo "")"
   BENCH_ID="$(python3 -c "import json; print(json.load(open('$META_FILE')).get('benchmark_id',''))" 2>/dev/null || echo "")"
 
-  # Write result
+  # Write result (sanitize verify_output to avoid breaking JSON with newlines)
   RESULT_FILE="$TARGET_RUN/result.json"
+  SAFE_VERIFY_OUTPUT="${VERIFY_OUTPUT//$'\n'/ }"      # newlines -> spaces
+  SAFE_VERIFY_OUTPUT="${SAFE_VERIFY_OUTPUT//\"/\\\"}" # double quotes -> escaped
   cat >"$RESULT_FILE" <<REOF
 {
   "run_id": "$(basename "$TARGET_RUN")",
@@ -346,7 +357,7 @@ verify)
   "steps": ${BENCH_STEPS:-null},
   "time_seconds": ${BENCH_TIME:-null},
   "output_exists": $OUTPUT_EXISTS,
-  "verify_output": "${VERIFY_OUTPUT:-}",
+  "verify_output": "${SAFE_VERIFY_OUTPUT:-}",
   "verified_at": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
   "status": "verified"
 }
@@ -500,8 +511,9 @@ help | --help | -h | *)
   echo "  bash ./scripts/skill-bench.sh list [--skill <name>]"
   echo "    List available benchmarks, optionally filtered by skill."
   echo ""
-  echo "  bash ./scripts/skill-bench.sh prepare --skill <name> --benchmark <path> [--out <dir>]"
+  echo "  bash ./scripts/skill-bench.sh prepare [--skill <name>] --benchmark <path> [--out <dir>]"
   echo "    Prepare a benchmark run. Creates prompt.md + verify.sh in the run dir."
+  echo "    --skill is optional. When omitted, a standalone benchmark with default instructions is created."
   echo "    Outputs the run ID on stdout."
   echo ""
   echo "  bash ./scripts/skill-bench.sh verify --run <dir>"

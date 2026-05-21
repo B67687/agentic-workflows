@@ -689,6 +689,26 @@ path = "scripts/skill-bench.sh"
 type = "script"
 
 [[tool]]
+name = "worker-dispatch"
+description = "Structured worker dispatch with step budget timeout and parent-fallback. Generates prompts for @worker subagents with configurable tool call limits, model selection (minimax/flash/pro), and automatic fallback to parent execution on failure"
+category = "agent"
+path = "scripts/tools/worker-dispatch.sh"
+type = "script"
+inputs.task = { type = "string", description = "Task description for the worker" }
+inputs.run_dir = { type = "string", description = "Output directory path" }
+inputs.steps = { type = "integer", default = 8, description = "Max tool calls before partial result" }
+inputs.model = { type = "string", default = "flash", description = "Worker model: minimax, flash, or pro" }
+
+[[tool]]
+name = "context-pressure"
+description = "Context window pressure monitoring. Takes usage % from OpenCode UI, provides prescriptive guidance for checkpoint and handover decisions"
+category = "session"
+path = "scripts/tools/context-pressure.sh"
+type = "script"
+inputs.percent = { type = "number", description = "Context usage percentage (0-100), visible in OpenCode UI top bar" }
+inputs.brief = { type = "boolean", default = false, description = "Compact single-line output" }
+
+[[tool]]
 name = "self-improve"
 description = "Learn from autonomous execution. Analyzes past behavior and suggests improvements"
 category = "skill"
